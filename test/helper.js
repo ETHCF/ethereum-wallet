@@ -54,7 +54,7 @@ global.self = window
 // required by `dom-helpers` and various other libraries
 global.document = window.document
 // required by `react-tippy`
-global.navigator = window.navigator
+Object.defineProperty(global, 'navigator', { value: window.navigator, configurable: true })
 global.Element = window.Element
 // required by `react-popper`
 global.HTMLElement = window.HTMLElement
@@ -76,7 +76,7 @@ Object.assign(window, { fetch, Headers, Request, Response })
 require('abortcontroller-polyfill/dist/polyfill-patch-fetch')
 
 // localStorage
-window.localStorage = {}
+Object.defineProperty(window, 'localStorage', { value: {}, configurable: true })
 
 // override @metamask/logo
 window.requestAnimationFrame = () => undefined

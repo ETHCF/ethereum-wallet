@@ -1,8 +1,7 @@
 import { strict as assert } from 'assert'
 import pify from 'pify'
 
-import getRestrictedMethods
-  from '../../../../../app/scripts/controllers/permissions/restrictedMethods'
+import getRestrictedMethods from '../../../../../app/scripts/controllers/permissions/restrictedMethods'
 
 describe('restricted methods', function () {
   describe('eth_accounts', function () {

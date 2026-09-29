@@ -3,6 +3,7 @@
 node_modules/**
 dist/**
 builds/**
+build-artifacts/**
 test-*/**
 docs/**
 coverage/

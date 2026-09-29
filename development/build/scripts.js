@@ -1,4 +1,3 @@
-const fs = require('fs')
 const gulp = require('gulp')
 const watch = require('gulp-watch')
 const source = require('vinyl-source-stream')
@@ -9,7 +8,7 @@ const watchify = require('watchify')
 const browserify = require('browserify')
 const envify = require('envify/custom')
 const sourcemaps = require('gulp-sourcemaps')
-const sesify = require('sesify')
+const lavamoat = require('lavamoat-browserify')
 const terser = require('gulp-terser-js')
 const pify = require('pify')
 const endOfStream = pify(require('end-of-stream'))
@@ -193,7 +192,9 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
         .pipe(sourcemaps.init({ loadMaps: true }))
 
       // Minification
-      if (!opts.devMode) {
+      // The policy visualization needs the production dependency graph, but the
+      // LavaMoat prelude cannot be parsed by this project's older Terser.
+      if (!opts.devMode && !(process.env.SESIFY_AUTOGEN && opts.filename === 'background.js')) {
         buildStream = buildStream
           .pipe(terser({
             mangle: {
@@ -226,30 +227,19 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     }
   }
 
-  function configureBundleForSesify ({
-    browserifyOpts,
-    bundleName,
-  }) {
-    // add in sesify args for better globalRef usage detection
-    Object.assign(browserifyOpts, sesify.args)
+  function configureBundleForLavamoat ({ browserifyOpts }) {
+    // add LavaMoat args for better globalRef usage detection
+    Object.assign(browserifyOpts, lavamoat.args)
 
     // ensure browserify uses full paths
     browserifyOpts.fullPaths = true
 
-    // record dependencies used in bundle
-    fs.mkdirSync('./sesify', { recursive: true })
-    browserifyOpts.plugin.push(['deps-dump', {
-      filename: `./sesify/deps-${bundleName}.json`,
+    // add LavaMoat plugin and write policies for the dependency visualization
+    browserifyOpts.plugin.push([lavamoat, {
+      writeAutoPolicyDebug: true,
     }])
 
-    const sesifyConfigPath = `./sesify/${bundleName}.json`
-
-    // add sesify plugin
-    browserifyOpts.plugin.push([sesify, {
-      writeAutoConfig: sesifyConfigPath,
-    }])
-
-    // remove html comments that SES is alergic to
+    // remove html comments that SES is allergic to
     const removeHtmlComment = makeStringTransform('remove-html-comment', { excludeExtension: ['.json'] }, (content, _, cb) => {
       const result = content.split('-->').join('-- >')
       cb(null, result)
@@ -267,12 +257,12 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
 
     const bundleName = opts.filename.split('.')[0]
 
-    // activate sesify
+    // activate LavaMoat for dependency policy generation
     const activateAutoConfig = Boolean(process.env.SESIFY_AUTOGEN)
     // const activateSesify = activateAutoConfig
     const activateSesify = activateAutoConfig && ['background'].includes(bundleName)
     if (activateSesify) {
-      configureBundleForSesify({ browserifyOpts, bundleName })
+      configureBundleForLavamoat({ browserifyOpts })
     }
 
     if (!activateSesify) {

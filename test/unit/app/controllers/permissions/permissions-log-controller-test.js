@@ -3,8 +3,7 @@ import ObservableStore from 'obs-store'
 import nanoid from 'nanoid'
 import { useFakeTimers } from 'sinon'
 
-import PermissionsLogController
-  from '../../../../../app/scripts/controllers/permissions/permissionsLog'
+import PermissionsLogController from '../../../../../app/scripts/controllers/permissions/permissionsLog'
 
 import {
   LOG_LIMIT,

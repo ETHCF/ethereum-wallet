@@ -1,7 +1,7 @@
 import assert from 'assert'
 import sinon from 'sinon'
 import { cloneDeep } from 'lodash'
-import configureStore from 'redux-mock-store'
+import createMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import EthQuery from 'eth-query'
 import Eth from 'ethjs'
@@ -15,7 +15,7 @@ import firstTimeState from '../../localhostState'
 const { provider } = createTestProviderTools({ scaffold: {} })
 const middleware = [thunk]
 const defaultState = { metamask: {} }
-const mockStore = (state = defaultState) => configureStore(middleware)(state)
+const mockStore = (state = defaultState) => createMockStore(middleware)(state)
 
 describe('Actions', function () {
 

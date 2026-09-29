@@ -1,7 +1,7 @@
 import assert from 'assert'
 import React from 'react'
 import { Provider } from 'react-redux'
-import configureStore from 'redux-mock-store'
+import createMockStore from 'redux-mock-store'
 import { mountWithRouter } from '../../../../../../test/lib/render-helpers'
 import MenuBar from '..'
 
@@ -27,7 +27,7 @@ const initState = {
     frequentRpcListDetail: [],
   },
 }
-const mockStore = configureStore()
+const mockStore = createMockStore()
 
 describe('MenuBar', function () {
   it('opens account detail menu when account options is clicked', function () {

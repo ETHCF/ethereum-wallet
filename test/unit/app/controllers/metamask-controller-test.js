@@ -151,8 +151,8 @@ describe('MetaMaskController', function () {
 
     it('adds private key to keyrings in KeyringController', async function () {
       const simpleKeyrings = metamaskController.keyringController.getKeyringsByType('Simple Key Pair')
-      const privKeyBuffer = simpleKeyrings[0].wallets[0]._privKey
-      const pubKeyBuffer = simpleKeyrings[0].wallets[0]._pubKey
+      const privKeyBuffer = simpleKeyrings[0].wallets[0].getPrivateKey()
+      const pubKeyBuffer = simpleKeyrings[0].wallets[0].getPublicKey()
       const addressBuffer = ethUtil.pubToAddress(pubKeyBuffer)
       const privKey = ethUtil.bufferToHex(privKeyBuffer)
       const pubKey = ethUtil.bufferToHex(addressBuffer)
@@ -721,7 +721,7 @@ describe('MetaMaskController', function () {
       try {
         await metamaskController.signMessage(messages[0].msgParams)
       } catch (error) {
-        assert.equal(error.message, 'message length is invalid')
+        assert.equal(error.message, 'Expected message to be an Uint8Array with length 32')
       }
     })
   })

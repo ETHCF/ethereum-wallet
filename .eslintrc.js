@@ -93,6 +93,15 @@ module.exports = {
 
   overrides: [{
     files: [
+      'test/**/*.js',
+      'ui/app/**/*.test.js',
+    ],
+    rules: {
+      // Sinon exposes the same methods on its CommonJS default and named exports.
+      'import/no-named-as-default-member': 'off',
+    },
+  }, {
+    files: [
       'test/e2e/**/*.js',
     ],
     rules: {

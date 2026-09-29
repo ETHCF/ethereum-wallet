@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import sinon from 'sinon'
-import configureStore from 'redux-mock-store'
+import createMockStore from 'redux-mock-store'
 import { mount } from 'enzyme'
 import ConfirmRemoveAccount from '..'
 
@@ -26,7 +26,7 @@ describe('Confirm Remove Account', function () {
     },
   }
 
-  const mockStore = configureStore()
+  const mockStore = createMockStore()
   const store = mockStore(state)
 
   beforeEach(function () {

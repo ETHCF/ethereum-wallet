@@ -95,7 +95,10 @@ const expectedResults = [
 let useSelector, useI18nContext, useTokenFiatAmount
 
 describe('useTransactionDisplayData', function () {
+  let clock
+
   before(function () {
+    clock = sinon.useFakeTimers({ now: new Date('2020-05-25').getTime(), toFake: ['Date'] })
     useSelector = sinon.stub(reactRedux, 'useSelector')
     useTokenFiatAmount = sinon.stub(useTokenFiatAmountHooks, 'useTokenFiatAmount')
     useTokenFiatAmount.returns((tokenAddress) => {
@@ -162,6 +165,7 @@ describe('useTransactionDisplayData', function () {
     assert.deepEqual(result.current, expectedResults[0])
   })
   after(function () {
+    clock.restore()
     useSelector.restore()
     useI18nContext.restore()
   })

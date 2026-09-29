@@ -1,8 +1,7 @@
 import { ethErrors, ERROR_CODES } from 'eth-json-rpc-errors'
 import deepFreeze from 'deep-freeze-strict'
 
-import _getRestrictedMethods
-  from '../../../../../app/scripts/controllers/permissions/restrictedMethods'
+import _getRestrictedMethods from '../../../../../app/scripts/controllers/permissions/restrictedMethods'
 
 import {
   CAVEAT_NAMES,
