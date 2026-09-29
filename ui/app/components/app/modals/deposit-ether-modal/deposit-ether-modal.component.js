@@ -6,7 +6,6 @@ import Button from '../../../ui/button'
 export default class DepositEtherModal extends Component {
   static contextTypes = {
     t: PropTypes.func,
-    metricsEvent: PropTypes.func.isRequired,
   }
 
   static propTypes = {
@@ -143,13 +142,6 @@ export default class DepositEtherModal extends Component {
               text: this.context.t('buyWithWyreDescription'),
               buttonLabel: this.context.t('continueToWyre'),
               onButtonClick: () => {
-                this.context.metricsEvent({
-                  eventOpts: {
-                    category: 'Accounts',
-                    action: 'Deposit Ether',
-                    name: 'Click buy Ether via Wyre',
-                  },
-                })
                 toWyre(address)
               },
               hide: isTestNetwork,
@@ -168,13 +160,6 @@ export default class DepositEtherModal extends Component {
               text: this.context.t('buyCoinSwitchExplainer'),
               buttonLabel: this.context.t('continueToCoinSwitch'),
               onButtonClick: () => {
-                this.context.metricsEvent({
-                  eventOpts: {
-                    category: 'Accounts',
-                    action: 'Deposit Ether',
-                    name: 'Click buy Ether via CoinSwitch',
-                  },
-                })
                 toCoinSwitch(address)
               },
               hide: isTestNetwork,

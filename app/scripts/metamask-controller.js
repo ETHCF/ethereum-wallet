@@ -33,7 +33,6 @@ import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/ha
 import ComposableObservableStore from './lib/ComposableObservableStore'
 import AccountTracker from './lib/account-tracker'
 import createLoggerMiddleware from './lib/createLoggerMiddleware'
-import createMethodMiddleware from './lib/createMethodMiddleware'
 import createOriginMiddleware from './lib/createOriginMiddleware'
 import createTabIdMiddleware from './lib/createTabIdMiddleware'
 import createOnboardingMiddleware from './lib/createOnboardingMiddleware'
@@ -61,8 +60,6 @@ import nodeify from './lib/nodeify'
 import accountImporter from './account-import-strategies'
 import selectChainId from './lib/select-chain-id'
 import seedPhraseVerifier from './lib/seed-phrase-verifier'
-
-import backgroundMetaMetricsEvent from './lib/background-metametrics'
 
 export default class MetamaskController extends EventEmitter {
 
@@ -243,14 +240,6 @@ export default class MetamaskController extends EventEmitter {
         const txMeta = this.txController.txStateManager.getTx(txId)
         this.platform.showTransactionNotification(txMeta)
 
-        const { txReceipt } = txMeta
-        if (txReceipt && txReceipt.status === '0x0') {
-          this.sendBackgroundMetaMetrics({
-            action: 'Transactions',
-            name: 'On Chain Failure',
-            customVariables: { errorMessage: txMeta.simulationFails?.reason },
-          })
-        }
       }
     })
 
@@ -439,8 +428,6 @@ export default class MetamaskController extends EventEmitter {
       setUseNonceField: this.setUseNonceField.bind(this),
       setUsePhishDetect: this.setUsePhishDetect.bind(this),
       setIpfsGateway: this.setIpfsGateway.bind(this),
-      setParticipateInMetaMetrics: this.setParticipateInMetaMetrics.bind(this),
-      setMetaMetricsSendCount: this.setMetaMetricsSendCount.bind(this),
       setFirstTimeFlowType: this.setFirstTimeFlowType.bind(this),
       setCurrentLocale: this.setCurrentLocale.bind(this),
       markPasswordForgotten: this.markPasswordForgotten.bind(this),
@@ -770,12 +757,6 @@ export default class MetamaskController extends EventEmitter {
    */
   async submitPassword (password) {
     await this.keyringController.submitPassword(password)
-
-    // verify keyrings
-    const nonSimpleKeyrings = this.keyringController.keyrings.filter((keyring) => keyring.type !== 'Simple Key Pair')
-    if (nonSimpleKeyrings.length > 1 && this.diagnostics) {
-      await this.diagnostics.reportMultipleKeyrings(nonSimpleKeyrings)
-    }
 
     await this.blockTracker.checkForLatestBlock()
 
@@ -1617,10 +1598,6 @@ export default class MetamaskController extends EventEmitter {
       location,
       registerOnboarding: this.onboardingController.registerOnboarding,
     }))
-    engine.push(createMethodMiddleware({
-      origin,
-      sendMetrics: this.sendBackgroundMetaMetrics.bind(this),
-    }))
     // filter and subscription polyfills
     engine.push(filterMiddleware)
     engine.push(subscriptionManager.middleware)
@@ -1821,28 +1798,6 @@ export default class MetamaskController extends EventEmitter {
     return nonceLock.nextNonce
   }
 
-  async sendBackgroundMetaMetrics ({ action, name, customVariables } = {}) {
-
-    if (!action || !name) {
-      throw new Error('Must provide action and name.')
-    }
-
-    const metamaskState = await this.getState()
-    const version = this.platform.getVersion()
-    backgroundMetaMetricsEvent(
-      metamaskState,
-      version,
-      {
-        customVariables,
-        eventOpts: {
-          action,
-          category: 'Background',
-          name,
-        },
-      },
-    )
-  }
-
   //=============================================================================
   // CONFIG
   //=============================================================================
@@ -1980,35 +1935,6 @@ export default class MetamaskController extends EventEmitter {
   setIpfsGateway (val, cb) {
     try {
       this.preferencesController.setIpfsGateway(val)
-      cb(null)
-      return
-    } catch (err) {
-      cb(err)
-      // eslint-disable-next-line no-useless-return
-      return
-    }
-  }
-
-  /**
-   * Sets whether or not the user will have usage data tracked with MetaMetrics
-   * @param {boolean} bool - True for users that wish to opt-in, false for users that wish to remain out.
-   * @param {Function} cb - A callback function called when complete.
-   */
-  setParticipateInMetaMetrics (bool, cb) {
-    try {
-      const metaMetricsId = this.preferencesController.setParticipateInMetaMetrics(bool)
-      cb(null, metaMetricsId)
-      return
-    } catch (err) {
-      cb(err)
-      // eslint-disable-next-line no-useless-return
-      return
-    }
-  }
-
-  setMetaMetricsSendCount (val, cb) {
-    try {
-      this.preferencesController.setMetaMetricsSendCount(val)
       cb(null)
       return
     } catch (err) {

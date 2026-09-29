@@ -5915,8 +5915,5 @@
       "avgdiff_coef": -1.6459,
       "hpa_coef": -0.0243
     }
-  ],
-  "metametrics": {
-    "mockMetaMetricsResponse": true
-  }
+  ]
 }

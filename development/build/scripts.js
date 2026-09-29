@@ -296,22 +296,16 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     }
 
     const environment = getEnvironment({ devMode: opts.devMode, test: opts.testing })
-    if (environment === 'production' && !process.env.SENTRY_DSN) {
-      throw new Error('Missing SENTRY_DSN environment variable')
-    }
-
     // Inject variables into bundle
     bundler.transform(envify({
       METAMASK_DEBUG: opts.devMode,
       METAMASK_ENVIRONMENT: environment,
-      METAMETRICS_PROJECT_ID: process.env.METAMETRICS_PROJECT_ID,
       NODE_ENV: opts.devMode ? 'development' : 'production',
       IN_TEST: opts.testing ? 'true' : false,
       PUBNUB_SUB_KEY: process.env.PUBNUB_SUB_KEY || '',
       PUBNUB_PUB_KEY: process.env.PUBNUB_PUB_KEY || '',
       ETH_GAS_STATION_API_KEY: process.env.ETH_GAS_STATION_API_KEY || '',
       CONF: opts.devMode ? conf : ({}),
-      SENTRY_DSN: process.env.SENTRY_DSN,
     }), {
       global: true,
     })

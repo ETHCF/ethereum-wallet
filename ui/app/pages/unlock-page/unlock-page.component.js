@@ -9,7 +9,6 @@ import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 
 export default class UnlockPage extends Component {
   static contextTypes = {
-    metricsEvent: PropTypes.func,
     t: PropTypes.func,
   }
 
@@ -20,7 +19,6 @@ export default class UnlockPage extends Component {
     onRestore: PropTypes.func,
     onSubmit: PropTypes.func,
     forceUpdateMetamaskState: PropTypes.func,
-    showOptInModal: PropTypes.func,
   }
 
   state = {
@@ -45,7 +43,7 @@ export default class UnlockPage extends Component {
     event.stopPropagation()
 
     const { password } = this.state
-    const { onSubmit, forceUpdateMetamaskState, showOptInModal } = this.props
+    const { onSubmit, forceUpdateMetamaskState } = this.props
 
     if (password === '' || this.submitting) {
       return
@@ -56,33 +54,12 @@ export default class UnlockPage extends Component {
 
     try {
       await onSubmit(password)
-      const newState = await forceUpdateMetamaskState()
-      this.context.metricsEvent({
-        eventOpts: {
-          category: 'Navigation',
-          action: 'Unlock',
-          name: 'Success',
-        },
-        isNewVisit: true,
-      })
+      await forceUpdateMetamaskState()
 
-      if (newState.participateInMetaMetrics === null || newState.participateInMetaMetrics === undefined) {
-        showOptInModal()
-      }
     } catch ({ message }) {
       if (message === 'Incorrect password') {
-        const newState = await forceUpdateMetamaskState()
-        this.context.metricsEvent({
-          eventOpts: {
-            category: 'Navigation',
-            action: 'Unlock',
-            name: 'Incorrect Password',
-          },
-          customVariables: {
-            numberOfTokens: newState.tokens.length,
-            numberOfAccounts: Object.keys(newState.accounts).length,
-          },
-        })
+        await forceUpdateMetamaskState()
+
       }
 
       this.setState({ error: message })

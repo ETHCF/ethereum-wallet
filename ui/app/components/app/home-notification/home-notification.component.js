@@ -5,10 +5,6 @@ import PropTypes from 'prop-types'
 import Button from '../../ui/button'
 
 export default class HomeNotification extends PureComponent {
-  static contextTypes = {
-    metricsEvent: PropTypes.func,
-  }
-
   static defaultProps = {
     onAccept: null,
     ignoreText: null,

@@ -24,15 +24,12 @@ export default class SendFooter extends Component {
     tokenBalance: PropTypes.string,
     unapprovedTxs: PropTypes.object,
     update: PropTypes.func,
-    sendErrors: PropTypes.object,
-    gasEstimateType: PropTypes.string,
     gasIsLoading: PropTypes.bool,
     mostRecentOverviewPage: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
     t: PropTypes.func,
-    metricsEvent: PropTypes.func,
   }
 
   onCancel () {
@@ -59,9 +56,7 @@ export default class SendFooter extends Component {
       update,
       toAccounts,
       history,
-      gasEstimateType,
     } = this.props
-    const { metricsEvent } = this.context
 
     // Should not be needed because submit should be disabled if there are errors.
     // const noErrors = !amountError && toError === null
@@ -88,16 +83,6 @@ export default class SendFooter extends Component {
 
     Promise.resolve(promise)
       .then(() => {
-        metricsEvent({
-          eventOpts: {
-            category: 'Transactions',
-            action: 'Edit Screen',
-            name: 'Complete',
-          },
-          customVariables: {
-            gasChanged: gasEstimateType,
-          },
-        })
         history.push(CONFIRM_TRANSACTION_ROUTE)
       })
   }
@@ -108,27 +93,6 @@ export default class SendFooter extends Component {
     const gasLimitTooLow = gasLimit < 5208 // 5208 is hex value of 21000, minimum gas limit
     const shouldBeDisabled = inError || !gasTotal || missingTokenBalance || !(data || to) || gasLimitTooLow || gasIsLoading
     return shouldBeDisabled
-  }
-
-  componentDidUpdate (prevProps) {
-    const { inError, sendErrors } = this.props
-    const { metricsEvent } = this.context
-    if (!prevProps.inError && inError) {
-      const errorField = Object.keys(sendErrors).find((key) => sendErrors[key])
-      const errorMessage = sendErrors[errorField]
-
-      metricsEvent({
-        eventOpts: {
-          category: 'Transactions',
-          action: 'Edit Screen',
-          name: 'Error',
-        },
-        customVariables: {
-          errorField,
-          errorMessage,
-        },
-      })
-    }
   }
 
   render () {

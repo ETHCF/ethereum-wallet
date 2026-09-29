@@ -755,12 +755,6 @@
   "parameters": {
     "message": "Parametri"
   },
-  "participateInMetaMetrics": {
-    "message": "Sodelujte v MetaMetrics"
-  },
-  "participateInMetaMetricsDescription": {
-    "message": "Sodelujte v MetaMetrics in nam pomagajte izboljšati MetaMask"
-  },
   "password": {
     "message": "Geslo"
   },

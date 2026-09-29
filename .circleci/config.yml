@@ -308,9 +308,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: sentry sourcemaps upload
-          command: yarn sentry:publish
-      - run:
           name: Create GitHub release
           command: |
             .circleci/scripts/release-create-gh-release

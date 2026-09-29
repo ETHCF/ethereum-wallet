@@ -1,6 +1,6 @@
 import ObservableStore from 'obs-store'
 import { normalize as normalizeAddress } from 'eth-sig-util'
-import { isValidAddress, sha3, bufferToHex } from 'ethereumjs-util'
+import { isValidAddress } from 'ethereumjs-util'
 import { addInternalMethodPrefix } from './permissions'
 
 export default class PreferencesController {
@@ -45,7 +45,6 @@ export default class PreferencesController {
         transactionTime: false,
       },
       knownMethodData: {},
-      participateInMetaMetrics: null,
       firstTimeFlowType: null,
       currentLocale: opts.initLangCode,
       identities: {},
@@ -57,14 +56,11 @@ export default class PreferencesController {
         useNativeCurrencyAsPrimaryCurrency: true,
       },
       completedOnboarding: false,
-      metaMetricsId: null,
-      metaMetricsSendCount: 0,
 
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link', ...opts.initState,
     }
 
-    this.diagnostics = opts.diagnostics
     this.network = opts.network
     this.store = new ObservableStore(initState)
     this.store.setMaxListeners(12)
@@ -113,33 +109,6 @@ export default class PreferencesController {
    */
   setUsePhishDetect (val) {
     this.store.updateState({ usePhishDetect: val })
-  }
-
-  /**
-   * Setter for the `participateInMetaMetrics` property
-   *
-   * @param {boolean} bool - Whether or not the user wants to participate in MetaMetrics
-   * @returns {string|null} - the string of the new metametrics id, or null if not set
-   *
-   */
-  setParticipateInMetaMetrics (bool) {
-    this.store.updateState({ participateInMetaMetrics: bool })
-    let metaMetricsId = null
-    if (bool && !this.store.getState().metaMetricsId) {
-      metaMetricsId = bufferToHex(sha3(String(Date.now()) + String(Math.round(Math.random() * Number.MAX_SAFE_INTEGER))))
-      this.store.updateState({ metaMetricsId })
-    } else if (bool === false) {
-      this.store.updateState({ metaMetricsId })
-    }
-    return metaMetricsId
-  }
-
-  getParticipateInMetaMetrics () {
-    return this.store.getState().participateInMetaMetrics
-  }
-
-  setMetaMetricsSendCount (val) {
-    this.store.updateState({ metaMetricsSendCount: val })
   }
 
   /**
@@ -327,11 +296,6 @@ export default class PreferencesController {
 
     // Identities are no longer present.
     if (Object.keys(newlyLost).length > 0) {
-
-      // Notify our servers:
-      if (this.diagnostics) {
-        this.diagnostics.reportOrphans(newlyLost)
-      }
 
       // store lost accounts
       Object.keys(newlyLost).forEach((key) => {

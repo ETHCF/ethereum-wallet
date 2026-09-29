@@ -9,8 +9,6 @@ module.exports = function setupTestFetch () {
       response = responses.ethGasBasic
     } else if ((/^https?:\/\/ethgasstation\.info\/json\/predictTable/u).test(url)) {
       response = responses.ethGasPredictTable
-    } else if ((/chromeextensionmm/u).test(url)) {
-      response = responses.metametrics
     }
     if (response) {
       return { ok: true, json: async () => JSON.parse(JSON.stringify(response)) }

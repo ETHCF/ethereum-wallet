@@ -19,12 +19,10 @@ export default class AppHeader extends PureComponent {
     isUnlocked: PropTypes.bool,
     hideNetworkIndicator: PropTypes.bool,
     disabled: PropTypes.bool,
-    isAccountMenuOpen: PropTypes.bool,
   }
 
   static contextTypes = {
     t: PropTypes.func,
-    metricsEvent: PropTypes.func,
   }
 
   handleNetworkIndicatorClick (event) {
@@ -34,13 +32,6 @@ export default class AppHeader extends PureComponent {
     const { networkDropdownOpen, showNetworkDropdown, hideNetworkDropdown } = this.props
 
     if (networkDropdownOpen === false) {
-      this.context.metricsEvent({
-        eventOpts: {
-          category: 'Navigation',
-          action: 'Home',
-          name: 'Opened Network Menu',
-        },
-      })
       showNetworkDropdown()
     } else {
       hideNetworkDropdown()
@@ -48,7 +39,7 @@ export default class AppHeader extends PureComponent {
   }
 
   renderAccountMenu () {
-    const { isUnlocked, toggleAccountMenu, selectedAddress, disabled, isAccountMenuOpen } = this.props
+    const { isUnlocked, toggleAccountMenu, selectedAddress, disabled } = this.props
 
     return isUnlocked && (
       <div
@@ -57,13 +48,6 @@ export default class AppHeader extends PureComponent {
         })}
         onClick={() => {
           if (!disabled) {
-            !isAccountMenuOpen && this.context.metricsEvent({
-              eventOpts: {
-                category: 'Navigation',
-                action: 'Home',
-                name: 'Opened Main Menu',
-              },
-            })
             toggleAccountMenu()
           }
         }}

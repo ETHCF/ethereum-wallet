@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import PubNub from 'pubnub'
 import qrCode from 'qrcode-generator'
+
+import createMobileSyncClient from '../../helpers/utils/mobile-sync-client'
 
 import Button from '../../components/ui/button'
 import LoadingScreen from '../../components/ui/loading-screen'
@@ -104,8 +105,8 @@ export default class MobileSyncPage extends Component {
   }
 
   generateCipherKeyAndChannelName () {
-    this.cipherKey = `${this.props.selectedAddress.substr(-4)}-${PubNub.generateUUID()}`
-    this.channelName = `mm-${PubNub.generateUUID()}`
+    this.cipherKey = `${this.props.selectedAddress.substr(-4)}-${global.crypto.randomUUID()}`
+    this.channelName = `mm-${global.crypto.randomUUID()}`
     this.setState({ cipherKey: this.cipherKey, channelName: this.channelName })
   }
 
@@ -118,7 +119,7 @@ export default class MobileSyncPage extends Component {
     // Make sure there are no existing listeners
     this.disconnectWebsockets()
 
-    this.pubnub = new PubNub({
+    this.pubnub = createMobileSyncClient({
       subscribeKey: process.env.PUBNUB_SUB_KEY,
       publishKey: process.env.PUBNUB_PUB_KEY,
       cipherKey: this.cipherKey,

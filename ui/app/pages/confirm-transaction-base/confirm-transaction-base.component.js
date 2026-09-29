@@ -21,7 +21,6 @@ import TextField from '../../components/ui/text-field'
 export default class ConfirmTransactionBase extends Component {
   static contextTypes = {
     t: PropTypes.func,
-    metricsEvent: PropTypes.func,
   }
 
   static propTypes = {
@@ -62,7 +61,6 @@ export default class ConfirmTransactionBase extends Component {
     updateGasAndCalculate: PropTypes.func,
     customGas: PropTypes.object,
     // Component props
-    actionKey: PropTypes.string,
     contentComponent: PropTypes.node,
     dataComponent: PropTypes.node,
     detailsComponent: PropTypes.node,
@@ -78,8 +76,6 @@ export default class ConfirmTransactionBase extends Component {
     onEdit: PropTypes.func,
     onEditGas: PropTypes.func,
     onSubmit: PropTypes.func,
-    setMetaMetricsSendCount: PropTypes.func,
-    metaMetricsSendCount: PropTypes.number,
     subtitle: PropTypes.string,
     subtitleComponent: PropTypes.node,
     summaryComponent: PropTypes.node,
@@ -197,20 +193,7 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   handleEditGas () {
-    const { onEditGas, showCustomizeGasModal, actionKey, txData: { origin }, methodData = {} } = this.props
-
-    this.context.metricsEvent({
-      eventOpts: {
-        category: 'Transactions',
-        action: 'Confirm Screen',
-        name: 'User clicks "Edit" on gas',
-      },
-      customVariables: {
-        recipientKnown: null,
-        functionType: actionKey || getMethodName(methodData.name) || 'contractInteraction',
-        origin,
-      },
-    })
+    const { onEditGas, showCustomizeGasModal } = this.props
 
     if (onEditGas) {
       onEditGas()
@@ -366,20 +349,7 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   handleEdit () {
-    const { txData, tokenData, tokenProps, onEdit, actionKey, txData: { origin }, methodData = {} } = this.props
-
-    this.context.metricsEvent({
-      eventOpts: {
-        category: 'Transactions',
-        action: 'Confirm Screen',
-        name: 'Edit Transaction',
-      },
-      customVariables: {
-        recipientKnown: null,
-        functionType: actionKey || getMethodName(methodData.name) || 'contractInteraction',
-        origin,
-      },
-    })
+    const { txData, tokenData, tokenProps, onEdit } = this.props
 
     onEdit({ txData, tokenData, tokenProps })
   }
@@ -406,7 +376,6 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   handleCancel () {
-    const { metricsEvent } = this.context
     const {
       onCancel,
       txData,
@@ -414,25 +383,10 @@ export default class ConfirmTransactionBase extends Component {
       history,
       mostRecentOverviewPage,
       clearConfirmTransaction,
-      actionKey,
-      txData: { origin },
-      methodData = {},
       updateCustomNonce,
     } = this.props
 
     this._removeBeforeUnload()
-    metricsEvent({
-      eventOpts: {
-        category: 'Transactions',
-        action: 'Confirm Screen',
-        name: 'Cancel',
-      },
-      customVariables: {
-        recipientKnown: null,
-        functionType: actionKey || getMethodName(methodData.name) || 'contractInteraction',
-        origin,
-      },
-    })
     updateCustomNonce('')
     if (onCancel) {
       onCancel(txData)
@@ -446,19 +400,13 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   handleSubmit () {
-    const { metricsEvent } = this.context
     const {
-      txData: { origin },
       sendTransaction,
       clearConfirmTransaction,
       txData,
       history,
       onSubmit,
-      actionKey,
       mostRecentOverviewPage,
-      metaMetricsSendCount = 0,
-      setMetaMetricsSendCount,
-      methodData = {},
       updateCustomNonce,
     } = this.props
     const { submitting } = this.state
@@ -472,49 +420,34 @@ export default class ConfirmTransactionBase extends Component {
       submitError: null,
     }, () => {
       this._removeBeforeUnload()
-      metricsEvent({
-        eventOpts: {
-          category: 'Transactions',
-          action: 'Confirm Screen',
-          name: 'Transaction Completed',
-        },
-        customVariables: {
-          recipientKnown: null,
-          functionType: actionKey || getMethodName(methodData.name) || 'contractInteraction',
-          origin,
-        },
-      })
 
-      setMetaMetricsSendCount(metaMetricsSendCount + 1)
-        .then(() => {
-          if (onSubmit) {
-            Promise.resolve(onSubmit(txData))
-              .then(() => {
-                this.setState({
-                  submitting: false,
-                })
-                updateCustomNonce('')
-              })
-          } else {
-            sendTransaction(txData)
-              .then(() => {
-                clearConfirmTransaction()
-                this.setState({
-                  submitting: false,
-                }, () => {
-                  history.push(mostRecentOverviewPage)
-                  updateCustomNonce('')
-                })
-              })
-              .catch((error) => {
-                this.setState({
-                  submitting: false,
-                  submitError: error.message,
-                })
-                updateCustomNonce('')
-              })
-          }
-        })
+      if (onSubmit) {
+        Promise.resolve(onSubmit(txData))
+          .then(() => {
+            this.setState({
+              submitting: false,
+            })
+            updateCustomNonce('')
+          })
+      } else {
+        sendTransaction(txData)
+          .then(() => {
+            clearConfirmTransaction()
+            this.setState({
+              submitting: false,
+            }, () => {
+              history.push(mostRecentOverviewPage)
+              updateCustomNonce('')
+            })
+          })
+          .catch((error) => {
+            this.setState({
+              submitting: false,
+              submitError: error.message,
+            })
+            updateCustomNonce('')
+          })
+      }
     })
   }
 
@@ -583,18 +516,8 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   _beforeUnload = () => {
-    const { txData: { origin, id } = {}, cancelTransaction } = this.props
-    const { metricsEvent } = this.context
-    metricsEvent({
-      eventOpts: {
-        category: 'Transactions',
-        action: 'Confirm Screen',
-        name: 'Cancel Tx Via Notification Close',
-      },
-      customVariables: {
-        origin,
-      },
-    })
+    const { txData: { id } = {}, cancelTransaction } = this.props
+
     cancelTransaction({ id })
   }
 
@@ -605,18 +528,7 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   componentDidMount () {
-    const { toAddress, txData: { origin } = {}, getNextNonce, tryReverseResolveAddress } = this.props
-    const { metricsEvent } = this.context
-    metricsEvent({
-      eventOpts: {
-        category: 'Transactions',
-        action: 'Confirm Screen',
-        name: 'Confirm: Started',
-      },
-      customVariables: {
-        origin,
-      },
-    })
+    const { toAddress, getNextNonce, tryReverseResolveAddress } = this.props
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
       window.addEventListener('beforeunload', this._beforeUnload)

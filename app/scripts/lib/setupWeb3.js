@@ -5,14 +5,8 @@
 
 import 'web3/dist/web3.min'
 
-const shouldLogUsage = !([
-  'docs.metamask.io',
-  'metamask.github.io',
-  'metamask.io',
-].includes(window.location.hostname))
-
 export default function setupWeb3 (log) {
-  // export web3 as a global, checking for usage
+  // export web3 as a global
   let reloadInProgress = false
   let lastTimeUsed
   let lastSeenNetwork
@@ -43,28 +37,13 @@ export default function setupWeb3 (log) {
         hasBeenWarned = true
       }
 
-      if (shouldLogUsage) {
-        const name = stringifyKey(key)
-        window.ethereum.request({
-          method: 'metamask_logInjectedWeb3Usage',
-          params: [{ action: 'window.web3 get', name }],
-        })
-      }
-
       // return value normally
       return _web3[key]
     },
     set: (_web3, key, value) => {
-      const name = stringifyKey(key)
-      if (shouldLogUsage) {
-        window.ethereum.request({
-          method: 'metamask_logInjectedWeb3Usage',
-          params: [{ action: 'window.web3 set', name }],
-        })
-      }
-
       // set value normally
       _web3[key] = value
+      return true
     },
   })
 
@@ -120,16 +99,4 @@ export default function setupWeb3 (log) {
 // reload the page
 function triggerReset () {
   global.location.reload()
-}
-
-/**
- * Returns a "stringified" key. Keys that are already strings are returned
- * unchanged, and any non-string values are returned as "typeof <type>".
- *
- * @param {any} key - The key to stringify
- */
-function stringifyKey (key) {
-  return typeof key === 'string'
-    ? key
-    : `typeof ${typeof key}`
 }

@@ -16,7 +16,7 @@ describe('Welcome', function () {
     sinon.restore()
   })
 
-  it('routes to select action when participateInMetaMetrics is not initialized', function () {
+  it('routes to select action for a new user', function () {
 
     const props = {
       history: {
@@ -34,11 +34,10 @@ describe('Welcome', function () {
 
   })
 
-  it('routes to correct password when participateInMetaMetrics is initialized', function () {
+  it('routes to correct password after the welcome screen has been seen', function () {
 
     const props = {
       welcomeScreenSeen: true,
-      participateInMetaMetrics: false,
       history: {
         push: sinon.spy(),
       },

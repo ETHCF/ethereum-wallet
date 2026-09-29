@@ -10,7 +10,6 @@ describe('Security Tab', function () {
   const props = {
     revealSeedConfirmation: sinon.spy(),
     showClearApprovalModal: sinon.spy(),
-    setParticipateInMetaMetrics: sinon.spy(),
     displayWarning: sinon.spy(),
     setShowIncomingTransactionsFeatureFlag: sinon.spy(),
     history: {
@@ -18,7 +17,6 @@ describe('Security Tab', function () {
     },
     privacyMode: true,
     warning: '',
-    participateInMetaMetrics: false,
     setUsePhishDetect: sinon.spy(),
     usePhishDetect: true,
   }
@@ -28,7 +26,6 @@ describe('Security Tab', function () {
       <SecurityTab.WrappedComponent {...props} />, {
         context: {
           t: (str) => str,
-          metricsEvent: () => undefined,
         },
       },
     )
@@ -54,10 +51,4 @@ describe('Security Tab', function () {
     assert(props.setUsePhishDetect.calledOnce)
   })
 
-  it('toggles metaMetrics', function () {
-    const metaMetrics = wrapper.find({ type: 'checkbox' }).at(2)
-
-    metaMetrics.simulate('click')
-    assert(props.setParticipateInMetaMetrics.calledOnce)
-  })
 })
