@@ -3,44 +3,11 @@ import pump from 'pump'
 import LocalMessageDuplexStream from 'post-message-stream'
 import ObjectMultiplex from 'obj-multiplex'
 import extension from 'extensionizer'
-import PortStream from 'extension-port-stream'
-
-// These require calls need to use require to be statically recognized by browserify
-const fs = require('fs')
-const path = require('path')
-
-const inpageContent = fs.readFileSync(path.join(__dirname, '..', '..', 'dist', 'chrome', 'inpage.js'), 'utf8')
-const inpageSuffix = `//# sourceURL=${extension.runtime.getURL('inpage.js')}\n`
-const inpageBundle = inpageContent + inpageSuffix
-
-// Eventually this streaming injection could be replaced with:
-// https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Language_Bindings/Components.utils.exportFunction
-//
-// But for now that is only Firefox
-// If we create a FireFox-only code path using that API,
-// MetaMask will be much faster loading and performant on Firefox.
+import shouldInjectProvider from './lib/should-inject-provider'
+import ReconnectingPortStream from './lib/reconnecting-port-stream'
 
 if (shouldInjectProvider()) {
-  injectScript(inpageBundle)
   start()
-}
-
-/**
- * Injects a script tag into the current document
- *
- * @param {string} content - Code to be executed in the current document
- */
-function injectScript (content) {
-  try {
-    const container = document.head || document.documentElement
-    const scriptTag = document.createElement('script')
-    scriptTag.setAttribute('async', 'false')
-    scriptTag.textContent = content
-    container.insertBefore(scriptTag, container.children[0])
-    container.removeChild(scriptTag)
-  } catch (e) {
-    console.error('MetaMask provider injection failed.', e)
-  }
 }
 
 /**
@@ -63,8 +30,7 @@ async function setupStreams () {
     name: 'contentscript',
     target: 'inpage',
   })
-  const extensionPort = extension.runtime.connect({ name: 'contentscript' })
-  const extensionStream = new PortStream(extensionPort)
+  const extensionStream = new ReconnectingPortStream(() => extension.runtime.connect({ name: 'contentscript' }))
 
   // create and connect channel muxers
   // so we can handle the channels individually
@@ -118,95 +84,6 @@ function logStreamDisconnectWarning (remoteLabel, err) {
     warningMsg += `\n${err.stack}`
   }
   console.warn(warningMsg)
-}
-
-/**
- * Determines if the provider should be injected
- *
- * @returns {boolean} {@code true} - if the provider should be injected
- */
-function shouldInjectProvider () {
-  return doctypeCheck() && suffixCheck() &&
-    documentElementCheck() && !blockedDomainCheck()
-}
-
-/**
- * Checks the doctype of the current document if it exists
- *
- * @returns {boolean} {@code true} - if the doctype is html or if none exists
- */
-function doctypeCheck () {
-  const { doctype } = window.document
-  if (doctype) {
-    return doctype.name === 'html'
-  }
-  return true
-}
-
-/**
- * Returns whether or not the extension (suffix) of the current document is prohibited
- *
- * This checks {@code window.location.pathname} against a set of file extensions
- * that we should not inject the provider into. This check is indifferent of
- * query parameters in the location.
- *
- * @returns {boolean} - whether or not the extension of the current document is prohibited
- */
-function suffixCheck () {
-  const prohibitedTypes = [
-    /\.xml$/u,
-    /\.pdf$/u,
-  ]
-  const currentUrl = window.location.pathname
-  for (let i = 0; i < prohibitedTypes.length; i++) {
-    if (prohibitedTypes[i].test(currentUrl)) {
-      return false
-    }
-  }
-  return true
-}
-
-/**
- * Checks the documentElement of the current document
- *
- * @returns {boolean} {@code true} - if the documentElement is an html node or if none exists
- */
-function documentElementCheck () {
-  const documentElement = document.documentElement.nodeName
-  if (documentElement) {
-    return documentElement.toLowerCase() === 'html'
-  }
-  return true
-}
-
-/**
- * Checks if the current domain is blocked
- *
- * @returns {boolean} {@code true} - if the current domain is blocked
- */
-function blockedDomainCheck () {
-  const blockedDomains = [
-    'uscourts.gov',
-    'dropbox.com',
-    'webbyawards.com',
-    'cdn.shopify.com/s/javascripts/tricorder/xtld-read-only-frame.html',
-    'adyen.com',
-    'gravityforms.com',
-    'harbourair.com',
-    'ani.gamer.com.tw',
-    'blueskybooking.com',
-    'sharefile.com',
-  ]
-  const currentUrl = window.location.href
-  let currentRegex
-  for (let i = 0; i < blockedDomains.length; i++) {
-    const blockedDomain = blockedDomains[i].replace('.', '\\.')
-    currentRegex = new RegExp(`(?:https?:\\/\\/)(?:(?!${blockedDomain}).)*$`, 'u')
-    if (!currentRegex.test(currentUrl)) {
-      return true
-    }
-  }
-  return false
 }
 
 /**

@@ -3,6 +3,7 @@ import extension from 'extensionizer'
 import ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import { memoize } from 'lodash'
+import browserGlobal from './browser-global'
 
 import {
   ENVIRONMENT_TYPE_POPUP,
@@ -44,7 +45,7 @@ const getEnvironmentTypeMemo = memoize((url) => {
  * @param {string} [url] - the URL of the window
  * @returns {string} the environment ENUM
  */
-const getEnvironmentType = (url = window.location.href) => getEnvironmentTypeMemo(url)
+const getEnvironmentType = (url = browserGlobal.location.href) => getEnvironmentTypeMemo(url)
 
 /**
  * Returns the platform (browser) where the extension is running.
@@ -53,9 +54,9 @@ const getEnvironmentType = (url = window.location.href) => getEnvironmentTypeMem
  *
  */
 const getPlatform = (_) => {
-  const ua = window.navigator.userAgent
+  const ua = browserGlobal.navigator.userAgent
   if (ua.search('Firefox') === -1) {
-    if (window && window.chrome && window.chrome.ipcRenderer) {
+    if (browserGlobal && browserGlobal.chrome && browserGlobal.chrome.ipcRenderer) {
       return PLATFORM_BRAVE
     }
     if (ua.search('Edge') !== -1) {

@@ -125,7 +125,7 @@ export default class ExtensionPlatform {
 
   getAllWindows () {
     return new Promise((resolve, reject) => {
-      extension.windows.getAll((windows) => {
+      extension.windows.getAll({ populate: true }, (windows) => {
         const error = checkForError()
         if (error) {
           return reject(error)
@@ -212,7 +212,7 @@ export default class ExtensionPlatform {
       {
         'type': 'basic',
         title,
-        'iconUrl': extension.extension.getURL('../../images/icon-64.png'),
+        'iconUrl': extension.runtime.getURL('images/icon-64.png'),
         message,
       },
     )

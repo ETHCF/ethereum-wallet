@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser'
 import { Dedupe, ExtraErrorData } from '@sentry/integrations'
+import browserGlobal from './browser-global'
 
 import extractEthjsErrorMessage from './extractEthjsErrorMessage'
 
@@ -84,6 +85,9 @@ export default function setupSentry ({ release, getState }) {
   }
 
   Sentry.init({
+    // The browser SDK's default integrations patch DOM and XMLHttpRequest APIs
+    // that do not exist in extension service workers.
+    defaultIntegrations: typeof document === 'undefined' ? false : undefined,
     dsn: sentryTarget,
     debug: METAMASK_DEBUG,
     environment: METAMASK_ENVIRONMENT,
@@ -162,7 +166,7 @@ function rewriteReportUrls (report) {
 }
 
 function toMetamaskUrl (origUrl) {
-  const filePath = origUrl.split(window.location.origin)[1]
+  const filePath = origUrl.split(browserGlobal.location.origin)[1]
   if (!filePath) {
     return origUrl
   }

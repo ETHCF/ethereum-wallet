@@ -12,6 +12,9 @@ To learn how to contribute to the MetaMask project itself, visit our [Internal D
 
 ## Building locally
 
+The extension uses Manifest V3. See [the migration and lifecycle notes](docs/manifest-v3.md)
+for browser requirements and service-worker tests.
+
 - Install [Node.js](https://nodejs.org) version 26.10.0
     - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
 - Install [Yarn](https://yarnpkg.com/en/docs/install)

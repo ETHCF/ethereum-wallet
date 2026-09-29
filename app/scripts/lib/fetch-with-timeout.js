@@ -1,8 +1,10 @@
+import browserGlobal from './browser-global'
+
 const fetchWithTimeout = ({ timeout = 120000 } = {}) => {
   return async function _fetch (url, opts) {
-    const abortController = new window.AbortController()
+    const abortController = new browserGlobal.AbortController()
     const abortSignal = abortController.signal
-    const f = window.fetch(url, {
+    const f = browserGlobal.fetch(url, {
       ...opts,
       signal: abortSignal,
     })

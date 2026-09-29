@@ -2,6 +2,7 @@ import ObservableStore from 'obs-store'
 import log from 'loglevel'
 import { normalize as normalizeAddress } from 'eth-sig-util'
 import ethUtil from 'ethereumjs-util'
+import browserGlobal from '../lib/browser-global'
 
 // By default, poll every 3 minutes
 const DEFAULT_INTERVAL = 180 * 1000
@@ -33,7 +34,7 @@ export default class TokenRatesController {
     const query = `contract_addresses=${pairs}&vs_currencies=${nativeCurrency}`
     if (this._tokens.length > 0) {
       try {
-        const response = await window.fetch(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?${query}`)
+        const response = await browserGlobal.fetch(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?${query}`)
         const prices = await response.json()
         this._tokens.forEach((token) => {
           const price = prices[token.address.toLowerCase()] || prices[ethUtil.toChecksumAddress(token.address)]

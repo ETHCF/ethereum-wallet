@@ -14,16 +14,16 @@ import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 import endOfStream from 'end-of-stream'
 import pump from 'pump'
-import debounce from 'debounce-stream'
 import log from 'loglevel'
-import extension from 'extensionizer'
 import storeTransform from 'obs-store/lib/transform'
 import asStream from 'obs-store/lib/asStream'
 import PortStream from 'extension-port-stream'
+import extension from './lib/extension-api'
 import migrations from './migrations'
 import Migrator from './lib/migrator'
 import ExtensionPlatform from './platforms/extension'
 import LocalStore from './lib/local-store'
+import SessionEncryptor from './lib/session-encryptor'
 import ReadOnlyNetworkStore from './lib/network-store'
 import createStreamSink from './lib/createStreamSink'
 import NotificationManager from './lib/notification-manager'
@@ -33,6 +33,7 @@ import setupSentry from './lib/setupSentry'
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code'
 import getObjStructure from './lib/getObjStructure'
 import setupEnsIpfsResolver from './lib/ens-ipfs/setup'
+import connectLiveReload from './lib/worker-live-reload'
 
 import {
   ENVIRONMENT_TYPE_POPUP,
@@ -40,6 +41,14 @@ import {
   ENVIRONMENT_TYPE_FULLSCREEN,
 } from './lib/enums'
 /* eslint-enable import/first */
+
+if (process.env.IN_TEST === 'true') {
+  // eslint-disable-next-line global-require
+  require('../../development/mock-fetch')()
+}
+if (process.env.METAMASK_DEBUG) {
+  connectLiveReload()
+}
 
 // METAMASK_TEST_CONFIG is used in e2e tests to set the default network to localhost
 const firstTimeState = { ...rawFirstTimeState, ...global.METAMASK_TEST_CONFIG }
@@ -70,8 +79,54 @@ if (inTest || process.env.METAMASK_DEBUG) {
   global.metamaskGetState = localStore.get.bind(localStore)
 }
 
-// initialization flow
-initialize().catch(log.error)
+// Register wake-up events before loading persisted state. PortStream buffers
+// messages arriving while the controller is being restored.
+const initialized = initialize()
+initialized.catch(log.error)
+extension.runtime.onConnect.addListener((port) => queueConnection(port, 'connectRemote'))
+extension.runtime.onConnectExternal.addListener((port) => queueConnection(port, 'connectExternal'))
+extension.webRequest.onErrorOccurred.addListener((details) => {
+  initialized.then(({ ensResolver }) => ensResolver.handleRequest(details)).catch(log.error)
+}, { urls: ['*://*.eth/*'], types: ['main_frame'] })
+platform._subscribeToNotificationClicked()
+extension.runtime.onMessage.addListener((message, sender, respond) => {
+  if (message?.type === 'metamask-ui-active' && sender.id === extension.runtime.id &&
+      sender.url?.startsWith(extension.runtime.getURL(''))) {
+    respond(true)
+  }
+})
+extension.alarms.onAlarm.addListener((alarm) => {
+  initialized.then(async ({ controller }) => {
+    if (alarm.name === 'metamask-auto-lock') {
+      const { timeoutMinutes, lastActiveTime } = controller.appStateController.store.getState()
+      if (timeoutMinutes && lastActiveTime + (timeoutMinutes * 60000) <= Date.now()) {
+        await controller.setLocked()
+      }
+    } else if (alarm.name === 'metamask-pending-transactions') {
+      await controller.txController.pendingTxTracker.updatePendingTxs()
+    }
+  }).catch(log.error)
+})
+
+function queueConnection (port, handler) {
+  if (port.name === 'trezor-connect') {
+    return
+  }
+  const stream = new PortStream(port)
+  let disconnected = false
+  port.onDisconnect.addListener(() => {
+    disconnected = true
+  })
+  initialized.then((handlers) => {
+    if (!disconnected) {
+      handlers[handler](port, stream)
+    }
+  }).catch((error) => {
+    log.error(error)
+    stream.destroy()
+    port.disconnect()
+  })
+}
 
 /**
  * An object representing a transaction, in whatever state it is in.
@@ -148,8 +203,9 @@ initialize().catch(log.error)
 async function initialize () {
   const initState = await loadStateFromPersistence()
   const initLangCode = await getFirstPreferredLangCode()
-  await setupController(initState, initLangCode)
+  const handlers = await setupController(initState, initLangCode)
   log.debug('MetaMask initialization complete.')
+  return handlers
 }
 
 //
@@ -199,7 +255,7 @@ async function loadStateFromPersistence () {
 
   // write to disk
   if (localStore.isSupported) {
-    localStore.set(versionedData)
+    await localStore.set(versionedData)
   } else {
     // throw in setTimeout so as to not block boot
     setTimeout(() => {
@@ -221,12 +277,14 @@ async function loadStateFromPersistence () {
  * @param {string} initLangCode - The region code for the language preferred by the current user.
  * @returns {Promise} - After setup is complete.
  */
-function setupController (initState, initLangCode) {
+async function setupController (initState, initLangCode) {
   //
   // MetaMask Controller
   //
 
+  const encryptor = new SessionEncryptor(extension.storage.session)
   const controller = new MetamaskController({
+    encryptor,
     // User confirmation callbacks:
     showUnconfirmedMessage: triggerUi,
     showUnapprovedTx: triggerUi,
@@ -247,7 +305,69 @@ function setupController (initState, initLangCode) {
     },
   })
 
-  setupEnsIpfsResolver({
+  controller.keyringController.on('lock', () => {
+    encryptor.clear().catch(log.error)
+    if (extension.offscreen) {
+      extension.offscreen.hasDocument().then((exists) => {
+        if (exists) {
+          return extension.offscreen.closeDocument()
+        }
+        return undefined
+      }).catch(log.error)
+    }
+  })
+  controller.keyringController.memStore.subscribe(({ isUnlocked }) => {
+    if (isUnlocked) {
+      encryptor.save().catch(log.error)
+    }
+  })
+  controller.keyringController.store.subscribe(() => {
+    if (controller.isUnlocked()) {
+      encryptor.save().catch(log.error)
+    }
+  })
+
+  const { timeoutMinutes, lastActiveTime } = controller.appStateController.store.getState()
+  const sessionExpired = timeoutMinutes && lastActiveTime + (timeoutMinutes * 60000) <= Date.now()
+  if (!sessionExpired && await encryptor.restore(controller.keyringController.store.getState().vault)) {
+    await controller.keyringController.submitPassword(encryptor.sessionPassword)
+  } else {
+    await encryptor.clear()
+  }
+
+  let lastDeadline
+  const scheduleAutoLock = ({ timeoutMinutes: minutes, lastActiveTime: activeAt }) => {
+    const deadline = minutes ? activeAt + (minutes * 60000) : null
+    if (deadline === lastDeadline) {
+      return
+    }
+    lastDeadline = deadline
+    if (deadline) {
+      extension.alarms.create('metamask-auto-lock', { when: deadline })
+    } else {
+      extension.alarms.clear('metamask-auto-lock')
+    }
+  }
+  controller.appStateController.store.subscribe(scheduleAutoLock)
+  scheduleAutoLock(controller.appStateController.store.getState())
+
+  let hasPendingTransactions
+  const scheduleTransactions = () => {
+    const pending = controller.txController.txStateManager.getFilteredTxList({ status: 'submitted' }).length > 0
+    if (pending === hasPendingTransactions) {
+      return
+    }
+    hasPendingTransactions = pending
+    if (pending) {
+      extension.alarms.create('metamask-pending-transactions', { periodInMinutes: 1 })
+    } else {
+      extension.alarms.clear('metamask-pending-transactions')
+    }
+  }
+  controller.txController.txStateManager.store.subscribe(scheduleTransactions)
+  scheduleTransactions()
+
+  const ensResolver = setupEnsIpfsResolver({
     getCurrentNetwork: controller.getCurrentNetwork,
     getIpfsGateway: controller.preferencesController.getIpfsGateway.bind(controller.preferencesController),
     provider: controller.provider,
@@ -256,7 +376,6 @@ function setupController (initState, initLangCode) {
   // setup state persistence
   pump(
     asStream(controller.store),
-    debounce(1000),
     storeTransform(versionifyData),
     createStreamSink(persistData),
     (error) => {
@@ -270,8 +389,7 @@ function setupController (initState, initLangCode) {
    * @returns {VersionedData} - The state object wrapped in an object that includes a metadata key.
    */
   function versionifyData (state) {
-    versionedData.data = state
-    return versionedData
+    return { ...versionedData, data: state }
   }
 
   async function persistData (state) {
@@ -294,9 +412,6 @@ function setupController (initState, initLangCode) {
   //
   // connect to other contexts
   //
-  extension.runtime.onConnect.addListener(connectRemote)
-  extension.runtime.onConnectExternal.addListener(connectExternal)
-
   const metamaskInternalProcessHash = {
     [ENVIRONMENT_TYPE_POPUP]: true,
     [ENVIRONMENT_TYPE_NOTIFICATION]: true,
@@ -323,16 +438,17 @@ function setupController (initState, initLangCode) {
    * This method identifies trusted (MetaMask) interfaces, and connects them differently from untrusted (web pages).
    * @param {Port} remotePort - The port provided by a new context.
    */
-  function connectRemote (remotePort) {
+  function connectRemote (remotePort, portStream) {
     const processName = remotePort.name
-    const isMetaMaskInternalProcess = metamaskInternalProcessHash[processName]
+    const isMetaMaskInternalProcess = metamaskInternalProcessHash[processName] &&
+      remotePort.sender?.id === extension.runtime.id &&
+      remotePort.sender?.url?.startsWith(extension.runtime.getURL(''))
 
     if (metamaskBlockedPorts.includes(remotePort.name)) {
       return
     }
 
     if (isMetaMaskInternalProcess) {
-      const portStream = new PortStream(remotePort)
       // communication with popup
       controller.isClientOpen = true
       controller.setupTrustedCommunication(portStream, remotePort.sender)
@@ -376,13 +492,12 @@ function setupController (initState, initLangCode) {
           }
         })
       }
-      connectExternal(remotePort)
+      connectExternal(remotePort, portStream)
     }
   }
 
   // communication with page or other extension
-  function connectExternal (remotePort) {
-    const portStream = new PortStream(remotePort)
+  function connectExternal (remotePort, portStream) {
     controller.setupUntrustedCommunication(portStream, remotePort.sender)
   }
 
@@ -419,11 +534,11 @@ function setupController (initState, initLangCode) {
     if (count) {
       label = String(count)
     }
-    extension.browserAction.setBadgeText({ text: label })
-    extension.browserAction.setBadgeBackgroundColor({ color: '#037DD6' })
+    extension.action.setBadgeText({ text: label })
+    extension.action.setBadgeBackgroundColor({ color: '#037DD6' })
   }
 
-  return Promise.resolve()
+  return { connectRemote, connectExternal, ensResolver, controller }
 }
 
 //

@@ -40,7 +40,7 @@ export default class AppStateController extends EventEmitter {
     })
 
     const { preferences } = preferencesStore.getState()
-    this._setInactiveTimeout(preferences.autoLockTimeLimit)
+    this._setInactiveTimeout(preferences.autoLockTimeLimit, false)
   }
 
   /**
@@ -124,12 +124,12 @@ export default class AppStateController extends EventEmitter {
    * @returns {void}
    * @private
    */
-  _setInactiveTimeout (timeoutMinutes) {
+  _setInactiveTimeout (timeoutMinutes, reset = true) {
     this.store.updateState({
       timeoutMinutes,
     })
 
-    this._resetTimer()
+    this._resetTimer(reset)
   }
 
   /**
@@ -141,17 +141,22 @@ export default class AppStateController extends EventEmitter {
    * @returns {void}
    * @private
    */
-  _resetTimer () {
+  _resetTimer (reset = true) {
     const { timeoutMinutes } = this.store.getState()
 
     if (this.timer) {
       clearTimeout(this.timer)
     }
 
+    if (reset || !this.store.getState().lastActiveTime) {
+      this.store.updateState({ lastActiveTime: Date.now() })
+    }
+
     if (!timeoutMinutes) {
       return
     }
 
-    this.timer = setTimeout(() => this.onInactiveTimeout(), timeoutMinutes * 60 * 1000)
+    const remaining = this.store.getState().lastActiveTime + (timeoutMinutes * 60 * 1000) - Date.now()
+    this.timer = setTimeout(() => this.onInactiveTimeout(), Math.max(0, remaining))
   }
 }

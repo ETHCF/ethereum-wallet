@@ -1,7 +1,8 @@
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const { Builder, By, until } = require('selenium-webdriver')
+const { randomUUID } = require('crypto')
+const { Builder } = require('selenium-webdriver')
 const firefox = require('selenium-webdriver/firefox')
 const { Command } = require('selenium-webdriver/lib/command')
 
@@ -28,8 +29,13 @@ class FirefoxDriver {
    */
   static async build ({ extensionPath, responsive, port }) {
     const templateProfile = fs.mkdtempSync(TEMP_PROFILE_PATH_PREFIX)
+    const internalExtensionId = randomUUID()
     const options = new firefox.Options()
       .setProfile(templateProfile)
+      .setPreference('extensions.webextensions.uuids', JSON.stringify({ 'webextension@metamask.io': internalExtensionId }))
+    if (process.env.SELENIUM_HEADLESS === 'true') {
+      options.addArguments('-headless')
+    }
     const builder = new Builder()
       .forBrowser('firefox')
       .setFirefoxOptions(options)
@@ -44,7 +50,6 @@ class FirefoxDriver {
     await fxDriver.init()
 
     const extensionId = await fxDriver.installExtension(extensionPath)
-    const internalExtensionId = await fxDriver.getInternalId()
 
     if (responsive) {
       await driver.manage().window().setRect({ width: 320, height: 600 })
@@ -91,14 +96,6 @@ class FirefoxDriver {
     return await this._driver.execute(cmd)
   }
 
-  /**
-   * Returns the Internal UUID for the given extension
-   * @returns {Promise<string>} - the Internal UUID for the given extension
-   */
-  async getInternalId () {
-    await this._driver.get('about:debugging#addons')
-    return await this._driver.wait(until.elementLocated(By.xpath('//dl/div[contains(., \'Internal UUID\')]/dd')), 1000).getText()
-  }
 }
 
 module.exports = FirefoxDriver

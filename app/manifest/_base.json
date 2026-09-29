@@ -2,11 +2,11 @@
   "name": "__MSG_appName__",
   "short_name": "__MSG_appName__",
   "version": "8.0.9",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "author": "https://metamask.io",
   "description": "__MSG_appDescription__",
   "commands": {
-    "_execute_browser_action": {
+    "_execute_action": {
       "suggested_key": {
         "windows": "Alt+Shift+M",
         "mac": "Alt+Shift+M",
@@ -26,13 +26,9 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "bg-libs.js",
-      "background.js"
-    ],
-    "persistent": true
+    "service_worker": "service-worker.js"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "images/icon-16.png",
       "19": "images/icon-19.png",
@@ -46,6 +42,13 @@
     "default_popup": "popup.html"
   },
   "content_scripts": [
+    {
+      "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "js": ["inpage.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
     {
       "matches": [
         "file://*/*",
@@ -71,17 +74,19 @@
     "storage",
     "unlimitedStorage",
     "clipboardWrite",
-    "http://localhost:8545/",
-    "https://*.infura.io/",
     "activeTab",
     "webRequest",
-    "*://*.eth/",
+    "alarms",
     "notifications"
   ],
-  "web_accessible_resources": [
-    "inpage.js",
-    "phishing.html"
-  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "web_accessible_resources": [{
+    "resources": ["phishing.html"],
+    "matches": ["http://*/*", "https://*/*"]
+  }],
   "externally_connectable": {
     "matches": [
       "https://metamask.io/*"

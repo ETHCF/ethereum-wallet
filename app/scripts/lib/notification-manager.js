@@ -1,3 +1,4 @@
+import extension from 'extensionizer'
 import ExtensionPlatform from '../platforms/extension'
 
 const NOTIFICATION_HEIGHT = 620
@@ -37,12 +38,9 @@ export default class NotificationManager {
         top = lastFocused.top
         left = lastFocused.left + (lastFocused.width - NOTIFICATION_WIDTH)
       } catch (_) {
-        // The following properties are more than likely 0, due to being
-        // opened from the background chrome process for the extension that
-        // has no physical dimensions
-        const { screenX, screenY, outerWidth } = window
-        top = Math.max(screenY, 0)
-        left = Math.max(screenX + (outerWidth - NOTIFICATION_WIDTH), 0)
+        // A worker has no screen or window dimensions.
+        top = 0
+        left = 0
       }
 
       // create new notification popup
@@ -86,7 +84,8 @@ export default class NotificationManager {
   _getPopupIn (windows) {
     return windows ? windows.find((win) => {
       // Returns notification popup
-      return (win && win.type === 'popup' && win.id === this._popupId)
+      return win && win.type === 'popup' && (win.id === this._popupId ||
+        win.tabs?.some((tab) => tab.url?.startsWith(extension.runtime.getURL('notification.html'))))
     }) : null
   }
 

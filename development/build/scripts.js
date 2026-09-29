@@ -27,9 +27,9 @@ const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
 const d3Dependencies = ['c3', 'd3']
 
 const externalDependenciesMap = {
-  background: [
-    '3box',
-  ],
+  // Keep background files below the Firefox add-on validator's 5 MB limit.
+  // The service-worker bootstrap imports both local bundles synchronously.
+  background: ['3box'],
   ui: [
     ...materialUIDependencies, ...reactDepenendencies, ...d3Dependencies,
   ],
@@ -60,7 +60,8 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     core.prod,
   )
 
-  const { dev, testDev } = core
+  const dev = composeParallel(deps.background, core.dev)
+  const testDev = composeParallel(deps.background, core.testDev)
 
   const test = composeParallel(
     deps.background,
@@ -83,6 +84,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
   function createTasksForBuildJsExtension ({ taskPrefix, devMode, testing }) {
     const standardBundles = [
       'background',
+      'hardware',
       'ui',
       'phishing-detect',
     ]
@@ -91,8 +93,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       return createTask(`${taskPrefix}:${filename}`,
         createBundleTaskForBuildJsExtensionNormal({ filename, devMode, testing }))
     })
-    // inpage must be built before contentscript
-    // because inpage bundle result is included inside contentscript
     const contentscriptSubtask = createTask(`${taskPrefix}:contentscript`,
       createTaskForBuildJsExtensionContentscript({ devMode, testing }))
 
@@ -124,7 +124,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       label: filename,
       filename: `${filename}.js`,
       filepath: `./app/scripts/${filename}.js`,
-      externalDependencies: devMode ? undefined : externalDependenciesMap[filename],
+      externalDependencies: devMode && filename !== 'background' ? undefined : externalDependenciesMap[filename],
       devMode,
       testing,
     })
@@ -270,11 +270,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     }
 
     if (!opts.buildLib) {
-      if (opts.devMode && opts.filename === 'ui.js') {
-        browserifyOpts.entries = ['./development/require-react-devtools.js', opts.filepath]
-      } else {
-        browserifyOpts.entries = [opts.filepath]
-      }
+      browserifyOpts.entries = [opts.filepath]
     }
 
     let bundler = browserify(browserifyOpts)

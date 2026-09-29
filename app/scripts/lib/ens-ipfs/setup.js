@@ -1,21 +1,16 @@
 import urlUtil from 'url'
 import extension from 'extensionizer'
+import browserGlobal from '../browser-global'
 import resolveEnsToIpfsContentId from './resolver'
 
 const supportedTopLevelDomains = ['eth']
 
 export default function setupEnsIpfsResolver ({ provider, getCurrentNetwork, getIpfsGateway }) {
 
-  // install listener
-  const urlPatterns = supportedTopLevelDomains.map((tld) => `*://*.${tld}/*`)
-  extension.webRequest.onErrorOccurred.addListener(webRequestDidFail, { urls: urlPatterns, types: ['main_frame'] })
-
-  // return api object
+  // The background entry point registers this listener synchronously so it can
+  // wake a suspended service worker.
   return {
-    // uninstall listener
-    remove () {
-      extension.webRequest.onErrorOccurred.removeListener(webRequestDidFail)
-    },
+    handleRequest: webRequestDidFail,
   }
 
   async function webRequestDidFail (details) {
@@ -48,7 +43,7 @@ export default function setupEnsIpfsResolver ({ provider, getCurrentNetwork, get
         const resolvedUrl = `https://${hash}.${type.slice(0, 4)}.${ipfsGateway}${path}${search || ''}${fragment || ''}`
         try {
           // check if ipfs gateway has result
-          const response = await window.fetch(resolvedUrl, { method: 'HEAD' })
+          const response = await browserGlobal.fetch(resolvedUrl, { method: 'HEAD' })
           if (response.status === 200) {
             url = resolvedUrl
           }

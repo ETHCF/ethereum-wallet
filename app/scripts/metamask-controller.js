@@ -21,8 +21,6 @@ import KeyringController from 'eth-keyring-controller'
 import { Mutex } from 'await-semaphore'
 import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
-import TrezorKeyring from 'eth-trezor-keyring'
-import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
@@ -31,6 +29,7 @@ import {
   CurrencyRateController,
   PhishingController,
 } from '@metamask/controllers'
+import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
 import ComposableObservableStore from './lib/ComposableObservableStore'
 import AccountTracker from './lib/account-tracker'
 import createLoggerMiddleware from './lib/createLoggerMiddleware'

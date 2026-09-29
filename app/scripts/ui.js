@@ -26,6 +26,11 @@ import {
 } from './lib/enums'
 import { getEnvironmentType } from './lib/util'
 
+if (process.env.IN_TEST === 'true') {
+  // eslint-disable-next-line global-require
+  require('../../development/mock-fetch')()
+}
+
 start().catch(log.error)
 
 async function start () {
@@ -46,6 +51,20 @@ async function start () {
   // setup stream to background
   const extensionPort = extension.runtime.connect({ name: windowType })
   const connectionStream = new PortStream(extensionPort)
+  // An open wallet UI is an active session. Messages keep its controller alive
+  // while the user reviews an approval or edits a form.
+  const heartbeat = setInterval(() => {
+    extension.runtime.sendMessage({ type: 'metamask-ui-active' }, () => {
+      // Read lastError when the extension is reloaded or updated.
+      if (extension.runtime.lastError) {
+        clearInterval(heartbeat)
+      }
+    })
+  }, 20000)
+  extensionPort.onDisconnect.addListener(() => {
+    clearInterval(heartbeat)
+    window.location.reload()
+  })
 
   const activeTab = await queryCurrentActiveTab(windowType)
   initializeUiWithTab(activeTab)

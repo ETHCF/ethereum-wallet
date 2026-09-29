@@ -11,6 +11,11 @@ module.exports = createStaticAssetTasks
 
 const copyTargets = [
   {
+    src: './app/',
+    pattern: 'service-worker.js',
+    dest: '',
+  },
+  {
     src: `./app/_locales/`,
     dest: `_locales`,
   },
@@ -62,11 +67,6 @@ for (const tag of languageTags) {
 
 const copyTargetsDev = [
   ...copyTargets,
-  {
-    src: './app/scripts/',
-    pattern: '/chromereload.js',
-    dest: ``,
-  },
 ]
 
 function createStaticAssetTasks ({ livereload, browserPlatforms }) {

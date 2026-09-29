@@ -34,6 +34,7 @@ cleanContextForImports()
 import log from 'loglevel'
 import LocalMessageDuplexStream from 'post-message-stream'
 import { initProvider } from '@metamask/inpage-provider'
+import shouldInjectProvider from './lib/should-inject-provider'
 
 // TODO:deprecate:2020
 import setupWeb3 from './lib/setupWeb3'
@@ -47,26 +48,28 @@ log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
 // setup plugin communication
 //
 
-// setup background connection
-const metamaskStream = new LocalMessageDuplexStream({
-  name: 'inpage',
-  target: 'contentscript',
-})
+if (shouldInjectProvider()) {
+  // setup background connection
+  const metamaskStream = new LocalMessageDuplexStream({
+    name: 'inpage',
+    target: 'contentscript',
+  })
 
-initProvider({
-  connectionStream: metamaskStream,
-})
+  initProvider({
+    connectionStream: metamaskStream,
+  })
 
-// TODO:deprecate:2020
-// Setup web3
+  // TODO:deprecate:2020
+  // Setup web3
 
-if (typeof window.web3 !== 'undefined') {
-  throw new Error(`MetaMask detected another web3.
-     MetaMask will not work reliably with another web3 extension.
-     This usually happens if you have two MetaMasks installed,
-     or MetaMask and another web3 extension. Please remove one
-     and try again.`)
+  if (typeof window.web3 !== 'undefined') {
+    throw new Error(`MetaMask detected another web3.
+       MetaMask will not work reliably with another web3 extension.
+       This usually happens if you have two MetaMasks installed,
+       or MetaMask and another web3 extension. Please remove one
+       and try again.`)
+  }
+
+  // proxy web3, assign to window, and set up site auto reload
+  setupWeb3(log)
 }
-
-// proxy web3, assign to window, and set up site auto reload
-setupWeb3(log)

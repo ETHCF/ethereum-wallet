@@ -109,7 +109,7 @@ class Driver {
   // Window management
 
   async openNewPage (url) {
-    const newHandle = await this.driver.switchTo().newWindow()
+    const newHandle = await this.driver.switchTo().newWindow('tab')
     await this.driver.get(url)
     return newHandle
   }
@@ -132,7 +132,7 @@ class Driver {
       await this.delay(delayStep)
       timeElapsed += delayStep
     }
-    throw new Error('waitUntilXWindowHandles timed out polling window handles')
+    throw new Error(`Expected ${x} browser tabs/windows, found ${(await this.driver.getAllWindowHandles()).length}`)
   }
 
   async switchToWindowWithTitle (title, windowHandles) {
@@ -184,6 +184,17 @@ class Driver {
       () => window.getCleanAppState && window.getCleanAppState(),
     )
     await fs.writeFile(`${filepathBase}-state.json`, JSON.stringify(uiState, null, 2))
+    if (this.browser === 'chrome') {
+      await fs.writeFile(`${filepathBase}-console.json`, JSON.stringify(await this.driver.manage().logs().get('browser'), null, 2))
+    }
+    const current = await this.driver.getWindowHandle()
+    const pages = []
+    for (const handle of await this.driver.getAllWindowHandles()) {
+      await this.driver.switchTo().window(handle)
+      pages.push({ url: await this.driver.getCurrentUrl(), title: await this.driver.getTitle(), text: await this.driver.executeScript('return document.body.innerText') })
+    }
+    await this.driver.switchTo().window(current)
+    await fs.writeFile(`${filepathBase}-pages.json`, JSON.stringify(pages, null, 2))
   }
 
   async checkBrowserForConsoleErrors () {

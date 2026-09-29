@@ -1,21 +1,22 @@
+import browserGlobal from './browser-global'
 //
-// This is a utility to help resolve cases where `window.fetch` throws a
+// This is a utility to help resolve cases where `browserGlobal.fetch` throws a
 // `TypeError: Failed to Fetch` without any stack or context for the request
 // https://github.com/getsentry/sentry-javascript/pull/1293
 //
 
 export default function setupFetchDebugging () {
-  if (!window.fetch) {
+  if (!browserGlobal.fetch) {
     return
   }
-  const originalFetch = window.fetch
+  const originalFetch = browserGlobal.fetch
 
-  window.fetch = wrappedFetch
+  browserGlobal.fetch = wrappedFetch
 
   async function wrappedFetch (...args) {
     const initialStack = getCurrentStack()
     try {
-      return await originalFetch.call(window, ...args)
+      return await originalFetch.call(browserGlobal, ...args)
     } catch (err) {
       if (!err.stack) {
         console.warn('FetchDebugger - fetch encountered an Error without a stack', err)
