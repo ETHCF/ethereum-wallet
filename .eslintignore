@@ -1,0 +1,11 @@
+!.eslintrc.js
+
+node_modules/**
+dist/**
+builds/**
+test-*/**
+docs/**
+coverage/
+
+app/scripts/chromereload.js
+app/vendor/**
