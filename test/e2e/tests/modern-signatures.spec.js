@@ -10,6 +10,13 @@ describe('Modern signature confirmations', function () {
       await driver.findElement(By.css('.selected-account__name'))
       await driver.openNewPage('http://127.0.0.1:8080/')
       const dappWindow = await driver.driver.getWindowHandle()
+      const capabilities = await driver.driver.executeAsyncScript(`
+        const done = arguments[arguments.length - 1];
+        ethereum.request({ method: 'eth_accounts' }).then(([account]) =>
+          ethereum.request({ method: 'wallet_getCapabilities', params: [account, ['0x1', '0x2105']] })
+        ).then(done, error => done({ error: error.message }));
+      `)
+      assert.deepEqual(capabilities, {}, 'capability probes must succeed without advertising unsupported batching')
       const requestSiwe = async (domain) => driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
         ethereum.request({ method: 'eth_accounts' }).then(([account]) => {

@@ -3,8 +3,8 @@ const { withFixtures } = require('../helpers')
 const connectBrowser = require('../webdriver/browser-cdp')
 
 describe('Wallet provider discovery', function () {
-  for (const otherWallet of [false, true]) {
-    it(`announces ECF Wallet ${otherWallet ? 'alongside an existing wallet' : 'and exposes the legacy provider'}`, async function () {
+  for (const otherWallet of [false, 'readonly', 'getter']) {
+    it(`announces ECF Wallet ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider'}`, async function () {
       if (process.env.SELENIUM_BROWSER !== 'chrome') {
         this.skip()
       }
@@ -20,9 +20,9 @@ describe('Wallet provider discovery', function () {
               window.initializedEvents = 0;
               window.addEventListener('eip6963:announceProvider', event => announcements.push(event.detail));
               window.addEventListener('ethereum#initialized', () => initializedEvents++);
-              if (${otherWallet}) {
+              if (${Boolean(otherWallet)}) {
                 window.otherProvider = { request: () => Promise.resolve('other-wallet') };
-                Object.defineProperty(window, 'ethereum', { value: otherProvider, writable: false });
+                Object.defineProperty(window, 'ethereum', ${otherWallet === 'getter' ? '{ get: () => otherProvider }' : '{ value: otherProvider, writable: false }'});
                 window.web3 = { currentProvider: otherProvider };
               }
             `,

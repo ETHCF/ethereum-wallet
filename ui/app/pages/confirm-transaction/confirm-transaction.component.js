@@ -49,7 +49,7 @@ export default class ConfirmTransaction extends Component {
       send = {},
       history,
       mostRecentOverviewPage,
-      transaction: { txParams: { data, to } = {} } = {},
+      transaction: { txParams } = {},
       fetchBasicGasAndTimeEstimates,
       getContractMethodData,
       transactionId,
@@ -63,10 +63,13 @@ export default class ConfirmTransaction extends Component {
       return
     }
 
-    fetchBasicGasAndTimeEstimates()
-    getContractMethodData(data)
-    if (isTokenMethodAction) {
-      getTokenParams(to)
+    // Message signatures do not consume gas or call a contract.
+    if (txParams) {
+      fetchBasicGasAndTimeEstimates()
+      getContractMethodData(txParams.data)
+      if (isTokenMethodAction) {
+        getTokenParams(txParams.to)
+      }
     }
     const txId = transactionId || paramsTransactionId
     if (txId) {

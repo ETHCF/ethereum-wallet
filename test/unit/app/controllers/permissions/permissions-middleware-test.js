@@ -52,6 +52,53 @@ const initPermController = () => {
 
 describe('permissions middleware', function () {
 
+  describe('wallet_getCapabilities', function () {
+    let permController
+    let middleware
+
+    beforeEach(function () {
+      permController = initPermController()
+      grantPermissions(permController, DOMAINS.a.origin, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted))
+      middleware = getPermissionsMiddleware(permController, DOMAINS.a.origin)
+    })
+
+    it('returns no batching capabilities for a connected account without forwarding to RPC', async function () {
+      const next = sinon.spy()
+      const res = {}
+      await middleware({ method: 'wallet_getCapabilities', params: [ACCOUNTS.a.primary] }, res, next)
+      assert.deepEqual(res.result, {})
+      assert.ok(next.notCalled)
+      assert.equal(permController.pendingApprovals.size, 0)
+    })
+
+    it('accepts checksummed accounts and omits unsupported chains', async function () {
+      const res = {}
+      await middleware({
+        method: 'wallet_getCapabilities',
+        params: [ACCOUNTS.a.primary.toUpperCase().replace('0X', '0x'), ['0x1', '0x2105']],
+      }, res)
+      assert.deepEqual(res.result, {})
+    })
+
+    it('requires account permission for the requesting origin', async function () {
+      const otherOrigin = getPermissionsMiddleware(permController, DOMAINS.b.origin)
+      await assert.rejects(otherOrigin({ method: 'wallet_getCapabilities', params: [ACCOUNTS.a.primary] }), { code: 4100 })
+    })
+
+    it('does not expose capabilities for an unconnected account', async function () {
+      await assert.rejects(middleware({ method: 'wallet_getCapabilities', params: ['0x0000000000000000000000000000000000000001'] }), { code: 4100 })
+    })
+
+    it('rejects malformed parameters', async function () {
+      const invalidParams = [undefined, {}, [], ['bad-address'], [ACCOUNTS.a.primary, '0x1'],
+        [ACCOUNTS.a.primary, ['0x01']], [ACCOUNTS.a.primary, ['1']], [ACCOUNTS.a.primary, [1]],
+        [ACCOUNTS.a.primary, [], true]]
+      for (const params of invalidParams) {
+        await assert.rejects(middleware({ method: 'wallet_getCapabilities', params }), { code: -32602 })
+      }
+    })
+  })
+
   describe('wallet_requestPermissions', function () {
 
     let permController

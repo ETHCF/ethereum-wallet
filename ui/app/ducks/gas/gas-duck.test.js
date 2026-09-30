@@ -71,6 +71,7 @@ describe('Gas Duck', function () {
       ? mockEthGasApiResponse
       : mockPredictTableResponse
     resolve({
+      ok: true,
       json: () => Promise.resolve(dataToResolve),
     })
   })
@@ -90,6 +91,60 @@ describe('Gas Duck', function () {
 
     window.fetch = tempFetch
     global.Date.now = tempDateNow
+  })
+
+  describe('unavailable gas estimate service', function () {
+    let originalEthQuery
+
+    beforeEach(function () {
+      originalEthQuery = global.ethQuery
+      global.ethQuery = { gasPrice: sinon.stub().yields(null, '0x77359400') }
+    })
+
+    afterEach(function () {
+      global.ethQuery = originalEthQuery
+    })
+
+    it('uses the current network gas price when the service returns HTML with a 403', async function () {
+      const json = sinon.stub().rejects(new SyntaxError('Unexpected token <'))
+      window.fetch.resolves({ ok: false, status: 403, json })
+      const dispatch = sinon.spy()
+      const result = await fetchBasicGasAndTimeEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))
+      assert.equal(result.average, 2)
+      assert.equal(result.fast, 2)
+      assert.equal(result.safeLow, 2)
+      assert.equal(result.avgWait, null, 'RPC gas prices do not predict confirmation times')
+      assert.ok(json.notCalled)
+      assert.ok(global.ethQuery.gasPrice.calledOnce)
+      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
+    })
+
+    it('also handles malformed JSON and network failures in the send screen', async function () {
+      window.fetch.resolves({ ok: true, json: sinon.stub().rejects(new SyntaxError('Unexpected token <')) })
+      const dispatch = sinon.spy()
+      assert.equal((await fetchBasicGasEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))).fast, 2)
+      window.fetch.rejects(new Error('Failed to fetch'))
+      assert.equal((await fetchBasicGasEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))).fast, 2)
+      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
+    })
+
+    it('finishes loading and reports unavailable estimates when both sources fail', async function () {
+      window.fetch.rejects(new Error('Failed to fetch'))
+      global.ethQuery.gasPrice.yields(new Error('RPC unavailable'))
+      const dispatch = sinon.spy()
+      const result = await fetchBasicGasAndTimeEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))
+      assert.equal(result.fast, null)
+      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
+      assert.ok(dispatch.getCalls().some(({ args: [action] }) => action.type === 'DISPLAY_WARNING'))
+    })
+
+    it('does not invent confirmation predictions when the service is unavailable', async function () {
+      window.fetch.resolves({ ok: false, status: 403, json: sinon.stub().rejects(new SyntaxError('Unexpected token <')) })
+      const dispatch = sinon.spy()
+      await fetchGasEstimates(12)(dispatch, () => ({ gas: GasReducer(undefined, {}), ecfWallet: { provider: { type: 'mainnet' } } }))
+      assert.ok(dispatch.calledWith(setPricesAndTimeEstimates([])))
+      assert.ok(dispatch.calledWith(gasEstimatesLoadingFinished()))
+    })
   })
 
   const mockState = {

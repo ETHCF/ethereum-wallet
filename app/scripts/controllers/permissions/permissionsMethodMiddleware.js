@@ -21,6 +21,23 @@ export default function createPermissionsMethodMiddleware ({
 
     switch (req.method) {
 
+      case 'wallet_getCapabilities': {
+        const { params } = req
+        if (!Array.isArray(params) || params.length < 1 || params.length > 2 ||
+            typeof params[0] !== 'string' || !(/^0x[0-9a-f]{40}$/iu).test(params[0]) ||
+            (params[1] !== undefined && (!Array.isArray(params[1]) || params[1].some((chainId) => typeof chainId !== 'string' || !(/^0x(?:0|[1-9a-f][0-9a-f]*)$/iu).test(chainId))))) {
+          throw ethErrors.rpc.invalidParams('Expected an account address and an optional array of hexadecimal chain IDs.')
+        }
+        const accounts = await getAccounts()
+        if (!accounts.some((account) => account.toLowerCase() === params[0].toLowerCase())) {
+          throw ethErrors.provider.unauthorized()
+        }
+        // EIP-5792: omitting atomic means batching is not supported. Do not
+        // advertise wallet_sendCalls or smart-account features we cannot execute.
+        res.result = {}
+        return
+      }
+
       // Intercepting eth_accounts requests for backwards compatibility:
       // The getAccounts call below wraps the rpc-cap middleware, and returns
       // an empty array in case of errors (such as 4100:unauthorized)

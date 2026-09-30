@@ -1,5 +1,6 @@
 import { uniqBy, cloneDeep, flatten } from 'lodash'
 import BigNumber from 'bignumber.js'
+import { DISPLAY_WARNING } from '../../store/actionConstants'
 import {
   loadLocalStorageData,
   saveLocalStorageData,
@@ -175,7 +176,7 @@ export function gasEstimatesLoadingFinished () {
 async function queryEthGasStationBasic () {
   const apiKey = process.env.ETH_GAS_STATION_API_KEY ? `?api-key=${process.env.ETH_GAS_STATION_API_KEY}` : ''
   const url = `https://ethgasstation.info/json/ethgasAPI.json${apiKey}`
-  return await window.fetch(url, {
+  const response = await window.fetch(url, {
     'headers': {},
     'referrer': 'http://ethgasstation.info/json/',
     'referrerPolicy': 'no-referrer-when-downgrade',
@@ -183,12 +184,16 @@ async function queryEthGasStationBasic () {
     'method': 'GET',
     'mode': 'cors',
   })
+  if (!response.ok) {
+    throw new Error(`Gas estimate service returned HTTP ${response.status}`)
+  }
+  return response
 }
 
 async function queryEthGasStationPredictionTable () {
   const apiKey = process.env.ETH_GAS_STATION_API_KEY ? `?api-key=${process.env.ETH_GAS_STATION_API_KEY}` : ''
   const url = `https://ethgasstation.info/json/predictTable.json${apiKey}`
-  return await window.fetch(url, {
+  const response = await window.fetch(url, {
     'headers': {},
     'referrer': 'http://ethgasstation.info/json/',
     'referrerPolicy': 'no-referrer-when-downgrade',
@@ -196,6 +201,31 @@ async function queryEthGasStationPredictionTable () {
     'method': 'GET',
     'mode': 'cors',
   })
+  if (!response.ok) {
+    throw new Error(`Gas prediction service returned HTTP ${response.status}`)
+  }
+  return response
+}
+
+async function getNetworkGasEstimates (dispatch) {
+  try {
+    const hexPrice = await new Promise((resolve, reject) => {
+      global.ethQuery.gasPrice((error, price) => (error ? reject(error) : resolve(price)))
+    })
+    if (typeof hexPrice !== 'string' || !(/^0x[0-9a-f]+$/iu).test(hexPrice)) {
+      throw new Error('Invalid gas price from the network')
+    }
+    const price = new BigNumber(hexPrice.slice(2), 16).div('1000000000').toNumber()
+    if (!Number.isFinite(price) || price < 0) {
+      throw new Error('Invalid gas price from the network')
+    }
+    // eth_gasPrice supplies one recommendation, not speed tiers or wait times.
+    // Do not cache it in the shared ETH Gas Station cache across networks.
+    return { ...initState.basicEstimates, safeLow: price, average: price, fast: price, fastest: price }
+  } catch (_) {
+    dispatch({ type: DISPLAY_WARNING, value: 'Unable to fetch gas estimates. Check your network connection.' })
+    return { ...initState.basicEstimates }
+  }
 }
 
 export function fetchBasicGasEstimates () {
@@ -207,10 +237,10 @@ export function fetchBasicGasEstimates () {
 
     let basicEstimates
     if (Date.now() - timeLastRetrieved > 75000) {
-      basicEstimates = await fetchExternalBasicGasEstimates(dispatch)
+      basicEstimates = await fetchExternalBasicGasEstimates(dispatch).catch(() => getNetworkGasEstimates(dispatch))
     } else {
       const cachedBasicEstimates = loadLocalStorageData('BASIC_PRICE_ESTIMATES')
-      basicEstimates = cachedBasicEstimates || await fetchExternalBasicGasEstimates(dispatch)
+      basicEstimates = cachedBasicEstimates || await fetchExternalBasicGasEstimates(dispatch).catch(() => getNetworkGasEstimates(dispatch))
     }
 
     dispatch(setBasicGasEstimateData(basicEstimates))
@@ -265,10 +295,10 @@ export function fetchBasicGasAndTimeEstimates () {
 
     let basicEstimates
     if (Date.now() - timeLastRetrieved > 75000) {
-      basicEstimates = await fetchExternalBasicGasAndTimeEstimates(dispatch)
+      basicEstimates = await fetchExternalBasicGasAndTimeEstimates(dispatch).catch(() => getNetworkGasEstimates(dispatch))
     } else {
       const cachedBasicEstimates = loadLocalStorageData('BASIC_GAS_AND_TIME_API_ESTIMATES')
-      basicEstimates = cachedBasicEstimates || await fetchExternalBasicGasAndTimeEstimates(dispatch)
+      basicEstimates = cachedBasicEstimates || await fetchExternalBasicGasAndTimeEstimates(dispatch).catch(() => getNetworkGasEstimates(dispatch))
     }
 
     dispatch(setBasicGasEstimateData(basicEstimates))
@@ -444,8 +474,8 @@ export function fetchGasEstimates (blockTime) {
         ? priceAndTimeEstimates
         : loadLocalStorageData('GAS_API_ESTIMATES'))
 
-    return promiseToFetch.then((estimates) => {
-      dispatch(setPricesAndTimeEstimates(estimates))
+    return promiseToFetch.catch(() => []).then((estimates) => {
+      dispatch(setPricesAndTimeEstimates(estimates || []))
       dispatch(gasEstimatesLoadingFinished())
     })
   }

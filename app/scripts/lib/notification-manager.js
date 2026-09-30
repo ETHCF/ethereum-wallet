@@ -30,33 +30,39 @@ export default class NotificationManager {
       // bring focus to existing chrome popup
       await this.platform.focusWindow(popup.id)
     } else {
-      let left = 0
-      let top = 0
+      let position = {}
       try {
         const lastFocused = await this.platform.getLastFocusedWindow()
         // Position window in top right corner of lastFocused window.
-        top = lastFocused.top
-        left = lastFocused.left + (lastFocused.width - NOTIFICATION_WIDTH)
+        if (lastFocused && lastFocused.state !== 'minimized' &&
+            [lastFocused.top, lastFocused.left, lastFocused.width].every(Number.isFinite)) {
+          position = {
+            top: lastFocused.top,
+            left: lastFocused.left + (lastFocused.width - NOTIFICATION_WIDTH),
+          }
+        }
       } catch (_) {
-        // A worker has no screen or window dimensions.
-        top = 0
-        left = 0
+        // A worker has no screen dimensions; let the browser choose placement.
       }
 
       // create new notification popup
-      const popupWindow = await this.platform.openWindow({
+      const options = {
         url: 'notification.html',
         type: 'popup',
         width: NOTIFICATION_WIDTH,
         height: NOTIFICATION_HEIGHT,
-        left,
-        top,
-      })
-
-      // Firefox currently ignores left/top for create, but it works for update
-      if (popupWindow.left !== left && popupWindow.state !== 'fullscreen') {
-        await this.platform.updateWindowPosition(popupWindow.id, left, top)
       }
+      let popupWindow
+      try {
+        popupWindow = await this.platform.openWindow({ ...options, ...position })
+      } catch (error) {
+        if (position.left === undefined || !error.message?.includes('Invalid value for bounds')) {
+          throw error
+        }
+        // The last focused window may be off-screen or on a removed monitor.
+        popupWindow = await this.platform.openWindow(options)
+      }
+      // Honor browser-adjusted placement instead of forcing rejected coordinates.
       this._popupId = popupWindow.id
     }
   }

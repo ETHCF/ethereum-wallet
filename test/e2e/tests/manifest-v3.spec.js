@@ -3,6 +3,40 @@ const { By, Key } = require('selenium-webdriver')
 const { withFixtures } = require('../helpers')
 
 describe('Manifest V3 lifecycle', function () {
+  it('rejects requests after an extension reload without breaking the page transport', async function () {
+    if (process.env.SELENIUM_BROWSER !== 'chrome') {
+      this.skip()
+    }
+    await withFixtures({ dapp: true, fixtures: 'personal-sign', title: this.test.title }, async ({ driver }) => {
+      const walletHandle = await driver.driver.getWindowHandle()
+      await driver.driver.switchTo().newWindow('tab')
+      const dappHandle = await driver.driver.getWindowHandle()
+      await driver.driver.get('http://127.0.0.1:8080/')
+      const requestChainId = () => driver.driver.executeAsyncScript(`
+        const done = arguments[arguments.length - 1];
+        window.ethereum.request({ method: 'eth_chainId' }).then(
+          value => done({ value }), error => done({ code: error.code, message: error.message })
+        );
+      `)
+      const before = await requestChainId()
+      assert.ok(before.value, JSON.stringify(before))
+
+      await driver.switchToWindow(walletHandle)
+      await driver.driver.executeScript('setTimeout(() => chrome.runtime.reload(), 100)')
+      await driver.switchToWindow(dappHandle)
+      let disconnected
+      await driver.wait(async () => {
+        disconnected = await requestChainId()
+        return disconnected.code === 4900
+      })
+      assert.match(disconnected.message, /refresh/iu)
+      assert.deepEqual(await requestChainId(), disconnected)
+      // The provider logs RPC errors; the content-script multiplex must stay alive.
+      const logs = await driver.checkBrowserForConsoleErrors()
+      assert.ok(logs.every((entry) => entry.message.includes('Please refresh this page to reconnect')), JSON.stringify(logs))
+    })
+  })
+
   it('automatically locks after the worker stops', async function () {
     if (process.env.SELENIUM_BROWSER !== 'chrome') {
       this.skip()

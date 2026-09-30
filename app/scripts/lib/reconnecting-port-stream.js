@@ -1,5 +1,7 @@
 import { Duplex } from 'readable-stream'
 
+const RELOAD_MESSAGE = 'ecf-wallet was reloaded or updated. Please refresh this page to reconnect.'
+
 /**
  * A dapp connection reconnects on demand after a background worker suspends.
  * Outstanding RPC requests fail explicitly; signing requests are never replayed.
@@ -10,14 +12,23 @@ export default class ReconnectingPortStream extends Duplex {
     this.connect = connect
     this.port = null
     this.pending = new Map()
+    this.contextInvalidated = false
     this.open()
   }
 
   open () {
-    if (this.port) {
+    if (this.port || this.contextInvalidated) {
       return
     }
-    const port = this.connect()
+    let port
+    try {
+      port = this.connect()
+    } catch (error) {
+      if (!this.handleContextInvalidation(error)) {
+        throw error
+      }
+      return
+    }
     this.port = port
     port.onMessage.addListener((message) => {
       if (port !== this.port) {
@@ -33,16 +44,34 @@ export default class ReconnectingPortStream extends Duplex {
         return
       }
       this.port = null
-      for (const id of this.pending.keys()) {
-        this.push({
-          name: 'provider', data: {
-            jsonrpc: '2.0', id,
-            error: { code: 4900, message: 'ecf-wallet restarted. Please retry your request.' },
-          },
-        })
-      }
-      this.pending.clear()
+      this.failPending('ecf-wallet restarted. Please retry your request.')
     })
+  }
+
+  failPending (message) {
+    const ids = Array.from(this.pending.keys())
+    // Clear before pushing: a response can synchronously trigger another request.
+    this.pending.clear()
+    for (const id of ids) {
+      this.push({
+        name: 'provider', data: {
+          jsonrpc: '2.0', id,
+          error: { code: 4900, message },
+        },
+      })
+    }
+  }
+
+  handleContextInvalidation (error) {
+    if (!error?.message?.includes('Extension context invalidated')) {
+      return false
+    }
+    // Unlike a suspended worker, an invalidated content script cannot reconnect.
+    // Keep the page transport alive so pending and future RPCs fail explicitly.
+    this.contextInvalidated = true
+    this.port = null
+    this.failPending(RELOAD_MESSAGE)
+    return true
   }
 
   _read () {
@@ -51,13 +80,20 @@ export default class ReconnectingPortStream extends Duplex {
 
   _write (message, _encoding, callback) {
     try {
-      this.open()
       if (message.name === 'provider' && message.data?.method && message.data.id !== undefined) {
         this.pending.set(message.data.id, true)
+      }
+      this.open()
+      if (this.contextInvalidated) {
+        this.failPending(RELOAD_MESSAGE)
+        return callback()
       }
       this.port.postMessage(message)
       return callback()
     } catch (error) {
+      if (this.handleContextInvalidation(error)) {
+        return callback()
+      }
       return callback(error)
     }
   }
@@ -67,8 +103,14 @@ export default class ReconnectingPortStream extends Duplex {
     this.port = null
     this.pending.clear()
     if (port) {
-      port.disconnect()
+      try {
+        port.disconnect()
+      } catch (disconnectError) {
+        if (!this.handleContextInvalidation(disconnectError)) {
+          return callback(error || disconnectError)
+        }
+      }
     }
-    callback(error)
+    return callback(error)
   }
 }
