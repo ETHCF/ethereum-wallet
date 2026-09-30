@@ -8,7 +8,7 @@ const backgroundUrls = new Set([
 ])
 
 extension.runtime.onMessage.addListener((message, sender, respond) => {
-  if (message?.type !== 'metamask-hardware-request' || sender.id !== extension.runtime.id || sender.tab ||
+  if (message?.type !== 'ecf-wallet-hardware-request' || sender.id !== extension.runtime.id || sender.tab ||
       !backgroundUrls.has(sender.url)) {
     return false
   }

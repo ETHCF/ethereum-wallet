@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Din webbläsare stöds inte..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask är skapat och utformat i Kalifornien."
-  },
   "off": {
     "message": "Av"
   },
@@ -352,9 +349,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Om du behöver säkerhetskopiera din nyckelfras igen, kan du hitta den i Inställningar -> Säkerhet"
-  },
-  "endOfFlowMessage7": {
-    "message": "Om du har frågor eller ser något misstänksamt, skicka ett e-postmeddelande till support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet kan inte återställa din seedphrase. Läs mer."
@@ -608,10 +602,10 @@
   "message": {
     "message": "Meddelande"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Ansluter dig mot Ethereum och den decentraliserade webben."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet-version"
   },
   "mobileSyncText": {
@@ -673,7 +667,7 @@
   "newNetwork": {
     "message": "Nytt nätverk"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Ny på ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -684,9 +678,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Var försiktig med din seedfras — det har rapporterats om hemsidor som försöker imitera ECF Wallet. ECF Wallet kommer aldrig fråga efter din seedfras!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Håll din fras i säkert förvar. Om du ser något misstänksamt eller om du är osäker på en hemsida, skicka ett e-postmeddelande till support@metamask.io."
   },
   "rpcUrl": {
     "message": "Ny RPC-URL"
@@ -1072,19 +1063,19 @@
     "message": "Synka med mobil"
   },
   "syncWithMobileDesc": {
-    "message": "Du kan nu synka dina konton och din information med din mobil-enhet. Öppna MetaMasks mobil-app, gå till \"Inställningar\" och tryck på \"Synka från webbläsartillägg\""
+    "message": "Du kan nu synka dina konton och din information med din mobil-enhet. Öppna ecf-wallets mobil-app, gå till \"Inställningar\" och tryck på \"Synka från webbläsartillägg\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Om du öppnar MetaMask mobilapplikation för första gången behöver du bara följa stegen som visas i telefonen."
+    "message": "Om du öppnar ecf-wallet mobilapplikation för första gången behöver du bara följa stegen som visas i telefonen."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Skanna den här koden med din MetaMask mobilapplikation"
+    "message": "Skanna den här koden med din ecf-wallet mobilapplikation"
   },
   "syncWithMobileBeCareful": {
     "message": "Försäkra dig om att ingen tittar på din skärm när du skannar denna kod"
   },
   "syncWithMobileComplete": {
-    "message": "Din data har nu synkats. Ha det så kul med MetaMasks mobil-app!"
+    "message": "Din data har nu synkats. Ha det så kul med ecf-wallets mobil-app!"
   },
   "terms": {
     "message": "Användarvillkor"

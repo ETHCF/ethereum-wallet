@@ -16,7 +16,7 @@ describe('UserPreferencedCurrencyInput container', function () {
   describe('mapStateToProps()', function () {
     it('should return the correct props', function () {
       const mockState = {
-        metamask: {
+        ecfWallet: {
           preferences: {
             useNativeCurrencyAsPrimaryCurrency: true,
           },

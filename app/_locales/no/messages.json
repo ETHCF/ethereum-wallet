@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Nettleseren din støttes ikke ..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask ble bygget og designet i California."
-  },
   "off": {
     "message": "Av"
   },
@@ -355,9 +352,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Hvis du trenger å sikkerhetskopiere seed-frasen din igjen kan du finne den i Innstillinger -> Sikkerhet."
-  },
-  "endOfFlowMessage7": {
-    "message": "Hvis du noen gang har spørsmål eller ser noe mistenksomt, send e-post til support@metamask.io"
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet klarer ikke å gjenopprette den mnemoniske gjenopprettingsfrasen din. Finn ut mer. "
@@ -614,10 +608,10 @@
   "message": {
     "message": "Melding "
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Kobler deg til Ethereum og det desentraliserte nettet."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet-versjon "
   },
   "mobileSyncText": {
@@ -679,7 +673,7 @@
   "newNetwork": {
     "message": "Nytt nettverk "
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Ny på ECF Wallet? "
   },
   "noAlreadyHaveSeed": {
@@ -690,9 +684,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Vær forsiktig med den mnemoniske gjenopprettingsfrasen din - det rapporteres om nettsteder som prøver å etterligne ECF Wallet. ECF Wallet vil aldri be om den mnemoniske gjenopprettingsfrasen din!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Oppbevar setningen din trygt. Hvis du ser noe mistenksomt, eller du er usikker på et nettsted, kan du sende en e-post til support@metamask.io"
   },
   "rpcUrl": {
     "message": "NY RPC-URL "
@@ -1066,19 +1057,19 @@
     "message": "Synkronisér med mobil"
   },
   "syncWithMobileDesc": {
-    "message": "Du kan synkronisere kontoene og informasjonen din med den mobile enheten din. Åpne mobilappen for MetaMask, gå til \"Innstillinger\" og trykk på \"Synkronisering fra nettleserutvidelse\""
+    "message": "Du kan synkronisere kontoene og informasjonen din med den mobile enheten din. Åpne mobilappen for ecf-wallet, gå til \"Innstillinger\" og trykk på \"Synkronisering fra nettleserutvidelse\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Hvis du åpner mobilappen for MetaMask for første gang, følger du bare trinnene på telefonen."
+    "message": "Hvis du åpner mobilappen for ecf-wallet for første gang, følger du bare trinnene på telefonen."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Skann denne koden med din mobilapp for MetaMask"
+    "message": "Skann denne koden med din mobilapp for ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Pass på at ingen andre ser på skjermen din mens du skanner denne koden "
   },
   "syncWithMobileComplete": {
-    "message": "Dataene dine er blitt synkronisert med suksess. Kos deg med mobilappen for MetaMask!"
+    "message": "Dataene dine er blitt synkronisert med suksess. Kos deg med mobilappen for ecf-wallet!"
   },
   "terms": {
     "message": "Brukervilkår"

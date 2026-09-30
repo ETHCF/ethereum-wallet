@@ -5,10 +5,10 @@ import rootReducer from '../ducks'
 
 export default function configureStore (initialState) {
   const composeEnhancers = composeWithDevTools({
-    name: 'MetaMask',
+    name: 'ecf-wallet',
     hostname: 'localhost',
     port: 8000,
-    realtime: Boolean(process.env.METAMASK_DEBUG),
+    realtime: Boolean(process.env.ECF_WALLET_DEBUG),
   })
   return createStore(rootReducer, initialState, composeEnhancers(
     applyMiddleware(

@@ -18,7 +18,7 @@ describe('Manifest V3 lifecycle', function () {
       await driver.clickElement(By.css('[data-testid="advanced-setting-auto-lock"] button'))
       await driver.wait(async () => driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
-        chrome.alarms.get('metamask-auto-lock', alarm => done(Boolean(alarm)));
+        chrome.alarms.get('ecf-wallet-auto-lock', alarm => done(Boolean(alarm)));
       `))
       await driver.driver.get('about:blank')
       const getWorkers = async () => {
@@ -76,7 +76,7 @@ describe('Manifest V3 lifecycle', function () {
       await driver.findElement(By.id('password'))
       await driver.wait(async () => driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
-        chrome.storage.session.get('metamaskVaultKey', value => done(!value.metamaskVaultKey));
+        chrome.storage.session.get('ecfWalletVaultKey', value => done(!value.ecfWalletVaultKey));
       `))
       await driver.driver.get('about:blank')
       await driver.driver.sendAndGetDevToolsCommand('ServiceWorker.stopAllWorkers', {})

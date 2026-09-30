@@ -21,7 +21,7 @@ export default {
       const newState = transformState(state)
       versionedData.data = newState
     } catch (err) {
-      console.warn(`MetaMask Migration #${version}${err.stack}`)
+      console.warn(`ecf-wallet Migration #${version}${err.stack}`)
     }
     return Promise.resolve(versionedData)
   },
@@ -41,12 +41,12 @@ function transformState (state) {
 
       const confirmedTxs = txList.filter((tx) => tx.status === 'confirmed')
         .filter((tx) => tx.txParams.from === txMeta.txParams.from)
-        .filter((tx) => tx.metamaskNetworkId.from === txMeta.metamaskNetworkId.from)
+        .filter((tx) => tx.ecfWalletNetworkId.from === txMeta.ecfWalletNetworkId.from)
       const highestConfirmedNonce = getHighestNonce(confirmedTxs)
 
       const pendingTxs = txList.filter((tx) => tx.status === 'submitted')
         .filter((tx) => tx.txParams.from === txMeta.txParams.from)
-        .filter((tx) => tx.metamaskNetworkId.from === txMeta.metamaskNetworkId.from)
+        .filter((tx) => tx.ecfWalletNetworkId.from === txMeta.ecfWalletNetworkId.from)
       const highestContinuousNonce = getHighestContinuousFrom(pendingTxs, highestConfirmedNonce)
 
       const maxNonce = Math.max(highestContinuousNonce, highestConfirmedNonce)

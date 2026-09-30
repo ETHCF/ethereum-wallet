@@ -13,7 +13,7 @@ const Ganache = require('./ganache')
 
 const ganacheServer = new Ganache()
 
-describe('Using MetaMask with an existing account', function () {
+describe('Using ecf-wallet with an existing account', function () {
   let driver
 
   const testSeedPhrase = 'forum vessel pink push lonely enact gentle tail admit parrot grunt dress'
@@ -88,7 +88,7 @@ describe('Using MetaMask with an existing account', function () {
     })
   })
 
-  describe('Send ETH from inside MetaMask', function () {
+  describe('Send ETH from inside ecf-wallet', function () {
     it('starts a send transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`))
       await driver.delay(regularDelayMs)

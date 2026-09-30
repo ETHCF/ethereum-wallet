@@ -41,7 +41,7 @@ describe('Modern transaction pipeline', function () {
         ...(type === '0x1' ? { gasPrice: '0x64' } : { maxFeePerGas: '0xc8', maxPriorityFeePerGas: '0x2' }),
         ...(type === '0x4' ? { authorizationList } : {}),
       }
-      const meta = await tx.addUnapprovedTransaction(params, 'metamask')
+      const meta = await tx.addUnapprovedTransaction(params, 'ecf-wallet')
       const raw = await tx.signTransaction(meta.id)
       assert.equal(raw.slice(0, 4), `0x0${Number(type)}`)
       const signed = decodeTransaction(raw, 1337)
@@ -61,11 +61,11 @@ describe('Modern transaction pipeline', function () {
 
   it('defaults to EIP-1559 on London networks and preserves explicit legacy requests', async function () {
     const { tx } = controller()
-    const meta = await tx.addUnapprovedTransaction({ ...base, gasPrice: '0x78' }, 'metamask')
+    const meta = await tx.addUnapprovedTransaction({ ...base, gasPrice: '0x78' }, 'ecf-wallet')
     assert.equal(meta.txParams.type, '0x2')
     assert.equal(meta.txParams.maxFeePerGas, '0xca')
     assert.equal(meta.txParams.gasPrice, undefined)
-    const legacy = await tx.addUnapprovedTransaction({ ...base, type: '0x0', gasPrice: '0x78' }, 'metamask')
+    const legacy = await tx.addUnapprovedTransaction({ ...base, type: '0x0', gasPrice: '0x78' }, 'ecf-wallet')
     assert.equal(legacy.txParams.gasPrice, '0x78')
     assert.equal(legacy.txParams.maxFeePerGas, undefined)
   })
@@ -73,9 +73,9 @@ describe('Modern transaction pipeline', function () {
   it('falls back on pre-London networks and rejects explicitly requested fee-market transactions', async function () {
     const { tx, scaffold } = controller()
     delete scaffold.eth_getBlockByNumber.baseFeePerGas
-    const meta = await tx.addUnapprovedTransaction(base, 'metamask')
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet')
     assert.equal(meta.txParams.gasPrice, '0x78')
-    await assert.rejects(tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'metamask'), /does not support EIP-1559/u)
+    await assert.rejects(tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'ecf-wallet'), /does not support EIP-1559/u)
   })
 
   it('rejects blobs, mismatched chains, external authorizations, and invalid fee combinations', async function () {
@@ -95,14 +95,14 @@ describe('Modern transaction pipeline', function () {
     tx.getSigningChainId = () => '0x539'
     const params = { ...base, type: '0x2' }
     delete params.chainId
-    const meta = await tx.addUnapprovedTransaction(params, 'metamask')
+    const meta = await tx.addUnapprovedTransaction(params, 'ecf-wallet')
     tx.getSigningChainId = () => '0x1'
     await assert.rejects(tx.signTransaction(meta.id), /chainId/u)
   })
 
   it('rejects a signer that changes the approved payload', async function () {
     const { tx } = controller()
-    const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'metamask')
+    const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'ecf-wallet')
     tx.signEthTx = async () => createTransaction({ ...meta.txParams, value: '0x2' }, 1337).sign(key)
     await assert.rejects(tx.signTransaction(meta.id), /does not match/u)
   })
@@ -111,13 +111,13 @@ describe('Modern transaction pipeline', function () {
     const { tx } = controller()
     const params = { ...base, type: '0x2', accessList }
     delete params.gas
-    const meta = await tx.addUnapprovedTransaction(params, 'metamask')
+    const meta = await tx.addUnapprovedTransaction(params, 'ecf-wallet')
     assert.equal(meta.txParams.gas, '0xafc8')
   })
 
   it('bumps both fee caps and preserves the original nonce for speed-up and cancellation', async function () {
     const { tx } = controller()
-    const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2', accessList }, 'metamask')
+    const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2', accessList }, 'ecf-wallet')
     tx.nonceTracker.getNonceLock = async () => ({ nextNonce: 99, releaseLock: () => undefined })
     tx.publishTransaction = async (id) => tx.txStateManager.setTxStatusSubmitted(id)
     const replacement = await tx.createSpeedUpTransaction(meta.id)

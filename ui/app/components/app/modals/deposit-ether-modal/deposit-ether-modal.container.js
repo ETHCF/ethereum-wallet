@@ -4,7 +4,7 @@ import DepositEtherModal from './deposit-ether-modal.component'
 
 function mapStateToProps (state) {
   return {
-    network: state.metamask.network,
+    network: state.ecfWallet.network,
   }
 }
 

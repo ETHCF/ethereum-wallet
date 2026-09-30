@@ -1,8 +1,8 @@
 import * as actionConstants from '../../store/actionConstants'
 import { ALERT_TYPES } from '../../../../app/scripts/controllers/alert'
 
-export default function reduceMetamask (state = {}, action) {
-  const metamaskState = {
+export default function reduceEcfWallet (state = {}, action) {
+  const ecfWalletState = {
     isInitialized: false,
     isUnlocked: false,
     isAccountMenuOpen: false,
@@ -49,18 +49,18 @@ export default function reduceMetamask (state = {}, action) {
 
   switch (action.type) {
 
-    case actionConstants.UPDATE_METAMASK_STATE:
-      return { ...metamaskState, ...action.value }
+    case actionConstants.UPDATE_ECF_WALLET_STATE:
+      return { ...ecfWalletState, ...action.value }
 
-    case actionConstants.LOCK_METAMASK:
+    case actionConstants.LOCK_ECF_WALLET:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         isUnlocked: false,
       }
 
     case actionConstants.SET_RPC_TARGET:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         provider: {
           type: 'rpc',
           rpcTarget: action.value,
@@ -69,7 +69,7 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.SET_PROVIDER_TYPE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         provider: {
           type: action.value,
         },
@@ -77,7 +77,7 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.SHOW_ACCOUNT_DETAIL:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         isUnlocked: true,
         isInitialized: true,
         selectedAddress: action.value,
@@ -87,13 +87,13 @@ export default function reduceMetamask (state = {}, action) {
       const { account } = action.value
       const name = action.value.label
       const id = {}
-      id[account] = { ...metamaskState.identities[account], name }
-      const identities = { ...metamaskState.identities, ...id }
-      return Object.assign(metamaskState, { identities })
+      id[account] = { ...ecfWalletState.identities[account], name }
+      const identities = { ...ecfWalletState.identities, ...id }
+      return Object.assign(ecfWalletState, { identities })
     }
 
     case actionConstants.SET_CURRENT_FIAT:
-      return Object.assign(metamaskState, {
+      return Object.assign(ecfWalletState, {
         currentCurrency: action.value.currentCurrency,
         conversionRate: action.value.conversionRate,
         conversionDate: action.value.conversionDate,
@@ -101,71 +101,71 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.UPDATE_TOKENS:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         tokens: action.newTokens,
       }
 
-    // metamask.send
+    // ecf-wallet.send
     case actionConstants.UPDATE_GAS_LIMIT:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           gasLimit: action.value,
         },
       }
     case actionConstants.UPDATE_CUSTOM_NONCE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         customNonceValue: action.value,
       }
     case actionConstants.UPDATE_GAS_PRICE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           gasPrice: action.value,
         },
       }
 
     case actionConstants.TOGGLE_ACCOUNT_MENU:
       return {
-        ...metamaskState,
-        isAccountMenuOpen: !metamaskState.isAccountMenuOpen,
+        ...ecfWalletState,
+        isAccountMenuOpen: !ecfWalletState.isAccountMenuOpen,
       }
 
     case actionConstants.UPDATE_GAS_TOTAL:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           gasTotal: action.value,
         },
       }
 
     case actionConstants.UPDATE_SEND_TOKEN_BALANCE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           tokenBalance: action.value,
         },
       }
 
     case actionConstants.UPDATE_SEND_HEX_DATA:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           data: action.value,
         },
       }
 
     case actionConstants.UPDATE_SEND_TO:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           to: action.value.to,
           toNickname: action.value.nickname,
         },
@@ -173,33 +173,33 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.UPDATE_SEND_AMOUNT:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           amount: action.value,
         },
       }
 
     case actionConstants.UPDATE_MAX_MODE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           maxModeOn: action.value,
         },
       }
 
     case actionConstants.UPDATE_SEND:
-      return Object.assign(metamaskState, {
+      return Object.assign(ecfWalletState, {
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           ...action.value,
         },
       })
 
     case actionConstants.UPDATE_SEND_TOKEN: {
       const newSend = {
-        ...metamaskState.send,
+        ...ecfWalletState.send,
         token: action.value,
       }
       // erase token-related state when switching back to native currency
@@ -222,16 +222,16 @@ export default function reduceMetamask (state = {}, action) {
           },
         })
       }
-      return Object.assign(metamaskState, {
+      return Object.assign(ecfWalletState, {
         send: newSend,
       })
     }
 
     case actionConstants.UPDATE_SEND_ENS_RESOLUTION:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           ensResolution: action.payload,
           ensResolutionError: '',
         },
@@ -239,9 +239,9 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.UPDATE_SEND_ENS_RESOLUTION_ERROR:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
-          ...metamaskState.send,
+          ...ecfWalletState.send,
           ensResolution: null,
           ensResolutionError: action.payload,
         },
@@ -249,7 +249,7 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.CLEAR_SEND:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         send: {
           gasLimit: null,
           gasPrice: null,
@@ -268,7 +268,7 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.UPDATE_TRANSACTION_PARAMS: {
       const { id: txId, value } = action
-      let { currentNetworkTxList } = metamaskState
+      let { currentNetworkTxList } = ecfWalletState
       currentNetworkTxList = currentNetworkTxList.map((tx) => {
         if (tx.id === txId) {
           const newTx = { ...tx }
@@ -279,53 +279,53 @@ export default function reduceMetamask (state = {}, action) {
       })
 
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         currentNetworkTxList,
       }
     }
 
     case actionConstants.SET_USE_BLOCKIE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         useBlockie: action.value,
       }
 
     case actionConstants.UPDATE_FEATURE_FLAGS:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         featureFlags: action.value,
       }
 
     case actionConstants.CLOSE_WELCOME_SCREEN:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         welcomeScreenSeen: true,
       }
 
     case actionConstants.SET_CURRENT_LOCALE:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         currentLocale: action.value.locale,
       }
 
     case actionConstants.SET_PENDING_TOKENS:
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         pendingTokens: { ...action.payload },
       }
 
     case actionConstants.CLEAR_PENDING_TOKENS: {
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         pendingTokens: {},
       }
     }
 
     case actionConstants.UPDATE_PREFERENCES: {
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         preferences: {
-          ...metamaskState.preferences,
+          ...ecfWalletState.preferences,
           ...action.payload,
         },
       }
@@ -333,36 +333,36 @@ export default function reduceMetamask (state = {}, action) {
 
     case actionConstants.COMPLETE_ONBOARDING: {
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         completedOnboarding: true,
       }
     }
 
     case actionConstants.SET_FIRST_TIME_FLOW_TYPE: {
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         firstTimeFlowType: action.value,
       }
     }
 
     case actionConstants.SET_NEXT_NONCE: {
       return {
-        ...metamaskState,
+        ...ecfWalletState,
         nextNonce: action.value,
       }
     }
 
     default:
-      return metamaskState
+      return ecfWalletState
   }
 }
 
-export const getCurrentLocale = (state) => state.metamask.currentLocale
+export const getCurrentLocale = (state) => state.ecfWallet.currentLocale
 
-export const getAlertEnabledness = (state) => state.metamask.alertEnabledness
+export const getAlertEnabledness = (state) => state.ecfWallet.alertEnabledness
 
 export const getUnconnectedAccountAlertEnabledness = (state) => getAlertEnabledness(state)[ALERT_TYPES.unconnectedAccount]
 
-export const getUnconnectedAccountAlertShown = (state) => state.metamask.unconnectedAccountAlertShownOrigins
+export const getUnconnectedAccountAlertShown = (state) => state.ecfWallet.unconnectedAccountAlertShownOrigins
 
-export const getTokens = (state) => state.metamask.tokens
+export const getTokens = (state) => state.ecfWallet.tokens

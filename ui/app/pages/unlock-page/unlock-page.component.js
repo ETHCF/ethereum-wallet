@@ -15,7 +15,7 @@ export default class UnlockPage extends Component {
     onImport: PropTypes.func,
     onRestore: PropTypes.func,
     onSubmit: PropTypes.func,
-    forceUpdateMetamaskState: PropTypes.func,
+    forceUpdateEcfWalletState: PropTypes.func,
   }
 
   state = {
@@ -38,7 +38,7 @@ export default class UnlockPage extends Component {
     event.stopPropagation()
 
     const { password } = this.state
-    const { onSubmit, forceUpdateMetamaskState } = this.props
+    const { onSubmit, forceUpdateEcfWalletState } = this.props
 
     if (password === '' || this.submitting) {
       return
@@ -49,11 +49,11 @@ export default class UnlockPage extends Component {
 
     try {
       await onSubmit(password)
-      await forceUpdateMetamaskState()
+      await forceUpdateEcfWalletState()
 
     } catch ({ message }) {
       if (message === 'Incorrect password') {
-        await forceUpdateMetamaskState()
+        await forceUpdateEcfWalletState()
 
       }
 

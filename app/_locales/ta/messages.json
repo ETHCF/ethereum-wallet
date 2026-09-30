@@ -49,9 +49,6 @@
   "blockiesIdenticon": {
     "message": "ப்ளாக்கிஸ் ஐடென்டிகோன் பயன்பாட்டு"
   },
-  "builtInCalifornia": {
-    "message": "மேடமஸ்க் வடிவமைக்கப்பட்டு கலிபோர்னியாவில் கட்டப்பட்டுள்ளது."
-  },
   "ok": {
     "message": "சரி"
   },
@@ -260,7 +257,7 @@
   "message": {
     "message": "செய்தி"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "மேடமஸ்க் என்பது ஒரு பாதுகாப்பான அடையாள வால்ட் எதெரியும்"
   },
   "myAccounts": {

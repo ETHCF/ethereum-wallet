@@ -2,7 +2,7 @@ import React, { Component, createContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { getMessage } from '../helpers/utils/i18n-helper'
-import { getCurrentLocale } from '../ducks/metamask/metamask'
+import { getCurrentLocale } from '../ducks/ecf-wallet/ecf-wallet'
 import { getCurrentLocaleMessages, getEnLocaleMessages } from '../ducks/locale/locale'
 
 export const I18nContext = createContext((key) => `[${key}]`)

@@ -31,7 +31,7 @@ import {
   getCustomNonceValue,
   getIsMainnet,
   getKnownMethodData,
-  getMetaMaskAccounts,
+  getEcfWalletAccounts,
   getUseNonceField,
   getPreferences,
   transactionFeeSelector,
@@ -57,7 +57,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id: paramsTransactionId } = params
   const { showFiatInTestnets } = getPreferences(state)
   const isMainnet = getIsMainnet(state)
-  const { confirmTransaction, metamask } = state
+  const { confirmTransaction, ecfWallet } = state
   const {
     ensResolutionsByAddress,
     conversionRate,
@@ -67,7 +67,7 @@ const mapStateToProps = (state, ownProps) => {
     network,
     unapprovedTxs,
     nextNonce,
-  } = metamask
+  } = ecfWallet
   const {
     tokenData,
     txData,
@@ -86,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
     data,
   } = (transaction && transaction.txParams) || txParams
   const gasPrice = gasPriceForTransaction(transaction.txParams || txParams)
-  const accounts = getMetaMaskAccounts(state)
+  const accounts = getEcfWalletAccounts(state)
   const assetImage = assetImages[txParamsToAddress]
 
   const { balance } = accounts[fromAddress]
@@ -115,7 +115,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   const currentNetworkUnapprovedTxs = Object.keys(unapprovedTxs)
-    .filter((key) => unapprovedTxs[key].metamaskNetworkId === network)
+    .filter((key) => unapprovedTxs[key].ecfWalletNetworkId === network)
     .reduce((acc, key) => ({ ...acc, [key]: unapprovedTxs[key] }), {})
   const unapprovedTxCount = valuesFor(currentNetworkUnapprovedTxs).length
 

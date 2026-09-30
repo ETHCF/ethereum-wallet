@@ -36,7 +36,7 @@ describe('Hardware wallet connection', function () {
       const response = await driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
         chrome.runtime.sendMessage({
-          type: 'metamask-hardware-request', id: 'unauthorized',
+          type: 'ecf-wallet-hardware-request', id: 'unauthorized',
           keyringType: 'Ledger Hardware', method: 'unlock', args: [], state: { accounts: [] }
         }).then(result => done(result || null), () => done(null));
       `)

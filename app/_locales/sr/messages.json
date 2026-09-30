@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Vaš pregledač nije podržan..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask je dizajniran i izgrađen u Kaliforniji."
-  },
   "bytes": {
     "message": "Bajtovi"
   },
@@ -355,9 +352,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Ako treba ponovo da izradite rezervnu kopiju svoje početne fraze, možete je pronaći u Postavke -> Bezbednost."
-  },
-  "endOfFlowMessage7": {
-    "message": "Ako imate bilo kakvih pitanja ili primetite nešto sumnjivo, pošaljite e-poruku na support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet ne može da oporavi vašu početnu frazu. Saznajte više."
@@ -615,10 +609,10 @@
   "message": {
     "message": "Poruka"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Povezivanje na Ethereum i decentralizovani veb."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet verzija"
   },
   "mobileSyncText": {
@@ -680,7 +674,7 @@
   "newNetwork": {
     "message": "Nova mreža"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Novi ste u ECF Wallet-u?"
   },
   "noAlreadyHaveSeed": {
@@ -1082,19 +1076,19 @@
     "message": "Sinhronizujte sa mobilnim uređajem"
   },
   "syncWithMobileDesc": {
-    "message": "Možete sinhronizovati vaše naloge i informacije sa svojim mobilnim uređajem. Otvorite mobilnu aplikaciju MetaMask, idite na \"Podešavanja\" i pritisnite \"Sinhronizuj iz ekstenzije za pregledač\""
+    "message": "Možete sinhronizovati vaše naloge i informacije sa svojim mobilnim uređajem. Otvorite mobilnu aplikaciju ecf-wallet, idite na \"Podešavanja\" i pritisnite \"Sinhronizuj iz ekstenzije za pregledač\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ako prvi put otvorite aplikaciju MetaMask Mobile, samo sledite korake u svom telefonu."
+    "message": "Ako prvi put otvorite aplikaciju ecf-wallet Mobile, samo sledite korake u svom telefonu."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Skenirajte ovaj kod uz pomoć svoje MetaMask mobilne aplikacije"
+    "message": "Skenirajte ovaj kod uz pomoć svoje ecf-wallet mobilne aplikacije"
   },
   "syncWithMobileBeCareful": {
     "message": "Obratite pažnju da niko drugi ne gleda u vaš ekran kad skenirate ovaj kod"
   },
   "syncWithMobileComplete": {
-    "message": "Vaši podaci su uspešno sinhronizovani. Uživajte u mobilnoj aplikaciji MetaMask!"
+    "message": "Vaši podaci su uspešno sinhronizovani. Uživajte u mobilnoj aplikaciji ecf-wallet!"
   },
   "terms": {
     "message": "Uslovi korišćenja"

@@ -8,13 +8,13 @@ import {
 import SecurityTab from './security-tab.component'
 
 const mapStateToProps = (state) => {
-  const { appState: { warning }, metamask } = state
+  const { appState: { warning }, ecfWallet } = state
   const {
     featureFlags: {
       showIncomingTransactions,
     } = {},
     usePhishDetect,
-  } = metamask
+  } = ecfWallet
 
   return {
     warning,

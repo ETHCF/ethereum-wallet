@@ -4,7 +4,7 @@ import { getMostRecentOverviewPage } from '../../ducks/history/history'
 import NewAccountCreateForm from './new-account.component'
 
 const mapStateToProps = (state) => {
-  const { metamask: { network, selectedAddress, identities = {} } } = state
+  const { ecfWallet: { network, selectedAddress, identities = {} } } = state
   const numberOfExistingAccounts = Object.keys(identities).length
   const newAccountNumber = numberOfExistingAccounts + 1
 

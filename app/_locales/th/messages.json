@@ -52,9 +52,6 @@
   "blockiesIdenticon": {
     "message": "ใช้งาน Blockies Identicon"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask ออกแบบและพัฒนาที่แคลิฟอร์เนีย"
-  },
   "on": {
     "message": "เปิด"
   },
@@ -305,7 +302,7 @@
   "message": {
     "message": "ข้อความ"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet คือที่เก็บตัวตนนิรภัยสำหรับอีเธอเรียม"
   },
   "myAccounts": {
@@ -346,7 +343,7 @@
   "newPassword": {
     "message": "รหัสผ่านใหม่(ขั้นต่ำ 8 ตัวอักษร)"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "เพิ่งเริ่มใช้ ECF Wallet?"
   },
   "newTransactionFee": {
@@ -511,7 +508,7 @@
     "message": "สัญลักษณ์จะต้องมีความยาว 11 ตัวอักษร"
   },
   "syncWithMobileComplete": {
-    "message": "ซิงค์ข้อมูลของคุณเรียบร้อยแล้ว ใช้แอพ MetaMask ให้สนุกนะ!"
+    "message": "ซิงค์ข้อมูลของคุณเรียบร้อยแล้ว ใช้แอพ ecf-wallet ให้สนุกนะ!"
   },
   "terms": {
     "message": "ข้อตกลงในการใช้งาน"

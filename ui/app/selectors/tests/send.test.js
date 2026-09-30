@@ -169,7 +169,7 @@ describe('send selectors', function () {
   describe('getPrimaryCurrency()', function () {
     it('should return the symbol of the send token', function () {
       assert.equal(
-        getPrimaryCurrency({ metamask: { send: { token: { symbol: 'DEF' } } } }),
+        getPrimaryCurrency({ ecfWallet: { send: { token: { symbol: 'DEF' } } } }),
         'DEF',
       )
     })
@@ -179,7 +179,7 @@ describe('send selectors', function () {
     it('should return the current send token if set', function () {
       assert.deepEqual(
         getSendToken({
-          metamask: {
+          ecfWallet: {
             send: {
               token: {
                 address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
@@ -202,7 +202,7 @@ describe('send selectors', function () {
     it('should return the contract at the send token address', function () {
       assert.equal(
         getSendTokenContract({
-          metamask: {
+          ecfWallet: {
             send: {
               token: {
                 address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
@@ -217,9 +217,9 @@ describe('send selectors', function () {
     })
 
     it('should return null if send token is not set', function () {
-      const modifiedMetamaskState = { ...mockState.metamask, send: {} }
+      const modifiedEcfWalletState = { ...mockState.ecfWallet, send: {} }
       assert.equal(
-        getSendTokenContract({ ...mockState, metamask: modifiedMetamaskState }),
+        getSendTokenContract({ ...mockState, ecfWallet: modifiedEcfWalletState }),
         null,
       )
     })
@@ -280,8 +280,8 @@ describe('send selectors', function () {
 
     it('should get the selected account balance if the send.from does not exist', function () {
       const editedMockState = {
-        metamask: {
-          ...mockState.metamask,
+        ecfWallet: {
+          ...mockState.ecfWallet,
           send: {
             from: null,
           },
@@ -309,8 +309,8 @@ describe('send selectors', function () {
 
     it('should return the current account if send.from does not exist', function () {
       const editedMockState = {
-        metamask: {
-          ...mockState.metamask,
+        ecfWallet: {
+          ...mockState.ecfWallet,
           send: {
             from: null,
           },
@@ -408,13 +408,13 @@ describe('send selectors', function () {
             time: 1487363153561,
             status: 'unapproved',
             gasMultiplier: 1,
-            metamaskNetworkId: '3',
+            ecfWalletNetworkId: '3',
             txParams: {
               from: '0xc5b8dbac4c1d3f152cdeb400e2313f309c410acb',
               to: '0x18a3462427bcc9133bb46e88bcbe39cd7ef0e761',
               value: '0xde0b6b3a7640000',
-              metamaskId: 4768706228115573,
-              metamaskNetworkId: '3',
+              ecfWalletId: 4768706228115573,
+              ecfWalletNetworkId: '3',
               gas: '0x5209',
             },
             txFee: '17e0186e60800',
@@ -513,9 +513,9 @@ describe('send selectors', function () {
 
   describe('send-header selectors', function () {
 
-    const getMetamaskSendMockState = (send) => {
+    const getEcfWalletSendMockState = (send) => {
       return {
-        metamask: {
+        ecfWallet: {
           send: { ...send },
         },
       }
@@ -523,13 +523,13 @@ describe('send selectors', function () {
 
     describe('getTitleKey()', function () {
       it('should return the correct key when "to" is empty', function () {
-        assert.equal(getTitleKey(getMetamaskSendMockState({})), 'addRecipient')
+        assert.equal(getTitleKey(getEcfWalletSendMockState({})), 'addRecipient')
       })
 
       it('should return the correct key when getSendEditingTransactionId is truthy', function () {
         assert.equal(
           getTitleKey(
-            getMetamaskSendMockState({
+            getEcfWalletSendMockState({
               to: true,
               editingTransactionId: true,
               token: {},
@@ -541,7 +541,7 @@ describe('send selectors', function () {
       it('should return the correct key when getSendEditingTransactionId is falsy and getSendToken is truthy', function () {
         assert.equal(
           getTitleKey(
-            getMetamaskSendMockState({
+            getEcfWalletSendMockState({
               to: true,
               editingTransactionId: false,
               token: {},
@@ -553,7 +553,7 @@ describe('send selectors', function () {
       it('should return the correct key when getSendEditingTransactionId is falsy and getSendToken is falsy', function () {
         assert.equal(
           getTitleKey(
-            getMetamaskSendMockState({
+            getEcfWalletSendMockState({
               to: true,
               editingTransactionId: false,
               token: null,

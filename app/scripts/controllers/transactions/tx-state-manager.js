@@ -45,13 +45,13 @@ export default class TransactionStateManager extends EventEmitter {
   generateTxMeta (opts) {
     const netId = this.getNetwork()
     if (netId === 'loading') {
-      throw new Error('MetaMask is having trouble connecting to the network')
+      throw new Error('ecf-wallet is having trouble connecting to the network')
     }
     return {
       id: createId(),
       time: (new Date()).getTime(),
       status: 'unapproved',
-      metamaskNetworkId: netId,
+      ecfWalletNetworkId: netId,
       loadingDefaults: true, ...opts,
     }
   }
@@ -72,7 +72,7 @@ export default class TransactionStateManager extends EventEmitter {
     const txs = []
     for (let i = fullTxList.length - 1; i > -1; i--) {
       const txMeta = fullTxList[i]
-      if (txMeta.metamaskNetworkId !== network) {
+      if (txMeta.ecfWalletNetworkId !== network) {
         continue
       }
 
@@ -431,7 +431,7 @@ export default class TransactionStateManager extends EventEmitter {
     @param {erroObject} err - error object
   */
   setTxStatusFailed (txId, err) {
-    const error = err || new Error('Internal metamask failure')
+    const error = err || new Error('Internal ecf-wallet failure')
 
     const txMeta = this.getTx(txId)
     txMeta.err = {
@@ -454,7 +454,7 @@ export default class TransactionStateManager extends EventEmitter {
     const network = this.getNetwork()
 
     // Filter out the ones from the current account and network
-    const otherAccountTxs = txs.filter((txMeta) => !(txMeta.txParams.from === address && txMeta.metamaskNetworkId === network))
+    const otherAccountTxs = txs.filter((txMeta) => !(txMeta.txParams.from === address && txMeta.ecfWalletNetworkId === network))
 
     // Update state
     this._saveTxList(otherAccountTxs)

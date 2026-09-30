@@ -7,7 +7,7 @@ set -o pipefail
 
 retry () {
   retry=0
-  limit="${METAMASK_E2E_RETRY_LIMIT:-3}"
+  limit="${ECF_WALLET_E2E_RETRY_LIMIT:-3}"
   while [[ $retry -lt $limit ]]
   do
     "$@" && break
@@ -33,14 +33,14 @@ retry concurrently --kill-others \
   --prefix '[{time}][{name}]' \
   --success first \
   'yarn dapp' \
-  'mocha test/e2e/metamask-ui.spec'
+  'mocha test/e2e/ecf-wallet-ui.spec'
 
 retry concurrently --kill-others \
   --names 'dapp,e2e' \
   --prefix '[{time}][{name}]' \
   --success first \
   'yarn dapp' \
-  'mocha test/e2e/metamask-responsive-ui.spec'
+  'mocha test/e2e/ecf-wallet-responsive-ui.spec'
 
 retry concurrently --kill-others \
   --names 'dapp,e2e' \

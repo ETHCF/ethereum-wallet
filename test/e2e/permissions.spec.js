@@ -12,7 +12,7 @@ const Ganache = require('./ganache')
 
 const ganacheServer = new Ganache()
 
-describe('MetaMask', function () {
+describe('ecf-wallet', function () {
   let driver
   let publicAddress
 

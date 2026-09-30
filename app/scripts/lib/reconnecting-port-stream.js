@@ -37,7 +37,7 @@ export default class ReconnectingPortStream extends Duplex {
         this.push({
           name: 'provider', data: {
             jsonrpc: '2.0', id,
-            error: { code: 4900, message: 'MetaMask restarted. Please retry your request.' },
+            error: { code: 4900, message: 'ecf-wallet restarted. Please retry your request.' },
           },
         })
       }

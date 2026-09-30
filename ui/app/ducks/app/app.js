@@ -1,7 +1,7 @@
 import * as actionConstants from '../../store/actionConstants'
 
 // actionConstants
-const SET_THREEBOX_LAST_UPDATED = 'metamask/app/SET_THREEBOX_LAST_UPDATED'
+const SET_THREEBOX_LAST_UPDATED = 'ecf-wallet/app/SET_THREEBOX_LAST_UPDATED'
 
 export default function reduceApp (state = {}, action) {
   // default state
@@ -49,7 +49,7 @@ export default function reduceApp (state = {}, action) {
     show3BoxModalAfterImport: false,
     threeBoxLastUpdated: null,
     requestAccountTabs: {},
-    openMetaMaskTabs: {},
+    openEcfWalletTabs: {},
     currentWindowTab: {},
     ...state,
   }
@@ -155,7 +155,7 @@ export default function reduceApp (state = {}, action) {
         warning: null,
       }
 
-    case actionConstants.LOCK_METAMASK:
+    case actionConstants.LOCK_ECF_WALLET:
       return {
         ...appState,
         warning: null,
@@ -348,10 +348,10 @@ export default function reduceApp (state = {}, action) {
         requestAccountTabs: action.value,
       }
 
-    case actionConstants.SET_OPEN_METAMASK_TAB_IDS:
+    case actionConstants.SET_OPEN_ECF_WALLET_TAB_IDS:
       return {
         ...appState,
-        openMetaMaskTabs: action.value,
+        openEcfWalletTabs: action.value,
       }
 
     case actionConstants.SET_CURRENT_WINDOW_TAB:

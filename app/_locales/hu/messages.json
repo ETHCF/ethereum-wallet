@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Az ön böngészője nem támogatott..."
   },
-  "builtInCalifornia": {
-    "message": "A MetaMaskot Kaliforniában tervezték és hozták létre."
-  },
   "bytes": {
     "message": "Bájtok"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Ha ismét biztonsági másolatot kell készítenie a seed mondatról, megtalálja azt a Beállítások -> Biztonság menüben."
-  },
-  "endOfFlowMessage7": {
-    "message": "Ha bármilyen kérdése van, vagy valami gyanús dolgot tapasztal, írjon a support@metamask.io címre."
   },
   "endOfFlowMessage8": {
     "message": "A ECF Wallet nem tudta helyreállítani a seed mondatot. Tudjon meg többet."
@@ -617,10 +611,10 @@
   "message": {
     "message": "Üzenet"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Csatlakozás az Ethereumhoz és a decentralizált hálózathoz."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet verzió"
   },
   "mobileSyncText": {
@@ -639,7 +633,7 @@
     "message": "Legalább 1 tokent ki kell választania."
   },
   "needEtherInWallet": {
-    "message": "Ha a MetaMaskon keresztül szeretne interakcióba lépni decentralizált alkalmazással, ahhoz a tárcájában Ethernek kell lennie."
+    "message": "Ha a EcfWalleton keresztül szeretne interakcióba lépni decentralizált alkalmazással, ahhoz a tárcájában Ethernek kell lennie."
   },
   "needImportFile": {
     "message": "Ki kell választania az importálni kívánt fájlt.",
@@ -682,7 +676,7 @@
   "newNetwork": {
     "message": "Új hálózat"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Új a ECF Wallet-on?"
   },
   "noAlreadyHaveSeed": {
@@ -693,9 +687,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Vigyázzod a gyarapítási fázissal - olyan oldalakat jelentettek, amelyek a ECF Wallet-ot utánozzák. A ECF Wallet soha nem kéri el a gyarapítási fázisát."
-  },
-  "protectYourKeysMessage2": {
-    "message": "Őrizze biztonságos helyen a mondatot. Ha bármilyen gyanús dolgot tapasztal, vagy bizonytalan egy weboldalt illetően, írjon a support@metamask.io címre."
   },
   "rpcUrl": {
     "message": "Új RPC URL"
@@ -1084,19 +1075,19 @@
     "message": "Szinkronizálás mobillal"
   },
   "syncWithMobileDesc": {
-    "message": "Szinkronizálhatja fiókjait és adatait a mobilkészülékkel. Nyissa meg a MetaMask mobilalkalmazást, lépjen a \"Beállítások\" elemre, majd koppintson a \"Szinkronizálás a böngésző bővítményéből\" elemre."
+    "message": "Szinkronizálhatja fiókjait és adatait a mobilkészülékkel. Nyissa meg a ecf-wallet mobilalkalmazást, lépjen a \"Beállítások\" elemre, majd koppintson a \"Szinkronizálás a böngésző bővítményéből\" elemre."
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ha most először nyitja meg a MetaMask mobilalkalmazást, kövesse a telefonon megadott lépéseket."
+    "message": "Ha most először nyitja meg a ecf-wallet mobilalkalmazást, kövesse a telefonon megadott lépéseket."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Olvasd be ezt a kódot MetaMask mobilalkalmazásoddal"
+    "message": "Olvasd be ezt a kódot ecf-wallet mobilalkalmazásoddal"
   },
   "syncWithMobileBeCareful": {
     "message": "Győződjön meg arról, hogy senki nem látja a képernyőt, amikor beolvassa ezt a kódot"
   },
   "syncWithMobileComplete": {
-    "message": "Adatai szinkronizálása sikerült. Élvezze a MetaMask mobilalkalmazást!"
+    "message": "Adatai szinkronizálása sikerült. Élvezze a ecf-wallet mobilalkalmazást!"
   },
   "terms": {
     "message": "Használati feltételek"
@@ -1250,7 +1241,7 @@
     "message": "Üdvözöljük újra!"
   },
   "welcome": {
-    "message": "Üdvözöljük a MetaMaskban"
+    "message": "Üdvözöljük a EcfWalletban"
   },
   "writePhrase": {
     "message": "Írd le ezt a szókapcsolatot egy darab papírra és őrizd meg egy biztonságos helyen. Ha még nagyobb biztonságra törekszel, írd le több darab papírra, és tartsd őket 2-3 különböző helyen."

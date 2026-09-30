@@ -7,7 +7,7 @@ import Welcome from '..'
 
 describe('Welcome', function () {
   const mockStore = {
-    metamask: {},
+    ecfWallet: {},
   }
 
   const store = configureMockStore()(mockStore)

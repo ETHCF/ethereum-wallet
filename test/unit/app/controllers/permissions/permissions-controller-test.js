@@ -97,9 +97,9 @@ describe('permissions controller', function () {
       assert.deepEqual(cAccounts, [], 'origin should have no accounts')
     })
 
-    it('does not handle "metamask" origin as special case', async function () {
-      const metamaskAccounts = await permController.getAccounts('metamask')
-      assert.deepEqual(metamaskAccounts, [], 'origin should have no accounts')
+    it('does not handle "ecf-wallet" origin as special case', async function () {
+      const ecfWalletAccounts = await permController.getAccounts('ecf-wallet')
+      assert.deepEqual(ecfWalletAccounts, [], 'origin should have no accounts')
     })
   })
 

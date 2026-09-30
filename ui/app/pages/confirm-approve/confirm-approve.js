@@ -12,7 +12,7 @@ import {
   getTokenValue,
 } from '../../helpers/utils/token-util'
 import { useTokenTracker } from '../../hooks/useTokenTracker'
-import { getTokens } from '../../ducks/metamask/metamask'
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import {
   transactionFeeSelector,
   txDataSelector,

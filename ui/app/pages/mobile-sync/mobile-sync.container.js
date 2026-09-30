@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { displayWarning, requestRevealSeedWords, fetchInfoToSync, exportAccounts } from '../../store/actions'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
-import { getMetaMaskKeyrings } from '../../selectors'
+import { getEcfWalletKeyrings } from '../../selectors'
 import MobileSyncPage from './mobile-sync.component'
 
 const mapDispatchToProps = (dispatch) => {
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   const {
-    metamask: {
+    ecfWallet: {
       selectedAddress,
     },
   } = state
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
   return {
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
     selectedAddress,
-    keyrings: getMetaMaskKeyrings(state),
+    keyrings: getEcfWalletKeyrings(state),
   }
 }
 

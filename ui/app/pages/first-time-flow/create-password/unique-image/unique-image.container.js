@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import UniqueImage from './unique-image.component'
 
-const mapStateToProps = ({ metamask }) => {
-  const { selectedAddress } = metamask
+const mapStateToProps = ({ ecfWallet }) => {
+  const { selectedAddress } = ecfWallet
 
   return {
     address: selectedAddress,

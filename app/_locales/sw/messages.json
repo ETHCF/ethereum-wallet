@@ -149,9 +149,6 @@
   "browserNotSupported": {
     "message": "Kivinjari chaku hakiwezeshwi..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask imeundwa na kutengenezwa California."
-  },
   "off": {
     "message": "Kimezimwa"
   },
@@ -352,9 +349,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Ikiwa unataka kuhifadhi tena kwa njia mbadla kirai chako kianzio, unaweza kukipata kwenye Mipangilio -> Usalama."
-  },
-  "endOfFlowMessage7": {
-    "message": "Ikiwa una maswali au umeona kitu ambacho ni cha ulaghai, tuma barua pepe support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet haiwezi kurejesha kirai chako kianzio. Pata maelezo ziadi."
@@ -602,10 +596,10 @@
   "message": {
     "message": "Ujumbe"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Kukuunganisha kwenye Ethereum na Wavutiu Uliotawanywa."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Toleo la ECF Wallet"
   },
   "mobileSyncText": {
@@ -667,7 +661,7 @@
   "newNetwork": {
     "message": "Mtandao Mpya"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "ECF Wallet mpya?"
   },
   "noAlreadyHaveSeed": {
@@ -678,9 +672,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Kuwa mwangalifu na kirai kianzio chako - kumekuwa na taarifa za tovuti ambazo zinajaribu kuiga ECF Wallet. ECF Wallet kamwe haitakuomba kirai kianzio chako!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Weka salama kirai kianzio chako. Ikiwa unaona kitu cha kilaghai, au huna uhakika na tovuti fulani, tuma barua pepe kwenda support@metamask.io"
   },
   "rpcUrl": {
     "message": "RPC URL mpya"
@@ -1069,19 +1060,19 @@
     "message": "Oanisha na simu"
   },
   "syncWithMobileDesc": {
-    "message": "Unaweza kuoanisha akaunti zako na taarifa kwa kifaa chako cha simu ya mkononi. Fungua programu ya simu ya MetaMask, kisha nenda kwenye \"Mipangilio\" na bofya kwenye \"Oanisha kutoka kwenye Kiendelezi cha Kivinjari\""
+    "message": "Unaweza kuoanisha akaunti zako na taarifa kwa kifaa chako cha simu ya mkononi. Fungua programu ya simu ya ecf-wallet, kisha nenda kwenye \"Mipangilio\" na bofya kwenye \"Oanisha kutoka kwenye Kiendelezi cha Kivinjari\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ikiwa ndio umefungua tu programu ya simu ya MetaMask kwa mara ya kwanza, fuata hatua kwenye simu yako."
+    "message": "Ikiwa ndio umefungua tu programu ya simu ya ecf-wallet kwa mara ya kwanza, fuata hatua kwenye simu yako."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Kagua msimbo huu kwa kutumia programu yako ya simu ya MetaMask"
+    "message": "Kagua msimbo huu kwa kutumia programu yako ya simu ya ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Hakikisha hakuna mtu mwingine anayeangalia kwenye skrini yako unapokuwa unakagua msimbo huu."
   },
   "syncWithMobileComplete": {
-    "message": "Umefanikiwa kuoanisha data yako. Furahia programu yako ya simu ya MetaMask!"
+    "message": "Umefanikiwa kuoanisha data yako. Furahia programu yako ya simu ya ecf-wallet!"
   },
   "terms": {
     "message": "Masharti ya Matumizi"

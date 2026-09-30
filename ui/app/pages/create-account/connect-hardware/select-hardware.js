@@ -109,7 +109,7 @@ export default class SelectHardware extends Component {
 
   getAffiliateLinks () {
     const links = {
-      trezor: `<a class='hw-connect__get-hw__link' href='https://shop.trezor.io/?a=metamask' target='_blank'>Trezor</a>`,
+      trezor: `<a class='hw-connect__get-hw__link' href='https://shop.trezor.io/' target='_blank'>Trezor</a>`,
       ledger: `<a class='hw-connect__get-hw__link' href='https://www.ledger.com/products/ledger-nano-s?r=17c4991a03fa&tracker=MY_TRACKER' target='_blank'>Ledger</a>`,
     }
 
@@ -195,7 +195,7 @@ export default class SelectHardware extends Component {
         {this.renderButtons()}
         <p className="hw-connect__footer__msg">
           {this.context.t('havingTroubleConnecting')}
-          <a className="hw-connect__footer__link" href="https://support.metamask.io/" target="_blank" rel="noopener noreferrer">
+          <a className="hw-connect__footer__link" href="https://github.com/ETHCF/ethereum-wallet/issues/" target="_blank" rel="noopener noreferrer">
             {this.context.t('getHelp')}
           </a>
         </p>

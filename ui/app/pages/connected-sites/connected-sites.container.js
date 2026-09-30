@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import {
-  getOpenMetamaskTabsIds,
+  getOpenEcfWalletTabsIds,
   requestAccountsPermissionWithId,
   removePermissionsFor,
   removePermittedAccount,
@@ -19,7 +19,7 @@ import { getMostRecentOverviewPage } from '../../ducks/history/history'
 import ConnectedSites from './connected-sites.component'
 
 const mapStateToProps = (state) => {
-  const { openMetaMaskTabs } = state.appState
+  const { openEcfWalletTabs } = state.appState
   const { id } = state.activeTab
   const connectedDomains = getConnectedDomainsForSelectedAddress(state)
   const originOfCurrentTab = getOriginOfCurrentTab(state)
@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
   ]?.length
 
   let tabToConnect
-  if (originOfCurrentTab && currentTabHasNoAccounts && !openMetaMaskTabs[id]) {
+  if (originOfCurrentTab && currentTabHasNoAccounts && !openEcfWalletTabs[id]) {
     tabToConnect = {
       origin: originOfCurrentTab,
     }
@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOpenMetamaskTabsIds: () => dispatch(getOpenMetamaskTabsIds()),
+    getOpenEcfWalletTabsIds: () => dispatch(getOpenEcfWalletTabsIds()),
     disconnectAccount: (domainKey, address) => {
       dispatch(removePermittedAccount(domainKey, address))
     },

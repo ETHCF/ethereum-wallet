@@ -146,9 +146,6 @@
   "browserNotSupported": {
     "message": "Votre navigateur internet n'est pas supporté..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask est designé et developpé en Californie."
-  },
   "off": {
     "message": "Déconnecté"
   },
@@ -346,9 +343,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Si vous avez besoin de sauvegarder à nouveau votre phrase de départ, vous pouvez la trouver dans Paramètres -> Sécurité."
-  },
-  "endOfFlowMessage7": {
-    "message": "Si vous avez des questions ou remarquez quelque chose de suspect, envoyez un e-mail à : support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet ne peut pas récupérer votre phrase de départ. Renseignez-vous davantage."
@@ -606,10 +600,10 @@
   "memo": {
     "message": "note"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet est un coffre sécurisé pour votre identité sur Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Version de ECF Wallet"
   },
   "mobileSyncText": {
@@ -671,7 +665,7 @@
   "newNetwork": {
     "message": "Nouveau réseau"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Nouveau sur ECF Wallet ?"
   },
   "noAlreadyHaveSeed": {
@@ -682,9 +676,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Soyez prudent avec votre phrase mnémotechnique — on nous a signalé des sites web qui tentaient d'imiter ECF Wallet. ECF Wallet ne vous demandera jamais votre phrase mnémotechnique !"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Ne dévoilez pas votre phrase. Si vous remarquez quelque chose de suspect ou que vous avez un doute à propos d'un site web, envoyez un e-mail à : support@metamask.io"
   },
   "rpcUrl": {
     "message": "Nouvelle URL de RPC"
@@ -1073,19 +1064,19 @@
     "message": "Synchroniser avec le mobile"
   },
   "syncWithMobileDesc": {
-    "message": "Vous pouvez synchroniser vos comptes et vos informations avec votre appareil mobile. Ouvrez l'application mobile MetaMask, allez dans « Paramètres » et appuyez sur « Synchroniser depuis l'extension de navigateur »"
+    "message": "Vous pouvez synchroniser vos comptes et vos informations avec votre appareil mobile. Ouvrez l'application mobile ecf-wallet, allez dans « Paramètres » et appuyez sur « Synchroniser depuis l'extension de navigateur »"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Si vous ouvrez l'application MetaMask Mobile pour la première fois, suivez simplement les étapes dans votre téléphone."
+    "message": "Si vous ouvrez l'application ecf-wallet Mobile pour la première fois, suivez simplement les étapes dans votre téléphone."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Scannez ce code avec votre application mobile MetaMask"
+    "message": "Scannez ce code avec votre application mobile ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Assurez-vous que personne d'autre ne regarde votre écran lorsque vous scannez ce code."
   },
   "syncWithMobileComplete": {
-    "message": "Vos données ont été synchronisées avec succès. Profitez de l'application mobile MetaMask !"
+    "message": "Vos données ont été synchronisées avec succès. Profitez de l'application mobile ecf-wallet !"
   },
   "terms": {
     "message": "Conditions d'Utilisation"

@@ -49,9 +49,6 @@
   "blockiesIdenticon": {
     "message": "Použít Blockies Identicon"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask je navržen a vytvořen v Kalifornii."
-  },
   "cancel": {
     "message": "Zrušit"
   },
@@ -192,7 +189,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní MetaMaskovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní EcfWalletovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "imported": {
     "message": "Importováno",
@@ -250,7 +247,7 @@
   "message": {
     "message": "Zpráva"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
   },
   "myAccounts": {
@@ -260,7 +257,7 @@
     "message": "Musíte zvolit aspoň 1 token."
   },
   "needEtherInWallet": {
-    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí MetaMasku interagovat s decentralizovanými aplikacemi."
+    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí EcfWalletu interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",

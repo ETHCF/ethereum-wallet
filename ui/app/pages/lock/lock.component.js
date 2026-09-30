@@ -7,14 +7,14 @@ export default class Lock extends PureComponent {
   static propTypes = {
     history: PropTypes.object,
     isUnlocked: PropTypes.bool,
-    lockMetamask: PropTypes.func,
+    lockEcfWallet: PropTypes.func,
   }
 
   componentDidMount () {
-    const { lockMetamask, isUnlocked, history } = this.props
+    const { lockEcfWallet, isUnlocked, history } = this.props
 
     if (isUnlocked) {
-      lockMetamask().then(() => history.push(DEFAULT_ROUTE))
+      lockEcfWallet().then(() => history.push(DEFAULT_ROUTE))
     } else {
       history.replace(DEFAULT_ROUTE)
     }

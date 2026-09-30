@@ -146,9 +146,6 @@
   "browserNotSupported": {
     "message": "Váš prehliadač nie je podporovaný..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask je navržen a vytvořen v Kalifornii."
-  },
   "bytes": {
     "message": "Bajty"
   },
@@ -350,9 +347,6 @@
   "endOfFlowMessage6": {
     "message": "Ak potrebujete backup frázu znova zálohovať, nájdete ju v časti Nastavenia -> Zabezpečenie."
   },
-  "endOfFlowMessage7": {
-    "message": "Ak budete mať nejaké otázky alebo niečo zaujímavé, pošlite email na support@metamask.io."
-  },
   "endOfFlowMessage8": {
     "message": "ECF Wallet nemôže obnoviť vašu seed frázu. Zistiť viac."
   },
@@ -496,7 +490,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní MetaMaskovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní EcfWalletovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "importAccountSeedPhrase": {
     "message": "Importovať účet so seed frázou"
@@ -593,10 +587,10 @@
   "message": {
     "message": "Zpráva"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Verzia ECF Wallet"
   },
   "mobileSyncText": {
@@ -615,7 +609,7 @@
     "message": "Musíte zvolit aspoň 1 token."
   },
   "needEtherInWallet": {
-    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí MetaMasku interagovat s decentralizovanými aplikacemi."
+    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí EcfWalletu interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",
@@ -658,7 +652,7 @@
   "newNetwork": {
     "message": "Nová sieť"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Ste noví na ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -669,9 +663,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Pri seed fráze buďte opatrní – vyskytli sa správy o webových stránkach, ktoré sa snažia napodobniť ECF Wallet. ECF Wallet nikdy nebude žiadať vašu seed frázu!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Držte svoju frázu v bezpečí. Ak zbadáte niečo podozrivé alebo si nie ste istí webom, pošlite email na adresu support@metamask.io"
   },
   "rpcUrl": {
     "message": "Nová RPC URL"
@@ -1051,19 +1042,19 @@
     "message": "Synchronizácia s mobilom"
   },
   "syncWithMobileDesc": {
-    "message": "Svoje účty a informácie môžete synchronizovať so svojim mobilným zariadením. Otvorte mobilnú aplikáciu MetaMask, prejdite na „Nastavenia“ a kliknite na „Synchronizovať z rozšírenia prehliadača“."
+    "message": "Svoje účty a informácie môžete synchronizovať so svojim mobilným zariadením. Otvorte mobilnú aplikáciu ecf-wallet, prejdite na „Nastavenia“ a kliknite na „Synchronizovať z rozšírenia prehliadača“."
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ak otvoríte mobilnú aplikáciu MetaMask prvýkrát, postupujte podľa pokynov v telefóne."
+    "message": "Ak otvoríte mobilnú aplikáciu ecf-wallet prvýkrát, postupujte podľa pokynov v telefóne."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Naskenujte tento kód pomocou mobilnej aplikácie MetaMask"
+    "message": "Naskenujte tento kód pomocou mobilnej aplikácie ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Pri skenovaní tohto kódu sa uistite, že sa nikto iný nedíva na vašu obrazovku"
   },
   "syncWithMobileComplete": {
-    "message": "Vaše údaje boli úspešne synchronizované. Užite si mobilnú aplikáciu MetaMask!"
+    "message": "Vaše údaje boli úspešne synchronizované. Užite si mobilnú aplikáciu ecf-wallet!"
   },
   "terms": {
     "message": "Podmínky použití"

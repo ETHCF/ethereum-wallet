@@ -73,7 +73,7 @@ export default class Routes extends Component {
     setLastActiveTime: PropTypes.func,
     history: PropTypes.object,
     location: PropTypes.object,
-    lockMetaMask: PropTypes.func,
+    lockEcfWallet: PropTypes.func,
     submittedPendingTransactions: PropTypes.array,
     isMouseUser: PropTypes.bool,
     setMouseUserState: PropTypes.func,
@@ -257,10 +257,10 @@ export default class Routes extends Component {
     )
   }
 
-  toggleMetamaskActive () {
+  toggleEcfWalletActive () {
     if (this.props.isUnlocked) {
       // currently active: deactivate
-      this.props.lockMetaMask()
+      this.props.lockEcfWallet()
     } else {
       // currently inactive: redirect to password box
       const passwordBox = document.querySelector('input[type=password]')

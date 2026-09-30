@@ -13,34 +13,34 @@ import { getMostRecentOverviewPage } from '../../ducks/history/history'
 import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums'
 
 function mapStateToProps (state) {
-  const { metamask, appState } = state
+  const { ecfWallet, appState } = state
   const {
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-  } = metamask
+  } = ecfWallet
   const {
     txId,
   } = appState
 
   return {
-    identities: state.metamask.identities,
+    identities: state.ecfWallet.identities,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-    unapprovedTxs: state.metamask.unapprovedTxs,
-    unapprovedMsgs: state.metamask.unapprovedMsgs,
-    unapprovedPersonalMsgs: state.metamask.unapprovedPersonalMsgs,
-    unapprovedTypedMessages: state.metamask.unapprovedTypedMessages,
+    unapprovedTxs: state.ecfWallet.unapprovedTxs,
+    unapprovedMsgs: state.ecfWallet.unapprovedMsgs,
+    unapprovedPersonalMsgs: state.ecfWallet.unapprovedPersonalMsgs,
+    unapprovedTypedMessages: state.ecfWallet.unapprovedTypedMessages,
     index: txId,
     warning: state.appState.warning,
-    network: state.metamask.network,
-    provider: state.metamask.provider,
-    currentCurrency: state.metamask.currentCurrency,
-    blockGasLimit: state.metamask.currentBlockGasLimit,
+    network: state.ecfWallet.network,
+    provider: state.ecfWallet.provider,
+    currentCurrency: state.ecfWallet.currentCurrency,
+    blockGasLimit: state.ecfWallet.currentBlockGasLimit,
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
-    send: state.metamask.send,
-    currentNetworkTxList: state.metamask.currentNetworkTxList,
+    send: state.ecfWallet.send,
+    currentNetworkTxList: state.ecfWallet.currentNetworkTxList,
   }
 }
 
@@ -121,7 +121,7 @@ class ConfirmTxScreen extends Component {
   signMessage (msgData, event) {
     log.info('conf-tx.js: signing message')
     const params = msgData.msgParams
-    params.metamaskId = msgData.id
+    params.ecfWalletId = msgData.id
     this.stopPropagation(event)
     return this.props.dispatch(actions.signMsg(params))
   }
@@ -135,7 +135,7 @@ class ConfirmTxScreen extends Component {
   signPersonalMessage (msgData, event) {
     log.info('conf-tx.js: signing personal message')
     const params = msgData.msgParams
-    params.metamaskId = msgData.id
+    params.ecfWalletId = msgData.id
     this.stopPropagation(event)
     return this.props.dispatch(actions.signPersonalMsg(params))
   }
@@ -143,7 +143,7 @@ class ConfirmTxScreen extends Component {
   signTypedMessage (msgData, event) {
     log.info('conf-tx.js: signing typed message')
     const params = msgData.msgParams
-    params.metamaskId = msgData.id
+    params.ecfWalletId = msgData.id
     this.stopPropagation(event)
     return this.props.dispatch(actions.signTypedMsg(params))
   }

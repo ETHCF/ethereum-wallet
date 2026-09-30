@@ -133,9 +133,6 @@
   "browserNotSupported": {
     "message": "Tu navegador no está admitido..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask fue diseñado y construido en California"
-  },
   "cancel": {
     "message": "Cancelar"
   },
@@ -506,10 +503,10 @@
   "message": {
     "message": "Mensaje"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet es una identidad segura en Ethereum"
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Versión de ECF Wallet"
   },
   "myAccounts": {

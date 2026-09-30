@@ -5,15 +5,15 @@ import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { DEFAULT_ROUTE, RESTORE_VAULT_ROUTE } from '../../helpers/constants/routes'
 import {
-  tryUnlockMetamask,
+  tryUnlockEcfWallet,
   forgotPassword,
   markPasswordForgotten,
-  forceUpdateMetamaskState,
+  forceUpdateEcfWalletState,
 } from '../../store/actions'
 import UnlockPage from './unlock-page.component'
 
 const mapStateToProps = (state) => {
-  const { metamask: { isUnlocked } } = state
+  const { ecfWallet: { isUnlocked } } = state
   return {
     isUnlocked,
   }
@@ -22,15 +22,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     forgotPassword: () => dispatch(forgotPassword()),
-    tryUnlockMetamask: (password) => dispatch(tryUnlockMetamask(password)),
+    tryUnlockEcfWallet: (password) => dispatch(tryUnlockEcfWallet(password)),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
-    forceUpdateMetamaskState: () => forceUpdateMetamaskState(dispatch),
+    forceUpdateEcfWalletState: () => forceUpdateEcfWalletState(dispatch),
   }
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // eslint-disable-next-line no-shadow
-  const { markPasswordForgotten, tryUnlockMetamask, ...restDispatchProps } = dispatchProps
+  const { markPasswordForgotten, tryUnlockEcfWallet, ...restDispatchProps } = dispatchProps
   const { history, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps
 
   const onImport = async () => {
@@ -43,7 +43,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const onSubmit = async (password) => {
-    await tryUnlockMetamask(password)
+    await tryUnlockEcfWallet(password)
     history.push(DEFAULT_ROUTE)
   }
 

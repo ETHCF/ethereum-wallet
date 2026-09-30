@@ -78,7 +78,7 @@ Physical Ledger and Trezor devices still require manual integration testing.
 
 ## Transaction envelopes and signing
 
-The transaction implementation was compared with the companion current MetaMask
+The transaction implementation was compared with the companion current ecf-wallet
 checkout (`@metamask/transaction-controller` 72.0.1). Supported envelopes are:
 
 | Envelope | Software accounts | Ledger | Trezor |

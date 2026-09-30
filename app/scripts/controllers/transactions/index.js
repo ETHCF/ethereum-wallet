@@ -38,7 +38,7 @@ const MAX_MEMSTORE_TX_LIST_SIZE = 100 // Number of transactions (by unique nonce
 
 /**
   Transaction Controller is an aggregate of sub-controllers and trackers
-  composing them in a way to be exposed to the metamask controller
+  composing them in a way to be exposed to the ecf-wallet controller
     <br>- txStateManager
       responsible for the state of a transaction and
       storing the transaction
@@ -164,7 +164,7 @@ export default class TransactionController extends EventEmitter {
   */
   async newUnapprovedTransaction (txParams, opts = {}) {
 
-    log.debug(`MetaMaskController newUnapprovedTransaction ${JSON.stringify(txParams)}`)
+    log.debug(`EcfWalletController newUnapprovedTransaction ${JSON.stringify(txParams)}`)
 
     const initialTxMeta = await this.addUnapprovedTransaction(txParams, opts.origin)
 
@@ -175,11 +175,11 @@ export default class TransactionController extends EventEmitter {
           case 'submitted':
             return resolve(finishedTxMeta.hash)
           case 'rejected':
-            return reject(cleanErrorStack(ethErrors.provider.userRejectedRequest('MetaMask Tx Signature: User denied transaction signature.')))
+            return reject(cleanErrorStack(ethErrors.provider.userRejectedRequest('ecf-wallet Tx Signature: User denied transaction signature.')))
           case 'failed':
             return reject(cleanErrorStack(ethErrors.rpc.internal(finishedTxMeta.err.message)))
           default:
-            return reject(cleanErrorStack(ethErrors.rpc.internal(`MetaMask Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)))
+            return reject(cleanErrorStack(ethErrors.rpc.internal(`ecf-wallet Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)))
         }
       })
     })
@@ -197,7 +197,7 @@ export default class TransactionController extends EventEmitter {
     const normalizedTxParams = txUtils.normalizeTxParams(txParams)
 
     txUtils.validateTxParams(normalizedTxParams)
-    if (origin !== 'metamask' && (normalizedTxParams.authorizationList !== undefined || Number(normalizedTxParams.type) === 4)) {
+    if (origin !== 'ecf-wallet' && (normalizedTxParams.authorizationList !== undefined || Number(normalizedTxParams.type) === 4)) {
       throw new Error('External EIP-7702 transactions are not supported')
     }
     if (normalizedTxParams.chainId && Number(normalizedTxParams.chainId) !== this.getChainId()) {
@@ -216,7 +216,7 @@ export default class TransactionController extends EventEmitter {
       type: TRANSACTION_TYPE_STANDARD,
     })
 
-    if (origin === 'metamask') {
+    if (origin === 'ecf-wallet') {
       // Assert the from address is the selected address
       if (normalizedTxParams.from !== this.getSelectedAddress()) {
         throw ethErrors.rpc.internal({
@@ -301,7 +301,7 @@ export default class TransactionController extends EventEmitter {
     const feeMarket = isFeeMarketTransaction(params) || params.authorizationList !== undefined
     // An explicit legacy envelope/price remains a supported choice. The send
     // form's suggested legacy price is replaced by caps on London networks.
-    if (!feeMarket && ([0, 1].includes(requestedType) || (params.gasPrice && origin !== 'metamask'))) {
+    if (!feeMarket && ([0, 1].includes(requestedType) || (params.gasPrice && origin !== 'ecf-wallet'))) {
       return {
         gasPrice: params.gasPrice || await this._getDefaultGasPrice({ txParams: params }),
         ...(params.accessList && requestedType === undefined ? { type: '0x1' } : {}),
@@ -577,7 +577,7 @@ export default class TransactionController extends EventEmitter {
         (txMeta.txParams.chainId && Number(txMeta.txParams.chainId) !== chainId)) {
       throw new Error('Invalid transaction chainId for the selected network')
     }
-    if (Number(txParams.type) === 4 && txMeta.origin !== 'metamask') {
+    if (Number(txParams.type) === 4 && txMeta.origin !== 'ecf-wallet') {
       throw new Error('External EIP-7702 transactions are not supported')
     }
     if (Number(txParams.type)) {
@@ -595,7 +595,7 @@ export default class TransactionController extends EventEmitter {
       throw new Error('The signer returned an invalid transaction signature')
     }
 
-    // add r,s,v values for provider request purposes see createMetamaskMiddleware
+    // add r,s,v values for provider request purposes see createEcfWalletMiddleware
     // and JSON rpc standard for further explanation
     const signatureHex = (value) => (typeof value === 'bigint' ? `0x${value.toString(16)}` : ethUtil.bufferToHex(value))
     txMeta.r = signatureHex(ethTx.r)

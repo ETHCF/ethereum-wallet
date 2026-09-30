@@ -49,9 +49,6 @@
   "blockiesIdenticon": {
     "message": "Использовать Blockies Identicon"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask спроектирован и разработан в Калифорнии."
-  },
   "ok": {
     "message": "ОК"
   },
@@ -266,7 +263,7 @@
   "message": {
     "message": "Сообщение"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet – безопасный кошелек для Ethereum."
   },
   "myAccounts": {
@@ -703,9 +700,6 @@
   "endOfFlowMessage6": {
     "message": "Если вам нужно снова создать резервную копию исходной фразы, вы можете найти ее в «Настройки» -> «Безопасность»."
   },
-  "endOfFlowMessage7": {
-    "message": "Если у вас есть вопросы или вы видите что-то подозрительное, пишите на support@metamask.io."
-  },
   "endOfFlowMessage8": {
     "message": "ECF Wallet не может восстановить вашу начальную фразу. Узнать больше."
   },
@@ -844,7 +838,7 @@
   "memo": {
     "message": "Мнемотик"
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Версия ECF Wallet"
   },
   "mobileSyncText": {
@@ -874,7 +868,7 @@
   "newNetwork": {
     "message": "Новая сеть"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Впервые в ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -885,9 +879,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Будьте осторожны с исходной фразой - были сообщения о сайтах, которые пытаются подражать ECF Wallet. ECF Wallet никогда не запрашивает секретную фразу (сид)!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Держите вашу фразу в безопасности. Если вы видите что-то подозрительное или сомневаетесь в веб-сайте, напишите support@metamask.io"
   },
   "rpcUrl": {
     "message": "Новый RPC URL"
@@ -1155,19 +1146,19 @@
     "message": "Синхронизация с мобильным"
   },
   "syncWithMobileDesc": {
-    "message": "Вы можете синхронизировать свои учетные записи и информацию с вашим мобильным устройством. Откройте мобильное приложение MetaMask, перейдите в «Настройки» и нажмите «Синхронизировать с расширением браузера»."
+    "message": "Вы можете синхронизировать свои учетные записи и информацию с вашим мобильным устройством. Откройте мобильное приложение ecf-wallet, перейдите в «Настройки» и нажмите «Синхронизировать с расширением браузера»."
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Если вы впервые открываете приложение MetaMask Mobile, просто следуйте инструкциям на телефоне."
+    "message": "Если вы впервые открываете приложение ecf-wallet Mobile, просто следуйте инструкциям на телефоне."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Сканируйте этот код с помощью мобильного приложения MetaMask."
+    "message": "Сканируйте этот код с помощью мобильного приложения ecf-wallet."
   },
   "syncWithMobileBeCareful": {
     "message": "Убедитесь, что никто не смотрит на ваш экран при сканировании этого кода"
   },
   "syncWithMobileComplete": {
-    "message": "Ваши данные были успешно синхронизированы. Наслаждайтесь мобильным приложением MetaMask!"
+    "message": "Ваши данные были успешно синхронизированы. Наслаждайтесь мобильным приложением ecf-wallet!"
   },
   "thisWillCreate": {
     "message": "Это создаст новый кошелек и начальную фразу"
@@ -1296,7 +1287,7 @@
     "message": "Для $1 необходимо прочитать это сообщение, чтобы завершить Ваше действие",
     "description": "$1 is website or dapp name"
   },
-  "decryptMetamask": {
+  "decryptEcfWallet": {
     "message": "Расшифровать сообщение"
   },
   "decryptCopy": {

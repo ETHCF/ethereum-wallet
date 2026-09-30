@@ -19,7 +19,7 @@ describe('buy-eth-url', function () {
     assert.throws(() => getBuyEthUrl(mainnet), /No default faucet for networkId: "1"/u)
   })
 
-  it('returns metamask ropsten faucet for network 3', function () {
+  it('returns ecf-wallet ropsten faucet for network 3', function () {
     const ropstenUrl = getBuyEthUrl(ropsten)
     assert.equal(ropstenUrl, 'https://faucet.metamask.io/')
   })

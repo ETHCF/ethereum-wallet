@@ -12,7 +12,7 @@ import providerFromEngine from 'eth-json-rpc-middleware/providerFromEngine'
 import Migrator from '../lib/migrator'
 import migrations from '../migrations'
 import createOriginMiddleware from '../lib/createOriginMiddleware'
-import createMetamaskMiddleware from './network/createMetamaskMiddleware'
+import createEcfWalletMiddleware from './network/createEcfWalletMiddleware'
 /* eslint-enable import/first */
 
 const SYNC_TIMEOUT = 60 * 1000 // one minute
@@ -41,7 +41,7 @@ export default class ThreeBoxController {
         const accounts = await this.keyringController.getAccounts()
 
         if (isUnlocked && accounts[0]) {
-          const appKeyAddress = await this.keyringController.getAppKeyAddress(accounts[0], 'wallet://3box.metamask.io')
+          const appKeyAddress = await this.keyringController.getAppKeyAddress(accounts[0], 'wallet://ecf-wallet')
           return [appKeyAddress]
         }
         return []
@@ -49,7 +49,7 @@ export default class ThreeBoxController {
       processPersonalMessage: async (msgParams) => {
         const accounts = await this.keyringController.getAccounts()
         return keyringController.signPersonalMessage({ ...msgParams, from: accounts[0] }, {
-          withAppKeyOrigin: 'wallet://3box.metamask.io',
+          withAppKeyOrigin: 'wallet://ecf-wallet',
         })
       },
     })
@@ -91,7 +91,7 @@ export default class ThreeBoxController {
           lastMigration: this.lastMigration,
         }
 
-        await this.space.private.set('metamaskBackup', JSON.stringify(newState))
+        await this.space.private.set('ecfWalletBackup', JSON.stringify(newState))
         await this.setShowRestorePromptToFalse()
       }
     } catch (error) {
@@ -100,10 +100,10 @@ export default class ThreeBoxController {
   }
 
   _createProvider (providerOpts) {
-    const metamaskMiddleware = createMetamaskMiddleware(providerOpts)
+    const ecfWalletMiddleware = createEcfWalletMiddleware(providerOpts)
     const engine = new JsonRpcEngine()
     engine.push(createOriginMiddleware({ origin: '3Box' }))
-    engine.push(metamaskMiddleware)
+    engine.push(ecfWalletMiddleware)
     const provider = providerFromEngine(engine)
     return provider
   }
@@ -119,11 +119,11 @@ export default class ThreeBoxController {
 
   async new3Box () {
     const accounts = await this.keyringController.getAccounts()
-    this.address = await this.keyringController.getAppKeyAddress(accounts[0], 'wallet://3box.metamask.io')
+    this.address = await this.keyringController.getAppKeyAddress(accounts[0], 'wallet://ecf-wallet')
     let backupExists
     try {
       const threeBoxConfig = await Box.getConfig(this.address)
-      backupExists = threeBoxConfig.spaces && threeBoxConfig.spaces.metamask
+      backupExists = threeBoxConfig.spaces && threeBoxConfig.spaces['ecf-wallet']
     } catch (e) {
       if (e.message.match(/^Error: Invalid response \(404\)/u)) {
         backupExists = false
@@ -146,7 +146,7 @@ export default class ThreeBoxController {
       try {
         this.box = await Box.openBox(this.address, this.provider)
         await this._waitForOnSyncDone()
-        this.space = await this.box.openSpace('metamask', {
+        this.space = await this.box.openSpace('ecf-wallet', {
           onSyncDone: async () => {
             const stateUpdate = {
               threeBoxSynced: true,
@@ -171,7 +171,7 @@ export default class ThreeBoxController {
   }
 
   async getLastUpdated () {
-    const res = await this.space.private.get('metamaskBackup')
+    const res = await this.space.private.get('ecfWalletBackup')
     const parsedRes = JSON.parse(res || '{}')
     return parsedRes.lastUpdated
   }
@@ -192,7 +192,7 @@ export default class ThreeBoxController {
   }
 
   async restoreFromThreeBox () {
-    const backedUpState = await this.space.private.get('metamaskBackup')
+    const backedUpState = await this.space.private.get('ecfWalletBackup')
     const {
       preferences,
       addressBook,

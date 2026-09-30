@@ -4,7 +4,7 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import * as actions from '../../../store/actions'
-import { getMetaMaskAccounts } from '../../../selectors'
+import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
 
@@ -119,7 +119,7 @@ export default compose(
 function mapStateToProps (state) {
   return {
     error: state.appState.warning,
-    firstAddress: Object.keys(getMetaMaskAccounts(state))[0],
+    firstAddress: Object.keys(getEcfWalletAccounts(state))[0],
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   }
 }

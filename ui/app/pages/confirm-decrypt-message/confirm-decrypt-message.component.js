@@ -232,7 +232,7 @@ export default class ConfirmDecryptMessage extends Component {
             <div
               className="request-decrypt-message__message-lock-text"
             >
-              {t('decryptMetamask')}
+              {t('decryptEcfWallet')}
             </div>
           </div>
         </div>

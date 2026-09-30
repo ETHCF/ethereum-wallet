@@ -16,25 +16,25 @@ import {
 } from '.'
 
 export const incomingTxListSelector = (state) => {
-  const { showIncomingTransactions } = state.metamask.featureFlags
+  const { showIncomingTransactions } = state.ecfWallet.featureFlags
   if (!showIncomingTransactions) {
     return []
   }
 
-  const { network } = state.metamask
+  const { network } = state.ecfWallet
   const selectedAddress = getSelectedAddress(state)
-  return Object.values(state.metamask.incomingTransactions)
-    .filter(({ metamaskNetworkId, txParams }) => (
-      txParams.to === selectedAddress && metamaskNetworkId === network
+  return Object.values(state.ecfWallet.incomingTransactions)
+    .filter(({ ecfWalletNetworkId, txParams }) => (
+      txParams.to === selectedAddress && ecfWalletNetworkId === network
     ))
 }
-export const unapprovedMsgsSelector = (state) => state.metamask.unapprovedMsgs
-export const currentNetworkTxListSelector = (state) => state.metamask.currentNetworkTxList
-export const unapprovedPersonalMsgsSelector = (state) => state.metamask.unapprovedPersonalMsgs
-export const unapprovedDecryptMsgsSelector = (state) => state.metamask.unapprovedDecryptMsgs
-export const unapprovedEncryptionPublicKeyMsgsSelector = (state) => state.metamask.unapprovedEncryptionPublicKeyMsgs
-export const unapprovedTypedMessagesSelector = (state) => state.metamask.unapprovedTypedMessages
-export const networkSelector = (state) => state.metamask.network
+export const unapprovedMsgsSelector = (state) => state.ecfWallet.unapprovedMsgs
+export const currentNetworkTxListSelector = (state) => state.ecfWallet.currentNetworkTxList
+export const unapprovedPersonalMsgsSelector = (state) => state.ecfWallet.unapprovedPersonalMsgs
+export const unapprovedDecryptMsgsSelector = (state) => state.ecfWallet.unapprovedDecryptMsgs
+export const unapprovedEncryptionPublicKeyMsgsSelector = (state) => state.ecfWallet.unapprovedEncryptionPublicKeyMsgs
+export const unapprovedTypedMessagesSelector = (state) => state.ecfWallet.unapprovedTypedMessages
+export const networkSelector = (state) => state.ecfWallet.network
 
 export const selectedAddressTxListSelector = createSelector(
   getSelectedAddress,

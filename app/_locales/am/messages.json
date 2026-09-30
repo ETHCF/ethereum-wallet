@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "ማሰሺያዎት አልተደገፈም..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask ካሊፎርኒያ ውስጥ ተዘጋጅቶ የተገነባ ነው።"
-  },
   "bytes": {
     "message": "ባይት"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "የዘር ሐረግዎን በድጋሚ መጠባበቂያ ለመያዝ ከፈለጉ፣ በቅንብሮች -> ግላዊነት ውስጥ ሊያገኙት ይችላሉ።"
-  },
-  "endOfFlowMessage7": {
-    "message": "ጥያቄዎች ካሉዎት ወይም የሆነ አጠራጣሪ ነገር ካዩ፣ እባክዎ ለ support@metamask.io ኢሜይል ይላኩ።"
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet የዘር ሐረግዎን መልሶ ማግኘት አልቻለም። ተጨማሪ መረጃ ያግኙ።"
@@ -621,10 +615,10 @@
   "message": {
     "message": "መልዕክት"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ከ Ethereum እና ያልተማከለ መረብ ጋር እርስዎን ማገናኘት።"
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "የ ECF Wallet ስሪት"
   },
   "mobileSyncText": {
@@ -686,7 +680,7 @@
   "newNetwork": {
     "message": "አዲስ አውታረ መረብ"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "ለ ECF Wallet አዲስ ነዎት?"
   },
   "noAlreadyHaveSeed": {
@@ -697,9 +691,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "ስለ ዘር ሐረግዎ ይጠንቀቁ - ራሳቸውን ከ ECF Wallet ጋር ለማመሳሰል የሚሞከሩ ድረ ገጾች እናሉ ሰምተናል። ECF Wallet በጭራሽ የዘር ሐረግዎን አይጠይቅዎትም!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "የሐረግዎን ደህንነት ይጠብቁ። ይም የሆነ አጠራጣሪ ነገር ካዩ ወይም ስለ አንድ ድረ ገጽ እርግጠኛ ካልሆኑ፣ እባክዎ ለ support@metamask.io ኢሜይል ይላኩ"
   },
   "rpcUrl": {
     "message": "አዲስ የ RPC URL"
@@ -1088,19 +1079,19 @@
     "message": "ከሞባይል ጋር አሳምር"
   },
   "syncWithMobileDesc": {
-    "message": "መለያዎችዎንና መረጃዎችዎን ከሞባይል መሳሪያዎ ጋር ያሳምሩ። የ MetaMask የሞባይል መተግበሪያን ይክፈቱ፣ ወደ \"ቅንብሮች\" ይሂዱና \"ከማሰሺያ ቅጥያ አሳምር\" የሚለውን ይንኩ"
+    "message": "መለያዎችዎንና መረጃዎችዎን ከሞባይል መሳሪያዎ ጋር ያሳምሩ። የ ecf-wallet የሞባይል መተግበሪያን ይክፈቱ፣ ወደ \"ቅንብሮች\" ይሂዱና \"ከማሰሺያ ቅጥያ አሳምር\" የሚለውን ይንኩ"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "የ MetaMask የሞባይል መተግበሪያን ለመጀመሪያ ጊዜ ገና እየከፈቱ ከሆነ፣ በስልክዎ ላይ ያሉትን ቅደም ተከተሎች ብቻ ይከተሉ።"
+    "message": "የ ecf-wallet የሞባይል መተግበሪያን ለመጀመሪያ ጊዜ ገና እየከፈቱ ከሆነ፣ በስልክዎ ላይ ያሉትን ቅደም ተከተሎች ብቻ ይከተሉ።"
   },
   "syncWithMobileScanThisCode": {
-    "message": "ይህን ኮድ በ MetaMask የሞባይል መተግበሪያዎ ስካን ያድርጉ"
+    "message": "ይህን ኮድ በ ecf-wallet የሞባይል መተግበሪያዎ ስካን ያድርጉ"
   },
   "syncWithMobileBeCareful": {
     "message": "ይህን ኮድ ስካን ሲያደርጉ ሌላ ሰው የእርስዎን ማያ እየተመለከተ አለመሆኑን ያረጋግጡ"
   },
   "syncWithMobileComplete": {
-    "message": "ውሂብዎ በሚገባ ተሳምሯል። በ MetaMask የሞባይል መተግበሪያ ይደሰቱ!"
+    "message": "ውሂብዎ በሚገባ ተሳምሯል። በ ecf-wallet የሞባይል መተግበሪያ ይደሰቱ!"
   },
   "terms": {
     "message": "የአጠቃቀም ደንቦች"

@@ -19,7 +19,7 @@ import ConfirmDecryptMessage from './confirm-decrypt-message.component'
 function mapStateToProps (state) {
   const {
     confirmTransaction,
-    metamask: { domainMetadata = {} },
+    ecfWallet: { domainMetadata = {} },
   } = state
 
   const {
@@ -47,7 +47,7 @@ function mapDispatchToProps (dispatch) {
     clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
     decryptMessage: (msgData, event) => {
       const params = msgData.msgParams
-      params.metamaskId = msgData.id
+      params.ecfWalletId = msgData.id
       event.stopPropagation(event)
       return dispatch(decryptMsg(params))
     },
@@ -57,7 +57,7 @@ function mapDispatchToProps (dispatch) {
     },
     decryptMessageInline: (msgData, event) => {
       const params = msgData.msgParams
-      params.metamaskId = msgData.id
+      params.ecfWalletId = msgData.id
       event.stopPropagation(event)
       return dispatch(decryptMsgInline(params))
     },

@@ -22,7 +22,7 @@ const styles = {
 }
 
 const store = configureStore({
-  metamask: { metamask: { currentLocale: 'en' } },
+  ecfWallet: { ecfWallet: { currentLocale: 'en' } },
 
   localeMessages: {
     current: en,
@@ -30,7 +30,7 @@ const store = configureStore({
   },
 })
 
-const metamaskDecorator = story => (
+const ecfWalletDecorator = story => (
   <Provider store={store}>
     <I18nProvider>
       <LegacyI18nProvider>
@@ -43,4 +43,4 @@ const metamaskDecorator = story => (
 )
 
 addDecorator(withKnobs)
-addDecorator(metamaskDecorator)
+addDecorator(ecfWalletDecorator)

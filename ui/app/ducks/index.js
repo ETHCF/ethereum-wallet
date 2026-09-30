@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { ALERT_TYPES } from '../../../app/scripts/controllers/alert'
-import metamaskReducer from './metamask/metamask'
+import ecfWalletReducer from './ecf-wallet/ecf-wallet'
 import localeMessagesReducer from './locale/locale'
 import sendReducer from './send/send.duck'
 import appStateReducer from './app/app'
@@ -12,7 +12,7 @@ import historyReducer from './history/history'
 export default combineReducers({
   [ALERT_TYPES.unconnectedAccount]: unconnectedAccount,
   activeTab: (s) => (s === undefined ? null : s),
-  metamask: metamaskReducer,
+  ecfWallet: ecfWalletReducer,
   appState: appStateReducer,
   history: historyReducer,
   send: sendReducer,

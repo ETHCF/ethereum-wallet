@@ -11,7 +11,7 @@ describe('Confirm Remove Account', function () {
   let wrapper
 
   const state = {
-    metamask: {
+    ecfWallet: {
 
     },
   }

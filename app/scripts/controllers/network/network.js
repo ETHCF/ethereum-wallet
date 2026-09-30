@@ -7,7 +7,7 @@ import JsonRpcEngine from 'json-rpc-engine'
 import providerFromEngine from 'eth-json-rpc-middleware/providerFromEngine'
 import log from 'loglevel'
 import { createSwappableProxy, createEventEmitterProxy } from 'swappable-obj-proxy'
-import createMetamaskMiddleware from './createMetamaskMiddleware'
+import createEcfWalletMiddleware from './createEcfWalletMiddleware'
 import createInfuraClient from './createInfuraClient'
 import createJsonRpcClient from './createJsonRpcClient'
 import createLocalhostClient from './createLocalhostClient'
@@ -21,13 +21,13 @@ import {
 
 const networks = { networkList: {} }
 
-const env = process.env.METAMASK_ENV
-const { METAMASK_DEBUG } = process.env
+const env = process.env.ECF_WALLET_ENV
+const { ECF_WALLET_DEBUG } = process.env
 
 let defaultProviderConfigType
 if (process.env.IN_TEST === 'true') {
   defaultProviderConfigType = LOCALHOST
-} else if (METAMASK_DEBUG || env === 'test') {
+} else if (ECF_WALLET_DEBUG || env === 'test') {
   defaultProviderConfigType = RINKEBY
 } else {
   defaultProviderConfigType = MAINNET
@@ -243,9 +243,9 @@ export default class NetworkController extends EventEmitter {
   }
 
   _setNetworkClient ({ networkMiddleware, blockTracker }) {
-    const metamaskMiddleware = createMetamaskMiddleware(this._baseProviderParams)
+    const ecfWalletMiddleware = createEcfWalletMiddleware(this._baseProviderParams)
     const engine = new JsonRpcEngine()
-    engine.push(metamaskMiddleware)
+    engine.push(ecfWalletMiddleware)
     engine.push(networkMiddleware)
     const provider = providerFromEngine(engine)
     this._setProviderAndBlockTracker({ provider, blockTracker })

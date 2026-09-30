@@ -65,7 +65,7 @@ async function requestHardware (request) {
   if (generation !== connectionGeneration) {
     throw new Error('Hardware wallet request cancelled because the wallet was locked.')
   }
-  const response = await extension.runtime.sendMessage({ type: 'metamask-hardware-request', ...request })
+  const response = await extension.runtime.sendMessage({ type: 'ecf-wallet-hardware-request', ...request })
   if (!response || response.error) {
     throw new Error(response?.error || 'Hardware wallet transport disconnected. Please retry.')
   }

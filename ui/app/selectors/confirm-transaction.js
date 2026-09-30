@@ -15,13 +15,13 @@ import {
 } from '../helpers/utils/transactions.util'
 import { getNativeCurrency } from '.'
 
-const unapprovedTxsSelector = (state) => state.metamask.unapprovedTxs
-const unapprovedMsgsSelector = (state) => state.metamask.unapprovedMsgs
-const unapprovedPersonalMsgsSelector = (state) => state.metamask.unapprovedPersonalMsgs
-const unapprovedDecryptMsgsSelector = (state) => state.metamask.unapprovedDecryptMsgs
-const unapprovedEncryptionPublicKeyMsgsSelector = (state) => state.metamask.unapprovedEncryptionPublicKeyMsgs
-const unapprovedTypedMessagesSelector = (state) => state.metamask.unapprovedTypedMessages
-const networkSelector = (state) => state.metamask.network
+const unapprovedTxsSelector = (state) => state.ecfWallet.unapprovedTxs
+const unapprovedMsgsSelector = (state) => state.ecfWallet.unapprovedMsgs
+const unapprovedPersonalMsgsSelector = (state) => state.ecfWallet.unapprovedPersonalMsgs
+const unapprovedDecryptMsgsSelector = (state) => state.ecfWallet.unapprovedDecryptMsgs
+const unapprovedEncryptionPublicKeyMsgsSelector = (state) => state.ecfWallet.unapprovedEncryptionPublicKeyMsgs
+const unapprovedTypedMessagesSelector = (state) => state.ecfWallet.unapprovedTypedMessages
+const networkSelector = (state) => state.ecfWallet.network
 
 export const unconfirmedTransactionsListSelector = createSelector(
   unapprovedTxsSelector,
@@ -68,10 +68,10 @@ export const unconfirmedTransactionsHashSelector = createSelector(
     network,
   ) => {
     const filteredUnapprovedTxs = Object.keys(unapprovedTxs).reduce((acc, address) => {
-      const { metamaskNetworkId } = unapprovedTxs[address]
+      const { ecfWalletNetworkId } = unapprovedTxs[address]
       const transactions = { ...acc }
 
-      if (metamaskNetworkId === network) {
+      if (ecfWalletNetworkId === network) {
         transactions[address] = unapprovedTxs[address]
       }
 
@@ -89,11 +89,11 @@ export const unconfirmedTransactionsHashSelector = createSelector(
   },
 )
 
-const unapprovedMsgCountSelector = (state) => state.metamask.unapprovedMsgCount
-const unapprovedPersonalMsgCountSelector = (state) => state.metamask.unapprovedPersonalMsgCount
-const unapprovedDecryptMsgCountSelector = (state) => state.metamask.unapprovedDecryptMsgCount
-const unapprovedEncryptionPublicKeyMsgCountSelector = (state) => state.metamask.unapprovedEncryptionPublicKeyMsgCount
-const unapprovedTypedMessagesCountSelector = (state) => state.metamask.unapprovedTypedMessagesCount
+const unapprovedMsgCountSelector = (state) => state.ecfWallet.unapprovedMsgCount
+const unapprovedPersonalMsgCountSelector = (state) => state.ecfWallet.unapprovedPersonalMsgCount
+const unapprovedDecryptMsgCountSelector = (state) => state.ecfWallet.unapprovedDecryptMsgCount
+const unapprovedEncryptionPublicKeyMsgCountSelector = (state) => state.ecfWallet.unapprovedEncryptionPublicKeyMsgCount
+const unapprovedTypedMessagesCountSelector = (state) => state.ecfWallet.unapprovedTypedMessagesCount
 
 export const unconfirmedTransactionsCountSelector = createSelector(
   unapprovedTxsSelector,
@@ -113,8 +113,8 @@ export const unconfirmedTransactionsCountSelector = createSelector(
     network,
   ) => {
     const filteredUnapprovedTxIds = Object.keys(unapprovedTxs).filter((txId) => {
-      const { metamaskNetworkId } = unapprovedTxs[txId]
-      return metamaskNetworkId === network
+      const { ecfWalletNetworkId } = unapprovedTxs[txId]
+      return ecfWalletNetworkId === network
     })
 
     return filteredUnapprovedTxIds.length + unapprovedTypedMessagesCount + unapprovedMsgCount +
@@ -122,14 +122,14 @@ export const unconfirmedTransactionsCountSelector = createSelector(
   },
 )
 
-export const currentCurrencySelector = (state) => state.metamask.currentCurrency
-export const conversionRateSelector = (state) => state.metamask.conversionRate
+export const currentCurrencySelector = (state) => state.ecfWallet.currentCurrency
+export const conversionRateSelector = (state) => state.ecfWallet.conversionRate
 
 export const txDataSelector = (state) => state.confirmTransaction.txData
 const tokenDataSelector = (state) => state.confirmTransaction.tokenData
 const tokenPropsSelector = (state) => state.confirmTransaction.tokenProps
 
-const contractExchangeRatesSelector = (state) => state.metamask.contractExchangeRates
+const contractExchangeRatesSelector = (state) => state.ecfWallet.contractExchangeRates
 
 const tokenDecimalsSelector = createSelector(
   tokenPropsSelector,

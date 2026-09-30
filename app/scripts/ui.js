@@ -16,7 +16,7 @@ import Eth from 'ethjs'
 import EthQuery from 'eth-query'
 import StreamProvider from 'web3-stream-provider'
 import log from 'loglevel'
-import launchMetaMaskUi from '../../ui'
+import launchEcfWalletUi from '../../ui'
 import { setupMultiplex } from './lib/stream-utils'
 import ExtensionPlatform from './platforms/extension'
 import {
@@ -46,7 +46,7 @@ async function start () {
   // An open wallet UI is an active session. Messages keep its controller alive
   // while the user reviews an approval or edits a form.
   const heartbeat = setInterval(() => {
-    extension.runtime.sendMessage({ type: 'metamask-ui-active' }, () => {
+    extension.runtime.sendMessage({ type: 'ecf-wallet-ui-active' }, () => {
       // Read lastError when the extension is reloaded or updated.
       if (extension.runtime.lastError) {
         clearInterval(heartbeat)
@@ -77,7 +77,7 @@ async function start () {
       }
 
       const state = store.getState()
-      const { metamask: { completedOnboarding } = {} } = state
+      const { ecfWallet: { completedOnboarding } = {} } = state
 
       if (!completedOnboarding && windowType !== ENVIRONMENT_TYPE_FULLSCREEN) {
         global.platform.openExtensionInBrowser()
@@ -117,7 +117,7 @@ function initializeUi (activeTab, container, connectionStream, cb) {
       return
     }
 
-    launchMetaMaskUi({
+    launchEcfWalletUi({
       activeTab,
       container,
       backgroundConnection,

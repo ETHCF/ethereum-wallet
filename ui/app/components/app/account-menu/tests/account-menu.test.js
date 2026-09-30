@@ -11,7 +11,7 @@ describe('Account Menu', function () {
   let wrapper
 
   const mockStore = {
-    metamask: {
+    ecfWallet: {
       provider: {
         type: 'test',
       },
@@ -53,7 +53,7 @@ describe('Account Menu', function () {
       },
     ],
     prevIsAccountMenuOpen: false,
-    lockMetamask: sinon.spy(),
+    lockEcfWallet: sinon.spy(),
     showAccountDetail: sinon.spy(),
     showRemoveAccountConfirmationModal: sinon.spy(),
     toggleAccountMenu: sinon.spy(),
@@ -111,7 +111,7 @@ describe('Account Menu', function () {
 
     it('simulate click', function () {
       logout.simulate('click')
-      assert(props.lockMetamask.calledOnce)
+      assert(props.lockEcfWallet.calledOnce)
       assert.equal(props.history.push.getCall(0).args[0], '/')
     })
   })

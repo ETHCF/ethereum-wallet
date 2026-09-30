@@ -6,7 +6,7 @@ import { getMostRecentOverviewPage } from '../../ducks/history/history'
 import ConfirmAddSuggestedToken from './confirm-add-suggested-token.component'
 
 const mapStateToProps = (state) => {
-  const { metamask: { pendingTokens, suggestedTokens, tokens } } = state
+  const { ecfWallet: { pendingTokens, suggestedTokens, tokens } } = state
   const params = { ...pendingTokens, ...suggestedTokens }
 
   return {

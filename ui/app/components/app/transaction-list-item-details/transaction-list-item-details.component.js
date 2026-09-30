@@ -48,9 +48,9 @@ export default class TransactionListItemDetails extends PureComponent {
 
   handleEtherscanClick = () => {
     const { transactionGroup: { primaryTransaction }, rpcPrefs } = this.props
-    const { hash, metamaskNetworkId } = primaryTransaction
+    const { hash, ecfWalletNetworkId } = primaryTransaction
 
-    global.platform.openTab({ url: getBlockExplorerUrlForTx(metamaskNetworkId, hash, rpcPrefs) })
+    global.platform.openTab({ url: getBlockExplorerUrlForTx(ecfWalletNetworkId, hash, rpcPrefs) })
   }
 
   handleCancel = (event) => {

@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Peramban Anda tidak didukung..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask dirancang dan dibangun di California."
-  },
   "bytes": {
     "message": "Byte"
   },
@@ -349,9 +346,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Jika Anda perlu mencadangkan frase seed lagi, Anda dapat menemukannya dalam Pengaturan -> Keamanan."
-  },
-  "endOfFlowMessage7": {
-    "message": "Jika Anda punya pertanyaan atau melihat sesuatu yang ganjil, kirimkan email ke support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet tidak dapat memulihkan frasa seed Anda. Pelajari lebih lanjut."
@@ -605,10 +599,10 @@
   "message": {
     "message": "Pesan"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Menghubungkan Anda ke Ethereum dan Web Terdesentralisasi."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Versi ECF Wallet"
   },
   "mobileSyncText": {
@@ -670,7 +664,7 @@
   "newNetwork": {
     "message": "Jaringan Baru"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Baru di ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -681,9 +675,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Berhati-hatilah dengan frasa seed Anda — terdapat laporan tentang website yang coba mengimitasi ECF Wallet. ECF Wallet tidak akan pernah meminta frasa seed Anda!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Jaga keamanan frasa Anda. Jika Anda menemukan sesuatu yang mencurigakan, atau ragu dengan sebuah situs web, kirim surel ke support@metamask.io"
   },
   "rpcUrl": {
     "message": "URL RPC Baru"
@@ -1072,19 +1063,19 @@
     "message": "Sinkronkan dengan seluler"
   },
   "syncWithMobileDesc": {
-    "message": "Anda dapat menyinkronkan akun dan informasi Anda dengan perangkat seluler. Buka aplikasi seluler MetaMask, pilih \"Pengaturan\" lalu ketuk \"Sinkronkan dari Ekstensi Peramban\""
+    "message": "Anda dapat menyinkronkan akun dan informasi Anda dengan perangkat seluler. Buka aplikasi seluler ecf-wallet, pilih \"Pengaturan\" lalu ketuk \"Sinkronkan dari Ekstensi Peramban\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Jika Anda baru saja membuka aplikasi MetaMask Mobile untuk pertama kali, ikuti langkah-langkah pada ponsel Anda."
+    "message": "Jika Anda baru saja membuka aplikasi ecf-wallet Mobile untuk pertama kali, ikuti langkah-langkah pada ponsel Anda."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Pindai kode ini dengan aplikasi ponsel MetaMask "
+    "message": "Pindai kode ini dengan aplikasi ponsel ecf-wallet "
   },
   "syncWithMobileBeCareful": {
     "message": "Pastikan tidak ada yang melihat ke layar ketika kode ini Anda pindai"
   },
   "syncWithMobileComplete": {
-    "message": "Data Anda telah berhasil disinkronkan. Nikmati aplikasi mobile MetaMask!"
+    "message": "Data Anda telah berhasil disinkronkan. Nikmati aplikasi mobile ecf-wallet!"
   },
   "terms": {
     "message": "Syarat Penggunaan"

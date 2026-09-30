@@ -7,14 +7,14 @@ export function createTransaction (params, chainId) {
   if (!Number(params.type)) {
     return new Transaction({ ...params, chainId })
   }
-  return globalThis.metamaskTransactionCodec.createTypedTransaction(params, chainId)
+  return globalThis.ecfWalletTransactionCodec.createTypedTransaction(params, chainId)
 }
 
 export function decodeTransaction (hex, chainId) {
   const bytes = Buffer.from(hex.replace(/^0x/u, ''), 'hex')
   return bytes[0] >= 0xc0
     ? new Transaction(bytes)
-    : globalThis.metamaskTransactionCodec.decodeTypedTransaction(bytes, chainId)
+    : globalThis.ecfWalletTransactionCodec.decodeTypedTransaction(bytes, chainId)
 }
 
 export function transactionData (tx) {

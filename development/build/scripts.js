@@ -19,7 +19,7 @@ const pify = require('pify')
 const endOfStream = pify(require('end-of-stream'))
 const { makeStringTransform } = require('browserify-transform-tools')
 
-const conf = require('rc')('metamask', {})
+const conf = require('rc')('ecf-wallet', {})
 
 const packageJSON = require('../../package.json')
 const { createTask, composeParallel, composeSeries, runInChildProcess } = require('./task')
@@ -99,7 +99,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     })
     for (const [name, entry, globalName] of [
       ['hardware', './app/scripts/hardware.js'],
-      ['transaction-codec', './app/scripts/lib/transaction-codec-implementation.js', 'metamaskTransactionCodec'],
+      ['transaction-codec', './app/scripts/lib/transaction-codec-implementation.js', 'ecfWalletTransactionCodec'],
     ]) {
       standardSubtasks.push(createTask(`${taskPrefix}:${name}`, async () => {
         const options = {
@@ -344,8 +344,8 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     const environment = getEnvironment({ devMode: opts.devMode, test: opts.testing })
     // Inject variables into bundle
     bundler.transform(envify({
-      METAMASK_DEBUG: opts.devMode,
-      METAMASK_ENVIRONMENT: environment,
+      ECF_WALLET_DEBUG: opts.devMode,
+      ECF_WALLET_ENVIRONMENT: environment,
       NODE_ENV: opts.devMode ? 'development' : 'production',
       IN_TEST: opts.testing ? 'true' : false,
       PUBNUB_SUB_KEY: process.env.PUBNUB_SUB_KEY || '',

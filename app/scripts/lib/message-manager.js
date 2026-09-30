@@ -14,7 +14,7 @@ import { MESSAGE_TYPE } from './enums'
  * @typedef {Object} Message
  * @property {number} id An id to track and identify the message object
  * @property {Object} msgParams The parameters to pass to the eth_sign method once the signature request is approved.
- * @property {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
+ * @property {Object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed' or 'rejected'
@@ -87,9 +87,9 @@ export default class MessageManager extends EventEmitter {
           case 'signed':
             return resolve(data.rawSig)
           case 'rejected':
-            return reject(ethErrors.provider.userRejectedRequest('MetaMask Message Signature: User denied message signature.'))
+            return reject(ethErrors.provider.userRejectedRequest('ecf-wallet Message Signature: User denied message signature.'))
           default:
-            return reject(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
+            return reject(new Error(`ecf-wallet Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
         }
       })
     })
@@ -154,13 +154,13 @@ export default class MessageManager extends EventEmitter {
    * Approves a Message. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise with
    * any the message params modified for proper signing.
    *
-   * @param {Object} msgParams - The msgParams to be used when eth_sign is called, plus data added by MetaMask.
-   * @param {Object} msgParams.metamaskId Added to msgParams for tracking and identification within MetaMask.
-   * @returns {Promise<object>} - Promises the msgParams object with metamaskId removed.
+   * @param {Object} msgParams - The msgParams to be used when eth_sign is called, plus data added by ecf-wallet.
+   * @param {Object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
+   * @returns {Promise<object>} - Promises the msgParams object with ecfWalletId removed.
    *
    */
   approveMessage (msgParams) {
-    this.setMsgStatusApproved(msgParams.metamaskId)
+    this.setMsgStatusApproved(msgParams.ecfWalletId)
     return this.prepMsgForSigning(msgParams)
   }
 
@@ -190,14 +190,14 @@ export default class MessageManager extends EventEmitter {
   }
 
   /**
-   * Removes the metamaskId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the ecfWalletId property from passed msgParams and returns a promise which resolves the updated msgParams
    *
    * @param {Object} msgParams - The msgParams to modify
-   * @returns {Promise<object>} - Promises the msgParams with the metamaskId property removed
+   * @returns {Promise<object>} - Promises the msgParams with the ecfWalletId property removed
    *
    */
   prepMsgForSigning (msgParams) {
-    delete msgParams.metamaskId
+    delete msgParams.ecfWalletId
     return Promise.resolve(msgParams)
   }
 

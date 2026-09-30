@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Pelayar anda tidak disokong..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask direka dan dibina di California."
-  },
   "bytes": {
     "message": "Bait"
   },
@@ -346,9 +343,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Jika anda perlu membuat sandaran ungkapan benih anda sekali lagi, anda boleh lakukannya melalui Tetapan -> Keselamatan."
-  },
-  "endOfFlowMessage7": {
-    "message": "JIka anda mempunyai soalan atau melihat sesuatu yang mencurigakan, hantarkan e-mel ke support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet tidak dapat memulihkan ungkapan benih anda. Ketahui lebih lanjut."
@@ -598,10 +592,10 @@
   "message": {
     "message": "Mesej"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Menyambungkan anda kepada Ethereum dan Web Ternyahpusat."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Versi ECF Wallet"
   },
   "mobileSyncText": {
@@ -663,7 +657,7 @@
   "newNetwork": {
     "message": "Rangkaian Baru"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Baru mengenali ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -674,9 +668,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Berhati-hati dengan ungkapan benih anda — terdapat laporan ada tapak web yang cuba meniru ECF Wallet. ECF Wallet tidak sekali-kali akan meminta ungkapan benih anda!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Pastikan ungkapan anda selamat. Jika anda melihterlihat at sesuatu yang mencurigakan, atau anda tidak pasti mengenai tapak web tertentu, e-mel kepada support@metamask.io"
   },
   "rpcUrl": {
     "message": "URL RPC baru"
@@ -1065,19 +1056,19 @@
     "message": "Segerakkan dengan mudah alih"
   },
   "syncWithMobileDesc": {
-    "message": "Anda boleh menyegerakkan akaun dan maklumat anda dengan peranti mudah alih anda. Buka ap mudah alih MetaMask, pergi ke \"Tetapan\" dan ketik \"Segerakkan daripada Sambungan Pelayar\""
+    "message": "Anda boleh menyegerakkan akaun dan maklumat anda dengan peranti mudah alih anda. Buka ap mudah alih ecf-wallet, pergi ke \"Tetapan\" dan ketik \"Segerakkan daripada Sambungan Pelayar\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Jika ini kali pertama anda membuka aplikasi mudah alih MetaMask, anda cuma perlu ikuti langkah-langkah di telefon anda."
+    "message": "Jika ini kali pertama anda membuka aplikasi mudah alih ecf-wallet, anda cuma perlu ikuti langkah-langkah di telefon anda."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Imbas kod ini dengan aplikasi mudah alih MetaMask anda"
+    "message": "Imbas kod ini dengan aplikasi mudah alih ecf-wallet anda"
   },
   "syncWithMobileBeCareful": {
     "message": "Pastikan tiada orang lain melihat skrin anda ketika anda mengimbas kod ini"
   },
   "syncWithMobileComplete": {
-    "message": "Data anda berjaya disegerakkan. Nikmati aplikasi mudah alih MetaMask!"
+    "message": "Data anda berjaya disegerakkan. Nikmati aplikasi mudah alih ecf-wallet!"
   },
   "terms": {
     "message": "Syarat-syarat Penggunaan"

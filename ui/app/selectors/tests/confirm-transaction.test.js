@@ -13,10 +13,10 @@ describe('Confirm Transaction Selector', function () {
   describe('unconfirmedTransactionsCountSelector', function () {
 
     const state = {
-      metamask: {
+      ecfWallet: {
         unapprovedTxs: {
           1: {
-            metamaskNetworkId: 'test',
+            ecfWalletNetworkId: 'test',
           },
           2: {
             metmaskNetworkId: 'other network',
@@ -137,7 +137,7 @@ describe('Confirm Transaction Selector', function () {
   describe('contractExchangeRateSelector', function () {
 
     const state = {
-      metamask: {
+      ecfWallet: {
         contractExchangeRates: {
           '0xTokenAddress': '10',
         },
@@ -151,7 +151,7 @@ describe('Confirm Transaction Selector', function () {
       },
     }
 
-    it('returns contract exchange rate in metamask state based on confirm transaction txParams token recipient', function () {
+    it('returns contract exchange rate in ecf-wallet state based on confirm transaction txParams token recipient', function () {
       assert.equal(contractExchangeRateSelector(state), 10)
     })
   })
@@ -159,7 +159,7 @@ describe('Confirm Transaction Selector', function () {
   describe('conversionRateSelector', function () {
     it('returns conversionRate from state', function () {
       const state = {
-        metamask: { conversionRate: 556.12 },
+        ecfWallet: { conversionRate: 556.12 },
       }
       assert.equal(conversionRateSelector(state), 556.12)
     })

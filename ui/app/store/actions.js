@@ -19,7 +19,7 @@ import {
   getSelectedAddress,
 } from '../selectors'
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
-import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
+import { getUnconnectedAccountAlertEnabledness } from '../ducks/ecf-wallet/ecf-wallet'
 import * as actionConstants from './actionConstants'
 
 let background = null
@@ -37,7 +37,7 @@ export function goHome () {
 
 // async actions
 
-export function tryUnlockMetamask (password) {
+export function tryUnlockEcfWallet (password) {
   return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
@@ -55,7 +55,7 @@ export function tryUnlockMetamask (password) {
     })
       .then(() => {
         dispatch(unlockSucceeded())
-        return forceUpdateMetamaskState(dispatch)
+        return forceUpdateEcfWalletState(dispatch)
       })
       .then(() => {
         return new Promise((resolve, reject) => {
@@ -134,7 +134,7 @@ export function unlockAndGetSeedPhrase (password) {
     try {
       await submitPassword(password)
       const seedWords = await verifySeedPhrase()
-      await forceUpdateMetamaskState(dispatch)
+      await forceUpdateEcfWalletState(dispatch)
       dispatch(hideLoadingIndication())
       return seedWords
     } catch (error) {
@@ -279,7 +279,7 @@ export function removeAccount (address) {
           resolve(account)
         })
       })
-      await forceUpdateMetamaskState(dispatch)
+      await forceUpdateEcfWalletState(dispatch)
     } catch (error) {
       dispatch(displayWarning(error.message))
       throw error
@@ -307,7 +307,7 @@ export function importNewAccount (strategy, args) {
       throw err
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     if (newState.selectedAddress) {
       dispatch({
         type: actionConstants.SHOW_ACCOUNT_DETAIL,
@@ -321,7 +321,7 @@ export function importNewAccount (strategy, args) {
 export function addNewAccount () {
   log.debug(`background.addNewAccount`)
   return async (dispatch, getState) => {
-    const oldIdentities = getState().metamask.identities
+    const oldIdentities = getState().ecfWallet.identities
     dispatch(showLoadingIndication())
 
     let newIdentities
@@ -334,7 +334,7 @@ export function addNewAccount () {
     }
     const newAccountAddress = Object.keys(newIdentities).find((address) => !oldIdentities[address])
     dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
     return newAccountAddress
   }
 }
@@ -354,7 +354,7 @@ export function checkHardwareStatus (deviceName, hdPath) {
     }
 
     dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
     return unlocked
   }
 }
@@ -372,7 +372,7 @@ export function forgetDevice (deviceName) {
     }
 
     dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
   }
 }
 
@@ -390,7 +390,7 @@ export function connectHardware (deviceName, page, hdPath) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
 
     return accounts
   }
@@ -464,8 +464,8 @@ export function signMsg (msgData) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
-    dispatch(completedTx(msgData.metamaskId))
+    dispatch(updateEcfWalletState(newState))
+    dispatch(completedTx(msgData.ecfWalletId))
     dispatch(closeCurrentNotificationWindow())
     return msgData
   }
@@ -487,8 +487,8 @@ export function signPersonalMsg (msgData) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
-    dispatch(completedTx(msgData.metamaskId))
+    dispatch(updateEcfWalletState(newState))
+    dispatch(completedTx(msgData.ecfWalletId))
     dispatch(closeCurrentNotificationWindow())
     return msgData
   }
@@ -508,8 +508,8 @@ export function decryptMsgInline (decryptedMsgData) {
       throw error
     }
 
-    dispatch(updateMetamaskState(newState))
-    return newState.unapprovedDecryptMsgs[decryptedMsgData.metamaskId]
+    dispatch(updateEcfWalletState(newState))
+    return newState.unapprovedDecryptMsgs[decryptedMsgData.ecfWalletId]
   }
 }
 
@@ -529,8 +529,8 @@ export function decryptMsg (decryptedMsgData) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
-    dispatch(completedTx(decryptedMsgData.metamaskId))
+    dispatch(updateEcfWalletState(newState))
+    dispatch(completedTx(decryptedMsgData.ecfWalletId))
     dispatch(closeCurrentNotificationWindow())
     return decryptedMsgData
   }
@@ -552,8 +552,8 @@ export function encryptionPublicKeyMsg (msgData) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
-    dispatch(completedTx(msgData.metamaskId))
+    dispatch(updateEcfWalletState(newState))
+    dispatch(completedTx(msgData.ecfWalletId))
     dispatch(closeCurrentNotificationWindow())
     return msgData
   }
@@ -575,8 +575,8 @@ export function signTypedMsg (msgData) {
       throw error
     }
     dispatch(hideLoadingIndication())
-    dispatch(updateMetamaskState(newState))
-    dispatch(completedTx(msgData.metamaskId))
+    dispatch(updateEcfWalletState(newState))
+    dispatch(completedTx(msgData.ecfWalletId))
     dispatch(closeCurrentNotificationWindow())
     return msgData
   }
@@ -780,7 +780,7 @@ export function signTokenTx (tokenAddress, toAddress, amount, txData) {
   }
 }
 
-const updateMetamaskStateFromBackground = () => {
+const updateEcfWalletStateFromBackground = () => {
   log.debug(`background.getState`)
 
   return new Promise((resolve, reject) => {
@@ -813,8 +813,8 @@ export function updateTransaction (txData) {
         resolve(txData)
       })
     })
-      .then(() => updateMetamaskStateFromBackground())
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then(() => updateEcfWalletStateFromBackground())
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => {
         dispatch(showConfTxPage({ id: txData.id }))
         dispatch(hideLoadingIndication())
@@ -842,8 +842,8 @@ export function updateAndApproveTx (txData) {
         resolve(txData)
       })
     })
-      .then(() => updateMetamaskStateFromBackground())
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then(() => updateEcfWalletStateFromBackground())
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => {
         dispatch(clearSend())
         dispatch(completedTx(txData.id))
@@ -869,7 +869,7 @@ export function completedTx (id) {
       unapprovedPersonalMsgs,
       unapprovedTypedMessages,
       network,
-    } = state.metamask
+    } = state.ecfWallet
     const unconfirmedActions = txHelper(unapprovedTxs, unapprovedMsgs, unapprovedPersonalMsgs, unapprovedTypedMessages, network)
     const otherUnconfirmedActions = unconfirmedActions.filter((tx) => tx.id !== id)
     dispatch({
@@ -907,7 +907,7 @@ export function cancelMsg (msgData) {
     } finally {
       dispatch(hideLoadingIndication())
     }
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     dispatch(completedTx(msgData.id))
     dispatch(closeCurrentNotificationWindow())
     return msgData
@@ -924,7 +924,7 @@ export function cancelPersonalMsg (msgData) {
     } finally {
       dispatch(hideLoadingIndication())
     }
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     dispatch(completedTx(msgData.id))
     dispatch(closeCurrentNotificationWindow())
     return msgData
@@ -941,7 +941,7 @@ export function cancelDecryptMsg (msgData) {
     } finally {
       dispatch(hideLoadingIndication())
     }
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     dispatch(completedTx(msgData.id))
     dispatch(closeCurrentNotificationWindow())
     return msgData
@@ -958,7 +958,7 @@ export function cancelEncryptionPublicKeyMsg (msgData) {
     } finally {
       dispatch(hideLoadingIndication())
     }
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     dispatch(completedTx(msgData.id))
     dispatch(closeCurrentNotificationWindow())
     return msgData
@@ -975,7 +975,7 @@ export function cancelTypedMsg (msgData) {
     } finally {
       dispatch(hideLoadingIndication())
     }
-    dispatch(updateMetamaskState(newState))
+    dispatch(updateEcfWalletState(newState))
     dispatch(completedTx(msgData.id))
     dispatch(closeCurrentNotificationWindow())
     return msgData
@@ -995,8 +995,8 @@ export function cancelTx (txData) {
         resolve()
       })
     })
-      .then(() => updateMetamaskStateFromBackground())
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then(() => updateEcfWalletStateFromBackground())
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => {
         dispatch(clearSend())
         dispatch(completedTx(txData.id))
@@ -1029,8 +1029,8 @@ export function cancelTxs (txDataList) {
     }))
 
     await Promise.all(cancellations)
-    const newState = await updateMetamaskStateFromBackground()
-    dispatch(updateMetamaskState(newState))
+    const newState = await updateEcfWalletStateFromBackground()
+    dispatch(updateEcfWalletState(newState))
     dispatch(clearSend())
 
     txIds.forEach((id) => {
@@ -1063,7 +1063,7 @@ export function markPasswordForgotten () {
       // TODO: handle errors
       dispatch(hideLoadingIndication())
       dispatch(forgotPassword())
-      await forceUpdateMetamaskState(dispatch)
+      await forceUpdateEcfWalletState(dispatch)
     }
   }
 }
@@ -1076,7 +1076,7 @@ export function unMarkPasswordForgotten () {
         resolve()
       })
     })
-      .then(() => forceUpdateMetamaskState(dispatch))
+      .then(() => forceUpdateEcfWalletState(dispatch))
   }
 }
 
@@ -1117,9 +1117,9 @@ export function unlockSucceeded (message) {
   }
 }
 
-export function updateMetamaskState (newState) {
+export function updateEcfWalletState (newState) {
   return (dispatch, getState) => {
-    const { metamask: currentState } = getState()
+    const { ecfWallet: currentState } = getState()
 
     const {
       currentLocale,
@@ -1138,7 +1138,7 @@ export function updateMetamaskState (newState) {
     }
 
     dispatch({
-      type: actionConstants.UPDATE_METAMASK_STATE,
+      type: actionConstants.UPDATE_ECF_WALLET_STATE,
       value: newState,
     })
   }
@@ -1156,26 +1156,26 @@ const backgroundSetLocked = () => {
   })
 }
 
-export function lockMetamask () {
+export function lockEcfWallet () {
   log.debug(`background.setLocked`)
 
   return (dispatch) => {
     dispatch(showLoadingIndication())
 
     return backgroundSetLocked()
-      .then(() => updateMetamaskStateFromBackground())
+      .then(() => updateEcfWalletStateFromBackground())
       .catch((error) => {
         dispatch(displayWarning(error.message))
         return Promise.reject(error)
       })
       .then((newState) => {
-        dispatch(updateMetamaskState(newState))
+        dispatch(updateEcfWalletState(newState))
         dispatch(hideLoadingIndication())
-        dispatch({ type: actionConstants.LOCK_METAMASK })
+        dispatch({ type: actionConstants.LOCK_ECF_WALLET })
       })
       .catch(() => {
         dispatch(hideLoadingIndication())
-        dispatch({ type: actionConstants.LOCK_METAMASK })
+        dispatch({ type: actionConstants.LOCK_ECF_WALLET })
       })
   }
 }
@@ -1245,7 +1245,7 @@ export function addPermittedAccount (origin, address) {
         resolve()
       })
     })
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
   }
 }
 
@@ -1260,7 +1260,7 @@ export function removePermittedAccount (origin, address) {
         resolve()
       })
     })
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
   }
 }
 
@@ -1348,8 +1348,8 @@ export function removeSuggestedTokens () {
         resolve(suggestedTokens)
       })
     })
-      .then(() => updateMetamaskStateFromBackground())
-      .then((suggestedTokens) => dispatch(updateMetamaskState({ ...suggestedTokens })))
+      .then(() => updateEcfWalletStateFromBackground())
+      .then((suggestedTokens) => dispatch(updateEcfWalletState({ ...suggestedTokens })))
   }
 }
 
@@ -1391,7 +1391,7 @@ export function createCancelTransaction (txId, customGasPrice) {
         resolve(newState)
       })
     })
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => newTxId)
   }
 }
@@ -1414,7 +1414,7 @@ export function createSpeedUpTransaction (txId, customGasPrice, customGasLimit) 
         resolve(newState)
       })
     })
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => newTx)
   }
 }
@@ -1437,7 +1437,7 @@ export function createRetryTransaction (txId, customGasPrice, customGasLimit) {
         resolve(newState)
       })
     })
-      .then((newState) => dispatch(updateMetamaskState(newState)))
+      .then((newState) => dispatch(updateEcfWalletState(newState)))
       .then(() => newTx)
   }
 }
@@ -1448,7 +1448,7 @@ export function createRetryTransaction (txId, customGasPrice, customGasLimit) {
 
 export function setProviderType (type) {
   return async (dispatch, getState) => {
-    const { type: currentProviderType } = getState().metamask.provider
+    const { type: currentProviderType } = getState().ecfWallet.provider
     log.debug(`background.setProviderType`, type)
 
     try {
@@ -1557,7 +1557,7 @@ export function addToAddressBook (recipient, nickname = '', memo = '') {
   log.debug(`background.addToAddressBook`)
 
   return async (dispatch, getState) => {
-    const chainId = getState().metamask.network
+    const chainId = getState().ecfWallet.network
 
     let set
     try {
@@ -1918,7 +1918,7 @@ export function setMouseUserState (isMouseUser) {
   }
 }
 
-export async function forceUpdateMetamaskState (dispatch) {
+export async function forceUpdateEcfWalletState (dispatch) {
   log.debug(`background.getState`)
 
   let newState
@@ -1929,7 +1929,7 @@ export async function forceUpdateMetamaskState (dispatch) {
     throw error
   }
 
-  dispatch(updateMetamaskState(newState))
+  dispatch(updateEcfWalletState(newState))
   return newState
 }
 
@@ -2054,7 +2054,7 @@ export function setPendingTokens (pendingTokens) {
 export function requestAccountsPermissionWithId (origin) {
   return async (dispatch) => {
     const id = await promisifiedBackground.requestAccountsPermissionWithId(origin)
-    await forceUpdateMetamaskState(dispatch)
+    await forceUpdateEcfWalletState(dispatch)
     return id
   }
 }
@@ -2083,7 +2083,7 @@ export function rejectPermissionsRequest (requestId) {
           reject(err)
           return
         }
-        forceUpdateMetamaskState(dispatch)
+        forceUpdateEcfWalletState(dispatch)
           .then(resolve)
           .catch(reject)
       })
@@ -2186,7 +2186,7 @@ export function getContractMethodData (data = '') {
   return (dispatch, getState) => {
     const prefixedData = ethUtil.addHexPrefix(data)
     const fourBytePrefix = prefixedData.slice(0, 10)
-    const { knownMethodData } = getState().metamask
+    const { knownMethodData } = getState().ecfWallet
 
     if ((knownMethodData && knownMethodData[fourBytePrefix] && Object.keys(knownMethodData[fourBytePrefix]).length !== 0) || fourBytePrefix === '0x') {
       return Promise.resolve(knownMethodData[fourBytePrefix])
@@ -2218,7 +2218,7 @@ export function loadingTokenParamsFinished () {
 
 export function getTokenParams (tokenAddress) {
   return (dispatch, getState) => {
-    const existingTokens = getState().metamask.tokens
+    const existingTokens = getState().ecfWallet.tokens
     const existingToken = existingTokens.find(({ address }) => tokenAddress === address)
 
     if (existingToken) {
@@ -2249,7 +2249,7 @@ export function setSeedPhraseBackedUp (seedPhraseBackupState) {
           reject(err)
           return
         }
-        forceUpdateMetamaskState(dispatch)
+        forceUpdateEcfWalletState(dispatch)
           .then(resolve)
           .catch(reject)
       })
@@ -2364,7 +2364,7 @@ export function setNextNonce (nextNonce) {
 
 export function getNextNonce () {
   return (dispatch, getState) => {
-    const address = getState().metamask.selectedAddress
+    const address = getState().ecfWallet.selectedAddress
     return new Promise((resolve, reject) => {
       background.getNextNonce(address, (err, nextNonce) => {
         if (err) {
@@ -2393,17 +2393,17 @@ export function getRequestAccountTabIds () {
   }
 }
 
-export function setOpenMetamaskTabsIDs (openMetaMaskTabIDs) {
+export function setOpenEcfWalletTabsIDs (openEcfWalletTabIDs) {
   return {
-    type: actionConstants.SET_OPEN_METAMASK_TAB_IDS,
-    value: openMetaMaskTabIDs,
+    type: actionConstants.SET_OPEN_ECF_WALLET_TAB_IDS,
+    value: openEcfWalletTabIDs,
   }
 }
 
-export function getOpenMetamaskTabsIds () {
+export function getOpenEcfWalletTabsIds () {
   return async (dispatch) => {
-    const openMetaMaskTabIDs = await promisifiedBackground.getOpenMetamaskTabsIds()
-    dispatch(setOpenMetamaskTabsIDs(openMetaMaskTabIDs))
+    const openEcfWalletTabIDs = await promisifiedBackground.getOpenEcfWalletTabsIds()
+    dispatch(setOpenEcfWalletTabsIDs(openEcfWalletTabIDs))
   }
 }
 

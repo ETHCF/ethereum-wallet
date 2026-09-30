@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "您的浏览器不支持该功能…"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask在加利福尼亚设计和制造。"
-  },
   "bytes": {
     "message": "字节"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "如果您需要再次备份个人种子密语，请通过设置 -> 安全选项完成该操作。"
-  },
-  "endOfFlowMessage7": {
-    "message": "如果您仍存有疑问或发现任何可疑的地方，请发送电子邮件至 support@metamask.io 进行咨询。"
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet 无法恢复您的种子密语。了解更多。"
@@ -612,10 +606,10 @@
   "message": {
     "message": "消息"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet is a secure identity vault for Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet 版本"
   },
   "mobileSyncText": {
@@ -671,7 +665,7 @@
   "newNetwork": {
     "message": "新增网络"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "新增至 ECF Wallet？"
   },
   "noAlreadyHaveSeed": {
@@ -682,9 +676,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "请注意个人种子密语安全。报告显示有多个网站企图伪造 ECF Wallet。ECF Wallet 绝不会要求您提供个人种子密语！"
-  },
-  "protectYourKeysMessage2": {
-    "message": "请妥善保管您的密语。如果您发现任何可疑的地方，或无法确认网络安全性，请发送电子邮件至 support@metamask.io 进行咨询"
   },
   "rpcUrl": {
     "message": "新增 RPC URL"
@@ -1073,19 +1064,19 @@
     "message": "使用移动设备进行同步"
   },
   "syncWithMobileDesc": {
-    "message": "您可以使用个人移动设备同步个人账户与信息。打开 MetaMask 移动应用程序，进入“设置”选项，点击“通过浏览器扩展程序同步”"
+    "message": "您可以使用个人移动设备同步个人账户与信息。打开 ecf-wallet 移动应用程序，进入“设置”选项，点击“通过浏览器扩展程序同步”"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "如果您是首次启用 MetaMask 移动应用程序，请通过个人手机完成如下操作。"
+    "message": "如果您是首次启用 ecf-wallet 移动应用程序，请通过个人手机完成如下操作。"
   },
   "syncWithMobileScanThisCode": {
-    "message": "使用 MetaMask 应用程序扫描编码"
+    "message": "使用 ecf-wallet 应用程序扫描编码"
   },
   "syncWithMobileBeCareful": {
     "message": "扫描编码时，请确保身边无其他人正在查看您的显示页面"
   },
   "syncWithMobileComplete": {
-    "message": "您的数据已同步成功。尽情体验 MetaMask 应用程序！"
+    "message": "您的数据已同步成功。尽情体验 ecf-wallet 应用程序！"
   },
   "terms": {
     "message": "使用条款"

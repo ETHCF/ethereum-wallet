@@ -582,7 +582,7 @@ describe('IncomingTransactionsController', function () {
       assert.deepEqual(result, {
         blockNumber: 333,
         id: 54321,
-        metamaskNetworkId: 'FAKE_NETWORK',
+        ecfWalletNetworkId: 'FAKE_NETWORK',
         status: 'failed',
         time: 4444000,
         txParams: {
@@ -622,7 +622,7 @@ describe('IncomingTransactionsController', function () {
       assert.deepEqual(result, {
         blockNumber: 333,
         id: 54321,
-        metamaskNetworkId: 'FAKE_NETWORK',
+        ecfWalletNetworkId: 'FAKE_NETWORK',
         status: 'confirmed',
         time: 4444000,
         txParams: {

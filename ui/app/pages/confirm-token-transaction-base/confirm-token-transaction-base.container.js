@@ -5,7 +5,7 @@ import {
   contractExchangeRateSelector,
   transactionFeeSelector,
 } from '../../selectors'
-import { getTokens } from '../../ducks/metamask/metamask'
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import {
   getTokenData,
 } from '../../helpers/utils/transactions.util'
@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id: paramsTransactionId } = params
   const {
     confirmTransaction,
-    metamask: { currentCurrency, conversionRate, currentNetworkTxList },
+    ecfWallet: { currentCurrency, conversionRate, currentNetworkTxList },
   } = state
 
   const {

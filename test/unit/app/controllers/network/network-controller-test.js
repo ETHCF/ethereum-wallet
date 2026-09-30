@@ -14,7 +14,7 @@ describe('NetworkController', function () {
     beforeEach(function () {
       nock('https://rinkeby.infura.io')
         .persist()
-        .post('/metamask')
+        .post('/ecf-wallet')
         .reply(200)
 
       networkController = new NetworkController()

@@ -9,7 +9,7 @@ import {
 } from '../../selectors'
 import {
   hideSidebar,
-  lockMetamask,
+  lockEcfWallet,
   setCurrentCurrency,
   setLastActiveTime,
   setMouseUserState,
@@ -32,15 +32,15 @@ function mapStateToProps (state) {
     sidebar,
     alertOpen,
     alertMessage,
-    textDirection: state.metamask.textDirection,
+    textDirection: state.ecfWallet.textDirection,
     isLoading,
     loadingMessage,
-    isUnlocked: state.metamask.isUnlocked,
+    isUnlocked: state.ecfWallet.isUnlocked,
     submittedPendingTransactions: submittedPendingTransactionsSelector(state),
-    network: state.metamask.network,
-    provider: state.metamask.provider,
-    frequentRpcListDetail: state.metamask.frequentRpcListDetail || [],
-    currentCurrency: state.metamask.currentCurrency,
+    network: state.ecfWallet.network,
+    provider: state.ecfWallet.provider,
+    frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
+    currentCurrency: state.ecfWallet.currentCurrency,
     isMouseUser: state.appState.isMouseUser,
     providerId: getNetworkIdentifier(state),
     autoLockTimeLimit,
@@ -50,7 +50,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    lockMetaMask: () => dispatch(lockMetamask(false)),
+    lockEcfWallet: () => dispatch(lockEcfWallet(false)),
     hideSidebar: () => dispatch(hideSidebar()),
     setCurrentCurrencyToUSD: () => dispatch(setCurrentCurrency('usd')),
     setMouseUserState: (isMouseUser) => dispatch(setMouseUserState(isMouseUser)),

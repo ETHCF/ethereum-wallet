@@ -13,7 +13,7 @@ const cleanContextForImports = () => {
   try {
     global.define = undefined
   } catch (_) {
-    console.warn('MetaMask - global.define could not be deleted.')
+    console.warn('ecf-wallet - global.define could not be deleted.')
   }
 }
 
@@ -24,7 +24,7 @@ const restoreContextAfterImports = () => {
   try {
     global.define = __define
   } catch (_) {
-    console.warn('MetaMask - global.define could not be overwritten.')
+    console.warn('ecf-wallet - global.define could not be overwritten.')
   }
 }
 
@@ -42,7 +42,7 @@ import setupWeb3 from './lib/setupWeb3'
 
 restoreContextAfterImports()
 
-log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
+log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
 //
 // setup plugin communication
@@ -50,23 +50,23 @@ log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
 
 if (shouldInjectProvider()) {
   // setup background connection
-  const metamaskStream = new LocalMessageDuplexStream({
+  const ecfWalletStream = new LocalMessageDuplexStream({
     name: 'inpage',
     target: 'contentscript',
   })
 
   initProvider({
-    connectionStream: metamaskStream,
+    connectionStream: ecfWalletStream,
   })
 
   // TODO:deprecate:2020
   // Setup web3
 
   if (typeof window.web3 !== 'undefined') {
-    throw new Error(`MetaMask detected another web3.
-       MetaMask will not work reliably with another web3 extension.
-       This usually happens if you have two MetaMasks installed,
-       or MetaMask and another web3 extension. Please remove one
+    throw new Error(`ecf-wallet detected another web3.
+       ecf-wallet will not work reliably with another web3 extension.
+       This usually happens if you have two ecf-wallets installed,
+       or ecf-wallet and another web3 extension. Please remove one
        and try again.`)
   }
 

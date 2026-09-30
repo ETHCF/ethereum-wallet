@@ -5,7 +5,7 @@ export const txMetaStub = {
     {
       'id': 405984854664302,
       'loadingDefaults': true,
-      'metamaskNetworkId': '4',
+      'ecfWalletNetworkId': '4',
       'status': 'unapproved',
       'time': 1572395156620,
       'transactionCategory': 'sentEther',
@@ -32,7 +32,7 @@ export const txMetaStub = {
         'op': 'add',
         'path': '/origin',
         'timestamp': 1572395156645,
-        'value': 'MetaMask',
+        'value': 'ecf-wallet',
       },
     ],
     [],
@@ -154,7 +154,7 @@ export const txMetaStub = {
   ],
   'id': 405984854664302,
   'loadingDefaults': false,
-  'metamaskNetworkId': '4',
+  'ecfWalletNetworkId': '4',
   'nonceDetails': {
     'local': {
       'details': {
@@ -178,7 +178,7 @@ export const txMetaStub = {
       'nextNetworkNonce': 4,
     },
   },
-  'origin': 'MetaMask',
+  'origin': 'ecf-wallet',
   'r': '0x5f973e540f2d3c2f06d3725a626b75247593cb36477187ae07ecfe0a4db3cf57',
   'rawTx': '0xf86204831e848082520894f231d46dd78806e1dd93442cf33c7671f853874880802ca05f973e540f2d3c2f06d3725a626b75247593cb36477187ae07ecfe0a4db3cf57a00259b52ee8c58baaa385fb05c3f96116e58de89bcc165cb3bfdfc708672fed8a',
   's': '0x0259b52ee8c58baaa385fb05c3f96116e58de89bcc165cb3bfdfc708672fed8a',

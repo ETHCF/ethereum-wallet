@@ -76,12 +76,12 @@
   "connecting": {
     "message": "Connessione..."
   },
-  "connectWithMetaMask": {
+  "connectWithEcfWallet": {
     "message": "Connetti con ECF Wallet"
   },
   "connectTo": {
     "message": "Connettiti a $1",
-    "description": "$1 is the name/origin of a site/dapp that the user can connect to metamask"
+    "description": "$1 is the name/origin of a site/dapp that the user can connect to ecf-wallet"
   },
   "connectToAll": {
     "message": "Connettiti a tutti i tuoi $1",
@@ -299,9 +299,6 @@
   },
   "browserNotSupported": {
     "message": "Il tuo Browser non è supportato..."
-  },
-  "builtInCalifornia": {
-    "message": "MetaMask è progettato e realizzato in California."
   },
   "bytes": {
     "message": "Bytes"
@@ -531,9 +528,6 @@
   "endOfFlowMessage6": {
     "message": "Se vorrai fare nuovamente un backup della frase, la puoi trovare in Impostazioni -> Sicurezza & Privacy."
   },
-  "endOfFlowMessage7": {
-    "message": "Se hai delle domande o vedi delle attività sospette, manda una mail a support@metamask.io."
-  },
   "endOfFlowMessage8": {
     "message": "ECF Wallet non può recuperare la tua frase seed. Impara di più."
   },
@@ -587,14 +581,6 @@
   "errorPageTitle": {
     "message": "ECF Wallet ha riscontrato un errore",
     "description": "Title of generic error page"
-  },
-  "errorPageMessage": {
-    "message": "Prova di nuovo ricaricando la pagina, o contatta il supporto a support@metamask.io (inglese)",
-    "description": "Message displayed on generic error page in the fullscreen or notification UI"
-  },
-  "errorPagePopupMessage": {
-    "message": "Prova a chiudere e riaprire il popup, o contatta il supporto a support@metamask.io (inglese)",
-    "description": "Message displayed on generic error page in the popup UI"
   },
   "errorStack": {
     "message": "Stack:",
@@ -879,19 +865,19 @@
   "message": {
     "message": "Messaggio"
   },
-  "metaMaskConnectStatusParagraphOne": {
+  "ecfWalletConnectStatusParagraphOne": {
     "message": "Ora hai piu controllo sulle connessioni del tuo account in ECF Wallet."
   },
-  "metaMaskConnectStatusParagraphTwo": {
+  "ecfWalletConnectStatusParagraphTwo": {
     "message": "Il bottone di stato della connessione mostra se il sito che stai visitando è connesso all'account corrente"
   },
-  "metaMaskConnectStatusParagraphThree": {
+  "ecfWalletConnectStatusParagraphThree": {
     "message": "Clicca per gestire i tuo account connessi."
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet è una cassaforte sicura per identità su Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "versione di ECF Wallet"
   },
   "mobileSyncText": {
@@ -953,7 +939,7 @@
   "newNetwork": {
     "message": "Nuova Rete"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Nuovo su ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -964,9 +950,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Stai attento con la tua frase seed - ci sono stati report di siti web che hanno tentato di imitare ECF Wallet. ECF Wallet non ti chiederà mai la tua frase seed!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Tieni la tua frase al sicuro. Se vedi qualcosa di sospetto, o non sei sicuro di un sito web, manda una mail a support@metamask.io"
   },
   "rpcUrl": {
     "message": "Nuovo URL RPC"
@@ -994,7 +977,7 @@
   },
   "nextNonceWarning": {
     "message": "Numero di transazione deve essere maggiore di $1",
-    "description": "The next nonce according to MetaMask's internal logic"
+    "description": "The next nonce according to ecf-wallet's internal logic"
   },
   "noAddressForName": {
     "message": "Nessun indirizzo è stato impostato per questo nome."
@@ -1459,19 +1442,19 @@
     "message": "Sincronizza con dispositivo mobile"
   },
   "syncWithMobileDesc": {
-    "message": "Puoi sincronizzare i tuoi account e le tue informazioni con il tuo dispositivo mobile. Apri l'app di MetaMask, vai su \"Impostazioni\" e tocca \"Sincronizza da Estensione sul Browser\""
+    "message": "Puoi sincronizzare i tuoi account e le tue informazioni con il tuo dispositivo mobile. Apri l'app di ecf-wallet, vai su \"Impostazioni\" e tocca \"Sincronizza da Estensione sul Browser\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Se hai appena aperto l'app di MetaMask per la prima volta, segui i passaggi sul tuo telefono."
+    "message": "Se hai appena aperto l'app di ecf-wallet per la prima volta, segui i passaggi sul tuo telefono."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Scansiona questo codice con l'app di MetaMask"
+    "message": "Scansiona questo codice con l'app di ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Assicurati che nessun'altro stia guardando al tuo schermo quando scansioni questo codice"
   },
   "syncWithMobileComplete": {
-    "message": "I tuoi dati sono stati sincronizzati con successo. Goditi l'app di MetaMask!"
+    "message": "I tuoi dati sono stati sincronizzati con successo. Goditi l'app di ecf-wallet!"
   },
   "terms": {
     "message": "Termini di Uso"
@@ -1703,7 +1686,7 @@
     "message": "$1 vorrebbe leggere questo messaggio per completare l'azione",
     "description": "$1 is website or dapp name"
   },
-  "decryptMetamask": {
+  "decryptEcfWallet": {
     "message": "Decifra messaggio"
   },
   "decryptCopy": {

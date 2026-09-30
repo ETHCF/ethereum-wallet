@@ -15,7 +15,7 @@ const fixtureServer = new FixtureServer()
 
 const ganacheServer = new Ganache()
 
-describe('MetaMask', function () {
+describe('ecf-wallet', function () {
   let driver
   let publicAddress
 

@@ -76,12 +76,12 @@
   "connecting": {
     "message": "Connecting..."
   },
-  "connectWithMetaMask": {
+  "connectWithEcfWallet": {
     "message": "Connect With ECF Wallet"
   },
   "connectTo": {
     "message": "Connect to $1",
-    "description": "$1 is the name/origin of a web3 site/application that the user can connect to metamask"
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to ecf-wallet"
   },
   "connectToAll": {
     "message": "Connect to all your $1",
@@ -303,9 +303,6 @@
   },
   "browserNotSupported": {
     "message": "Your Browser is not supported..."
-  },
-  "builtInCalifornia": {
-    "message": "MetaMask is designed and built in California."
   },
   "bytes": {
     "message": "Bytes"
@@ -539,7 +536,7 @@
     "message": "If you need to back up your seed phrase again, you can find it in Settings -> Security."
   },
   "endOfFlowMessage7": {
-    "message": "If you ever have questions or see something fishy, email support@metamask.io."
+    "message": "For questions or suspicious activity, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your secret recovery phrase or private keys."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet cannot recover your seedphrase."
@@ -596,12 +593,10 @@
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
-    "message": "Try again by reloading the page, or contact support at support@metamask.io",
-    "description": "Message displayed on generic error page in the fullscreen or notification UI"
+    "message": "Try again by reloading the page, or report the problem at https://github.com/ETHCF/ethereum-wallet/issues"
   },
   "errorPagePopupMessage": {
-    "message": "Try again by closing and reopening the popup, or contact support at support@metamask.io",
-    "description": "Message displayed on generic error page in the popup UI"
+    "message": "Try again by closing and reopening the popup, or report the problem at https://github.com/ETHCF/ethereum-wallet/issues"
   },
   "errorStack": {
     "message": "Stack:",
@@ -886,19 +881,19 @@
   "message": {
     "message": "Message"
   },
-  "metaMaskConnectStatusParagraphOne": {
+  "ecfWalletConnectStatusParagraphOne": {
     "message": "You now have more control over your account connections in ECF Wallet."
   },
-  "metaMaskConnectStatusParagraphTwo": {
+  "ecfWalletConnectStatusParagraphTwo": {
     "message": "The connection status button shows if the website you’re visiting is connected to your currently selected account."
   },
-  "metaMaskConnectStatusParagraphThree": {
+  "ecfWalletConnectStatusParagraphThree": {
     "message": "Click it to manage your connected accounts."
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Connecting you to Ethereum and the Decentralized Web."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet Version"
   },
   "mobileSyncText": {
@@ -960,7 +955,7 @@
   "newNetwork": {
     "message": "New Network"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "New to ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -973,7 +968,7 @@
     "message": "Be careful with your seed phrase — there have been reports of websites that attempt to imitate ECF Wallet. ECF Wallet will never ask for your seed phrase!"
   },
   "protectYourKeysMessage2": {
-    "message": "Keep your phrase safe. If you see something fishy, or you’re uncertain about a website, email support@metamask.io"
+    "message": "Keep your phrase safe. For questions about a suspicious website, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your secret recovery phrase or private keys."
   },
   "rpcUrl": {
     "message": "New RPC URL"
@@ -1001,7 +996,7 @@
   },
   "nextNonceWarning": {
     "message": "Nonce is higher than suggested nonce of $1",
-    "description": "The next nonce according to MetaMask's internal logic"
+    "description": "The next nonce according to ecf-wallet's internal logic"
   },
   "noAddressForName": {
     "message": "No address has been set for this name."
@@ -1466,19 +1461,19 @@
     "message": "Sync with mobile"
   },
   "syncWithMobileDesc": {
-    "message": "You can sync your accounts and information with your mobile device. Open the MetaMask mobile app, go to \"Settings\" and tap on \"Sync from Browser Extension\""
+    "message": "You can sync your accounts and information with your mobile device. Open the mobile wallet app, go to \"Settings\" and tap on \"Sync from Browser Extension\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "If you just open the MetaMask Mobile app for the first time, just follow the steps in your phone."
+    "message": "If you just open the mobile wallet app for the first time, just follow the steps in your phone."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Scan this code with your MetaMask mobile app"
+    "message": "Scan this code with your mobile wallet app"
   },
   "syncWithMobileBeCareful": {
     "message": "Make sure nobody else is looking at your screen when you scan this code"
   },
   "syncWithMobileComplete": {
-    "message": "Your data has been synced successfully. Enjoy the MetaMask mobile app!"
+    "message": "Your data has been synced successfully. Enjoy the mobile wallet app!"
   },
   "terms": {
     "message": "Terms of Use"
@@ -1710,7 +1705,7 @@
     "message": "$1 would like to read this message to complete your action",
     "description": "$1 is the web3 site name"
   },
-  "decryptMetamask": {
+  "decryptEcfWallet": {
     "message": "Decrypt message"
   },
   "decryptCopy": {

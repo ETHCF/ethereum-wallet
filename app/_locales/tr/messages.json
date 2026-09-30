@@ -49,9 +49,6 @@
   "blockiesIdenticon": {
     "message": "Blockies Identicon kullan"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask California'da tasarlandı ve yaratıldı"
-  },
   "ok": {
     "message": "Tamam"
   },
@@ -266,7 +263,7 @@
   "message": {
     "message": "Mesaj"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet Ethereum için güvenli bir kimlik kasasıdır."
   },
   "myAccounts": {

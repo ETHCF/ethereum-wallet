@@ -94,7 +94,7 @@ describe('migration #37', function () {
               address: '0x1De7e54679bfF0c23856FbF547b2394e723FCA91',
               chainId: '4',
               memo: '',
-              name: 'metamask.eth',
+              name: 'ecf-wallet.eth',
             },
           },
         },
@@ -110,7 +110,7 @@ describe('migration #37', function () {
               chainId: '4',
               isEns: true,
               memo: '',
-              name: 'metamask.eth',
+              name: 'ecf-wallet.eth',
             },
           },
         })

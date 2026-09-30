@@ -12,7 +12,7 @@ import {
 import FirstTimeFlow from './first-time-flow.component'
 
 const mapStateToProps = (state, ownProps) => {
-  const { metamask: { completedOnboarding, isInitialized, isUnlocked, seedPhraseBackedUp } } = state
+  const { ecfWallet: { completedOnboarding, isInitialized, isUnlocked, seedPhraseBackedUp } } = state
   const showingSeedPhraseBackupAfterOnboarding = Boolean(ownProps.location.pathname.match(INITIALIZE_BACKUP_SEED_PHRASE_ROUTE))
 
   return {

@@ -14,7 +14,7 @@ function mapStateToPropsFactory () {
     return {
       warning: state.appState.warning,
       privateKey: state.appState.accountDetail.privateKey,
-      network: state.metamask.network,
+      network: state.ecfWallet.network,
       selectedIdentity,
       previousModalState: state.appState.modal.previousModalState.name,
     }

@@ -20,7 +20,7 @@ import ConfirmEncryptionPublicKey from './confirm-encryption-public-key.componen
 function mapStateToProps (state) {
   const {
     confirmTransaction,
-    metamask: { domainMetadata = {} },
+    ecfWallet: { domainMetadata = {} },
   } = state
 
   const {
@@ -47,7 +47,7 @@ function mapDispatchToProps (dispatch) {
     goHome: () => dispatch(goHome()),
     clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
     encryptionPublicKey: (msgData, event) => {
-      const params = { data: msgData.msgParams, metamaskId: msgData.id }
+      const params = { data: msgData.msgParams, ecfWalletId: msgData.id }
       event.stopPropagation()
       return dispatch(encryptionPublicKeyMsg(params))
     },

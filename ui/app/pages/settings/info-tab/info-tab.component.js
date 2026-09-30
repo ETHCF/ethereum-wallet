@@ -22,7 +22,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/privacy.html"
+            href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/docs/privacy.md"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -33,7 +33,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/terms.html"
+            href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/USER_AGREEMENT.md"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -44,7 +44,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/attributions.html"
+            href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/LICENSE"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -56,7 +56,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://support.metamask.io"
+            href="https://github.com/ETHCF/ethereum-wallet/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -78,7 +78,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.zendesk.com/hc/en-us/requests/new"
+            href="https://github.com/ETHCF/ethereum-wallet/issues/new"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -106,7 +106,7 @@ export default class InfoTab extends PureComponent {
             </div>
             <div className="info-tab__item">
               <div className="info-tab__version-header">
-                { t('metamaskVersion') }
+                { t('ecfWalletVersion') }
               </div>
               <div className="info-tab__version-number">
                 { this.state.version }
@@ -114,7 +114,7 @@ export default class InfoTab extends PureComponent {
             </div>
             <div className="info-tab__item">
               <div className="info-tab__about">
-                { t('builtInCalifornia') }
+                { t('ecfWalletDescription') }
               </div>
             </div>
           </div>

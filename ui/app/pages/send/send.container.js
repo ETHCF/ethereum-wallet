@@ -41,7 +41,7 @@ import {
 import {
   fetchBasicGasEstimates,
 } from '../../ducks/gas/gas.duck'
-import { getTokens } from '../../ducks/metamask/metamask'
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import {
   isValidDomainName,
 } from '../../helpers/utils/util'

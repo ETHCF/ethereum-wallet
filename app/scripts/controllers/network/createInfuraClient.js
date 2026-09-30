@@ -11,7 +11,7 @@ import BlockTracker from 'eth-block-tracker'
 import * as networkEnums from './enums'
 
 export default function createInfuraClient ({ network }) {
-  const infuraMiddleware = createInfuraMiddleware({ network, maxAttempts: 5, source: 'metamask' })
+  const infuraMiddleware = createInfuraMiddleware({ network, maxAttempts: 5, source: 'ecf-wallet' })
   const infuraProvider = providerFromMiddleware(infuraMiddleware)
   const blockTracker = new BlockTracker({ provider: infuraProvider })
 

@@ -7,7 +7,7 @@ import Identicon from '../identicon.component'
 
 describe('Identicon', function () {
   const state = {
-    metamask: {
+    ecfWallet: {
       useBlockie: false,
     },
   }

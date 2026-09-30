@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash'
 const version = 47
 
 /**
- * Stringify the `metamaskNetworkId` property of all transactions
+ * Stringify the `ecfWalletNetworkId` property of all transactions
  */
 export default {
   version,
@@ -20,8 +20,8 @@ function transformState (state) {
   const transactions = state?.TransactionController?.transactions
   if (Array.isArray(transactions)) {
     transactions.forEach((transaction) => {
-      if (typeof transaction.metamaskNetworkId === 'number') {
-        transaction.metamaskNetworkId = transaction.metamaskNetworkId.toString()
+      if (typeof transaction.ecfWalletNetworkId === 'number') {
+        transaction.ecfWalletNetworkId = transaction.ecfWalletNetworkId.toString()
       }
     })
   }

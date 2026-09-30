@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Browserul dvs. nu este compatibil..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask este concepută și creată în California."
-  },
   "bytes": {
     "message": "Octeți"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Dacă trebuie să vă salvați din nou fraza seed, puteți să o găsiți în Setări -> Securitate."
-  },
-  "endOfFlowMessage7": {
-    "message": "Dacă aveți întrebări sau vedeți ceva suspect, trimiteți un e-mail la support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet nu vă poate recupera expresia sursă. Aflați mai multe."
@@ -611,10 +605,10 @@
   "message": {
     "message": "Mesaj"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Vă conectăm la Ethereum și la Internetul descentralizat."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Versiune ECF Wallet"
   },
   "mobileSyncText": {
@@ -676,7 +670,7 @@
   "newNetwork": {
     "message": "Rețea nouă"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Nefamiliarizat cu ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -687,9 +681,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Aveți grijă cu expresia dvs. sursă – au existat raportări despre site-uri web care încearcă să imite ECF Wallet. ECF Wallet nu vă va cere niciodată expresia sursă!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Aveți grijă de fraza dvs. Dacă vedeți ceva care este în neregulă sau aveți dubii cu privire la un site, trimiteți un mesaj la support@metamask.io"
   },
   "rpcUrl": {
     "message": "URL RPC nou"
@@ -1078,19 +1069,19 @@
     "message": "Sincronizați cu mobilul"
   },
   "syncWithMobileDesc": {
-    "message": "Vă puteți sincroniza conturile și informațiile cu dispozitivul dvs. mobil. Deschideți aplicația mobilă MetaMask, mergeți la „Setări” și atingeți „Sincronizare de la extensia de browser”"
+    "message": "Vă puteți sincroniza conturile și informațiile cu dispozitivul dvs. mobil. Deschideți aplicația mobilă ecf-wallet, mergeți la „Setări” și atingeți „Sincronizare de la extensia de browser”"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Dacă deschideți aplicația pentru mobil MetaMask pentru prima oară, urmați pașii afișați pe telefonul dvs."
+    "message": "Dacă deschideți aplicația pentru mobil ecf-wallet pentru prima oară, urmați pașii afișați pe telefonul dvs."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Scanați acest cod folosind aplicația dvs. mobilă MetaMask"
+    "message": "Scanați acest cod folosind aplicația dvs. mobilă ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Asigurați-vă că nimeni altcineva nu poate vedea ecranul dvs. când scanați acest cod"
   },
   "syncWithMobileComplete": {
-    "message": "Datele dvs. au fost sincronizate cu succes. Bucurați-vă de aplicația mobilă MetaMask!"
+    "message": "Datele dvs. au fost sincronizate cu succes. Bucurați-vă de aplicația mobilă ecf-wallet!"
   },
   "terms": {
     "message": "Termeni și condiții"

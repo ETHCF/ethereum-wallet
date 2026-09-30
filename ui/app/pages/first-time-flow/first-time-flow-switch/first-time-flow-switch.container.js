@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import FirstTimeFlowSwitch from './first-time-flow-switch.component'
 
-const mapStateToProps = ({ metamask }) => {
+const mapStateToProps = ({ ecfWallet }) => {
   const {
     completedOnboarding,
     isInitialized,
     isUnlocked,
-  } = metamask
+  } = ecfWallet
 
   return {
     completedOnboarding,

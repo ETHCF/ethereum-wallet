@@ -13,7 +13,7 @@ const Ganache = require('./ganache')
 
 const ganacheServer = new Ganache()
 
-describe('MetaMask', function () {
+describe('ecf-wallet', function () {
   let driver
   let tokenAddress
 
@@ -208,7 +208,7 @@ describe('MetaMask', function () {
     })
   })
 
-  describe('Send ETH from inside MetaMask using default gas', function () {
+  describe('Send ETH from inside ecf-wallet using default gas', function () {
     it('starts a send transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`))
       await driver.delay(regularDelayMs)
@@ -272,7 +272,7 @@ describe('MetaMask', function () {
     })
   })
 
-  describe('Send ETH from inside MetaMask using fast gas option', function () {
+  describe('Send ETH from inside ecf-wallet using fast gas option', function () {
     it('starts a send transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`))
       await driver.delay(regularDelayMs)
@@ -311,7 +311,7 @@ describe('MetaMask', function () {
     })
   })
 
-  describe('Send ETH from inside MetaMask using advanced gas modal', function () {
+  describe('Send ETH from inside ecf-wallet using advanced gas modal', function () {
     it('starts a send transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`))
       await driver.delay(regularDelayMs)
@@ -832,7 +832,7 @@ describe('MetaMask', function () {
     })
   })
 
-  describe('Send token from inside MetaMask', function () {
+  describe('Send token from inside ecf-wallet', function () {
     let gasModal
     it('starts to send a transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`))

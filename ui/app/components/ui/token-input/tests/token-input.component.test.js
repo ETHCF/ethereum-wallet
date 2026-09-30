@@ -15,7 +15,7 @@ describe('TokenInput Component', function () {
   describe('rendering', function () {
     it('should render properly', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -49,7 +49,7 @@ describe('TokenInput Component', function () {
 
     it('should render properly with tokenExchangeRates', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -83,7 +83,7 @@ describe('TokenInput Component', function () {
 
     it('should render properly with a token value for ETH', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -116,7 +116,7 @@ describe('TokenInput Component', function () {
 
     it('should render properly with a token value for fiat', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -150,7 +150,7 @@ describe('TokenInput Component', function () {
 
     it('should render properly with a token value for fiat, but hideConversion is true', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -201,7 +201,7 @@ describe('TokenInput Component', function () {
 
     it('should call onChange on input changes with the hex value for ETH', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -242,7 +242,7 @@ describe('TokenInput Component', function () {
 
     it('should call onChange on input changes with the hex value for fiat', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },
@@ -284,7 +284,7 @@ describe('TokenInput Component', function () {
 
     it('should change the state and pass in a new decimalValue when props.value changes', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           currentCurrency: 'usd',
           conversionRate: 231.06,
         },

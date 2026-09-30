@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "आपका ब्राउज़र समर्थित नहीं है..."
   },
-  "builtInCalifornia": {
-    "message": "मेटामास्क का डिजाइन और निर्माण कैलिफोर्निया में किया गया है।"
-  },
   "bytes": {
     "message": "बाइट"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "यदि आपको अपने सीड फ़्रेज़ का बैक अप लेने की आवश्यकता है तो आप इसे सेटिंग्स -> सुरक्षा में पा सकते हैं।"
-  },
-  "endOfFlowMessage7": {
-    "message": "यदि आपका कोई भी प्रश्न है या कोई गड़बड़ पाते हैं तो support@metamask.io पर ईमेल करें।"
   },
   "endOfFlowMessage8": {
     "message": "मेटामास्क आपके बीज वाक्यांश को पुनर्प्राप्त नहीं कर सकता है। और अधिक जानें।"
@@ -621,10 +615,10 @@
   "message": {
     "message": "संदेश"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "आपको Ethereum और विकेंद्रीकृत वेब से कनेक्ट कर रहे हैं।"
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet का संस्करण"
   },
   "mobileSyncText": {
@@ -686,7 +680,7 @@
   "newNetwork": {
     "message": "नया नेटवर्क"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "ECF Wallet में नए है?"
   },
   "noAlreadyHaveSeed": {
@@ -697,9 +691,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "अपने सीड फ़्रेज़ के बारे में सावधान रहें — ऐसी वेबसाइटों की रिपोर्टें आई हैं जो ECF Wallet की नकल करने का प्रयास करती हैं। ECF Wallet आपके सीड फ़्रेज़ के बारे में कभी नहीं पूछेगा!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "अपने वाक्यांश को सुरक्षित रखें। यदि आपको कुछ गड़बड़ दिखती है, या आप किसी वेबसाइट के बारे में अनिश्चित हैं तो support@metamask.io को ई मेल करें\n"
   },
   "rpcUrl": {
     "message": "नया RPC URL"

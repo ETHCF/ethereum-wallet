@@ -1,10 +1,10 @@
 // Actions
-const OPEN_TO_DROPDOWN = 'metamask/send/OPEN_TO_DROPDOWN'
-const CLOSE_TO_DROPDOWN = 'metamask/send/CLOSE_TO_DROPDOWN'
-const UPDATE_SEND_ERRORS = 'metamask/send/UPDATE_SEND_ERRORS'
-const RESET_SEND_STATE = 'metamask/send/RESET_SEND_STATE'
-const SHOW_GAS_BUTTON_GROUP = 'metamask/send/SHOW_GAS_BUTTON_GROUP'
-const HIDE_GAS_BUTTON_GROUP = 'metamask/send/HIDE_GAS_BUTTON_GROUP'
+const OPEN_TO_DROPDOWN = 'ecf-wallet/send/OPEN_TO_DROPDOWN'
+const CLOSE_TO_DROPDOWN = 'ecf-wallet/send/CLOSE_TO_DROPDOWN'
+const UPDATE_SEND_ERRORS = 'ecf-wallet/send/UPDATE_SEND_ERRORS'
+const RESET_SEND_STATE = 'ecf-wallet/send/RESET_SEND_STATE'
+const SHOW_GAS_BUTTON_GROUP = 'ecf-wallet/send/SHOW_GAS_BUTTON_GROUP'
+const HIDE_GAS_BUTTON_GROUP = 'ecf-wallet/send/HIDE_GAS_BUTTON_GROUP'
 
 const initState = {
   toDropdownOpen: false,

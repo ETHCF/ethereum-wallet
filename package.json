@@ -1,5 +1,5 @@
 {
-  "name": "metamask-crx",
+  "name": "ecf-wallet",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -46,7 +46,7 @@
     "announce": "node development/announcer.js",
     "storybook": "start-storybook -p 6006 -c .storybook --static-dir ./app",
     "storybook:build": "build-storybook -c .storybook -o .out --static-dir ./app",
-    "storybook:deploy": "storybook-to-ghpages --existing-output-dir .out --remote storybook --branch master",
+    "storybook:deploy": "storybook-to-ghpages --existing-output-dir .out --remote storybook --branch gh-pages",
     "update-changelog": "./development/auto-changelog.sh",
     "generate:migration": "./development/generate-migration.sh"
   },

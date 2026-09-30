@@ -7,7 +7,7 @@ import MenuBar from '..'
 
 const initState = {
   activeTab: {},
-  metamask: {
+  ecfWallet: {
     network: '1',
     selectedAddress: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
     identities: {

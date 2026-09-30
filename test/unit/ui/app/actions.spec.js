@@ -9,12 +9,12 @@ import KeyringController from 'eth-keyring-controller'
 import { createTestProviderTools } from '../../../stub/provider'
 import enLocale from '../../../../app/_locales/en/messages.json'
 import * as actions from '../../../../ui/app/store/actions'
-import MetaMaskController from '../../../../app/scripts/metamask-controller'
+import EcfWalletController from '../../../../app/scripts/ecf-wallet-controller'
 import firstTimeState from '../../localhostState'
 
 const { provider } = createTestProviderTools({ scaffold: {} })
 const middleware = [thunk]
-const defaultState = { metamask: {} }
+const defaultState = { ecfWallet: {} }
 const mockStore = (state = defaultState) => createMockStore(middleware)(state)
 
 describe('Actions', function () {
@@ -23,7 +23,7 @@ describe('Actions', function () {
 
   const currentNetworkId = '42'
 
-  let background, metamaskController
+  let background, ecfWalletController
 
   const TEST_SEED = 'debris dizzy just program just float decrease vacant alarm reduce speak stadium'
   const password = 'a-fake-password'
@@ -31,7 +31,7 @@ describe('Actions', function () {
 
   beforeEach(async function () {
 
-    metamaskController = new MetaMaskController({
+    ecfWalletController = new EcfWalletController({
       platform: { getVersion: () => 'foo' },
       provider,
       keyringController: new KeyringController({}),
@@ -49,23 +49,23 @@ describe('Actions', function () {
       initState: cloneDeep(firstTimeState),
     })
 
-    metamaskController.threeBoxController = {
+    ecfWalletController.threeBoxController = {
       new3Box: sinon.spy(),
       getThreeBoxSyncingState: sinon.spy(),
     }
 
-    await metamaskController.createNewVaultAndRestore(password, TEST_SEED)
+    await ecfWalletController.createNewVaultAndRestore(password, TEST_SEED)
 
-    await metamaskController.importAccountWithStrategy('Private Key', [importPrivkey])
+    await ecfWalletController.importAccountWithStrategy('Private Key', [importPrivkey])
 
-    background = metamaskController.getApi()
+    background = ecfWalletController.getApi()
 
     actions._setBackgroundConnection(background)
 
     global.ethQuery = new EthQuery(provider)
   })
 
-  describe('#tryUnlockMetamask', function () {
+  describe('#tryUnlockEcfWallet', function () {
 
     let submitPasswordSpy, verifySeedPhraseSpy
 
@@ -81,7 +81,7 @@ describe('Actions', function () {
       submitPasswordSpy = sinon.spy(background, 'submitPassword')
       verifySeedPhraseSpy = sinon.spy(background, 'verifySeedPhrase')
 
-      await store.dispatch(actions.tryUnlockMetamask())
+      await store.dispatch(actions.tryUnlockEcfWallet())
       assert(submitPasswordSpy.calledOnce)
       assert(verifySeedPhraseSpy.calledOnce)
     })
@@ -104,7 +104,7 @@ describe('Actions', function () {
       })
 
       try {
-        await store.dispatch(actions.tryUnlockMetamask('test'))
+        await store.dispatch(actions.tryUnlockEcfWallet('test'))
         assert.fail('Should have thrown error')
       } catch (_) {
         assert.deepEqual(store.getActions(), expectedActions)
@@ -122,7 +122,7 @@ describe('Actions', function () {
       })
 
       try {
-        await store.dispatch(actions.tryUnlockMetamask('test'))
+        await store.dispatch(actions.tryUnlockEcfWallet('test'))
         assert.fail('Should have thrown error')
       } catch (_) {
         const actions1 = store.getActions()
@@ -233,7 +233,7 @@ describe('Actions', function () {
       const expectedActions = [
         'SHOW_LOADING_INDICATION',
         'SELECTED_ADDRESS_CHANGED',
-        'UPDATE_METAMASK_STATE',
+        'UPDATE_ECF_WALLET_STATE',
         'HIDE_LOADING_INDICATION',
         'SHOW_ACCOUNTS_PAGE',
       ]
@@ -369,7 +369,7 @@ describe('Actions', function () {
   describe('#addNewAccount', function () {
 
     it('Adds a new account', async function () {
-      const store = mockStore({ metamask: { identities: {} } })
+      const store = mockStore({ ecfWallet: { identities: {} } })
 
       const addNewAccountSpy = sinon.spy(background, 'addNewAccount')
 
@@ -560,7 +560,7 @@ describe('Actions', function () {
 
   describe('#signMsg', function () {
 
-    let signMessageSpy, metamaskMsgs, msgId, messages
+    let signMessageSpy, ecfWalletMsgs, msgId, messages
 
     const msgParams = {
       from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
@@ -568,11 +568,11 @@ describe('Actions', function () {
     }
 
     beforeEach(function () {
-      metamaskController.newUnsignedMessage(msgParams, noop)
-      metamaskMsgs = metamaskController.messageManager.getUnapprovedMsgs()
-      messages = metamaskController.messageManager.messages
-      msgId = Object.keys(metamaskMsgs)[0]
-      messages[0].msgParams.metamaskId = parseInt(msgId, 10)
+      ecfWalletController.newUnsignedMessage(msgParams, noop)
+      ecfWalletMsgs = ecfWalletController.messageManager.getUnapprovedMsgs()
+      messages = ecfWalletController.messageManager.messages
+      msgId = Object.keys(ecfWalletMsgs)[0]
+      messages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
     })
 
     afterEach(function () {
@@ -613,7 +613,7 @@ describe('Actions', function () {
 
   describe('#signPersonalMsg', function () {
 
-    let signPersonalMessageSpy, metamaskMsgs, msgId, personalMessages
+    let signPersonalMessageSpy, ecfWalletMsgs, msgId, personalMessages
 
     const msgParams = {
       from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
@@ -621,11 +621,11 @@ describe('Actions', function () {
     }
 
     beforeEach(function () {
-      metamaskController.newUnsignedPersonalMessage(msgParams, noop)
-      metamaskMsgs = metamaskController.personalMessageManager.getUnapprovedMsgs()
-      personalMessages = metamaskController.personalMessageManager.messages
-      msgId = Object.keys(metamaskMsgs)[0]
-      personalMessages[0].msgParams.metamaskId = parseInt(msgId, 10)
+      ecfWalletController.newUnsignedPersonalMessage(msgParams, noop)
+      ecfWalletMsgs = ecfWalletController.personalMessageManager.getUnapprovedMsgs()
+      personalMessages = ecfWalletController.personalMessageManager.messages
+      msgId = Object.keys(ecfWalletMsgs)[0]
+      personalMessages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
     })
 
     afterEach(function () {
@@ -637,7 +637,7 @@ describe('Actions', function () {
 
       signPersonalMessageSpy = sinon.spy(background, 'signPersonalMessage')
 
-      await store.dispatch(actions.signPersonalMsg({ ...msgParams, metamaskId: parseInt(msgId, 10) }))
+      await store.dispatch(actions.signPersonalMsg({ ...msgParams, ecfWalletId: parseInt(msgId, 10) }))
       assert(signPersonalMessageSpy.calledOnce)
 
     })
@@ -656,7 +656,7 @@ describe('Actions', function () {
       })
 
       try {
-        await store.dispatch(actions.signPersonalMsg({ ...msgParams, metamaskId: parseInt(msgId, 10) }))
+        await store.dispatch(actions.signPersonalMsg({ ...msgParams, ecfWalletId: parseInt(msgId, 10) }))
         assert.fail('Should have thrown error')
       } catch (_) {
         assert.deepEqual(store.getActions(), expectedActions)
@@ -709,11 +709,11 @@ describe('Actions', function () {
     }
 
     beforeEach(function () {
-      metamaskController.newUnsignedTypedMessage(msgParamsV3, null, 'V3')
-      messages = metamaskController.typedMessageManager.getUnapprovedMsgs()
-      typedMessages = metamaskController.typedMessageManager.messages
+      ecfWalletController.newUnsignedTypedMessage(msgParamsV3, null, 'V3')
+      messages = ecfWalletController.typedMessageManager.getUnapprovedMsgs()
+      typedMessages = ecfWalletController.typedMessageManager.messages
       msgId = Object.keys(messages)[0]
-      typedMessages[0].msgParams.metamaskId = parseInt(msgId, 10)
+      typedMessages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
     })
 
     afterEach(function () {
@@ -826,7 +826,7 @@ describe('Actions', function () {
       const expectedActions = [
         { type: 'GAS_LOADING_STARTED' },
         { type: 'UPDATE_GAS_LIMIT', value: '0x5208' },
-        { type: 'metamask/gas/SET_CUSTOM_GAS_LIMIT', value: '0x5208' },
+        { type: 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT', value: '0x5208' },
         { type: 'UPDATE_SEND_ERRORS', value: { gasLoadingError: null } },
         { type: 'GAS_LOADING_FINISHED' },
       ]
@@ -860,10 +860,10 @@ describe('Actions', function () {
       'value': '0x0',
     }
 
-    const txData = { id: '1', status: 'unapproved', metamaskNetworkId: currentNetworkId, txParams }
+    const txData = { id: '1', status: 'unapproved', ecfWalletNetworkId: currentNetworkId, txParams }
 
     beforeEach(async function () {
-      await metamaskController.txController.txStateManager.addTx(txData)
+      await ecfWalletController.txController.txStateManager.addTx(txData)
     })
 
     afterEach(function () {
@@ -899,7 +899,7 @@ describe('Actions', function () {
     })
   })
 
-  describe('#lockMetamask', function () {
+  describe('#lockEcfWallet', function () {
     let backgroundSetLockedSpy
 
     afterEach(function () {
@@ -911,7 +911,7 @@ describe('Actions', function () {
 
       backgroundSetLockedSpy = sinon.spy(background, 'setLocked')
 
-      await store.dispatch(actions.lockMetamask())
+      await store.dispatch(actions.lockEcfWallet())
       assert(backgroundSetLockedSpy.calledOnce)
     })
 
@@ -922,7 +922,7 @@ describe('Actions', function () {
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
         { type: 'DISPLAY_WARNING', value: 'error' },
         { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'LOCK_METAMASK' },
+        { type: 'LOCK_ECF_WALLET' },
       ]
       backgroundSetLockedSpy = sinon.stub(background, 'setLocked')
       backgroundSetLockedSpy.callsFake((callback) => {
@@ -930,7 +930,7 @@ describe('Actions', function () {
       })
 
       try {
-        await store.dispatch(actions.lockMetamask())
+        await store.dispatch(actions.lockEcfWallet())
         assert.fail('Should have thrown error')
       } catch (error) {
         assert.deepEqual(store.getActions(), expectedActions)
@@ -981,7 +981,7 @@ describe('Actions', function () {
     it('#showAccountDetail', async function () {
       setSelectedAddressSpy = sinon.stub(background, 'setSelectedAddress')
         .callsArgWith(1, null)
-      const store = mockStore({ activeTab: {}, metamask: { alertEnabledness: {}, selectedAddress: '0x123' } })
+      const store = mockStore({ activeTab: {}, ecfWallet: { alertEnabledness: {}, selectedAddress: '0x123' } })
 
       await store.dispatch(actions.showAccountDetail())
       assert(setSelectedAddressSpy.calledOnce)
@@ -990,7 +990,7 @@ describe('Actions', function () {
     it('displays warning if setSelectedAddress throws', async function () {
       setSelectedAddressSpy = sinon.stub(background, 'setSelectedAddress')
         .callsArgWith(1, new Error('error'))
-      const store = mockStore({ activeTab: {}, metamask: { alertEnabledness: {}, selectedAddress: '0x123' } })
+      const store = mockStore({ activeTab: {}, ecfWallet: { alertEnabledness: {}, selectedAddress: '0x123' } })
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
         { type: 'HIDE_LOADING_INDICATION' },
@@ -1077,7 +1077,7 @@ describe('Actions', function () {
     let store
 
     beforeEach(function () {
-      store = mockStore({ metamask: { provider: {} } })
+      store = mockStore({ ecfWallet: { provider: {} } })
     })
 
     afterEach(function () {

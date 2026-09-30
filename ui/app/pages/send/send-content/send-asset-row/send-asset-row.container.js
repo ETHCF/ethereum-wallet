@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
-import { getMetaMaskAccounts, getSendTokenAddress } from '../../../../selectors'
+import { getEcfWalletAccounts, getSendTokenAddress } from '../../../../selectors'
 import { updateSendToken } from '../../../../store/actions'
 import SendAssetRow from './send-asset-row.component'
 
 function mapStateToProps (state) {
   return {
-    tokens: state.metamask.tokens,
-    selectedAddress: state.metamask.selectedAddress,
+    tokens: state.ecfWallet.tokens,
+    selectedAddress: state.ecfWallet.selectedAddress,
     sendTokenAddress: getSendTokenAddress(state),
-    accounts: getMetaMaskAccounts(state),
+    accounts: getEcfWalletAccounts(state),
   }
 }
 

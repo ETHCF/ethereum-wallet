@@ -25,7 +25,7 @@ import {
 import Home from './home.component'
 
 const mapStateToProps = (state) => {
-  const { metamask, appState } = state
+  const { ecfWallet, appState } = state
   const {
     suggestedTokens,
     seedPhraseBackedUp,
@@ -35,7 +35,7 @@ const mapStateToProps = (state) => {
     selectedAddress,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
-  } = metamask
+  } = ecfWallet
   const accountBalance = getCurrentEthBalance(state)
   const { forgottenPassword, threeBoxLastUpdated } = appState
   const totalUnapprovedCount = getTotalUnapprovedCount(state)

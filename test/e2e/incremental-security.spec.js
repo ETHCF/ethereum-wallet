@@ -13,7 +13,7 @@ const Ganache = require('./ganache')
 
 const ganacheServer = new Ganache()
 
-describe('MetaMask', function () {
+describe('ecf-wallet', function () {
   let driver
   let publicAddress
 
@@ -125,7 +125,7 @@ describe('MetaMask', function () {
       await driver.wait(until.elementTextMatches(txStatus, /Success/u), 15000)
     })
 
-    it('switches back to MetaMask', async function () {
+    it('switches back to ecf-wallet', async function () {
       await driver.switchToWindow(extension)
     })
 

@@ -16,7 +16,7 @@ describe('TransactionActivityLog utils', function () {
               'id': 6400627574331058,
               'time': 1543958845581,
               'status': 'unapproved',
-              'metamaskNetworkId': '3',
+              'ecfWalletNetworkId': '3',
               'loadingDefaults': true,
               'txParams': {
                 'from': '0x50a9d56c2b8ba9a5c7f2c08c3d26e0499f23a706',
@@ -33,7 +33,7 @@ describe('TransactionActivityLog utils', function () {
           ],
           id: 6400627574331058,
           loadingDefaults: false,
-          metamaskNetworkId: '3',
+          ecfWalletNetworkId: '3',
           status: 'dropped',
           submittedTime: 1543958848135,
           time: 1543958845581,
@@ -53,7 +53,7 @@ describe('TransactionActivityLog utils', function () {
               'id': 6400627574331060,
               'time': 1543958857697,
               'status': 'unapproved',
-              'metamaskNetworkId': '3',
+              'ecfWalletNetworkId': '3',
               'loadingDefaults': false,
               'txParams': {
                 'from': '0x50a9d56c2b8ba9a5c7f2c08c3d26e0499f23a706',
@@ -75,7 +75,7 @@ describe('TransactionActivityLog utils', function () {
           id: 6400627574331060,
           lastGasPrice: '0x4190ab00',
           loadingDefaults: false,
-          metamaskNetworkId: '3',
+          ecfWalletNetworkId: '3',
           status: 'confirmed',
           submittedTime: 1543958860054,
           time: 1543958857697,
@@ -151,7 +151,7 @@ describe('TransactionActivityLog utils', function () {
           {
             id: 5559712943815343,
             loadingDefaults: true,
-            metamaskNetworkId: '3',
+            ecfWalletNetworkId: '3',
             status: 'unapproved',
             time: 1535507561452,
             txParams: {
@@ -177,7 +177,7 @@ describe('TransactionActivityLog utils', function () {
               op: 'add',
               path: '/origin',
               timestamp: 1535507561516,
-              value: 'MetaMask',
+              value: 'ecf-wallet',
             },
             [],
           ],

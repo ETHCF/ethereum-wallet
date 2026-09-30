@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "הדפדפן שלך אינו נתמך..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask תוכנן ונבנה בקליפורניה."
-  },
   "bytes": {
     "message": "בייטים"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "אם עליך לגבות את צירוף הגרעין שלך שוב, תוכל/י למצוא זאת בהגדרות -> אבטחה."
-  },
-  "endOfFlowMessage7": {
-    "message": "אם יש לך שאלות או שנתקלת במשהו חשוד, שלח/י מייל ל- support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet לא הצליח לשחזר את ה-seedphrase שלך. למד/י עוד."
@@ -621,10 +615,10 @@
   "message": {
     "message": "הודעה"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "מחבר אותך לאתריום ולרשת המבוזרת."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "גרסת ECF Wallet"
   },
   "mobileSyncText": {
@@ -686,7 +680,7 @@
   "newNetwork": {
     "message": "רשת חדשה"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "חדש/ה ב- ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -697,9 +691,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "יש לנקוט זהירות בנוגע לצירוף הגרעין שלך - היו דיווחים על אתרים שמנסים להתחזות ל-ECF Wallet .ECF Wallet לעולם לא תבקש את צירוף הגרעין שלך!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "יש לשמור את ה-seedphrase שלך במקום בטוח. אם את/ה רואה משהו חשוד, או שאינך בטוח/ה בנוע לאתר, שלח/י אימייל לכתובת support@metamask.io"
   },
   "rpcUrl": {
     "message": "כתובת URL חדשה של RPC"
@@ -1085,19 +1076,19 @@
     "message": "סנכרן עם הנייד"
   },
   "syncWithMobileDesc": {
-    "message": "באפשרותך לסנכרן את החשבונות והמידע שלך עם המכשיר הנייד שלך. יש לפתוח את האפליקציה לנייד של MetaMask, לעבור אל \"הגדרות\" וללחוץ על \"סנכרון מהרחבה לדפדפן\""
+    "message": "באפשרותך לסנכרן את החשבונות והמידע שלך עם המכשיר הנייד שלך. יש לפתוח את האפליקציה לנייד של ecf-wallet, לעבור אל \"הגדרות\" וללחוץ על \"סנכרון מהרחבה לדפדפן\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "אם את/ה פותח/ת  את אפליקציית MetaMask Mobile בפעם הראשונה, פשוט בצע/י את השלבים בטלפון שלך."
+    "message": "אם את/ה פותח/ת  את אפליקציית ecf-wallet Mobile בפעם הראשונה, פשוט בצע/י את השלבים בטלפון שלך."
   },
   "syncWithMobileScanThisCode": {
-    "message": "יש לסרוק קוד QR זה באמצעות אפליקציית MetaMask לטלפון נייד"
+    "message": "יש לסרוק קוד QR זה באמצעות אפליקציית ecf-wallet לטלפון נייד"
   },
   "syncWithMobileBeCareful": {
     "message": "ודא/י כי איש אינו מסתכל על המסך שלך בזמן סריקת קוד זה"
   },
   "syncWithMobileComplete": {
-    "message": "הנתונים שלך סונכרנו בהצלחה. תיהנה/י מאפליקציית MetaMask לטלפונים ניידים! "
+    "message": "הנתונים שלך סונכרנו בהצלחה. תיהנה/י מאפליקציית ecf-wallet לטלפונים ניידים! "
   },
   "terms": {
     "message": "תנאי שימוש"

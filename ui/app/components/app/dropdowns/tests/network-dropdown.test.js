@@ -13,7 +13,7 @@ describe('Network Dropdown', function () {
 
   describe('NetworkDropdown in appState in false', function () {
     const mockState = {
-      metamask: {
+      ecfWallet: {
         network: '1',
         provider: {
           type: 'test',
@@ -44,7 +44,7 @@ describe('Network Dropdown', function () {
 
   describe('NetworkDropdown in appState is true', function () {
     const mockState = {
-      metamask: {
+      ecfWallet: {
         network: '1',
         provider: {
           'type': 'test',

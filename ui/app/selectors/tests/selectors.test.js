@@ -6,12 +6,12 @@ describe('Selectors', function () {
 
   describe('#getSelectedAddress', function () {
     it('returns undefined if selectedAddress is undefined', function () {
-      assert.equal(selectors.getSelectedAddress({ metamask: {} }), undefined)
+      assert.equal(selectors.getSelectedAddress({ ecfWallet: {} }), undefined)
     })
 
     it('returns selectedAddress', function () {
       const selectedAddress = '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc'
-      assert.equal(selectors.getSelectedAddress({ metamask: { selectedAddress } }), selectedAddress)
+      assert.equal(selectors.getSelectedAddress({ ecfWallet: { selectedAddress } }), selectedAddress)
     })
 
   })

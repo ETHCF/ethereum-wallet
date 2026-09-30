@@ -72,7 +72,7 @@
     "message": "Lisää ehdotetut käyttötunnukset"
   },
   "addAcquiredTokens": {
-    "message": "Lisää MetaMaskia käyttämällä hankkimasi tietueet"
+    "message": "Lisää EcfWalletia käyttämällä hankkimasi tietueet"
   },
   "amount": {
     "message": "Summa"
@@ -125,7 +125,7 @@
     "message": "Varmuuskopioi salainen palautuskoodisi pitääksesi kukkarosi ja varasi turvassa."
   },
   "backupApprovalInfo": {
-    "message": "Tämä salainen koodi vaaditaan kukkarosi palauttamiseen siinä tapauksessa, että kadotat laitteesi, unohdat salasanasi, joudut asentamaan MetaMaskin uudestaan tai haluat käyttää lompakkoasi jollakin toisella laitteella."
+    "message": "Tämä salainen koodi vaaditaan kukkarosi palauttamiseen siinä tapauksessa, että kadotat laitteesi, unohdat salasanasi, joudut asentamaan EcfWalletin uudestaan tai haluat käyttää lompakkoasi jollakin toisella laitteella."
   },
   "backupNow": {
     "message": "Tee varmuuskopio nyt"
@@ -151,9 +151,6 @@
   },
   "browserNotSupported": {
     "message": "Selaintasi ei tueta..."
-  },
-  "builtInCalifornia": {
-    "message": "MetaMask on suunniteltu ja koottu Kaliforniassa."
   },
   "bytes": {
     "message": "Tavua"
@@ -189,7 +186,7 @@
     "message": "Sulje"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Sinun tarvitsee käyttää MetaMaskia Google Chromessa voidaksesi yhdistää laitteistokukkaroosi."
+    "message": "Sinun tarvitsee käyttää EcfWalletia Google Chromessa voidaksesi yhdistää laitteistokukkaroosi."
   },
   "confirm": {
     "message": "Vahvista"
@@ -356,9 +353,6 @@
   "endOfFlowMessage6": {
     "message": "Jos tarvitse uuden varmuuskopion juurilauseestasi, niin se löytyy osiosta Asetukset -> Turvallisuus."
   },
-  "endOfFlowMessage7": {
-    "message": "Jos sinulla on joskus jotakin kysyttävää tai jos näet jotakin epäilyttävää, lähetä sähköpostia osoitteeseen support@metamask.io."
-  },
   "endOfFlowMessage8": {
     "message": "ECF Wallet ei pysty palauttamaan salaustekstiäsi. Lue lisää."
   },
@@ -480,7 +474,7 @@
     "message": "Yhdistä kiinteän laitteiston lompakko"
   },
   "hardwareWalletsMsg": {
-    "message": "Valitse laitteistokukkaro, jota haluaisit käyttää MetaMaskilla"
+    "message": "Valitse laitteistokukkaro, jota haluaisit käyttää EcfWalletilla"
   },
   "havingTroubleConnecting": {
     "message": "Onko sinulla yhdistämisvaikeuksia?"
@@ -621,10 +615,10 @@
   "message": {
     "message": "Viesti"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Sinua yhdistetään Ethereumiin ja hajautettuun verkkoon."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet-versio"
   },
   "mobileSyncText": {
@@ -637,7 +631,7 @@
     "message": "Omat kukkarotilini"
   },
   "myWalletAccountsDescription": {
-    "message": "Kaikki MetaMaskilla luodut tilisi lisätään automaattisesti tähän osastoon."
+    "message": "Kaikki EcfWalletilla luodut tilisi lisätään automaattisesti tähän osastoon."
   },
   "mustSelectOne": {
     "message": "Valittava vähintään 1 poletti."
@@ -686,7 +680,7 @@
   "newNetwork": {
     "message": "Uusi verkko"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Onko ECF Wallet ennestään outo?"
   },
   "noAlreadyHaveSeed": {
@@ -696,10 +690,7 @@
     "message": "Suojele avaimiasi!"
   },
   "protectYourKeysMessage1": {
-    "message": "Ole varovainen salausavaimesi kanssa – joidenkin verkkosivustojen kerrotaan yrittäneen matkia MetaMaskia. ECF Wallet ei koskaan kysy salausavaintasi!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Pidä lauseesi tallessa. Jos näet jotain epäilyttävää tai et ole varma jostain sivustosta, lähetä sähköpostia osoitteeseen support@metamask.io"
+    "message": "Ole varovainen salausavaimesi kanssa – joidenkin verkkosivustojen kerrotaan yrittäneen matkia EcfWalletia. ECF Wallet ei koskaan kysy salausavaintasi!"
   },
   "rpcUrl": {
     "message": "Uusi RPC:n URL"
@@ -974,7 +965,7 @@
     "message": "Valitse tili"
   },
   "selectAnAccountHelp": {
-    "message": "Valitse MetaMaskissa näytettävä tili"
+    "message": "Valitse EcfWalletissa näytettävä tili"
   },
   "selectAHigherGasFee": {
     "message": "Valitse korkeampi bensataksa vauhdittaaksesi tapahtumasi käsittelyä.*"
@@ -1088,19 +1079,19 @@
     "message": "Synkronoi mobiililaitteen kanssa"
   },
   "syncWithMobileDesc": {
-    "message": "Voit synkronoida tilisi ja tietosi mobiililaitteidesi kesken. Avaa MetaMaskin mobiilisovellus, siirry \"Asetukset\"-osioon ja napauta \"Synkronoi selainlaajennuksesta\" -vaihtoehtoa"
+    "message": "Voit synkronoida tilisi ja tietosi mobiililaitteidesi kesken. Avaa EcfWalletin mobiilisovellus, siirry \"Asetukset\"-osioon ja napauta \"Synkronoi selainlaajennuksesta\" -vaihtoehtoa"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Jos avaat MetaMaskin mobiilisovelluksen vasta ensimmäistä kertaa, noudata vain puhelimesi ilmoittamia vaiheita."
+    "message": "Jos avaat EcfWalletin mobiilisovelluksen vasta ensimmäistä kertaa, noudata vain puhelimesi ilmoittamia vaiheita."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Lue tämä koodi MetaMask-mobiilisovelluksellasi"
+    "message": "Lue tämä koodi ecf-wallet-mobiilisovelluksellasi"
   },
   "syncWithMobileBeCareful": {
     "message": "Varmista, ettei kukaan muu katsele näyttöäsi, kun skannaat koodin"
   },
   "syncWithMobileComplete": {
-    "message": "Tietojesi synkronoiminen onnistui. Nauti MetaMask-mobiilisovelluksesta!"
+    "message": "Tietojesi synkronoiminen onnistui. Nauti ecf-wallet-mobiilisovelluksesta!"
   },
   "terms": {
     "message": "Käyttöehdot"
@@ -1257,7 +1248,7 @@
     "message": "Tervetuloa takaisin!"
   },
   "welcome": {
-    "message": "Tervetuloa MetaMaskiin"
+    "message": "Tervetuloa EcfWalletiin"
   },
   "writePhrase": {
     "message": "Kirjoita tämä teksti paperille ja säilytä sitä turvallisessa paikassa. Jos haluat olla vielä paremmassa turvassa, kirjoita se ylös useille eri papereille ja talleta ne kahteen tai kolmeen eri paikkaan."

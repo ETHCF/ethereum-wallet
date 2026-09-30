@@ -16,7 +16,7 @@ export default function getBuyEthUrl ({ network, service }) {
   }
 
   switch (service) {
-    case 'metamask-faucet':
+    case 'ecf-wallet-faucet':
       return 'https://faucet.metamask.io/'
     case 'rinkeby-faucet':
       return 'https://www.rinkeby.io/'
@@ -32,7 +32,7 @@ export default function getBuyEthUrl ({ network, service }) {
 function getDefaultServiceForNetwork (network) {
   switch (network) {
     case '3':
-      return 'metamask-faucet'
+      return 'ecf-wallet-faucet'
     case '4':
       return 'rinkeby-faucet'
     case '42':

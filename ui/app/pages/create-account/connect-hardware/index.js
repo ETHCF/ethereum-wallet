@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import * as actions from '../../../store/actions'
-import { getMetaMaskAccounts } from '../../../selectors'
+import { getEcfWalletAccounts } from '../../../selectors'
 import { formatBalance } from '../../../helpers/utils/util'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
 import SelectHardware from './select-hardware'
@@ -238,9 +238,9 @@ ConnectHardwareForm.propTypes = {
 
 const mapStateToProps = (state) => {
   const {
-    metamask: { network, selectedAddress },
+    ecfWallet: { network, selectedAddress },
   } = state
-  const accounts = getMetaMaskAccounts(state)
+  const accounts = getEcfWalletAccounts(state)
   const {
     appState: { defaultHdPaths },
   } = state

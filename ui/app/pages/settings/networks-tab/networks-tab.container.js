@@ -18,7 +18,7 @@ const mapStateToProps = (state) => {
   const {
     frequentRpcListDetail,
     provider,
-  } = state.metamask
+  } = state.ecfWallet
   const {
     networksTabSelectedRpcUrl,
     networksTabIsInAddMode,

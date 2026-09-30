@@ -28,7 +28,7 @@ import SessionEncryptor from './lib/session-encryptor'
 import ReadOnlyNetworkStore from './lib/network-store'
 import createStreamSink from './lib/createStreamSink'
 import NotificationManager from './lib/notification-manager'
-import MetamaskController from './metamask-controller'
+import EcfWalletController from './ecf-wallet-controller'
 import rawFirstTimeState from './first-time-state'
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code'
 import setupEnsIpfsResolver from './lib/ens-ipfs/setup'
@@ -45,22 +45,22 @@ if (process.env.IN_TEST === 'true') {
   // eslint-disable-next-line global-require
   require('../../development/mock-fetch')()
 }
-if (process.env.METAMASK_DEBUG) {
+if (process.env.ECF_WALLET_DEBUG) {
   connectLiveReload()
 }
 
-// METAMASK_TEST_CONFIG is used in e2e tests to set the default network to localhost
-const firstTimeState = { ...rawFirstTimeState, ...global.METAMASK_TEST_CONFIG }
+// ECF_WALLET_TEST_CONFIG is used in e2e tests to set the default network to localhost
+const firstTimeState = { ...rawFirstTimeState, ...global.ECF_WALLET_TEST_CONFIG }
 
-log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
+log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
 const platform = new ExtensionPlatform()
 const notificationManager = new NotificationManager()
-global.METAMASK_NOTIFIER = notificationManager
+global.ECF_WALLET_NOTIFIER = notificationManager
 
 let popupIsOpen = false
 let notificationIsOpen = false
-const openMetamaskTabsIDs = {}
+const openEcfWalletTabsIDs = {}
 const requestAccountTabIds = {}
 
 // state persistence
@@ -70,8 +70,8 @@ const localStore = inTest
   : new LocalStore()
 let versionedData
 
-if (inTest || process.env.METAMASK_DEBUG) {
-  global.metamaskGetState = localStore.get.bind(localStore)
+if (inTest || process.env.ECF_WALLET_DEBUG) {
+  global.ecfWalletGetState = localStore.get.bind(localStore)
 }
 
 // Register wake-up events before loading persisted state. PortStream buffers
@@ -85,19 +85,19 @@ extension.webRequest.onErrorOccurred.addListener((details) => {
 }, { urls: ['*://*.eth/*'], types: ['main_frame'] })
 platform._subscribeToNotificationClicked()
 extension.runtime.onMessage.addListener((message, sender, respond) => {
-  if (message?.type === 'metamask-ui-active' && sender.id === extension.runtime.id &&
+  if (message?.type === 'ecf-wallet-ui-active' && sender.id === extension.runtime.id &&
       sender.url?.startsWith(extension.runtime.getURL(''))) {
     respond(true)
   }
 })
 extension.alarms.onAlarm.addListener((alarm) => {
   initialized.then(async ({ controller }) => {
-    if (alarm.name === 'metamask-auto-lock') {
+    if (alarm.name === 'ecf-wallet-auto-lock') {
       const { timeoutMinutes, lastActiveTime } = controller.appStateController.store.getState()
       if (timeoutMinutes && lastActiveTime + (timeoutMinutes * 60000) <= Date.now()) {
         await controller.setLocked()
       }
-    } else if (alarm.name === 'metamask-pending-transactions') {
+    } else if (alarm.name === 'ecf-wallet-pending-transactions') {
       await controller.txController.pendingTxTracker.updatePendingTxs()
     }
   }).catch(log.error)
@@ -130,7 +130,7 @@ function queueConnection (port, handler) {
  * @property {number} id - An internally unique tx identifier.
  * @property {number} time - Time the tx was first suggested, in unix epoch time (ms).
  * @property {string} status - The current transaction status (unapproved, signed, submitted, dropped, failed, rejected), as defined in `tx-state-manager.js`.
- * @property {string} metamaskNetworkId - The transaction's network ID, used for EIP-155 compliance.
+ * @property {string} ecfWalletNetworkId - The transaction's network ID, used for EIP-155 compliance.
  * @property {boolean} loadingDefaults - TODO: Document
  * @property {Object} txParams - The tx params as passed to the network provider.
  * @property {Object[]} history - A history of mutations to this TransactionMeta object.
@@ -142,8 +142,8 @@ function queueConnection (port, handler) {
  */
 
 /**
- * The data emitted from the MetaMaskController.store EventEmitter, also used to initialize the MetaMaskController. Available in UI on React state as state.metamask.
- * @typedef MetaMaskState
+ * The data emitted from the EcfWalletController.store EventEmitter, also used to initialize the EcfWalletController. Available in UI on React state as state.ecfWallet.
+ * @typedef EcfWalletState
  * @property {boolean} isInitialized - Whether the first vault has been created.
  * @property {boolean} isUnlocked - Whether the vault is currently decrypted and accounts are available for selection.
  * @property {boolean} isAccountMenuOpen - Represents whether the main account selection UI is currently displayed.
@@ -161,7 +161,7 @@ function queueConnection (port, handler) {
  * @property {string} currentLocale - A locale string matching the user's preferred display language.
  * @property {Object} provider - The current selected network provider.
  * @property {string} provider.rpcTarget - The address for the RPC API, if using an RPC API.
- * @property {string} provider.type - An identifier for the type of network selected, allows MetaMask to use custom provider strategies for known networks.
+ * @property {string} provider.type - An identifier for the type of network selected, allows ecf-wallet to use custom provider strategies for known networks.
  * @property {string} network - A stringified number of the current network ID.
  * @property {Object} accounts - An object mapping lower-case hex addresses to objects with "balance" and "address" keys, both storing hex string values.
  * @property {hex} currentBlockGasLimit - The most recently seen block gas limit, in a lower case hex prefixed string.
@@ -187,19 +187,19 @@ function queueConnection (port, handler) {
 
 /**
  * @typedef VersionedData
- * @property {MetaMaskState} data - The data emitted from MetaMask controller, or used to initialize it.
+ * @property {EcfWalletState} data - The data emitted from ecf-wallet controller, or used to initialize it.
  * @property {Number} version - The latest migration version that has been run.
  */
 
 /**
- * Initializes the MetaMask controller, and sets up all platform configuration.
+ * Initializes the ecf-wallet controller, and sets up all platform configuration.
  * @returns {Promise} - Setup complete.
  */
 async function initialize () {
   const initState = await loadStateFromPersistence()
   const initLangCode = await getFirstPreferredLangCode()
   const handlers = await setupController(initState, initLangCode)
-  log.debug('MetaMask initialization complete.')
+  log.debug('ecf-wallet initialization complete.')
   return handlers
 }
 
@@ -210,7 +210,7 @@ async function initialize () {
 /**
  * Loads any stored data, prioritizing the latest storage strategy.
  * Migrates that data schema in case it was last loaded on an older version.
- * @returns {Promise<MetaMaskState>} - Last data emitted from previous instance of MetaMask.
+ * @returns {Promise<EcfWalletState>} - Last data emitted from previous instance of ecf-wallet.
  */
 async function loadStateFromPersistence () {
   // migrations
@@ -229,13 +229,13 @@ async function loadStateFromPersistence () {
   if (versionedData && !versionedData.data) {
     // unable to recover, clear state
     versionedData = migrator.generateInitialState(firstTimeState)
-    console.error('MetaMask - Empty vault found - unable to recover')
+    console.error('ecf-wallet - Empty vault found - unable to recover')
   }
 
   // migrate data
   versionedData = await migrator.migrateData(versionedData)
   if (!versionedData) {
-    throw new Error('MetaMask - migrator returned undefined')
+    throw new Error('ecf-wallet - migrator returned undefined')
   }
 
   // write to disk
@@ -244,7 +244,7 @@ async function loadStateFromPersistence () {
   } else {
     // throw in setTimeout so as to not block boot
     setTimeout(() => {
-      throw new Error('MetaMask - Localstore not supported')
+      throw new Error('ecf-wallet - Localstore not supported')
     })
   }
 
@@ -253,7 +253,7 @@ async function loadStateFromPersistence () {
 }
 
 /**
- * Initializes the MetaMask Controller with any initial state and default language.
+ * Initializes the ecf-wallet Controller with any initial state and default language.
  * Configures platform-specific error reporting strategy.
  * Streams emitted state updates to platform-specific storage strategy.
  * Creates platform listeners for new Dapps/Contexts, and sets up their data connections to the controller.
@@ -264,11 +264,11 @@ async function loadStateFromPersistence () {
  */
 async function setupController (initState, initLangCode) {
   //
-  // MetaMask Controller
+  // ecf-wallet Controller
   //
 
   const encryptor = new SessionEncryptor(extension.storage.session)
-  const controller = new MetamaskController({
+  const controller = new EcfWalletController({
     encryptor,
     // User confirmation callbacks:
     showUnconfirmedMessage: triggerUi,
@@ -285,8 +285,8 @@ async function setupController (initState, initLangCode) {
     getRequestAccountTabIds: () => {
       return requestAccountTabIds
     },
-    getOpenMetamaskTabsIds: () => {
-      return openMetamaskTabsIDs
+    getOpenEcfWalletTabsIds: () => {
+      return openEcfWalletTabsIDs
     },
   })
 
@@ -321,9 +321,9 @@ async function setupController (initState, initLangCode) {
     }
     lastDeadline = deadline
     if (deadline) {
-      extension.alarms.create('metamask-auto-lock', { when: deadline })
+      extension.alarms.create('ecf-wallet-auto-lock', { when: deadline })
     } else {
-      extension.alarms.clear('metamask-auto-lock')
+      extension.alarms.clear('ecf-wallet-auto-lock')
     }
   }
   controller.appStateController.store.subscribe(scheduleAutoLock)
@@ -337,9 +337,9 @@ async function setupController (initState, initLangCode) {
     }
     hasPendingTransactions = pending
     if (pending) {
-      extension.alarms.create('metamask-pending-transactions', { periodInMinutes: 1 })
+      extension.alarms.create('ecf-wallet-pending-transactions', { periodInMinutes: 1 })
     } else {
-      extension.alarms.clear('metamask-pending-transactions')
+      extension.alarms.clear('ecf-wallet-pending-transactions')
     }
   }
   controller.txController.txStateManager.store.subscribe(scheduleTransactions)
@@ -357,13 +357,13 @@ async function setupController (initState, initLangCode) {
     storeTransform(versionifyData),
     createStreamSink(persistData),
     (error) => {
-      log.error('MetaMask - Persistence pipeline failed', error)
+      log.error('ecf-wallet - Persistence pipeline failed', error)
     },
   )
 
   /**
    * Assigns the given state to the versioned object (with metadata), and returns that.
-   * @param {Object} state - The state object as emitted by the MetaMaskController.
+   * @param {Object} state - The state object as emitted by the EcfWalletController.
    * @returns {VersionedData} - The state object wrapped in an object that includes a metadata key.
    */
   function versionifyData (state) {
@@ -372,10 +372,10 @@ async function setupController (initState, initLangCode) {
 
   async function persistData (state) {
     if (!state) {
-      throw new Error('MetaMask - updated state is missing')
+      throw new Error('ecf-wallet - updated state is missing')
     }
     if (!state.data) {
-      throw new Error('MetaMask - updated state does not have data')
+      throw new Error('ecf-wallet - updated state does not have data')
     }
     if (localStore.isSupported) {
       try {
@@ -390,18 +390,18 @@ async function setupController (initState, initLangCode) {
   //
   // connect to other contexts
   //
-  const metamaskInternalProcessHash = {
+  const ecfWalletInternalProcessHash = {
     [ENVIRONMENT_TYPE_POPUP]: true,
     [ENVIRONMENT_TYPE_NOTIFICATION]: true,
     [ENVIRONMENT_TYPE_FULLSCREEN]: true,
   }
 
-  const metamaskBlockedPorts = [
+  const ecfWalletBlockedPorts = [
     'trezor-connect',
   ]
 
   const isClientOpenStatus = () => {
-    return popupIsOpen || Boolean(Object.keys(openMetamaskTabsIDs).length) || notificationIsOpen
+    return popupIsOpen || Boolean(Object.keys(openEcfWalletTabsIDs).length) || notificationIsOpen
   }
 
   /**
@@ -412,21 +412,21 @@ async function setupController (initState, initLangCode) {
    */
 
   /**
-   * Connects a Port to the MetaMask controller via a multiplexed duplex stream.
-   * This method identifies trusted (MetaMask) interfaces, and connects them differently from untrusted (web pages).
+   * Connects a Port to the ecf-wallet controller via a multiplexed duplex stream.
+   * This method identifies trusted (ecf-wallet) interfaces, and connects them differently from untrusted (web pages).
    * @param {Port} remotePort - The port provided by a new context.
    */
   function connectRemote (remotePort, portStream) {
     const processName = remotePort.name
-    const isMetaMaskInternalProcess = metamaskInternalProcessHash[processName] &&
+    const isEcfWalletInternalProcess = ecfWalletInternalProcessHash[processName] &&
       remotePort.sender?.id === extension.runtime.id &&
       remotePort.sender?.url?.startsWith(extension.runtime.getURL(''))
 
-    if (metamaskBlockedPorts.includes(remotePort.name)) {
+    if (ecfWalletBlockedPorts.includes(remotePort.name)) {
       return
     }
 
-    if (isMetaMaskInternalProcess) {
+    if (isEcfWalletInternalProcess) {
       // communication with popup
       controller.isClientOpen = true
       controller.setupTrustedCommunication(portStream, remotePort.sender)
@@ -451,10 +451,10 @@ async function setupController (initState, initLangCode) {
 
       if (processName === ENVIRONMENT_TYPE_FULLSCREEN) {
         const tabId = remotePort.sender.tab.id
-        openMetamaskTabsIDs[tabId] = true
+        openEcfWalletTabsIDs[tabId] = true
 
         endOfStream(portStream, () => {
-          delete openMetamaskTabsIDs[tabId]
+          delete openEcfWalletTabsIDs[tabId]
           controller.isClientOpen = isClientOpenStatus()
         })
       }
@@ -528,8 +528,8 @@ async function setupController (initState, initLangCode) {
  */
 async function triggerUi () {
   const tabs = await platform.getActiveTabs()
-  const currentlyActiveMetamaskTab = Boolean(tabs.find((tab) => openMetamaskTabsIDs[tab.id]))
-  if (!popupIsOpen && !currentlyActiveMetamaskTab) {
+  const currentlyActiveEcfWalletTab = Boolean(tabs.find((tab) => openEcfWalletTabsIDs[tab.id]))
+  if (!popupIsOpen && !currentlyActiveEcfWalletTab) {
     await notificationManager.showPopup()
   }
 }
@@ -552,9 +552,9 @@ async function openPopup () {
   )
 }
 
-// On first install, open a new tab with MetaMask
+// On first install, open a new tab with ecf-wallet
 extension.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install' && !(process.env.METAMASK_DEBUG || process.env.IN_TEST)) {
+  if (reason === 'install' && !(process.env.ECF_WALLET_DEBUG || process.env.IN_TEST)) {
     platform.openExtensionInBrowser()
   }
 })

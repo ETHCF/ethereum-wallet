@@ -25,7 +25,7 @@ import {
 import { conversionUtil } from '../../helpers/utils/conversion-util'
 
 // Actions
-const createActionType = (action) => `metamask/confirm-transaction/${action}`
+const createActionType = (action) => `ecf-wallet/confirm-transaction/${action}`
 
 const UPDATE_TX_DATA = createActionType('UPDATE_TX_DATA')
 const CLEAR_TX_DATA = createActionType('CLEAR_TX_DATA')

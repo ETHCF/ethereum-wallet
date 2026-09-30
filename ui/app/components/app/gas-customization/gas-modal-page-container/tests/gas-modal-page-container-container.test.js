@@ -39,9 +39,9 @@ proxyquire('../gas-modal-page-container.container.js', {
     getBasicGasEstimateLoadingStatus: (s) => `mockBasicGasEstimateLoadingStatus:${Object.keys(s).length}`,
     getRenderableBasicEstimateData: (s) => `mockRenderableBasicEstimateData:${Object.keys(s).length}`,
     getDefaultActiveButtonIndex: (a, b) => a + b,
-    getCurrentEthBalance: (state) => state.metamask.balance || '0x0',
+    getCurrentEthBalance: (state) => state.ecfWallet.balance || '0x0',
     getSendToken: () => null,
-    getTokenBalance: (state) => state.metamask.send.tokenBalance || '0x0',
+    getTokenBalance: (state) => state.ecfWallet.send.tokenBalance || '0x0',
   },
   '../../../../store/actions': actionSpies,
   '../../../../ducks/gas/gas.duck': gasActionSpies,
@@ -66,7 +66,7 @@ describe('gas-modal-page-container container', function () {
             },
           },
         },
-        metamask: {
+        ecfWallet: {
           send: {
             gasLimit: '16',
             gasPrice: '32',
@@ -170,7 +170,7 @@ describe('gas-modal-page-container container', function () {
       const tests = [
         { mockState: baseMockState, expectedResult: baseExpectedResult, mockOwnProps: baseMockOwnProps },
         {
-          mockState: { ...baseMockState, metamask: { ...baseMockState.metamask, balance: '0xfffffffffffffffffffff' } },
+          mockState: { ...baseMockState, ecfWallet: { ...baseMockState.ecfWallet, balance: '0xfffffffffffffffffffff' } },
           expectedResult: { ...baseExpectedResult, balance: '0xfffffffffffffffffffff', insufficientBalance: false },
           mockOwnProps: baseMockOwnProps,
         },
@@ -182,14 +182,14 @@ describe('gas-modal-page-container container', function () {
         {
           mockState: {
             ...baseMockState,
-            metamask: {
-              ...baseMockState.metamask,
+            ecfWallet: {
+              ...baseMockState.ecfWallet,
               preferences: {
-                ...baseMockState.metamask.preferences,
+                ...baseMockState.ecfWallet.preferences,
                 showFiatInTestnets: false,
               },
               provider: {
-                ...baseMockState.metamask.provider,
+                ...baseMockState.ecfWallet.provider,
                 type: 'rinkeby',
               },
             },
@@ -207,14 +207,14 @@ describe('gas-modal-page-container container', function () {
         {
           mockState: {
             ...baseMockState,
-            metamask: {
-              ...baseMockState.metamask,
+            ecfWallet: {
+              ...baseMockState.ecfWallet,
               preferences: {
-                ...baseMockState.metamask.preferences,
+                ...baseMockState.ecfWallet.preferences,
                 showFiatInTestnets: true,
               },
               provider: {
-                ...baseMockState.metamask.provider,
+                ...baseMockState.ecfWallet.provider,
                 type: 'rinkeby',
               },
             },
@@ -228,14 +228,14 @@ describe('gas-modal-page-container container', function () {
         {
           mockState: {
             ...baseMockState,
-            metamask: {
-              ...baseMockState.metamask,
+            ecfWallet: {
+              ...baseMockState.ecfWallet,
               preferences: {
-                ...baseMockState.metamask.preferences,
+                ...baseMockState.ecfWallet.preferences,
                 showFiatInTestnets: true,
               },
               provider: {
-                ...baseMockState.metamask.provider,
+                ...baseMockState.ecfWallet.provider,
                 type: 'mainnet',
               },
             },

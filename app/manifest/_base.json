@@ -89,7 +89,7 @@
   }],
   "externally_connectable": {
     "matches": [
-      "https://metamask.io/*"
+      "https://ethcf.org/*"
     ],
     "ids": [
       "*"

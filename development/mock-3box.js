@@ -55,9 +55,9 @@ class Mock3Box {
   }
 
   static async getConfig (address) {
-    const backup = await loadFromMock3Box(`${address}-metamask-metamaskBackup`)
+    const backup = await loadFromMock3Box(`${address}-ecf-wallet-ecfWalletBackup`)
     return backup
-      ? { spaces: { metamask: {} } }
+      ? { spaces: { 'ecf-wallet': {} } }
       : {}
   }
 }

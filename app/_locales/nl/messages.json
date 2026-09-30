@@ -43,9 +43,6 @@
   "blockiesIdenticon": {
     "message": "Gebruik Blockies Identicon"
   },
-  "builtInCalifornia": {
-    "message": "MetaMask is ontworpen en gebouwd in Californië."
-  },
   "cancel": {
     "message": "Annuleer"
   },
@@ -224,7 +221,7 @@
   "message": {
     "message": "Bericht"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet is een veilige identiteitskluis voor Ethereum."
   },
   "myAccounts": {

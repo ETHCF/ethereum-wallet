@@ -68,7 +68,7 @@ export default class AccountMenu extends Component {
     history: PropTypes.object,
     isAccountMenuOpen: PropTypes.bool,
     keyrings: PropTypes.array,
-    lockMetamask: PropTypes.func,
+    lockEcfWallet: PropTypes.func,
     selectedAddress: PropTypes.string,
     showAccountDetail: PropTypes.func,
     toggleAccountMenu: PropTypes.func,
@@ -300,7 +300,7 @@ export default class AccountMenu extends Component {
       shouldShowAccountsSearch,
       isAccountMenuOpen,
       toggleAccountMenu,
-      lockMetamask,
+      lockEcfWallet,
       history,
     } = this.props
 
@@ -318,7 +318,7 @@ export default class AccountMenu extends Component {
           <button
             className="account-menu__lock-button"
             onClick={() => {
-              lockMetamask()
+              lockEcfWallet()
               history.push(DEFAULT_ROUTE)
             }}
           >

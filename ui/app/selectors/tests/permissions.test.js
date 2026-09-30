@@ -10,7 +10,7 @@ describe('selectors', function () {
   describe('getConnectedDomainsForSelectedAddress', function () {
     it('should return the list of connected domains when there is 1 connected account', function () {
       const mockState = {
-        metamask: {
+        ecfWallet: {
           selectedAddress: '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
           domainMetadata: {
             'peepeth.com': {
@@ -90,7 +90,7 @@ describe('selectors', function () {
 
     it('should return the list of connected domains when there are 2 connected accounts', function () {
       const mockState = {
-        metamask: {
+        ecfWallet: {
           selectedAddress: '0x7250739de134d33ec7ab1ee592711e15098c9d2d',
           domainMetadata: {
             'peepeth.com': {
@@ -172,7 +172,7 @@ describe('selectors', function () {
         'protocol': 'https:',
         'url': 'https://remix.ethereum.org/',
       },
-      metamask: {
+      ecfWallet: {
         accounts: {
           0x7250739de134d33ec7ab1ee592711e15098c9d2d: {
             address: '0x7250739de134d33ec7ab1ee592711e15098c9d2d',
@@ -334,7 +334,7 @@ describe('selectors', function () {
         'protocol': 'https:',
         'url': 'https://remix.ethereum.org/',
       },
-      metamask: {
+      ecfWallet: {
         identities: {
           '0x7250739de134d33ec7ab1ee592711e15098c9d2d': {
             'address': '0x7250739de134d33ec7ab1ee592711e15098c9d2d',

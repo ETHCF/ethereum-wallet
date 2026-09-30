@@ -17,20 +17,20 @@ import { ALERT_STATE } from './app/ducks/alerts/unconnected-account'
 import {
   getUnconnectedAccountAlertEnabledness,
   getUnconnectedAccountAlertShown,
-} from './app/ducks/metamask/metamask'
+} from './app/ducks/ecf-wallet/ecf-wallet'
 
-log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn')
+log.setLevel(global.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
-export default function launchMetamaskUi (opts, cb) {
+export default function launchEcfWalletUi (opts, cb) {
   const { backgroundConnection } = opts
   actions._setBackgroundConnection(backgroundConnection)
   // check if we are unlocked first
-  backgroundConnection.getState(function (err, metamaskState) {
+  backgroundConnection.getState(function (err, ecfWalletState) {
     if (err) {
       cb(err)
       return
     }
-    startApp(metamaskState, backgroundConnection, opts)
+    startApp(ecfWalletState, backgroundConnection, opts)
       .then((store) => {
         setupDebuggingHelpers(store)
         cb(null, store)
@@ -38,31 +38,31 @@ export default function launchMetamaskUi (opts, cb) {
   })
 }
 
-async function startApp (metamaskState, backgroundConnection, opts) {
+async function startApp (ecfWalletState, backgroundConnection, opts) {
   // parse opts
-  if (!metamaskState.featureFlags) {
-    metamaskState.featureFlags = {}
+  if (!ecfWalletState.featureFlags) {
+    ecfWalletState.featureFlags = {}
   }
 
-  const currentLocaleMessages = metamaskState.currentLocale
-    ? await fetchLocale(metamaskState.currentLocale)
+  const currentLocaleMessages = ecfWalletState.currentLocale
+    ? await fetchLocale(ecfWalletState.currentLocale)
     : {}
   const enLocaleMessages = await fetchLocale('en')
 
   await loadRelativeTimeFormatLocaleData('en')
-  if (metamaskState.currentLocale) {
-    await loadRelativeTimeFormatLocaleData(metamaskState.currentLocale)
+  if (ecfWalletState.currentLocale) {
+    await loadRelativeTimeFormatLocaleData(ecfWalletState.currentLocale)
   }
 
-  if (metamaskState.textDirection === 'rtl') {
+  if (ecfWalletState.textDirection === 'rtl') {
     await switchDirection('rtl')
   }
 
   const draftInitialState = {
     activeTab: opts.activeTab,
 
-    // metamaskState represents the cross-tab state
-    metamask: metamaskState,
+    // ecfWalletState represents the cross-tab state
+    ecfWallet: ecfWalletState,
 
     // appState represents the current tab's popup state
     appState: {},
@@ -96,13 +96,13 @@ async function startApp (metamaskState, backgroundConnection, opts) {
 
   // if unconfirmed txs, start on txConf page
   const unapprovedTxsAll = txHelper(
-    metamaskState.unapprovedTxs,
-    metamaskState.unapprovedMsgs,
-    metamaskState.unapprovedPersonalMsgs,
-    metamaskState.unapprovedDecryptMsgs,
-    metamaskState.unapprovedEncryptionPublicKeyMsgs,
-    metamaskState.unapprovedTypedMessages,
-    metamaskState.network,
+    ecfWalletState.unapprovedTxs,
+    ecfWalletState.unapprovedMsgs,
+    ecfWalletState.unapprovedPersonalMsgs,
+    ecfWalletState.unapprovedDecryptMsgs,
+    ecfWalletState.unapprovedEncryptionPublicKeyMsgs,
+    ecfWalletState.unapprovedTypedMessages,
+    ecfWalletState.network,
   )
   const numberOfUnapprivedTx = unapprovedTxsAll.length
   if (numberOfUnapprivedTx > 0) {
@@ -112,11 +112,11 @@ async function startApp (metamaskState, backgroundConnection, opts) {
   }
 
   backgroundConnection.on('update', function (state) {
-    store.dispatch(actions.updateMetamaskState(state))
+    store.dispatch(actions.updateEcfWalletState(state))
   })
 
-  // global metamask api - used by tooling
-  global.metamask = {
+  // global ecf-wallet api - used by tooling
+  global.ecfWallet = {
     updateCurrentLocale: (code) => {
       store.dispatch(actions.updateCurrentLocale(code))
     },

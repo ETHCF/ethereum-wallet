@@ -16,7 +16,7 @@ import { getPreferences } from '../../../selectors'
 import AdvancedTab from './advanced-tab.component'
 
 export const mapStateToProps = (state) => {
-  const { appState: { warning }, metamask } = state
+  const { appState: { warning }, ecfWallet } = state
   const {
     featureFlags: {
       sendHexData,
@@ -27,7 +27,7 @@ export const mapStateToProps = (state) => {
     threeBoxDisabled,
     useNonceField,
     ipfsGateway,
-  } = metamask
+  } = ecfWallet
   const { showFiatInTestnets, autoLockTimeLimit } = getPreferences(state)
 
   return {

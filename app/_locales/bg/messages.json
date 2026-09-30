@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Браузърът ви не се поддържа ..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask е проектиран и създаден в Калифорния."
-  },
   "bytes": {
     "message": "Байта"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Ако отново трябва да архивирате основната си фраза, можете да я намерите в Настройки -> Защита."
-  },
-  "endOfFlowMessage7": {
-    "message": "Ако имате въпроси или забележите нещо съмнително, изпратете имейл на support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet не може да възстанови ключовата Ви фраза. Научете повече."
@@ -620,10 +614,10 @@
   "message": {
     "message": "Съобщение"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Свързва ви с Ethereum и децентрализираната мрежа."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Версия на ECF Wallet"
   },
   "mobileSyncText": {
@@ -685,7 +679,7 @@
   "newNetwork": {
     "message": "Нова мрежа"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Нови ли сте в ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -696,9 +690,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Внимавайте с вашата фраза - има съобщения за уебсайтове, които се опитват да имитират ECF Wallet. ECF Wallet никога няма да поиска вашата фраза-зародиш!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Пазете фразата си. Ако забележите нещо съмнително или не сте сигурни за даден уебсайт, изпратете имейл на support@metamask.io"
   },
   "rpcUrl": {
     "message": "Нов URL адрес за RPC"
@@ -1087,19 +1078,19 @@
     "message": "Синхронизиране с мобилни устройства"
   },
   "syncWithMobileDesc": {
-    "message": "Можете да синхронизирате вашите акаунти и информация с мобилното си устройство. Отворете мобилното приложение MetaMask, отидете на „Настройки“ и докоснете „Синхронизиране от разширението на браузъра“"
+    "message": "Можете да синхронизирате вашите акаунти и информация с мобилното си устройство. Отворете мобилното приложение ecf-wallet, отидете на „Настройки“ и докоснете „Синхронизиране от разширението на браузъра“"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ако отворите приложението MetaMask Mobile за първи път, просто следвайте стъпките в телефона си."
+    "message": "Ако отворите приложението ecf-wallet Mobile за първи път, просто следвайте стъпките в телефона си."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Сканирайте този код с вашето мобилно приложение MetaMask"
+    "message": "Сканирайте този код с вашето мобилно приложение ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Уверете се, че никой друг не гледа екрана ви, когато сканирате този код"
   },
   "syncWithMobileComplete": {
-    "message": "Вашите данни са синхронизирани успешно. Насладете се на мобилното приложение MetaMask!"
+    "message": "Вашите данни са синхронизирани успешно. Насладете се на мобилното приложение ecf-wallet!"
   },
   "terms": {
     "message": "Условия за ползване"

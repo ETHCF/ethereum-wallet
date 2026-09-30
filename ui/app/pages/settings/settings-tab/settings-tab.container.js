@@ -9,14 +9,14 @@ import { getPreferences } from '../../../selectors'
 import SettingsTab from './settings-tab.component'
 
 const mapStateToProps = (state) => {
-  const { appState: { warning }, metamask } = state
+  const { appState: { warning }, ecfWallet } = state
   const {
     currentCurrency,
     conversionDate,
     nativeCurrency,
     useBlockie,
     currentLocale,
-  } = metamask
+  } = ecfWallet
   const { useNativeCurrencyAsPrimaryCurrency } = getPreferences(state)
 
   return {

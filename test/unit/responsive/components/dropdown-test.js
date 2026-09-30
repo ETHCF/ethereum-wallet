@@ -7,7 +7,7 @@ import { mountWithStore } from '../../../lib/render-helpers'
 import { Dropdown } from '../../../../ui/app/components/app/dropdowns/components/dropdown'
 
 const mockState = {
-  metamask: {
+  ecfWallet: {
   },
 }
 

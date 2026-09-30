@@ -1,7 +1,7 @@
 import passworder from 'browser-passworder'
 import browserGlobal from './browser-global'
 
-const SESSION_KEY = 'metamaskVaultKey'
+const SESSION_KEY = 'ecfWalletVaultKey'
 
 /**
  * Keeps only the derived vault key in trusted, memory-only extension storage.

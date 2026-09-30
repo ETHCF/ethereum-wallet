@@ -19,10 +19,10 @@ const notToggleElementClassnames = [
 
 function mapStateToProps (state) {
   return {
-    provider: state.metamask.provider,
-    frequentRpcListDetail: state.metamask.frequentRpcListDetail || [],
+    provider: state.ecfWallet.provider,
+    frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
     networkDropdownOpen: state.appState.networkDropdownOpen,
-    network: state.metamask.network,
+    network: state.ecfWallet.network,
   }
 }
 

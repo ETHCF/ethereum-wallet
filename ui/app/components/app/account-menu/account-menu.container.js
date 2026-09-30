@@ -5,13 +5,13 @@ import {
   toggleAccountMenu,
   showAccountDetail,
   hideSidebar,
-  lockMetamask,
+  lockEcfWallet,
   hideWarning,
 } from '../../../store/actions'
 import {
   getAddressConnectedDomainMap,
-  getMetaMaskAccountsOrdered,
-  getMetaMaskKeyrings,
+  getEcfWalletAccountsOrdered,
+  getEcfWalletKeyrings,
   getOriginOfCurrentTab,
   getSelectedAddress,
 } from '../../../selectors'
@@ -23,8 +23,8 @@ import AccountMenu from './account-menu.component'
 const SHOW_SEARCH_ACCOUNTS_MIN_COUNT = 5
 
 function mapStateToProps (state) {
-  const { metamask: { isAccountMenuOpen } } = state
-  const accounts = getMetaMaskAccountsOrdered(state)
+  const { ecfWallet: { isAccountMenuOpen } } = state
+  const accounts = getEcfWalletAccountsOrdered(state)
   const origin = getOriginOfCurrentTab(state)
   const selectedAddress = getSelectedAddress(state)
 
@@ -33,7 +33,7 @@ function mapStateToProps (state) {
     addressConnectedDomainMap: getAddressConnectedDomainMap(state),
     originOfCurrentTab: origin,
     selectedAddress,
-    keyrings: getMetaMaskKeyrings(state),
+    keyrings: getEcfWalletKeyrings(state),
     accounts,
     shouldShowAccountsSearch: accounts.length >= SHOW_SEARCH_ACCOUNTS_MIN_COUNT,
   }
@@ -47,8 +47,8 @@ function mapDispatchToProps (dispatch) {
       dispatch(hideSidebar())
       dispatch(toggleAccountMenu())
     },
-    lockMetamask: () => {
-      dispatch(lockMetamask())
+    lockEcfWallet: () => {
+      dispatch(lockEcfWallet())
       dispatch(hideWarning())
       dispatch(hideSidebar())
       dispatch(toggleAccountMenu())

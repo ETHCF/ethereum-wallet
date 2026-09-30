@@ -10,7 +10,7 @@ describe('Signature Request', function () {
   let wrapper
 
   const mockStore = {
-    metamask: {
+    ecfWallet: {
       provider: {
         type: 'test',
       },

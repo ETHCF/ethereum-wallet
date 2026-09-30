@@ -4,7 +4,7 @@ import { isEqual } from 'lodash'
 import { hexWEIToDecGWEI } from '../helpers/utils/conversions.util'
 import { getEstimatedGasPrices, getEstimatedGasTimes, getFeatureFlags, getIsMainnet } from '../selectors'
 import { getRawTimeEstimateData } from '../helpers/utils/gas-time-estimates.util'
-import { getCurrentLocale } from '../ducks/metamask/metamask'
+import { getCurrentLocale } from '../ducks/ecf-wallet/ecf-wallet'
 
 /**
  * Calculate the number of minutes remaining until the transaction completes.

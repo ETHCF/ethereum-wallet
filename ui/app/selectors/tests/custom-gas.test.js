@@ -107,7 +107,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 255.71,
             currentCurrency: 'usd',
             preferences: {
@@ -157,7 +157,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -210,7 +210,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -263,7 +263,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -316,7 +316,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -380,7 +380,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 255.71,
             currentCurrency: 'usd',
             send: {
@@ -430,7 +430,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -480,7 +480,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -530,7 +530,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {
@@ -580,7 +580,7 @@ describe('custom-gas selectors', function () {
           },
         ],
         mockState: {
-          metamask: {
+          ecfWallet: {
             conversionRate: 2557.1,
             currentCurrency: 'usd',
             send: {

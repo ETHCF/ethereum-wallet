@@ -298,7 +298,7 @@ jobs:
           destination: build-artifacts
       - run:
           name: build:announce
-          command: ./development/metamaskbot-build-announce.js
+          command: ./development/ecf-walletbot-build-announce.js
 
   job-publish-release:
     docker:
@@ -328,7 +328,7 @@ jobs:
       - run:
           name: storybook:deploy
           command: |
-            git remote add storybook git@github.com:MetaMask/metamask-storybook.git
+            git remote add storybook git@github.com:ETHCF/ethereum-wallet.git
             yarn storybook:deploy
 
   test-unit:

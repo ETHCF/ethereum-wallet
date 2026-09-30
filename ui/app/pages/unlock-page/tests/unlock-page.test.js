@@ -15,7 +15,7 @@ describe('Unlock Page', function () {
     onImport: sinon.spy(),
     onRestore: sinon.spy(),
     onSubmit: sinon.spy(),
-    forceUpdateMetamaskState: sinon.spy(),
+    forceUpdateEcfWalletState: sinon.spy(),
     showOptInModal: sinon.spy(),
   }
 

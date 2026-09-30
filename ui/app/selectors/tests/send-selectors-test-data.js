@@ -1,5 +1,5 @@
 const state = {
-  'metamask': {
+  'ecfWallet': {
     'isInitialized': true,
     'isUnlocked': true,
     'featureFlags': { 'sendHexData': true },
@@ -174,13 +174,13 @@ const state = {
         'time': 1487363153561,
         'status': 'unapproved',
         'gasMultiplier': 1,
-        'metamaskNetworkId': '3',
+        'ecfWalletNetworkId': '3',
         'txParams': {
           'from': '0xc5b8dbac4c1d3f152cdeb400e2313f309c410acb',
           'to': '0x18a3462427bcc9133bb46e88bcbe39cd7ef0e761',
           'value': '0xde0b6b3a7640000',
-          'metamaskId': 4768706228115573,
-          'metamaskNetworkId': '3',
+          'ecfWalletId': 4768706228115573,
+          'ecfWalletNetworkId': '3',
           'gas': '0x5209',
         },
         'txFee': '17e0186e60800',

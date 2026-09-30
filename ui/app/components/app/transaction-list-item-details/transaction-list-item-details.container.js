@@ -5,10 +5,10 @@ import { getAddressBook, getRpcPrefsForCurrentProvider } from '../../../selector
 import TransactionListItemDetails from './transaction-list-item-details.component'
 
 const mapStateToProps = (state, ownProps) => {
-  const { metamask } = state
+  const { ecfWallet } = state
   const {
     ensResolutionsByAddress,
-  } = metamask
+  } = ecfWallet
   const { recipientAddress, senderAddress } = ownProps
   let recipientEns
   if (recipientAddress) {

@@ -73,9 +73,6 @@
   "browserNotSupported": {
     "message": "Navigatè ou a pa sipòte..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask fèt e bati nan California."
-  },
   "ok": {
     "message": "Oke"
   },
@@ -365,10 +362,10 @@
   "message": {
     "message": "Mesaje"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet sekirize idantite pou Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet Vèsyon"
   },
   "myAccounts": {

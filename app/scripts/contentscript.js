@@ -43,13 +43,13 @@ async function setupStreams () {
     pageMux,
     pageStream,
     pageMux,
-    (err) => logStreamDisconnectWarning('MetaMask Inpage Multiplex', err),
+    (err) => logStreamDisconnectWarning('ecf-wallet Inpage Multiplex', err),
   )
   pump(
     extensionMux,
     extensionStream,
     extensionMux,
-    (err) => logStreamDisconnectWarning('MetaMask Background Multiplex', err),
+    (err) => logStreamDisconnectWarning('ecf-wallet Background Multiplex', err),
   )
 
   // forward communication across inpage-background for these channels only
@@ -68,7 +68,7 @@ function forwardTrafficBetweenMuxers (channelName, muxA, muxB) {
     channelA,
     channelB,
     channelA,
-    (err) => logStreamDisconnectWarning(`MetaMask muxed traffic for channel "${channelName}" failed.`, err),
+    (err) => logStreamDisconnectWarning(`ecf-wallet muxed traffic for channel "${channelName}" failed.`, err),
   )
 }
 
@@ -79,7 +79,7 @@ function forwardTrafficBetweenMuxers (channelName, muxA, muxB) {
  * @param {Error} err - Stream connection error
  */
 function logStreamDisconnectWarning (remoteLabel, err) {
-  let warningMsg = `MetamaskContentscript - lost connection to ${remoteLabel}`
+  let warningMsg = `EcfWalletContentscript - lost connection to ${remoteLabel}`
   if (err) {
     warningMsg += `\n${err.stack}`
   }
@@ -90,7 +90,7 @@ function logStreamDisconnectWarning (remoteLabel, err) {
  * Redirects the current page to a phishing information page
  */
 function redirectToPhishingWarning () {
-  console.log('MetaMask - routing to Phishing Warning component')
+  console.log('ecf-wallet - routing to Phishing Warning component')
   const extensionURL = extension.runtime.getURL('phishing.html')
   window.location.href = `${extensionURL}#${querystring.stringify({
     hostname: window.location.hostname,

@@ -14,7 +14,7 @@ const standardNetworkId = {
   '5': GOERLI_CHAIN_ID,
 }
 
-export default function selectChainId (metamaskState) {
-  const { network, provider: { chainId } } = metamaskState
+export default function selectChainId (ecfWalletState) {
+  const { network, provider: { chainId } } = ecfWalletState
   return standardNetworkId[network] || `0x${parseInt(chainId, 10).toString(16)}`
 }

@@ -1,1 +1,1 @@
-process.env.METAMASK_ENV = 'test'
+process.env.ECF_WALLET_ENV = 'test'

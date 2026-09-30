@@ -1,28 +1,28 @@
 import assert from 'assert'
-import reduceMetamask from '../../../../../ui/app/ducks/metamask/metamask'
+import reduceEcfWallet from '../../../../../ui/app/ducks/ecf-wallet/ecf-wallet'
 import * as actionConstants from '../../../../../ui/app/store/actionConstants'
 
-describe('MetaMask Reducers', function () {
+describe('ecf-wallet Reducers', function () {
 
   it('init state', function () {
-    const initState = reduceMetamask(undefined, {})
+    const initState = reduceEcfWallet(undefined, {})
     assert(initState)
   })
 
-  it('locks MetaMask', function () {
-    const unlockMetaMaskState = {
+  it('locks ecf-wallet', function () {
+    const unlockEcfWalletState = {
       isUnlocked: true,
       selectedAddress: 'test address',
     }
-    const lockMetaMask = reduceMetamask(unlockMetaMaskState, {
-      type: actionConstants.LOCK_METAMASK,
+    const lockEcfWallet = reduceEcfWallet(unlockEcfWalletState, {
+      type: actionConstants.LOCK_ECF_WALLET,
     })
 
-    assert.equal(lockMetaMask.isUnlocked, false)
+    assert.equal(lockEcfWallet.isUnlocked, false)
   })
 
   it('sets rpc target', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_RPC_TARGET,
       value: 'https://custom.rpc',
     })
@@ -31,7 +31,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('sets provider type', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_PROVIDER_TYPE,
       value: 'provider type',
     })
@@ -41,7 +41,7 @@ describe('MetaMask Reducers', function () {
 
   it('shows account detail', function () {
 
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SHOW_ACCOUNT_DETAIL,
       value: 'test address',
     })
@@ -52,7 +52,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('sets account label', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_ACCOUNT_LABEL,
       value: {
         account: 'test account',
@@ -70,7 +70,7 @@ describe('MetaMask Reducers', function () {
       conversionDate: new Date(2018, 9),
     }
 
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_CURRENT_FIAT,
       value,
     })
@@ -87,7 +87,7 @@ describe('MetaMask Reducers', function () {
       'symbol': 'META',
     }
 
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_TOKENS,
       newTokens,
     })
@@ -97,7 +97,7 @@ describe('MetaMask Reducers', function () {
 
   it('updates send gas limit', function () {
 
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_GAS_LIMIT,
       value: '0xGasLimit',
     })
@@ -106,7 +106,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates send gas price', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_GAS_PRICE,
       value: '0xGasPrice',
     })
@@ -115,7 +115,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('toggles account menu ', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.TOGGLE_ACCOUNT_MENU,
     })
 
@@ -123,7 +123,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates gas total', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_GAS_TOTAL,
       value: '0xGasTotal',
     })
@@ -132,7 +132,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates send token balance', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_TOKEN_BALANCE,
       value: '0xTokenBalance',
     })
@@ -141,7 +141,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates data', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_HEX_DATA,
       value: '0xData',
     })
@@ -150,7 +150,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates send to', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_TO,
       value: {
         to: '0xAddress',
@@ -163,7 +163,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('update send amount', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_AMOUNT,
       value: '0xAmount',
     })
@@ -172,7 +172,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates max mode', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_MAX_MODE,
       value: true,
     })
@@ -198,7 +198,7 @@ describe('MetaMask Reducers', function () {
       ensResolutionError: '',
     }
 
-    const sendState = reduceMetamask({}, {
+    const sendState = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND,
       value,
     })
@@ -242,7 +242,7 @@ describe('MetaMask Reducers', function () {
       },
     }
 
-    const state = reduceMetamask(sendState, {
+    const state = reduceEcfWallet(sendState, {
       type: actionConstants.CLEAR_SEND,
     })
 
@@ -259,7 +259,7 @@ describe('MetaMask Reducers', function () {
       ],
     }
 
-    const state = reduceMetamask(oldState, {
+    const state = reduceEcfWallet(oldState, {
       type: actionConstants.UPDATE_TRANSACTION_PARAMS,
       id: 1,
       value: 'bar',
@@ -269,7 +269,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('sets blockies', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_USE_BLOCKIE,
       value: true,
     })
@@ -278,7 +278,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('updates an arbitrary feature flag', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_FEATURE_FLAGS,
       value: {
         foo: true,
@@ -289,7 +289,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('close welcome screen', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.CLOSE_WELCOME_SCREEN,
     })
 
@@ -297,7 +297,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('sets current locale', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.SET_CURRENT_LOCALE,
       value: { locale: 'ge' },
     })
@@ -312,7 +312,7 @@ describe('MetaMask Reducers', function () {
       'symbol': 'META',
     }
 
-    const pendingTokensState = reduceMetamask({}, {
+    const pendingTokensState = reduceEcfWallet({}, {
       type: actionConstants.SET_PENDING_TOKENS,
       payload,
     })
@@ -331,7 +331,7 @@ describe('MetaMask Reducers', function () {
       pendingTokens: payload,
     }
 
-    const state = reduceMetamask(pendingTokensState, {
+    const state = reduceEcfWallet(pendingTokensState, {
       type: actionConstants.CLEAR_PENDING_TOKENS,
     })
 
@@ -339,7 +339,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('update ensResolution', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_ENS_RESOLUTION,
       payload: '0x1337',
     })
@@ -349,7 +349,7 @@ describe('MetaMask Reducers', function () {
   })
 
   it('update ensResolutionError', function () {
-    const state = reduceMetamask({}, {
+    const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_SEND_ENS_RESOLUTION_ERROR,
       payload: 'ens name not found',
     })

@@ -27,7 +27,7 @@ describe('Transaction Selectors', function () {
       }
 
       const state = {
-        metamask: {
+        ecfWallet: {
           unapprovedMsgs: {
             1: msg,
           },
@@ -55,7 +55,7 @@ describe('Transaction Selectors', function () {
       }
 
       const state = {
-        metamask: {
+        ecfWallet: {
           unapprovedPersonalMsgs: {
             1: msg,
           },
@@ -84,7 +84,7 @@ describe('Transaction Selectors', function () {
       }
 
       const state = {
-        metamask: {
+        ecfWallet: {
           unapprovedTypedMessages: {
             1: msg,
           },
@@ -103,7 +103,7 @@ describe('Transaction Selectors', function () {
     it('selects the currentNetworkTxList', function () {
 
       const state = {
-        metamask: {
+        ecfWallet: {
           provider: {
             nickname: 'mainnet',
           },
@@ -132,7 +132,7 @@ describe('Transaction Selectors', function () {
         },
       }
 
-      const orderedTxList = state.metamask.currentNetworkTxList.sort((a, b) => b.time - a.time)
+      const orderedTxList = state.ecfWallet.currentNetworkTxList.sort((a, b) => b.time - a.time)
 
       const selectedTx = transactionsSelector(state)
 
@@ -166,7 +166,7 @@ describe('Transaction Selectors', function () {
       }
 
       const state = {
-        metamask: {
+        ecfWallet: {
           provider: {
             nickname: 'mainnet',
           },
@@ -251,7 +251,7 @@ describe('Transaction Selectors', function () {
     }
 
     const state = {
-      metamask: {
+      ecfWallet: {
         provider: {
           nickname: 'mainnet',
         },

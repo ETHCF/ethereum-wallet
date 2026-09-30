@@ -161,7 +161,7 @@ export default class PreferencesController {
    */
   async requestWatchAsset (req, res, next, end) {
     if (
-      req.method === 'metamask_watchAsset' ||
+      req.method === 'ecf_wallet_watchAsset' ||
       req.method === addInternalMethodPrefix('watchAsset')
     ) {
       const { type, options } = req.params

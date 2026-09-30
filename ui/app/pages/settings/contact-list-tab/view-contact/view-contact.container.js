@@ -19,7 +19,7 @@ const mapStateToProps = (state, ownProps) => {
   const pathNameTailIsAddress = pathNameTail.includes('0x')
   const address = pathNameTailIsAddress ? pathNameTail.toLowerCase() : ownProps.match.params.id
 
-  const contact = getAddressBookEntry(state, address) || state.metamask.identities[address]
+  const contact = getAddressBookEntry(state, address) || state.ecfWallet.identities[address]
   const { memo, name } = contact || {}
 
   const showingMyAccounts = Boolean(pathname.match(CONTACT_MY_ACCOUNTS_VIEW_ROUTE))

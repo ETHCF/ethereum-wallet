@@ -190,7 +190,7 @@ export default class ExtensionPlatform {
 
     this._subscribeToNotificationClicked()
 
-    const url = explorerLink(txMeta.hash, txMeta.metamaskNetworkId)
+    const url = explorerLink(txMeta.hash, txMeta.ecfWalletNetworkId)
     const nonce = parseInt(txMeta.txParams.nonce, 16)
 
     const title = 'Confirmed transaction'

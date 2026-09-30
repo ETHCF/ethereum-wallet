@@ -16,16 +16,16 @@ describe('migration #47', function () {
     })
   })
 
-  it('should stringify transactions metamaskNetworkId values', async function () {
+  it('should stringify transactions ecfWalletNetworkId values', async function () {
     const oldStorage = {
       meta: {},
       data: {
         TransactionController: {
           transactions: [
-            { foo: 'bar', metamaskNetworkId: 2 },
+            { foo: 'bar', ecfWalletNetworkId: 2 },
             { foo: 'bar' },
-            { foo: 'bar', metamaskNetworkId: 0 },
-            { foo: 'bar', metamaskNetworkId: 42 },
+            { foo: 'bar', ecfWalletNetworkId: 0 },
+            { foo: 'bar', ecfWalletNetworkId: 42 },
           ],
         },
         foo: 'bar',
@@ -36,26 +36,26 @@ describe('migration #47', function () {
     assert.deepEqual(newStorage.data, {
       TransactionController: {
         transactions: [
-          { foo: 'bar', metamaskNetworkId: '2' },
+          { foo: 'bar', ecfWalletNetworkId: '2' },
           { foo: 'bar' },
-          { foo: 'bar', metamaskNetworkId: '0' },
-          { foo: 'bar', metamaskNetworkId: '42' },
+          { foo: 'bar', ecfWalletNetworkId: '0' },
+          { foo: 'bar', ecfWalletNetworkId: '42' },
         ],
       },
       foo: 'bar',
     })
   })
 
-  it('should do nothing if transactions metamaskNetworkId values are already strings', async function () {
+  it('should do nothing if transactions ecfWalletNetworkId values are already strings', async function () {
     const oldStorage = {
       meta: {},
       data: {
         TransactionController: {
           transactions: [
-            { foo: 'bar', metamaskNetworkId: '2' },
+            { foo: 'bar', ecfWalletNetworkId: '2' },
             { foo: 'bar' },
-            { foo: 'bar', metamaskNetworkId: '0' },
-            { foo: 'bar', metamaskNetworkId: '42' },
+            { foo: 'bar', ecfWalletNetworkId: '0' },
+            { foo: 'bar', ecfWalletNetworkId: '42' },
           ],
         },
         foo: 'bar',

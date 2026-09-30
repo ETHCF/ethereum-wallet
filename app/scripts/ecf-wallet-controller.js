@@ -1,5 +1,5 @@
 /**
- * @file      The central metamask controller. Aggregates other controllers and exports an api.
+ * @file      The central ecf-wallet controller. Aggregates other controllers and exports an api.
  * @copyright Copyright (c) 2018 MetaMask
  * @license   MIT
  */
@@ -61,7 +61,7 @@ import accountImporter from './account-import-strategies'
 import selectChainId from './lib/select-chain-id'
 import seedPhraseVerifier from './lib/seed-phrase-verifier'
 
-export default class MetamaskController extends EventEmitter {
+export default class EcfWalletController extends EventEmitter {
 
   /**
    * @constructor
@@ -79,11 +79,11 @@ export default class MetamaskController extends EventEmitter {
     this.recordFirstTimeInfo(initState)
 
     // this keeps track of how many "controllerStream" connections are open
-    // the only thing that uses controller connections are open metamask UI instances
+    // the only thing that uses controller connections are open ecf-wallet UI instances
     this.activeControllerConnections = 0
 
     this.getRequestAccountTabIds = opts.getRequestAccountTabIds
-    this.getOpenMetamaskTabsIds = opts.getOpenMetamaskTabsIds
+    this.getOpenEcfWalletTabsIds = opts.getOpenEcfWalletTabsIds
 
     // observable state store
     this.store = new ComposableObservableStore(initState)
@@ -323,12 +323,12 @@ export default class MetamaskController extends EventEmitter {
     const providerOpts = {
       static: {
         eth_syncing: false,
-        web3_clientVersion: `MetaMask/v${version}`,
+        web3_clientVersion: `ecf-wallet/v${version}`,
       },
       version,
       // account mgmt
       getAccounts: async ({ origin }) => {
-        if (origin === 'metamask') {
+        if (origin === 'ecf-wallet') {
           const selectedAddress = this.preferencesController.getSelectedAddress()
           return selectedAddress ? [selectedAddress] : []
         } else if (this.isUnlocked()) {
@@ -359,7 +359,7 @@ export default class MetamaskController extends EventEmitter {
    */
   createPublicConfigStore () {
     const { networkController } = this
-    // subset of state for metamask inpage provider
+    // subset of state for ecf-wallet inpage provider
     const publicConfigStore = new ObservableStore()
 
     // setup memStore subscription hooks
@@ -389,7 +389,7 @@ export default class MetamaskController extends EventEmitter {
   //=============================================================================
 
   /**
-   * The metamask-state of the various controllers, made available to the UI
+   * The ecf-wallet-state of the various controllers, made available to the UI
    *
    * @returns {Object} - status
    */
@@ -436,7 +436,7 @@ export default class MetamaskController extends EventEmitter {
       unMarkPasswordForgotten: this.unMarkPasswordForgotten.bind(this),
       safelistPhishingDomain: this.safelistPhishingDomain.bind(this),
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
-      getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
+      getOpenEcfWalletTabsIds: (cb) => cb(null, this.getOpenEcfWalletTabsIds()),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -626,7 +626,7 @@ export default class MetamaskController extends EventEmitter {
 
       const primaryKeyring = keyringController.getKeyringsByType('HD Key Tree')[0]
       if (!primaryKeyring) {
-        throw new Error('MetamaskController - No HD Key Tree found')
+        throw new Error('EcfWalletController - No HD Key Tree found')
       }
 
       // seek out the first zero balance
@@ -818,7 +818,7 @@ export default class MetamaskController extends EventEmitter {
         keyringName = LedgerBridgeKeyring.type
         break
       default:
-        throw new Error('MetamaskController:getKeyringForDevice - Unknown device')
+        throw new Error('EcfWalletController:getKeyringForDevice - Unknown device')
     }
     let keyring = await this.keyringController.getKeyringsByType(keyringName)[0]
     if (!keyring) {
@@ -921,7 +921,7 @@ export default class MetamaskController extends EventEmitter {
   async addNewAccount () {
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
     if (!primaryKeyring) {
-      throw new Error('MetamaskController - No HD Key Tree found')
+      throw new Error('EcfWalletController - No HD Key Tree found')
     }
     const { keyringController } = this
     const oldAccounts = await keyringController.getAccounts()
@@ -954,7 +954,7 @@ export default class MetamaskController extends EventEmitter {
 
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
     if (!primaryKeyring) {
-      throw new Error('MetamaskController - No HD Key Tree found')
+      throw new Error('EcfWalletController - No HD Key Tree found')
     }
 
     const serialized = await primaryKeyring.serialize()
@@ -962,7 +962,7 @@ export default class MetamaskController extends EventEmitter {
 
     const accounts = await primaryKeyring.getAccounts()
     if (accounts.length < 1) {
-      throw new Error('MetamaskController - No accounts found')
+      throw new Error('EcfWalletController - No accounts found')
     }
 
     try {
@@ -1068,11 +1068,11 @@ export default class MetamaskController extends EventEmitter {
    * @returns {Promise<Object>} - Full state update.
    */
   signMessage (msgParams) {
-    log.info('MetaMaskController - signMessage')
-    const msgId = msgParams.metamaskId
+    log.info('EcfWalletController - signMessage')
+    const msgId = msgParams.ecfWalletId
 
     // sets the status op the message to 'approved'
-    // and removes the metamaskId for signing
+    // and removes the ecfWalletId for signing
     return this.messageManager.approveMessage(msgParams)
       .then((cleanMsgParams) => {
       // signs the message
@@ -1128,10 +1128,10 @@ export default class MetamaskController extends EventEmitter {
    * @returns {Promise<Object>} - A full state update.
    */
   signPersonalMessage (msgParams) {
-    log.info('MetaMaskController - signPersonalMessage')
-    const msgId = msgParams.metamaskId
+    log.info('EcfWalletController - signPersonalMessage')
+    const msgId = msgParams.ecfWalletId
     // sets the status op the message to 'approved'
-    // and removes the metamaskId for signing
+    // and removes the ecfWalletId for signing
     return this.personalMessageManager.approveMessage(msgParams)
       .then((cleanMsgParams) => {
       // signs the message
@@ -1182,9 +1182,9 @@ export default class MetamaskController extends EventEmitter {
   * @returns {Promise<Object>} - A full state update.
   */
   async decryptMessageInline (msgParams) {
-    log.info('MetaMaskController - decryptMessageInline')
+    log.info('EcfWalletController - decryptMessageInline')
     // decrypt the message inline
-    const msgId = msgParams.metamaskId
+    const msgId = msgParams.ecfWalletId
     const msg = this.decryptMessageManager.getMsg(msgId)
     try {
       const stripped = ethUtil.stripHexPrefix(msgParams.data)
@@ -1208,10 +1208,10 @@ export default class MetamaskController extends EventEmitter {
   * @returns {Promise<Object>} - A full state update.
   */
   async decryptMessage (msgParams) {
-    log.info('MetaMaskController - decryptMessage')
-    const msgId = msgParams.metamaskId
+    log.info('EcfWalletController - decryptMessage')
+    const msgId = msgParams.ecfWalletId
     // sets the status op the message to 'approved'
-    // and removes the metamaskId for decryption
+    // and removes the ecfWalletId for decryption
     try {
       const cleanMsgParams = await this.decryptMessageManager.approveMessage(msgParams)
 
@@ -1224,7 +1224,7 @@ export default class MetamaskController extends EventEmitter {
       // tells the listener that the message has been decrypted and can be returned to the dapp
       this.decryptMessageManager.setMsgStatusDecrypted(msgId, rawMess)
     } catch (error) {
-      log.info('MetaMaskController - eth_decrypt failed.', error)
+      log.info('EcfWalletController - eth_decrypt failed.', error)
       this.decryptMessageManager.errorMessage(msgId, error)
     }
     return this.getState()
@@ -1268,10 +1268,10 @@ export default class MetamaskController extends EventEmitter {
   * @returns {Promise<Object>} - A full state update.
   */
   async encryptionPublicKey (msgParams) {
-    log.info('MetaMaskController - encryptionPublicKey')
-    const msgId = msgParams.metamaskId
+    log.info('EcfWalletController - encryptionPublicKey')
+    const msgId = msgParams.ecfWalletId
     // sets the status op the message to 'approved'
-    // and removes the metamaskId for decryption
+    // and removes the ecfWalletId for decryption
     try {
       const params = await this.encryptionPublicKeyManager.approveMessage(msgParams)
 
@@ -1282,7 +1282,7 @@ export default class MetamaskController extends EventEmitter {
       // and can be returned to the dapp
       this.encryptionPublicKeyManager.setMsgStatusReceived(msgId, publicKey)
     } catch (error) {
-      log.info('MetaMaskController - eth_getEncryptionPublicKey failed.', error)
+      log.info('EcfWalletController - eth_getEncryptionPublicKey failed.', error)
       this.encryptionPublicKeyManager.errorMessage(msgId, error)
     }
     return this.getState()
@@ -1325,8 +1325,8 @@ export default class MetamaskController extends EventEmitter {
    * @returns {Object|undefined} - Full state update.
    */
   async signTypedMessage (msgParams) {
-    log.info('MetaMaskController - eth_signTypedData')
-    const msgId = msgParams.metamaskId
+    log.info('EcfWalletController - eth_signTypedData')
+    const msgId = msgParams.ecfWalletId
     const version = this.typedMessageManager.getMsg(msgId)?.msgParams.version
     try {
       const cleanMsgParams = await this.typedMessageManager.approveMessage(msgParams)
@@ -1343,7 +1343,7 @@ export default class MetamaskController extends EventEmitter {
       this.typedMessageManager.setMsgStatusSigned(msgId, signature)
       return this.getState()
     } catch (error) {
-      log.info('MetaMaskController - eth_signTypedData failed.', error)
+      log.info('EcfWalletController - eth_signTypedData failed.', error)
       this.typedMessageManager.errorMessage(msgId, error)
       return undefined
     }
@@ -1372,7 +1372,7 @@ export default class MetamaskController extends EventEmitter {
    * transaction.
    * @param {number} originalTxId - the id of the txMeta that you want to attempt to cancel
    * @param {string} [customGasPrice] - the hex value to use for the cancel transaction
-   * @returns {Object} - MetaMask state
+   * @returns {Object} - ecf-wallet state
    */
   async createCancelTransaction (originalTxId, customGasPrice) {
     await this.txController.createCancelTransaction(originalTxId, customGasPrice)
@@ -1443,7 +1443,7 @@ export default class MetamaskController extends EventEmitter {
     const { hostname } = new URL(sender.url)
     // Check if new connection is blocked if phishing detection is on
     if (usePhishDetect && this.phishingController.test(hostname)) {
-      log.debug('MetaMask - sending phishing warning for', hostname)
+      log.debug('ecf-wallet - sending phishing warning for', hostname)
       this.sendPhishingWarning(connectionStream, hostname)
       return
     }
@@ -1530,7 +1530,7 @@ export default class MetamaskController extends EventEmitter {
    */
   setupProviderConnection (outStream, sender, isInternal) {
     const origin = isInternal
-      ? 'metamask'
+      ? 'ecf-wallet'
       : (new URL(sender.url)).origin
     let extensionId
     if (sender.id !== extension.runtime.id) {
@@ -1609,7 +1609,7 @@ export default class MetamaskController extends EventEmitter {
     }
     // watch asset
     engine.push(this.preferencesController.requestWatchAsset.bind(this.preferencesController))
-    // forward to metamask primary provider
+    // forward to ecf-wallet primary provider
     engine.push(providerAsMiddleware(provider))
     return engine
   }
@@ -1642,7 +1642,7 @@ export default class MetamaskController extends EventEmitter {
   }
 
   /**
-   * Adds a reference to a connection by origin. Ignores the 'metamask' origin.
+   * Adds a reference to a connection by origin. Ignores the 'ecf-wallet' origin.
    * Caller must ensure that the returned id is stored such that the reference
    * can be deleted later.
    *
@@ -1653,7 +1653,7 @@ export default class MetamaskController extends EventEmitter {
    */
   addConnection (origin, { engine }) {
 
-    if (origin === 'metamask') {
+    if (origin === 'ecf-wallet') {
       return null
     }
 
@@ -1754,7 +1754,7 @@ export default class MetamaskController extends EventEmitter {
   // misc
 
   /**
-   * A method for emitting the full MetaMask state to all registered listeners.
+   * A method for emitting the full ecf-wallet state to all registered listeners.
    * @private
    */
   privateSendUpdate () {
@@ -1997,7 +1997,7 @@ export default class MetamaskController extends EventEmitter {
 
   // TODO: Replace isClientOpen methods with `controllerConnectionChanged` events.
   /**
-   * A method for recording whether the MetaMask user interface is open or not.
+   * A method for recording whether the ecf-wallet user interface is open or not.
    * @private
    * @param {boolean} open
    */
@@ -2024,7 +2024,7 @@ export default class MetamaskController extends EventEmitter {
   }
 
   /**
-   * Locks MetaMask
+   * Locks ecf-wallet
    */
   setLocked () {
     return this.keyringController.setLocked()

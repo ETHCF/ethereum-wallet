@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import Initialized from './initialized.component'
 
 const mapStateToProps = (state) => {
-  const { metamask: { completedOnboarding } } = state
+  const { ecfWallet: { completedOnboarding } } = state
 
   return {
     completedOnboarding,

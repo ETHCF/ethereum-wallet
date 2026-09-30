@@ -379,13 +379,13 @@ describe('preferences controller', function () {
     })
 
     it('shouldn not do anything if method not corresponds', async function () {
-      req.method = 'metamask'
+      req.method = 'ecf-wallet'
       await preferencesController.requestWatchAsset(req, res, asy.next, asy.end)
       sandbox.assert.notCalled(asy.end)
       sandbox.assert.called(asy.next)
     })
     it('should do something if method is supported', async function () {
-      req.method = 'metamask_watchAsset'
+      req.method = 'ecf_wallet_watchAsset'
       req.params.type = 'someasset'
       await preferencesController.requestWatchAsset(req, res, asy.next, asy.end)
       sandbox.assert.called(asy.end)
@@ -397,7 +397,7 @@ describe('preferences controller', function () {
       sandbox.assert.notCalled(asy.next)
     })
     it('should through error if method is supported but asset type is not', async function () {
-      req.method = 'metamask_watchAsset'
+      req.method = 'ecf_wallet_watchAsset'
       req.params.type = 'someasset'
       await preferencesController.requestWatchAsset(req, res, asy.next, asy.end)
       sandbox.assert.called(asy.end)
@@ -406,7 +406,7 @@ describe('preferences controller', function () {
       assert.deepEqual(res, {})
     })
     it('should trigger handle add asset if type supported', async function () {
-      req.method = 'metamask_watchAsset'
+      req.method = 'ecf_wallet_watchAsset'
       req.params.type = 'ERC20'
       await preferencesController.requestWatchAsset(req, res, asy.next, asy.end)
       sandbox.assert.called(stubHandleWatchAssetERC20)

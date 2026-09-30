@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Twoja przeglądarka nie jest obsługiwana..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask został zaprojektowany i stworzony w Kaliforni."
-  },
   "bytes": {
     "message": "Bajty"
   },
@@ -356,9 +353,6 @@
   "endOfFlowMessage6": {
     "message": "Jeśli zajdzie konieczność ponownego wykonania kopii zapasowej frazy seed, znajdziesz ją w Ustawieniach -> Zabezpieczenia."
   },
-  "endOfFlowMessage7": {
-    "message": "Jeśli masz jakieś pytania lub zauważysz coś podejrzanego, wyślij e-mail na adres support@metamask.io."
-  },
   "endOfFlowMessage8": {
     "message": "ECF Wallet nie może odzyskać Twojej frazy seed. Dowiedz się więcej."
   },
@@ -480,7 +474,7 @@
     "message": "Podłącz sprzętowy portfel"
   },
   "hardwareWalletsMsg": {
-    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z MetaMaskiem"
+    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z EcfWalletiem"
   },
   "havingTroubleConnecting": {
     "message": "Problem z połączeniem?"
@@ -618,10 +612,10 @@
   "message": {
     "message": "Wiadomość"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet to bezpieczny portfel dla Ethereum."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Wersja ECF Wallet"
   },
   "mobileSyncText": {
@@ -683,7 +677,7 @@
   "newNetwork": {
     "message": "Nowa sieć"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Pierwszy raz w ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -694,9 +688,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Traktuj swoją frazę seed z ostrożnością – zgłaszano nam przypadki stron internetowych, które podają się za ECF Wallet. ECF Wallet nigdy nie poprosi Cię o podanie frazy seed!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Przechowuj frazę z zachowaniem zasad bezpieczeństwa. Jeśli zauważysz coś podejrzanego lub nie masz pewności co do strony internetowej, wyślij e-mail na adres support@metamask.io"
   },
   "rpcUrl": {
     "message": "Nowy adres URL RPC"
@@ -1082,19 +1073,19 @@
     "message": "Synchronizuj z telefonem"
   },
   "syncWithMobileDesc": {
-    "message": "Możesz synchronizować swoje konta i informacje z urządzeniem mobilnym. Otwórz aplikację mobilną MetaMask, przejdź do „Ustawień” i wybierz opcję „Synchronizuj z rozszerzeniem przeglądarki”."
+    "message": "Możesz synchronizować swoje konta i informacje z urządzeniem mobilnym. Otwórz aplikację mobilną ecf-wallet, przejdź do „Ustawień” i wybierz opcję „Synchronizuj z rozszerzeniem przeglądarki”."
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Jeśli po raz pierwszy otwierasz aplikację MetaMask Mobile, postępuj zgodnie z instrukcjami w telefonie."
+    "message": "Jeśli po raz pierwszy otwierasz aplikację ecf-wallet Mobile, postępuj zgodnie z instrukcjami w telefonie."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Zeskanuj ten kod za pomocą aplikacji mobilnej MetaMask"
+    "message": "Zeskanuj ten kod za pomocą aplikacji mobilnej ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Upewnij się, że nikt inny nie patrzy na Twój ekran podczas skanowania tego kodu"
   },
   "syncWithMobileComplete": {
-    "message": "Twoje dane zostały zsynchronizowane. Miłego korzystania z aplikacji mobilnej MetaMask!"
+    "message": "Twoje dane zostały zsynchronizowane. Miłego korzystania z aplikacji mobilnej ecf-wallet!"
   },
   "terms": {
     "message": "Regulamin"

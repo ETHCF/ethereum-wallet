@@ -10,7 +10,7 @@ describe('Add Token', function () {
   let wrapper
 
   const state = {
-    metamask: {
+    ecfWallet: {
       tokens: [],
     },
   }

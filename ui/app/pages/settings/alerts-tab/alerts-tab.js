@@ -6,7 +6,7 @@ import { ALERT_TYPES } from '../../../../../app/scripts/controllers/alert'
 import Tooltip from '../../../components/ui/tooltip'
 import ToggleButton from '../../../components/ui/toggle-button'
 import { setAlertEnabledness } from '../../../store/actions'
-import { getAlertEnabledness } from '../../../ducks/metamask/metamask'
+import { getAlertEnabledness } from '../../../ducks/ecf-wallet/ecf-wallet'
 import { useI18nContext } from '../../../hooks/useI18nContext'
 
 const AlertSettingsEntry = ({ alertId, description, title }) => {

@@ -22,7 +22,7 @@ describe('CurrencyInput Component', function () {
 
     it('should render properly with a suffix', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -48,7 +48,7 @@ describe('CurrencyInput Component', function () {
 
     it('should render properly with an ETH value', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -81,7 +81,7 @@ describe('CurrencyInput Component', function () {
 
     it('should render properly with a fiat value', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -115,7 +115,7 @@ describe('CurrencyInput Component', function () {
 
     it('should render properly with a native value when hideFiat is true', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -164,7 +164,7 @@ describe('CurrencyInput Component', function () {
 
     it('should call onChange on input changes with the hex value for ETH', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -204,7 +204,7 @@ describe('CurrencyInput Component', function () {
 
     it('should call onChange on input changes with the hex value for fiat', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -245,7 +245,7 @@ describe('CurrencyInput Component', function () {
 
     it('should change the state and pass in a new decimalValue when props.value changes', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,
@@ -280,7 +280,7 @@ describe('CurrencyInput Component', function () {
 
     it('should swap selected currency when swap icon is clicked', function () {
       const mockStore = {
-        metamask: {
+        ecfWallet: {
           nativeCurrency: 'ETH',
           currentCurrency: 'usd',
           conversionRate: 231.06,

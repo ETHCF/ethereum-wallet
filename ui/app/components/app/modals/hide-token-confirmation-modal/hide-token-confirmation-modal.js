@@ -7,9 +7,9 @@ import Button from '../../../ui/button'
 
 function mapStateToProps (state) {
   return {
-    network: state.metamask.network,
+    network: state.ecfWallet.network,
     token: state.appState.modal.modalState.props.token,
-    assetImages: state.metamask.assetImages,
+    assetImages: state.ecfWallet.assetImages,
   }
 }
 

@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import FileInput from 'react-simple-file-input'
 import * as actions from '../../../store/actions'
-import { getMetaMaskAccounts } from '../../../selectors'
+import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
 
@@ -143,7 +143,7 @@ JsonImportSubview.propTypes = {
 const mapStateToProps = (state) => {
   return {
     error: state.appState.warning,
-    firstAddress: Object.keys(getMetaMaskAccounts(state))[0],
+    firstAddress: Object.keys(getEcfWalletAccounts(state))[0],
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   }
 }

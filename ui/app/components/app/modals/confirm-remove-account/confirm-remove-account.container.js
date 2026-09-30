@@ -6,7 +6,7 @@ import ConfirmRemoveAccount from './confirm-remove-account.component'
 
 const mapStateToProps = (state) => {
   return {
-    network: state.metamask.network,
+    network: state.ecfWallet.network,
   }
 }
 

@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "您的瀏覽器尚未支援..."
   },
-  "builtInCalifornia": {
-    "message": "MetaMask 是在加州設計製造"
-  },
   "bytes": {
     "message": "位元組"
   },
@@ -355,9 +352,6 @@
   },
   "endOfFlowMessage6": {
     "message": "如你需要再次備份助記詞，可至設定 -> 安全。"
-  },
-  "endOfFlowMessage7": {
-    "message": "如你有任何問題或察覺有異，請寄信給 support@metamask.io"
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet 無法還原你的助記詞。暸解更多"
@@ -618,10 +612,10 @@
   "message": {
     "message": "訊息"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "ECF Wallet 是乙太坊安全身份識別金庫"
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "ECF Wallet 版本"
   },
   "mobileSyncText": {
@@ -683,7 +677,7 @@
   "newNetwork": {
     "message": "新增網路"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "新來到 ECF Wallet？"
   },
   "noAlreadyHaveSeed": {
@@ -694,9 +688,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "小心保管你的註記詞—我們接到報告有網站嘗試模仿 ECF Wallet。ECF Wallet 永遠不會詢問你的助記詞！"
-  },
-  "protectYourKeysMessage2": {
-    "message": "安全存放你的助記詞。如你察覺有異，或你對某網站起疑，請寄信給 support@metamask.io"
   },
   "rpcUrl": {
     "message": "新的 RPC URL"
@@ -1070,19 +1061,19 @@
     "message": "和移動裝置同步"
   },
   "syncWithMobileDesc": {
-    "message": "你可以用移動裝置同步帳號與資訊。開啟 MetaMask 移動 app，至「設定」並點擊「自瀏覽器擴充功能同步」"
+    "message": "你可以用移動裝置同步帳號與資訊。開啟 ecf-wallet 移動 app，至「設定」並點擊「自瀏覽器擴充功能同步」"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "如你是第一次開啟 MetaMask 移動 app，只要跟著手機上的指示操作即可。"
+    "message": "如你是第一次開啟 ecf-wallet 移動 app，只要跟著手機上的指示操作即可。"
   },
   "syncWithMobileScanThisCode": {
-    "message": "用你的 MetaMask 移動 app 掃描此代碼"
+    "message": "用你的 ecf-wallet 移動 app 掃描此代碼"
   },
   "syncWithMobileBeCareful": {
     "message": "掃描代碼時確保沒有其他人在看你的螢幕"
   },
   "syncWithMobileComplete": {
-    "message": "你的資料已成功同步。開始活用 MetaMask 移動 app！"
+    "message": "你的資料已成功同步。開始活用 ecf-wallet 移動 app！"
   },
   "terms": {
     "message": "使用條款"

@@ -48,10 +48,10 @@ describe('Modern message signing', function () {
     const request = JSON.parse(JSON.stringify(data))
     const id = manager.addUnapprovedMessage({ from, data: request }, { origin }, 'V4')
     request.message.values[0] = '999'
-    const approved = await manager.approveMessage({ metamaskId: id, from, data: JSON.stringify(request) })
+    const approved = await manager.approveMessage({ ecfWalletId: id, from, data: JSON.stringify(request) })
     assert.deepEqual(JSON.parse(approved.data), data)
     assert.equal(manager.getMsg(id).msgParams.version, 'V4')
-    assert.throws(() => manager.approveMessage({ metamaskId: id }), /not awaiting approval/u)
+    assert.throws(() => manager.approveMessage({ ecfWalletId: id }), /not awaiting approval/u)
   })
 
   it('validates values, types, and domain chain ID before showing approval', function () {
@@ -80,7 +80,7 @@ describe('Modern message signing', function () {
     assert.equal(stored.siwe.parsedMessage.domain, 'example.com')
     assert.deepEqual(stored.siwe.parsedMessage.resources, ['https://example.com/profile'])
     assert.deepEqual(stored.siwe.errors, [])
-    const approved = await manager.approveMessage({ metamaskId: id, data: hex('substituted') })
+    const approved = await manager.approveMessage({ ecfWalletId: id, data: hex('substituted') })
     assert.equal(approved.data, hex(text))
     const controller = new KeyringController({})
     const SoftwareKeyring = controller.keyringTypes.find((Type) => Type.type === 'Simple Key Pair')
@@ -107,7 +107,7 @@ describe('Modern message signing', function () {
     const manager = new PersonalMessageManager({ getChainId: () => '1' })
     const id = manager.addUnapprovedMessage({ from, data: hex(text), siwe: { errors: [] } }, { origin: 'https://evil.test' })
     assert.ok(manager.getMsg(id).msgParams.siwe.errors.length)
-    await assert.rejects(manager.approveMessage({ metamaskId: id, origin, data: hex(text), siwe: { errors: [] } }), /does not match/u)
+    await assert.rejects(manager.approveMessage({ ecfWalletId: id, origin, data: hex(text), siwe: { errors: [] } }), /does not match/u)
     assert.equal(manager.getMsg(id).status, 'unapproved')
   })
 })

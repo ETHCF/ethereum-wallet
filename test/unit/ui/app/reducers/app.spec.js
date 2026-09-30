@@ -6,7 +6,7 @@ const actions = actionConstants
 
 describe('App State', function () {
 
-  const metamaskState = {
+  const ecfWalletState = {
     selectedAddress: '0xAddress',
     identities: {
       '0xAddress': {
@@ -17,13 +17,13 @@ describe('App State', function () {
   }
 
   it('App init state', function () {
-    const initState = reduceApp(metamaskState, {})
+    const initState = reduceApp(ecfWalletState, {})
 
     assert(initState)
   })
 
   it('sets networkDropdownOpen dropdown to true', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.NETWORK_DROPDOWN_OPEN,
     })
 
@@ -32,7 +32,7 @@ describe('App State', function () {
 
   it('sets networkDropdownOpen dropdown to false', function () {
     const dropdown = { networkDropdowopen: true }
-    const state = { ...metamaskState, ...dropdown }
+    const state = { ...ecfWalletState, ...dropdown }
     const newState = reduceApp(state, {
       type: actions.NETWORK_DROPDOWN_CLOSE,
     })
@@ -46,7 +46,7 @@ describe('App State', function () {
       'type': 'wallet-view',
       'isOpen': true,
     }
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SIDEBAR_OPEN,
       value,
     })
@@ -56,7 +56,7 @@ describe('App State', function () {
 
   it('closes sidebar', function () {
     const openSidebar = { sidebar: { isOpen: true } }
-    const state = { ...metamaskState, ...openSidebar }
+    const state = { ...ecfWalletState, ...openSidebar }
 
     const newState = reduceApp(state, {
       type: actions.SIDEBAR_CLOSE,
@@ -66,7 +66,7 @@ describe('App State', function () {
   })
 
   it('opens alert', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.ALERT_OPEN,
       value: 'test message',
     })
@@ -77,7 +77,7 @@ describe('App State', function () {
 
   it('closes alert', function () {
     const alert = { alertOpen: true, alertMessage: 'test message' }
-    const state = { ...metamaskState, ...alert }
+    const state = { ...ecfWalletState, ...alert }
     const newState = reduceApp(state, {
       type: actions.ALERT_CLOSE,
     })
@@ -87,7 +87,7 @@ describe('App State', function () {
   })
 
   it('detects qr code data', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.QR_CODE_DETECTED,
       value: 'qr data',
     })
@@ -96,7 +96,7 @@ describe('App State', function () {
   })
 
   it('opens modal', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.MODAL_OPEN,
       payload: {
         name: 'test',
@@ -117,7 +117,7 @@ describe('App State', function () {
       },
     }
 
-    const state = { ...metamaskState, appState: { ...opensModal } }
+    const state = { ...ecfWalletState, appState: { ...opensModal } }
     const newState = reduceApp(state, {
       type: actions.MODAL_CLOSE,
     })
@@ -127,23 +127,23 @@ describe('App State', function () {
   })
 
   it('shows send token page', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SHOW_SEND_TOKEN_PAGE,
     })
 
     assert.equal(state.warning, null)
   })
 
-  it('locks Metamask', function () {
-    const state = reduceApp(metamaskState, {
-      type: actions.LOCK_METAMASK,
+  it('locks ecf-wallet', function () {
+    const state = reduceApp(ecfWalletState, {
+      type: actions.LOCK_ECF_WALLET,
     })
 
     assert.equal(state.warning, null)
   })
 
   it('goes home', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.GO_HOME,
     })
 
@@ -155,7 +155,7 @@ describe('App State', function () {
   })
 
   it('shows account detail', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SHOW_ACCOUNT_DETAIL,
       value: 'context address',
     })
@@ -175,7 +175,7 @@ describe('App State', function () {
       },
     }
 
-    const state = { ...metamaskState, appState: { ...exportPrivKeyModal } }
+    const state = { ...ecfWalletState, appState: { ...exportPrivKeyModal } }
     const newState = reduceApp(state, {
       type: actions.CLEAR_ACCOUNT_DETAILS,
     })
@@ -184,7 +184,7 @@ describe('App State', function () {
   })
 
   it('shoes account page', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SHOW_ACCOUNTS_PAGE,
     })
 
@@ -205,7 +205,7 @@ describe('App State', function () {
         },
       },
     }
-    const oldState = { ...metamaskState, ...txs }
+    const oldState = { ...ecfWalletState, ...txs }
     const state = reduceApp(oldState, {
       type: actions.SHOW_CONF_TX_PAGE,
       id: 2,
@@ -229,7 +229,7 @@ describe('App State', function () {
       },
     }
 
-    const oldState = { ...metamaskState, ...txs }
+    const oldState = { ...ecfWalletState, ...txs }
 
     const state = reduceApp(oldState, {
       type: actions.COMPLETED_TX,
@@ -243,7 +243,7 @@ describe('App State', function () {
   })
 
   it('returns to account detail page when no unconf actions completed tx', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.COMPLETED_TX,
       value: {
         unconfirmedActionsCount: 0,
@@ -255,7 +255,7 @@ describe('App State', function () {
   })
 
   it('sets default warning when unlock fails', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.UNLOCK_FAILED,
     })
 
@@ -263,7 +263,7 @@ describe('App State', function () {
   })
 
   it('sets errors when unlock fails', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.UNLOCK_FAILED,
       value: 'errors',
     })
@@ -273,7 +273,7 @@ describe('App State', function () {
 
   it('sets warning to empty string when unlock succeeds', function () {
     const errorState = { warning: 'errors' }
-    const oldState = { ...metamaskState, ...errorState }
+    const oldState = { ...ecfWalletState, ...errorState }
     const state = reduceApp(oldState, {
       type: actions.UNLOCK_SUCCEEDED,
     })
@@ -286,7 +286,7 @@ describe('App State', function () {
       trezor: "m/44'/60'/0'/0",
       ledger: "m/44'/60'/0'",
     }
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SET_HARDWARE_WALLET_DEFAULT_HD_PATH,
       value: {
         device: 'ledger',
@@ -298,7 +298,7 @@ describe('App State', function () {
   })
 
   it('shows loading message', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SHOW_LOADING,
       value: 'loading',
     })
@@ -309,7 +309,7 @@ describe('App State', function () {
 
   it('hides loading message', function () {
     const loadingState = { isLoading: true }
-    const oldState = { ...metamaskState, ...loadingState }
+    const oldState = { ...ecfWalletState, ...loadingState }
 
     const state = reduceApp(oldState, {
       type: actions.HIDE_LOADING,
@@ -319,7 +319,7 @@ describe('App State', function () {
   })
 
   it('displays warning', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.DISPLAY_WARNING,
       value: 'warning',
     })
@@ -330,7 +330,7 @@ describe('App State', function () {
 
   it('hides warning', function () {
     const displayWarningState = { warning: 'warning' }
-    const oldState = { ...metamaskState, ...displayWarningState }
+    const oldState = { ...ecfWalletState, ...displayWarningState }
     const state = reduceApp(oldState, {
       type: actions.HIDE_WARNING,
     })
@@ -339,7 +339,7 @@ describe('App State', function () {
   })
 
   it('shows private key', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SHOW_PRIVATE_KEY,
       value: 'private key',
     })
@@ -350,7 +350,7 @@ describe('App State', function () {
   })
 
   it('set mouse user state', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.SET_MOUSE_USER_STATE,
       value: true,
     })
@@ -359,7 +359,7 @@ describe('App State', function () {
   })
 
   it('sets gas loading', function () {
-    const state = reduceApp(metamaskState, {
+    const state = reduceApp(ecfWalletState, {
       type: actions.GAS_LOADING_STARTED,
     })
 
@@ -368,7 +368,7 @@ describe('App State', function () {
 
   it('unsets gas loading', function () {
     const gasLoadingState = { gasIsLoading: true }
-    const oldState = { ...metamaskState, ...gasLoadingState }
+    const oldState = { ...ecfWalletState, ...gasLoadingState }
     const state = reduceApp(oldState, {
       type: actions.GAS_LOADING_FINISHED,
     })

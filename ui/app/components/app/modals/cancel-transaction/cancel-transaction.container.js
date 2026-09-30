@@ -7,9 +7,9 @@ import { getHexGasTotal } from '../../../../helpers/utils/confirm-tx.util'
 import CancelTransaction from './cancel-transaction.component'
 
 const mapStateToProps = (state, ownProps) => {
-  const { metamask } = state
+  const { ecfWallet } = state
   const { transactionId, originalGasPrice } = ownProps
-  const { currentNetworkTxList } = metamask
+  const { currentNetworkTxList } = ecfWallet
   const transaction = currentNetworkTxList.find(({ id }) => id === transactionId)
   const transactionStatus = transaction ? transaction.status : ''
 

@@ -152,9 +152,6 @@
   "browserNotSupported": {
     "message": "Jūsų naršyklė neatpažįstama..."
   },
-  "builtInCalifornia": {
-    "message": "„MetaMask“ suprojektuota ir įdiegta Kalifornijoje."
-  },
   "bytes": {
     "message": "Baitai"
   },
@@ -358,9 +355,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Jeigu reikia dar kartą padaryti jūsų atkūrimo frazės kopiją, ją galite rasti pasirinkę Nuostatos -> Sauga."
-  },
-  "endOfFlowMessage7": {
-    "message": "Jeigu turite klausimų arba pastebite ką nors įtartino, rašykite el. paštu support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "„ECF Wallet“ negali atkurti jūsų atkūrimo frazės. Sužinokite daugiau."
@@ -624,10 +618,10 @@
   "message": {
     "message": "Pranešimas"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Prijungiame jus prie „Ethereum“ ir decentralizuotojo žiniatinklio."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "„ECF Wallet“ versija"
   },
   "mobileSyncText": {
@@ -689,7 +683,7 @@
   "newNetwork": {
     "message": "Naujas tinklas"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Tik pradedate naudotis „ECF Wallet“?"
   },
   "noAlreadyHaveSeed": {
@@ -700,9 +694,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Saugokite savo atkūrimo frazę – gavome pranešimų apie interneto svetaines, kuriomis bandoma imituoti „ECF Wallet“. „ECF Wallet“ niekada neprašys jūsų pateikti savo atkūrimo frazę!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Saugokite savo frazę. Jei pastebėjote kažką įtartino arba nesate tikri dėl svetainės, rašykite mums adresu support@metamask.io"
   },
   "rpcUrl": {
     "message": "Naujas RPC URL"
@@ -1091,19 +1082,19 @@
     "message": "Sinchronizuoti su mobiliuoju"
   },
   "syncWithMobileDesc": {
-    "message": "Galite sinchronizuoti paskyrą ir informaciją su savo mobiliuoju įrenginiu. Atverkite „MetaMask“ mobiliąją programą, eikite į „Nuostatos“ ir palieskite „Sinchronizuoti iš naršyklės plėtinio“"
+    "message": "Galite sinchronizuoti paskyrą ir informaciją su savo mobiliuoju įrenginiu. Atverkite „ecf-wallet“ mobiliąją programą, eikite į „Nuostatos“ ir palieskite „Sinchronizuoti iš naršyklės plėtinio“"
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Jeigu „MetaMask“ mobiliąją programą atveriate tik pirmą kartą, tiesiog sekite veiksmus telefone."
+    "message": "Jeigu „ecf-wallet“ mobiliąją programą atveriate tik pirmą kartą, tiesiog sekite veiksmus telefone."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Nuskaitykite šį kodą su savo „MetaMask“ mobiliąja programa"
+    "message": "Nuskaitykite šį kodą su savo „ecf-wallet“ mobiliąja programa"
   },
   "syncWithMobileBeCareful": {
     "message": "Pasirūpinkite, kad jums nuskaitant šį kodą niekas nežiūrėtų į jūsų ekraną."
   },
   "syncWithMobileComplete": {
-    "message": "Jūsų duomenys sėkmingai sinchronizuoti. Mėgaukitės „MetaMask“ mobiliąja programa! "
+    "message": "Jūsų duomenys sėkmingai sinchronizuoti. Mėgaukitės „ecf-wallet“ mobiliąja programa! "
   },
   "terms": {
     "message": "Naudojimo sąlygos"

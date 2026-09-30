@@ -121,20 +121,20 @@ describe('Gas Duck', function () {
     basicPriceAndTimeEstimatesLastRetrieved: 0,
     basicPriceEstimatesLastRetrieved: 0,
   }
-  const BASIC_GAS_ESTIMATE_LOADING_FINISHED = 'metamask/gas/BASIC_GAS_ESTIMATE_LOADING_FINISHED'
-  const BASIC_GAS_ESTIMATE_LOADING_STARTED = 'metamask/gas/BASIC_GAS_ESTIMATE_LOADING_STARTED'
-  const GAS_ESTIMATE_LOADING_FINISHED = 'metamask/gas/GAS_ESTIMATE_LOADING_FINISHED'
-  const GAS_ESTIMATE_LOADING_STARTED = 'metamask/gas/GAS_ESTIMATE_LOADING_STARTED'
-  const RESET_CUSTOM_GAS_STATE = 'metamask/gas/RESET_CUSTOM_GAS_STATE'
-  const SET_BASIC_GAS_ESTIMATE_DATA = 'metamask/gas/SET_BASIC_GAS_ESTIMATE_DATA'
-  const SET_CUSTOM_GAS_ERRORS = 'metamask/gas/SET_CUSTOM_GAS_ERRORS'
-  const SET_CUSTOM_GAS_LIMIT = 'metamask/gas/SET_CUSTOM_GAS_LIMIT'
-  const SET_CUSTOM_GAS_PRICE = 'metamask/gas/SET_CUSTOM_GAS_PRICE'
-  const SET_CUSTOM_GAS_TOTAL = 'metamask/gas/SET_CUSTOM_GAS_TOTAL'
-  const SET_PRICE_AND_TIME_ESTIMATES = 'metamask/gas/SET_PRICE_AND_TIME_ESTIMATES'
-  const SET_API_ESTIMATES_LAST_RETRIEVED = 'metamask/gas/SET_API_ESTIMATES_LAST_RETRIEVED'
-  const SET_BASIC_API_ESTIMATES_LAST_RETRIEVED = 'metamask/gas/SET_BASIC_API_ESTIMATES_LAST_RETRIEVED'
-  const SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED = 'metamask/gas/SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED'
+  const BASIC_GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_FINISHED'
+  const BASIC_GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_STARTED'
+  const GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_FINISHED'
+  const GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_STARTED'
+  const RESET_CUSTOM_GAS_STATE = 'ecf-wallet/gas/RESET_CUSTOM_GAS_STATE'
+  const SET_BASIC_GAS_ESTIMATE_DATA = 'ecf-wallet/gas/SET_BASIC_GAS_ESTIMATE_DATA'
+  const SET_CUSTOM_GAS_ERRORS = 'ecf-wallet/gas/SET_CUSTOM_GAS_ERRORS'
+  const SET_CUSTOM_GAS_LIMIT = 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT'
+  const SET_CUSTOM_GAS_PRICE = 'ecf-wallet/gas/SET_CUSTOM_GAS_PRICE'
+  const SET_CUSTOM_GAS_TOTAL = 'ecf-wallet/gas/SET_CUSTOM_GAS_TOTAL'
+  const SET_PRICE_AND_TIME_ESTIMATES = 'ecf-wallet/gas/SET_PRICE_AND_TIME_ESTIMATES'
+  const SET_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_API_ESTIMATES_LAST_RETRIEVED'
+  const SET_BASIC_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_API_ESTIMATES_LAST_RETRIEVED'
+  const SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED'
 
   describe('GasReducer()', function () {
     it('should initialize state', function () {
@@ -409,7 +409,7 @@ describe('Gas Duck', function () {
           ...initState,
           basicPriceAndTimeEstimatesLastRetrieved: 1000000,
         },
-        metamask: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'ropsten' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -475,7 +475,7 @@ describe('Gas Duck', function () {
         gas: {
           ...initState,
         },
-        metamask: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'ropsten' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -518,7 +518,7 @@ describe('Gas Duck', function () {
         gas: {
           ...initState,
         },
-        metamask: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'ropsten' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -569,7 +569,7 @@ describe('Gas Duck', function () {
           ...initState,
           priceAndTimeEstimatesLastRetrieved: 1000000,
         },
-        metamask: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'ropsten' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -611,7 +611,7 @@ describe('Gas Duck', function () {
             gasprice: 50,
           }],
         },
-        metamask: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'ropsten' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,

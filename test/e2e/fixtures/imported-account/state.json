@@ -44,7 +44,7 @@
     },
     "PermissionsMetadata": {
       "domainMetadata": {
-        "metamask.github.io": {
+        "ecf-wallet.github.io": {
           "icon": null,
           "name": "M E T A M A S K M E S H T E S T"
         }
@@ -55,12 +55,12 @@
           "id": 746677923,
           "method": "eth_accounts",
           "methodType": "restricted",
-          "origin": "metamask.github.io",
+          "origin": "ecf-wallet.github.io",
           "request": {
             "id": 746677923,
             "jsonrpc": "2.0",
             "method": "eth_accounts",
-            "origin": "metamask.github.io",
+            "origin": "ecf-wallet.github.io",
             "params": []
           },
           "requestTime": 1575697241368,

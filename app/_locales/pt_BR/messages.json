@@ -149,9 +149,6 @@
   "browserNotSupported": {
     "message": "Seu navegador não é compatível..."
   },
-  "builtInCalifornia": {
-    "message": "O MetaMask foi projetado e desenvolvido na Califórnia."
-  },
   "off": {
     "message": "Desativado"
   },
@@ -352,9 +349,6 @@
   },
   "endOfFlowMessage6": {
     "message": "Se precisar fazer backup de sua frase-semente de novo, acesse Configurações -> Segurança."
-  },
-  "endOfFlowMessage7": {
-    "message": "Caso você tenha alguma dúvida ou veja algo suspeito, envie um e-mail para support@metamask.io."
   },
   "endOfFlowMessage8": {
     "message": "O ECF Wallet não pode recuperar sua frase semente. Saiba mais."
@@ -612,10 +606,10 @@
   "message": {
     "message": "Mensagem"
   },
-  "metamaskDescription": {
+  "ecfWalletDescription": {
     "message": "Conectando você ao Ethereum e à Web Descentralizada."
   },
-  "metamaskVersion": {
+  "ecfWalletVersion": {
     "message": "Versão do ECF Wallet"
   },
   "mobileSyncText": {
@@ -677,7 +671,7 @@
   "newNetwork": {
     "message": "Nova Rede"
   },
-  "newToMetaMask": {
+  "newToEcfWallet": {
     "message": "Novo no ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
@@ -688,9 +682,6 @@
   },
   "protectYourKeysMessage1": {
     "message": "Tome cuidado com sua frase semente — houve relatos de sites que tentam imitar o ECF Wallet. O ECF Wallet nunca pedirá sua frase semente!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Mantenha a sua frase segura. Se você vir algo esquisito ou está inseguro quanto a um site, envie um e-mail para support@metamask.io"
   },
   "rpcUrl": {
     "message": "Nova URL RPC"
@@ -1079,19 +1070,19 @@
     "message": "Sincronizar com o celular"
   },
   "syncWithMobileDesc": {
-    "message": "Você pode sincronizar suas contas e informações com seu dispositivo móvel. Abra o aplicativo móvel MetaMask, vá em \"Configurações\" e toque em \"Sincronizar da Extensão do Navegador\""
+    "message": "Você pode sincronizar suas contas e informações com seu dispositivo móvel. Abra o aplicativo móvel ecf-wallet, vá em \"Configurações\" e toque em \"Sincronizar da Extensão do Navegador\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Se você acabou de abrir o aplicativo MetaMask Mobile pela primeira vez, basta seguir os passos no seu telefone."
+    "message": "Se você acabou de abrir o aplicativo ecf-wallet Mobile pela primeira vez, basta seguir os passos no seu telefone."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Digitalize este código com o seu app móvel do MetaMask"
+    "message": "Digitalize este código com o seu app móvel do ecf-wallet"
   },
   "syncWithMobileBeCareful": {
     "message": "Certifique-se de que ninguém mais esteja olhando para sua tela ao digitalizar esse código"
   },
   "syncWithMobileComplete": {
-    "message": "Seus dados foram sincronizados com sucesso. Aproveite o aplicativo MetaMask!"
+    "message": "Seus dados foram sincronizados com sucesso. Aproveite o aplicativo ecf-wallet!"
   },
   "terms": {
     "message": "Termos de Uso"

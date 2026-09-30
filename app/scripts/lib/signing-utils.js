@@ -2,15 +2,15 @@
 import { toChecksumAddress } from 'ethereumjs-util'
 
 export function validateTypedData (data, version) {
-  return globalThis.metamaskTransactionCodec.validateTypedData(data, version)
+  return globalThis.ecfWalletTransactionCodec.validateTypedData(data, version)
 }
 
 export function typedDataSchema () {
-  return globalThis.metamaskTransactionCodec.TYPED_MESSAGE_SCHEMA
+  return globalThis.ecfWalletTransactionCodec.TYPED_MESSAGE_SCHEMA
 }
 
 export function signTypedData (params) {
-  return globalThis.metamaskTransactionCodec.signTypedData(params)
+  return globalThis.ecfWalletTransactionCodec.signTypedData(params)
 }
 
 // Parse without changing the bytes that will be signed. As in the reference
@@ -26,7 +26,7 @@ export function detectSIWE ({ data, from, origin }, chainId, now = Date.now()) {
   try {
     const lines = message.split('\n')
     lines[1] = toChecksumAddress(lines[1])
-    parsedMessage = globalThis.metamaskTransactionCodec.parseSIWE(lines.join('\n'))
+    parsedMessage = globalThis.ecfWalletTransactionCodec.parseSIWE(lines.join('\n'))
     parsedMessage.address = message.split('\n')[1]
   } catch (_) {
     return { isSIWEMessage: false, errors: ['This sign-in message does not conform to SIWE (ERC-4361).'], warnings }

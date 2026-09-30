@@ -25,7 +25,7 @@ import {
   CONNECTED_ACCOUNTS_ROUTE,
 } from '../../helpers/constants/routes'
 
-const LEARN_MORE_URL = 'https://metamask.zendesk.com/hc/en-us/articles/360045129011-Intro-to-MetaMask-v8-extension'
+const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme'
 
 export default class Home extends PureComponent {
   static contextTypes = {
@@ -218,9 +218,9 @@ export default class Home extends PureComponent {
         )}
       >
         <main className="home__connect-status-text">
-          <div>{ t('metaMaskConnectStatusParagraphOne') }</div>
-          <div>{ t('metaMaskConnectStatusParagraphTwo') }</div>
-          <div>{ t('metaMaskConnectStatusParagraphThree') }</div>
+          <div>{ t('ecfWalletConnectStatusParagraphOne') }</div>
+          <div>{ t('ecfWalletConnectStatusParagraphTwo') }</div>
+          <div>{ t('ecfWalletConnectStatusParagraphThree') }</div>
         </main>
       </Popover>
     )

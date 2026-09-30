@@ -20,7 +20,7 @@ export default class ConnectedSites extends Component {
     domainHostCount: PropTypes.objectOf(PropTypes.number).isRequired,
     disconnectAllAccounts: PropTypes.func.isRequired,
     disconnectAccount: PropTypes.func.isRequired,
-    getOpenMetamaskTabsIds: PropTypes.func.isRequired,
+    getOpenEcfWalletTabsIds: PropTypes.func.isRequired,
     permittedAccountsByOrigin: PropTypes.objectOf(
       PropTypes.arrayOf(PropTypes.string),
     ).isRequired,
@@ -33,8 +33,8 @@ export default class ConnectedSites extends Component {
   }
 
   componentDidMount () {
-    const { getOpenMetamaskTabsIds } = this.props
-    getOpenMetamaskTabsIds()
+    const { getOpenEcfWalletTabsIds } = this.props
+    getOpenEcfWalletTabsIds()
   }
 
   setPendingDisconnect = (domainKey) => {

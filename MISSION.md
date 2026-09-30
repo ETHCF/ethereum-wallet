@@ -1,4 +1,4 @@
-# MetaMask Philosophy
+# ecf-wallet Philosophy
 
 ## Mission
 

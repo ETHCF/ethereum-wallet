@@ -12,7 +12,7 @@ describe('tx confirmation screen', function () {
   const initialState = {
     appState: {
     },
-    metamask: {
+    ecfWallet: {
       unapprovedTxs: {
         [txId]: {
           id: txId,
