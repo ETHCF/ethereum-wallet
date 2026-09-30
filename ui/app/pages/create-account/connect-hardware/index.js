@@ -43,9 +43,25 @@ class ConnectHardwareForm extends Component {
     }
   }
 
-  connectToHardwareWallet = (device) => {
+  connectToHardwareWallet = async (device) => {
     if (this.state.accounts.length) {
       return
+    }
+
+    if (device === 'ledger') {
+      if (!window.navigator.hid) {
+        this.setState({ browserSupported: false, error: null })
+        return
+      }
+      try {
+        const devices = await window.navigator.hid.requestDevice({ filters: [{ vendorId: 0x2c97 }] })
+        if (!devices.length) {
+          return
+        }
+      } catch (error) {
+        this.setState({ error: error.message })
+        return
+      }
     }
 
     // Default values

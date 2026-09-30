@@ -63,7 +63,7 @@
     },
     {
       "matches": [
-        "*://connect.trezor.io/*/popup.html"
+        "https://connect.trezor.io/*/popup.html"
       ],
       "js": [
         "vendor/trezor/content-script.js"

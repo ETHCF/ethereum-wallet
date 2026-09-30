@@ -447,13 +447,16 @@ describe('MetaMaskController', function () {
 
     it('should wipe all the keyring info', async function () {
       await metamaskController.connectHardware('trezor', 0).catch(() => null)
+      const keyring = await metamaskController.getKeyringForDevice('trezor')
+      const call = sinon.stub(keyring, 'call').resolves()
       await metamaskController.forgetDevice('trezor')
+      assert.equal(call.calledWithExactly('forgetDevice', []), true)
       const keyrings = await metamaskController.keyringController.getKeyringsByType(
         'Trezor Hardware',
       )
 
-      assert.deepEqual(keyrings[0].accounts, [])
-      assert.deepEqual(keyrings[0].page, 0)
+      assert.deepEqual(await keyrings[0].getAccounts(), [])
+      assert.deepEqual(await keyrings[0].serialize(), { accounts: [] })
       assert.deepEqual(keyrings[0].isUnlocked(), false)
     })
   })
@@ -498,7 +501,7 @@ describe('MetaMaskController', function () {
       const keyrings = await metamaskController.keyringController.getKeyringsByType(
         'Trezor Hardware',
       )
-      assert.equal(keyrings[0].unlockedAccount, accountToUnlock)
+      assert.equal((await keyrings[0].serialize()).unlockedAccount, accountToUnlock)
     })
 
     it('should call keyringController.addNewAccount', async function () {

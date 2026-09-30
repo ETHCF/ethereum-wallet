@@ -34,11 +34,23 @@ and structured web-accessible resources. The provider is a packaged `MAIN` world
 content script, so it no longer injects executable text into web pages. HTTP and
 HTTPS host permissions support custom RPC endpoints and ENS gateway requests.
 
-On Chromium, Ledger and Trezor transports run in an offscreen document because
-their integrations require iframes. Only public hardware-keyring state and
-explicit hardware operations cross that message boundary. Software keyrings and
-the vault remain in the service worker. Locking closes the offscreen document.
-Firefox runs those transports in its event page.
+Ledger and Trezor transports run in a packaged extension connection tab, opened
+in the background on first device use and closed when the wallet locks. Trezor
+Connect needs the tabs/windows APIs, which are unavailable in Chromium offscreen
+documents. Both browsers use the same transport boundary. Only public keyring
+state and explicit hardware operations cross it; software keyrings and the vault
+remain in the background process. Closing the connection tab interrupts pending
+requests; signing requests are never automatically replayed.
+
+Ledger uses WebHID in Chromium browsers. The Connect button requests device
+permission directly from the user's click; the transport opens only an already
+authorized device. Firefox does not offer WebHID, so Ledger connection reports an
+unsupported browser. Trezor uses Connect's popup and Bridge/WebUSB flow.
+
+Hardware SDKs are bundled separately with esbuild because their current module
+formats are not supported by the legacy Browserify pipeline. Trezor's popup and
+USB-permission scripts are copied from the installed Connect package during the
+build, keeping their message protocol aligned with the SDK.
 
 Development reload uses a worker-compatible local WebSocket connection. The
 previous remote React DevTools bootstrap is omitted from extension bundles to
@@ -58,6 +70,8 @@ unlocked session, explicit lock persistence, auto-lock after worker termination,
 message signing, and a transaction.
 The Chrome harness loads unpacked extensions through the browser-level CDP
 extension debugging API, which requires a current Chrome release. Unit tests
-also exercise legacy vault compatibility and hardware transaction serialization.
+also exercise legacy vault compatibility, hardware account migration, transaction
+serialization, personal signing, and EIP-712 V4 signing. The browser hardware test
+checks packaged transport startup, the approval boundary, and cleanup on lock.
 
 Physical Ledger and Trezor devices still require manual integration testing.

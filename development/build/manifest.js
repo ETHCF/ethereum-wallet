@@ -18,7 +18,6 @@ function createManifestTasks ({ browserPlatforms }) {
         result.background = { scripts: ['bg-libs.js', 'background.js'] }
       } else {
         result.minimum_chrome_version = '120'
-        result.permissions = [...new Set([...result.permissions, 'offscreen'])]
       }
       const dir = `./dist/${platform}`
       await fs.mkdir(dir, { recursive: true })

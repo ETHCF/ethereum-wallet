@@ -1,4 +1,9 @@
 const gulp = require('gulp')
+const esbuild = require('esbuild')
+// This package uses exports without a main field, which ESLint 6 cannot resolve.
+// eslint-disable-next-line import/no-unresolved
+const { polyfillNode } = require('esbuild-plugin-polyfill-node')
+const fs = require('fs-extra')
 const watch = require('gulp-watch')
 const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
@@ -84,7 +89,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
   function createTasksForBuildJsExtension ({ taskPrefix, devMode, testing }) {
     const standardBundles = [
       'background',
-      'hardware',
       'ui',
       'phishing-detect',
     ]
@@ -93,6 +97,42 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       return createTask(`${taskPrefix}:${filename}`,
         createBundleTaskForBuildJsExtensionNormal({ filename, devMode, testing }))
     })
+    standardSubtasks.push(createTask(`${taskPrefix}:hardware`, async () => {
+      const options = {
+        entryPoints: ['./app/scripts/hardware.js'],
+        outfile: './dist/chrome/hardware.js',
+        bundle: true,
+        platform: 'browser',
+        target: ['chrome120', 'firefox128'],
+        minify: !devMode,
+        sourcemap: true,
+        plugins: [polyfillNode()],
+        define: { global: 'globalThis', 'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production') },
+        write: false,
+      }
+      const writeBundle = async (result) => {
+        await Promise.all(browserPlatforms.map(async (platform) => {
+          await fs.ensureDir(`./dist/${platform}`)
+          await Promise.all(result.outputFiles.map((file) => fs.writeFile(
+            `./dist/${platform}/${file.path.split('/').pop()}`, file.contents,
+          )))
+        }))
+      }
+      if (devMode) {
+        options.plugins.push({
+          name: 'write-hardware-bundle',
+          setup: (build) => build.onEnd(async (result) => {
+            if (!result.errors.length) {
+              await writeBundle(result)
+            }
+          }),
+        })
+        const context = await esbuild.context(options)
+        await context.watch()
+      } else {
+        await writeBundle(await esbuild.build(options))
+      }
+    }))
     const contentscriptSubtask = createTask(`${taskPrefix}:contentscript`,
       createTaskForBuildJsExtensionContentscript({ devMode, testing }))
 

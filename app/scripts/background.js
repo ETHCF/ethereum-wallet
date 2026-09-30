@@ -18,6 +18,7 @@ import log from 'loglevel'
 import storeTransform from 'obs-store/lib/transform'
 import asStream from 'obs-store/lib/asStream'
 import PortStream from 'extension-port-stream'
+import { closeHardwareConnections } from './lib/hardware-keyrings'
 import extension from './lib/extension-api'
 import migrations from './migrations'
 import Migrator from './lib/migrator'
@@ -291,14 +292,7 @@ async function setupController (initState, initLangCode) {
 
   controller.keyringController.on('lock', () => {
     encryptor.clear().catch(log.error)
-    if (extension.offscreen) {
-      extension.offscreen.hasDocument().then((exists) => {
-        if (exists) {
-          return extension.offscreen.closeDocument()
-        }
-        return undefined
-      }).catch(log.error)
-    }
+    closeHardwareConnections().catch(log.error)
   })
   controller.keyringController.memStore.subscribe(({ isUnlocked }) => {
     if (isUnlocked) {

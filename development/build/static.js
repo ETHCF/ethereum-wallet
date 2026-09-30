@@ -49,6 +49,14 @@ const copyTargets = [
     pattern: `*.html`,
     dest: ``,
   },
+  {
+    src: './node_modules/@trezor/connect-web/lib/webextension/trezor-content-script.js',
+    dest: 'vendor/trezor/content-script.js',
+  },
+  {
+    src: './node_modules/@trezor/connect-web/lib/webextension/trezor-usb-permissions.js',
+    dest: 'vendor/trezor/usb-permissions.js',
+  },
 ]
 
 const languageTags = new Set()

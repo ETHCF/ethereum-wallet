@@ -1,31 +1,86 @@
 import { EventEmitter } from 'events'
 import Transaction from 'ethereumjs-tx'
-import TrezorKeyring from 'eth-trezor-keyring'
-import LedgerKeyring from '@metamask/eth-ledger-bridge-keyring'
 import extension from './extension-api'
 
-let creatingDocument
+let creatingTab
+let connectionGeneration = 0
+
+function tabsCall (method, ...args) {
+  return new Promise((resolve, reject) => {
+    extension.tabs[method](...args, (result) => {
+      const error = extension.runtime.lastError
+      if (error) {
+        reject(new Error(error.message))
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+
+async function openTransportTab () {
+  const url = extension.runtime.getURL('hardware.html')
+  const contexts = await extension.runtime.getContexts({ contextTypes: ['TAB'], documentUrls: [url] })
+  const tab = contexts.length ? await tabsCall('get', contexts[0].tabId) : await tabsCall('create', { url, active: false })
+  if (tab.status === 'complete') {
+    return
+  }
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      cleanup()
+      reject(new Error('Hardware wallet connection tab did not load. Please retry.'))
+    }, 30000)
+    function cleanup () {
+      extension.tabs.onUpdated.removeListener(updated)
+      extension.tabs.onRemoved.removeListener(removed)
+      clearTimeout(timeout)
+    }
+    function updated (id, info) {
+      if (id === tab.id && info.status === 'complete') {
+        cleanup()
+        resolve()
+      }
+    }
+    function removed (id) {
+      if (id === tab.id) {
+        cleanup()
+        reject(new Error('Hardware wallet connection tab was closed. Please retry.'))
+      }
+    }
+    extension.tabs.onUpdated.addListener(updated)
+    extension.tabs.onRemoved.addListener(removed)
+    // Cover completion between tabs.create and listener registration.
+    tabsCall('get', tab.id).then((current) => updated(tab.id, current), () => removed(tab.id))
+  })
+}
 
 async function requestHardware (request) {
-  const url = extension.runtime.getURL('hardware.html')
-  const contexts = await extension.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'], documentUrls: [url] })
-  if (!contexts.length) {
-    if (!creatingDocument) {
-      creatingDocument = extension.offscreen.createDocument({
-        url: 'hardware.html',
-        reasons: ['IFRAME_SCRIPTING'],
-        justification: 'Communicate with the Ledger and Trezor hardware-wallet transport frames.',
-      }).finally(() => {
-        creatingDocument = null
-      })
-    }
-    await creatingDocument
+  const generation = connectionGeneration
+  if (!creatingTab) {
+    creatingTab = openTransportTab().finally(() => {
+      creatingTab = null
+    })
+  }
+  await creatingTab
+  if (generation !== connectionGeneration) {
+    throw new Error('Hardware wallet request cancelled because the wallet was locked.')
   }
   const response = await extension.runtime.sendMessage({ type: 'metamask-hardware-request', ...request })
   if (!response || response.error) {
     throw new Error(response?.error || 'Hardware wallet transport disconnected. Please retry.')
   }
   return response
+}
+
+export async function closeHardwareConnections () {
+  connectionGeneration += 1
+  if (creatingTab) {
+    await creatingTab.catch(() => undefined)
+  }
+  const contexts = await extension.runtime.getContexts({
+    contextTypes: ['TAB'], documentUrls: [extension.runtime.getURL('hardware.html')],
+  })
+  await Promise.all(contexts.map((context) => tabsCall('remove', context.tabId)))
 }
 
 export function createRemoteKeyring (type, send = requestHardware) {
@@ -35,6 +90,7 @@ export function createRemoteKeyring (type, send = requestHardware) {
       this.type = type
       this.id = global.crypto.randomUUID()
       this.queue = Promise.resolve()
+      this.generation = connectionGeneration
       this.deserialize(opts)
     }
 
@@ -47,7 +103,7 @@ export function createRemoteKeyring (type, send = requestHardware) {
     }
 
     async getAccounts () {
-      return this.state.accounts
+      return this.state.accounts.slice()
     }
 
     isUnlocked () {
@@ -59,6 +115,9 @@ export function createRemoteKeyring (type, send = requestHardware) {
     }
 
     setHdPath (hdPath) {
+      if (type === 'Ledger Hardware' && this.state.accounts.length && !this.state.accountDetails) {
+        this.state.legacyHdPath = this.state.legacyHdPath || this.state.hdPath
+      }
       this.state.hdPath = hdPath
     }
 
@@ -66,7 +125,8 @@ export function createRemoteKeyring (type, send = requestHardware) {
       this.state.accounts = this.state.accounts.filter((account) => account.toLowerCase() !== address.toLowerCase())
     }
 
-    forgetDevice () {
+    async forgetDevice () {
+      await this.call('forgetDevice', [])
       this.id = global.crypto.randomUUID()
       this.state = { accounts: [] }
       this.unlocked = false
@@ -74,7 +134,13 @@ export function createRemoteKeyring (type, send = requestHardware) {
 
     async call (method, args) {
       const operation = this.queue.then(async () => {
+        if (this.generation !== connectionGeneration) {
+          throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+        }
         const response = await send({ id: this.id, keyringType: type, method, args, state: this.state, network: this.network })
+        if (this.generation !== connectionGeneration) {
+          throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+        }
         this.state = response.state
         this.unlocked = response.unlocked
         return response.result
@@ -97,8 +163,7 @@ export function createRemoteKeyring (type, send = requestHardware) {
   return RemoteKeyring
 }
 
-// Firefox's MV3 event page has a DOM; Chromium's worker uses an offscreen
-// document solely for hardware transport. Vaults stay in the worker.
-const useOffscreen = typeof document === 'undefined' && extension.offscreen
-export const Trezor = useOffscreen ? createRemoteKeyring(TrezorKeyring.type) : TrezorKeyring
-export const Ledger = useOffscreen ? createRemoteKeyring(LedgerKeyring.type) : LedgerKeyring
+// Keep DOM-only SDKs out of both browsers' background bundles. The connection
+// tab supplies the tabs/windows APIs that Trezor Connect needs under MV3.
+export const Trezor = createRemoteKeyring('Trezor Hardware')
+export const Ledger = createRemoteKeyring('Ledger Hardware')
