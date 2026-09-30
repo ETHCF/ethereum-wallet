@@ -199,6 +199,7 @@
     "@testing-library/react": "^10.4.9",
     "@testing-library/react-hooks": "^3.7.0",
     "addons-linter": "10.13.0",
+    "assert": "^2.1.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.4.1",
     "babelify": "^10.0.0",

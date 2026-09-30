@@ -1,8 +1,5 @@
 const gulp = require('gulp')
 const esbuild = require('esbuild')
-// This package uses exports without a main field, which ESLint 6 cannot resolve.
-// eslint-disable-next-line import/no-unresolved
-const { polyfillNode } = require('esbuild-plugin-polyfill-node')
 const fs = require('fs-extra')
 const watch = require('gulp-watch')
 const source = require('vinyl-source-stream')
@@ -22,6 +19,7 @@ const { makeStringTransform } = require('browserify-transform-tools')
 const conf = require('rc')('ecf-wallet', {})
 
 const packageJSON = require('../../package.json')
+const browserOptions = require('./browser-options')
 const { createTask, composeParallel, composeSeries, runInChildProcess } = require('./task')
 
 module.exports = createScriptTasks
@@ -99,12 +97,9 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
           entryPoints: [entry],
           outfile: `./dist/chrome/${name}.js`,
           globalName,
-          bundle: true,
-          platform: 'browser',
-          target: ['chrome120', 'firefox128'],
+          ...browserOptions(),
           minify: !devMode,
           sourcemap: true,
-          plugins: [polyfillNode()],
           define: { global: 'globalThis', 'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production') },
           write: false,
         }
