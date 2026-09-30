@@ -303,7 +303,7 @@ describe('Transaction Controller', function () {
 
   describe('#sign replay-protected tx', function () {
     it('prepares a tx with the chainId set', async function () {
-      txController.addTx({ id: '1', status: 'unapproved', metamaskNetworkId: currentNetworkId, txParams: {} }, noop)
+      txController.addTx({ id: '1', status: 'unapproved', metamaskNetworkId: currentNetworkId, txParams: { from: fromAccount.address } }, noop)
       const rawTx = await txController.signTransaction('1')
       const ethTx = new EthTx(ethUtil.toBuffer(rawTx))
       assert.equal(ethTx.getChainId(), 42)
@@ -320,7 +320,7 @@ describe('Transaction Controller', function () {
           to: '0x1678a085c290ebd122dc42cba69373b5953b831d',
           gasPrice: '0x77359400',
           gas: '0x7b0d',
-          nonce: '0x4b',
+          nonce: '0x0',
         },
         metamaskNetworkId: currentNetworkId,
       }

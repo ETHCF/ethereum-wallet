@@ -1,4 +1,6 @@
 import Transaction from 'ethereumjs-tx'
+import { TransactionFactory } from '@ethereumjs/tx-hardware'
+import { Common, Hardfork } from '@ethereumjs/common-hardware'
 import { TrezorKeyring, TrezorConnectBridge } from '@metamask/eth-trezor-keyring'
 import { LedgerKeyring, LedgerMobileBridge, LedgerTransportMiddleware } from '@metamask/eth-ledger-bridge-keyring'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
@@ -48,6 +50,12 @@ export function createHardwareRequestHandler ({
     const factory = factories.get(keyringType)
     if (!factory || !methods.has(method) || !Array.isArray(args) || typeof id !== 'string' || !state || !Array.isArray(state.accounts)) {
       throw new Error('Invalid hardware wallet request')
+    }
+    if (method === 'signTransaction' && (!args[1] || ![0, 1, 2].includes(Number(args[1].type || 0)))) {
+      throw new Error('Unsupported hardware transaction type')
+    }
+    if (method === 'signTransaction' && keyringType === 'Trezor Hardware' && Number(args[1].type) === 1) {
+      throw new Error('Trezor Connect does not support EIP-2930 type 1 transactions')
     }
     let keyring = instances.get(id)
     if (keyring && keyring.type !== keyringType) {
@@ -102,7 +110,18 @@ export function createHardwareRequestHandler ({
     if (state.unlockedAccount !== undefined) {
       keyring.setAccountToUnlock(Number(state.unlockedAccount))
     }
-    const callArgs = method === 'signTransaction' ? [args[0], new Transaction(args[1])] : args
+    let callArgs = args
+    if (method === 'signTransaction') {
+      const params = args[1]
+      const type = Number(params.type || 0)
+      if (![0, 1, 2].includes(type)) {
+        throw new Error('Unsupported hardware transaction type')
+      }
+      const tx = type === 0 ? new Transaction(params) : TransactionFactory.fromTxData(params, {
+        common: Common.custom({ chainId: Number(params.chainId) }, { hardfork: Hardfork.London }),
+      })
+      callArgs = [args[0], tx]
+    }
     let result = await keyring[method](...callArgs)
     if (method === 'signTransaction') {
       result = Buffer.from(result.serialize()).toString('hex')

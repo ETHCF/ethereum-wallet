@@ -47,7 +47,7 @@ export default class SignatureRequest extends PureComponent {
       sign,
     } = this.props
     const { address: fromAddress } = fromAccount
-    const { message, domain = {} } = JSON.parse(data)
+    const { message, domain = {}, primaryType, types } = JSON.parse(data)
 
     return (
       <div className="signature-request page-container">
@@ -66,7 +66,16 @@ export default class SignatureRequest extends PureComponent {
           <div className="signature-request-content__info">{origin}</div>
           <div className="signature-request-content__info">{this.formatWallet(fromAddress)}</div>
         </div>
+        <section className="signature-request-message" aria-label="Signing domain">
+          <h2>Signing domain</h2>
+          <Message data={domain} />
+          <p>Message type: {primaryType}</p>
+        </section>
         <Message data={message} />
+        <details className="signature-request-message">
+          <summary>Type definitions</summary>
+          <pre>{JSON.stringify(types, null, 2)}</pre>
+        </details>
         <Footer cancelAction={cancel} signAction={sign} />
       </div>
     )

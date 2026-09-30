@@ -34,6 +34,25 @@ describe('NetworkController', function () {
       })
     })
 
+    it('keeps network history IDs separate from the signing chain ID', async function () {
+      networkController.providerStore.putState({ type: 'localhost' })
+      networkController._provider = {
+        sendAsync: (request, callback) => callback(null, {
+          id: request.id, jsonrpc: '2.0', result: request.method === 'net_version' ? '5777' : '0x539',
+        }),
+      }
+      await new Promise((resolve) => {
+        networkController.networkStore.subscribe((state) => {
+          if (state !== 'loading') {
+            resolve()
+          }
+        })
+        networkController.lookupNetwork()
+      })
+      assert.equal(networkController.getNetworkState(), '5777')
+      assert.equal(networkController.getChainId(), '0x539')
+    })
+
     describe('#getNetworkState', function () {
       it('should return "loading" when new', function () {
         const networkState = networkController.getNetworkState()

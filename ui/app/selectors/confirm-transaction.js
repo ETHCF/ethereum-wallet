@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { gasPriceForTransaction } from '../../../app/scripts/lib/transaction-fees'
 import txHelper from '../../lib/tx-helper'
 import { calcTokenAmount } from '../helpers/utils/token-util'
 import {
@@ -242,7 +243,8 @@ export const transactionFeeSelector = function (state, txData) {
   const conversionRate = conversionRateSelector(state)
   const nativeCurrency = getNativeCurrency(state)
 
-  const { txParams: { value = '0x0', gas: gasLimit = '0x0', gasPrice = '0x0' } = {} } = txData
+  const { txParams: { value = '0x0', gas: gasLimit = '0x0' } = {} } = txData
+  const gasPrice = gasPriceForTransaction(txData.txParams)
 
   const fiatTransactionAmount = getValueFromWeiHex({
     value, fromCurrency: nativeCurrency, toCurrency: currentCurrency, conversionRate, numberOfDecimals: 2,

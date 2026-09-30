@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
 import contractMap from 'eth-contract-metadata'
+import { gasPriceForTransaction, editedGasParams } from '../../../../app/scripts/lib/transaction-fees'
 import {
   clearConfirmTransaction,
 } from '../../ducks/confirm-transaction/confirm-transaction.duck'
@@ -80,11 +81,11 @@ const mapStateToProps = (state, ownProps) => {
   const {
     from: fromAddress,
     to: txParamsToAddress,
-    gasPrice,
     gas: gasLimit,
     value: amount,
     data,
   } = (transaction && transaction.txParams) || txParams
+  const gasPrice = gasPriceForTransaction(transaction.txParams || txParams)
   const accounts = getMetaMaskAccounts(state)
   const assetImage = assetImages[txParamsToAddress]
 
@@ -272,16 +273,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       validate: validateEditGas,
     }),
     cancelAllTransactions: () => dispatchCancelAllTransactions(valuesFor(unapprovedTxs)),
-    updateGasAndCalculate: ({ gasLimit, gasPrice }) => {
+    updateGasAndCalculate: (fees) => {
       const updatedTx = {
         ...txData,
-        txParams: {
-          ...txData.txParams,
-          gas: gasLimit,
-          gasPrice,
-        },
+        txParams: editedGasParams(txData.txParams, fees),
       }
-      dispatchUpdateGasAndCalculate(updatedTx)
+      return dispatchUpdateGasAndCalculate(updatedTx)
     },
   }
 }

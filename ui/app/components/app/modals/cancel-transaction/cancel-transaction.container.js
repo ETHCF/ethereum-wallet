@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import ethUtil from 'ethereumjs-util'
-import { multiplyCurrencies } from '../../../../helpers/utils/conversion-util'
+import { bumpFee } from '../../../../../../app/scripts/lib/transaction-fees'
 import withModalProps from '../../../../helpers/higher-order-components/with-modal-props'
 import { showModal, createCancelTransaction } from '../../../../store/actions'
 import { getHexGasTotal } from '../../../../helpers/utils/confirm-tx.util'
@@ -14,13 +13,7 @@ const mapStateToProps = (state, ownProps) => {
   const transaction = currentNetworkTxList.find(({ id }) => id === transactionId)
   const transactionStatus = transaction ? transaction.status : ''
 
-  const defaultNewGasPrice = ethUtil.addHexPrefix(
-    multiplyCurrencies(originalGasPrice, 1.1, {
-      toNumericBase: 'hex',
-      multiplicandBase: 16,
-      multiplierBase: 10,
-    }),
-  )
+  const defaultNewGasPrice = bumpFee(originalGasPrice)
 
   const newGasFee = getHexGasTotal({ gasPrice: defaultNewGasPrice, gasLimit: '0x5208' })
 

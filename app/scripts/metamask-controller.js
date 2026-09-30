@@ -17,7 +17,6 @@ import createEngineStream from 'json-rpc-middleware-stream/engineStream'
 import createFilterMiddleware from 'eth-json-rpc-filters'
 import createSubscriptionManager from 'eth-json-rpc-filters/subscriptionManager'
 import providerAsMiddleware from 'eth-json-rpc-middleware/providerAsMiddleware'
-import KeyringController from 'eth-keyring-controller'
 import { Mutex } from 'await-semaphore'
 import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
@@ -29,6 +28,7 @@ import {
   CurrencyRateController,
   PhishingController,
 } from '@metamask/controllers'
+import KeyringController from './lib/modern-keyring-controller'
 import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
 import ComposableObservableStore from './lib/ComposableObservableStore'
 import AccountTracker from './lib/account-tracker'
@@ -226,6 +226,7 @@ export default class MetamaskController extends EventEmitter {
       initState: initState.TransactionController || initState.TransactionManager,
       getPermittedAccounts: this.permissionsController.getAccounts.bind(this.permissionsController),
       networkStore: this.networkController.networkStore,
+      getChainId: () => this.networkController.getChainId(),
       preferencesStore: this.preferencesController.store,
       txHistoryLimit: 40,
       getNetwork: this.networkController.getNetworkState.bind(this),
@@ -256,7 +257,7 @@ export default class MetamaskController extends EventEmitter {
 
     this.networkController.lookupNetwork()
     this.messageManager = new MessageManager()
-    this.personalMessageManager = new PersonalMessageManager()
+    this.personalMessageManager = new PersonalMessageManager({ getChainId: () => this.networkController.getChainId() })
     this.decryptMessageManager = new DecryptMessageManager()
     this.encryptionPublicKeyManager = new EncryptionPublicKeyManager()
     this.typedMessageManager = new TypedMessageManager({ networkController: this.networkController })
@@ -357,6 +358,7 @@ export default class MetamaskController extends EventEmitter {
    * This store is used to make some config info available to Dapps synchronously.
    */
   createPublicConfigStore () {
+    const { networkController } = this
     // subset of state for metamask inpage provider
     const publicConfigStore = new ObservableStore()
 
@@ -376,7 +378,7 @@ export default class MetamaskController extends EventEmitter {
       return {
         isUnlocked,
         networkVersion: network,
-        chainId: selectChainId({ network, provider }),
+        chainId: networkController.getChainId() || selectChainId({ network, provider }),
       }
     }
     return publicConfigStore
@@ -1325,7 +1327,7 @@ export default class MetamaskController extends EventEmitter {
   async signTypedMessage (msgParams) {
     log.info('MetaMaskController - eth_signTypedData')
     const msgId = msgParams.metamaskId
-    const { version } = msgParams
+    const version = this.typedMessageManager.getMsg(msgId)?.msgParams.version
     try {
       const cleanMsgParams = await this.typedMessageManager.approveMessage(msgParams)
 

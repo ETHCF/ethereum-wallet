@@ -8,7 +8,7 @@ describe('Typed Message Manager', function () {
 
   const address = '0xc42edfcc21ed14dda456aa0756c153f7985d8813'
   const networkController = new NetworkController()
-  sinon.stub(networkController, 'getNetworkState').returns('1')
+  sinon.stub(networkController, 'getChainId').returns('0x1')
 
   beforeEach(function () {
     typedMessageManager = new TypedMessageManager({
@@ -19,7 +19,7 @@ describe('Typed Message Manager', function () {
       from: address,
       data: [
         { type: 'string', name: 'unit test', value: 'hello there' },
-        { type: 'uint32', name: 'A number, but not really a number', value: '$$$' },
+        { type: 'uint32', name: 'A number, but not really a number', value: '123' },
       ],
     }
 
@@ -74,7 +74,7 @@ describe('Typed Message Manager', function () {
 
   it('supports version 1 of signedTypedData', function () {
     typedMessageManager.addUnapprovedMessage(msgParamsV1, null, 'V1')
-    assert.equal(messages[messages.length - 1].msgParams.data, msgParamsV1.data)
+    assert.deepEqual(messages[messages.length - 1].msgParams.data, msgParamsV1.data)
   })
 
   it('has params address', function () {

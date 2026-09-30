@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import Transaction from 'ethereumjs-tx'
+import { transactionData, decodeTransaction } from './transaction-codec'
 import extension from './extension-api'
 
 let creatingTab
@@ -150,8 +150,15 @@ export function createRemoteKeyring (type, send = requestHardware) {
     }
 
     async signTransaction (address, tx) {
-      const signed = await this.call('signTransaction', [address, { ...tx.toJSON(true), chainId: tx.getChainId() }])
-      return new Transaction(Buffer.from(signed, 'hex'))
+      if (type === 'Trezor Hardware' && Number(tx.type) === 1) {
+        throw new Error('Trezor Connect does not support EIP-2930 type 1 transactions. Use an EIP-1559 transaction with an access list.')
+      }
+      if (Number(tx.type) === 4) {
+        throw new Error('EIP-7702 signing is supported only by software accounts.')
+      }
+      const data = transactionData(tx)
+      const signed = await this.call('signTransaction', [address, data])
+      return decodeTransaction(signed, Number(data.chainId))
     }
   }
   for (const method of ['unlock', 'addAccounts', 'getFirstPage', 'getNextPage', 'getPreviousPage', 'signMessage', 'signPersonalMessage', 'signTypedData', 'exportAccount']) {

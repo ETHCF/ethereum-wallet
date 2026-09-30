@@ -277,6 +277,12 @@ export default class TransactionStateManager extends EventEmitter {
       const value = txParams[key]
       // validate types
       switch (key) {
+        case 'accessList':
+        case 'authorizationList':
+          if (!Array.isArray(value)) {
+            throw new Error(`${key} must be an array`)
+          }
+          break
         case 'chainId':
           if (typeof value !== 'number' && typeof value !== 'string') {
             throw new Error(`${key} in txParams is not a Number or hex string. got: (${value})`)

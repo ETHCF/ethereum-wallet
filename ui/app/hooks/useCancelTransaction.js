@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
+import { gasPriceForTransaction } from '../../../app/scripts/lib/transaction-fees'
 import { showModal } from '../store/actions'
 import { isBalanceSufficient } from '../pages/send/send.utils'
 import { getHexGasTotal, increaseLastGasPrice } from '../helpers/utils/confirm-tx.util'
@@ -16,9 +17,9 @@ import { getConversionRate, getSelectedAccount } from '../selectors'
  * @return {[boolean, Function]}
  */
 export function useCancelTransaction (transactionGroup) {
-  const { primaryTransaction, initialTransaction } = transactionGroup
-  const gasPrice = primaryTransaction.txParams?.gasPrice
-  const { id } = initialTransaction
+  const { primaryTransaction } = transactionGroup
+  const gasPrice = gasPriceForTransaction(primaryTransaction.txParams)
+  const { id } = primaryTransaction
   const dispatch = useDispatch()
   const selectedAccount = useSelector(getSelectedAccount)
   const conversionRate = useSelector(getConversionRate)

@@ -1,13 +1,15 @@
 import EventEmitter from 'safe-event-emitter'
 import ObservableStore from 'obs-store'
 import ethUtil from 'ethereumjs-util'
-import Transaction from 'ethereumjs-tx'
+import BN from 'bn.js'
 import EthQuery from 'ethjs-query'
 import { ethErrors } from 'eth-json-rpc-errors'
 import abi from 'human-standard-token-abi'
 import abiDecoder from 'abi-decoder'
 import NonceTracker from 'nonce-tracker'
 import log from 'loglevel'
+import { isFeeMarketTransaction, replacementFees } from '../../lib/transaction-fees'
+import { createTransaction } from '../../lib/transaction-codec'
 import {
   TOKEN_METHOD_APPROVE,
   TOKEN_METHOD_TRANSFER,
@@ -17,7 +19,6 @@ import {
   CONTRACT_INTERACTION_KEY,
 } from '../../../../ui/app/helpers/constants/transactions'
 import cleanErrorStack from '../../lib/cleanErrorStack'
-import { hexToBn, bnToHex, BnMultiplyByFraction } from '../../lib/util'
 import { TRANSACTION_NO_CONTRACT_ERROR_KEY } from '../../../../ui/app/helpers/constants/error-keys'
 import TransactionStateManager from './tx-state-manager'
 import TxGasUtil from './tx-gas-utils'
@@ -68,6 +69,7 @@ export default class TransactionController extends EventEmitter {
     this.networkStore = opts.networkStore || new ObservableStore({})
     this.preferencesStore = opts.preferencesStore || new ObservableStore({})
     this.provider = opts.provider
+    this.getSigningChainId = opts.getChainId
     this.getPermittedAccounts = opts.getPermittedAccounts
     this.blockTracker = opts.blockTracker
     this.signEthTx = opts.signTransaction
@@ -127,7 +129,7 @@ export default class TransactionController extends EventEmitter {
    * @returns {number} The numerical chainId.
    */
   getChainId () {
-    const networkState = this.networkStore.getState()
+    const networkState = this.getSigningChainId ? this.getSigningChainId() : this.networkStore.getState()
     // eslint-disable-next-line radix
     const integerChainId = parseInt(networkState)
     if (Number.isNaN(integerChainId)) {
@@ -195,6 +197,12 @@ export default class TransactionController extends EventEmitter {
     const normalizedTxParams = txUtils.normalizeTxParams(txParams)
 
     txUtils.validateTxParams(normalizedTxParams)
+    if (origin !== 'metamask' && (normalizedTxParams.authorizationList !== undefined || Number(normalizedTxParams.type) === 4)) {
+      throw new Error('External EIP-7702 transactions are not supported')
+    }
+    if (normalizedTxParams.chainId && Number(normalizedTxParams.chainId) !== this.getChainId()) {
+      throw new Error('Transaction chainId does not match the selected network')
+    }
 
     /**
     `generateTxMeta` adds the default txMeta properties to the passed object.
@@ -204,6 +212,7 @@ export default class TransactionController extends EventEmitter {
     */
     let txMeta = this.txStateManager.generateTxMeta({
       txParams: normalizedTxParams,
+      signingChainId: this.getChainId(),
       type: TRANSACTION_TYPE_STANDARD,
     })
 
@@ -264,21 +273,78 @@ export default class TransactionController extends EventEmitter {
    * @returns {Promise<object>} - resolves with txMeta
    */
   async addTxGasDefaults (txMeta, getCodeResponse) {
-    const defaultGasPrice = await this._getDefaultGasPrice(txMeta)
+    const fees = await this._getDefaultFees(txMeta)
+    txMeta.txParams = { ...txMeta.txParams, ...fees }
+    if (isFeeMarketTransaction(txMeta.txParams)) {
+      delete txMeta.txParams.gasPrice
+    }
+    txUtils.validateTxParams(txMeta.txParams)
     const { gasLimit: defaultGasLimit, simulationFails } = await this._getDefaultGasLimit(txMeta, getCodeResponse)
 
     // eslint-disable-next-line no-param-reassign
     txMeta = this.txStateManager.getTx(txMeta.id)
+    Object.assign(txMeta.txParams, fees)
+    if (isFeeMarketTransaction(txMeta.txParams)) {
+      delete txMeta.txParams.gasPrice
+    }
     if (simulationFails) {
       txMeta.simulationFails = simulationFails
-    }
-    if (defaultGasPrice && !txMeta.txParams.gasPrice) {
-      txMeta.txParams.gasPrice = defaultGasPrice
     }
     if (defaultGasLimit && !txMeta.txParams.gas) {
       txMeta.txParams.gas = defaultGasLimit
     }
     return txMeta
+  }
+
+  async _getDefaultFees ({ txParams: params, origin }) {
+    const requestedType = params.type === undefined ? undefined : Number(params.type)
+    const feeMarket = isFeeMarketTransaction(params) || params.authorizationList !== undefined
+    // An explicit legacy envelope/price remains a supported choice. The send
+    // form's suggested legacy price is replaced by caps on London networks.
+    if (!feeMarket && ([0, 1].includes(requestedType) || (params.gasPrice && origin !== 'metamask'))) {
+      return {
+        gasPrice: params.gasPrice || await this._getDefaultGasPrice({ txParams: params }),
+        ...(params.accessList && requestedType === undefined ? { type: '0x1' } : {}),
+      }
+    }
+    const block = await this.query.getBlockByNumber('latest', false)
+    if (!block || block.baseFeePerGas === undefined) {
+      if (feeMarket) {
+        throw new Error('The selected network does not support EIP-1559 transactions')
+      }
+      return {
+        gasPrice: params.gasPrice || await this._getDefaultGasPrice({ txParams: params }),
+        ...(params.accessList ? { type: '0x1' } : {}),
+      }
+    }
+    if ((requestedType === 4 || params.authorizationList) && !block.requestsHash) {
+      throw new Error('EIP-7702 requires a network with Prague support')
+    }
+    const baseFee = new BN(block.baseFeePerGas.replace(/^0x/u, ''), 16)
+    let priority = params.maxPriorityFeePerGas
+    if (!priority) {
+      try {
+        priority = await new Promise((resolve, reject) => this.provider.sendAsync({
+          id: Date.now(), jsonrpc: '2.0', method: 'eth_maxPriorityFeePerGas', params: [],
+        }, (error, response) => (error || response.error ? reject(error || new Error(response.error.message)) : resolve(response.result))))
+        txUtils.validateEnvelope({ maxPriorityFeePerGas: priority })
+        if (!priority) {
+          throw new Error('No priority fee estimate')
+        }
+      } catch (_) {
+        const price = await this.query.gasPrice()
+        priority = `0x${BN.max(new BN(price.toString(16), 16).sub(baseFee), new BN(1000000000)).toString(16)}`
+      }
+      // A dapp may supply just a cap, including a cap below the suggested tip.
+      if (params.maxFeePerGas) {
+        priority = `0x${BN.min(new BN(priority.slice(2), 16), new BN(params.maxFeePerGas.slice(2), 16)).toString(16)}`
+      }
+    }
+    return {
+      type: requestedType === 4 || params.authorizationList ? '0x4' : '0x2',
+      maxPriorityFeePerGas: priority,
+      maxFeePerGas: params.maxFeePerGas || `0x${baseFee.muln(2).add(new BN(priority.slice(2), 16)).toString(16)}`,
+    }
   }
 
   /**
@@ -305,6 +371,8 @@ export default class TransactionController extends EventEmitter {
     if (txMeta.txParams.gas) {
       return {}
     } else if (
+      !txMeta.txParams.accessList &&
+      !txMeta.txParams.authorizationList &&
       txMeta.txParams.to &&
       txMeta.transactionCategory === SEND_ETHER_ACTION_KEY
     ) {
@@ -343,7 +411,7 @@ export default class TransactionController extends EventEmitter {
     const { txParams } = originalTxMeta
     const { gasPrice: lastGasPrice, from, nonce } = txParams
 
-    const newGasPrice = customGasPrice || bnToHex(BnMultiplyByFraction(hexToBn(lastGasPrice), 11, 10))
+    const fees = replacementFees(txParams, customGasPrice)
     const newTxMeta = this.txStateManager.generateTxMeta({
       txParams: {
         from,
@@ -351,9 +419,13 @@ export default class TransactionController extends EventEmitter {
         nonce,
         gas: '0x5208',
         value: '0x0',
-        gasPrice: newGasPrice,
+        ...(isFeeMarketTransaction(txParams) ? { type: '0x2' } : {}),
+        ...fees,
       },
       lastGasPrice,
+      origin: originalTxMeta.origin,
+      signingChainId: originalTxMeta.signingChainId,
+      ...(txParams.maxFeePerGas ? { lastMaxFeePerGas: txParams.maxFeePerGas } : {}),
       loadingDefaults: false,
       status: TRANSACTION_STATUS_APPROVED,
       type: TRANSACTION_TYPE_CANCEL,
@@ -379,14 +451,17 @@ export default class TransactionController extends EventEmitter {
     const { txParams } = originalTxMeta
     const { gasPrice: lastGasPrice } = txParams
 
-    const newGasPrice = customGasPrice || bnToHex(BnMultiplyByFraction(hexToBn(lastGasPrice), 11, 10))
+    const fees = replacementFees(txParams, customGasPrice)
 
     const newTxMeta = this.txStateManager.generateTxMeta({
       txParams: {
         ...txParams,
-        gasPrice: newGasPrice,
+        ...fees,
       },
       lastGasPrice,
+      origin: originalTxMeta.origin,
+      signingChainId: originalTxMeta.signingChainId,
+      ...(txParams.maxFeePerGas ? { lastMaxFeePerGas: txParams.maxFeePerGas } : {}),
       loadingDefaults: false,
       status: TRANSACTION_STATUS_APPROVED,
       type: TRANSACTION_TYPE_RETRY,
@@ -406,6 +481,7 @@ export default class TransactionController extends EventEmitter {
   @param {Object} txMeta - the updated txMeta
   */
   async updateTransaction (txMeta) {
+    txUtils.validateTxParams(txMeta.txParams)
     this.txStateManager.updateTx(txMeta, 'confTx: user updated transaction')
   }
 
@@ -414,6 +490,7 @@ export default class TransactionController extends EventEmitter {
   @param {Object} txMeta
   */
   async updateAndApproveTransaction (txMeta) {
+    txUtils.validateTxParams(txMeta.txParams)
     this.txStateManager.updateTx(txMeta, 'confTx: user approved transaction')
     await this.approveTransaction(txMeta.id)
   }
@@ -448,9 +525,8 @@ export default class TransactionController extends EventEmitter {
       customNonceValue = Number(customNonceValue)
       nonceLock = await this.nonceTracker.getNonceLock(fromAddress)
       // add nonce to txParams
-      // if txMeta has lastGasPrice then it is a retry at same nonce with higher
-      // gas price transaction and their for the nonce should not be calculated
-      const nonce = txMeta.lastGasPrice ? txMeta.txParams.nonce : nonceLock.nextNonce
+      // Preserve explicit and replacement nonces; otherwise allocate the next nonce.
+      const nonce = txMeta.txParams.nonce === undefined ? nonceLock.nextNonce : txMeta.txParams.nonce
       const customOrNonce = (customNonceValue === 0) ? customNonceValue : customNonceValue || nonce
 
       txMeta.txParams.nonce = ethUtil.addHexPrefix(customOrNonce.toString(16))
@@ -495,20 +571,42 @@ export default class TransactionController extends EventEmitter {
     const txParams = { ...txMeta.txParams, chainId }
     // sign tx
     const fromAddress = txParams.from
-    const ethTx = new Transaction(txParams)
-    await this.signEthTx(ethTx, fromAddress)
+    txUtils.validateTxParams(txMeta.txParams)
+    if (!Number.isSafeInteger(chainId) || chainId <= 0 ||
+        (txMeta.signingChainId !== undefined && txMeta.signingChainId !== chainId) ||
+        (txMeta.txParams.chainId && Number(txMeta.txParams.chainId) !== chainId)) {
+      throw new Error('Invalid transaction chainId for the selected network')
+    }
+    if (Number(txParams.type) === 4 && txMeta.origin !== 'metamask') {
+      throw new Error('External EIP-7702 transactions are not supported')
+    }
+    if (Number(txParams.type)) {
+      txMeta.txParams.chainId = `0x${chainId.toString(16)}`
+    }
+    const unsignedTx = createTransaction(txParams, chainId)
+    const expectedMessage = Number(txParams.type) ? Buffer.from(unsignedTx.getHashedMessageToSign()) : undefined
+    const ethTx = await this.signEthTx(unsignedTx, fromAddress) || unsignedTx
+    if (expectedMessage && (!Number(ethTx.type) ||
+        !expectedMessage.equals(Buffer.from(ethTx.getHashedMessageToSign())) ||
+        ethTx.getSenderAddress().toString().toLowerCase() !== fromAddress.toLowerCase())) {
+      throw new Error('The signed transaction does not match the approved transaction or account')
+    }
+    if (!ethTx.verifySignature()) {
+      throw new Error('The signer returned an invalid transaction signature')
+    }
 
     // add r,s,v values for provider request purposes see createMetamaskMiddleware
     // and JSON rpc standard for further explanation
-    txMeta.r = ethUtil.bufferToHex(ethTx.r)
-    txMeta.s = ethUtil.bufferToHex(ethTx.s)
-    txMeta.v = ethUtil.bufferToHex(ethTx.v)
+    const signatureHex = (value) => (typeof value === 'bigint' ? `0x${value.toString(16)}` : ethUtil.bufferToHex(value))
+    txMeta.r = signatureHex(ethTx.r)
+    txMeta.s = signatureHex(ethTx.s)
+    txMeta.v = signatureHex(ethTx.v)
 
     this.txStateManager.updateTx(txMeta, 'transactions#signTransaction: add r, s, v values')
 
     // set state to signed
     this.txStateManager.setTxStatusSigned(txMeta.id)
-    const rawTx = ethUtil.bufferToHex(ethTx.serialize())
+    const rawTx = ethUtil.bufferToHex(Buffer.from(ethTx.serialize()))
     return rawTx
   }
 

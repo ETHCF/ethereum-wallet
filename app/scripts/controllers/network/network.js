@@ -87,6 +87,10 @@ export default class NetworkController extends EventEmitter {
     return this.networkStore.getState()
   }
 
+  getChainId () {
+    return this._chainId
+  }
+
   getNetworkConfig () {
     return this.networkConfig.getState()
   }
@@ -115,18 +119,28 @@ export default class NetworkController extends EventEmitter {
       return
     }
     const { type } = this.providerStore.getState()
-    const ethQuery = new EthQuery(this._provider)
-    const initialNetwork = this.getNetworkState()
-    ethQuery.sendAsync({ method: 'net_version' }, (err, network) => {
-      const currentNetwork = this.getNetworkState()
-      if (initialNetwork === currentNetwork) {
-        if (err) {
+    const provider = this._provider
+    const ethQuery = new EthQuery(provider)
+    ethQuery.sendAsync({ method: 'net_version' }, (error, network) => {
+      if (provider !== this._provider) {
+        return
+      }
+      if (error) {
+        this.setNetworkState('loading')
+        return
+      }
+      ethQuery.sendAsync({ method: 'eth_chainId' }, (chainError, chainId) => {
+        if (provider !== this._provider) {
+          return
+        }
+        if (chainError || typeof chainId !== 'string' || !(/^0x[0-9a-f]+$/iu).test(chainId)) {
+          this._chainId = undefined
           this.setNetworkState('loading')
           return
         }
-        log.info(`web3.getNetwork returned ${network}`)
+        this._chainId = chainId
         this.setNetworkState(network, type)
-      }
+      })
     })
   }
 
@@ -173,6 +187,7 @@ export default class NetworkController extends EventEmitter {
   }
 
   _configureProvider (opts) {
+    this._chainId = undefined
     const { type, rpcTarget, chainId, ticker, nickname } = opts
     // infura type-based endpoints
     const isInfura = INFURA_PROVIDER_TYPES.includes(type)

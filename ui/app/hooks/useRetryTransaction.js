@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useCallback } from 'react'
+import { gasPriceForTransaction, isFeeMarketTransaction } from '../../../app/scripts/lib/transaction-fees'
 import { showSidebar } from '../store/actions'
 import {
   fetchBasicGasAndTimeEstimates,
@@ -16,26 +17,28 @@ import { increaseLastGasPrice } from '../helpers/utils/confirm-tx.util'
  * @return {Function}
  */
 export function useRetryTransaction (transactionGroup) {
-  const { primaryTransaction, initialTransaction } = transactionGroup
+  const { primaryTransaction } = transactionGroup
   // Signature requests do not have a txParams, but this hook is called indiscriminately
-  const gasPrice = primaryTransaction.txParams?.gasPrice
+  const gasPrice = gasPriceForTransaction(primaryTransaction.txParams)
   const dispatch = useDispatch()
 
   const retryTransaction = useCallback(async (event) => {
     event.stopPropagation()
 
-    const basicEstimates = await dispatch(fetchBasicGasAndTimeEstimates)
-    await dispatch(fetchGasEstimates(basicEstimates.blockTime))
-    const transaction = initialTransaction
+    if (!isFeeMarketTransaction(primaryTransaction.txParams)) {
+      const basicEstimates = await dispatch(fetchBasicGasAndTimeEstimates)
+      await dispatch(fetchGasEstimates(basicEstimates.blockTime))
+    }
+    const transaction = primaryTransaction
     const increasedGasPrice = increaseLastGasPrice(gasPrice)
-    dispatch(setCustomGasPriceForRetry(increasedGasPrice || transaction.txParams.gasPrice))
+    dispatch(setCustomGasPriceForRetry(increasedGasPrice || gasPriceForTransaction(transaction.txParams)))
     dispatch(setCustomGasLimit(transaction.txParams.gas))
     dispatch(showSidebar({
       transitionName: 'sidebar-left',
       type: 'customize-gas',
       props: { transaction },
     }))
-  }, [dispatch, initialTransaction, gasPrice])
+  }, [dispatch, primaryTransaction, gasPrice])
 
   return retryTransaction
 }

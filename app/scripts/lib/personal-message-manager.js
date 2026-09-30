@@ -3,6 +3,7 @@ import ObservableStore from 'obs-store'
 import ethUtil from 'ethereumjs-util'
 import { ethErrors } from 'eth-json-rpc-errors'
 import log from 'loglevel'
+import { detectSIWE } from './signing-utils'
 import createId from './random-id'
 import { MESSAGE_TYPE } from './enums'
 
@@ -40,8 +41,9 @@ export default class PersonalMessageManager extends EventEmitter {
    * @property {array} messages Holds all messages that have been created by this PersonalMessageManager
    *
    */
-  constructor () {
+  constructor ({ getChainId = () => undefined } = {}) {
     super()
+    this.getChainId = getChainId
     this.memStore = new ObservableStore({
       unapprovedPersonalMsgs: {},
       unapprovedPersonalMsgCount: 0,
@@ -116,13 +118,19 @@ export default class PersonalMessageManager extends EventEmitter {
    * @returns {number} - The id of the newly created PersonalMessage.
    *
    */
-  addUnapprovedMessage (msgParams, req) {
-    log.debug(`PersonalMessageManager addUnapprovedMessage: ${JSON.stringify(msgParams)}`)
+  addUnapprovedMessage (inputParams, req) {
+    log.debug(`PersonalMessageManager addUnapprovedMessage: ${JSON.stringify(inputParams)}`)
+    const msgParams = { ...inputParams }
     // add origin from request
     if (req) {
       msgParams.origin = req.origin
     }
     msgParams.data = this.normalizeMsgData(msgParams.data)
+    delete msgParams.siwe
+    const siwe = detectSIWE(msgParams, this.getChainId())
+    if (siwe) {
+      msgParams.siwe = siwe
+    }
     // create txData obj with parameters and meta data
     const time = (new Date()).getTime()
     const msgId = createId()
@@ -174,8 +182,16 @@ export default class PersonalMessageManager extends EventEmitter {
    *
    */
   approveMessage (msgParams) {
-    this.setMsgStatusApproved(msgParams.metamaskId)
-    return this.prepMsgForSigning(msgParams)
+    const stored = this.getMsg(msgParams.metamaskId)
+    if (!stored || stored.status !== 'unapproved') {
+      return Promise.reject(new Error('Personal message is not awaiting approval'))
+    }
+    const siwe = detectSIWE(stored.msgParams, this.getChainId())
+    if (siwe?.errors.length) {
+      return Promise.reject(new Error(siwe.errors.join(' ')))
+    }
+    this.setMsgStatusApproved(stored.id)
+    return this.prepMsgForSigning({ ...stored.msgParams })
   }
 
   /**

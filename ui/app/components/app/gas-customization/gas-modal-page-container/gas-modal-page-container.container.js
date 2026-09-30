@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { addHexPrefix } from 'ethereumjs-util'
+import { gasPriceForTransaction, editedGasParams, isFeeMarketTransaction, bumpFee } from '../../../../../../app/scripts/lib/transaction-fees'
 import {
   hideModal,
   setGasLimit,
@@ -85,7 +86,8 @@ const mapStateToProps = (state, ownProps) => {
       value: sendToken ? '0x0' : send.amount,
     }
 
-  const { gasPrice: currentGasPrice, gas: currentGasLimit, value } = txParams
+  const { gas: currentGasLimit, value } = txParams
+  const currentGasPrice = gasPriceForTransaction(txParams)
   const customModalGasPriceInHex = getCustomGasPrice(state) || currentGasPrice
   const customModalGasLimitInHex = getCustomGasLimit(state) || currentGasLimit || '0x5208'
   const customGasTotal = calcGasTotal(customModalGasLimitInHex, customModalGasPriceInHex)
@@ -133,6 +135,11 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     hideBasic,
+    feeMarketParams: isFeeMarketTransaction(txParams) ? {
+      ...txParams, gas: customModalGasLimitInHex, maxFeePerGas: customModalGasPriceInHex,
+      maxPriorityFeePerGas: ['submitted', 'failed'].includes(transaction.status) ? bumpFee(txParams.maxPriorityFeePerGas) : txParams.maxPriorityFeePerGas,
+    } : undefined,
+    minimumMaxFeePerGas: isFeeMarketTransaction(txParams) && ['submitted', 'failed'].includes(transaction.status) ? bumpFee(txParams.maxFeePerGas) : undefined,
     isConfirm: isConfirm(state),
     customModalGasPriceInHex,
     customModalGasLimitInHex,
@@ -255,11 +262,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       if (isConfirm) {
         const updatedTx = {
           ...transaction,
-          txParams: {
-            ...transaction.txParams,
-            gas: gasLimit,
-            gasPrice,
-          },
+          txParams: editedGasParams(transaction.txParams, { gasLimit, gasPrice }),
         }
         dispatchUpdateConfirmTxGasAndCalculate(gasLimit, gasPrice, updatedTx)
         dispatchHideModal()

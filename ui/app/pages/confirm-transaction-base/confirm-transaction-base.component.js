@@ -1,6 +1,7 @@
 import ethUtil from 'ethereumjs-util'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-fees'
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import ConfirmPageContainer, { ConfirmDetailRow } from '../../components/app/confirm-page-container'
@@ -17,6 +18,7 @@ import { PRIMARY, SECONDARY } from '../../helpers/constants/common'
 import { hexToDecimal } from '../../helpers/utils/conversions.util'
 import AdvancedGasInputs from '../../components/app/gas-customization/advanced-gas-inputs'
 import TextField from '../../components/ui/text-field'
+import FeeMarketInputs from './fee-market-inputs'
 
 export default class ConfirmTransactionBase extends Component {
   static contextTypes = {
@@ -103,6 +105,9 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   componentDidUpdate (prevProps) {
+    if (this.props.txData?.id !== prevProps.txData?.id) {
+      this.setState({ feeInputInvalid: false })
+    }
     const {
       transactionStatus,
       showTransactionConfirmedModal,
@@ -146,6 +151,9 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   getErrorKey () {
+    if (this.state.feeInputInvalid) {
+      return { valid: false }
+    }
     const {
       balance,
       conversionRate,
@@ -227,6 +235,8 @@ export default class ConfirmTransactionBase extends Component {
       return null
     }
 
+    const txParams = this.props.txData?.txParams || {}
+    const feeMarket = isFeeMarketTransaction(txParams)
     const notMainnetOrTest = !(isMainnet || process.env.IN_TEST)
 
     return (
@@ -234,14 +244,31 @@ export default class ConfirmTransactionBase extends Component {
         <div className="confirm-page-container-content__details">
           <div className="confirm-page-container-content__gas-fee">
             <ConfirmDetailRow
-              label="Gas Fee"
+              label={feeMarket ? 'Maximum gas fee' : 'Gas Fee'}
               value={hexTransactionFee}
-              headerText={notMainnetOrTest ? '' : 'Edit'}
+              headerText={notMainnetOrTest || feeMarket ? '' : 'Edit'}
               headerTextClassName={notMainnetOrTest ? '' : 'confirm-detail-row__header-text--edit'}
-              onHeaderClick={notMainnetOrTest ? null : () => this.handleEditGas()}
+              onHeaderClick={notMainnetOrTest || feeMarket ? null : () => this.handleEditGas()}
               secondaryText={hideFiatConversion ? this.context.t('noConversionRateAvailable') : ''}
             />
-            {advancedInlineGasShown || notMainnetOrTest
+            {feeMarket && (
+              <FeeMarketInputs
+                key={this.props.txData.id}
+                params={txParams}
+                onChange={updateGasAndCalculate}
+                onValidityChange={(valid) => this.setState({ feeInputInvalid: !valid })}
+              />
+            )}
+            {txParams.authorizationList && (
+              <div role="alert">
+                <strong>Account delegation (EIP-7702)</strong>
+                <p>These authorizations allow the listed contracts to execute on behalf of the signing accounts. Delegations persist after this transaction.</p>
+                {txParams.authorizationList.map((entry, index) => (
+                  <p key={index}>Contract: {entry.address}; chain: {entry.chainId}; nonce: {entry.nonce}</p>
+                ))}
+              </div>
+            )}
+            {!feeMarket && (advancedInlineGasShown || notMainnetOrTest)
               ? (
                 <AdvancedGasInputs
                   updateCustomGasPrice={(newGasPrice) => updateGasAndCalculate({ ...customGas, gasPrice: newGasPrice })}

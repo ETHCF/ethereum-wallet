@@ -2,10 +2,11 @@ import EventEmitter from 'events'
 import assert from 'assert'
 import ObservableStore from 'obs-store'
 import { ethErrors } from 'eth-json-rpc-errors'
-import sigUtil from 'eth-sig-util'
 import { isValidAddress } from 'ethereumjs-util'
+import BN from 'bn.js'
 import log from 'loglevel'
 import jsonschema from 'jsonschema'
+import { validateTypedData, typedDataSchema } from './signing-utils'
 import createId from './random-id'
 import { MESSAGE_TYPE } from './enums'
 
@@ -105,9 +106,13 @@ export default class TypedMessageManager extends EventEmitter {
    * @returns {number} - The id of the newly created TypedMessage.
    *
    */
-  addUnapprovedMessage (msgParams, req, version) {
+  addUnapprovedMessage (inputParams, req, version) {
 
+    const msgParams = { ...inputParams, data: typeof inputParams.data === 'object' ? JSON.parse(JSON.stringify(inputParams.data)) : inputParams.data }
     msgParams.version = version
+    if (['V3', 'V4'].includes(version) && typeof msgParams.data === 'object') {
+      msgParams.data = JSON.stringify(msgParams.data)
+    }
     if (req) {
       msgParams.origin = req.origin
     }
@@ -152,7 +157,7 @@ export default class TypedMessageManager extends EventEmitter {
       case 'V1':
         assert.ok(Array.isArray(params.data), '"params.data" must be an array.')
         assert.doesNotThrow(() => {
-          sigUtil.typedSignatureHash(params.data)
+          validateTypedData(params.data, 'V1')
         }, 'Signing data must be valid EIP-712 typed data.')
         break
       case 'V3':
@@ -162,13 +167,20 @@ export default class TypedMessageManager extends EventEmitter {
         assert.doesNotThrow(() => {
           data = JSON.parse(params.data)
         }, '"data" must be a valid JSON string.')
-        const validation = jsonschema.validate(data, sigUtil.TYPED_MESSAGE_SCHEMA)
+        const validation = jsonschema.validate(data, typedDataSchema())
         assert.ok(data.primaryType in data.types, `Primary type of "${data.primaryType}" has no type definition.`)
         assert.equal(validation.errors.length, 0, 'Signing data must conform to EIP-712 schema. See https://git.io/fNtcx.')
+        validateTypedData(data, params.version)
         const { chainId } = data.domain
-        // eslint-disable-next-line radix
-        const activeChainId = parseInt(this.networkController.getNetworkState())
-        chainId && assert.equal(chainId, activeChainId, `Provided chainId "${chainId}" must match the active chainId "${activeChainId}"`)
+        const activeChainId = this.networkController.getChainId ? this.networkController.getChainId() : this.networkController.getNetworkState()
+        if (chainId !== undefined) {
+          const chainQuantity = (value) => {
+            const text = String(value)
+            assert.ok((typeof value === 'string' || Number.isSafeInteger(value)) && (/^(?:0x[0-9a-f]+|[0-9]+)$/iu).test(text), 'Invalid chain ID')
+            return new BN(text.replace(/^0x/iu, ''), (/^0x/iu).test(text) ? 16 : 10)
+          }
+          assert.ok(chainQuantity(chainId).eq(chainQuantity(activeChainId)), `Provided chainId "${chainId}" must match the active chainId "${activeChainId}"`)
+        }
         break
       }
       default:
@@ -210,8 +222,13 @@ export default class TypedMessageManager extends EventEmitter {
    *
    */
   approveMessage (msgParams) {
-    this.setMsgStatusApproved(msgParams.metamaskId)
-    return this.prepMsgForSigning(msgParams)
+    const stored = this.getMsg(msgParams.metamaskId)
+    if (!stored || stored.status !== 'unapproved') {
+      throw new Error('Typed message is not awaiting approval')
+    }
+    this.validateParams(stored.msgParams)
+    this.setMsgStatusApproved(stored.id)
+    return this.prepMsgForSigning({ ...stored.msgParams })
   }
 
   /**

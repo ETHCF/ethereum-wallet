@@ -1,4 +1,5 @@
 import { addHexPrefix } from 'ethereumjs-util'
+import { gasPriceForTransaction, editedGasParams, isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-fees'
 import {
   conversionRateSelector,
   currentCurrencySelector,
@@ -262,11 +263,7 @@ export function updateGasAndCalculate ({ gasLimit, gasPrice }) {
     const { confirmTransaction: { txData } } = getState()
     const newTxData = {
       ...txData,
-      txParams: {
-        ...txData.txParams,
-        gas: addHexPrefix(gasLimit),
-        gasPrice: addHexPrefix(gasPrice),
-      },
+      txParams: editedGasParams(txData.txParams, { gasLimit: addHexPrefix(gasLimit), gasPrice: addHexPrefix(gasPrice) }),
     }
 
     dispatch(updateTxDataAndCalculate(newTxData))
@@ -274,6 +271,9 @@ export function updateGasAndCalculate ({ gasLimit, gasPrice }) {
 }
 
 function increaseFromLastGasPrice (txData) {
+  if (isFeeMarketTransaction(txData.txParams)) {
+    return txData
+  }
   const { lastGasPrice, txParams: { gasPrice: previousGasPrice } = {} } = txData
 
   // Set the minimum to a 10% increase from the lastGasPrice.
@@ -299,7 +299,8 @@ export function updateTxDataAndCalculate (txData) {
 
     dispatch(updateTxData(txData))
 
-    const { txParams: { value = '0x0', gas: gasLimit = '0x0', gasPrice = '0x0' } = {} } = txData
+    const { txParams: { value = '0x0', gas: gasLimit = '0x0' } = {} } = txData
+    const gasPrice = gasPriceForTransaction(txData.txParams)
 
     const fiatTransactionAmount = getValueFromWeiHex({
       value, fromCurrency: nativeCurrency, toCurrency: currentCurrency, conversionRate, numberOfDecimals: 2,

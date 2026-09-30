@@ -25,7 +25,7 @@ export default class SignatureRequestMessage extends PureComponent {
             {
               typeof value === 'object' && value !== null ?
                 this.renderNode(value)
-                : <span className="signature-request-message--node-value">{value}</span>
+                : <span className="signature-request-message--node-value">{value === null ? 'null' : String(value)}</span>
             }
           </div>
         ))}

@@ -2,6 +2,7 @@ import currencyFormatter from 'currency-formatter'
 import currencies from 'currency-formatter/currencies'
 import ethUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
+import { bumpFee } from '../../../../app/scripts/lib/transaction-fees'
 
 import { unconfirmedTransactionsCountSelector } from '../../selectors'
 import {
@@ -12,11 +13,7 @@ import {
 } from './conversion-util'
 
 export function increaseLastGasPrice (lastGasPrice) {
-  return ethUtil.addHexPrefix(multiplyCurrencies(lastGasPrice || '0x0', 1.1, {
-    multiplicandBase: 16,
-    multiplierBase: 10,
-    toNumericBase: 'hex',
-  }))
+  return bumpFee(lastGasPrice || '0x0')
 }
 
 export function hexGreaterThan (a, b) {

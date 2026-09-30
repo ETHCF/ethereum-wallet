@@ -6,6 +6,7 @@ import { toChecksumAddress } from 'ethereumjs-util'
 import sigUtil from 'eth-sig-util'
 import { TrezorKeyring } from '@metamask/eth-trezor-keyring'
 import { LedgerKeyring } from '@metamask/eth-ledger-bridge-keyring'
+import { createTransaction, decodeTransaction } from '../../../app/scripts/lib/transaction-codec'
 import { createRemoteKeyring } from '../../../app/scripts/lib/hardware-keyrings'
 import { createHardwareRequestHandler } from '../../../app/scripts/lib/hardware-transport'
 
@@ -23,6 +24,12 @@ function publicKey (path) {
 }
 
 function signTransaction (path, data) {
+  const typed = typeof data === 'string' ? ['01', '02'].includes(data.slice(0, 2)) : Number(data.type) > 0
+  if (typed) {
+    const unsigned = typeof data === 'string' ? decodeTransaction(data, 1337) : createTransaction(data, 1337)
+    const signed = unsigned.sign(root.derivePath(path).getWallet().getPrivateKey())
+    return { v: signed.v.toString(16).padStart(2, '0'), r: signed.r.toString(16).padStart(64, '0'), s: signed.s.toString(16).padStart(64, '0') }
+  }
   const tx = typeof data === 'string' ? new Transaction(Buffer.from(data, 'hex')) : new Transaction(data)
   // Ledger sends the EIP-155 signing payload, whose v is the chain ID.
   if (typeof data === 'string') {
@@ -114,6 +121,26 @@ describe('Current hardware keyring compatibility', function () {
         assert.equal(`0x${signed.getSenderAddress().toString('hex')}`, account.toLowerCase())
         assert.deepEqual(signed.raw.slice(0, 6), tx.raw.slice(0, 6))
       })
+
+      for (const type of kind === 'ledger' ? ['0x1', '0x2'] : ['0x2']) {
+        it(`signs ${type} with access lists through the real hardware keyring`, async function () {
+          const { keyring } = setupHardware(kind, { hdPath })
+          await keyring.getFirstPage()
+          keyring.setAccountToUnlock(0)
+          const [account] = await keyring.addAccounts(1)
+          const accessList = [{ address: `0x${'2'.repeat(40)}`, storageKeys: [`0x${'3'.repeat(64)}`] }]
+          const tx = createTransaction({
+            type, nonce: '0x1', gas: '0x186a0', to: account, value: '0x0', accessList,
+            ...(type === '0x1' ? { gasPrice: '0x64' } : { maxFeePerGas: '0xc8', maxPriorityFeePerGas: '0x2' }),
+          }, 1337)
+          const signed = await keyring.signTransaction(account, tx)
+          assert.equal(signed.verifySignature(), true)
+          assert.equal(signed.getSenderAddress().toString(), account.toLowerCase())
+          assert.deepEqual(signed.toJSON().accessList, accessList)
+          assert.equal(signed.common.chainId().toString(), '1337')
+          assert.equal(tx.isSigned(), false, 'immutable signing returns a new transaction')
+        })
+      }
 
       it('signs personal messages and EIP-712 V4 data through the real keyring', async function () {
         const { keyring } = setupHardware(kind, { hdPath })

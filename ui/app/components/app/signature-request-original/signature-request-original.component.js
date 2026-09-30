@@ -10,6 +10,7 @@ import Identicon from '../../ui/identicon'
 import AccountListItem from '../account-list-item'
 import { conversionUtil } from '../../../helpers/utils/conversion-util'
 import Button from '../../ui/button'
+import SiweDetails from './siwe-details'
 
 export default class SignatureRequestOriginal extends Component {
   static contextTypes = {
@@ -196,7 +197,7 @@ export default class SignatureRequestOriginal extends Component {
     let notice = `${this.context.t('youSign')}:`
 
     const { txData } = this.props
-    const { type, msgParams: { data } } = txData
+    const { type, msgParams: { data, siwe, origin } } = txData
 
     if (type === MESSAGE_TYPE.PERSONAL_SIGN) {
       rows = [{ name: this.context.t('message'), value: this.msgHexToText(data) }]
@@ -211,6 +212,7 @@ export default class SignatureRequestOriginal extends Component {
       <div className="request-signature__body">
         { this.renderAccountInfo() }
         { this.renderRequestInfo() }
+        {siwe && <SiweDetails siwe={siwe} origin={origin} />}
         <div
           className={classnames('request-signature__notice', {
             'request-signature__warning': type === MESSAGE_TYPE.ETH_SIGN,
@@ -278,6 +280,7 @@ export default class SignatureRequestOriginal extends Component {
         </Button>
         <Button
           data-testid="request-signature__sign"
+          disabled={Boolean(this.props.txData.msgParams.siwe?.errors?.length)}
           type="secondary"
           large
           className="request-signature__footer__sign-button"

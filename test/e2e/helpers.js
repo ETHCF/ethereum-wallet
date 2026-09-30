@@ -13,7 +13,7 @@ const dappPort = 8080
 async function withFixtures (options, callback) {
   const { dapp, fixtures, ganacheOptions, driverOptions, title } = options
   const fixtureServer = new FixtureServer()
-  const ganacheServer = new Ganache()
+  const ganacheServer = options.chainServer || new Ganache()
   let dappServer
 
   let webDriver

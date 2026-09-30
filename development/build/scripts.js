@@ -97,42 +97,48 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       return createTask(`${taskPrefix}:${filename}`,
         createBundleTaskForBuildJsExtensionNormal({ filename, devMode, testing }))
     })
-    standardSubtasks.push(createTask(`${taskPrefix}:hardware`, async () => {
-      const options = {
-        entryPoints: ['./app/scripts/hardware.js'],
-        outfile: './dist/chrome/hardware.js',
-        bundle: true,
-        platform: 'browser',
-        target: ['chrome120', 'firefox128'],
-        minify: !devMode,
-        sourcemap: true,
-        plugins: [polyfillNode()],
-        define: { global: 'globalThis', 'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production') },
-        write: false,
-      }
-      const writeBundle = async (result) => {
-        await Promise.all(browserPlatforms.map(async (platform) => {
-          await fs.ensureDir(`./dist/${platform}`)
-          await Promise.all(result.outputFiles.map((file) => fs.writeFile(
-            `./dist/${platform}/${file.path.split('/').pop()}`, file.contents,
-          )))
-        }))
-      }
-      if (devMode) {
-        options.plugins.push({
-          name: 'write-hardware-bundle',
-          setup: (build) => build.onEnd(async (result) => {
-            if (!result.errors.length) {
-              await writeBundle(result)
-            }
-          }),
-        })
-        const context = await esbuild.context(options)
-        await context.watch()
-      } else {
-        await writeBundle(await esbuild.build(options))
-      }
-    }))
+    for (const [name, entry, globalName] of [
+      ['hardware', './app/scripts/hardware.js'],
+      ['transaction-codec', './app/scripts/lib/transaction-codec-implementation.js', 'metamaskTransactionCodec'],
+    ]) {
+      standardSubtasks.push(createTask(`${taskPrefix}:${name}`, async () => {
+        const options = {
+          entryPoints: [entry],
+          outfile: `./dist/chrome/${name}.js`,
+          globalName,
+          bundle: true,
+          platform: 'browser',
+          target: ['chrome120', 'firefox128'],
+          minify: !devMode,
+          sourcemap: true,
+          plugins: [polyfillNode()],
+          define: { global: 'globalThis', 'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production') },
+          write: false,
+        }
+        const writeBundle = async (result) => {
+          await Promise.all(browserPlatforms.map(async (platform) => {
+            await fs.ensureDir(`./dist/${platform}`)
+            await Promise.all(result.outputFiles.map((file) => fs.writeFile(
+              `./dist/${platform}/${file.path.split('/').pop()}`, file.contents,
+            )))
+          }))
+        }
+        if (devMode) {
+          options.plugins.push({
+            name: `write-${name}-bundle`,
+            setup: (build) => build.onEnd(async (result) => {
+              if (!result.errors.length) {
+                await writeBundle(result)
+              }
+            }),
+          })
+          const context = await esbuild.context(options)
+          await context.watch()
+        } else {
+          await writeBundle(await esbuild.build(options))
+        }
+      }))
+    }
     const contentscriptSubtask = createTask(`${taskPrefix}:contentscript`,
       createTaskForBuildJsExtensionContentscript({ devMode, testing }))
 

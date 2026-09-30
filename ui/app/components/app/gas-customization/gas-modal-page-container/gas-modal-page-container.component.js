@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import FeeMarketInputs from '../../../../pages/confirm-transaction-base/fee-market-inputs'
 import PageContainer from '../../../ui/page-container'
 import { Tabs, Tab } from '../../../ui/tabs'
 import AdvancedTabContent from './advanced-tab-content'
@@ -12,6 +13,8 @@ export default class GasModalPageContainer extends Component {
 
   static propTypes = {
     hideBasic: PropTypes.bool,
+    feeMarketParams: PropTypes.object,
+    minimumMaxFeePerGas: PropTypes.string,
     updateCustomGasPrice: PropTypes.func,
     updateCustomGasLimit: PropTypes.func,
     currentTimeEstimate: PropTypes.string,
@@ -47,6 +50,9 @@ export default class GasModalPageContainer extends Component {
   state = {}
 
   componentDidMount () {
+    if (this.props.feeMarketParams) {
+      return
+    }
     const promise = this.props.hideBasic
       ? Promise.resolve(this.props.blockTime)
       : this.props.fetchBasicGasAndTimeEstimates()
@@ -129,6 +135,25 @@ export default class GasModalPageContainer extends Component {
   }
 
   renderTabs () {
+    const { feeMarketParams, minimumMaxFeePerGas, updateCustomGasPrice, updateCustomGasLimit } = this.props
+    if (feeMarketParams) {
+      return (
+        <div className="gas-modal-content">
+          <FeeMarketInputs
+            params={feeMarketParams}
+            minimumMaxFeePerGas={minimumMaxFeePerGas}
+            priorityReadOnly
+            onChange={({ maxFeePerGas, gasLimit }) => {
+              updateCustomGasPrice(maxFeePerGas)
+              updateCustomGasLimit(gasLimit)
+            }}
+            onValidityChange={(valid) => this.setState({ feeInputInvalid: !valid })}
+          />
+          {(this.props.isSpeedUp || this.props.isRetry) && <p>The priority fee is increased automatically for this replacement.</p>}
+        </div>
+      )
+    }
+
     const {
       gasPriceButtonGroupProps,
       hideBasic,
@@ -184,7 +209,7 @@ export default class GasModalPageContainer extends Component {
           title={this.context.t('customGas')}
           subtitle={this.context.t('customGasSubTitle')}
           tabsComponent={this.renderTabs()}
-          disabled={disableSave}
+          disabled={Boolean(disableSave || this.state.feeInputInvalid)}
           onCancel={() => cancelAndClose()}
           onClose={() => cancelAndClose()}
           onSubmit={() => {

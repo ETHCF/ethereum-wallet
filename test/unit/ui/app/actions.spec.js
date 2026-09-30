@@ -637,7 +637,7 @@ describe('Actions', function () {
 
       signPersonalMessageSpy = sinon.spy(background, 'signPersonalMessage')
 
-      await store.dispatch(actions.signPersonalMsg(msgParams))
+      await store.dispatch(actions.signPersonalMsg({ ...msgParams, metamaskId: parseInt(msgId, 10) }))
       assert(signPersonalMessageSpy.calledOnce)
 
     })
@@ -656,7 +656,7 @@ describe('Actions', function () {
       })
 
       try {
-        await store.dispatch(actions.signPersonalMsg(msgParams))
+        await store.dispatch(actions.signPersonalMsg({ ...msgParams, metamaskId: parseInt(msgId, 10) }))
         assert.fail('Should have thrown error')
       } catch (_) {
         assert.deepEqual(store.getActions(), expectedActions)
@@ -853,10 +853,10 @@ describe('Actions', function () {
     let updateTransactionSpy
 
     const txParams = {
-      'from': '0x1',
+      'from': '0x0000000000000000000000000000000000000001',
       'gas': '0x5208',
       'gasPrice': '0x3b9aca00',
-      'to': '0x2',
+      'to': '0x0000000000000000000000000000000000000002',
       'value': '0x0',
     }
 

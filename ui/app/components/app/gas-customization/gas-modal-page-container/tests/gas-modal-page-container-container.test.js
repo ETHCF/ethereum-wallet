@@ -118,6 +118,8 @@ describe('gas-modal-page-container container', function () {
         },
       }
       const baseExpectedResult = {
+        feeMarketParams: undefined,
+        minimumMaxFeePerGas: undefined,
         balance: '0x0',
         isConfirm: true,
         customGasPrice: 4.294967295,
