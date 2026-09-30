@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask در کالیفورنیا طراحی و ساخته شده است."
   },
-  "buyWithWyre": {
-    "message": "ETH را توسط Wyre خریداری نمایید"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre به شما اجازه میدهد تا یک کردیت کارت را جهت پرداخت ETH مستقیمًا به حساب MetaMask تان استفاده نمایید."
-  },
-  "buyCoinSwitch": {
-    "message": "خرید بر اساس CoinSwitch "
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch یک مقصد یک-ایستگاه است تا بیش از 300 رمز ارز را در بهترین نرخ مبادله نماید."
-  },
   "bytes": {
     "message": "بایت ها"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "در حال اتصال به شبکه آزمایشی Goerli "
-  },
-  "continueToWyre": {
-    "message": "ادامه به Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "ادامه به CoinSwitch"
   },
   "contractDeployment": {
     "message": "تطبیق قرارداد"

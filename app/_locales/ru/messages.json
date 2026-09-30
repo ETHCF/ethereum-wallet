@@ -52,12 +52,6 @@
   "builtInCalifornia": {
     "message": "MetaMask спроектирован и разработан в Калифорнии."
   },
-  "buyCoinSwitch": {
-    "message": "Купить на CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch - это однонаправленное место для обмена более 300 криптоконверсий по наилучшей цене."
-  },
   "ok": {
     "message": "ОК"
   },
@@ -84,9 +78,6 @@
   },
   "connectingToRinkeby": {
     "message": "Соединение с тестовой сетью Rinkeby"
-  },
-  "continueToCoinSwitch": {
-    "message": "Продолжить в CoinSwitch"
   },
   "contractDeployment": {
     "message": "Развертывание контракта"
@@ -598,12 +589,6 @@
   "browserNotSupported": {
     "message": "Ваш браузер не поддерживается..."
   },
-  "buyWithWyre": {
-    "message": "Купить ETH на Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre позволяет вам покупать ETH использую кредитную карту, прямо на ваш счет в MetaMask."
-  },
   "bytes": {
     "message": "Байт"
   },
@@ -657,9 +642,6 @@
   },
   "connectingToGoerli": {
     "message": "Подключение к тестовой сети Goerli"
-  },
-  "continueToWyre": {
-    "message": "Продолжить на Wyre"
   },
   "copyAddress": {
     "message": "Скопировать адрес в буфер обмена"

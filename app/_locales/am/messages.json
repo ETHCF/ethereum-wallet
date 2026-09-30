@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask ካሊፎርኒያ ውስጥ ተዘጋጅቶ የተገነባ ነው።"
   },
-  "buyWithWyre": {
-    "message": "ETH በ Wyre ይግዙ"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre ክሬዲት ካርድ ተጠቅመው ETH በቀጥታ በ MetaMask መለያዎ ላይ እንዲያስቀምጡ ያስችልዎታል።"
-  },
-  "buyCoinSwitch": {
-    "message": "በ CoinSwitch ላይ ይግዙ"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch ከ300 በላይ ክሪፕቶ ከረንሲዎችን በጥሩ ዋጋ ለመመንዘር ባለ አንድ ማቆሚያ መዳረሻ ነው።"
-  },
   "bytes": {
     "message": "ባይት"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "ከ Goerli የሙከራ አውታረ መረብ ጋር መገናኘት"
-  },
-  "continueToWyre": {
-    "message": "ወደ Wyre ይቀጥሉ"
-  },
-  "continueToCoinSwitch": {
-    "message": "ወደ CoinSwitch ይቀጥሉ"
   },
   "contractDeployment": {
     "message": "የኮንትራት ስምሪት"

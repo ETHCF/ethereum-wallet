@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "„MetaMask“ suprojektuota ir įdiegta Kalifornijoje."
   },
-  "buyWithWyre": {
-    "message": "Pirkti ETH su „Wyre“"
-  },
-  "buyWithWyreDescription": {
-    "message": "„Wyre“ leidžia naudotis kreditine kortele norint įnešti ETH tiesiai į jūsų „MetaMask“ paskyrą."
-  },
-  "buyCoinSwitch": {
-    "message": "Pirkti „CoinSwitch“"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "„CoinSwitch“ – tai lengvai pasiekiama vieta keisti per 300 kriptovaliutų geriausiu santykiu."
-  },
   "bytes": {
     "message": "Baitai"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Jungiamasi prie „Goerli“ bandomojo tinklo"
-  },
-  "continueToWyre": {
-    "message": "Tęsti su „Wyre“"
-  },
-  "continueToCoinSwitch": {
-    "message": "Tęsti su „CoinSwitch“"
   },
   "contractDeployment": {
     "message": "Sutarties išdėstymas"

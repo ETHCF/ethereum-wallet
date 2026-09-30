@@ -52,12 +52,6 @@
   "builtInCalifornia": {
     "message": "MetaMask je navržen a vytvořen v Kalifornii."
   },
-  "buyCoinSwitch": {
-    "message": "Nákup na CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch je jediným místem, kde můžete vyměňovat více než 300 kryptocurrencí za nejlepší cenu."
-  },
   "cancel": {
     "message": "Zrušit"
   },
@@ -81,9 +75,6 @@
   },
   "connectingToRinkeby": {
     "message": "Připojuji se k Rinkeby Test Network"
-  },
-  "continueToCoinSwitch": {
-    "message": "Přejít na CoinSwitch"
   },
   "contractDeployment": {
     "message": "Nasazení kontraktu"

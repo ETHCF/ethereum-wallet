@@ -152,18 +152,6 @@
   "builtInCalifornia": {
     "message": "메타마스크는 캘리포니아에서 디자인되고 만들어졌습니다."
   },
-  "buyWithWyre": {
-    "message": "Wyre로 ETH 구매"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre는 신용 카드를 사용하여 ETH을 바로 MetaMask 계정에 입금할 수 있게 해줍니다."
-  },
-  "buyCoinSwitch": {
-    "message": "코인 스위치 구입"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "코인 스위치는 최상의 속도로 300 개 이상의 크립토 카드를 교환하는 원 스톱 목적지입니다."
-  },
   "bytes": {
     "message": "바이트"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "Goerli 테스트 네트워크에 연결하는 중"
-  },
-  "continueToWyre": {
-    "message": "Wyre로 계속 진행"
-  },
-  "continueToCoinSwitch": {
-    "message": "코인 스위치 계속하기"
   },
   "contractDeployment": {
     "message": "컨트랙트 배포"

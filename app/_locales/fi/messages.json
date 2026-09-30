@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask on suunniteltu ja koottu Kaliforniassa."
   },
-  "buyWithWyre": {
-    "message": "Osta ETH:ta Wyrella"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre antaa sinun käyttää luottokorttia, jotta voit tallettaa ETH:ta suoraan MetaMask-tilillesi."
-  },
-  "buyCoinSwitch": {
-    "message": "Osta CoinSwitchissa"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch on yhden pysähdyksen kohde yli 300 kryptovaluutan vaihtoon parhailla kursseilla."
-  },
   "bytes": {
     "message": "Tavua"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "Yhdistetään Goerlin testiverkostoon"
-  },
-  "continueToWyre": {
-    "message": "Jatka Wyreen"
-  },
-  "continueToCoinSwitch": {
-    "message": "Jatka CoinSwitchiin"
   },
   "contractDeployment": {
     "message": "Sopimuksen käyttö"

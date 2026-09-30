@@ -152,18 +152,6 @@
   "builtInCalifornia": {
     "message": "MetaMask imeundwa na kutengenezwa California."
   },
-  "buyWithWyre": {
-    "message": "Nunua ETH kwa kutumia Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre inakuwezesha kutumia kadi ya benki kuweka ETH moja kwa moja kwenye akaunti yako ya MetaMask."
-  },
-  "buyCoinSwitch": {
-    "message": "Nunua kwenye CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch ni kituo cha kubadilisha fedha za kidijitali zaidi ya 300 kwa bei nzuri kabisa."
-  },
   "off": {
     "message": "Kimezimwa"
   },
@@ -241,12 +229,6 @@
   },
   "connectingToGoerli": {
     "message": "Inaunganisha kwenye Mtandao wa Majaribio wa Goerli"
-  },
-  "continueToWyre": {
-    "message": "Endelea kwenye Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Endelea kwenye CoinSwitch"
   },
   "contractDeployment": {
     "message": "Kutoa Mkataba"

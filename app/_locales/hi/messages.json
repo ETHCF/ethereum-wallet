@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "मेटामास्क का डिजाइन और निर्माण कैलिफोर्निया में किया गया है।"
   },
-  "buyWithWyre": {
-    "message": "Wyre से ETH खरीदें"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre आपको क्रेडिट कार्ड का उपयोग करके ETH को सीधे आपके MetaMask खाते में जमा करने देता है।"
-  },
-  "buyCoinSwitch": {
-    "message": "CoinSwitch पर खरीदें"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "300 से अधिक क्रिप्टोकरेंसी को सबसे अच्छी दर पर एक्सचेंज करने के लिए CoinSwitch सर्वोत्तम स्थल है।"
-  },
   "bytes": {
     "message": "बाइट"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "गोर्ली टेस्ट नेटवर्क से  जोड़ रहा है"
-  },
-  "continueToWyre": {
-    "message": "Wyre को जारी रखें"
-  },
-  "continueToCoinSwitch": {
-    "message": "कॉइनस्विच पर जारी रखें "
   },
   "contractDeployment": {
     "message": "कॉन्ट्रैक्ट का परिनियोजन"

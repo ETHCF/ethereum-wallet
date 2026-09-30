@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask är skapat och utformat i Kalifornien."
   },
-  "buyWithWyre": {
-    "message": "Köp ETH med Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre låter dig använda ett kreditkort för att sätta in ETH direkt på ditt MetaMask-konto."
-  },
-  "buyCoinSwitch": {
-    "message": "Köp på CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch är allt-i-ett-platsen för att växla mer än 300 kryptovalutor till bästa kurs."
-  },
   "off": {
     "message": "Av"
   },
@@ -241,12 +229,6 @@
   },
   "connectingToGoerli": {
     "message": "Ansluter till Goerli Test Network"
-  },
-  "continueToWyre": {
-    "message": "Fortsätt till Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Fortsätt till CoinSwitch"
   },
   "contractDeployment": {
     "message": "Kontraktplacering"

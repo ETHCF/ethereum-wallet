@@ -140,18 +140,6 @@
   "builtInCalifornia": {
     "message": "Ang MetaMask ay dinisenyo at binuo sa California."
   },
-  "buyWithWyre": {
-    "message": "Bumili ng ETH gamit ang Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Binibigyang-daan ka ng Wyre na gumamit ng credit card para magdeposito ng ETH nang direkta sa iyong MetaMask account."
-  },
-  "buyCoinSwitch": {
-    "message": "Bilhin sa CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "Ang CoinSwitch ay ang one-stop na destinasyon para magpapalit ng mahigit sa 300 cryptocurrency sa pinakamababang halaga."
-  },
   "off": {
     "message": "Naka-off"
   },
@@ -223,12 +211,6 @@
   },
   "connectingToGoerli": {
     "message": "Kumokonekta sa Goerli Test Network"
-  },
-  "continueToWyre": {
-    "message": "Magpatuloy sa Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Magpatuloy sa CoinSwitch"
   },
   "contractDeployment": {
     "message": "Deployment ng Contract"

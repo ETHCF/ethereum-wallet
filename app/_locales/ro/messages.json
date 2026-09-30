@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask este concepută și creată în California."
   },
-  "buyWithWyre": {
-    "message": "Cumpărați ETH cu Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre vă permite să folosiți un card de credit pentru a depune ETH direct în contul dvs. MetaMask."
-  },
-  "buyCoinSwitch": {
-    "message": "Cumpărați pe CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch este destinația unică pentru a schimba peste 300 de cripto monede la cele mai bune cursuri."
-  },
   "bytes": {
     "message": "Octeți"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Se conectează la rețeaua de test Goerli"
-  },
-  "continueToWyre": {
-    "message": "Continuați la Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Continuare către CoinSwitch"
   },
   "contractDeployment": {
     "message": "Implementarea contractului"

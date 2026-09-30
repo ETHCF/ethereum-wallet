@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask direka dan dibina di California."
   },
-  "buyWithWyre": {
-    "message": "Beli ETH dengan Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre membolehkan anda menggunakan kad kredit untuk mendeposit ETH secara terus ke dalam akaun MetaMask anda."
-  },
-  "buyCoinSwitch": {
-    "message": "Beli di CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch ialah tempat sehentian untuk menukar lebih daripada 300 mata wang kripto dengan kadar terbaik."
-  },
   "bytes": {
     "message": "Bait"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "Menyambung kepada Rangkaian Ujian Goerli"
-  },
-  "continueToWyre": {
-    "message": "Teruskan ke Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Teruskan ke CoinSwitch"
   },
   "contractDeployment": {
     "message": "Penyusunan Kontrak"

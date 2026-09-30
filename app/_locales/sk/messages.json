@@ -149,18 +149,6 @@
   "builtInCalifornia": {
     "message": "MetaMask je navržen a vytvořen v Kalifornii."
   },
-  "buyWithWyre": {
-    "message": "Kúpte ETH s Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre vám umožňuje použiť kreditnú kartu na vloženie depozitu ETH priamo na váš účet MetaMask."
-  },
-  "buyCoinSwitch": {
-    "message": "Kúpiť na CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch je jedno miesto, kde si môžete vymieňať viac ako 300 kryptomien za najlepšiu cenu."
-  },
   "bytes": {
     "message": "Bajty"
   },
@@ -238,12 +226,6 @@
   },
   "connectingToGoerli": {
     "message": "Pripája sa k testovacej sieti Goerli"
-  },
-  "continueToWyre": {
-    "message": "Pokračovať na Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Pokračovať na CoinSwitch"
   },
   "contractDeployment": {
     "message": "Nasazení kontraktu"

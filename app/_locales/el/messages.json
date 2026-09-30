@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "Το MetaMask έχει σχεδιαστεί και αναπτυχθεί στην Καλιφόρνια."
   },
-  "buyWithWyre": {
-    "message": "Αγοράστε ETH με το Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Το Wyre σας επιτρέπει να χρησιμοποιήσετε μια πιστωτική κάρτα για να καταθέσετε ETH απευθείας στον λογαριασμό σας MetaTask."
-  },
-  "buyCoinSwitch": {
-    "message": "Αγοράστε στο  CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "Το CoinSwitch είναι ο προορισμός μιας στάσης για ανταλλαγή σε περισσότερα από 300 κρυπτονομίσματα στην καλύτερη ισοτιμία."
-  },
   "off": {
     "message": "Ανενεργό"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "Σύνδεση στο Δίκτυο Δοκιμής Goerli "
-  },
-  "continueToWyre": {
-    "message": "Συνεχίστε στο Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Συνέχεια με CoinSwitch"
   },
   "contractDeployment": {
     "message": "Ανάπτυξη Συμβολαίου"

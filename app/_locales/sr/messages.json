@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask je dizajniran i izgrađen u Kaliforniji."
   },
-  "buyWithWyre": {
-    "message": "Kupite ETH preko servisa Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre vam dozvoljava da koristite kreditnu karticu kako biste deponovali ETH pravo na vaš MetaMask nalog."
-  },
-  "buyCoinSwitch": {
-    "message": "Kupujte na CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch je odredište gde na jednom mestu možete razmeniti više od 300 kripto valuta po najboljem kursu."
-  },
   "bytes": {
     "message": "Bajtovi"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "Povezuje se sa test mrežom Goerli "
-  },
-  "continueToWyre": {
-    "message": "Nastavite ka Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Nastavi na CoinSwitch"
   },
   "contractDeployment": {
     "message": "Primena ugovora"

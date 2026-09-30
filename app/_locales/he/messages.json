@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask תוכנן ונבנה בקליפורניה."
   },
-  "buyWithWyre": {
-    "message": "רכישת את'ר עם Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre מאפשרת לך להשתמש בכרטיס אשראי כדי להפקיד ETH ישירות בחשבון ה-MetaMask שלך."
-  },
-  "buyCoinSwitch": {
-    "message": "רכישה ב-CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch הוא היעד עם כלל האפשרויות להחלפת יותר מ-300 מטבעות קריפטו בשער הטוב ביותר."
-  },
   "bytes": {
     "message": "בייטים"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "מתחבר ל-Goerli Test Network"
-  },
-  "continueToWyre": {
-    "message": "המשך ל-Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "המשך אל CoinSwitch"
   },
   "contractDeployment": {
     "message": "שליחת חוזה (Contract Deployment)"

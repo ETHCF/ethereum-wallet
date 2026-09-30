@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask розроблено й створено в Каліфорнії."
   },
-  "buyWithWyre": {
-    "message": "Купити ETH через Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre дає змогу використовувати кредитну картку для внесення валюти ETH безпосередньо у свій гаманець MetaMask."
-  },
-  "buyCoinSwitch": {
-    "message": "Купувати на CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch це точка призначення з однією зупинкою для обміну більш ніж 300 криптовалют за найкращими курсами. "
-  },
   "bytes": {
     "message": "Байти"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Підключення до тестової мережі Goerli"
-  },
-  "continueToWyre": {
-    "message": "Продовжити у Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Продовжити в CoinSwitch"
   },
   "contractDeployment": {
     "message": "Розгортання контракту"

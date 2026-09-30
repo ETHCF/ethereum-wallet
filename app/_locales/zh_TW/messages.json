@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask 是在加州設計製造"
   },
-  "buyWithWyre": {
-    "message": "用 Wyre 購買 ETH"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre 讓你使用信用卡在 MetaMask 帳號中直接存入 ETH。"
-  },
-  "buyCoinSwitch": {
-    "message": "在CoinSwitch上购买"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch是以最优惠的价格交换超过300种加密货币的一站式目的地。"
-  },
   "bytes": {
     "message": "位元組"
   },
@@ -244,12 +232,6 @@
   },
   "connectingToGoerli": {
     "message": "連接至 Goerli 測試網路"
-  },
-  "continueToWyre": {
-    "message": "繼續至 Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "繼續前往 CoinSwitch"
   },
   "contractDeployment": {
     "message": "部署合約"

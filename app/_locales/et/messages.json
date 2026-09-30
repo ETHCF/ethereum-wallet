@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask on projekteeritud ja loodud Californias."
   },
-  "buyWithWyre": {
-    "message": "Ostke ETH-d Wyre'iga"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre võimaldab kasutada krediitkaarti, et teha ETH sissemakse otse MetaMaski kontole."
-  },
-  "buyCoinSwitch": {
-    "message": "Osta CoinSwitchil"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch on ühe akna sihtpunkt enama kui 300 krüptoraha vahetamiseks parima hinnaga."
-  },
   "bytes": {
     "message": "Baidid"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Ühendamine Goerli testvõrguga"
-  },
-  "continueToWyre": {
-    "message": "Ava Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Avage ConSwitch"
   },
   "contractDeployment": {
     "message": "Lepingu juurutamine"

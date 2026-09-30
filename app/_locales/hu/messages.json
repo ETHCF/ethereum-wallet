@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "A MetaMaskot Kaliforniában tervezték és hozták létre."
   },
-  "buyWithWyre": {
-    "message": "Vásároljon ETH-t a Wyre-rel"
-  },
-  "buyWithWyreDescription": {
-    "message": "A Wyre segítségével egyensen a MetaMaks fiókjában tehet letétbe ETH-t."
-  },
-  "buyCoinSwitch": {
-    "message": "Vegye meg a CoinSwitchen"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "A CoinSwitch a legjobb hely több mint 300 cryptovaluta legjobb árfolyamon történő átváltására."
-  },
   "bytes": {
     "message": "Bájtok"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Csatlakozás a Goerli teszthálózathoz"
-  },
-  "continueToWyre": {
-    "message": "Tovább a Wyre-re"
-  },
-  "continueToCoinSwitch": {
-    "message": "Tovább a CoinSwitch-re"
   },
   "contractDeployment": {
     "message": "Szerződés alkalmazása"

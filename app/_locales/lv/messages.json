@@ -155,18 +155,6 @@
   "builtInCalifornia": {
     "message": "MetaMask ir izstrādāta un izveidota Kalifornijā."
   },
-  "buyWithWyre": {
-    "message": "Pirkt ETH ar Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre ļauj noguldīt ETH tieši jūsu MetaMask kontā, izmantojot kredītkarti."
-  },
-  "buyCoinSwitch": {
-    "message": "Pirkt CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch ir vienots galamērķis vairāk nekā 300 kriptovalūtu maiņai, izmantojot labāko kursu."
-  },
   "bytes": {
     "message": "Baiti"
   },
@@ -247,12 +235,6 @@
   },
   "connectingToGoerli": {
     "message": "Pieslēdzas Goerli testa tīklam"
-  },
-  "continueToWyre": {
-    "message": "Pāriet uz Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Iet uz CoinSwitch"
   },
   "contractDeployment": {
     "message": "Līgumu pielietošana"

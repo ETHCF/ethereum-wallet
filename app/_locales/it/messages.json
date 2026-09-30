@@ -303,18 +303,6 @@
   "builtInCalifornia": {
     "message": "MetaMask è progettato e realizzato in California."
   },
-  "buyWithWyre": {
-    "message": "Compra ETH con Wyre"
-  },
-  "buyWithWyreDescription": {
-    "message": "Wyre ti consente di usare la carta di credito per depositare ETH direttamente nel tuo account MetaMask."
-  },
-  "buyCoinSwitch": {
-    "message": "Compra su CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch è la destinazione one-stop per lo scambio di oltre 300 criptovalute alla migliore tariffa."
-  },
   "bytes": {
     "message": "Bytes"
   },
@@ -404,12 +392,6 @@
   },
   "contactsSettingsDescription": {
     "message": "Aggiungi, modifica, rimuovi e gestisci i tuoi contatti"
-  },
-  "continueToWyre": {
-    "message": "Continua su Wyre"
-  },
-  "continueToCoinSwitch": {
-    "message": "Continua su CoinSwitch"
   },
   "contractDeployment": {
     "message": "Distribuzione Contratto"
