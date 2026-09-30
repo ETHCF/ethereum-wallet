@@ -32,9 +32,6 @@ const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
 const d3Dependencies = ['c3', 'd3']
 
 const externalDependenciesMap = {
-  // Keep background files below the Firefox add-on validator's 5 MB limit.
-  // The service-worker bootstrap imports both local bundles synchronously.
-  background: ['3box'],
   ui: [
     ...materialUIDependencies, ...reactDepenendencies, ...d3Dependencies,
   ],
@@ -53,23 +50,19 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     prod: createTasksForBuildJsExtension({ taskPrefix: 'scripts:core:prod' }),
   }
   const deps = {
-    background: createTasksForBuildJsDeps({ filename: 'bg-libs', key: 'background' }),
     ui: createTasksForBuildJsDeps({ filename: 'ui-libs', key: 'ui' }),
   }
 
   // high level tasks
 
   const prod = composeParallel(
-    deps.background,
     deps.ui,
     core.prod,
   )
 
-  const dev = composeParallel(deps.background, core.dev)
-  const testDev = composeParallel(deps.background, core.testDev)
+  const { dev, testDev } = core
 
   const test = composeParallel(
-    deps.background,
     deps.ui,
     core.test,
   )
@@ -321,16 +314,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
 
     let bundler = browserify(browserifyOpts)
       .transform('babelify')
-      // Transpile any dependencies using the object spread/rest operator
-      // because it is incompatible with `esprima`, which is used by `envify`
-      // See https://github.com/jquery/esprima/issues/1927
-      .transform('babelify', {
-        only: [
-          './**/node_modules/libp2p',
-        ],
-        global: true,
-        plugins: ['@babel/plugin-proposal-object-rest-spread'],
-      })
       .transform('brfs')
 
     if (opts.buildLib) {

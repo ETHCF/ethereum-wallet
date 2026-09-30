@@ -50,7 +50,8 @@ unsupported browser. Trezor uses Connect's popup and Bridge/WebUSB flow.
 Hardware SDKs are bundled separately with esbuild because their current module
 formats are not supported by the legacy Browserify pipeline. Trezor's popup and
 USB-permission scripts are copied from the installed Connect package during the
-build, keeping their message protocol aligned with the SDK.
+build, keeping their message protocol aligned with the SDK. The popup content-script
+match includes query parameters so the SDK popup can complete its handshake.
 
 Development reload uses a worker-compatible local WebSocket connection. The
 previous remote React DevTools bootstrap is omitted from extension bundles to

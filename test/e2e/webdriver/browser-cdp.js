@@ -11,8 +11,12 @@ module.exports = async function connectBrowser (driver) {
   })
   let nextId = 0
   const pending = new Map()
+  const listeners = new Set()
   socket.addEventListener('message', ({ data }) => {
     const message = JSON.parse(data)
+    if (message.method) {
+      listeners.forEach((listener) => listener(message))
+    }
     const request = pending.get(message.id)
     if (request) {
       pending.delete(message.id)
@@ -25,6 +29,10 @@ module.exports = async function connectBrowser (driver) {
     }
   })
   return {
+    onEvent (listener) {
+      listeners.add(listener)
+      return () => listeners.delete(listener)
+    },
     send (method, params = {}, sessionId) {
       return new Promise((resolve, reject) => {
         nextId += 1
@@ -43,6 +51,7 @@ module.exports = async function connectBrowser (driver) {
         request.reject(new Error('CDP connection closed'))
       }
       pending.clear()
+      listeners.clear()
       socket.close()
     },
   }

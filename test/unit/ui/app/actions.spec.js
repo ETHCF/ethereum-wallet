@@ -49,11 +49,6 @@ describe('Actions', function () {
       initState: cloneDeep(firstTimeState),
     })
 
-    ecfWalletController.threeBoxController = {
-      new3Box: sinon.spy(),
-      getThreeBoxSyncingState: sinon.spy(),
-    }
-
     await ecfWalletController.createNewVaultAndRestore(password, TEST_SEED)
 
     await ecfWalletController.importAccountWithStrategy('Private Key', [importPrivkey])
@@ -470,13 +465,14 @@ describe('Actions', function () {
 
     })
 
-    it('shows loading indicator and displays error', async function () {
+    it('clears loading indicator and displays connection errors', async function () {
       connectHardwareSpy = sinon.stub(background, 'connectHardware')
         .callsArgWith(3, new Error('error'))
       const store = mockStore()
 
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 
@@ -507,13 +503,14 @@ describe('Actions', function () {
 
     })
 
-    it('shows loading indicator and displays error', async function () {
+    it('clears loading indicator and displays connection errors', async function () {
       unlockHardwareWalletAccountSpy = sinon.stub(background, 'unlockHardwareWalletAccount')
         .callsArgWith(3, new Error('error'))
       const store = mockStore()
 
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 

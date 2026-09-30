@@ -9,26 +9,6 @@ import proxyquire from 'proxyquire'
 import firstTimeState from '../../localhostState'
 import createTxMeta from '../../../lib/createTxMeta'
 
-const threeBoxSpies = {
-  init: sinon.stub(),
-  getThreeBoxSyncingState: sinon.stub().returns(true),
-  turnThreeBoxSyncingOn: sinon.stub(),
-  _registerUpdates: sinon.spy(),
-}
-
-class ThreeBoxControllerMock {
-  constructor () {
-    this.store = {
-      subscribe: () => undefined,
-      getState: () => ({}),
-    }
-    this.init = threeBoxSpies.init
-    this.getThreeBoxSyncingState = threeBoxSpies.getThreeBoxSyncingState
-    this.turnThreeBoxSyncingOn = threeBoxSpies.turnThreeBoxSyncingOn
-    this._registerUpdates = threeBoxSpies._registerUpdates
-  }
-}
-
 const ExtensionizerMock = {
   runtime: {
     id: 'fake-extension-id',
@@ -59,7 +39,6 @@ const createLoggerMiddlewareMock = () => (req, res, next) => {
 }
 
 const EcfWalletController = proxyquire('../../../../app/scripts/ecf-wallet-controller', {
-  './controllers/threebox': { default: ThreeBoxControllerMock },
   'extensionizer': ExtensionizerMock,
   './lib/createLoggerMiddleware': { default: createLoggerMiddlewareMock },
 }).default
@@ -112,7 +91,7 @@ describe('EcfWalletController', function () {
           return Promise.resolve(this.object)
         },
       },
-      initState: cloneDeep(firstTimeState),
+      initState: { ...cloneDeep(firstTimeState), ThreeBoxController: { threeBoxSyncingAllowed: true } },
       platform: { showTransactionNotification: () => undefined, getVersion: () => 'foo' },
     })
     // add sinon method spies
@@ -123,6 +102,15 @@ describe('EcfWalletController', function () {
   afterEach(function () {
     nock.cleanAll()
     sandbox.restore()
+  })
+
+  it('discards obsolete cloud-sync state while retaining local wallet state', function () {
+    const state = ecfWalletController.store.getState()
+    assert.equal(Object.prototype.hasOwnProperty.call(state, 'ThreeBoxController'), false)
+    for (const key of Object.keys(firstTimeState)) {
+      assert.deepEqual(state[key], firstTimeState[key])
+    }
+    assert.equal(ecfWalletController.getApi().initializeThreeBox, undefined)
   })
 
   describe('#getAccounts', function () {
@@ -167,13 +155,8 @@ describe('EcfWalletController', function () {
   describe('submitPassword', function () {
     const password = 'password'
 
-    beforeEach(async function () {
-      await ecfWalletController.createNewVaultAndKeychain(password)
-      threeBoxSpies.init.reset()
-      threeBoxSpies.turnThreeBoxSyncingOn.reset()
-    })
-
     it('removes any identities that do not correspond to known accounts.', async function () {
+      await ecfWalletController.createNewVaultAndKeychain(password)
       const fakeAddress = '0xbad0'
       ecfWalletController.preferencesController.addAddresses([fakeAddress])
       await ecfWalletController.submitPassword(password)
@@ -190,11 +173,6 @@ describe('EcfWalletController', function () {
       })
     })
 
-    it('gets the address from threebox and creates a new 3box instance', async function () {
-      await ecfWalletController.submitPassword(password)
-      assert(threeBoxSpies.init.calledOnce)
-      assert(threeBoxSpies.turnThreeBoxSyncingOn.calledOnce)
-    })
   })
 
   describe('#createNewVaultAndKeychain', function () {

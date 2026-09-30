@@ -1,7 +1,7 @@
 {
   "name": "__MSG_appName__",
   "short_name": "__MSG_appName__",
-  "version": "8.0.9",
+  "version": "1.0.0",
   "manifest_version": 3,
   "author": "https://ethcf.org",
   "description": "__MSG_appDescription__",
@@ -63,7 +63,7 @@
     },
     {
       "matches": [
-        "https://connect.trezor.io/*/popup.html"
+        "https://connect.trezor.io/*/popup.html*"
       ],
       "js": [
         "vendor/trezor/content-script.js"

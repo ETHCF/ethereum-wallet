@@ -1,8 +1,59 @@
 const { strict: assert } = require('assert')
 const { By, Key } = require('selenium-webdriver')
 const { withFixtures } = require('../helpers')
+const connectBrowser = require('../webdriver/browser-cdp')
 
 describe('Hardware wallet connection', function () {
+  it('bridges Trezor popup URLs containing SDK query parameters', async function () {
+    if (process.env.SELENIUM_BROWSER !== 'chrome') {
+      this.skip()
+    }
+    await withFixtures({ fixtures: 'personal-sign', title: this.test.title }, async ({ driver }) => {
+      await driver.driver.get(`${driver.extensionUrl}/hardware.html`)
+      const transport = await driver.driver.getWindowHandle()
+      await driver.driver.executeScript(`
+        window.trezorReply = null;
+        chrome.runtime.onConnect.addListener(port => {
+          if (port.name !== 'trezor-connect') return;
+          port.onMessage.addListener(message => {
+            if (message.data === 'ecf-test-ready') port.postMessage('ecf-test-ping');
+            if (message.data === 'ecf-test-pong') window.trezorReply = message.data;
+          });
+        });
+      `)
+      await driver.driver.switchTo().newWindow('tab')
+      const { targetInfo } = await driver.driver.sendAndGetDevToolsCommand('Target.getTargetInfo', {})
+      const cdp = await connectBrowser(driver.driver)
+      try {
+        const { sessionId } = await cdp.send('Target.attachToTarget', { targetId: targetInfo.targetId, flatten: true })
+        // Serve a deterministic popup at the real origin. This exercises Chrome's
+        // manifest matching and the packaged bridge without a device or network.
+        const page = `<html><body>Trezor bridge test<script>
+          window.addEventListener('message', event => {
+            if (event.data === 'ecf-test-ping') window.postMessage('ecf-test-pong', location.origin);
+          });
+          setInterval(() => window.postMessage('ecf-test-ready', location.origin), 100);
+        </script></body></html>`
+        cdp.onEvent((event) => {
+          if (event.method === 'Fetch.requestPaused') {
+            cdp.send('Fetch.fulfillRequest', {
+              requestId: event.params.requestId, responseCode: 200,
+              responseHeaders: [{ name: 'Content-Type', value: 'text/html' }],
+              body: Buffer.from(page).toString('base64'),
+            }, sessionId).catch(() => undefined)
+          }
+        })
+        await cdp.send('Fetch.enable', { patterns: [{ urlPattern: 'https://connect.trezor.io/*' }] }, sessionId)
+        await driver.driver.get(`https://connect.trezor.io/9/popup.html?version=9.7.3&env=webextension&extension-id=${driver.extensionId}&cs-ver=1`)
+        await driver.driver.switchTo().window(transport)
+        await driver.wait(async () => (await driver.driver.executeScript('return window.trezorReply')) === 'ecf-test-pong')
+        assert.equal(await driver.driver.executeScript('return window.trezorReply'), 'ecf-test-pong')
+      } finally {
+        cdp.close()
+      }
+    })
+  })
+
   it('loads the packaged Ledger transport, reports missing authorization, and closes it on lock', async function () {
     if (process.env.SELENIUM_BROWSER !== 'chrome') {
       this.skip()

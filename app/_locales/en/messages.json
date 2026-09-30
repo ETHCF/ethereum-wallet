@@ -454,9 +454,6 @@
   "customSpendLimit": {
     "message": "Custom Spend Limit"
   },
-  "dataBackupFoundInfo": {
-    "message": "Some of your account data was backed up during a previous installation of ECF Wallet. This could include your settings, contacts, and tokens. Would you like to restore this data now?"
-  },
   "decimalsMustZerotoTen": {
     "message": "Decimals must be at least 0, and not over 36."
   },
@@ -1145,10 +1142,6 @@
   "restoreAccountWithSeed": {
     "message": "Restore your Account with Seed Phrase"
   },
-  "restoreWalletPreferences": {
-    "message": "A backup of your data from $1 has been found. Would you like to restore your wallet preferences?",
-    "description": "$1 is the date at which the data was backed up"
-  },
   "requestsAwaitingAcknowledgement": {
     "message": "requests waiting to be acknowledged"
   },
@@ -1444,15 +1437,6 @@
   },
   "symbolBetweenZeroTwelve": {
     "message": "Symbol must be 11 characters or fewer."
-  },
-  "syncWithThreeBox": {
-    "message": "Sync data with 3Box (experimental)"
-  },
-  "syncWithThreeBoxDescription": {
-    "message": "Turn on to have your settings backed up with 3Box. This feature is currently experimental; use at your own risk."
-  },
-  "syncWithThreeBoxDisabled": {
-    "message": "3Box has been disabled due to an error during the initial sync"
   },
   "syncWithMobile": {
     "message": "Sync with mobile"

@@ -12,7 +12,11 @@ Mobile sync disables PubNub's automatic request-latency collection and reporting
 Its transport identifier is generated afresh for each sync session.
 
 Wallet functionality still uses network services, including configured Ethereum
-RPC endpoints, prices, ENS gateways, and optional hardware-wallet or 3Box services.
+RPC endpoints, prices, ENS gateways, and optional hardware-wallet services.
+The built-in Ethereum mainnet connection uses [PublicNode](https://ethereum.publicnode.com/);
+you can select your own RPC endpoint in Settings > Networks.
+
+3Box cloud backup and restore of preferences and address books have been removed.
 
 To verify the removal and wallet flows:
 

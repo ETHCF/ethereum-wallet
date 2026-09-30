@@ -385,6 +385,7 @@ export function connectHardware (deviceName, page, hdPath) {
     try {
       accounts = await promisifiedBackground.connectHardware(deviceName, page, hdPath)
     } catch (error) {
+      dispatch(hideLoadingIndication())
       log.error(error)
       dispatch(displayWarning(error.message))
       throw error
@@ -402,6 +403,7 @@ export function unlockHardwareWalletAccount (index, deviceName, hdPath) {
     dispatch(showLoadingIndication())
     return new Promise((resolve, reject) => {
       background.unlockHardwareWalletAccount(index, deviceName, hdPath, (err) => {
+        dispatch(hideLoadingIndication())
         if (err) {
           log.error(err)
           dispatch(displayWarning(err.message))
@@ -409,7 +411,6 @@ export function unlockHardwareWalletAccount (index, deviceName, hdPath) {
           return
         }
 
-        dispatch(hideLoadingIndication())
         resolve()
       })
     })
@@ -2254,104 +2255,6 @@ export function setSeedPhraseBackedUp (seedPhraseBackupState) {
           .catch(reject)
       })
     })
-  }
-}
-
-export function initializeThreeBox () {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.initializeThreeBox((err) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve()
-      })
-    })
-  }
-}
-
-export function setShowRestorePromptToFalse () {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.setShowRestorePromptToFalse((err) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve()
-      })
-    })
-  }
-}
-
-export function turnThreeBoxSyncingOn () {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.turnThreeBoxSyncingOn((err) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve()
-      })
-    })
-  }
-}
-
-export function restoreFromThreeBox (accountAddress) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.restoreFromThreeBox(accountAddress, (err) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve()
-      })
-    })
-  }
-}
-
-export function getThreeBoxLastUpdated () {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.getThreeBoxLastUpdated((err, lastUpdated) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve(lastUpdated)
-      })
-    })
-  }
-}
-
-export function setThreeBoxSyncingPermission (threeBoxSyncingAllowed) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.setThreeBoxSyncingPermission(threeBoxSyncingAllowed, (err) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve()
-      })
-    })
-  }
-}
-
-export function turnThreeBoxSyncingOnAndInitialize () {
-  return async (dispatch) => {
-    await dispatch(setThreeBoxSyncingPermission(true))
-    await dispatch(turnThreeBoxSyncingOn())
-    await dispatch(initializeThreeBox(true))
   }
 }
 

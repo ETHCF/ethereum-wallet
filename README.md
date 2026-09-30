@@ -42,7 +42,10 @@ See [the telemetry removal notes](docs/privacy.md) for scope and verification.
       - Redux DevTools will need to be installed as a browser extension. Open the Redux Remote Devtools to access Redux state logs. This can be done by either right clicking within the web browser to bring up the context menu, expanding the Redux DevTools panel and clicking Open Remote DevTools OR clicking the Redux DevTools extension icon and clicking Open Remote DevTools.
         - You will also need to check the "Use custom (local) server" checkbox in the Remote DevTools Settings, using the default server configuration (host `localhost`, port `8000`, secure connection checkbox unchecked)
 
-Uncompressed builds can be found in `/dist`, compressed builds can be found in `/builds` once they're built.
+To load the Chrome build, open `chrome://extensions`, enable **Developer mode**,
+click **Load unpacked**, and select `dist/chrome` inside this repository. That
+folder contains `manifest.json`. The `builds` folder contains ZIP archives for
+distribution; it cannot be loaded directly as an unpacked extension.
 
 ## Storage schema
 
@@ -51,7 +54,6 @@ migrations and fixtures have been removed; upgrading an upstream wallet profile
 is not supported. The migration runner remains for future ecf-wallet releases.
 To add the first schema change, run `yarn generate:migration 1`, implement the
 change and its test, then register it in `app/scripts/migrations/index.js`.
-3Box backups use the same `{ meta, data }` envelope, with `lastUpdated` alongside it.
 
 ## Contributing
 

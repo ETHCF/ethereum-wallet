@@ -7,11 +7,16 @@ import createInflightMiddleware from 'eth-json-rpc-middleware/inflight-cache'
 import createBlockTrackerInspectorMiddleware from 'eth-json-rpc-middleware/block-tracker-inspector'
 import providerFromMiddleware from 'eth-json-rpc-middleware/providerFromMiddleware'
 import createInfuraMiddleware from 'eth-json-rpc-infura'
+import createFetchMiddleware from 'eth-json-rpc-middleware/fetch'
 import BlockTracker from 'eth-block-tracker'
 import * as networkEnums from './enums'
 
 export default function createInfuraClient ({ network }) {
-  const infuraMiddleware = createInfuraMiddleware({ network, maxAttempts: 5, source: 'ecf-wallet' })
+  // The legacy api.infura.io endpoint no longer resolves. Mainnet uses a
+  // public JSON-RPC endpoint; custom RPC URLs remain user-configurable.
+  const infuraMiddleware = network === 'mainnet'
+    ? createFetchMiddleware({ rpcUrl: 'https://ethereum-rpc.publicnode.com' })
+    : createInfuraMiddleware({ network, maxAttempts: 5, source: 'ecf-wallet' })
   const infuraProvider = providerFromMiddleware(infuraMiddleware)
   const blockTracker = new BlockTracker({ provider: infuraProvider })
 

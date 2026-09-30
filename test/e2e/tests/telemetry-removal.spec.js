@@ -13,6 +13,7 @@ describe('Telemetry removal', function () {
         chrome.storage.local.get(['meta', 'data'], state => done(state));
       `)
       assert.equal(storage.meta.version, 0)
+      assert.equal(Object.prototype.hasOwnProperty.call(storage.data, 'ThreeBoxController'), false)
       const preferences = storage.data.PreferencesController
       for (const key of ['metaMetricsId', 'metaMetricsSendCount', 'participateInMetaMetrics']) {
         assert.equal(Object.prototype.hasOwnProperty.call(preferences, key), false)
@@ -21,6 +22,9 @@ describe('Telemetry removal', function () {
       await driver.findElement(By.css('.settings-page'))
       const content = await driver.driver.executeScript('return document.body.innerText')
       assert.ok(!content.includes('MetaMetrics'))
+      await driver.driver.get(`${driver.extensionUrl}/home.html#settings/advanced`)
+      await driver.findElement(By.id('autoTimeout'))
+      assert.equal((await driver.driver.findElements(By.css('[data-testid="advanced-setting-3box"]'))).length, 0)
     })
   })
 
