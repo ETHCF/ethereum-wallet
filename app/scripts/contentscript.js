@@ -27,8 +27,8 @@ async function start () {
 async function setupStreams () {
   // the transport-specific streams for communication between inpage and background
   const pageStream = new LocalMessageDuplexStream({
-    name: 'contentscript',
-    target: 'inpage',
+    name: 'ecf-wallet-contentscript',
+    target: 'ecf-wallet-inpage',
   })
   const extensionStream = new ReconnectingPortStream(() => extension.runtime.connect({ name: 'contentscript' }))
 

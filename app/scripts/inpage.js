@@ -33,8 +33,9 @@ cleanContextForImports()
 /* eslint-disable import/first */
 import log from 'loglevel'
 import LocalMessageDuplexStream from 'post-message-stream'
-import { initProvider } from '@metamask/inpage-provider'
+import { initProvider, setGlobalProvider } from '@metamask/inpage-provider'
 import shouldInjectProvider from './lib/should-inject-provider'
+import announceProvider from './lib/announce-provider'
 
 // TODO:deprecate:2020
 import setupWeb3 from './lib/setupWeb3'
@@ -51,25 +52,29 @@ log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 if (shouldInjectProvider()) {
   // setup background connection
   const ecfWalletStream = new LocalMessageDuplexStream({
-    name: 'inpage',
-    target: 'contentscript',
+    name: 'ecf-wallet-inpage',
+    target: 'ecf-wallet-contentscript',
   })
 
-  initProvider({
+  const provider = initProvider({
     connectionStream: ecfWalletStream,
+    shouldSetOnWindow: false,
   })
 
-  // TODO:deprecate:2020
-  // Setup web3
-
-  if (typeof window.web3 !== 'undefined') {
-    throw new Error(`ecf-wallet detected another web3.
-       ecf-wallet will not work reliably with another web3 extension.
-       This usually happens if you have two ecf-wallets installed,
-       or ecf-wallet and another web3 extension. Please remove one
-       and try again.`)
+  // Preserve another wallet's legacy globals. Discovery works independently of
+  // window.ethereum, even when another extension makes that property read-only.
+  try {
+    if (!window.ethereum) {
+      setGlobalProvider(provider)
+    }
+  } catch (error) {
+    log.debug('ecf-wallet - could not set the legacy provider', error)
   }
 
-  // proxy web3, assign to window, and set up site auto reload
-  setupWeb3(log)
+  announceProvider(provider)
+
+  // TODO:deprecate:2020
+  if (window.ethereum === provider && typeof window.web3 === 'undefined') {
+    setupWeb3(log)
+  }
 }

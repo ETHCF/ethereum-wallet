@@ -4,6 +4,8 @@ ECF Wallet is an Ethereum browser wallet based on MetaMask. Visit [Ethereum Comm
 
 ECF Wallet supports Firefox, Google Chrome, and Chromium-based browsers.
 
+Websites can discover **ECF Wallet** through [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), using the stable wallet identifier `org.ethcf.wallet`. Discovery works alongside other installed wallets. For older sites, ECF also supplies `window.ethereum` when another provider has not already claimed it. Sites with hardcoded wallet lists may need to add ECF explicitly.
+
 The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg), saved in `app/images/logo/ecf-mark.svg`. The icon and wordmark place the white symbol on a dark background; the PNG toolbar icons are rendered from `ecf-wallet-icon.svg`.
 
 Wallet state and session keys use the browser's extension-scoped storage. ECF Wallet has its own extension identities, separate from MetaMask:
