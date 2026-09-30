@@ -60,6 +60,8 @@ if (shouldInjectProvider()) {
     connectionStream: ecfWalletStream,
     shouldSetOnWindow: false,
   })
+  // Dapps handle chainChanged; disable the legacy page reload and its warning.
+  provider.autoRefreshOnNetworkChange = false
 
   // Preserve another wallet's legacy globals. Discovery works independently of
   // window.ethereum, even when another extension makes that property read-only.

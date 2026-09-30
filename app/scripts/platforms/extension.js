@@ -135,9 +135,9 @@ export default class ExtensionPlatform {
     })
   }
 
-  getActiveTabs () {
+  getActiveTabsInLastFocusedWindow () {
     return new Promise((resolve, reject) => {
-      extension.tabs.query({ active: true }, (tabs) => {
+      extension.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         const error = checkForError()
         if (error) {
           return reject(error)

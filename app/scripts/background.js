@@ -527,7 +527,8 @@ async function setupController (initState, initLangCode) {
  * Opens the browser popup for user confirmation
  */
 async function triggerUi () {
-  const tabs = await platform.getActiveTabs()
+  // A selected wallet tab in a background window must not suppress approval UI.
+  const tabs = await platform.getActiveTabsInLastFocusedWindow()
   const currentlyActiveEcfWalletTab = Boolean(tabs.find((tab) => openEcfWalletTabsIDs[tab.id]))
   if (!popupIsOpen && !currentlyActiveEcfWalletTab) {
     await notificationManager.showPopup()
