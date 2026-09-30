@@ -2,24 +2,6 @@ import jsonDiffer from 'fast-json-patch'
 import { cloneDeep } from 'lodash'
 
 /**
-  converts non-initial history entries into diffs
-  @param {array} longHistory
-  @returns {array}
-*/
-export function migrateFromSnapshotsToDiffs (longHistory) {
-  return (
-    longHistory
-    // convert non-initial history entries into diffs
-      .map((entry, index) => {
-        if (index === 0) {
-          return entry
-        }
-        return generateHistoryEntry(longHistory[index - 1], entry)
-      })
-  )
-}
-
-/**
   Generates an array of history objects sense the previous state.
   The object has the keys
     op (the operation performed),

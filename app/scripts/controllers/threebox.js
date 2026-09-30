@@ -65,7 +65,7 @@ export default class ThreeBoxController {
     }
     this.store = new ObservableStore(initState)
     this.registeringUpdates = false
-    this.lastMigration = migrations.sort((a, b) => a.version - b.version).slice(-1)[0]
+    this.migrator = new Migrator({ migrations })
 
     if (initState.threeBoxSyncingAllowed) {
       this.init()
@@ -85,10 +85,11 @@ export default class ThreeBoxController {
       const { threeBoxSyncingAllowed, threeBoxSynced } = this.store.getState()
       if (threeBoxSyncingAllowed && threeBoxSynced) {
         const newState = {
-          preferences: this.preferencesController.store.getState(),
-          addressBook: this.addressBookController.state,
+          ...this.migrator.generateInitialState({
+            PreferencesController: this.preferencesController.store.getState(),
+            AddressBookController: this.addressBookController.state,
+          }),
           lastUpdated: Date.now(),
-          lastMigration: this.lastMigration,
         }
 
         await this.space.private.set('ecfWalletBackup', JSON.stringify(newState))
@@ -176,30 +177,16 @@ export default class ThreeBoxController {
     return parsedRes.lastUpdated
   }
 
-  async migrateBackedUpState (backedUpState) {
-    const migrator = new Migrator({ migrations })
-
-    const formattedStateBackup = {
-      PreferencesController: backedUpState.preferences,
-      AddressBookController: backedUpState.addressBook,
-    }
-    const initialMigrationState = migrator.generateInitialState(formattedStateBackup)
-    const migratedState = await migrator.migrateData(initialMigrationState)
-    return {
-      preferences: migratedState.PreferencesController,
-      addressBook: migratedState.AddressBookController,
-    }
-  }
-
   async restoreFromThreeBox () {
-    const backedUpState = await this.space.private.get('ecfWalletBackup')
+    const backup = await this.space.private.get('ecfWalletBackup')
+    const backedUpState = await this.migrator.migrateData(JSON.parse(backup))
     const {
-      preferences,
-      addressBook,
-    } = await this.migrateBackedUpState(backedUpState)
+      PreferencesController: preferences,
+      AddressBookController: addressBook,
+    } = backedUpState.data
     this.store.updateState({ threeBoxLastUpdated: backedUpState.lastUpdated })
-    preferences && this.preferencesController.store.updateState(JSON.parse(preferences))
-    addressBook && this.addressBookController.update(JSON.parse(addressBook), true)
+    preferences && this.preferencesController.store.updateState(preferences)
+    addressBook && this.addressBookController.update(addressBook, true)
     this.setShowRestorePromptToFalse()
   }
 

@@ -44,6 +44,15 @@ See [the telemetry removal notes](docs/privacy.md) for scope and verification.
 
 Uncompressed builds can be found in `/dist`, compressed builds can be found in `/builds` once they're built.
 
+## Storage schema
+
+Fresh ecf-wallet storage starts at `meta.version: 0`. Historical upstream
+migrations and fixtures have been removed; upgrading an upstream wallet profile
+is not supported. The migration runner remains for future ecf-wallet releases.
+To add the first schema change, run `yarn generate:migration 1`, implement the
+change and its test, then register it in `app/scripts/migrations/index.js`.
+3Box backups use the same `{ meta, data }` envelope, with `lastUpdated` alongside it.
+
 ## Contributing
 
 ### Running Tests

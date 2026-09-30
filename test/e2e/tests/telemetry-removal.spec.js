@@ -3,15 +3,17 @@ const { By, Key } = require('selenium-webdriver')
 const { withFixtures } = require('../helpers')
 
 describe('Telemetry removal', function () {
-  it('removes legacy tracking preferences and the settings toggle', async function () {
+  it('keeps tracking preferences and the settings toggle absent', async function () {
     await withFixtures({ fixtures: 'personal-sign', title: this.test.title }, async ({ driver }) => {
       const password = await driver.findElement(By.id('password'))
       await password.sendKeys('correct horse battery staple', Key.ENTER)
       await driver.findElement(By.css('.selected-account__name'))
-      const preferences = await driver.driver.executeAsyncScript(`
+      const storage = await driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
-        chrome.storage.local.get('data', state => done(state.data.PreferencesController));
+        chrome.storage.local.get(['meta', 'data'], state => done(state));
       `)
+      assert.equal(storage.meta.version, 0)
+      const preferences = storage.data.PreferencesController
       for (const key of ['metaMetricsId', 'metaMetricsSendCount', 'participateInMetaMetrics']) {
         assert.equal(Object.prototype.hasOwnProperty.call(preferences, key), false)
       }

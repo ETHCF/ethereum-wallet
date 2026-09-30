@@ -1,8 +1,12 @@
 {
-  "meta": { "version": 47 },
+  "meta": {
+    "version": 0
+  },
   "data": {
     "NetworkController": {
-      "provider": { "type": "localhost" }
+      "provider": {
+        "type": "localhost"
+      }
     }
   }
 }

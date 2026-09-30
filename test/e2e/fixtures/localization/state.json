@@ -1,7 +1,7 @@
 {
   "data": {
     "AppStateController": {
-      "mkrMigrationReminderTimestamp": null
+      "connectedStatusPopoverHasBeenShown": false
     },
     "CachedBalancesController": {
       "cachedBalances": {
@@ -99,9 +99,6 @@
       },
       "knownMethodData": {},
       "lostIdentities": {},
-      "metaMetricsId": null,
-      "metaMetricsSendCount": 0,
-      "participateInMetaMetrics": false,
       "preferences": {
         "showFiatInTestnets": true,
         "useNativeCurrencyAsPrimaryCurrency": true
@@ -120,6 +117,6 @@
     }
   },
   "meta": {
-    "version": 40
+    "version": 0
   }
 }

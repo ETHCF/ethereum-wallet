@@ -4,8 +4,8 @@ This build does not collect MetaMetrics usage events or send Sentry crash report
 The event collectors, tracking RPC method, reporting SDKs, analytics consent UI,
 reporting configuration, and Sentry release uploads have been removed.
 
-Migration 48 deletes the old telemetry identifier, event counter, and consent
-preference from existing wallet storage. New wallets do not create these fields.
+Fresh wallets do not create telemetry identifiers, event counters, or consent
+preferences. Historical wallet upgrade migrations have been removed.
 Errors remain available locally in the browser console and error screen.
 
 Mobile sync disables PubNub's automatic request-latency collection and reporting.
@@ -23,6 +23,5 @@ yarn build:test
 yarn test:e2e:mv3:chrome
 ```
 
-The migration tests check that wallet data is preserved when tracking preferences
-are removed. Browser tests cover preference cleanup, settings, direct create/import
-onboarding, signing, transactions, and service-worker recovery.
+Browser tests check that tracking preferences stay absent and cover settings,
+direct create/import onboarding, signing, transactions, and service-worker recovery.

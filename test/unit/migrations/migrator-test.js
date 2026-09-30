@@ -77,14 +77,50 @@ describe('migrations', function () {
         .map((num) => parseInt(num, 10))
 
       migrationNumbers.forEach((num) => {
-        if (num >= 33) {
-          assert.ok(testNumbers.includes(num), `no test found for migration: ${num}`)
-        }
+        assert.ok(testNumbers.includes(num), `no test found for migration: ${num}`)
       })
     })
   })
 
   describe('Migrator', function () {
+    it('starts fresh storage at version 0 without changing wallet data', async function () {
+      const migrator = new Migrator()
+      const state = migrator.generateInitialState(data)
+      assert.deepEqual(state, firstTimeState)
+      assert.strictEqual(await migrator.migrateData(state), state)
+    })
+
+    it('applies future migrations to version 0 storage without replaying completed ones', async function () {
+      const versions = []
+      const migrations = [2, 1].map((version) => ({
+        version,
+        async migrate (state) {
+          versions.push(version)
+          return { ...state, meta: { version } }
+        },
+      }))
+      const migrator = new Migrator({ migrations, defaultVersion: 0 })
+      const state = migrator.generateInitialState(data)
+      const migrated = await migrator.migrateData(state)
+      assert.deepEqual(versions, [1, 2])
+      assert.equal(migrated.meta.version, 2)
+      assert.deepEqual(migrations.map(({ version }) => version), [2, 1])
+      await migrator.migrateData(migrated)
+      assert.deepEqual(versions, [1, 2])
+    })
+
+    it('rejects migrations that fail to update the schema version', async function () {
+      const migrator = new Migrator({
+        migrations: [{
+          version: 1,
+          async migrate (state) {
+            return state
+          },
+        }],
+      })
+      await assert.rejects(migrator.migrateData(firstTimeState), /did not update version number/u)
+    })
+
     it('migratedData version should be version 3', async function () {
       const migrator = new Migrator({ migrations: stubMigrations })
       const migratedData = await migrator.migrateData(versionedData)
@@ -94,8 +130,8 @@ describe('migrations', function () {
     it('should match the last version in live migrations', async function () {
       const migrator = new Migrator({ migrations: liveMigrations })
       const migratedData = await migrator.migrateData(firstTimeState)
-      const last = liveMigrations.length - 1
-      assert.equal(migratedData.meta.version, liveMigrations[last].version)
+      const latestVersion = liveMigrations.slice(-1)[0]?.version ?? 0
+      assert.equal(migratedData.meta.version, latestVersion)
     })
 
     it('should emit an error', async function () {

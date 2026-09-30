@@ -1,11 +1,9 @@
 import { strict as assert } from 'assert'
 import {
   snapshotFromTxMeta,
-  migrateFromSnapshotsToDiffs,
   replayHistory,
   generateHistoryEntry,
 } from '../../../../../app/scripts/controllers/transactions/lib/tx-state-history-helpers'
-import testData from '../../../../data/mock-tx-history.json'
 
 describe('Transaction state history helper', function () {
   describe('#snapshotFromTxMeta', function () {
@@ -28,25 +26,6 @@ describe('Transaction state history helper', function () {
       const input = { foo: 'bar', history: 'remembered' }
       const output = snapshotFromTxMeta(input)
       assert.equal(typeof output.history, 'undefined', 'should remove history')
-    })
-  })
-
-  describe('#migrateFromSnapshotsToDiffs', function () {
-    it('migrates history to diffs and can recover original values', function () {
-      testData.TransactionsController.transactions.forEach((tx) => {
-        const newHistory = migrateFromSnapshotsToDiffs(tx.history)
-        newHistory.forEach((newEntry, index) => {
-          if (index === 0) {
-            assert.equal(Array.isArray(newEntry), false, 'initial history item IS NOT a json patch obj')
-          } else {
-            assert.equal(Array.isArray(newEntry), true, 'non-initial history entry IS a json patch obj')
-          }
-          const oldEntry = tx.history[index]
-          const historySubset = newHistory.slice(0, index + 1)
-          const reconstructedValue = replayHistory(historySubset)
-          assert.deepEqual(oldEntry, reconstructedValue, 'was able to reconstruct old entry from diffs')
-        })
-      })
     })
   })
 
