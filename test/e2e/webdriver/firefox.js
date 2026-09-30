@@ -11,7 +11,7 @@ const { Command } = require('selenium-webdriver/lib/command')
  * will be created as random directories inside this.
  * @type {string}
  */
-const TEMP_PROFILE_PATH_PREFIX = path.join(os.tmpdir(), 'MetaMask-Fx-Profile')
+const TEMP_PROFILE_PATH_PREFIX = path.join(os.tmpdir(), 'ECF-Wallet-Fx-Profile')
 
 const GeckoDriverCommand = {
   INSTALL_ADDON: 'install addon',
@@ -30,9 +30,11 @@ class FirefoxDriver {
   static async build ({ extensionPath, responsive, port }) {
     const templateProfile = fs.mkdtempSync(TEMP_PROFILE_PATH_PREFIX)
     const internalExtensionId = randomUUID()
+    const manifest = JSON.parse(fs.readFileSync(path.join(extensionPath, 'manifest.json'), 'utf8'))
+    const addonId = manifest.browser_specific_settings.gecko.id
     const options = new firefox.Options()
       .setProfile(templateProfile)
-      .setPreference('extensions.webextensions.uuids', JSON.stringify({ 'webextension@metamask.io': internalExtensionId }))
+      .setPreference('extensions.webextensions.uuids', JSON.stringify({ [addonId]: internalExtensionId }))
     if (process.env.SELENIUM_HEADLESS === 'true') {
       options.addArguments('-headless')
     }

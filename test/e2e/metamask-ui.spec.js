@@ -423,7 +423,7 @@ describe('MetaMask', function () {
       await driver.delay(2000)
 
       windowHandles = await driver.getAllWindowHandles()
-      await driver.switchToWindowWithTitle('MetaMask Notification', windowHandles)
+      await driver.switchToWindowWithTitle('ECF Wallet Notification', windowHandles)
       await driver.delay(regularDelayMs)
 
       await driver.assertElementNotPresent(By.xpath(`//li[contains(text(), 'Data')]`))

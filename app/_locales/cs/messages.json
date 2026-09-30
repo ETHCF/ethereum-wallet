@@ -25,7 +25,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -251,7 +251,7 @@
     "message": "Zpráva"
   },
   "metamaskDescription": {
-    "message": "MetaMask je bezpečný osobní trezor pro Ethereum."
+    "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
   },
   "myAccounts": {
     "message": "Moje účty"
@@ -466,7 +466,7 @@
     "message": "Klíčová fráze peněženky"
   },
   "welcome": {
-    "message": "Vítejte v MetaMask"
+    "message": "Vítejte v ECF Wallet"
   },
   "yourSigRequested": {
     "message": "Je vyžadován váš podpis"

@@ -22,7 +22,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -166,7 +166,7 @@
     "message": "Account importeren"
   },
   "importAccountMsg": {
-    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte MetaMask-account. Meer informatie over geïmporteerde accounts"
+    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte ECF Wallet-account. Meer informatie over geïmporteerde accounts"
   },
   "imported": {
     "message": "geïmporteerde",
@@ -225,7 +225,7 @@
     "message": "Bericht"
   },
   "metamaskDescription": {
-    "message": "MetaMask is een veilige identiteitskluis voor Ethereum."
+    "message": "ECF Wallet is een veilige identiteitskluis voor Ethereum."
   },
   "myAccounts": {
     "message": "Mijn accounts"
@@ -234,7 +234,7 @@
     "message": "Moet ten minste één token selecteren."
   },
   "needEtherInWallet": {
-    "message": "Om te communiceren met gedecentraliseerde applicaties met MetaMask, heb je Ether nodig in je portemonnee."
+    "message": "Om te communiceren met gedecentraliseerde applicaties met ECF Wallet, heb je Ether nodig in je portemonnee."
   },
   "needImportFile": {
     "message": "U moet een bestand selecteren om te importeren.",
@@ -412,7 +412,7 @@
     "message": "Bezoek onze website"
   },
   "welcome": {
-    "message": "Welkom bij MetaMask"
+    "message": "Welkom bij ECF Wallet"
   },
   "yourSigRequested": {
     "message": "Uw handtekening wordt aangevraagd"

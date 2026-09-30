@@ -97,7 +97,7 @@ describe('MetaMask', function () {
 
       await driver.delay(regularDelayMs)
       windowHandles = await driver.getAllWindowHandles()
-      await driver.switchToWindowWithTitle('MetaMask Notification', windowHandles)
+      await driver.switchToWindowWithTitle('ECF Wallet Notification', windowHandles)
       await driver.delay(regularDelayMs)
 
       const title = await driver.findElement(By.css('.signature-request-content__title'))

@@ -67,7 +67,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/"
+            href="https://ethcf.org/"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -99,7 +99,8 @@ export default class InfoTab extends PureComponent {
           <div className="settings-page__content-item settings-page__content-item--without-height">
             <div className="info-tab__logo-wrapper">
               <img
-                src="images/info-logo.png"
+                src="images/logo/ecf-wallet-horizontal.svg"
+                alt="ECF Wallet"
                 className="info-tab__logo"
               />
             </div>

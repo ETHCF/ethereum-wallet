@@ -72,7 +72,7 @@
     "message": "Adăugați indicativele sugerate"
   },
   "addAcquiredTokens": {
-    "message": "Adăugați token-urile pe care le-ați achiziționat folosind MetaMask"
+    "message": "Adăugați token-urile pe care le-ați achiziționat folosind ECF Wallet"
   },
   "amount": {
     "message": "Sumă"
@@ -82,7 +82,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -110,7 +110,7 @@
     "message": "Temporizator deconectare automată (minute)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Setați perioada de inactivitate în minute înainte ca MetaMask să se deconecteze automat"
+    "message": "Setați perioada de inactivitate în minute înainte ca ECF Wallet să se deconecteze automat"
   },
   "average": {
     "message": "Mediu"
@@ -125,7 +125,7 @@
     "message": "Creați o copie de rezervă a codului de recuperare secret pentru a vă menține portofelul și fondurile în siguranță."
   },
   "backupApprovalInfo": {
-    "message": "Acest cod secret este necesar pentru recuperarea portofelului în cazul în care pierdeți dispozitivul, uitați parola, trebuie să reinstalați MetaMask sau vreți să accesați portofelul de pe alt dispozitiv."
+    "message": "Acest cod secret este necesar pentru recuperarea portofelului în cazul în care pierdeți dispozitivul, uitați parola, trebuie să reinstalați ECF Wallet sau vreți să accesați portofelul de pe alt dispozitiv."
   },
   "backupNow": {
     "message": "Creați o copie de rezervă acum"
@@ -192,7 +192,7 @@
     "message": "Închide"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Trebuie să folosiți MetaMask în Google Chrome pentru a vă conecta la portofelul hardware."
+    "message": "Trebuie să folosiți ECF Wallet în Google Chrome pentru a vă conecta la portofelul hardware."
   },
   "confirm": {
     "message": "Confirmați"
@@ -354,7 +354,7 @@
     "message": "Nu comunicați niciodată fraza cuiva."
   },
   "endOfFlowMessage5": {
-    "message": "Aveți grijă la phishing! MetaMask nu vă va cere niciodată în mod spontan expresia sursă."
+    "message": "Aveți grijă la phishing! ECF Wallet nu vă va cere niciodată în mod spontan expresia sursă."
   },
   "endOfFlowMessage6": {
     "message": "Dacă trebuie să vă salvați din nou fraza seed, puteți să o găsiți în Setări -> Securitate."
@@ -363,7 +363,7 @@
     "message": "Dacă aveți întrebări sau vedeți ceva suspect, trimiteți un e-mail la support@metamask.io."
   },
   "endOfFlowMessage8": {
-    "message": "MetaMask nu vă poate recupera expresia sursă. Aflați mai multe."
+    "message": "ECF Wallet nu vă poate recupera expresia sursă. Aflați mai multe."
   },
   "endOfFlowMessage9": {
     "message": "Aflați mai multe."
@@ -473,7 +473,7 @@
     "message": "Conectați un portofel hardware"
   },
   "hardwareWalletsMsg": {
-    "message": "Selectați un portofel hardware pe care doriți să îl folosiți cu MetaMask"
+    "message": "Selectați un portofel hardware pe care doriți să îl folosiți cu ECF Wallet"
   },
   "havingTroubleConnecting": {
     "message": "Aveți probleme cu conectarea?"
@@ -502,7 +502,7 @@
     "message": "Importare cont"
   },
   "importAccountMsg": {
-    "message": "Conturile importate nu vor fi asociate cu seedphrase-ul contului dumneavoastră MetaMask creat inițial. Aflați mai multe despre conturile importate"
+    "message": "Conturile importate nu vor fi asociate cu seedphrase-ul contului dumneavoastră ECF Wallet creat inițial. Aflați mai multe despre conturile importate"
   },
   "importAccountSeedPhrase": {
     "message": "Importați un cont cu fraza seed"
@@ -615,7 +615,7 @@
     "message": "Vă conectăm la Ethereum și la Internetul descentralizat."
   },
   "metamaskVersion": {
-    "message": "Versiune MetaMask"
+    "message": "Versiune ECF Wallet"
   },
   "mobileSyncText": {
     "message": "Vă rugăm introduceți parola pentru a vă confirma identitatea!"
@@ -627,13 +627,13 @@
     "message": "Conturi My Wallet"
   },
   "myWalletAccountsDescription": {
-    "message": "Toate conturile dvs. create pe MetaMask vor fi adăugate automat la această secțiune."
+    "message": "Toate conturile dvs. create pe ECF Wallet vor fi adăugate automat la această secțiune."
   },
   "mustSelectOne": {
     "message": "Trebuie să selectați cel puțin 1 simbol."
   },
   "needEtherInWallet": {
-    "message": "Pentru a interacționa cu aplicațiile descentralizate prin intermediul MetaMask, trebuie să aveți Ether în portofel."
+    "message": "Pentru a interacționa cu aplicațiile descentralizate prin intermediul ECF Wallet, trebuie să aveți Ether în portofel."
   },
   "needImportFile": {
     "message": "Trebuie să selectați un fișier pentru importare.",
@@ -677,7 +677,7 @@
     "message": "Rețea nouă"
   },
   "newToMetaMask": {
-    "message": "Nefamiliarizat cu MetaMask?"
+    "message": "Nefamiliarizat cu ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nu, am deja o expresie sursă"
@@ -686,7 +686,7 @@
     "message": "Protejați-vă cheile!"
   },
   "protectYourKeysMessage1": {
-    "message": "Aveți grijă cu expresia dvs. sursă – au existat raportări despre site-uri web care încearcă să imite MetaMask. MetaMask nu vă va cere niciodată expresia sursă!"
+    "message": "Aveți grijă cu expresia dvs. sursă – au existat raportări despre site-uri web care încearcă să imite ECF Wallet. ECF Wallet nu vă va cere niciodată expresia sursă!"
   },
   "protectYourKeysMessage2": {
     "message": "Aveți grijă de fraza dvs. Dacă vedeți ceva care este în neregulă sau aveți dubii cu privire la un site, trimiteți un mesaj la support@metamask.io"
@@ -964,7 +964,7 @@
     "message": "Selectați un cont"
   },
   "selectAnAccountHelp": {
-    "message": "Selectați contul de vizualizat în MetaMask"
+    "message": "Selectați contul de vizualizat în ECF Wallet"
   },
   "selectAHigherGasFee": {
     "message": "Selectați o taxă gas mai mare pentru a accelera procesarea tranzacției.*"
@@ -1175,7 +1175,7 @@
     "message": "Încearcă din nou"
   },
   "typePassword": {
-    "message": "Scrieți parola dvs. pentru MetaMask"
+    "message": "Scrieți parola dvs. pentru ECF Wallet"
   },
   "unapproved": {
     "message": "Neaprobat"
@@ -1241,7 +1241,7 @@
     "message": "Bine ai revenit!"
   },
   "welcome": {
-    "message": "Bun venit la MetaMask"
+    "message": "Bun venit la ECF Wallet"
   },
   "writePhrase": {
     "message": "Scrieți această expresie pe o bucată de hârtie și păstrați-o într-un loc sigur. Dacă vreți și mai multă securitate, notați-o pe mai multe bucăți de hârtie și păstrați-le în 2 - 3 locuri diferite."

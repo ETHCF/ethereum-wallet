@@ -66,7 +66,7 @@
     "message": "Magdagdag ng Mga Iminungkahing Token"
   },
   "addAcquiredTokens": {
-    "message": "Idagdag ang mga token na nakuha mo gamit ang MetaMask"
+    "message": "Idagdag ang mga token na nakuha mo gamit ang ECF Wallet"
   },
   "amount": {
     "message": "Halaga"
@@ -76,7 +76,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -101,7 +101,7 @@
     "message": "Auto-Logout Timer (minuto)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "I-set ang idle time na minuto bago awtomatikong mag-log out ang MetaMask"
+    "message": "I-set ang idle time na minuto bago awtomatikong mag-log out ang ECF Wallet"
   },
   "back": {
     "message": "Bumalik"
@@ -113,7 +113,7 @@
     "message": "I-back up ang iyong Secret Recovery code para panatilihing secure ang iyong wallet at pondo."
   },
   "backupApprovalInfo": {
-    "message": "Ang secret code na ito ay kinakailangan para ma-recover ang iyong wallet kung sakaling mawawala mo ang iyong device, nakalimutan mo ang iyong password, kailangan mong i-install ulit ang MetaMask, o gusto mong i-access ang iyong wallet sa ibang device."
+    "message": "Ang secret code na ito ay kinakailangan para ma-recover ang iyong wallet kung sakaling mawawala mo ang iyong device, nakalimutan mo ang iyong password, kailangan mong i-install ulit ang ECF Wallet, o gusto mong i-access ang iyong wallet sa ibang device."
   },
   "backupNow": {
     "message": "I-back up ngayon"
@@ -168,7 +168,7 @@
     "message": "Isara"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Kailangan mong gamitin ang MetaMask sa Google Chrome upang makakonekta sa iyong Hardware Wallet."
+    "message": "Kailangan mong gamitin ang ECF Wallet sa Google Chrome upang makakonekta sa iyong Hardware Wallet."
   },
   "confirm": {
     "message": "Kumpirmahin"
@@ -327,7 +327,7 @@
     "message": "Huwag ibahagi ang parirala sa kahit sino."
   },
   "endOfFlowMessage5": {
-    "message": "Mag-ingat sa phishing! Hindi ka basta-basta hihilingin ng MetaMask ang iyong seed phrase."
+    "message": "Mag-ingat sa phishing! Hindi ka basta-basta hihilingin ng ECF Wallet ang iyong seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "Kung kailangan mong i-back up ulit ang iyong seed phrase, makikita mo ito sa Mga Setting -> Seguridad."
@@ -336,7 +336,7 @@
     "message": "Kung may mga tanong ka o nakakita ka ng kahina-hinalang bagay, i-email ang support@metamask.io."
   },
   "endOfFlowMessage8": {
-    "message": "Hindi ma-recover ng MetaMask ang iyong seedphrase. Alamin pa."
+    "message": "Hindi ma-recover ng ECF Wallet ang iyong seedphrase. Alamin pa."
   },
   "endOfFlowMessage9": {
     "message": "Matuto pa."
@@ -446,7 +446,7 @@
     "message": "Magkonekta ng hardware wallet"
   },
   "hardwareWalletsMsg": {
-    "message": "Pumili ng hardware wallet na gusto mong gamitin sa MetaMask"
+    "message": "Pumili ng hardware wallet na gusto mong gamitin sa ECF Wallet"
   },
   "havingTroubleConnecting": {
     "message": "May problema ka ba sa pagkonekta?"
@@ -469,7 +469,7 @@
     "message": "Mag-import ng Account"
   },
   "importAccountMsg": {
-    "message": " Ang mga na-import na account ay hindi iuugnay sa orihinal na seedphrase na ginawa ng iyong MetaMask account. Matuto pa tungkol sa mga na-import na account "
+    "message": " Ang mga na-import na account ay hindi iuugnay sa orihinal na seedphrase na ginawa ng iyong ECF Wallet account. Matuto pa tungkol sa mga na-import na account "
   },
   "importAccountSeedPhrase": {
     "message": "Mag-import ng Account gamit ang Seed Phrase"
@@ -566,7 +566,7 @@
     "message": "Kinokonekta ka sa Ethereum at sa Decentralized Web."
   },
   "metamaskVersion": {
-    "message": "Bersyon ng MetaMask"
+    "message": "Bersyon ng ECF Wallet"
   },
   "mobileSyncText": {
     "message": "Pakilagay ang iyong password para kumpirmahing ikaw ito!"
@@ -578,13 +578,13 @@
     "message": "Mga Wallet Account Ko"
   },
   "myWalletAccountsDescription": {
-    "message": "Ang lahat ng iyong account na ginawa sa MetaMask ay awtomatikong idadagdag sa seksyong ito."
+    "message": "Ang lahat ng iyong account na ginawa sa ECF Wallet ay awtomatikong idadagdag sa seksyong ito."
   },
   "mustSelectOne": {
     "message": "Dapat pumili ng kahit 1 token."
   },
   "needEtherInWallet": {
-    "message": "Para gumamit ng mga decentralized na application gamit ang MetaMask, mangangailangan ka ng Ether sa iyong wallet."
+    "message": "Para gumamit ng mga decentralized na application gamit ang ECF Wallet, mangangailangan ka ng Ether sa iyong wallet."
   },
   "needImportFile": {
     "message": "Dapat kang pumili ng file na ii-import.",
@@ -624,7 +624,7 @@
     "message": "Bagong Network"
   },
   "newToMetaMask": {
-    "message": "Bago ka ba sa MetaMask?"
+    "message": "Bago ka ba sa ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
     "message": "Hindi, may seed phrase na ako"
@@ -633,7 +633,7 @@
     "message": "Protektahan Ang Iyong Mga Key!"
   },
   "protectYourKeysMessage1": {
-    "message": "Mag-ingat sa iyong seed phrase — may mga ulat na may mga website na nagpapanggap bilang MetaMask. Hindi kailanman hihilingin ng MetaMask ang iyong seed phrase!"
+    "message": "Mag-ingat sa iyong seed phrase — may mga ulat na may mga website na nagpapanggap bilang ECF Wallet. Hindi kailanman hihilingin ng ECF Wallet ang iyong seed phrase!"
   },
   "protectYourKeysMessage2": {
     "message": "Panatilihing ligtas ang iyong parirala. Kung may makikita kang kahina-hinala, o hindi ka sigurado tungkol sa isang website, mag-email sa support@metamask.io"
@@ -889,7 +889,7 @@
     "message": "Pumili ng Account"
   },
   "selectAnAccountHelp": {
-    "message": "Piliin ang account na titingnan sa MetaMask"
+    "message": "Piliin ang account na titingnan sa ECF Wallet"
   },
   "selectAHigherGasFee": {
     "message": "Pumili ng mas mataas na gas fee para pabilisin ang pagproseso ng iyong transaksyon.*"
@@ -1091,7 +1091,7 @@
     "message": "Subukang muli"
   },
   "typePassword": {
-    "message": "I-type ang iyong password sa MetaMask"
+    "message": "I-type ang iyong password sa ECF Wallet"
   },
   "unapproved": {
     "message": "Hindi inaprubahan"
@@ -1151,7 +1151,7 @@
     "message": "Welcome Ulit!"
   },
   "welcome": {
-    "message": "Welcome sa MetaMask"
+    "message": "Welcome sa ECF Wallet"
   },
   "writePhrase": {
     "message": "Isulat ang pariralang ito sa isang piraso ng papel at itago ito sa isang secure na lokasyon. Kung gusto mo ng higit pang seguridad, isulat ito sa maraming piraso ng papel at itago ang bawat isa sa 2 - 3 iba't ibang lokasyon."

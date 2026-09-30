@@ -73,7 +73,7 @@ describe('Typed transactions on a Prague chain', function () {
             result => window.txResult = result, error => window.txResult = { error: error.message });
         `, params)
         await driver.waitUntilXWindowHandles(3)
-        await driver.switchToWindowWithTitle('MetaMask Notification', await driver.getAllWindowHandles())
+        await driver.switchToWindowWithTitle('ECF Wallet Notification', await driver.getAllWindowHandles())
         await driver.findElement(By.css('.confirm-page-container-content__details'))
         if (type === '0x2') {
           const cap = await driver.findElement(By.css('input[name="maxFeePerGas"]'))

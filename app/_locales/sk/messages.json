@@ -72,7 +72,7 @@
     "message": "Pridať navrhované tokeny"
   },
   "addAcquiredTokens": {
-    "message": "Pridajte tokeny, ktoré ste získali pomocou MetaMask"
+    "message": "Pridajte tokeny, ktoré ste získali pomocou ECF Wallet"
   },
   "amount": {
     "message": "Částka"
@@ -82,7 +82,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -107,7 +107,7 @@
     "message": "Časovač automatického odhlásenia (minúty)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Nastavte čas nečinnosti v minútach skôr, než sa MetaMask automaticky odhlási"
+    "message": "Nastavte čas nečinnosti v minútach skôr, než sa ECF Wallet automaticky odhlási"
   },
   "average": {
     "message": "Priemerný"
@@ -122,7 +122,7 @@
     "message": "Zálohujte si svoj tajný kód na obnovenie, aby bola vaša peňaženka a prostriedky bezpečné."
   },
   "backupApprovalInfo": {
-    "message": "Tento tajný kód je potrebný na obnovenie peňaženky v prípade straty zariadenia, zabudnutia hesla, preinštalovania MetaMask alebo prístupu k peňaženke na inom zariadení."
+    "message": "Tento tajný kód je potrebný na obnovenie peňaženky v prípade straty zariadenia, zabudnutia hesla, preinštalovania ECF Wallet alebo prístupu k peňaženke na inom zariadení."
   },
   "backupNow": {
     "message": "Zálohovať teraz"
@@ -183,7 +183,7 @@
     "message": "Zavrieť"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Ak sa chcete pripojiť k svojej hardvérovej peňaženke, musíte v Google Chrome použiť MetaMask."
+    "message": "Ak sa chcete pripojiť k svojej hardvérovej peňaženke, musíte v Google Chrome použiť ECF Wallet."
   },
   "confirm": {
     "message": "Potvrdit"
@@ -345,7 +345,7 @@
     "message": "Nikdy nezdieľajte frázu s niekým iným."
   },
   "endOfFlowMessage5": {
-    "message": "Dávajte pozor na phishing! MetaMask nikdy nebude spontánne požadovať vašu seed frázu."
+    "message": "Dávajte pozor na phishing! ECF Wallet nikdy nebude spontánne požadovať vašu seed frázu."
   },
   "endOfFlowMessage6": {
     "message": "Ak potrebujete backup frázu znova zálohovať, nájdete ju v časti Nastavenia -> Zabezpečenie."
@@ -354,7 +354,7 @@
     "message": "Ak budete mať nejaké otázky alebo niečo zaujímavé, pošlite email na support@metamask.io."
   },
   "endOfFlowMessage8": {
-    "message": "MetaMask nemôže obnoviť vašu seed frázu. Zistiť viac."
+    "message": "ECF Wallet nemôže obnoviť vašu seed frázu. Zistiť viac."
   },
   "endOfFlowMessage9": {
     "message": "Dozvedieť sa viac."
@@ -474,7 +474,7 @@
     "message": "Pripojiť hardvérovú peňaženku"
   },
   "hardwareWalletsMsg": {
-    "message": "Vyberte hardvérovú peňaženku, ktorú chcete používať s MetaMask"
+    "message": "Vyberte hardvérovú peňaženku, ktorú chcete používať s ECF Wallet"
   },
   "havingTroubleConnecting": {
     "message": "Máte problémy s pripojením?"
@@ -594,10 +594,10 @@
     "message": "Zpráva"
   },
   "metamaskDescription": {
-    "message": "MetaMask je bezpečný osobní trezor pro Ethereum."
+    "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
   },
   "metamaskVersion": {
-    "message": "Verzia MetaMask"
+    "message": "Verzia ECF Wallet"
   },
   "mobileSyncText": {
     "message": "Zadajte svoje heslo a potvrďte, že ste to vy!"
@@ -609,7 +609,7 @@
     "message": "Účty v Mojej peňaženke"
   },
   "myWalletAccountsDescription": {
-    "message": "Do tejto sekcie sa automaticky pridajú všetky vaše účty vytvorené pomocou MetaMask."
+    "message": "Do tejto sekcie sa automaticky pridajú všetky vaše účty vytvorené pomocou ECF Wallet."
   },
   "mustSelectOne": {
     "message": "Musíte zvolit aspoň 1 token."
@@ -659,7 +659,7 @@
     "message": "Nová sieť"
   },
   "newToMetaMask": {
-    "message": "Ste noví na MetaMask?"
+    "message": "Ste noví na ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nie, už mám seed frázu"
@@ -668,7 +668,7 @@
     "message": "Chráňte si svoje kľúče!"
   },
   "protectYourKeysMessage1": {
-    "message": "Pri seed fráze buďte opatrní – vyskytli sa správy o webových stránkach, ktoré sa snažia napodobniť MetaMask. MetaMask nikdy nebude žiadať vašu seed frázu!"
+    "message": "Pri seed fráze buďte opatrní – vyskytli sa správy o webových stránkach, ktoré sa snažia napodobniť ECF Wallet. ECF Wallet nikdy nebude žiadať vašu seed frázu!"
   },
   "protectYourKeysMessage2": {
     "message": "Držte svoju frázu v bezpečí. Ak zbadáte niečo podozrivé alebo si nie ste istí webom, pošlite email na adresu support@metamask.io"
@@ -940,7 +940,7 @@
     "message": "Vybrať účet"
   },
   "selectAnAccountHelp": {
-    "message": "Vyberte účet, ktorý chcete zobraziť v MetaMask"
+    "message": "Vyberte účet, ktorý chcete zobraziť v ECF Wallet"
   },
   "selectAHigherGasFee": {
     "message": "Ak chcete urýchliť spracovanie transakcie, vyberte vyšší poplatok GAS.*"
@@ -1217,7 +1217,7 @@
     "message": "Vitajte späť!"
   },
   "welcome": {
-    "message": "Vitajte v MetaMask"
+    "message": "Vitajte v ECF Wallet"
   },
   "writePhrase": {
     "message": "Túto frázu si zapíšte na papier a uložte na bezpečnom mieste. Kvôli vyššej bezpečnosti si ho môžete napísať na niekoľko papierov a uložiť na 2 – 3 rôzne miesta."

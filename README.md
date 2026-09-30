@@ -1,14 +1,19 @@
-# MetaMask Browser Extension
+# ECF Wallet Browser Extension
 
-You can find the latest version of MetaMask on [our official website](https://metamask.io/). For help using MetaMask, visit our [User Support Site](https://metamask.zendesk.com/hc/en-us).
+ECF Wallet is an Ethereum browser wallet based on MetaMask. Visit [Ethereum Community Foundation](https://ethcf.org/).
 
-MetaMask supports Firefox, Google Chrome, and Chromium-based browsers. We recommend using the latest available browser version.
+ECF Wallet supports Firefox, Google Chrome, and Chromium-based browsers.
 
-For up to the minute news, follow our [Twitter](https://twitter.com/metamask_io) or [Medium](https://medium.com/metamask) pages.
+The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg), saved in `app/images/logo/ecf-mark.svg`. The icon and wordmark place the white symbol on a dark background; the PNG toolbar icons are rendered from `ecf-wallet-icon.svg`.
 
-To learn how to develop MetaMask-compatible applications, visit our [Developer Docs](https://metamask.github.io/metamask-docs/).
+Wallet state and session keys use the browser's extension-scoped storage. ECF Wallet has its own extension identities, separate from MetaMask:
 
-To learn how to contribute to the MetaMask project itself, visit our [Internal Docs](https://github.com/MetaMask/metamask-extension/tree/develop/docs).
+- Chrome, Brave, and Opera: `fchaokinkaebjeonmpikbllcjaenmjdp`, pinned by the public `key` in each platform manifest for unpacked builds.
+- Firefox: `wallet@ethcf.org`.
+
+Keep these identities stable across local rebuilds to retain ECF Wallet's storage. A prior build with another identity has separate storage and is not automatically migrated. MetaMask's wallet data is not read, copied, or overwritten. Store publishing must use a separate ECF listing; align the Chromium manifest key with that listing before distributing store builds.
+
+Upstream [MetaMask developer documentation](https://metamask.github.io/metamask-docs/) and [contributor documentation](https://github.com/MetaMask/metamask-extension/tree/develop/docs) remain available.
 
 ## Building locally
 

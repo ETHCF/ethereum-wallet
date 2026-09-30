@@ -82,7 +82,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "메타마스크",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -110,7 +110,7 @@
     "message": "자동 로그아웃 타이머 (분)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "MetaMask가 자동으로 로그아웃되기 전 유휴 시간을 분 단위로 설정하세요"
+    "message": "ECF Wallet가 자동으로 로그아웃되기 전 유휴 시간을 분 단위로 설정하세요"
   },
   "average": {
     "message": "평균"
@@ -125,7 +125,7 @@
     "message": "비밀 복구 코드를 백업하여 월렛과 자금을 안전하게 유지하세요."
   },
   "backupApprovalInfo": {
-    "message": "이 비밀 코드는 기기를 분실해서 월렛을 복구해야 하거나, 비밀번호를 잊어버리거나, MetaMask를 재설치해야 하거나, 다른 기기에서 월렛에 접속하고 싶은 경우에  필요합니다."
+    "message": "이 비밀 코드는 기기를 분실해서 월렛을 복구해야 하거나, 비밀번호를 잊어버리거나, ECF Wallet를 재설치해야 하거나, 다른 기기에서 월렛에 접속하고 싶은 경우에  필요합니다."
   },
   "backupNow": {
     "message": "지금 백업하기"
@@ -634,7 +634,7 @@
     "message": "나의 월렛 계정"
   },
   "myWalletAccountsDescription": {
-    "message": "MetaMask가 생성한 모든 계정이 이 섹션에 자동으로 추가됩니다."
+    "message": "ECF Wallet가 생성한 모든 계정이 이 섹션에 자동으로 추가됩니다."
   },
   "mustSelectOne": {
     "message": "적어도 하나의 토큰을 선택하세요."
@@ -693,7 +693,7 @@
     "message": "키를 보호하세요!"
   },
   "protectYourKeysMessage1": {
-    "message": "시드 문구에 주의하세요 - MetaMask를 모방하려고 한 웹사이트들이 신고됐습니다. MetaMask는 절대로 시드 문구를 묻지 않습니다!"
+    "message": "시드 문구에 주의하세요 - ECF Wallet를 모방하려고 한 웹사이트들이 신고됐습니다. ECF Wallet는 절대로 시드 문구를 묻지 않습니다!"
   },
   "protectYourKeysMessage2": {
     "message": "시드 문구를 안전하게 유지하세요. 수상한 점을 발견하거나, 웹사이트에 확신이 들지 않으면 support@metamask.io로 이메일을 보내 주세요"

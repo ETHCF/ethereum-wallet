@@ -72,7 +72,7 @@
     "message": "הוסף/י אסימונים מוצעים"
   },
   "addAcquiredTokens": {
-    "message": "הוספת הטוקנים שהשגת באמצעות MetaMask"
+    "message": "הוספת הטוקנים שהשגת באמצעות ECF Wallet"
   },
   "amount": {
     "message": "כמות"
@@ -82,7 +82,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "approve": {
@@ -110,7 +110,7 @@
     "message": "טיימר התנתקות אוטומטית (דקות)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "הגדר/י את זמן היעדר הפעילות בדקות לפני ש-MetaMask יתנתק אוטומטית."
+    "message": "הגדר/י את זמן היעדר הפעילות בדקות לפני ש-ECF Wallet יתנתק אוטומטית."
   },
   "average": {
     "message": "ממוצע"
@@ -125,7 +125,7 @@
     "message": "גבה/י את קוד השחזור הסודי שלך כדי לשמור את בטיחות הארנק והכספים שלך."
   },
   "backupApprovalInfo": {
-    "message": "קוד סודי זה נדרש כדי לשחזר את הארנק שלך במקרה שתאבד/י את מכשירך, תשכח/י את הססמה, תצטרכ/י להתקין מחדש את MetaMask או שתרצה/י לגשת לארנק שלך במכשיר אחר."
+    "message": "קוד סודי זה נדרש כדי לשחזר את הארנק שלך במקרה שתאבד/י את מכשירך, תשכח/י את הססמה, תצטרכ/י להתקין מחדש את ECF Wallet או שתרצה/י לגשת לארנק שלך במכשיר אחר."
   },
   "backupNow": {
     "message": "צור גיבוי כעת"
@@ -192,7 +192,7 @@
     "message": "סגירה"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "עליך להשתמש ב-MetaMask בגוגל כרום כדי להתחבר לארנק החומרה שלך."
+    "message": "עליך להשתמש ב-ECF Wallet בגוגל כרום כדי להתחבר לארנק החומרה שלך."
   },
   "confirm": {
     "message": "אישור"
@@ -354,7 +354,7 @@
     "message": "לעולם אל תשתפ/י את הצירוף עם אף אחד."
   },
   "endOfFlowMessage5": {
-    "message": "היזהר/י מהתחזות! MetaMask לעולם לא יבקש באופן ספונטני את צירוף הגרעין שלך."
+    "message": "היזהר/י מהתחזות! ECF Wallet לעולם לא יבקש באופן ספונטני את צירוף הגרעין שלך."
   },
   "endOfFlowMessage6": {
     "message": "אם עליך לגבות את צירוף הגרעין שלך שוב, תוכל/י למצוא זאת בהגדרות -> אבטחה."
@@ -363,7 +363,7 @@
     "message": "אם יש לך שאלות או שנתקלת במשהו חשוד, שלח/י מייל ל- support@metamask.io."
   },
   "endOfFlowMessage8": {
-    "message": "MetaMask לא הצליח לשחזר את ה-seedphrase שלך. למד/י עוד."
+    "message": "ECF Wallet לא הצליח לשחזר את ה-seedphrase שלך. למד/י עוד."
   },
   "endOfFlowMessage9": {
     "message": "למד עוד."
@@ -483,7 +483,7 @@
     "message": "חבר ארנק חומרה"
   },
   "hardwareWalletsMsg": {
-    "message": "בחר/י ארנק חומרה שבו תרצה להשתמש עם MetaMask"
+    "message": "בחר/י ארנק חומרה שבו תרצה להשתמש עם ECF Wallet"
   },
   "havingTroubleConnecting": {
     "message": "חווה קשיים בהתחברות?"
@@ -512,7 +512,7 @@
     "message": "יבא חשבון"
   },
   "importAccountMsg": {
-    "message": "חשבונות מיובאים לא ישויכו לצירוף הגרעין (seed) שנוצר במקור עבור חשבון ה-MetaMask שלך. למד/י עוד על חשבונות מיובאים"
+    "message": "חשבונות מיובאים לא ישויכו לצירוף הגרעין (seed) שנוצר במקור עבור חשבון ה-ECF Wallet שלך. למד/י עוד על חשבונות מיובאים"
   },
   "importAccountSeedPhrase": {
     "message": "יבא חשבון באמצעות Seed Phrase"
@@ -625,7 +625,7 @@
     "message": "מחבר אותך לאתריום ולרשת המבוזרת."
   },
   "metamaskVersion": {
-    "message": "גרסת MetaMask"
+    "message": "גרסת ECF Wallet"
   },
   "mobileSyncText": {
     "message": "נא להזין את הססמה שלך כדי לאשר שזה/זו אכן את/ה!"
@@ -637,13 +637,13 @@
     "message": "חשבונות הארנק שלי"
   },
   "myWalletAccountsDescription": {
-    "message": "כל חשבונותיך שנוצרו ב-MetaMask יתווספו אוטומטית לחלק זה."
+    "message": "כל חשבונותיך שנוצרו ב-ECF Wallet יתווספו אוטומטית לחלק זה."
   },
   "mustSelectOne": {
     "message": "חובה לבחור לפחות אסימון אחד."
   },
   "needEtherInWallet": {
-    "message": "כדי לתקשר עם אפליקציות מבוזרות באמצעות MetaMask, צריך להיות לך את'ר בארנק."
+    "message": "כדי לתקשר עם אפליקציות מבוזרות באמצעות ECF Wallet, צריך להיות לך את'ר בארנק."
   },
   "needImportFile": {
     "message": "יש לבחור קובץ לייצוא.",
@@ -687,7 +687,7 @@
     "message": "רשת חדשה"
   },
   "newToMetaMask": {
-    "message": "חדש/ה ב- MetaMask?"
+    "message": "חדש/ה ב- ECF Wallet?"
   },
   "noAlreadyHaveSeed": {
     "message": "לא, כבר יש לי צירוף גרעין"
@@ -696,7 +696,7 @@
     "message": "הגנ/י על המפתחות שלך!"
   },
   "protectYourKeysMessage1": {
-    "message": "יש לנקוט זהירות בנוגע לצירוף הגרעין שלך - היו דיווחים על אתרים שמנסים להתחזות ל-MetaMask .MetaMask לעולם לא תבקש את צירוף הגרעין שלך!"
+    "message": "יש לנקוט זהירות בנוגע לצירוף הגרעין שלך - היו דיווחים על אתרים שמנסים להתחזות ל-ECF Wallet .ECF Wallet לעולם לא תבקש את צירוף הגרעין שלך!"
   },
   "protectYourKeysMessage2": {
     "message": "יש לשמור את ה-seedphrase שלך במקום בטוח. אם את/ה רואה משהו חשוד, או שאינך בטוח/ה בנוע לאתר, שלח/י אימייל לכתובת support@metamask.io"
@@ -971,7 +971,7 @@
     "message": "בחר חשבון"
   },
   "selectAnAccountHelp": {
-    "message": "בחר את החשבון לצפייה ב- MetaMask"
+    "message": "בחר את החשבון לצפייה ב- ECF Wallet"
   },
   "selectAHigherGasFee": {
     "message": "בחר/י בעמלת דלק גבוהה יותר כדי להאיץ את עיבוד העסקה שלך. *"
@@ -1188,7 +1188,7 @@
     "message": "ניסיון חוזר"
   },
   "typePassword": {
-    "message": "נא להקליד את סיסמת MetaMask שלך"
+    "message": "נא להקליד את סיסמת ECF Wallet שלך"
   },
   "unapproved": {
     "message": "לא אושר"
@@ -1254,7 +1254,7 @@
     "message": "ברוך שובך!"
   },
   "welcome": {
-    "message": "ברוכים הבאים ל- MetaMask"
+    "message": "ברוכים הבאים ל- ECF Wallet"
   },
   "writePhrase": {
     "message": "יש לכתוב צירוף זה על פיסת נייר ולשמור במקום מאובטח. אם הנך מעוניינ/ת ביותר אבטחה, רשמ/י אותו על גבי מספר פיסות נייר ואחסני כל אחת מהן ב- 2-3 מקומות שונים."

@@ -6,7 +6,7 @@
     "message": "Szerződéses interakció"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ECF Wallet",
     "description": "The name of the application"
   },
   "reject": {
@@ -76,7 +76,7 @@
     "message": "Javasolt tokenek hozzáadása"
   },
   "addAcquiredTokens": {
-    "message": "Adja hozzá MetaMask-kal a kapott érméket"
+    "message": "Adja hozzá ECF Wallet-kal a kapott érméket"
   },
   "amount": {
     "message": "Összeg"
@@ -110,7 +110,7 @@
     "message": "Automatikus kijelentkezés időzítő (perc)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Adja meg a MetaMask automatikus kijelentkezéséig tartó tétlen állapot idejét percekben "
+    "message": "Adja meg a ECF Wallet automatikus kijelentkezéséig tartó tétlen állapot idejét percekben "
   },
   "average": {
     "message": "Átlag"
@@ -125,7 +125,7 @@
     "message": "Készíts biztonsági másolatot titkos helyreállítási kódodról, hogy pénztárcád és pénzalapod biztosítva legyen."
   },
   "backupApprovalInfo": {
-    "message": "Ez a titkos kód a tárca helyreállításához szükséges, ha elveszíti eszközét, elfelejti jelszavát, újra kell telepítenie a MetaMask alkalmazást, vagy ha a tárcájához egy másik eszközről szeretne hozzáférni."
+    "message": "Ez a titkos kód a tárca helyreállításához szükséges, ha elveszíti eszközét, elfelejti jelszavát, újra kell telepítenie a ECF Wallet alkalmazást, vagy ha a tárcájához egy másik eszközről szeretne hozzáférni."
   },
   "backupNow": {
     "message": "Készíts biztonsági mentést most"
@@ -192,7 +192,7 @@
     "message": "Bezárás"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "A MetaMask-ot Google Chrome-mal kell használnia a Hardveres pénztárcához való csatlakozáshoz."
+    "message": "A ECF Wallet-ot Google Chrome-mal kell használnia a Hardveres pénztárcához való csatlakozáshoz."
   },
   "confirm": {
     "message": "Megerősítés"
@@ -354,7 +354,7 @@
     "message": "Soha ne ossza meg senkivel a mondatot."
   },
   "endOfFlowMessage5": {
-    "message": "Vigyázzon az adathalászokkal! A MetaMask soha nem kéri spontán módon a seed mondatot."
+    "message": "Vigyázzon az adathalászokkal! A ECF Wallet soha nem kéri spontán módon a seed mondatot."
   },
   "endOfFlowMessage6": {
     "message": "Ha ismét biztonsági másolatot kell készítenie a seed mondatról, megtalálja azt a Beállítások -> Biztonság menüben."
@@ -363,7 +363,7 @@
     "message": "Ha bármilyen kérdése van, vagy valami gyanús dolgot tapasztal, írjon a support@metamask.io címre."
   },
   "endOfFlowMessage8": {
-    "message": "A MetaMask nem tudta helyreállítani a seed mondatot. Tudjon meg többet."
+    "message": "A ECF Wallet nem tudta helyreállítani a seed mondatot. Tudjon meg többet."
   },
   "endOfFlowMessage9": {
     "message": "Bővebb információk."
@@ -479,7 +479,7 @@
     "message": "Hardveres tárca csatlakoztatása"
   },
   "hardwareWalletsMsg": {
-    "message": "Válassza ki a MetaMask-kal használni kívánt hardveres pénztárcát"
+    "message": "Válassza ki a ECF Wallet-kal használni kívánt hardveres pénztárcát"
   },
   "havingTroubleConnecting": {
     "message": "Gond van a csatlakozással?"
@@ -508,7 +508,7 @@
     "message": "Fiók importálása"
   },
   "importAccountMsg": {
-    "message": "Az importált fiókot nem társítjuk az eredetileg létrehozott MetaMask-fiók seed mondatához. További információ az importált fiókokról"
+    "message": "Az importált fiókot nem társítjuk az eredetileg létrehozott ECF Wallet-fiók seed mondatához. További információ az importált fiókokról"
   },
   "importAccountSeedPhrase": {
     "message": "Fiók importálása seed mondat segítségével"
@@ -621,7 +621,7 @@
     "message": "Csatlakozás az Ethereumhoz és a decentralizált hálózathoz."
   },
   "metamaskVersion": {
-    "message": "MetaMask verzió"
+    "message": "ECF Wallet verzió"
   },
   "mobileSyncText": {
     "message": "Kérünk írd be jelszavad, hogy igazold kiléted!"
@@ -633,7 +633,7 @@
     "message": "Saját tárca fiókjai"
   },
   "myWalletAccountsDescription": {
-    "message": "Az összes MetaMask által létrehozott fiókot automatikusan hozzáadja a munkamenethez."
+    "message": "Az összes ECF Wallet által létrehozott fiókot automatikusan hozzáadja a munkamenethez."
   },
   "mustSelectOne": {
     "message": "Legalább 1 tokent ki kell választania."
@@ -683,7 +683,7 @@
     "message": "Új hálózat"
   },
   "newToMetaMask": {
-    "message": "Új a MetaMask-on?"
+    "message": "Új a ECF Wallet-on?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nem, már rendelkezem gyarapítási fázissal"
@@ -692,7 +692,7 @@
     "message": "Védje kulcsait!"
   },
   "protectYourKeysMessage1": {
-    "message": "Vigyázzod a gyarapítási fázissal - olyan oldalakat jelentettek, amelyek a MetaMask-ot utánozzák. A MetaMask soha nem kéri el a gyarapítási fázisát."
+    "message": "Vigyázzod a gyarapítási fázissal - olyan oldalakat jelentettek, amelyek a ECF Wallet-ot utánozzák. A ECF Wallet soha nem kéri el a gyarapítási fázisát."
   },
   "protectYourKeysMessage2": {
     "message": "Őrizze biztonságos helyen a mondatot. Ha bármilyen gyanús dolgot tapasztal, vagy bizonytalan egy weboldalt illetően, írjon a support@metamask.io címre."
@@ -970,7 +970,7 @@
     "message": "Válasszon fiókot"
   },
   "selectAnAccountHelp": {
-    "message": "Válássza ki a MetaMask-ban megtekinteni kívánt fiókot"
+    "message": "Válássza ki a ECF Wallet-ban megtekinteni kívánt fiókot"
   },
   "selectAHigherGasFee": {
     "message": "Válasszon magasabb gázdíjat az ügylet feldolgozásának gyorsításához.*"
@@ -1184,7 +1184,7 @@
     "message": "Újra"
   },
   "typePassword": {
-    "message": "Írd be MetaMask jelszavadat"
+    "message": "Írd be ECF Wallet jelszavadat"
   },
   "unapproved": {
     "message": "Jóvá nem hagyott"
