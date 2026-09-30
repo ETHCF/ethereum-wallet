@@ -2444,14 +2444,6 @@
     pump "^3.0.0"
     safe-event-emitter "^1.0.1"
 
-"@metamask/logo@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@metamask/logo/-/logo-2.5.0.tgz#4d35bf9e427db66c0030d81b8faa0f5162d17f7a"
-  integrity sha512-SBgWhcbKj0+efpFVAHf5Jh7URGMhH3Os06sgmERui+dvgXMEIBrt2aEeGRXe1aKKRSOhruazHknpdLdqyEvNjA==
-  dependencies:
-    gl-mat4 "1.1.4"
-    gl-vec3 "1.0.3"
-
 "@metamask/safe-event-emitter@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
@@ -13432,16 +13424,6 @@ git-url-parse@^12.0.0:
   integrity sha512-I6LMWsxV87vysX1WfsoglXsXg6GjQRKq7+Dgiseo+h0skmp5Hp2rzmcEIRQot9CPA+uzU7x1x7jZdqvTFGnB+Q==
   dependencies:
     git-up "^6.0.0"
-
-gl-mat4@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/gl-mat4/-/gl-mat4-1.1.4.tgz#1e895b55892e56a896867abd837d38f37a178086"
-  integrity sha512-3NrFjvQMNSITLncF5Xz7EqfzB3IZczfNuJ6+ZFf2ko8hKhKzp8UXrdaRWm3AvpoowKMtnFDE7YpV5uD9AIxltw==
-
-gl-vec3@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/gl-vec3/-/gl-vec3-1.0.3.tgz#110fd897d0729f6398307381567d0944941bf22b"
-  integrity sha512-B4cOpz3vpwRwkmjVsv+JKgBlPOFSLQApDAaUFrowXPgx6Y/SOhTmeciOKHvcFqls6DsGuZ+YHXo9Py5oVia7bA==
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -26531,11 +26513,6 @@ text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
-
-textarea-caret@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/textarea-caret/-/textarea-caret-3.1.0.tgz#5d5a35bb035fd06b2ff0e25d5359e97f2655087f"
-  integrity sha512-cXAvzO9pP5CGa6NKx0WYHl+8CHKZs8byMkt3PCJBCmq2a34YA9pO1NrQET5pzeqnBjBdToF5No4rrmkDUgQC2Q==
 
 textextensions@^3.2.0:
   version "3.3.0"

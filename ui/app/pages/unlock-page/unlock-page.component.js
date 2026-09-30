@@ -1,10 +1,7 @@
-import { EventEmitter } from 'events'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
-import getCaretCoordinates from 'textarea-caret'
 import TextField from '../../components/ui/text-field'
-import Mascot from '../../components/ui/mascot'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 
 export default class UnlockPage extends Component {
@@ -27,8 +24,6 @@ export default class UnlockPage extends Component {
   }
 
   submitting = false
-
-  animationEventEmitter = new EventEmitter()
 
   UNSAFE_componentWillMount () {
     const { isUnlocked, history } = this.props
@@ -69,17 +64,6 @@ export default class UnlockPage extends Component {
 
   handleInputChange ({ target }) {
     this.setState({ password: target.value, error: null })
-
-    // tell mascot to look at page action
-    if (target.getBoundingClientRect) {
-      const element = target
-      const boundingRect = element.getBoundingClientRect()
-      const coordinates = getCaretCoordinates(element, element.selectionEnd)
-      this.animationEventEmitter.emit('point', {
-        x: boundingRect.left + coordinates.left - element.scrollLeft,
-        y: boundingRect.top + coordinates.top - element.scrollTop,
-      })
-    }
   }
 
   renderSubmitButton () {
@@ -117,13 +101,6 @@ export default class UnlockPage extends Component {
     return (
       <div className="unlock-page__container">
         <div className="unlock-page">
-          <div className="unlock-page__mascot-container">
-            <Mascot
-              animationEventEmitter={this.animationEventEmitter}
-              width="120"
-              height="120"
-            />
-          </div>
           <h1 className="unlock-page__title">
             { t('welcomeBack') }
           </h1>

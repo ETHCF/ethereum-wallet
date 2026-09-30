@@ -1,7 +1,5 @@
-import EventEmitter from 'events'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Mascot from '../../../components/ui/mascot'
 import Button from '../../../components/ui/button'
 import { INITIALIZE_CREATE_PASSWORD_ROUTE, INITIALIZE_SELECT_ACTION_ROUTE } from '../../../helpers/constants/routes'
 
@@ -13,12 +11,6 @@ export default class Welcome extends PureComponent {
 
   static contextTypes = {
     t: PropTypes.func,
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.animationEventEmitter = new EventEmitter()
   }
 
   componentDidMount () {
@@ -39,11 +31,6 @@ export default class Welcome extends PureComponent {
     return (
       <div className="welcome-page__wrapper">
         <div className="welcome-page">
-          <Mascot
-            animationEventEmitter={this.animationEventEmitter}
-            width="125"
-            height="125"
-          />
           <div className="welcome-page__header">
             { t('welcome') }
           </div>
