@@ -1,9 +1,14 @@
 import { EventEmitter } from 'events'
+import log from 'loglevel'
 import { transactionData, decodeTransaction } from './transaction-codec'
 import extension from './extension-api'
 
 let creatingTab
+let closingTab
+let activeRequests = 0
+let closeWhenIdle = false
 let connectionGeneration = 0
+const completedMethods = new Set(['addAccounts', 'signTransaction', 'signMessage', 'signPersonalMessage', 'signTypedData', 'exportAccount', 'forgetDevice'])
 
 function tabsCall (method, ...args) {
   return new Promise((resolve, reject) => {
@@ -56,31 +61,63 @@ async function openTransportTab () {
 
 async function requestHardware (request) {
   const generation = connectionGeneration
-  if (!creatingTab) {
-    creatingTab = openTransportTab().finally(() => {
-      creatingTab = null
+  activeRequests += 1
+  try {
+    // A new request must not reuse a tab that is still being removed.
+    await closingTab
+    if (generation !== connectionGeneration) {
+      throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+    }
+    if (!creatingTab) {
+      creatingTab = openTransportTab().finally(() => {
+        creatingTab = null
+      })
+    }
+    await creatingTab
+    if (generation !== connectionGeneration) {
+      throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+    }
+    const response = await extension.runtime.sendMessage({ type: 'ecf-wallet-hardware-request', ...request })
+    if (!response || response.error) {
+      throw new Error(response?.error || 'Hardware wallet transport disconnected. Please retry.')
+    }
+    // Keep account discovery alive until the user imports an account. Signing
+    // and other completed operations release the shared tab once it is idle.
+    closeWhenIdle = closeWhenIdle || completedMethods.has(request.method)
+    return response
+  } catch (error) {
+    closeWhenIdle = true
+    throw error
+  } finally {
+    activeRequests -= 1
+    if (!activeRequests && closeWhenIdle) {
+      closeWhenIdle = false
+      // A cleanup error must never turn a completed signature into a failure.
+      await closeTransportTabs().catch((error) => log.warn('Unable to close hardware wallet connection tab', error))
+    }
+  }
+}
+
+function closeTransportTabs () {
+  if (!closingTab) {
+    closingTab = (async () => {
+      if (creatingTab) {
+        await creatingTab.catch(() => undefined)
+      }
+      const contexts = await extension.runtime.getContexts({
+        contextTypes: ['TAB'], documentUrls: [extension.runtime.getURL('hardware.html')],
+      })
+      await Promise.all(contexts.map((context) => tabsCall('remove', context.tabId)))
+    })().finally(() => {
+      closingTab = null
     })
   }
-  await creatingTab
-  if (generation !== connectionGeneration) {
-    throw new Error('Hardware wallet request cancelled because the wallet was locked.')
-  }
-  const response = await extension.runtime.sendMessage({ type: 'ecf-wallet-hardware-request', ...request })
-  if (!response || response.error) {
-    throw new Error(response?.error || 'Hardware wallet transport disconnected. Please retry.')
-  }
-  return response
+  return closingTab
 }
 
 export async function closeHardwareConnections () {
   connectionGeneration += 1
-  if (creatingTab) {
-    await creatingTab.catch(() => undefined)
-  }
-  const contexts = await extension.runtime.getContexts({
-    contextTypes: ['TAB'], documentUrls: [extension.runtime.getURL('hardware.html')],
-  })
-  await Promise.all(contexts.map((context) => tabsCall('remove', context.tabId)))
+  await closeTransportTabs()
 }
 
 export function createRemoteKeyring (type, send = requestHardware) {

@@ -142,7 +142,7 @@ describe('Current hardware keyring compatibility', function () {
         })
       }
 
-      it('signs personal messages and EIP-712 V4 data through the real keyring', async function () {
+      it('signs personal messages and EIP-712 V4 data across transport restarts', async function () {
         const { keyring } = setupHardware(kind, { hdPath })
         await keyring.getFirstPage()
         keyring.setAccountToUnlock(1)
@@ -154,7 +154,10 @@ describe('Current hardware keyring compatibility', function () {
           types: { EIP712Domain: [{ name: 'chainId', type: 'uint256' }], Greeting: [{ name: 'text', type: 'string' }] },
           primaryType: 'Greeting', domain: { chainId: 1337 }, message: { text: 'hello' },
         }
-        const typed = await keyring.signTypedData(address, data, { version: 'V4' })
+        // Closing hardware.html discards its SDK instances. The next signing
+        // operation must work with only the returned, serialized public state.
+        const restored = setupHardware(kind, await keyring.serialize())
+        const typed = await restored.keyring.signTypedData(address, data, { version: 'V4' })
         assert.equal(sigUtil.recoverTypedSignature_v4({ data, sig: typed }), address.toLowerCase())
       })
 

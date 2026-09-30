@@ -54,7 +54,7 @@ describe('Hardware wallet connection', function () {
     })
   })
 
-  it('loads the packaged Ledger transport, reports missing authorization, and closes it on lock', async function () {
+  it('closes the Ledger transport after a failed connection and cleans up remaining tabs on lock', async function () {
     if (process.env.SELENIUM_BROWSER !== 'chrome') {
       this.skip()
     }
@@ -80,10 +80,17 @@ describe('Hardware wallet connection', function () {
         const done = arguments[arguments.length - 1];
         chrome.runtime.getContexts({ contextTypes: ['TAB'], documentUrls: [chrome.runtime.getURL('hardware.html')] }).then(done);
       `)
-      assert.equal((await connectionTabs()).length, 1)
+      assert.equal((await connectionTabs()).length, 0, 'a failed connection must close its transport tab')
       // The existing UI logs handled connection errors. Consume only that expected log.
       const logs = await driver.driver.manage().logs().get('browser')
       assert.ok(logs.every((entry) => (/ui[.]js.*Object/u).test(entry.message)), JSON.stringify(logs))
+      // A manually opened transport still rejects requests from wallet tabs,
+      // and the existing lock cleanup must also remove it.
+      const walletWindow = await driver.driver.getWindowHandle()
+      await driver.openNewPage(`${driver.extensionUrl}/hardware.html`)
+      await driver.findElement(By.css('h1'))
+      await driver.driver.switchTo().window(walletWindow)
+      assert.equal((await connectionTabs()).length, 1)
       const response = await driver.driver.executeAsyncScript(`
         const done = arguments[arguments.length - 1];
         chrome.runtime.sendMessage({

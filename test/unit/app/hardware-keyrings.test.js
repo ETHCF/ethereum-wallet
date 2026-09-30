@@ -4,7 +4,178 @@ import sinon from 'sinon'
 import extension from '../../../app/scripts/lib/extension-api'
 import { createRemoteKeyring, closeHardwareConnections } from '../../../app/scripts/lib/hardware-keyrings'
 
+function deferred () {
+  let resolve
+  const promise = new Promise((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
+}
+
 describe('Manifest V3 hardware transport', function () {
+  describe('connection tab cleanup', function () {
+    let sandbox, runtime, tabs, openTabs, nextTabId
+
+    beforeEach(function () {
+      sandbox = sinon.createSandbox()
+      openTabs = new Map()
+      nextTabId = 0
+      runtime = {
+        getURL: (path) => `chrome-extension://test/${path}`,
+        getContexts: sandbox.stub().callsFake(async () => Array.from(openTabs.values(), (tab) => ({ tabId: tab.id }))),
+        sendMessage: sandbox.stub().callsFake(async ({ state }) => ({ result: 'signed', state, unlocked: true })),
+      }
+      tabs = {
+        create: sandbox.stub().callsFake((options, done) => {
+          nextTabId += 1
+          const tab = { ...options, id: nextTabId, status: 'complete' }
+          openTabs.set(tab.id, tab)
+          done(tab)
+        }),
+        get: sandbox.stub().callsFake((id, done) => done(openTabs.get(id))),
+        remove: sandbox.stub().callsFake((id, done) => {
+          openTabs.delete(id)
+          done()
+        }),
+      }
+      sandbox.stub(extension, 'runtime').value(runtime)
+      sandbox.stub(extension, 'tabs').value(tabs)
+    })
+
+    afterEach(async function () {
+      try {
+        await closeHardwareConnections()
+      } finally {
+        sandbox.restore()
+      }
+    })
+
+    it('closes after signing and reopens for the next request without losing account state', async function () {
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      const state = { accounts: ['0x1234'], hdPath: "m/44'/60'/0'/0", page: 2 }
+      const keyring = new Keyring(state)
+      const first = keyring.signPersonalMessage('0x1234', '0x01')
+      const next = keyring.signTypedData('0x1234', { message: 'next' }, { version: 'V4' })
+      assert.equal(await first, 'signed')
+      assert.equal(await next, 'signed')
+      assert.equal(openTabs.size, 0)
+      assert.equal(tabs.create.callCount, 2)
+      assert.equal(tabs.remove.callCount, 2)
+      assert.deepEqual(runtime.sendMessage.secondCall.args[0].state, state)
+      assert.deepEqual(await keyring.serialize(), state)
+    })
+
+    it('keeps the tab open for account selection and closes it after importing an account', async function () {
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      const keyring = new Keyring()
+      await keyring.getFirstPage()
+      await keyring.getNextPage()
+      assert.equal(openTabs.size, 1)
+      assert.equal(tabs.create.callCount, 1)
+      await keyring.addAccounts(1)
+      assert.equal(openTabs.size, 0)
+    })
+
+    it('waits for every in-flight request before closing the shared tab', async function () {
+      const firstStarted = deferred()
+      const secondStarted = deferred()
+      const firstResult = deferred()
+      const secondResult = deferred()
+      runtime.sendMessage.onFirstCall().callsFake(async ({ state }) => {
+        firstStarted.resolve()
+        await firstResult.promise
+        return { result: 'first signature', state }
+      })
+      runtime.sendMessage.onSecondCall().callsFake(async ({ state }) => {
+        secondStarted.resolve()
+        await secondResult.promise
+        return { result: 'second signature', state }
+      })
+      const Trezor = createRemoteKeyring('Trezor Hardware')
+      const Ledger = createRemoteKeyring('Ledger Hardware')
+      const first = new Trezor().signPersonalMessage('address', '0x01')
+      const second = new Ledger().signPersonalMessage('address', '0x02')
+      await Promise.all([firstStarted.promise, secondStarted.promise])
+      assert.equal(tabs.create.callCount, 1)
+      firstResult.resolve()
+      assert.equal(await first, 'first signature')
+      assert.equal(openTabs.size, 1)
+      secondResult.resolve()
+      assert.equal(await second, 'second signature')
+      assert.equal(openTabs.size, 0)
+    })
+
+    it('waits for closing to finish before opening a new transport', async function () {
+      const finishClosing = deferred()
+      tabs.remove.callsFake((id, done) => {
+        finishClosing.promise.then(() => {
+          openTabs.delete(id)
+          done()
+        })
+      })
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      const first = new Keyring().signPersonalMessage('address', '0x01')
+      let next
+      try {
+        await new Promise((resolve) => setImmediate(resolve))
+        assert.equal(tabs.remove.callCount, 1)
+        next = new Keyring().signPersonalMessage('address', '0x02')
+        await new Promise((resolve) => setImmediate(resolve))
+        assert.equal(runtime.sendMessage.callCount, 1)
+      } finally {
+        finishClosing.resolve()
+        await Promise.all([first, next])
+      }
+      assert.equal(await first, 'signed')
+      assert.equal(await next, 'signed')
+      assert.equal(tabs.create.callCount, 2)
+      assert.equal(openTabs.size, 0)
+    })
+
+    it('closes on device rejection or connection failure without retrying the operation', async function () {
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      const keyring = new Keyring()
+      runtime.sendMessage.onFirstCall().resolves({ error: 'User rejected on device' })
+      await assert.rejects(keyring.signPersonalMessage('address', '0x01'), /User rejected on device/u)
+      assert.equal(openTabs.size, 0)
+      runtime.sendMessage.onSecondCall().rejects(new Error('Connection failed'))
+      await assert.rejects(keyring.getFirstPage(), /Connection failed/u)
+      assert.equal(openTabs.size, 0)
+      assert.equal(runtime.sendMessage.callCount, 2)
+    })
+
+    it('preserves a successful signature even if closing the tab fails', async function () {
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      tabs.remove.onFirstCall().callsFake((_, done) => {
+        runtime.lastError = { message: 'No tab with this ID' }
+        done()
+        delete runtime.lastError
+      })
+      assert.equal(await new Keyring().signPersonalMessage('address', '0x01'), 'signed')
+      assert.equal(tabs.remove.callCount, 1)
+      assert.equal(runtime.sendMessage.callCount, 1)
+    })
+
+    it('still cancels an in-flight signature when the wallet locks', async function () {
+      const started = deferred()
+      const result = deferred()
+      runtime.sendMessage.callsFake(async ({ state }) => {
+        started.resolve()
+        await result.promise
+        return { result: 'signed', state }
+      })
+      const Keyring = createRemoteKeyring('Trezor Hardware')
+      const keyring = new Keyring()
+      const rejected = assert.rejects(keyring.signPersonalMessage('address', '0x01'), /wallet was locked/u)
+      await started.promise
+      await closeHardwareConnections()
+      assert.equal(openTabs.size, 0)
+      result.resolve()
+      await rejected
+      assert.equal(keyring.isUnlocked(), false)
+    })
+  })
+
   it('preserves the transaction fields and chain ID across the message boundary', async function () {
     const privateKey = Buffer.from('1'.repeat(64), 'hex')
     const original = new Transaction({
