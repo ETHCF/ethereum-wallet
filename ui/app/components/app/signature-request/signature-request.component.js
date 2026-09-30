@@ -26,13 +26,33 @@ export default class SignatureRequest extends PureComponent {
   }
 
   componentDidMount () {
-    const { clearConfirmTransaction, cancel } = this.props
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      window.addEventListener('beforeunload', (event) => {
-        clearConfirmTransaction()
-        cancel(event)
-      })
+      window.addEventListener('beforeunload', this.handleBeforeUnload)
     }
+  }
+
+  componentWillUnmount () {
+    this.removeBeforeUnload()
+  }
+
+  removeBeforeUnload = () => {
+    window.removeEventListener('beforeunload', this.handleBeforeUnload)
+  }
+
+  handleBeforeUnload = (event) => {
+    this.props.clearConfirmTransaction()
+    this.handleCancel(event)
+  }
+
+  handleCancel = (event) => {
+    this.removeBeforeUnload()
+    return this.props.cancel(event)
+  }
+
+  handleSign = (event) => {
+    // Approval can close this popup before the hardware wallet returns a signature.
+    this.removeBeforeUnload()
+    return this.props.sign(event)
   }
 
   formatWallet (wallet) {
@@ -43,8 +63,6 @@ export default class SignatureRequest extends PureComponent {
     const {
       fromAccount,
       txData: { msgParams: { data, origin } },
-      cancel,
-      sign,
     } = this.props
     const { address: fromAddress } = fromAccount
     const { message, domain = {}, primaryType, types } = JSON.parse(data)
@@ -76,7 +94,7 @@ export default class SignatureRequest extends PureComponent {
           <summary>Type definitions</summary>
           <pre>{JSON.stringify(types, null, 2)}</pre>
         </details>
-        <Footer cancelAction={cancel} signAction={sign} />
+        <Footer cancelAction={this.handleCancel} signAction={this.handleSign} />
       </div>
     )
   }
