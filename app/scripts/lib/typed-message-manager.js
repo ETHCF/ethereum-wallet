@@ -78,9 +78,9 @@ export default class TypedMessageManager extends EventEmitter {
    * @returns {promise} - When the message has been signed or rejected
    *
    */
-  addUnapprovedMessageAsync (msgParams, req, version) {
+  addUnapprovedMessageAsync (msgParams, req, version, securityAlerts) {
     return new Promise((resolve, reject) => {
-      const msgId = this.addUnapprovedMessage(msgParams, req, version)
+      const msgId = this.addUnapprovedMessage(msgParams, req, version, securityAlerts)
       this.once(`${msgId}:finished`, (data) => {
         switch (data.status) {
           case 'signed':
@@ -106,7 +106,7 @@ export default class TypedMessageManager extends EventEmitter {
    * @returns {number} - The id of the newly created TypedMessage.
    *
    */
-  addUnapprovedMessage (inputParams, req, version) {
+  addUnapprovedMessage (inputParams, req, version, securityAlerts = []) {
 
     const msgParams = { ...inputParams, data: typeof inputParams.data === 'object' ? JSON.parse(JSON.stringify(inputParams.data)) : inputParams.data }
     msgParams.version = version
@@ -129,6 +129,7 @@ export default class TypedMessageManager extends EventEmitter {
       time,
       status: 'unapproved',
       type: MESSAGE_TYPE.ETH_SIGN_TYPED_DATA,
+      securityAlerts,
     }
     this.addMsg(msgData)
 

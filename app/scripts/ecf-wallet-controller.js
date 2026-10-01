@@ -34,8 +34,11 @@ import AccountTracker from './lib/account-tracker'
 import createLoggerMiddleware from './lib/createLoggerMiddleware'
 import createOriginMiddleware from './lib/createOriginMiddleware'
 import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware'
+import OriginThrottler from './lib/origin-throttler'
+import createDupeReqFilterStream from './lib/createDupeReqFilterStream'
 import NetworkRequestController from './controllers/network-requests'
 import { normalizeChainId } from './controllers/network/chain-utils'
+import { getTypedDataAlerts } from './lib/security-checks'
 import createTabIdMiddleware from './lib/createTabIdMiddleware'
 import createOnboardingMiddleware from './lib/createOnboardingMiddleware'
 import { setupMultiplex } from './lib/stream-utils'
@@ -210,6 +213,8 @@ export default class EcfWalletController extends EventEmitter {
 
     this.addressBookController = new AddressBookController(undefined, initState.AddressBookController)
 
+    this.originThrottler = new OriginThrottler()
+
     this.networkRequestController = new NetworkRequestController({
       getCurrentChainId: () => normalizeChainId(this.networkController.getChainId()),
       getCustomNetworks: () => this.preferencesController.getFrequentRpcListDetail(),
@@ -241,6 +246,7 @@ export default class EcfWalletController extends EventEmitter {
       signTransaction: this.keyringController.signTransaction.bind(this.keyringController),
       provider: this.provider,
       blockTracker: this.blockTracker,
+      getSecurityContext: () => this.getSecurityContext(),
     })
     this.txController.on('newUnapprovedTx', () => opts.showUnapprovedTx())
 
@@ -661,6 +667,39 @@ export default class EcfWalletController extends EventEmitter {
         })
       }
     })
+  }
+
+  /**
+   * Addresses the user already knows, for the on-device transaction checks.
+   *
+   * @returns {Object} Lower-case sets of the user's accounts, contacts and tracked tokens.
+   */
+  getSecurityContext () {
+    const { identities = {}, tokens = [] } = this.preferencesController.store.getState()
+    const { addressBook = {} } = this.addressBookController.state
+    const contacts = Object.values(addressBook).flatMap((entries) => Object.keys(entries || {}))
+    return {
+      ownAccounts: new Set(Object.keys(identities).map((address) => address.toLowerCase())),
+      contacts: new Set(contacts.map((address) => address.toLowerCase())),
+      tokenContracts: new Set(tokens.map(({ address }) => address.toLowerCase())),
+    }
+  }
+
+  /**
+   * Runs the on-device checks for typed data, such as token permits. A failing
+   * check must not block the request, so errors yield no alerts.
+   */
+  async getTypedDataAlerts (msgParams) {
+    try {
+      return await getTypedDataAlerts({
+        data: msgParams.data,
+        getCode: (address) => this.txController.query.getCode(address),
+        ownAccounts: this.getSecurityContext().ownAccounts,
+      })
+    } catch (error) {
+      log.warn('Typed data checks failed', error)
+      return []
+    }
   }
 
   getCurrentNetwork = () => {
@@ -1174,8 +1213,9 @@ export default class EcfWalletController extends EventEmitter {
    * @param {Object} msgParams - The params passed to eth_signTypedData.
    * @param {Function} cb - The callback function, called with the signature.
    */
-  newUnsignedTypedMessage (msgParams, req, version) {
-    const promise = this.typedMessageManager.addUnapprovedMessageAsync(msgParams, req, version)
+  async newUnsignedTypedMessage (msgParams, req, version) {
+    const securityAlerts = ['V3', 'V4'].includes(version) ? await this.getTypedDataAlerts(msgParams) : []
+    const promise = this.typedMessageManager.addUnapprovedMessageAsync(msgParams, req, version, securityAlerts)
     this.sendUpdate()
     this.opts.showUnconfirmedMessage()
     return promise
@@ -1415,6 +1455,7 @@ export default class EcfWalletController extends EventEmitter {
 
     pump(
       outStream,
+      createDupeReqFilterStream(),
       providerStream,
       outStream,
       (err) => {
@@ -1457,6 +1498,10 @@ export default class EcfWalletController extends EventEmitter {
     engine.push(createOriginMiddleware({ origin }))
     // refuse unsafe methods before any permission or approval prompt
     engine.push(createMethodBlockMiddleware())
+    if (!isInternal) {
+      // refuse prompts from a site whose requests were just rejected repeatedly
+      engine.push(this.originThrottler.createMiddleware({ origin }))
+    }
     // network add and switch requests, each approved by the user
     engine.push(this.networkRequestController.createMiddleware({ origin }))
     // append tabId to each request if it exists

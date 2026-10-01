@@ -39,6 +39,7 @@ export default class ConfirmPageContainer extends Component {
     assetImage: PropTypes.string,
     summaryComponent: PropTypes.node,
     warning: PropTypes.string,
+    securityAlerts: PropTypes.node,
     unapprovedTxCount: PropTypes.number,
     // Navigation
     totalTx: PropTypes.number,
@@ -101,6 +102,7 @@ export default class ConfirmPageContainer extends Component {
       requestsWaitingText,
       hideSenderToRecipient,
       showAccountInHeader,
+      securityAlerts,
     } = this.props
     const renderAssetImage = contentComponent || (!contentComponent && !identiconAddress)
 
@@ -139,6 +141,7 @@ export default class ConfirmPageContainer extends Component {
             )
           }
         </ConfirmPageContainerHeader>
+        {securityAlerts}
         {
           contentComponent || (
             <ConfirmPageContainerContent

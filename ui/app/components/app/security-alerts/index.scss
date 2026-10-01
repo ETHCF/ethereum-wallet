@@ -1,0 +1,39 @@
+.security-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 16px;
+
+  &__alert {
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    word-break: break-word;
+
+    &--danger {
+      border: 1px solid $Red-500;
+      background: $Red-000;
+      color: $Red-700;
+    }
+
+    &--warning {
+      border: 1px solid $Yellow-500;
+      background: $Yellow-100;
+      color: $Black-100;
+    }
+
+    &--info {
+      background: $Grey-000;
+      color: $Grey-700;
+    }
+  }
+
+  &__acknowledge {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+}

@@ -19,6 +19,7 @@ import {
   CONTRACT_INTERACTION_KEY,
 } from '../../../../ui/app/helpers/constants/transactions'
 import cleanErrorStack from '../../lib/cleanErrorStack'
+import { decodeCall, getTransactionAlerts } from '../../lib/security-checks'
 import { TRANSACTION_NO_CONTRACT_ERROR_KEY } from '../../../../ui/app/helpers/constants/error-keys'
 import TransactionStateManager from './tx-state-manager'
 import TxGasUtil from './tx-gas-utils'
@@ -71,6 +72,7 @@ export default class TransactionController extends EventEmitter {
     this.provider = opts.provider
     this.getSigningChainId = opts.getChainId
     this.getPermittedAccounts = opts.getPermittedAccounts
+    this.getSecurityContext = opts.getSecurityContext
     this.blockTracker = opts.blockTracker
     this.signEthTx = opts.signTransaction
     this.inProcessOfSigning = new Set()
@@ -243,6 +245,7 @@ export default class TransactionController extends EventEmitter {
 
     const { transactionCategory, getCodeResponse } = await this._determineTransactionCategory(txParams)
     txMeta.transactionCategory = transactionCategory
+    txMeta.securityAlerts = await this._getSecurityAlerts(txMeta.txParams)
 
     // ensure value
     txMeta.txParams.value = txMeta.txParams.value
@@ -484,6 +487,10 @@ export default class TransactionController extends EventEmitter {
   */
   async updateTransaction (txMeta) {
     txUtils.validateTxParams(txMeta.txParams)
+    const stored = this.txStateManager.getTx(txMeta.id)
+    if (stored && (stored.txParams.to !== txMeta.txParams.to || stored.txParams.data !== txMeta.txParams.data)) {
+      txMeta.securityAlerts = await this._getSecurityAlerts(txMeta.txParams)
+    }
     this.txStateManager.updateTx(txMeta, 'confTx: user updated transaction')
   }
 
@@ -493,6 +500,7 @@ export default class TransactionController extends EventEmitter {
   */
   async updateAndApproveTransaction (txMeta) {
     txUtils.validateTxParams(txMeta.txParams)
+    this._assertSameCounterparties(this.txStateManager.getTx(txMeta.id), txMeta)
     this.txStateManager.updateTx(txMeta, 'confTx: user approved transaction')
     await this.approveTransaction(txMeta.id)
   }
@@ -809,6 +817,57 @@ export default class TransactionController extends EventEmitter {
       txMeta.retryCount += 1
       this.txStateManager.updateTx(txMeta, 'transactions/pending-tx-tracker#event: tx:retry')
     })
+  }
+
+  /**
+   * The confirmation's alerts describe who receives funds or permissions. A
+   * change to those at approval time would skip that review, so it is refused.
+   * Amounts may change, for example with a custom spending limit.
+   */
+  _assertSameCounterparties (stored, updated) {
+    if (!stored) {
+      return
+    }
+    const parties = ({ txParams: { to, data } }) => {
+      const call = decodeCall(data)
+      return [to, call?.recipient, call?.spender].map((address) => address?.toLowerCase())
+    }
+    if (parties(stored).some((address, index) => address !== parties(updated)[index])) {
+      throw new Error('The transaction recipient changed after it was reviewed. Review it again.')
+    }
+  }
+
+  /**
+   * Runs the on-device checks for a new transaction. A failing check must not
+   * block the transaction, so errors yield no alerts.
+   *
+   * @param {Object} txParams - The transaction.
+   * @returns {Promise<Object[]>} Alerts to show with the confirmation.
+   */
+  async _getSecurityAlerts (txParams) {
+    if (!this.getSecurityContext) {
+      return []
+    }
+    try {
+      const { ownAccounts, contacts, tokenContracts } = this.getSecurityContext()
+      const knownAddresses = new Set(contacts)
+      for (const { txParams: previous, status } of this.txStateManager.getTxList()) {
+        if (['submitted', 'confirmed'].includes(status) && previous.to) {
+          const recipient = decodeCall(previous.data)?.recipient || previous.to
+          knownAddresses.add(recipient.toLowerCase())
+        }
+      }
+      return await getTransactionAlerts({
+        txParams,
+        getCode: (address) => this.query.getCode(address),
+        ownAccounts,
+        knownAddresses,
+        tokenContracts,
+      })
+    } catch (error) {
+      log.warn('Transaction checks failed', error)
+      return []
+    }
   }
 
   /**

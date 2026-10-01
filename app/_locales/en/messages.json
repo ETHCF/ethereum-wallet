@@ -1760,5 +1760,51 @@
   "networkRequestDifferentRpc": {
     "message": "You already have a network with this chain ID that uses $1. Approving adds a second RPC provider for it.",
     "description": "$1 is an RPC URL"
+  },
+  "alertBurnAddress": {
+    "message": "This is a burn address. Anything sent here can never be recovered."
+  },
+  "alertLookalikeAddress": {
+    "message": "This address starts and ends like $1, an address you know, but it is a different address. Scammers create look-alike addresses so people copy the wrong one from their history.",
+    "description": "$1 is an address the user has used before"
+  },
+  "alertFirstTimeRecipient": {
+    "message": "You haven’t sent anything to this address before. Check it carefully."
+  },
+  "alertRecipientIsTokenContract": {
+    "message": "You’re sending tokens to the token’s own contract. They will almost certainly be lost."
+  },
+  "alertRecipientIsKnownToken": {
+    "message": "This address is a token contract, not someone’s account. Funds sent here are usually lost."
+  },
+  "alertDataToNonContract": {
+    "message": "This transaction includes contract data, but $1 has no contract code on this network. The address may be wrong, or the site may be misleading you.",
+    "description": "$1 is an address"
+  },
+  "alertApproveAllNfts": {
+    "message": "This lets $1 transfer every NFT you hold in this collection, including ones you get later, until you revoke it.",
+    "description": "$1 is an address"
+  },
+  "alertUnlimitedApproval": {
+    "message": "This lets $1 spend any amount of this token until you revoke it.",
+    "description": "$1 is an address"
+  },
+  "alertSpenderNotContract": {
+    "message": "$1 is an ordinary account, not a contract. Giving an ordinary account permission to spend your tokens is a common scam.",
+    "description": "$1 is an address"
+  },
+  "alertPermitSignature": {
+    "message": "Signing this lets $1 move your tokens later without asking you again.",
+    "description": "$1 is an address"
+  },
+  "alertLongLivedPermit": {
+    "message": "This permission lasts more than 30 days, or never expires."
+  },
+  "alertCodeCheckFailed": {
+    "message": "Your network’s RPC didn’t answer, so the wallet couldn’t check $1. Some checks were skipped.",
+    "description": "$1 is an address"
+  },
+  "securityAlertsAcknowledge": {
+    "message": "I understand the risk and want to continue."
   }
 }

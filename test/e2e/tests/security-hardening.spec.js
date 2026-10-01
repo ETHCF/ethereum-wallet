@@ -196,4 +196,110 @@ describe('Security hardening', function () {
       assert.equal(cleared, true)
     })
   })
+
+  it('warns about a look-alike recipient and requires acknowledgement before confirming', async function () {
+    const ganacheOptions = {
+      accounts: [{ secretKey: '0x7C9529A67102755B7E6102D6D950AC5D5863C98713805CEC576B945B15B71EAC', balance: 25000000000000000000 }],
+    }
+    await withFixtures({ dapp: true, fixtures: 'personal-sign', ganacheOptions, title: this.test.title }, async ({ driver }) => {
+      await unlock(driver)
+      await driver.openNewPage('http://127.0.0.1:8080/')
+      const dappHandle = await driver.driver.getWindowHandle()
+      const { result: [account] } = await requestNow(driver, { method: 'eth_accounts' })
+      // Same visible start and end as the user's own account.
+      const lookalike = `${account.slice(0, 6)}${'9'.repeat(32)}${account.slice(-4)}`.toLowerCase()
+      await startRequest(driver, 'send', {
+        method: 'eth_sendTransaction',
+        params: [{ from: account, to: lookalike, value: '0x1', gas: '0x5208' }],
+      })
+      await driver.waitUntilXWindowHandles(3)
+      await driver.switchToWindowWithTitle('ECF Wallet Notification', await driver.getAllWindowHandles())
+      const alertText = await (await driver.findElement(By.css('[data-testid="security-alert-alertLookalikeAddress"]'))).getText()
+      assert.match(alertText, /starts and ends like/u)
+      const confirm = await driver.findElement(By.css('[data-testid="page-container-footer-next"]'))
+      assert.equal(await confirm.isEnabled(), false)
+      await driver.clickElement(By.css('[data-testid="security-alerts-acknowledge"]'))
+      await driver.wait(async () => confirm.isEnabled())
+      await driver.clickElement(By.css('[data-testid="page-container-footer-cancel"]'))
+      await driver.waitUntilXWindowHandles(2)
+      await driver.switchToWindow(dappHandle)
+      assert.equal((await requestResult(driver, 'send')).code, 4001)
+      await driver.driver.manage().logs().get('browser')
+    })
+  })
+
+  it('explains a token permit and requires acknowledgement when the spender is not a contract', async function () {
+    await withFixtures({ dapp: true, fixtures: 'personal-sign', title: this.test.title }, async ({ driver }) => {
+      await unlock(driver)
+      await driver.openNewPage('http://127.0.0.1:8080/')
+      const dappHandle = await driver.driver.getWindowHandle()
+      const { result: [account] } = await requestNow(driver, { method: 'eth_accounts' })
+      const typedData = {
+        types: {
+          EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+          ],
+          Permit: [
+            { name: 'owner', type: 'address' },
+            { name: 'spender', type: 'address' },
+            { name: 'value', type: 'uint256' },
+            { name: 'nonce', type: 'uint256' },
+            { name: 'deadline', type: 'uint256' },
+          ],
+        },
+        primaryType: 'Permit',
+        domain: { name: 'Test Token', chainId: 1337, verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC' },
+        message: {
+          owner: account,
+          spender: '0x5555555555555555555555555555555555555555',
+          value: `0x${'f'.repeat(64)}`,
+          nonce: 0,
+          deadline: `0x${'f'.repeat(64)}`,
+        },
+      }
+      await startRequest(driver, 'permit', { method: 'eth_signTypedData_v4', params: [account, JSON.stringify(typedData)] })
+      await driver.waitUntilXWindowHandles(3)
+      await driver.switchToWindowWithTitle('ECF Wallet Notification', await driver.getAllWindowHandles())
+      for (const id of ['alertSpenderNotContract', 'alertPermitSignature', 'alertUnlimitedApproval', 'alertLongLivedPermit']) {
+        await driver.findElement(By.css(`[data-testid="security-alert-${id}"]`))
+      }
+      const sign = await driver.findElement(By.css('[data-testid="signature-request-sign"]'))
+      assert.equal(await sign.isEnabled(), false)
+      await driver.clickElement(By.css('[data-testid="security-alerts-acknowledge"]'))
+      await driver.wait(async () => sign.isEnabled())
+      await driver.clickElement(By.css('.signature-request-footer .btn-default'))
+      await driver.waitUntilXWindowHandles(2)
+      await driver.switchToWindow(dappHandle)
+      assert.equal((await requestResult(driver, 'permit')).code, 4001)
+      await driver.driver.manage().logs().get('browser')
+    })
+  })
+
+  it('stops a site from prompting for a minute after three quick rejections', async function () {
+    await withFixtures({ dapp: true, fixtures: 'personal-sign', title: this.test.title }, async ({ driver }) => {
+      await unlock(driver)
+      await driver.openNewPage('http://127.0.0.1:8080/')
+      const dappHandle = await driver.driver.getWindowHandle()
+      const { result: [account] } = await requestNow(driver, { method: 'eth_accounts' })
+      const sign = { method: 'personal_sign', params: ['0x68656c6c6f', account] }
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await startRequest(driver, 'sign', sign)
+        await driver.waitUntilXWindowHandles(3)
+        await driver.switchToWindowWithTitle('ECF Wallet Notification', await driver.getAllWindowHandles())
+        await driver.clickElement(By.css('.request-signature__footer__cancel-button'))
+        await driver.waitUntilXWindowHandles(2)
+        await driver.switchToWindow(dappHandle)
+        assert.equal((await requestResult(driver, 'sign')).code, 4001)
+      }
+      const blocked = await requestNow(driver, sign)
+      assert.equal(blocked.code, 4100)
+      assert.match(blocked.message, /rejected several requests/u)
+      assert.equal((await driver.getAllWindowHandles()).length, 2, 'no prompt opens')
+      // Requests that do not prompt still work.
+      assert.equal((await requestNow(driver, { method: 'eth_chainId' })).result, '0x539')
+      await driver.driver.manage().logs().get('browser')
+    })
+  })
 })

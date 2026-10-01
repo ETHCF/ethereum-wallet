@@ -187,6 +187,26 @@ describe('Transaction Controller', function () {
       assert.deepEqual(txMeta, memTxMeta)
     })
 
+    it('attaches on-device security alerts before the transaction is shown', async function () {
+      const friend = '0xabcd000000000000000000000000000000001234'
+      txController.getSecurityContext = () => ({
+        ownAccounts: new Set([selectedAddress]),
+        contacts: new Set([friend]),
+        tokenContracts: new Set(),
+      })
+      const lookalike = await txController.addUnapprovedTransaction({ from: selectedAddress, to: '0xabcd999999999999999999999999999999991234' })
+      assert.deepEqual(lookalike.securityAlerts.map(({ id }) => id), ['alertLookalikeAddress'])
+      const contact = await txController.addUnapprovedTransaction({ from: selectedAddress, to: friend })
+      assert.deepEqual(contact.securityAlerts, [])
+    })
+
+    it('refuses an approval that changes who receives the funds', async function () {
+      const txMeta = await txController.addUnapprovedTransaction({ from: selectedAddress, to: '0x5555555555555555555555555555555555555555' })
+      const changed = { ...txMeta, txParams: { ...txMeta.txParams, to: '0x6666666666666666666666666666666666666666' } }
+      await assert.rejects(txController.updateAndApproveTransaction(changed), /recipient changed/u)
+      assert.equal(txController.txStateManager.getTx(txMeta.id).status, 'unapproved')
+    })
+
     it('should emit newUnapprovedTx event and pass txMeta as the first argument', function (done) {
       providerResultStub.eth_gasPrice = '4a817c800'
       txController.once('newUnapprovedTx', (txMetaFromEmit) => {

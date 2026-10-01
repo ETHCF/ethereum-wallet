@@ -5,6 +5,7 @@ import { isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import ConfirmPageContainer, { ConfirmDetailRow } from '../../components/app/confirm-page-container'
+import SecurityAlerts, { hasDangerAlerts } from '../../components/app/security-alerts'
 import { isBalanceSufficient } from '../send/send.utils'
 import { CONFIRM_TRANSACTION_ROUTE } from '../../helpers/constants/routes'
 import {
@@ -102,11 +103,16 @@ export default class ConfirmTransactionBase extends Component {
     submitting: false,
     submitError: null,
     submitWarning: '',
+    alertsAcknowledged: false,
+  }
+
+  needsAlertAcknowledgement () {
+    return hasDangerAlerts(this.props.txData?.securityAlerts) && !this.state.alertsAcknowledged
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.txData?.id !== prevProps.txData?.id) {
-      this.setState({ feeInputInvalid: false })
+      this.setState({ feeInputInvalid: false, alertsAcknowledged: false })
     }
     const {
       transactionStatus,
@@ -438,7 +444,7 @@ export default class ConfirmTransactionBase extends Component {
     } = this.props
     const { submitting } = this.state
 
-    if (submitting) {
+    if (submitting || this.needsAlertAcknowledgement()) {
       return
     }
 
@@ -653,7 +659,14 @@ export default class ConfirmTransactionBase extends Component {
         lastTx={lastTx}
         ofText={ofText}
         requestsWaitingText={requestsWaitingText}
-        disabled={!propsValid || !valid || submitting}
+        disabled={!propsValid || !valid || submitting || this.needsAlertAcknowledgement()}
+        securityAlerts={(
+          <SecurityAlerts
+            alerts={this.props.txData?.securityAlerts}
+            acknowledged={this.state.alertsAcknowledged}
+            onAcknowledge={(alertsAcknowledged) => this.setState({ alertsAcknowledged })}
+          />
+        )}
         onEdit={() => this.handleEdit()}
         onCancelAll={() => this.handleCancelAll()}
         onCancel={() => this.handleCancel()}

@@ -652,8 +652,12 @@ describe('Actions', function () {
       }),
     }
 
-    beforeEach(function () {
-      ecfWalletController.newUnsignedTypedMessage(msgParamsV3, null, 'V3')
+    beforeEach(async function () {
+      ecfWalletController.newUnsignedTypedMessage(msgParamsV3, null, 'V3').catch(noop)
+      // The security checks run before the message is added.
+      while (!ecfWalletController.typedMessageManager.messages.length) {
+        await new Promise((resolve) => setImmediate(resolve))
+      }
       messages = ecfWalletController.typedMessageManager.getUnapprovedMsgs()
       typedMessages = ecfWalletController.typedMessageManager.messages
       msgId = Object.keys(messages)[0]
