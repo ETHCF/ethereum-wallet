@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Yhdistetään summaan $1 "
   },
-  "connectingToKovan": {
-    "message": "Yhdistetään Kovanin koeverkkoon"
-  },
-  "connectingToMainnet": {
-    "message": "Yhdistetään Ethereumin pääverkkoon"
-  },
-  "connectingToRopsten": {
-    "message": "Yhdistetään Ropstenin koeverkkoon"
-  },
-  "connectingToRinkeby": {
-    "message": "Yhdistetään Rinkebyn koeverkkoon"
-  },
   "connectingToLocalhost": {
     "message": "Yhdistetään kohteeseen Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Yhdistetään Goerlin testiverkostoon"
   },
   "contractDeployment": {
     "message": "Sopimuksen käyttö"
@@ -448,13 +433,6 @@
   "generalSettingsDescription": {
     "message": "Valuuttamuunnin, päävaluutta, kieli, blockies identicon"
   },
-  "getEther": {
-    "message": "Hanki Etheriä"
-  },
-  "getEtherFromFaucet": {
-    "message": "Hanki etheriä faucetista kohteelle $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Pyydä apua."
   },
@@ -564,9 +542,6 @@
     "message": "JSON-tiedosto",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovanin koeverkko"
-  },
   "max": {
     "message": "Maks"
   },
@@ -620,9 +595,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet-versio"
-  },
-  "mobileSyncText": {
-    "message": "Vahvista henkilöllisyytesi antamalla salasanasi!"
   },
   "myAccounts": {
     "message": "Omat tilit"
@@ -871,12 +843,6 @@
   "rinkeby": {
     "message": "Rinkebyn koeverkko"
   },
-  "ropsten": {
-    "message": "Ropstenin koeverkko"
-  },
-  "goerli": {
-    "message": "Goerli-testiverkko"
-  },
   "save": {
     "message": "Tallenna"
   },
@@ -1009,9 +975,6 @@
   "signed": {
     "message": "Allekirjoitettu"
   },
-  "signNotice": {
-    "message": "Tämän viestin allekirjoittamisella voi olla\nvaarallisia sivuvaikutuksia. Allekirjoita viestejä ainoastaan\nsivustoilta, joihin luotat täysin koko tililläsi.\n Tällainen vaarallinen menetelmä poistetaan tulevista versioista."
-  },
   "sigRequest": {
     "message": "Allekirjoitus pyydetään"
   },
@@ -1072,32 +1035,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbolin on oltava 11 merkkiä tai vähemmän."
   },
-  "syncWithMobile": {
-    "message": "Synkronoi mobiililaitteelle"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synkronoi mobiililaitteen kanssa"
-  },
-  "syncWithMobileDesc": {
-    "message": "Voit synkronoida tilisi ja tietosi mobiililaitteidesi kesken. Avaa EcfWalletin mobiilisovellus, siirry \"Asetukset\"-osioon ja napauta \"Synkronoi selainlaajennuksesta\" -vaihtoehtoa"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Jos avaat EcfWalletin mobiilisovelluksen vasta ensimmäistä kertaa, noudata vain puhelimesi ilmoittamia vaiheita."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Lue tämä koodi ecf-wallet-mobiilisovelluksellasi"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Varmista, ettei kukaan muu katsele näyttöäsi, kun skannaat koodin"
-  },
-  "syncWithMobileComplete": {
-    "message": "Tietojesi synkronoiminen onnistui. Nauti ecf-wallet-mobiilisovelluksesta!"
-  },
   "terms": {
     "message": "Käyttöehdot"
-  },
-  "testFaucet": {
-    "message": "Koe-faucet"
   },
   "thisWillCreate": {
     "message": "Tämä luo uuden kukkaron ja salaustekstin"

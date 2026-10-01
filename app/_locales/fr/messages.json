@@ -203,23 +203,8 @@
   "connectingTo": {
     "message": "Connexion à $1"
   },
-  "connectingToKovan": {
-    "message": "Connexion au réseau de test Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Connexion au réseau principal Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Connexion au réseau de test Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Connexion au réseau de test Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Connexion à Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Connexion au réseau de test Goerli"
   },
   "contractDeployment": {
     "message": "Déploiement de contrat"
@@ -439,13 +424,6 @@
   "generalSettingsDescription": {
     "message": "Conversion de devise, devise principale, langue, blockies identicon"
   },
-  "getEther": {
-    "message": "Obtenir des Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Obtenir de l'Ether d'une faucet pour $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Obtenir de l'aide."
   },
@@ -558,9 +536,6 @@
     "message": "Fichier JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Réseau de test Kovan"
-  },
   "learnMore": {
     "message": "En savoir plus"
   },
@@ -605,9 +580,6 @@
   },
   "ecfWalletVersion": {
     "message": "Version de ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Veuillez entrer votre mot de passe pour confirmer que c'est bien vous !"
   },
   "myAccounts": {
     "message": "Mes comptes"
@@ -856,12 +828,6 @@
   "rinkeby": {
     "message": "Réseau de test Rinkeby"
   },
-  "ropsten": {
-    "message": "Réseau de test Ropsten"
-  },
-  "goerli": {
-    "message": "Réseau de test Goerli"
-  },
   "save": {
     "message": "Enregistrer"
   },
@@ -994,9 +960,6 @@
   "signed": {
     "message": "Signé"
   },
-  "signNotice": {
-    "message": "La signature de ce message peut avoir des effets secondaires \ndangereux. Signer uniquement les messages de \nsites auxquels vous faites entièrement confiance avec votre compte.\n Cette méthode dangereuse sera supprimée dans une future version."
-  },
   "sigRequest": {
     "message": "Demande de signature"
   },
@@ -1057,32 +1020,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Le symbole doit comporter 11 caractères ou moins."
   },
-  "syncWithMobile": {
-    "message": "Synchroniser avec le mobile"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synchroniser avec le mobile"
-  },
-  "syncWithMobileDesc": {
-    "message": "Vous pouvez synchroniser vos comptes et vos informations avec votre appareil mobile. Ouvrez l'application mobile ecf-wallet, allez dans « Paramètres » et appuyez sur « Synchroniser depuis l'extension de navigateur »"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Si vous ouvrez l'application ecf-wallet Mobile pour la première fois, suivez simplement les étapes dans votre téléphone."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Scannez ce code avec votre application mobile ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Assurez-vous que personne d'autre ne regarde votre écran lorsque vous scannez ce code."
-  },
-  "syncWithMobileComplete": {
-    "message": "Vos données ont été synchronisées avec succès. Profitez de l'application mobile ecf-wallet !"
-  },
   "terms": {
     "message": "Conditions d'Utilisation"
-  },
-  "testFaucet": {
-    "message": "Faucet Testnet"
   },
   "thisWillCreate": {
     "message": "Cela créera un nouveau portefeuille et une nouvelle phrase mnémotechnique"

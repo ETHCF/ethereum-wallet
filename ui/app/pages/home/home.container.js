@@ -6,6 +6,7 @@ import {
   getCurrentEthBalance,
   getFirstPermissionRequest,
   getTotalUnapprovedCount,
+  getNetworkRequests,
 } from '../../selectors'
 
 import {
@@ -49,6 +50,7 @@ const mapStateToProps = (state) => {
     isPopup,
     isNotification,
     firstPermissionsRequestId,
+    hasNetworkRequests: getNetworkRequests(state).length > 0,
     totalUnapprovedCount,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,

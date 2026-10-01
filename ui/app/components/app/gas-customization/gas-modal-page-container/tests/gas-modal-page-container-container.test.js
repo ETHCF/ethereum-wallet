@@ -190,7 +190,7 @@ describe('gas-modal-page-container container', function () {
               },
               provider: {
                 ...baseMockState.ecfWallet.provider,
-                type: 'rinkeby',
+                type: 'sepolia',
               },
             },
           },
@@ -201,6 +201,7 @@ describe('gas-modal-page-container container', function () {
               ...baseExpectedResult.infoRowProps,
               newTotalFiat: '',
             },
+            isEthereumNetwork: false,
             isMainnet: false,
           },
         },
@@ -215,13 +216,14 @@ describe('gas-modal-page-container container', function () {
               },
               provider: {
                 ...baseMockState.ecfWallet.provider,
-                type: 'rinkeby',
+                type: 'sepolia',
               },
             },
           },
           mockOwnProps: baseMockOwnProps,
           expectedResult: {
             ...baseExpectedResult,
+            isEthereumNetwork: false,
             isMainnet: false,
           },
         },

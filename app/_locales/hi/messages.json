@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "$1 से कनेक्ट हो रहा है"
   },
-  "connectingToKovan": {
-    "message": "कोवन टेस्ट नेटवर्क से जोड़ रहा है\n"
-  },
-  "connectingToMainnet": {
-    "message": "मुख्य Ethereum नेटवर्क से कनेक्ट हो रहा है"
-  },
-  "connectingToRopsten": {
-    "message": "रोपस्टेन टेस्ट नेटवर्क से कनेक्ट करना"
-  },
-  "connectingToRinkeby": {
-    "message": "Rinkeby टेस्ट नेटवर्क से कनेक्ट हो रहा है"
-  },
   "connectingToLocalhost": {
     "message": "लोकलहोस्ट 8545 से जुड़ना "
-  },
-  "connectingToGoerli": {
-    "message": "गोर्ली टेस्ट नेटवर्क से  जोड़ रहा है"
   },
   "contractDeployment": {
     "message": "कॉन्ट्रैक्ट का परिनियोजन"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "मुद्रा रूपांतरण, प्राथमिक मुद्रा, भाषा, ब्लॉकीज़ पहचान"
   },
-  "getEther": {
-    "message": "Ether पाएँ"
-  },
-  "getEtherFromFaucet": {
-    "message": "$1 में फॉसेट से Ether प्राप्त करें",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "सहायता प्राप्त करें।"
   },
@@ -567,9 +545,6 @@
     "message": "JSON फ़ाइल",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "कोवन टेस्ट नेटवर्क"
-  },
   "max": {
     "message": "अधिकतम"
   },
@@ -620,9 +595,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet का संस्करण"
-  },
-  "mobileSyncText": {
-    "message": "यह आप ही हैं इसकी पुष्टि करने के लिए कृपया अपना पासवर्ड दर्ज करें!"
   },
   "myAccounts": {
     "message": "मेरा खाता"
@@ -871,12 +843,6 @@
   "rinkeby": {
     "message": "\nरिंकीबी टेस्ट नेटवर्क"
   },
-  "ropsten": {
-    "message": "रोपस्टेन टेस्ट नेटवर्क"
-  },
-  "goerli": {
-    "message": "गोएर्ली टेस्ट नेटवर्क"
-  },
   "save": {
     "message": "सहेजें"
   },
@@ -1006,9 +972,6 @@
   "signed": {
     "message": "साइन किया गया"
   },
-  "signNotice": {
-    "message": "इस संदेश पर साइनिंग  करने से खतरनाक दुष्प्रभाव हो सकते हैं। केवल उन साइटों के संदेशों पर साइन  करें जिन पर आप अपने पूरे खाते के लिए पूरी तरह भरोसा करते हैं।\n  इस खतरनाक तरीके को भविष्य के संस्करण में हटा दिया जाएगा।"
-  },
   "sigRequest": {
     "message": "हस्ताक्षर का अनुरोध"
   },
@@ -1069,32 +1032,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "प्रतीक 11 वर्ण या उससे कम का होना चाहिए।"
   },
-  "syncWithMobile": {
-    "message": "मोबाइल से सिंक करें"
-  },
-  "syncWithMobileTitle": {
-    "message": "मोबाइल से सिंक करें"
-  },
-  "syncWithMobileDesc": {
-    "message": "आप अपने खातों और सूचनाओं को अपने मोबाइल डिवाइस के साथ सिंक कर सकते हैं। मेटामास्क मोबाइल ऐप खोलें, \"सेटिंग\" पर जाएं और \"ब्राउज़र एक्सटेंशन से सिंक करें\" पर टैप करें"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "यदि आपने पहली बार मेटामास्क मोबाइल ऐप खोला हैं, तो केवल अपने फोन में दिए गए चरणों का पालन करें।"
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "इस कोड को अपने मेटामास्क मोबाइल ऐप से स्कैन करें"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "यह सुनिश्चित करें कि इस कोड को स्कैन करते समय कोई आपकी स्क्रीन को देख नहीं देख रहा है"
-  },
-  "syncWithMobileComplete": {
-    "message": "आपका डेटा सफलतापूर्वक समन्वयित कर लिया गया है। मेटामास्क मोबाइल ऐप का आनंद लें!"
-  },
   "terms": {
     "message": "उपयोग की शर्तें"
-  },
-  "testFaucet": {
-    "message": "फॉसिट का परीक्षण करें"
   },
   "thisWillCreate": {
     "message": "यह एक नया वॉलेट और सीड फ़्रेज़ बनाएगा"

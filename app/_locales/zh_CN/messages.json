@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "正在连接 $1"
   },
-  "connectingToKovan": {
-    "message": "正在连接到Kovan测试网络"
-  },
-  "connectingToMainnet": {
-    "message": "正在连接到以太坊主网"
-  },
-  "connectingToRopsten": {
-    "message": "正在连接到Ropsten测试网络"
-  },
-  "connectingToRinkeby": {
-    "message": "正在连接到Rinkeby测试网络"
-  },
   "connectingToLocalhost": {
     "message": "正在连接 Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "正在连接 Goerli 测试网络"
   },
   "contractDeployment": {
     "message": "合约部署"
@@ -445,13 +430,6 @@
   "generalSettingsDescription": {
     "message": "货币兑换、主要货币、语言和块状身份头像"
   },
-  "getEther": {
-    "message": "获取 Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "从水管获取$1网络的 Ether",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "获取帮助。"
   },
@@ -558,9 +536,6 @@
     "message": "JSON 文件",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan 测试网络"
-  },
   "max": {
     "message": "最大"
   },
@@ -611,9 +586,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet 版本"
-  },
-  "mobileSyncText": {
-    "message": "请输入密码确认个人身份！"
   },
   "myWalletAccounts": {
     "message": "我的钱包账户"
@@ -856,12 +828,6 @@
   "rinkeby": {
     "message": "Rinkeby 测试网络"
   },
-  "ropsten": {
-    "message": "Ropsten 测试网络"
-  },
-  "goerli": {
-    "message": "Goerli 测试网络"
-  },
   "save": {
     "message": "保存"
   },
@@ -994,9 +960,6 @@
   "signed": {
     "message": "已签名"
   },
-  "signNotice": {
-    "message": "签署此消息可能会产生危险的副作用。 \n只从你完全信任的网站上签名。 这种危险的方法将在未来的版本中被移除。"
-  },
   "sigRequest": {
     "message": "请求签名"
   },
@@ -1057,32 +1020,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "符号不得超过11个字符。"
   },
-  "syncWithMobile": {
-    "message": "使用移动设备进行同步"
-  },
-  "syncWithMobileTitle": {
-    "message": "使用移动设备进行同步"
-  },
-  "syncWithMobileDesc": {
-    "message": "您可以使用个人移动设备同步个人账户与信息。打开 ecf-wallet 移动应用程序，进入“设置”选项，点击“通过浏览器扩展程序同步”"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "如果您是首次启用 ecf-wallet 移动应用程序，请通过个人手机完成如下操作。"
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "使用 ecf-wallet 应用程序扫描编码"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "扫描编码时，请确保身边无其他人正在查看您的显示页面"
-  },
-  "syncWithMobileComplete": {
-    "message": "您的数据已同步成功。尽情体验 ecf-wallet 应用程序！"
-  },
   "terms": {
     "message": "使用条款"
-  },
-  "testFaucet": {
-    "message": "测试水管"
   },
   "thisWillCreate": {
     "message": "该操作将为您创建新钱包和种子密语"

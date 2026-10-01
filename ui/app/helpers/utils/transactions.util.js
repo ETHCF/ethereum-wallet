@@ -8,7 +8,7 @@ import {
   TRANSACTION_STATUS_CONFIRMED,
 } from '../../../../app/scripts/controllers/transactions/enums'
 import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums'
-import { getEtherscanNetworkPrefix } from '../../../lib/etherscan-prefix-for-network'
+import { getTxExplorerUrl } from '../../../../app/scripts/lib/block-explorer'
 import {
   TOKEN_METHOD_TRANSFER,
   TOKEN_METHOD_APPROVE,
@@ -233,9 +233,5 @@ export function getStatusKey (transaction) {
  * @param {Object} rpcPrefs
  */
 export function getBlockExplorerUrlForTx (networkId, hash, rpcPrefs = {}) {
-  if (rpcPrefs.blockExplorerUrl) {
-    return `${rpcPrefs.blockExplorerUrl.replace(/\/+$/u, '')}/tx/${hash}`
-  }
-  const prefix = getEtherscanNetworkPrefix(networkId)
-  return `https://${prefix}etherscan.io/tx/${hash}`
+  return getTxExplorerUrl(hash, networkId, rpcPrefs)
 }

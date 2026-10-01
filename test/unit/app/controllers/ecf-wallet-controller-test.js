@@ -644,64 +644,21 @@ describe('EcfWalletController', function () {
 
   })
 
-  describe('#newUnsignedMessage', function () {
-
-    let msgParams, ecfWalletMsgs, messages, msgId
-
-    const address = '0xc42edfcc21ed14dda456aa0756c153f7985d8813'
-    const data = '0x43727970746f6b697474696573'
-
-    beforeEach(async function () {
-      sandbox.stub(ecfWalletController, 'getBalance')
-      ecfWalletController.getBalance.callsFake(() => {
-        return Promise.resolve('0x0')
-      })
-
-      await ecfWalletController.createNewVaultAndRestore('foobar1337', TEST_SEED_ALT)
-
-      msgParams = {
-        'from': address,
-        data,
+  describe('eth_sign', function () {
+    it('is refused before any approval is created, for sites and internal callers alike', async function () {
+      for (const isInternal of [false, true]) {
+        const engine = ecfWalletController.setupProviderEngine({ origin: 'https://dapp.test', location: 'https://dapp.test/', isInternal })
+        const response = await new Promise((resolve) => {
+          engine.handle({
+            id: 1, jsonrpc: '2.0', method: 'eth_sign',
+            params: ['0xc42edfcc21ed14dda456aa0756c153f7985d8813', `0x${'11'.repeat(32)}`],
+          }, (_, res) => resolve(res))
+        })
+        assert.equal(response.error.code, -32601)
+        assert.match(response.error.message, /eth_sign is disabled/u)
       }
-
-      const promise = ecfWalletController.newUnsignedMessage(msgParams)
-      // handle the promise so it doesn't throw an unhandledRejection
-      promise.then(noop).catch(noop)
-
-      ecfWalletMsgs = ecfWalletController.messageManager.getUnapprovedMsgs()
-      messages = ecfWalletController.messageManager.messages
-      msgId = Object.keys(ecfWalletMsgs)[0]
-      messages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
-    })
-
-    it('persists address from msg params', function () {
-      assert.equal(ecfWalletMsgs[msgId].msgParams.from, address)
-    })
-
-    it('persists data from msg params', function () {
-      assert.equal(ecfWalletMsgs[msgId].msgParams.data, data)
-    })
-
-    it('sets the status to unapproved', function () {
-      assert.equal(ecfWalletMsgs[msgId].status, 'unapproved')
-    })
-
-    it('sets the type to eth_sign', function () {
-      assert.equal(ecfWalletMsgs[msgId].type, 'eth_sign')
-    })
-
-    it('rejects the message', function () {
-      const msgIdInt = parseInt(msgId, 10)
-      ecfWalletController.cancelMessage(msgIdInt, noop)
-      assert.equal(messages[0].status, 'rejected')
-    })
-
-    it('errors when signing a message', async function () {
-      try {
-        await ecfWalletController.signMessage(messages[0].msgParams)
-      } catch (error) {
-        assert.equal(error.message, 'Expected message to be an Uint8Array with length 32')
-      }
+      assert.equal(ecfWalletController.signMessage, undefined)
+      assert.equal(ecfWalletController.getApi().signMessage, undefined)
     })
   })
 

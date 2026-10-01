@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Forbinder til $1 "
   },
-  "connectingToKovan": {
-    "message": "Kobler til Kovan testnettverk"
-  },
-  "connectingToMainnet": {
-    "message": "Forbinder med hoved-Ethereumnettverk "
-  },
-  "connectingToRopsten": {
-    "message": "Kobler til Ropsten testnettverk"
-  },
-  "connectingToRinkeby": {
-    "message": "Kobler til Rinkeby Test Network "
-  },
   "connectingToLocalhost": {
     "message": "Kobler til lokalvert 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Oppretter forbindelse med Goerli Test Network"
   },
   "contractDeployment": {
     "message": "Distribusjon av kontrakten"
@@ -444,13 +429,6 @@
   "generalSettingsDescription": {
     "message": "Valutakonvertering, primærvaluta, språk, identifikasjonsblokkering"
   },
-  "getEther": {
-    "message": "Skaff Ether "
-  },
-  "getEtherFromFaucet": {
-    "message": "Få Ether fra en kran for $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Få hjelp."
   },
@@ -557,9 +535,6 @@
     "message": "JSON-fil",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan testnettverk"
-  },
   "max": {
     "message": "Maks"
   },
@@ -613,9 +588,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet-versjon "
-  },
-  "mobileSyncText": {
-    "message": "Vennligst skriv inn passordet ditt for å bekrefte at det er deg!"
   },
   "myAccounts": {
     "message": "Mine kontoer "
@@ -990,9 +962,6 @@
   "signed": {
     "message": "Signert"
   },
-  "signNotice": {
-    "message": "Signering av denne meldingen kan ha\nfarlige konsekvenser. Signér kun meldinger fra\nnettsteder du stoler fullt og helt på med hele kontoen din. Denne farlige metoden vil bli fjernet i en fremtidig versjon."
-  },
   "sigRequest": {
     "message": "Signaturforespørsel "
   },
@@ -1050,32 +1019,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbolet må være 11 tegn eller færre."
   },
-  "syncWithMobile": {
-    "message": "Synkroniser med mobil "
-  },
-  "syncWithMobileTitle": {
-    "message": "Synkronisér med mobil"
-  },
-  "syncWithMobileDesc": {
-    "message": "Du kan synkronisere kontoene og informasjonen din med den mobile enheten din. Åpne mobilappen for ecf-wallet, gå til \"Innstillinger\" og trykk på \"Synkronisering fra nettleserutvidelse\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Hvis du åpner mobilappen for ecf-wallet for første gang, følger du bare trinnene på telefonen."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Skann denne koden med din mobilapp for ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pass på at ingen andre ser på skjermen din mens du skanner denne koden "
-  },
-  "syncWithMobileComplete": {
-    "message": "Dataene dine er blitt synkronisert med suksess. Kos deg med mobilappen for ecf-wallet!"
-  },
   "terms": {
     "message": "Brukervilkår"
-  },
-  "testFaucet": {
-    "message": "Testkran"
   },
   "thisWillCreate": {
     "message": "Dette vil opprette en ny lommebok og mnemonisk gjenopprettingsfrase"

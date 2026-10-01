@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "در حال اتصال به 1$1"
   },
-  "connectingToKovan": {
-    "message": "در حال اتصال به شبکه آزمایشی Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "در حال اتصال به شبکه اصلی ایتریم"
-  },
-  "connectingToRopsten": {
-    "message": "در حال اتصال به شبکه آزمایشی Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "در حال اتصال به شبکه آزمایشی Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "در حال اتصال با Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "در حال اتصال به شبکه آزمایشی Goerli "
   },
   "contractDeployment": {
     "message": "تطبیق قرارداد"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "تبادل واحد پول، واحد پول اصلی، زبان، شناسا های بلوکی"
   },
-  "getEther": {
-    "message": "اتر را بگیرید"
-  },
-  "getEtherFromFaucet": {
-    "message": "اخذ ایتر از یک فاست برای 1$1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "دریافت کمک"
   },
@@ -567,9 +545,6 @@
     "message": "فایل JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "شبکه آزمایشی Kovan"
-  },
   "max": {
     "message": "حداکثر"
   },
@@ -623,9 +598,6 @@
   },
   "ecfWalletVersion": {
     "message": "نسخه ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "لطفًا رمز عبور را وارد نمایید تا تأیید شود که خود شما هستید!"
   },
   "myAccounts": {
     "message": "حساب های من"
@@ -874,12 +846,6 @@
   "rinkeby": {
     "message": "شبکه آزمایشی Rinkeby"
   },
-  "ropsten": {
-    "message": "شبکه آزمایشی Ropsten"
-  },
-  "goerli": {
-    "message": "شبکه آزمایشی Goerli"
-  },
   "save": {
     "message": "ذخیره"
   },
@@ -1012,9 +978,6 @@
   "signed": {
     "message": "وارد شد"
   },
-  "signNotice": {
-    "message": "علامت کردن این پیام میتواند\nعوارض جانبی داشته باشد. تنها پیام های را که\nاز سایت های که کاملًا اعتماد داشته باشید با حساب خود علامت بزنید.\nاین روش خطرناک در نسخه آینده از بین برده خواهد شد."
-  },
   "sigRequest": {
     "message": "درخواست امضاء"
   },
@@ -1075,32 +1038,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "نماد باید 11 کاراکتر یا کمتر باشد."
   },
-  "syncWithMobile": {
-    "message": "همگام سازی با موبایل"
-  },
-  "syncWithMobileTitle": {
-    "message": "همگام سازی با موبایل"
-  },
-  "syncWithMobileDesc": {
-    "message": "شما میتوانید حساب ها و معلومات خویش را با دستگاه موبایل تان همگام بسازید. اپلیکیشن ecf-wallet را باز نموده به \"Settings\" رفته و بالای \"Sync from Browser Extension\" کلیک کنید"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "در صورتیکه شما اپلیکیشن موبایل ecf-wallet را برای بار اول باز کرده اید، فقط گام ها را در موبایل تان دنبال نمایید."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "این کود را با اپلیکیشن موبایل ecf-wallet سکن نمایید"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "مطمئن شوید که هیچکس هنگامیکه این کود را سکن میکنید، به صفحه شما نمیبیند"
-  },
-  "syncWithMobileComplete": {
-    "message": "دیتای شما موفقانه همگام سازی شد. از اپلیکیشن موبایل ecf-wallet لذت ببرید!"
-  },
   "terms": {
     "message": "شرایط استفاده"
-  },
-  "testFaucet": {
-    "message": "  آزمایش فاسیت یا Test Faucet "
   },
   "thisWillCreate": {
     "message": "این یک کیف جدید و عبارت بازیاب را ایجاد خواهد کرد"

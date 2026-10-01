@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Під'єднуємось до $1"
   },
-  "connectingToKovan": {
-    "message": "Підключення до тестової мережі Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "З'єднуємось з Головною мережею Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Під'єднуємось до Тестової мережі Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Під'єднуємось до тестової мережі Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Під'єднуємось до локального хосту 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Підключення до тестової мережі Goerli"
   },
   "contractDeployment": {
     "message": "Розгортання контракту"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "Конверсія валют, первісна валюта, мова, ідентикон блокіз"
   },
-  "getEther": {
-    "message": "Отримати Ефір"
-  },
-  "getEtherFromFaucet": {
-    "message": "Отримайте Ether з крану за $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Отримати допомогу."
   },
@@ -567,9 +545,6 @@
     "message": "Файл JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Тестова мережа Kovan"
-  },
   "max": {
     "message": "Максимум"
   },
@@ -623,9 +598,6 @@
   },
   "ecfWalletVersion": {
     "message": "Версія ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Введіть пароль, щоб підтвердити свою особу!"
   },
   "myAccounts": {
     "message": "Мої облікові записи"
@@ -874,12 +846,6 @@
   "rinkeby": {
     "message": "Тестова мережа Rinkeby"
   },
-  "ropsten": {
-    "message": "Тестова мережа Ropsten"
-  },
-  "goerli": {
-    "message": "Тестова мережа Goerli "
-  },
   "save": {
     "message": "Зберегти"
   },
@@ -1012,9 +978,6 @@
   "signed": {
     "message": "Підписано"
   },
-  "signNotice": {
-    "message": "Підписування цього повідомлення може мати небезпечний побічний ефект. Підписуйте тільки повідомлення від сайтів, яким ви повністю довіряєте весь ваш обліковий запис. Цей небезпечний метод буде усунуто у майбутній версії."
-  },
   "sigRequest": {
     "message": "Запит підпису"
   },
@@ -1075,32 +1038,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Символ повинен містити 11 символів або менше."
   },
-  "syncWithMobile": {
-    "message": "Синхронізувати з мобільним пристроєм"
-  },
-  "syncWithMobileTitle": {
-    "message": "Синхронізувати з мобільним"
-  },
-  "syncWithMobileDesc": {
-    "message": "Ви можете синхронізувати ваші облікові записи та інформацію з вашим мобільним пристроєм. Відкрийте мобільний застосунок ecf-wallet, перейдіть до \"Налаштування\" та клацніть на \"Синхронізувати з розширення браузера\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Якщо ви відкрили мобільний застосунок ecf-wallet вперше, просто слідуйте крокам у вашому телефоні."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Відскануйте цей код за допомогою мобільної програми ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Переконайтесь, що ніхто не дивиться на ваш екран, коли скануєте цей код"
-  },
-  "syncWithMobileComplete": {
-    "message": "Ваші дані були успішно синхронізовані. Насолоджуйтесь мобільним застосунком ecf-wallet!"
-  },
   "terms": {
     "message": "Умови використання"
-  },
-  "testFaucet": {
-    "message": "Тестовий кран"
   },
   "thisWillCreate": {
     "message": "У результаті цієї дії буде створено новий гаманець і мнемонічна фраза"

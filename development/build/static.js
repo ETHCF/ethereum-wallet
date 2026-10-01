@@ -16,6 +16,20 @@ const copyTargets = [
     dest: '',
   },
   {
+    src: './app/',
+    pattern: 'offscreen-clipboard.js',
+    dest: '',
+  },
+  {
+    src: './node_modules/ses/dist/lockdown.umd.min.js',
+    dest: 'lockdown-install.js',
+  },
+  {
+    src: './app/',
+    pattern: 'lockdown-{run,more}.js',
+    dest: '',
+  },
+  {
     src: `./app/_locales/`,
     dest: `_locales`,
   },

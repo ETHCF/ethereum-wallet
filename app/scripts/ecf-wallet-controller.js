@@ -22,7 +22,6 @@ import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
-import contractMap from 'eth-contract-metadata'
 import {
   AddressBookController,
   CurrencyRateController,
@@ -34,6 +33,9 @@ import ComposableObservableStore from './lib/ComposableObservableStore'
 import AccountTracker from './lib/account-tracker'
 import createLoggerMiddleware from './lib/createLoggerMiddleware'
 import createOriginMiddleware from './lib/createOriginMiddleware'
+import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware'
+import NetworkRequestController from './controllers/network-requests'
+import { normalizeChainId } from './controllers/network/chain-utils'
 import createTabIdMiddleware from './lib/createTabIdMiddleware'
 import createOnboardingMiddleware from './lib/createOnboardingMiddleware'
 import { setupMultiplex } from './lib/stream-utils'
@@ -45,7 +47,6 @@ import CachedBalancesController from './controllers/cached-balances'
 import AlertController from './controllers/alert'
 import OnboardingController from './controllers/onboarding'
 import IncomingTransactionsController from './controllers/incoming-transactions'
-import MessageManager from './lib/message-manager'
 import DecryptMessageManager from './lib/decrypt-message-manager'
 import EncryptionPublicKeyManager from './lib/encryption-public-key-manager'
 import PersonalMessageManager from './lib/personal-message-manager'
@@ -209,6 +210,21 @@ export default class EcfWalletController extends EventEmitter {
 
     this.addressBookController = new AddressBookController(undefined, initState.AddressBookController)
 
+    this.networkRequestController = new NetworkRequestController({
+      getCurrentChainId: () => normalizeChainId(this.networkController.getChainId()),
+      getCustomNetworks: () => this.preferencesController.getFrequentRpcListDetail(),
+      addCustomNetwork: async ({ rpcUrl, chainId, ticker, chainName, blockExplorerUrl }) => {
+        const rpcPrefs = blockExplorerUrl ? { blockExplorerUrl } : {}
+        await this.preferencesController.addToFrequentRpcList(rpcUrl, chainId, ticker, chainName, rpcPrefs)
+        this.networkController.setRpcTarget(rpcUrl, chainId, ticker, chainName, rpcPrefs)
+      },
+      setCustomNetwork: ({ rpcUrl, chainId, ticker, nickname, rpcPrefs }) => {
+        this.networkController.setRpcTarget(rpcUrl, chainId, ticker, nickname, rpcPrefs)
+      },
+      setBuiltInNetwork: (type) => this.networkController.setProviderType(type),
+      showApprovalRequest: opts.showPermissionRequest,
+    })
+
     this.alertController = new AlertController({
       initState: initState.AlertController,
       preferencesStore: this.preferencesController.store,
@@ -250,7 +266,6 @@ export default class EcfWalletController extends EventEmitter {
     })
 
     this.networkController.lookupNetwork()
-    this.messageManager = new MessageManager()
     this.personalMessageManager = new PersonalMessageManager({ getChainId: () => this.networkController.getChainId() })
     this.decryptMessageManager = new DecryptMessageManager()
     this.encryptionPublicKeyManager = new EncryptionPublicKeyManager()
@@ -279,7 +294,6 @@ export default class EcfWalletController extends EventEmitter {
       TxController: this.txController.memStore,
       CachedBalancesController: this.cachedBalancesController.store,
       TokenRatesController: this.tokenRatesController.store,
-      MessageManager: this.messageManager.memStore,
       PersonalMessageManager: this.personalMessageManager.memStore,
       DecryptMessageManager: this.decryptMessageManager.memStore,
       EncryptionPublicKeyManager: this.encryptionPublicKeyManager.memStore,
@@ -293,6 +307,7 @@ export default class EcfWalletController extends EventEmitter {
       IncomingTransactionsController: this.incomingTransactionsController.store,
       PermissionsController: this.permissionsController.permissions,
       PermissionsMetadata: this.permissionsController.store,
+      NetworkRequestController: this.networkRequestController.memStore,
       // ENS Controller
       EnsController: this.ensController.store,
     })
@@ -331,7 +346,6 @@ export default class EcfWalletController extends EventEmitter {
       // tx signing
       processTransaction: this.newUnapprovedTransaction.bind(this),
       // msg signing
-      processEthSignMessage: this.newUnsignedMessage.bind(this),
       processTypedMessage: this.newUnsignedTypedMessage.bind(this),
       processTypedMessageV3: this.newUnsignedTypedMessage.bind(this),
       processTypedMessageV4: this.newUnsignedTypedMessage.bind(this),
@@ -442,12 +456,13 @@ export default class EcfWalletController extends EventEmitter {
       checkHardwareStatus: nodeify(this.checkHardwareStatus, this),
       unlockHardwareWalletAccount: nodeify(this.unlockHardwareWalletAccount, this),
 
-      // mobile
-      fetchInfoToSync: nodeify(this.fetchInfoToSync, this),
-
       // vault management
       submitPassword: nodeify(this.submitPassword, this),
       verifyPassword: nodeify(this.verifyPassword, this),
+      approveNetworkRequest: nodeify(this.networkRequestController.approve, this.networkRequestController),
+      rejectNetworkRequest: nodeify(this.networkRequestController.reject, this.networkRequestController),
+      scheduleClipboardClear: nodeify(this.scheduleClipboardClear, this),
+      clearClipboard: nodeify(this.clearClipboard, this),
 
       // network management
       setProviderType: nodeify(networkController.setProviderType, networkController),
@@ -495,10 +510,6 @@ export default class EcfWalletController extends EventEmitter {
       estimateGas: nodeify(this.estimateGas, this),
       getPendingNonce: nodeify(this.getPendingNonce, this),
       getNextNonce: nodeify(this.getNextNonce, this),
-
-      // messageManager
-      signMessage: nodeify(this.signMessage, this),
-      cancelMessage: this.cancelMessage.bind(this),
 
       // personalMessageManager
       signPersonalMessage: nodeify(this.signPersonalMessage, this),
@@ -656,82 +667,6 @@ export default class EcfWalletController extends EventEmitter {
     return this.networkController.store.getState().network
   }
 
-  /**
-   * Collects all the information that we want to share
-   * with the mobile client for syncing purposes
-   * @returns {Promise<Object>} - Parts of the state that we want to syncx
-   */
-  async fetchInfoToSync () {
-    // Preferences
-    const {
-      accountTokens,
-      currentLocale,
-      frequentRpcList,
-      identities,
-      selectedAddress,
-      tokens,
-    } = this.preferencesController.store.getState()
-
-    // Filter ERC20 tokens
-    const filteredAccountTokens = {}
-    Object.keys(accountTokens).forEach((address) => {
-      const checksummedAddress = ethUtil.toChecksumAddress(address)
-      filteredAccountTokens[checksummedAddress] = {}
-      Object.keys(accountTokens[address]).forEach((networkType) => {
-        filteredAccountTokens[checksummedAddress][networkType] = networkType === 'mainnet'
-          ? (
-            accountTokens[address][networkType].filter(({ address: tokenAddress }) => {
-              const checksumAddress = ethUtil.toChecksumAddress(tokenAddress)
-              return contractMap[checksumAddress] ? contractMap[checksumAddress].erc20 : true
-            })
-          )
-          : accountTokens[address][networkType]
-      })
-    })
-
-    const preferences = {
-      accountTokens: filteredAccountTokens,
-      currentLocale,
-      frequentRpcList,
-      identities,
-      selectedAddress,
-      tokens,
-    }
-
-    // Accounts
-    const hdKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
-    const simpleKeyPairKeyrings = this.keyringController.getKeyringsByType('Simple Key Pair')
-    const hdAccounts = await hdKeyring.getAccounts()
-    const simpleKeyPairKeyringAccounts = await Promise.all(
-      simpleKeyPairKeyrings.map((keyring) => keyring.getAccounts()),
-    )
-    const simpleKeyPairAccounts = simpleKeyPairKeyringAccounts.reduce((acc, accounts) => [...acc, ...accounts], [])
-    const accounts = {
-      hd: hdAccounts.filter((item, pos) => (hdAccounts.indexOf(item) === pos)).map((address) => ethUtil.toChecksumAddress(address)),
-      simpleKeyPair: simpleKeyPairAccounts.filter((item, pos) => (simpleKeyPairAccounts.indexOf(item) === pos)).map((address) => ethUtil.toChecksumAddress(address)),
-      ledger: [],
-      trezor: [],
-    }
-
-    // transactions
-
-    let { transactions } = this.txController.store.getState()
-    // delete tx for other accounts that we're not importing
-    transactions = transactions.filter((tx) => {
-      const checksummedTxFrom = ethUtil.toChecksumAddress(tx.txParams.from)
-      return (
-        accounts.hd.includes(checksummedTxFrom)
-      )
-    })
-
-    return {
-      accounts,
-      preferences,
-      transactions,
-      network: this.networkController.store.getState(),
-    }
-  }
-
   /*
    * Submits the user's password and attempts to unlock the vault.
    * Also synchronizes the preferencesController, to ensure its schema
@@ -758,11 +693,27 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
+   * Clears the clipboard after a delay, once a secret has been copied.
+   */
+  async scheduleClipboardClear () {
+    if (this.opts.clipboardCleaner) {
+      this.opts.clipboardCleaner.schedule()
+    }
+  }
+
+  /**
+   * Clears the clipboard now.
+   *
+   * @returns {Promise<boolean>} Whether the clipboard was cleared.
+   */
+  async clearClipboard () {
+    return this.opts.clipboardCleaner ? this.opts.clipboardCleaner.clear() : false
+  }
+
+  /**
    * @type Identity
    * @property {string} name - The account nickname.
    * @property {string} address - The account's ethereum address, in lower case.
-   * @property {boolean} mayBeFauceting - Whether this account is currently
-   * receiving funds from our automatic Ropsten faucet.
    */
 
   /**
@@ -1011,63 +962,6 @@ export default class EcfWalletController extends EventEmitter {
    */
   async newUnapprovedTransaction (txParams, req) {
     return await this.txController.newUnapprovedTransaction(txParams, req)
-  }
-
-  // eth_sign methods:
-
-  /**
-   * Called when a Dapp uses the eth_sign method, to request user approval.
-   * eth_sign is a pure signature of arbitrary data. It is on a deprecation
-   * path, since this data can be a transaction, or can leak private key
-   * information.
-   *
-   * @param {Object} msgParams - The params passed to eth_sign.
-   * @param {Function} cb = The callback function called with the signature.
-   */
-  newUnsignedMessage (msgParams, req) {
-    const promise = this.messageManager.addUnapprovedMessageAsync(msgParams, req)
-    this.sendUpdate()
-    this.opts.showUnconfirmedMessage()
-    return promise
-  }
-
-  /**
-   * Signifies user intent to complete an eth_sign method.
-   *
-   * @param  {Object} msgParams - The params passed to eth_call.
-   * @returns {Promise<Object>} - Full state update.
-   */
-  signMessage (msgParams) {
-    log.info('EcfWalletController - signMessage')
-    const msgId = msgParams.ecfWalletId
-
-    // sets the status op the message to 'approved'
-    // and removes the ecfWalletId for signing
-    return this.messageManager.approveMessage(msgParams)
-      .then((cleanMsgParams) => {
-      // signs the message
-        return this.keyringController.signMessage(cleanMsgParams)
-      })
-      .then((rawSig) => {
-      // tells the listener that the message has been signed
-      // and can be returned to the dapp
-        this.messageManager.setMsgStatusSigned(msgId, rawSig)
-        return this.getState()
-      })
-  }
-
-  /**
-   * Used to cancel a message submitted via eth_sign.
-   *
-   * @param {string} msgId - The id of the message to cancel.
-   */
-  cancelMessage (msgId, cb) {
-    const { messageManager } = this
-    messageManager.rejectMsg(msgId)
-    if (!cb || typeof cb !== 'function') {
-      return
-    }
-    cb(null, this.getState())
   }
 
   // personal_sign methods:
@@ -1561,6 +1455,10 @@ export default class EcfWalletController extends EventEmitter {
 
     // append origin to each request
     engine.push(createOriginMiddleware({ origin }))
+    // refuse unsafe methods before any permission or approval prompt
+    engine.push(createMethodBlockMiddleware())
+    // network add and switch requests, each approved by the user
+    engine.push(this.networkRequestController.createMiddleware({ origin }))
     // append tabId to each request if it exists
     if (tabId) {
       engine.push(createTabIdMiddleware({ tabId }))

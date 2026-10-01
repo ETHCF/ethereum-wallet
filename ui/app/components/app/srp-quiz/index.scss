@@ -1,0 +1,39 @@
+.srp-quiz {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__description,
+  &__progress {
+    color: $Grey-500;
+    font-size: 13px;
+  }
+
+  &__question {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__result-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &--right &__result-title {
+    color: $Green-600;
+  }
+
+  &--wrong &__result-title {
+    color: $Red-500;
+  }
+
+  &__result-description {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}

@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "جارِ الاتصال بـ $1"
   },
-  "connectingToKovan": {
-    "message": "الاتصال بشبكة اختبار Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "جارِ الاتصال بشبكة إيثيريوم الرئيسية"
-  },
-  "connectingToRopsten": {
-    "message": "جارِ الاتصال بشبكة اختبار Ropsten "
-  },
-  "connectingToRinkeby": {
-    "message": "جارِ الاتصال بشبكة اختبار Rinkeby "
-  },
   "connectingToLocalhost": {
     "message": "جاري الاتصال بالمضيف المحلي 8545"
-  },
-  "connectingToGoerli": {
-    "message": "الاتصال بشبكة اختبار Goerli"
   },
   "contractDeployment": {
     "message": "نشر العقد"
@@ -447,13 +432,6 @@
   "generalSettingsDescription": {
     "message": "تحويل العملات، العملة الأساسية، اللغة ، تكتلات blockies identicon"
   },
-  "getEther": {
-    "message": "احصل على إيثر"
-  },
-  "getEtherFromFaucet": {
-    "message": "احصل على الأثير من صنبور مقابل $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "احصل على الدعم."
   },
@@ -563,9 +541,6 @@
     "message": "ملف JSON ",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "شبكة اختبار Kovan "
-  },
   "learnMore": {
     "message": "اكتشف المزيد"
   },
@@ -616,9 +591,6 @@
   },
   "ecfWalletVersion": {
     "message": "إصدار ECF Wallet "
-  },
-  "mobileSyncText": {
-    "message": "يرجى إدخال كلمة مرورك لتأكيد هويتك!"
   },
   "myAccounts": {
     "message": "حساباتي"
@@ -867,12 +839,6 @@
   "rinkeby": {
     "message": "شبكة اختبارات Rinkeby"
   },
-  "ropsten": {
-    "message": "شبكة اختبار Ropsten"
-  },
-  "goerli": {
-    "message": "شبكة اختبار Goerli "
-  },
   "save": {
     "message": "حفظ"
   },
@@ -1005,9 +971,6 @@
   "signed": {
     "message": "مسجل الدخول"
   },
-  "signNotice": {
-    "message": "توقيع هذه الرسالة يمكن أن يكون له\nآثار جانبية خطيرة. قم فقط بتوقيع الرسائل من\nالمواقع التي تثق بها تماماً في التعامل مع حسابك بالكامل.\n  ستتم إزالة هذه الطريقة الخطيرة في إصدار مستقبلي."
-  },
   "sigRequest": {
     "message": "طلب التوقيع"
   },
@@ -1068,32 +1031,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "يجب أن يكون الرمز 11 حرفًا أو أقل."
   },
-  "syncWithMobile": {
-    "message": "مزامنة مع الهاتف المحمول"
-  },
-  "syncWithMobileTitle": {
-    "message": "المزامنة مع الجهاز المحمول"
-  },
-  "syncWithMobileDesc": {
-    "message": "يمكنك مزامنة حساباتك ومعلوماتك مع جهازك المحمول. افتح تطبيق ecf-wallet على الجهاز المحمول وانتقل إلى \"الإعدادات\" ثم انقر على \"المزامنة من إضافة المتصفح\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "إذا قمت للتوّ بفتح تطبيق ecf-wallet للهواتف المحمولة لأول مرة، فاتبع الخطوات الموجودة في هاتفك."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "امسح هذا الرمز ضوئياً باستخدام تطبيق ecf-wallet للهواتف المحمولة"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "تأكد من عدم قيام أي شخص آخر بالنظر إلى شاشتك عند مسح هذا الرمز"
-  },
-  "syncWithMobileComplete": {
-    "message": "تمت مزامنة بياناتك بنجاح. استمتع بتطبيق ecf-wallet للهاتف المحمول!"
-  },
   "terms": {
     "message": "شروط الاستخدام"
-  },
-  "testFaucet": {
-    "message": "اختبار Faucet"
   },
   "thisWillCreate": {
     "message": "هذا سينشئ محفظة جديدة وعبارة أمان"

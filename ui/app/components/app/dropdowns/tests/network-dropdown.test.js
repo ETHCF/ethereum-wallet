@@ -6,6 +6,7 @@ import { mountWithRouter } from '../../../../../../test/lib/render-helpers'
 import NetworkDropdown from '../network-dropdown'
 import { DropdownMenuItem } from '../components/dropdown'
 import NetworkDropdownIcon from '../components/network-dropdown-icon'
+import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from '../../../../../../app/scripts/controllers/network/enums'
 
 describe('Network Dropdown', function () {
   let wrapper
@@ -65,40 +66,41 @@ describe('Network Dropdown', function () {
       )
     })
 
-    it('renders 7 DropDownMenuItems ', function () {
-      assert.equal(wrapper.find(DropdownMenuItem).length, 8)
+    const builtInCount = BUILT_IN_NETWORK_TYPES.length
+
+    it('renders every built-in network, localhost, the saved RPC and the custom RPC option', function () {
+      assert.equal(wrapper.find(DropdownMenuItem).length, builtInCount + 3)
     })
 
-    it('checks background color for first NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(0).prop('backgroundColor'), '#29B6AF') // Main Ethereum Network Teal
+    it('lists the built-in networks in order, mainnets before testnets, with their colors', function () {
+      const names = wrapper.find('.network-name-item').map((item) => item.text())
+      const mainnets = BUILT_IN_NETWORK_TYPES.filter((type) => !BUILT_IN_NETWORKS[type].testnet)
+      const testnets = BUILT_IN_NETWORK_TYPES.filter((type) => BUILT_IN_NETWORKS[type].testnet)
+      const ordered = [...mainnets, ...testnets]
+      assert.deepEqual(names.slice(0, builtInCount), ordered.map((type) => BUILT_IN_NETWORKS[type].name))
+      assert.equal(names[0], 'Ethereum Mainnet')
+      ordered.forEach((type, index) => {
+        assert.equal(wrapper.find(NetworkDropdownIcon).at(index).prop('backgroundColor'), BUILT_IN_NETWORKS[type].color)
+      })
     })
 
-    it('checks background color for second NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(1).prop('backgroundColor'), '#ff4a8d') // Ropsten Red
+    it('does not offer shut-down testnets', function () {
+      const text = wrapper.text()
+      for (const name of ['Ropsten', 'Rinkeby', 'Kovan', 'Goerli']) {
+        assert.ok(!text.includes(name), name)
+      }
     })
 
-    it('checks background color for third NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(2).prop('backgroundColor'), '#7057ff') // Kovan Purple
-    })
-
-    it('checks background color for fourth NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(3).prop('backgroundColor'), '#f6c343') // Rinkeby Yellow
-    })
-
-    it('checks background color for fifth NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(4).prop('backgroundColor'), '#3099f2') // Goerli Blue
-    })
-
-    it('checks background color for sixth NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(5).prop('innerBorder'), '1px solid #9b9b9b')
+    it('shows localhost after the built-in networks', function () {
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'), '1px solid #9b9b9b')
     })
 
     it('checks dropdown for frequestRPCList from  state ', function () {
-      assert.equal(wrapper.find(DropdownMenuItem).at(6).text(), '✓http://localhost:7545')
+      assert.equal(wrapper.find(DropdownMenuItem).at(builtInCount + 1).text(), '✓http://localhost:7545')
     })
 
-    it('checks background color for seventh NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(6).prop('innerBorder'), '1px solid #9b9b9b')
+    it('shows the custom RPC option last', function () {
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount + 1).prop('innerBorder'), '1px solid #9b9b9b')
     })
 
   })

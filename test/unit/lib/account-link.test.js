@@ -11,10 +11,16 @@ describe('Account link', function () {
           address: '0xabcd',
         },
         {
-          expected: 'https://ropsten.etherscan.io/address/0xdef0',
-          network: 3,
+          expected: 'https://lineascan.build/address/0xdef0',
+          network: '59144',
           address: '0xdef0',
           rpcPrefs: {},
+        },
+        {
+          // shut-down testnets and unknown networks have no explorer
+          expected: '',
+          network: 3,
+          address: '0xdef0',
         },
         {
           // test handling of `blockExplorerUrl` for a custom RPC

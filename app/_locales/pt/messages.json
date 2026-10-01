@@ -144,13 +144,6 @@
   "gasPrice": {
     "message": "Preço Gas (GWEI)"
   },
-  "getEther": {
-    "message": "Obter Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Obter Ether de um faucet por $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "aqui",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -202,9 +195,6 @@
   "jsonFile": {
     "message": "Ficheiro JSON",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Rede de Teste Kovan"
   },
   "likeToAddTokens": {
     "message": "Gostaria de adicionar estes tokens?"
@@ -318,9 +308,6 @@
   "rinkeby": {
     "message": "Rede de Teste Rinkeby"
   },
-  "ropsten": {
-    "message": "Rede de Teste Ropsten"
-  },
   "save": {
     "message": "Guardar"
   },
@@ -360,9 +347,6 @@
   "signatureRequest": {
     "message": "Pedido de Assinatura"
   },
-  "signNotice": {
-    "message": "Assinar esta mensagem pode ter \nefeitos laterais perigosos. Apenas assine mensagens de sites que \ntotalmente confia com a sua conta total.\n Este método perigoso será removido numa versão posterior."
-  },
   "sigRequest": {
     "message": "Pedido de Assinatura"
   },
@@ -380,9 +364,6 @@
   },
   "terms": {
     "message": "Termos de Uso"
-  },
-  "testFaucet": {
-    "message": "Faucet de Teste"
   },
   "to": {
     "message": "Para"

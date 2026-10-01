@@ -1,5 +1,5 @@
 import extension from 'extensionizer'
-import { createExplorerLink as explorerLink } from '@metamask/etherscan-link'
+import { getTxExplorerUrl } from '../lib/block-explorer'
 import { getEnvironmentType, checkForError } from '../lib/util'
 import { ENVIRONMENT_TYPE_BACKGROUND } from '../lib/enums'
 
@@ -190,11 +190,13 @@ export default class ExtensionPlatform {
 
     this._subscribeToNotificationClicked()
 
-    const url = explorerLink(txMeta.hash, txMeta.ecfWalletNetworkId)
+    const url = getTxExplorerUrl(txMeta.hash, txMeta.ecfWalletNetworkId)
     const nonce = parseInt(txMeta.txParams.nonce, 16)
 
     const title = 'Confirmed transaction'
-    const message = `Transaction ${nonce} confirmed! View on Etherscan`
+    const message = url
+      ? `Transaction ${nonce} confirmed! View in block explorer`
+      : `Transaction ${nonce} confirmed!`
     this._showNotification(title, message, url)
   }
 

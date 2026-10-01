@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Jungiamasi prie $1"
   },
-  "connectingToKovan": {
-    "message": "Jungiamasi prie „Kovan“ bandomojo tinklo"
-  },
-  "connectingToMainnet": {
-    "message": "Jungiamasi prie pagrindinio „Ethereum“ tinklo"
-  },
-  "connectingToRopsten": {
-    "message": "Jungiamasi prie „Ropsten“ bandomojo tinklo"
-  },
-  "connectingToRinkeby": {
-    "message": "Jungiamasi prie „Rinkeby“ bandomojo tinklo"
-  },
   "connectingToLocalhost": {
     "message": "Jungiamasi prie vietinio serverio 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Jungiamasi prie „Goerli“ bandomojo tinklo"
   },
   "contractDeployment": {
     "message": "Sutarties išdėstymas"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "Valiutos keitimas, pagrindinė valiuta, kalba, „blockies identicon“"
   },
-  "getEther": {
-    "message": "Gauti eterių"
-  },
-  "getEtherFromFaucet": {
-    "message": "Gaukite eterių iš čiaupo $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Gaukite pagalbos."
   },
@@ -567,9 +545,6 @@
     "message": "JSON failas",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "„Kovan“ bandomasis tinklas"
-  },
   "max": {
     "message": "Maks."
   },
@@ -623,9 +598,6 @@
   },
   "ecfWalletVersion": {
     "message": "„ECF Wallet“ versija"
-  },
-  "mobileSyncText": {
-    "message": "Įveskite savo slaptažodį, kad patvirtintumėte, jog tai tikrai jūs!"
   },
   "myAccounts": {
     "message": "Mano paskyros"
@@ -874,12 +846,6 @@
   "rinkeby": {
     "message": "„Rinkeby“ bandomasis tinklas"
   },
-  "ropsten": {
-    "message": "„Ropsten“ bandomasis tinklas"
-  },
-  "goerli": {
-    "message": "„Goerli“ bandomasis tinklas"
-  },
   "save": {
     "message": "Išsaugoti"
   },
@@ -1012,9 +978,6 @@
   "signed": {
     "message": "Pasirašyta"
   },
-  "signNotice": {
-    "message": "Pasirašant šį pranešimą gali būti \npavojingų šalutinių efektų. Pasirašykite tik pranešimus iš vietų,\nkuriomis visiškai pasitikite su visomis savo paskyromis.\nŠis pavojingas būdas bus pašalintas ateities versijoje. "
-  },
   "sigRequest": {
     "message": "Parašo užklausa"
   },
@@ -1075,32 +1038,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbolis turi būti ne ilgesnis nei 11 simbolių."
   },
-  "syncWithMobile": {
-    "message": "Sinchronizuoti su mobiliuoju"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sinchronizuoti su mobiliuoju"
-  },
-  "syncWithMobileDesc": {
-    "message": "Galite sinchronizuoti paskyrą ir informaciją su savo mobiliuoju įrenginiu. Atverkite „ecf-wallet“ mobiliąją programą, eikite į „Nuostatos“ ir palieskite „Sinchronizuoti iš naršyklės plėtinio“"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Jeigu „ecf-wallet“ mobiliąją programą atveriate tik pirmą kartą, tiesiog sekite veiksmus telefone."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Nuskaitykite šį kodą su savo „ecf-wallet“ mobiliąja programa"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pasirūpinkite, kad jums nuskaitant šį kodą niekas nežiūrėtų į jūsų ekraną."
-  },
-  "syncWithMobileComplete": {
-    "message": "Jūsų duomenys sėkmingai sinchronizuoti. Mėgaukitės „ecf-wallet“ mobiliąja programa! "
-  },
   "terms": {
     "message": "Naudojimo sąlygos"
-  },
-  "testFaucet": {
-    "message": "Testuoti čiaupą"
   },
   "thisWillCreate": {
     "message": "Bus sukurta nauja slaptažodinė ir atkūrimo frazė"

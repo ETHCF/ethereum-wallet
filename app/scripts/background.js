@@ -25,6 +25,7 @@ import Migrator from './lib/migrator'
 import ExtensionPlatform from './platforms/extension'
 import LocalStore from './lib/local-store'
 import SessionEncryptor from './lib/session-encryptor'
+import ClipboardCleaner from './lib/clipboard-cleaner'
 import ReadOnlyNetworkStore from './lib/network-store'
 import createStreamSink from './lib/createStreamSink'
 import NotificationManager from './lib/notification-manager'
@@ -62,6 +63,7 @@ let popupIsOpen = false
 let notificationIsOpen = false
 const openEcfWalletTabsIDs = {}
 const requestAccountTabIds = {}
+const clipboardCleaner = new ClipboardCleaner({ extension })
 
 // state persistence
 const inTest = process.env.IN_TEST === 'true'
@@ -91,6 +93,11 @@ extension.runtime.onMessage.addListener((message, sender, respond) => {
   }
 })
 extension.alarms.onAlarm.addListener((alarm) => {
+  // Clipboard cleanup must not wait for wallet state to load.
+  const clearing = clipboardCleaner.handleAlarm(alarm)
+  if (clearing) {
+    clearing.catch(log.error)
+  }
   initialized.then(async ({ controller }) => {
     if (alarm.name === 'ecf-wallet-auto-lock') {
       const { timeoutMinutes, lastActiveTime } = controller.appStateController.store.getState()
@@ -166,8 +173,6 @@ function queueConnection (port, handler) {
  * @property {Object} accounts - An object mapping lower-case hex addresses to objects with "balance" and "address" keys, both storing hex string values.
  * @property {hex} currentBlockGasLimit - The most recently seen block gas limit, in a lower case hex prefixed string.
  * @property {TransactionMeta[]} currentNetworkTxList - An array of transactions associated with the currently selected network.
- * @property {Object} unapprovedMsgs - An object of messages pending approval, mapping a unique ID to the options.
- * @property {number} unapprovedMsgCount - The number of messages in unapprovedMsgs.
  * @property {Object} unapprovedPersonalMsgs - An object of messages pending approval, mapping a unique ID to the options.
  * @property {number} unapprovedPersonalMsgCount - The number of messages in unapprovedPersonalMsgs.
  * @property {Object} unapprovedEncryptionPublicKeyMsgs - An object of messages pending approval, mapping a unique ID to the options.
@@ -276,6 +281,7 @@ async function setupController (initState, initLangCode) {
     showPermissionRequest: triggerUi,
     showUnlockRequest: triggerUi,
     openPopup,
+    clipboardCleaner,
     // initial state
     initState,
     // initial locale code
@@ -485,7 +491,6 @@ async function setupController (initState, initLangCode) {
 
   updateBadge()
   controller.txController.on('update:badge', updateBadge)
-  controller.messageManager.on('updateBadge', updateBadge)
   controller.personalMessageManager.on('updateBadge', updateBadge)
   controller.decryptMessageManager.on('updateBadge', updateBadge)
   controller.encryptionPublicKeyManager.on('updateBadge', updateBadge)
@@ -500,14 +505,13 @@ async function setupController (initState, initLangCode) {
   function updateBadge () {
     let label = ''
     const unapprovedTxCount = controller.txController.getUnapprovedTxCount()
-    const { unapprovedMsgCount } = controller.messageManager
     const { unapprovedPersonalMsgCount } = controller.personalMessageManager
     const { unapprovedDecryptMsgCount } = controller.decryptMessageManager
     const { unapprovedEncryptionPublicKeyMsgCount } = controller.encryptionPublicKeyManager
     const { unapprovedTypedMessagesCount } = controller.typedMessageManager
     const pendingPermissionRequests = Object.keys(controller.permissionsController.permissions.state.permissionsRequests).length
     const waitingForUnlockCount = controller.appStateController.waitingForUnlock.length
-    const count = unapprovedTxCount + unapprovedMsgCount + unapprovedPersonalMsgCount + unapprovedDecryptMsgCount + unapprovedEncryptionPublicKeyMsgCount +
+    const count = unapprovedTxCount + unapprovedPersonalMsgCount + unapprovedDecryptMsgCount + unapprovedEncryptionPublicKeyMsgCount +
                  unapprovedTypedMessagesCount + pendingPermissionRequests + waitingForUnlockCount
     if (count) {
       label = String(count)

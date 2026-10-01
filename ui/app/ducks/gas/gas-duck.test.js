@@ -464,7 +464,7 @@ describe('Gas Duck', function () {
           ...initState,
           basicPriceAndTimeEstimatesLastRetrieved: 1000000,
         },
-        ecfWallet: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'mainnet' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -530,7 +530,7 @@ describe('Gas Duck', function () {
         gas: {
           ...initState,
         },
-        ecfWallet: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'mainnet' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -573,7 +573,7 @@ describe('Gas Duck', function () {
         gas: {
           ...initState,
         },
-        ecfWallet: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'mainnet' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -624,7 +624,7 @@ describe('Gas Duck', function () {
           ...initState,
           priceAndTimeEstimatesLastRetrieved: 1000000,
         },
-        ecfWallet: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'mainnet' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,
@@ -666,7 +666,7 @@ describe('Gas Duck', function () {
             gasprice: 50,
           }],
         },
-        ecfWallet: { provider: { type: 'ropsten' } },
+        ecfWallet: { provider: { type: 'mainnet' } },
       }))
       assert.deepEqual(
         mockDistpatch.getCall(0).args,

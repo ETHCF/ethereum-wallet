@@ -138,13 +138,6 @@
   "gasPrice": {
     "message": "Gasprijs (GWEI)"
   },
-  "getEther": {
-    "message": "Krijg Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Haal Ether uit een kraan voor de $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "hier",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -196,9 +189,6 @@
   "jsonFile": {
     "message": "JSON-bestand",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Kovan-testnetwerk"
   },
   "likeToAddTokens": {
     "message": "Wil je deze tokens toevoegen?"
@@ -308,9 +298,6 @@
   "rinkeby": {
     "message": "Rinkeby testnetwerk"
   },
-  "ropsten": {
-    "message": "Ropsten testnetwerk"
-  },
   "save": {
     "message": "Opslaan"
   },
@@ -350,9 +337,6 @@
   "signatureRequest": {
     "message": "Ondertekeningsverzoek"
   },
-  "signNotice": {
-    "message": "Het ondertekenen van dit bericht kan hebben \ngevaarlijke bijwerkingen. Meld alleen berichten van \nsites die u volledig vertrouwt met uw volledige account.\n Deze gevaarlijke methode wordt in een toekomstige versie verwijderd."
-  },
   "sigRequest": {
     "message": "Ondertekeningsverzoek"
   },
@@ -370,9 +354,6 @@
   },
   "terms": {
     "message": "Gebruiksvoorwaarden"
-  },
-  "testFaucet": {
-    "message": "Test de kraan"
   },
   "to": {
     "message": "Naar"

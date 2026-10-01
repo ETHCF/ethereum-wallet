@@ -3,11 +3,33 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import { stripHexPrefix } from 'ethereumjs-util'
-import copyToClipboard from 'copy-to-clipboard'
 import { checksumAddress } from '../../../../helpers/utils/util'
+import { useSensitiveClipboard } from '../../../../hooks/useSensitiveClipboard'
 import ReadOnlyInput from '../../../ui/readonly-input'
 import Button from '../../../ui/button'
+import HoldToRevealButton from '../../../ui/hold-to-reveal-button'
+import SensitiveClipboardNotice from '../../../ui/sensitive-clipboard-notice'
 import AccountModalContainer from '../account-modal-container'
+
+function PrivateKeyDisplay ({ privateKey }) {
+  const [clipboardState, copy, clear] = useSensitiveClipboard()
+  return (
+    <>
+      <ReadOnlyInput
+        wrapperClass="export-private-key-modal__password-display-wrapper"
+        inputClass="export-private-key-modal__password-display-textarea"
+        textarea
+        value={privateKey}
+        onClick={() => copy(privateKey)}
+      />
+      <SensitiveClipboardNotice state={clipboardState} onClear={clear} />
+    </>
+  )
+}
+
+PrivateKeyDisplay.propTypes = {
+  privateKey: PropTypes.string.isRequired,
+}
 
 export default class ExportPrivateKeyModal extends Component {
   static contextTypes = {
@@ -32,6 +54,7 @@ export default class ExportPrivateKeyModal extends Component {
   state = {
     password: '',
     privateKey: null,
+    revealed: false,
     showWarning: true,
   }
 
@@ -55,7 +78,7 @@ export default class ExportPrivateKeyModal extends Component {
       <span className="export-private-key-modal__password-label">
         {
           privateKey
-            ? this.context.t('copyPrivateKey')
+            ? this.context.t(this.state.revealed ? 'copyPrivateKey' : 'holdToRevealHint')
             : this.context.t('typePassword')
         }
       </span>
@@ -75,15 +98,16 @@ export default class ExportPrivateKeyModal extends Component {
       )
     }
 
-    return (
-      <ReadOnlyInput
-        wrapperClass="export-private-key-modal__password-display-wrapper"
-        inputClass="export-private-key-modal__password-display-textarea"
-        textarea
-        value={plainKey}
-        onClick={() => copyToClipboard(plainKey)}
-      />
-    )
+    if (!this.state.revealed) {
+      return (
+        <HoldToRevealButton
+          buttonText={this.context.t('holdToRevealPrivateKey')}
+          onLongPressed={() => this.setState({ revealed: true })}
+        />
+      )
+    }
+
+    return <PrivateKeyDisplay privateKey={plainKey} />
   }
 
   renderButtons (privateKey, address, hideModal) {

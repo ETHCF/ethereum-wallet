@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { createAccountLink } from '@metamask/etherscan-link'
 
 import TransactionList from '../../../components/app/transaction-list'
 import { TokenOverview } from '../../../components/app/wallet-overview'
-import { getCurrentNetworkId, getSelectedIdentity } from '../../../selectors/selectors'
+import getAccountLink from '../../../../lib/account-link'
+import { getCurrentNetworkId, getRpcPrefsForCurrentProvider, getSelectedIdentity } from '../../../selectors/selectors'
 import { DEFAULT_ROUTE } from '../../../helpers/constants/routes'
 import { showModal } from '../../../store/actions'
 
@@ -16,6 +16,7 @@ import TokenOptions from './token-options'
 export default function TokenAsset ({ token }) {
   const dispatch = useDispatch()
   const network = useSelector(getCurrentNetworkId)
+  const rpcPrefs = useSelector(getRpcPrefsForCurrentProvider)
   const selectedAccountName = useSelector((state) => getSelectedIdentity(state).name)
   const history = useHistory()
 
@@ -29,8 +30,10 @@ export default function TokenAsset ({ token }) {
           <TokenOptions
             onRemove={() => dispatch(showModal({ name: 'HIDE_TOKEN_CONFIRMATION', token }))}
             onViewEtherscan={() => {
-              const url = createAccountLink(token.address, network)
-              global.platform.openTab({ url })
+              const url = getAccountLink(token.address, network, rpcPrefs)
+              if (url) {
+                global.platform.openTab({ url })
+              }
             }}
             tokenSymbol={token.symbol}
           />

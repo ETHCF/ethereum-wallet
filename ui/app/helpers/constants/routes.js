@@ -18,11 +18,11 @@ const CONTACT_MY_ACCOUNTS_ROUTE = '/settings/contact-list/my-accounts'
 const CONTACT_MY_ACCOUNTS_VIEW_ROUTE = '/settings/contact-list/my-accounts/view'
 const CONTACT_MY_ACCOUNTS_EDIT_ROUTE = '/settings/contact-list/my-accounts/edit'
 const REVEAL_SEED_ROUTE = '/seed'
-const MOBILE_SYNC_ROUTE = '/mobile-sync'
 const RESTORE_VAULT_ROUTE = '/restore-vault'
 const ADD_TOKEN_ROUTE = '/add-token'
 const CONFIRM_ADD_TOKEN_ROUTE = '/confirm-add-token'
 const CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE = '/confirm-add-suggested-token'
+const CONFIRM_NETWORK_REQUEST_ROUTE = '/confirm-network-request'
 const NEW_ACCOUNT_ROUTE = '/new-account'
 const IMPORT_ACCOUNT_ROUTE = '/new-account/import'
 const CONNECT_HARDWARE_ROUTE = '/new-account/connect'
@@ -62,11 +62,11 @@ export {
   LOCK_ROUTE,
   SETTINGS_ROUTE,
   REVEAL_SEED_ROUTE,
-  MOBILE_SYNC_ROUTE,
   RESTORE_VAULT_ROUTE,
   ADD_TOKEN_ROUTE,
   CONFIRM_ADD_TOKEN_ROUTE,
   CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE,
+  CONFIRM_NETWORK_REQUEST_ROUTE,
   NEW_ACCOUNT_ROUTE,
   IMPORT_ACCOUNT_ROUTE,
   CONNECT_HARDWARE_ROUTE,

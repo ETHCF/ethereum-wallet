@@ -37,8 +37,8 @@ describe('Vault lifecycle races', function () {
     await controller.setLocked()
     await cancelled
     assert.equal(controller.store.getState().vault, vault)
-    assert.deepEqual(await passworder.decrypt('password', vault), contents)
-    await assert.rejects(passworder.decrypt('null', vault))
+    assert.deepEqual(await new SessionEncryptor().decrypt('password', vault), contents)
+    await assert.rejects(new SessionEncryptor().decrypt('null', vault))
     assert.equal(controller.memStore.getState().isUnlocked, false)
   })
 

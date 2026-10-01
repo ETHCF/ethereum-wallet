@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "ከ $1ጋር መገናኘት"
   },
-  "connectingToKovan": {
-    "message": "ከ Kovan የሙከራ አውታረ መረብ መገናኘት"
-  },
-  "connectingToMainnet": {
-    "message": "ከዋናው የ Ethereum አውታረ መረብ ጋር መገናኘት"
-  },
-  "connectingToRopsten": {
-    "message": "ከ Ropsten የሙከራ አውታረ መረብ ጋር በመገናኘት ላይ"
-  },
-  "connectingToRinkeby": {
-    "message": "ከ Rinkeby የሙከራ አውታረ መረብ ጋር በመገናኘት ላይ"
-  },
   "connectingToLocalhost": {
     "message": "ከ Localhost 8545 ጋር መገናኘት"
-  },
-  "connectingToGoerli": {
-    "message": "ከ Goerli የሙከራ አውታረ መረብ ጋር መገናኘት"
   },
   "contractDeployment": {
     "message": "የኮንትራት ስምሪት"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "የገንዘብ ልወጣ፣ ተቀዳሚ የገንዘብ ዓይነት፣ ቋንቋ፣ blockies identicon"
   },
-  "getEther": {
-    "message": "Ether ያግኙ"
-  },
-  "getEtherFromFaucet": {
-    "message": "Ether ከቧንቧ በ$1ያግኙ",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "እገዛ ያግኙ።"
   },
@@ -567,9 +545,6 @@
     "message": "JSON ፋይል",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan የሙከራ አውታረ መረብ"
-  },
   "max": {
     "message": "ከፍተኛ"
   },
@@ -620,9 +595,6 @@
   },
   "ecfWalletVersion": {
     "message": "የ ECF Wallet ስሪት"
-  },
-  "mobileSyncText": {
-    "message": "እርስዎ መሆንዎትን ለማረጋገጥ እባከዎ የይለፍ ቃልዎን ያስገቡ!"
   },
   "myAccounts": {
     "message": "የእኔ መለያዎች"
@@ -871,12 +843,6 @@
   "rinkeby": {
     "message": "Rinkeby የሙከራ አውታረ መረብ"
   },
-  "ropsten": {
-    "message": "Ropsten የሙከራ አውታረ መረብ "
-  },
-  "goerli": {
-    "message": "የ Goerli የሙከራ አውታረ መረብ"
-  },
   "save": {
     "message": "አስቀምጥ"
   },
@@ -1009,9 +975,6 @@
   "signed": {
     "message": "ተፈርሟል"
   },
-  "signNotice": {
-    "message": "ይህን መልዕክት መፈረም አደገኛ ውጤቶች \nሊኖሩት ይችላሉ። በሙሉ መለያዎ ሙሉ በሙሉ ከሚያምኗቸው\nድረ ገጾች የሚመጡ መልዕክቶችን ብቻ ይፈርሙ።\nይህ አደገኛ ዘዴ ከወደፊት ስሪት ይወገዳል።"
-  },
   "sigRequest": {
     "message": "የፊርማ ጥያቄ"
   },
@@ -1072,32 +1035,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "ምልክቱ 11 ቁምፊዎች ወይም ከዚያ ያነሰ መሆን አለበት።"
   },
-  "syncWithMobile": {
-    "message": "ከሞባይል ጋር አሳምር"
-  },
-  "syncWithMobileTitle": {
-    "message": "ከሞባይል ጋር አሳምር"
-  },
-  "syncWithMobileDesc": {
-    "message": "መለያዎችዎንና መረጃዎችዎን ከሞባይል መሳሪያዎ ጋር ያሳምሩ። የ ecf-wallet የሞባይል መተግበሪያን ይክፈቱ፣ ወደ \"ቅንብሮች\" ይሂዱና \"ከማሰሺያ ቅጥያ አሳምር\" የሚለውን ይንኩ"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "የ ecf-wallet የሞባይል መተግበሪያን ለመጀመሪያ ጊዜ ገና እየከፈቱ ከሆነ፣ በስልክዎ ላይ ያሉትን ቅደም ተከተሎች ብቻ ይከተሉ።"
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "ይህን ኮድ በ ecf-wallet የሞባይል መተግበሪያዎ ስካን ያድርጉ"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "ይህን ኮድ ስካን ሲያደርጉ ሌላ ሰው የእርስዎን ማያ እየተመለከተ አለመሆኑን ያረጋግጡ"
-  },
-  "syncWithMobileComplete": {
-    "message": "ውሂብዎ በሚገባ ተሳምሯል። በ ecf-wallet የሞባይል መተግበሪያ ይደሰቱ!"
-  },
   "terms": {
     "message": "የአጠቃቀም ደንቦች"
-  },
-  "testFaucet": {
-    "message": "የሙከራ ቧንቧ"
   },
   "thisWillCreate": {
     "message": "ይህ አዲስ ቋትና የዘረ ሐረግ ይፈጥራል"

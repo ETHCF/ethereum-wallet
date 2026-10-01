@@ -64,18 +64,6 @@
   "confirmPassword": {
     "message": "Şifreyi onayla"
   },
-  "connectingToKovan": {
-    "message": "Kovan Test Ağına bağlanıyor"
-  },
-  "connectingToMainnet": {
-    "message": "Main Ethereum Ağına bağlanıyor"
-  },
-  "connectingToRopsten": {
-    "message": "Ropsten Test Ağına bağlanıyor"
-  },
-  "connectingToRinkeby": {
-    "message": "Rinkeby Test Ağına bağlanıyor"
-  },
   "contractDeployment": {
     "message": "Sözleşme kurulumu"
   },
@@ -171,13 +159,6 @@
   "gasPrice": {
     "message": "Gas Fiyatı (GWEI)"
   },
-  "getEther": {
-    "message": "Ether Al"
-  },
-  "getEtherFromFaucet": {
-    "message": "Musluktan $1 karşılığı Ether alın",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "burada",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -229,9 +210,6 @@
   "jsonFile": {
     "message": "JSON Dosyası",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Kovan Test Ağı"
   },
   "max": {
     "message": "Maksimum"
@@ -360,9 +338,6 @@
   "rinkeby": {
     "message": "Rinkeby Test Ağı"
   },
-  "ropsten": {
-    "message": "Ropsten Test Ağı"
-  },
   "save": {
     "message": "Kaydet"
   },
@@ -408,9 +383,6 @@
   "signed": {
     "message": "İmzalandı"
   },
-  "signNotice": {
-    "message": "Bu mesajı imzalamanın tehlikeli \nyan etkileri olabilir. Tamamen güvendiğiniz sitelerden \ngelen mesajları hesabınızla imzalayınız.\n Bu tehlikeli metod gelecek versiyonlarda çıkarılacaktır. "
-  },
   "sigRequest": {
     "message": "İmza isteği"
   },
@@ -434,9 +406,6 @@
   },
   "terms": {
     "message": "Kullanım şartları"
-  },
-  "testFaucet": {
-    "message": "Test Musluğu"
   },
   "to": {
     "message": "Kime"

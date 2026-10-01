@@ -209,23 +209,8 @@
   "connectingTo": {
     "message": "Inaunganisha kwenye $1"
   },
-  "connectingToKovan": {
-    "message": "Inaunganisha kwenye Mtandao wa Majaribio wa Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Inaunganisha kwenye Mtandao Mkuu wa Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Inaunganisha kwenye Mtandao wa Majaribio wa Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Inaunganisha kwenye Mtandao wa Majaribio wa Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Inaunganisha kwenye Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Inaunganisha kwenye Mtandao wa Majaribio wa Goerli"
   },
   "contractDeployment": {
     "message": "Kutoa Mkataba"
@@ -441,13 +426,6 @@
   "generalSettingsDescription": {
     "message": "Ubadilishaji wa fedha, sarafu ya msingi, lugha, blockies identicon"
   },
-  "getEther": {
-    "message": "Pata Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Pata Ether kutoka kwenye mfereji $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Pata Msaada"
   },
@@ -554,9 +532,6 @@
     "message": "Faili la JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Mtandao wa Majaribio wa Kovan"
-  },
   "learnMore": {
     "message": "Jifunze zaidi"
   },
@@ -601,9 +576,6 @@
   },
   "ecfWalletVersion": {
     "message": "Toleo la ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Tafadhali ingiza nenosiri lako ili kuthibitisha kuwa ni wewe!"
   },
   "myAccounts": {
     "message": "Akaunti zangu"
@@ -852,12 +824,6 @@
   "rinkeby": {
     "message": "Mtandao wa Majaribio wa Rinkeby"
   },
-  "ropsten": {
-    "message": "Mtandao wa Majaribio wa Ropsten"
-  },
-  "goerli": {
-    "message": "Mtandao wa Majaribio wa Goerli"
-  },
   "save": {
     "message": "Hifadhi"
   },
@@ -990,9 +956,6 @@
   "signed": {
     "message": "Imesainiwa"
   },
-  "signNotice": {
-    "message": "Kusaini ujumbe huu kunaweza kuwa \nmadhara hatari. Saini ujumbe kutoka kwenye\ntovuti unazoziamini kabisa na akaunti yako yote tu.\nNjia hii ya hatari itaondolewa kwenye toleo la baadaye."
-  },
   "sigRequest": {
     "message": "Ombi la Saini"
   },
@@ -1053,32 +1016,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Alama lazima iwe na herufi 11 au chache."
   },
-  "syncWithMobile": {
-    "message": "Oanisha na simu"
-  },
-  "syncWithMobileTitle": {
-    "message": "Oanisha na simu"
-  },
-  "syncWithMobileDesc": {
-    "message": "Unaweza kuoanisha akaunti zako na taarifa kwa kifaa chako cha simu ya mkononi. Fungua programu ya simu ya ecf-wallet, kisha nenda kwenye \"Mipangilio\" na bofya kwenye \"Oanisha kutoka kwenye Kiendelezi cha Kivinjari\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Ikiwa ndio umefungua tu programu ya simu ya ecf-wallet kwa mara ya kwanza, fuata hatua kwenye simu yako."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Kagua msimbo huu kwa kutumia programu yako ya simu ya ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Hakikisha hakuna mtu mwingine anayeangalia kwenye skrini yako unapokuwa unakagua msimbo huu."
-  },
-  "syncWithMobileComplete": {
-    "message": "Umefanikiwa kuoanisha data yako. Furahia programu yako ya simu ya ecf-wallet!"
-  },
   "terms": {
     "message": "Masharti ya Matumizi"
-  },
-  "testFaucet": {
-    "message": "Mfereji wa Jaribio"
   },
   "thisWillCreate": {
     "message": "Hatua hiiitaunda waleti mpya na kirai kianzio"

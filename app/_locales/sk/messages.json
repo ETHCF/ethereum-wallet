@@ -206,23 +206,8 @@
   "connectingTo": {
     "message": "Pripája sa k $1"
   },
-  "connectingToKovan": {
-    "message": "Připojuji se k Kovan Test Network"
-  },
-  "connectingToMainnet": {
-    "message": "Připojuji se k Main Ethereum Network"
-  },
-  "connectingToRopsten": {
-    "message": "Připojuji se k Ropsten Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Připojuji se k Rinkeby Test Network"
-  },
   "connectingToLocalhost": {
     "message": "Pripája sa k Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Pripája sa k testovacej sieti Goerli"
   },
   "contractDeployment": {
     "message": "Nasazení kontraktu"
@@ -442,13 +427,6 @@
   "generalSettingsDescription": {
     "message": "Prevod mien, primárna mena, jazyk, identifikácia blokov"
   },
-  "getEther": {
-    "message": "Získejte Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Získejte Ether z faucetu za $1.",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Získajte pomoc."
   },
@@ -592,9 +570,6 @@
   },
   "ecfWalletVersion": {
     "message": "Verzia ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Zadajte svoje heslo a potvrďte, že ste to vy!"
   },
   "myAccounts": {
     "message": "Moje účty"
@@ -840,9 +815,6 @@
   "readyToConnect": {
     "message": "Pripravení na pripojenie?"
   },
-  "goerli": {
-    "message": "Testovacia sieť Goerli"
-  },
   "save": {
     "message": "Uložit"
   },
@@ -975,9 +947,6 @@
   "signed": {
     "message": "Podepsáno"
   },
-  "signNotice": {
-    "message": "Podepsání zprávy může mít \nnebezpečný vedlejší učinek. Podepisujte zprávy pouze ze \nstránek, kterým plně důvěřujete celým svým účtem.\n Tato nebezpečná metoda bude odebrána v budoucí verzi. "
-  },
   "sigRequest": {
     "message": "Požadavek podpisu"
   },
@@ -1035,32 +1004,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbol musí být mezi 0 a 12 znaky."
   },
-  "syncWithMobile": {
-    "message": "Synchronizácia s mobilom"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synchronizácia s mobilom"
-  },
-  "syncWithMobileDesc": {
-    "message": "Svoje účty a informácie môžete synchronizovať so svojim mobilným zariadením. Otvorte mobilnú aplikáciu ecf-wallet, prejdite na „Nastavenia“ a kliknite na „Synchronizovať z rozšírenia prehliadača“."
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Ak otvoríte mobilnú aplikáciu ecf-wallet prvýkrát, postupujte podľa pokynov v telefóne."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Naskenujte tento kód pomocou mobilnej aplikácie ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pri skenovaní tohto kódu sa uistite, že sa nikto iný nedíva na vašu obrazovku"
-  },
-  "syncWithMobileComplete": {
-    "message": "Vaše údaje boli úspešne synchronizované. Užite si mobilnú aplikáciu ecf-wallet!"
-  },
   "terms": {
     "message": "Podmínky použití"
-  },
-  "testFaucet": {
-    "message": "Testovací faucet"
   },
   "thisWillCreate": {
     "message": "Týmto sa vytvorí nová peňaženka a seed fráza"

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { getEthConversionFromWeiHex, getValueFromWeiHex } from '../../../helpers/utils/conversions.util'
 import { formatDate } from '../../../helpers/utils/util'
-import { getEtherscanNetworkPrefix } from '../../../../lib/etherscan-prefix-for-network'
+import { getTxExplorerUrl } from '../../../../../app/scripts/lib/block-explorer'
 import TransactionActivityLogIcon from './transaction-activity-log-icon'
 import { CONFIRMED_STATUS } from './transaction-activity-log.constants'
 
@@ -30,10 +30,10 @@ export default class TransactionActivityLog extends PureComponent {
     const { primaryTransaction } = this.props
     const { ecfWalletNetworkId } = primaryTransaction
 
-    const prefix = getEtherscanNetworkPrefix(ecfWalletNetworkId)
-    const etherscanUrl = `https://${prefix}etherscan.io/tx/${hash}`
-
-    global.platform.openTab({ url: etherscanUrl })
+    const url = getTxExplorerUrl(hash, ecfWalletNetworkId)
+    if (url) {
+      global.platform.openTab({ url })
+    }
   }
 
   renderInlineRetry (index) {

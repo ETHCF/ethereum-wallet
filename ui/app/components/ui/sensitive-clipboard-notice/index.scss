@@ -1,0 +1,30 @@
+.sensitive-clipboard-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid $Yellow-500;
+  border-radius: 4px;
+  background: $Yellow-100;
+  color: $Black-100;
+  font-size: 12px;
+  line-height: 1.4;
+
+  &--cleared {
+    border-color: $Green-500;
+    background: $Green-000;
+  }
+
+  &__clear {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border: 1px solid $Blue-500;
+    border-radius: 4px;
+    background: $white;
+    color: $Blue-500;
+    font-size: 12px;
+    cursor: pointer;
+  }
+}

@@ -12,9 +12,9 @@ describe('NetworkController', function () {
     }
 
     beforeEach(function () {
-      nock('https://rinkeby.infura.io')
+      nock('https://ethereum-sepolia-rpc.publicnode.com')
         .persist()
-        .post('/ecf-wallet')
+        .post('/')
         .reply(200)
 
       networkController = new NetworkController()
@@ -53,6 +53,28 @@ describe('NetworkController', function () {
       assert.equal(networkController.getChainId(), '0x539')
     })
 
+    function lookup ({ netVersion, chainId }) {
+      networkController._provider = {
+        sendAsync: (request, callback) => callback(null, {
+          id: request.id, jsonrpc: '2.0', result: request.method === 'net_version' ? netVersion : chainId,
+        }),
+      }
+      const settled = new Promise((resolve) => setTimeout(resolve, 10))
+      networkController.lookupNetwork()
+      return settled
+    }
+
+    it('refuses a custom RPC that reports a different chain ID than configured', async function () {
+      networkController.providerStore.putState({ type: 'rpc', rpcTarget: 'https://rpc.test', chainId: '137' })
+      await lookup({ netVersion: '1', chainId: '0x1' })
+      assert.equal(networkController.getNetworkState(), 'loading')
+      assert.equal(networkController.getChainId(), undefined)
+
+      await lookup({ netVersion: '137', chainId: '0x89' })
+      assert.equal(networkController.getChainId(), '0x89')
+      assert.notEqual(networkController.getNetworkState(), 'loading')
+    })
+
     describe('#getNetworkState', function () {
       it('should return "loading" when new', function () {
         const networkState = networkController.getNetworkState()
@@ -75,6 +97,14 @@ describe('NetworkController', function () {
         const { type } = networkController.getProviderConfig()
         assert.equal(type, 'mainnet', 'provider type is updated')
       })
+      it('uses the network\'s own currency and rejects shut-down testnets', async function () {
+        networkController.initializeProvider(networkControllerProviderConfig)
+        await networkController.setProviderType('polygon')
+        assert.equal(networkController.getProviderConfig().ticker, 'POL')
+        for (const type of ['ropsten', 'rinkeby', 'kovan', 'goerli']) {
+          await assert.rejects(networkController.setProviderType(type), /Unknown rpc type/u)
+        }
+      })
       it('should set the network to loading', function () {
         networkController.initializeProvider(networkControllerProviderConfig)
         networkController.setProviderType('mainnet')
@@ -87,40 +117,15 @@ describe('NetworkController', function () {
   describe('utils', function () {
     it('getNetworkDisplayName should return the correct network name', function () {
       const tests = [
-        {
-          input: '3',
-          expected: 'Ropsten',
-        }, {
-          input: '4',
-          expected: 'Rinkeby',
-        }, {
-          input: '42',
-          expected: 'Kovan',
-        }, {
-          input: '0x3',
-          expected: 'Ropsten',
-        }, {
-          input: '0x4',
-          expected: 'Rinkeby',
-        }, {
-          input: '0x2a',
-          expected: 'Kovan',
-        }, {
-          input: 'ropsten',
-          expected: 'Ropsten',
-        }, {
-          input: 'rinkeby',
-          expected: 'Rinkeby',
-        }, {
-          input: 'kovan',
-          expected: 'Kovan',
-        }, {
-          input: 'mainnet',
-          expected: 'Main Ethereum Network',
-        }, {
-          input: 'goerli',
-          expected: 'Goerli',
-        },
+        { input: '1', expected: 'Ethereum Mainnet' },
+        { input: '0x1', expected: 'Ethereum Mainnet' },
+        { input: 'mainnet', expected: 'Ethereum Mainnet' },
+        { input: '8453', expected: 'Base' },
+        { input: '0x89', expected: 'Polygon' },
+        { input: 'sepolia', expected: 'Sepolia' },
+        { input: '11155111', expected: 'Sepolia' },
+        { input: 'rinkeby', expected: undefined },
+        { input: '4', expected: undefined },
       ]
 
       tests.forEach(({ input, expected }) => assert.equal(getNetworkDisplayName(input), expected))

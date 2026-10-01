@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Σύνδεση με $1"
   },
-  "connectingToKovan": {
-    "message": "Σύνδεση στο Δοκιμαστικό Δίκτυο Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Σύνδεση στο Κύριο Δίκτυο Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Σύνδεση με το Δίκτυο Δοκιμών Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Σύνδεση στο Δίκτυο Δοκιμών Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Σύνδεση στον Τοπικό Υπολογιστή 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Σύνδεση στο Δίκτυο Δοκιμής Goerli "
   },
   "contractDeployment": {
     "message": "Ανάπτυξη Συμβολαίου"
@@ -448,13 +433,6 @@
   "generalSettingsDescription": {
     "message": "Μετατροπή νομίσματος, πρωτογενές νόμισμα, γλώσσα, αναπαράσταση μπλοκ"
   },
-  "getEther": {
-    "message": "Λάβετε Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Πάρτε Ether από μια πηγή για το $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Πάρτε Βοήθεια."
   },
@@ -564,9 +542,6 @@
     "message": "Αρχείο JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Δίκτυο Δοκιμής Kovan"
-  },
   "max": {
     "message": "Μέγ."
   },
@@ -620,9 +595,6 @@
   },
   "ecfWalletVersion": {
     "message": "Έκδοση ECF Wallet "
-  },
-  "mobileSyncText": {
-    "message": "Παρακαλούμε δώστε τον κωδικό πρόσβασής σας για να επιβεβαιώσετε ότι είστε εσείς!"
   },
   "myAccounts": {
     "message": "Οι Λογαριασμοί μου"
@@ -871,12 +843,6 @@
   "rinkeby": {
     "message": "Δοκιμαστικό Δίκτυο Rinkeby"
   },
-  "ropsten": {
-    "message": "Δίκτυο Δοκιμών Ropsten"
-  },
-  "goerli": {
-    "message": "Δοκιμαστικό Δίκτυο Goerli"
-  },
   "save": {
     "message": "Αποθήκευση"
   },
@@ -1009,9 +975,6 @@
   "signed": {
     "message": "Συνδεδεμένος"
   },
-  "signNotice": {
-    "message": "Η υπογραφή αυτού του μηνύματος μπορεί να έχει\nεπικίνδυνες παρενέργειες. Υπογράφετε μηνύματα μόνο από\nτοποθεσίες που εμπιστεύεστε πλήρως με ολόκληρο τον λογαριασμό σας.\n  Αυτή η επικίνδυνη μέθοδος θα καταργηθεί σε μια μελλοντική έκδοση."
-  },
   "sigRequest": {
     "message": "Αίτημα Υπογραφής"
   },
@@ -1072,32 +1035,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Το σύμβολο πρέπει να είναι τουλάχιστον 11 χαρακτήρες."
   },
-  "syncWithMobile": {
-    "message": "Συγχρονισμός με κινητό"
-  },
-  "syncWithMobileTitle": {
-    "message": "Συγχρονισμός με κινητό"
-  },
-  "syncWithMobileDesc": {
-    "message": "Μπορείτε να συγχρονίσετε τους λογαριασμούς και τις πληροφορίες σας με την κινητή συσκευή σας. Ανοίξτε την εφαρμογή ecf-wallet για κινητά, μεταβείτε στην ενότητα \"Ρυθμίσεις\" και πατήστε \"Συγχρονισμός από  Επέκταση Προγράμματος Περιήγησης\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Εάν απλά ανοίξετε την εφαρμογή ecf-wallet Mobile για πρώτη φορά, απλώς ακολουθήστε τα βήματα στο τηλέφωνό σας."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Σαρώστε αυτόν τον κώδικα με την εφαρμογή ecf-wallet για κινητά"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Σιγουρευτείτε ότι κανένας δεν κοιτάζει στην οθόνη σας όταν κάνετε σάρωση αυτού του κωδικού"
-  },
-  "syncWithMobileComplete": {
-    "message": "Τα δεδομένα σας έχουν συγχρονιστεί με επιτυχία. Απολαύστε την εφαρμογή ecf-wallet για κινητά!"
-  },
   "terms": {
     "message": "Όροι Χρήσης"
-  },
-  "testFaucet": {
-    "message": "Έλεγχος Βαλβίδας"
   },
   "thisWillCreate": {
     "message": "Αυτό θα δημιουργήσει ένα νέο πορτοφόλι και φράση φύτρου"

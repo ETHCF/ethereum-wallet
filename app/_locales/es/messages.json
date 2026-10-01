@@ -178,23 +178,8 @@
   "connectingTo": {
     "message": "Conectánodse a $1"
   },
-  "connectingToKovan": {
-    "message": "Conectando a la red de test Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Conectando a la red principal de Ethereum (Main Net)"
-  },
-  "connectingToRopsten": {
-    "message": "Conectando a la red de test Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Conectando a la red de test Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Conectando to Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Conectando al Test de Red Goerli"
   },
   "contractDeployment": {
     "message": "Desplegar (Deploy) contrato"
@@ -369,13 +354,6 @@
   "generalSettingsDescription": {
     "message": "Conversión de divisas, divisa principal, idioma, blockies identicon"
   },
-  "getEther": {
-    "message": "Conseguir Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Obtenga Ether de un faucet (grifo) por $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Pedir ayuda."
   },
@@ -466,9 +444,6 @@
   "jsonFile": {
     "message": "Archivo JSON",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Red de pruebas Kovan"
   },
   "learnMore": {
     "message": "Más información"
@@ -708,9 +683,6 @@
   "rinkeby": {
     "message": "Red privada Rinkeby"
   },
-  "ropsten": {
-    "message": "Red privada Ropsten"
-  },
   "save": {
     "message": "Guardar"
   },
@@ -813,9 +785,6 @@
   "signed": {
     "message": "Firmado"
   },
-  "signNotice": {
-    "message": "Firmar este mensaje puede tener\n efectos secundarios peligrosos. Firma sólo\nmensajes desde sitios a los que estés plenamente dispuesto a confiar tu cuenta.\nEste método peligroso va a ser \neliminado en una version futura."
-  },
   "sigRequest": {
     "message": "Solicitud de firma"
   },
@@ -870,17 +839,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "El símbolo debe tener 11 caracteres o menos."
   },
-  "syncWithMobile": {
-    "message": "Sincronizar con el móvil"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sincronizar con el móvil"
-  },
   "terms": {
     "message": "Términos de uso"
-  },
-  "testFaucet": {
-    "message": "Probar Faucet"
   },
   "to": {
     "message": "Para"

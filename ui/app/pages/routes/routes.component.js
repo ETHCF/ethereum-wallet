@@ -16,10 +16,10 @@ import Lock from '../lock'
 import PermissionsConnect from '../permissions-connect'
 import RestoreVaultPage from '../keychains/restore-vault'
 import RevealSeedConfirmation from '../keychains/reveal-seed'
-import MobileSyncPage from '../mobile-sync'
 import AddTokenPage from '../add-token'
 import ConfirmAddTokenPage from '../confirm-add-token'
 import ConfirmAddSuggestedTokenPage from '../confirm-add-suggested-token'
+import ConfirmNetworkRequest from '../confirm-network-request'
 import CreateAccountPage from '../create-account'
 import Loading from '../../components/ui/loading-screen'
 import LoadingNetwork from '../../components/app/loading-network-screen'
@@ -36,6 +36,7 @@ import {
   ADD_TOKEN_ROUTE,
   ASSET_ROUTE,
   CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE,
+  CONFIRM_NETWORK_REQUEST_ROUTE,
   CONFIRM_ADD_TOKEN_ROUTE,
   CONFIRM_TRANSACTION_ROUTE,
   CONNECT_ROUTE,
@@ -43,7 +44,6 @@ import {
   INITIALIZE_ROUTE,
   INITIALIZE_UNLOCK_ROUTE,
   LOCK_ROUTE,
-  MOBILE_SYNC_ROUTE,
   NEW_ACCOUNT_ROUTE,
   RESTORE_VAULT_ROUTE,
   REVEAL_SEED_ROUTE,
@@ -54,6 +54,7 @@ import {
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
+import { getConnectingLabel, getNetworkDisplayName } from '../../helpers/utils/network-display'
 
 export default class Routes extends Component {
   static propTypes = {
@@ -111,13 +112,13 @@ export default class Routes extends Component {
         <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
         <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
         <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />
-        <Authenticated path={MOBILE_SYNC_ROUTE} component={MobileSyncPage} exact />
         <Authenticated path={SETTINGS_ROUTE} component={Settings} />
         <Authenticated path={`${CONFIRM_TRANSACTION_ROUTE}/:id?`} component={ConfirmTransaction} />
         <Authenticated path={SEND_ROUTE} component={SendTransactionScreen} exact />
         <Authenticated path={ADD_TOKEN_ROUTE} component={AddTokenPage} exact />
         <Authenticated path={CONFIRM_ADD_TOKEN_ROUTE} component={ConfirmAddTokenPage} exact />
         <Authenticated path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE} component={ConfirmAddSuggestedTokenPage} exact />
+        <Authenticated path={CONFIRM_NETWORK_REQUEST_ROUTE} component={ConfirmNetworkRequest} exact />
         <Authenticated path={NEW_ACCOUNT_ROUTE} component={CreateAccountPage} />
         <Authenticated path={`${CONNECT_ROUTE}/:id`} component={PermissionsConnect} />
         <Authenticated path={`${ASSET_ROUTE}/:asset`} component={Asset} />
@@ -276,41 +277,10 @@ export default class Routes extends Component {
       return loadingMessage
     }
     const { provider, providerId } = this.props
-
-    switch (provider.type) {
-      case 'mainnet':
-        return this.context.t('connectingToMainnet')
-      case 'ropsten':
-        return this.context.t('connectingToRopsten')
-      case 'kovan':
-        return this.context.t('connectingToKovan')
-      case 'rinkeby':
-        return this.context.t('connectingToRinkeby')
-      case 'localhost':
-        return this.context.t('connectingToLocalhost')
-      case 'goerli':
-        return this.context.t('connectingToGoerli')
-      default:
-        return this.context.t('connectingTo', [providerId])
-    }
+    return getConnectingLabel(provider, providerId, this.context.t)
   }
 
   getNetworkName () {
-    switch (this.props.provider.type) {
-      case 'mainnet':
-        return this.context.t('mainnet')
-      case 'ropsten':
-        return this.context.t('ropsten')
-      case 'kovan':
-        return this.context.t('kovan')
-      case 'rinkeby':
-        return this.context.t('rinkeby')
-      case 'localhost':
-        return this.context.t('localhost')
-      case 'goerli':
-        return this.context.t('goerli')
-      default:
-        return this.context.t('unknownNetwork')
-    }
+    return getNetworkDisplayName(this.props.provider, this.context.t)
   }
 }

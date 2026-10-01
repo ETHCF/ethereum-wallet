@@ -12,7 +12,8 @@ describe('Telemetry removal', function () {
         const done = arguments[arguments.length - 1];
         chrome.storage.local.get(['meta', 'data'], state => done(state));
       `)
-      assert.equal(storage.meta.version, 0)
+      // Migration 1 moves wallets off shut-down testnets.
+      assert.equal(storage.meta.version, 1)
       assert.equal(Object.prototype.hasOwnProperty.call(storage.data, 'ThreeBoxController'), false)
       const preferences = storage.data.PreferencesController
       for (const key of ['metaMetricsId', 'metaMetricsSendCount', 'participateInMetaMetrics']) {

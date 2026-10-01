@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Forbinder til $1"
   },
-  "connectingToKovan": {
-    "message": "Forbinder til Kovan Testnetværk"
-  },
-  "connectingToMainnet": {
-    "message": "Forbinder til dit Primære Ethereum Netværk"
-  },
-  "connectingToRopsten": {
-    "message": "Forbinder til Ropsten-testnetværk"
-  },
-  "connectingToRinkeby": {
-    "message": "Forbinder til Rinkeby-testnetværk"
-  },
   "connectingToLocalhost": {
     "message": "Opretter forbindelse til Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Opretter forbindelse til Goerli Testnetværk"
   },
   "contractDeployment": {
     "message": "Kontraktanvendelse"
@@ -447,13 +432,6 @@
   "generalSettingsDescription": {
     "message": "Valutakonvertering, primær valuta, sprog, blockies-identicon"
   },
-  "getEther": {
-    "message": "Hent Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Hent Ether fra en hane til $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Få hjælp"
   },
@@ -560,9 +538,6 @@
     "message": "JSON-fil",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan Test-Netværk"
-  },
   "max": {
     "message": "Maks"
   },
@@ -607,9 +582,6 @@
   },
   "ecfWalletDescription": {
     "message": "Som forbinder dig til Ethereum og de decentraliserede internet."
-  },
-  "mobileSyncText": {
-    "message": "Indtast din adgangskode for at bekræfte, at det er dig!"
   },
   "myAccounts": {
     "message": "Mine Konti"
@@ -855,12 +827,6 @@
   "rinkeby": {
     "message": "Rinkeby-testnetværk"
   },
-  "ropsten": {
-    "message": "Ropsten Test-netværk"
-  },
-  "goerli": {
-    "message": "Goerli-testnetværk"
-  },
   "save": {
     "message": "Gem"
   },
@@ -990,9 +956,6 @@
   "signed": {
     "message": "Underskrevet"
   },
-  "signNotice": {
-    "message": "Underskrivning af denne besked kan have farlige sideeffekter. Skriv kun under på beskeder fra sider, du har fuld tillid til med hele din konto.\nDenne farlige metode bliver fjernet i en fremtidig version."
-  },
   "sigRequest": {
     "message": "Signaturforespørgsel"
   },
@@ -1050,32 +1013,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbolet skal være mindst 11 tegn."
   },
-  "syncWithMobile": {
-    "message": "Synkronisér med mobil"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synkroniser med mobil"
-  },
-  "syncWithMobileDesc": {
-    "message": "Du kan synkronisere dine konti og informationer med din mobilenhed. Åbn ecf-wallet-mobilappen, gå til \"Indstillinger\" og tryk på \"Synkroniser fra browserudvidelse\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Hvis du netop har åbnet ecf-wallet-mobilappen for første gang, skal du blot følge trinnene på din telefon."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Scan denne kode med din ecf-wallet-mobilapp"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Sørg for at der ikke er nogen der kigger på din skærm, når du scanner denne kode"
-  },
-  "syncWithMobileComplete": {
-    "message": "Dine data er blevet synkroniseret korrekt. Nyd ecf-wallet-mobilappen!"
-  },
   "terms": {
     "message": "Brugsbetingelser"
-  },
-  "testFaucet": {
-    "message": "Testhane"
   },
   "thisWillCreate": {
     "message": "Dette vil skabe en ny pung og seedfrase"

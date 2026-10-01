@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Menghubungkan ke $1"
   },
-  "connectingToKovan": {
-    "message": "Menyambung ke Jaringan Tes Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Menghubungkan ke Jaringan Ethereum Utama"
-  },
-  "connectingToRopsten": {
-    "message": "Menghubungkan ke Jaringan Uji Coba Ropsten "
-  },
-  "connectingToRinkeby": {
-    "message": "Menghubungkan ke Jaringan Uji Coba Rinkeby  "
-  },
   "connectingToLocalhost": {
     "message": "Menghubungkan ke Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Menghubungkan ke Jaringan Uji Coba Goerli"
   },
   "contractDeployment": {
     "message": "Penerapan Kontrak"
@@ -438,13 +423,6 @@
   "generalSettingsDescription": {
     "message": "Konversi mata uang, mata uang utama, bahasa, blockies identicon"
   },
-  "getEther": {
-    "message": "Dapatkan Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Dapatkan Ether dari keran untuk $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Dapatkan Bantuan."
   },
@@ -554,9 +532,6 @@
     "message": "Berkas JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Jaringan Uji Coba Kovan"
-  },
   "max": {
     "message": "Maks"
   },
@@ -604,9 +579,6 @@
   },
   "ecfWalletVersion": {
     "message": "Versi ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Harap masukkan sandi untuk mengonfirmasi ini memang Anda!"
   },
   "myAccounts": {
     "message": "Akun Saya"
@@ -855,12 +827,6 @@
   "rinkeby": {
     "message": "Jaringan Uji Rinkeby"
   },
-  "ropsten": {
-    "message": "Jaringan Tes Ropsten"
-  },
-  "goerli": {
-    "message": "Jaringan Uji Goerli"
-  },
   "save": {
     "message": "Simpan"
   },
@@ -993,9 +959,6 @@
   "signed": {
     "message": "Ditandatangani"
   },
-  "signNotice": {
-    "message": "Menandatangani pesan ini dapat memberi efek samping yang berbahaya. Hanya tanda tangani pesan dari situs yang benar-benar Anda percayakan dengan seluruh akun Anda.\nMetode berbahaya ini akan dihapus di versi mendatang."
-  },
   "sigRequest": {
     "message": "Permintaan Tanda Tangan"
   },
@@ -1056,32 +1019,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbol harus antara 0 sampai 12 karakter."
   },
-  "syncWithMobile": {
-    "message": "Sinkronkan dengan ponsel"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sinkronkan dengan seluler"
-  },
-  "syncWithMobileDesc": {
-    "message": "Anda dapat menyinkronkan akun dan informasi Anda dengan perangkat seluler. Buka aplikasi seluler ecf-wallet, pilih \"Pengaturan\" lalu ketuk \"Sinkronkan dari Ekstensi Peramban\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Jika Anda baru saja membuka aplikasi ecf-wallet Mobile untuk pertama kali, ikuti langkah-langkah pada ponsel Anda."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Pindai kode ini dengan aplikasi ponsel ecf-wallet "
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pastikan tidak ada yang melihat ke layar ketika kode ini Anda pindai"
-  },
-  "syncWithMobileComplete": {
-    "message": "Data Anda telah berhasil disinkronkan. Nikmati aplikasi mobile ecf-wallet!"
-  },
   "terms": {
     "message": "Syarat Penggunaan"
-  },
-  "testFaucet": {
-    "message": "Tes Keran"
   },
   "thisWillCreate": {
     "message": "Ini akan membuat dompet dan frasa seed baru"

@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Łączenie z $1"
   },
-  "connectingToKovan": {
-    "message": "Łączenie z siecią testową Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Łączenie z główną siecią Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Łączenie z siecią testową Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Łączenie z siecią testową Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Połączono z serwerem lokalnym 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Łączenie z siecią testową Goerli"
   },
   "contractDeployment": {
     "message": "Uruchomienie kontraktu"
@@ -448,13 +433,6 @@
   "generalSettingsDescription": {
     "message": "Przeliczanie walut, waluta podstawowa, język, ikona (identicon) Blockies"
   },
-  "getEther": {
-    "message": "Zdobądź Eter"
-  },
-  "getEtherFromFaucet": {
-    "message": "Zdobądź Eter ze źródła za $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Po pomoc."
   },
@@ -564,9 +542,6 @@
     "message": "Plik JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Sieć testowa Kovan"
-  },
   "max": {
     "message": "Maks."
   },
@@ -617,9 +592,6 @@
   },
   "ecfWalletVersion": {
     "message": "Wersja ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Wpisz hasło, aby potwierdzić, że to Ty!"
   },
   "myAccounts": {
     "message": "Moje konta"
@@ -868,12 +840,6 @@
   "rinkeby": {
     "message": "Sieć testowa Rinkeby"
   },
-  "ropsten": {
-    "message": "Sieć testowa Ropsten"
-  },
-  "goerli": {
-    "message": "Sieć testowa Goerli"
-  },
   "save": {
     "message": "Zapisz"
   },
@@ -1006,9 +972,6 @@
   "signed": {
     "message": "Podpisane"
   },
-  "signNotice": {
-    "message": "Podpisanie tej wiadomości może mieć \nniebezpieczne skutki uboczne. Podpisuj wiadomości \ntylko ze stron, którym chcesz udostępnić swoje konto.\nTa niebezpieczna metoda będzie usunięta w przyszłych wersjach. "
-  },
   "sigRequest": {
     "message": "Prośba o podpis"
   },
@@ -1066,32 +1029,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbol musi mieć maksymalnie 11 znaków."
   },
-  "syncWithMobile": {
-    "message": "Synchronizuj z telefonem"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synchronizuj z telefonem"
-  },
-  "syncWithMobileDesc": {
-    "message": "Możesz synchronizować swoje konta i informacje z urządzeniem mobilnym. Otwórz aplikację mobilną ecf-wallet, przejdź do „Ustawień” i wybierz opcję „Synchronizuj z rozszerzeniem przeglądarki”."
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Jeśli po raz pierwszy otwierasz aplikację ecf-wallet Mobile, postępuj zgodnie z instrukcjami w telefonie."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Zeskanuj ten kod za pomocą aplikacji mobilnej ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Upewnij się, że nikt inny nie patrzy na Twój ekran podczas skanowania tego kodu"
-  },
-  "syncWithMobileComplete": {
-    "message": "Twoje dane zostały zsynchronizowane. Miłego korzystania z aplikacji mobilnej ecf-wallet!"
-  },
   "terms": {
     "message": "Regulamin"
-  },
-  "testFaucet": {
-    "message": "Źródło testowego ETH"
   },
   "thisWillCreate": {
     "message": "Utworzony zostanie nowy portfel i fraza seed"

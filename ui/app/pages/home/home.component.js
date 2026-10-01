@@ -18,6 +18,7 @@ import {
   RESTORE_VAULT_ROUTE,
   CONFIRM_TRANSACTION_ROUTE,
   CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE,
+  CONFIRM_NETWORK_REQUEST_ROUTE,
   INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
   CONNECT_ROUTE,
   CONNECTED_ROUTE,
@@ -40,6 +41,7 @@ export default class Home extends PureComponent {
     isPopup: PropTypes.bool,
     isNotification: PropTypes.bool.isRequired,
     firstPermissionsRequestId: PropTypes.string,
+    hasNetworkRequests: PropTypes.bool,
     totalUnapprovedCount: PropTypes.number.isRequired,
     setConnectedStatusPopoverHasBeenShown: PropTypes.func,
     connectedStatusPopoverHasBeenShown: PropTypes.bool,
@@ -54,6 +56,7 @@ export default class Home extends PureComponent {
   componentDidMount () {
     const {
       firstPermissionsRequestId,
+      hasNetworkRequests,
       history,
       isNotification,
       suggestedTokens = {},
@@ -70,12 +73,15 @@ export default class Home extends PureComponent {
       history.push(CONFIRM_TRANSACTION_ROUTE)
     } else if (Object.keys(suggestedTokens).length > 0) {
       history.push(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
+    } else if (hasNetworkRequests) {
+      history.push(CONFIRM_NETWORK_REQUEST_ROUTE)
     }
   }
 
   static getDerivedStateFromProps (
     {
       firstPermissionsRequestId,
+      hasNetworkRequests,
       isNotification,
       suggestedTokens,
       totalUnapprovedCount,
@@ -86,7 +92,7 @@ export default class Home extends PureComponent {
     if (!mounted) {
       if (isNotification && totalUnapprovedCount === 0) {
         return { closing: true }
-      } else if (firstPermissionsRequestId || unconfirmedTransactionsCount > 0 || Object.keys(suggestedTokens).length > 0) {
+      } else if (firstPermissionsRequestId || unconfirmedTransactionsCount > 0 || Object.keys(suggestedTokens).length > 0 || hasNetworkRequests) {
         return { redirecting: true }
       }
     }

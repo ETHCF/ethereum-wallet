@@ -56,6 +56,9 @@
         "https://*/*"
       ],
       "js": [
+        "lockdown-install.js",
+        "lockdown-run.js",
+        "lockdown-more.js",
         "contentscript.js"
       ],
       "run_at": "document_start",
@@ -77,6 +80,7 @@
     "activeTab",
     "webRequest",
     "alarms",
+    "offscreen",
     "notifications"
   ],
   "host_permissions": ["http://*/*", "https://*/*"],

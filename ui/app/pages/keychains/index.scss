@@ -207,4 +207,15 @@
     font-size: 14px;
     padding-top: 5px;
   }
+
+  &__hold {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__hint {
+    color: $Grey-500;
+    font-size: 14px;
+  }
 }

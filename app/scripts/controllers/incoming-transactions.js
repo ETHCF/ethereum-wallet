@@ -5,14 +5,7 @@ import createId from '../lib/random-id'
 import { bnToHex } from '../lib/util'
 import fetchWithTimeout from '../lib/fetch-with-timeout'
 
-import {
-  ROPSTEN,
-  RINKEBY,
-  KOVAN,
-  GOERLI,
-  MAINNET,
-  NETWORK_TYPE_TO_ID_MAP,
-} from './network/enums'
+import { MAINNET, MAINNET_NETWORK_ID } from './network/enums'
 
 const fetch = fetchWithTimeout({
   timeout: 30000,
@@ -43,10 +36,6 @@ export default class IncomingTransactionsController {
     const initState = {
       incomingTransactions: {},
       incomingTxLastFetchedBlocksByNetwork: {
-        [ROPSTEN]: null,
-        [RINKEBY]: null,
-        [KOVAN]: null,
-        [GOERLI]: null,
         [MAINNET]: null,
       }, ...opts.initState,
     }
@@ -176,17 +165,11 @@ export default class IncomingTransactionsController {
   }
 
   async _fetchTxs (address, fromBlock, networkType) {
-    let etherscanSubdomain = 'api'
-    const currentNetworkID = NETWORK_TYPE_TO_ID_MAP[networkType]?.networkId
-
-    if (!currentNetworkID) {
+    // Only Ethereum Mainnet has a keyless Etherscan transaction list.
+    if (networkType !== MAINNET) {
       return {}
     }
-
-    if (networkType !== MAINNET) {
-      etherscanSubdomain = `api-${networkType}`
-    }
-    const apiUrl = `https://${etherscanSubdomain}.etherscan.io`
+    const apiUrl = 'https://api.etherscan.io'
     let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&page=1`
 
     if (fromBlock) {
@@ -198,7 +181,7 @@ export default class IncomingTransactionsController {
     return {
       ...parsedResponse,
       address,
-      currentNetworkID,
+      currentNetworkID: MAINNET_NETWORK_ID,
     }
   }
 

@@ -106,18 +106,6 @@
   "connect": {
     "message": "Konekte"
   },
-  "connectingToKovan": {
-    "message": "Konekte nan Kovan Tès Rezo a"
-  },
-  "connectingToMainnet": {
-    "message": "Konekte ak Prensipal Ethereum Rezo a"
-  },
-  "connectingToRopsten": {
-    "message": "Konekte ak Ropsten Tès Rezo a"
-  },
-  "connectingToRinkeby": {
-    "message": "Konekte nan Rinkeby Tès Rezo a"
-  },
   "contractDeployment": {
     "message": "Kontra Deplwaman"
   },
@@ -240,13 +228,6 @@
   "gasPrice": {
     "message": "Pri gaz (GWEI)"
   },
-  "getEther": {
-    "message": "Jwenn Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Jwenn Ether nan yon tiyo pou $1 la",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Jwenn èd."
   },
@@ -328,9 +309,6 @@
   "jsonFile": {
     "message": "JSON Dosye",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Kovan Tès Rezo"
   },
   "max": {
     "message": "Maksimòm"
@@ -543,9 +521,6 @@
   "rinkeby": {
     "message": "Rinkeby Tès Rezo"
   },
-  "ropsten": {
-    "message": "Ropsten Tès Rezo"
-  },
   "save": {
     "message": "Sove"
   },
@@ -633,9 +608,6 @@
   "signed": {
     "message": "Te Siyen"
   },
-  "signNotice": {
-    "message": "Lè w siyen mesaj sa a ka gen efè segondè ki \ndanjere. Sèlman \nsit mesaj ki soti nan sit ou konplètman fè konfyans ak tout kont ou. \n Metòd danjere sa yo pral retire nan yon vèsyon fiti. "
-  },
   "sigRequest": {
     "message": "Demann Siyati"
   },
@@ -677,9 +649,6 @@
   },
   "terms": {
     "message": "Tèm pou itilize"
-  },
-  "testFaucet": {
-    "message": "Tès Tiyo"
   },
   "to": {
     "message": "Pou"

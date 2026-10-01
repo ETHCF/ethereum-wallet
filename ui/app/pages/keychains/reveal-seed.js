@@ -4,24 +4,28 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { requestRevealSeedWords } from '../../store/actions'
 import ExportTextContainer from '../../components/ui/export-text-container'
+import HoldToRevealButton from '../../components/ui/hold-to-reveal-button'
+import SrpQuiz from '../../components/app/srp-quiz'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
 import Button from '../../components/ui/button'
 
+const QUIZ_SCREEN = 'QUIZ_SCREEN'
 const PASSWORD_PROMPT_SCREEN = 'PASSWORD_PROMPT_SCREEN'
 const REVEAL_SEED_SCREEN = 'REVEAL_SEED_SCREEN'
 
 class RevealSeedPage extends Component {
   state = {
-    screen: PASSWORD_PROMPT_SCREEN,
+    screen: QUIZ_SCREEN,
     password: '',
     seedWords: null,
+    revealed: false,
     error: null,
   }
 
-  componentDidMount () {
+  componentDidUpdate (_, prevState) {
     const passwordBox = document.getElementById('password-box')
-    if (passwordBox) {
+    if (prevState.screen !== PASSWORD_PROMPT_SCREEN && passwordBox) {
       passwordBox.focus()
     }
   }
@@ -51,9 +55,14 @@ class RevealSeedPage extends Component {
   }
 
   renderContent () {
-    return this.state.screen === PASSWORD_PROMPT_SCREEN
-      ? this.renderPasswordPromptContent()
-      : this.renderRevealSeedContent()
+    switch (this.state.screen) {
+      case QUIZ_SCREEN:
+        return <SrpQuiz onComplete={() => this.setState({ screen: PASSWORD_PROMPT_SCREEN })} />
+      case PASSWORD_PROMPT_SCREEN:
+        return this.renderPasswordPromptContent()
+      default:
+        return this.renderRevealSeedContent()
+    }
   }
 
   renderPasswordPromptContent () {
@@ -85,6 +94,18 @@ class RevealSeedPage extends Component {
   renderRevealSeedContent () {
     const { t } = this.context
 
+    if (!this.state.revealed) {
+      return (
+        <div className="reveal-seed__hold">
+          <div className="reveal-seed__hint">{t('holdToRevealHint')}</div>
+          <HoldToRevealButton
+            buttonText={t('holdToRevealSeedPhrase')}
+            onLongPressed={() => this.setState({ revealed: true })}
+          />
+        </div>
+      )
+    }
+
     return (
       <div>
         <label className="reveal-seed__label">{t('yourPrivateSeedPhrase')}</label>
@@ -96,7 +117,7 @@ class RevealSeedPage extends Component {
   renderFooter () {
     return this.state.screen === PASSWORD_PROMPT_SCREEN
       ? this.renderPasswordPromptFooter()
-      : this.renderRevealSeedFooter()
+      : this.renderCloseFooter()
   }
 
   renderPasswordPromptFooter () {
@@ -125,7 +146,8 @@ class RevealSeedPage extends Component {
     )
   }
 
-  renderRevealSeedFooter () {
+  renderCloseFooter () {
+    const { t } = this.context
     return (
       <div className="page-container__footer">
         <Button
@@ -134,7 +156,7 @@ class RevealSeedPage extends Component {
           className="page-container__footer-button"
           onClick={() => this.props.history.push(this.props.mostRecentOverviewPage)}
         >
-          {this.context.t('close')}
+          {t(this.state.screen === QUIZ_SCREEN ? 'cancel' : 'close')}
         </Button>
       </div>
     )

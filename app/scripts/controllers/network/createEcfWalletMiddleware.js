@@ -7,7 +7,6 @@ export default function createEcfWalletMiddleware ({
   version,
   getAccounts,
   processTransaction,
-  processEthSignMessage,
   processTypedMessage,
   processTypedMessageV3,
   processTypedMessageV4,
@@ -26,7 +25,6 @@ export default function createEcfWalletMiddleware ({
     createWalletSubprovider({
       getAccounts,
       processTransaction,
-      processEthSignMessage,
       processTypedMessage,
       processTypedMessageV3,
       processTypedMessageV4,

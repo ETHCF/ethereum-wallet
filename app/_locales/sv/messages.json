@@ -209,23 +209,8 @@
   "connectingTo": {
     "message": "Ansluter till $1"
   },
-  "connectingToKovan": {
-    "message": "Ansluter till Kovans testnätverk"
-  },
-  "connectingToMainnet": {
-    "message": "Koppla till Ethereums huvudnätverk"
-  },
-  "connectingToRopsten": {
-    "message": "Ansluter till Ropsten Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Ansluter till Rinkeby Test Network"
-  },
   "connectingToLocalhost": {
     "message": "Ansluter till Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Ansluter till Goerli Test Network"
   },
   "contractDeployment": {
     "message": "Kontraktplacering"
@@ -441,13 +426,6 @@
   "generalSettingsDescription": {
     "message": "Valutaomvandling, primär valuta, språk"
   },
-  "getEther": {
-    "message": "Skaffa Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Få Ether från en kran för $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Få hjälp."
   },
@@ -557,9 +535,6 @@
     "message": "JSON-fil",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan testnätverk"
-  },
   "max": {
     "message": "Maximalt"
   },
@@ -607,9 +582,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet-version"
-  },
-  "mobileSyncText": {
-    "message": "Var vänlig ange ditt lösenord för att bekräfta att det är du!"
   },
   "myAccounts": {
     "message": "Mina konton"
@@ -858,12 +830,6 @@
   "rinkeby": {
     "message": "Rinkeby testnätverk"
   },
-  "ropsten": {
-    "message": "Ropsten testnätverk"
-  },
-  "goerli": {
-    "message": "Goerli testnätverk"
-  },
   "save": {
     "message": "Spara"
   },
@@ -996,9 +962,6 @@
   "signed": {
     "message": "Signerat"
   },
-  "signNotice": {
-    "message": "Att signera det här meddelandet kan få farliga följder. Signera endast meddelanden från sidor du vågar anförtro hela ditt konto åt. Den här farliga metoden kommer att avlägsnas i kommande versioner."
-  },
   "sigRequest": {
     "message": "Signaturförfrågan"
   },
@@ -1056,32 +1019,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbolen måste vara 11 tecken eller färre."
   },
-  "syncWithMobile": {
-    "message": "Synka med mobil"
-  },
-  "syncWithMobileTitle": {
-    "message": "Synka med mobil"
-  },
-  "syncWithMobileDesc": {
-    "message": "Du kan nu synka dina konton och din information med din mobil-enhet. Öppna ecf-wallets mobil-app, gå till \"Inställningar\" och tryck på \"Synka från webbläsartillägg\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Om du öppnar ecf-wallet mobilapplikation för första gången behöver du bara följa stegen som visas i telefonen."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Skanna den här koden med din ecf-wallet mobilapplikation"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Försäkra dig om att ingen tittar på din skärm när du skannar denna kod"
-  },
-  "syncWithMobileComplete": {
-    "message": "Din data har nu synkats. Ha det så kul med ecf-wallets mobil-app!"
-  },
   "terms": {
     "message": "Användarvillkor"
-  },
-  "testFaucet": {
-    "message": "Test-faucet"
   },
   "thisWillCreate": {
     "message": "Detta kommer att skapa en ny plånbok och seed phrase"

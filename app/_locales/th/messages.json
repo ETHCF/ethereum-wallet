@@ -79,12 +79,6 @@
   "connectingTo": {
     "message": "เชื่อมต่อกับ $1"
   },
-  "connectingToMainnet": {
-    "message": "เชื่อมต่อกับเครือข่าย Ethereum หลัก"
-  },
-  "connectingToRopsten": {
-    "message": "เชื่อมต่อกับเครือข่ายทดสอบ Ropsten"
-  },
   "contractDeployment": {
     "message": "การติดตั้งสัญญา"
   },
@@ -216,13 +210,6 @@
   "general": {
     "message": "ทั่วไป"
   },
-  "getEther": {
-    "message": "รับอีเธอร์"
-  },
-  "getEtherFromFaucet": {
-    "message": "รับอีเธอร์ที่ปล่อยจาก $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "ที่นี่",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -277,9 +264,6 @@
   "jsonFile": {
     "message": "ไฟล์ JSON",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "เครือข่ายทดสอบ Kovan"
   },
   "learnMore": {
     "message": "เรียนรู้เพิ่มเติม"
@@ -411,9 +395,6 @@
   "rinkeby": {
     "message": "เครือข่ายทดสอบ Rinkeby"
   },
-  "ropsten": {
-    "message": "เครือข่ายทดสอบ Ropsten"
-  },
   "save": {
     "message": "บันทึก"
   },
@@ -471,9 +452,6 @@
   "signed": {
     "message": "ลงชื่อแล้ว"
   },
-  "signNotice": {
-    "message": "การเซ็นชื่อในข้อความนี้อาจจะเป็นอันตรายได้ \nเซ็นชื่อเฉพาะข้อความจากแหล่งที่คุณไว้วางใจได้จริง ๆ เท่านั้น \nวิธีที่อันตรายนี้จะถูกลบออกในอนาคต"
-  },
   "sigRequest": {
     "message": "ขอลายเซ็น"
   },
@@ -507,14 +485,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "สัญลักษณ์จะต้องมีความยาว 11 ตัวอักษร"
   },
-  "syncWithMobileComplete": {
-    "message": "ซิงค์ข้อมูลของคุณเรียบร้อยแล้ว ใช้แอพ ecf-wallet ให้สนุกนะ!"
-  },
   "terms": {
     "message": "ข้อตกลงในการใช้งาน"
-  },
-  "testFaucet": {
-    "message": "ตัวแจกจ่ายเพื่อการทดสอบ"
   },
   "thisWillCreate": {
     "message": "สิ่งนี้จะสร้าง Wallet และ Seed Phrase ใหม่"

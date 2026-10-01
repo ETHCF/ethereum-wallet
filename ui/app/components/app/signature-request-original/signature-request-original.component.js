@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ethUtil from 'ethereumjs-util'
-import classnames from 'classnames'
 import { ObjectInspector } from 'react-inspector'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums'
@@ -194,7 +193,7 @@ export default class SignatureRequestOriginal extends Component {
 
   renderBody = () => {
     let rows
-    let notice = `${this.context.t('youSign')}:`
+    const notice = `${this.context.t('youSign')}:`
 
     const { txData } = this.props
     const { type, msgParams: { data, siwe, origin } } = txData
@@ -203,9 +202,6 @@ export default class SignatureRequestOriginal extends Component {
       rows = [{ name: this.context.t('message'), value: this.msgHexToText(data) }]
     } else if (type === MESSAGE_TYPE.ETH_SIGN_TYPED_DATA) {
       rows = data
-    } else if (type === MESSAGE_TYPE.ETH_SIGN) {
-      rows = [{ name: this.context.t('message'), value: data }]
-      notice = this.context.t('signNotice')
     }
 
     return (
@@ -213,28 +209,8 @@ export default class SignatureRequestOriginal extends Component {
         { this.renderAccountInfo() }
         { this.renderRequestInfo() }
         {siwe && <SiweDetails siwe={siwe} origin={origin} />}
-        <div
-          className={classnames('request-signature__notice', {
-            'request-signature__warning': type === MESSAGE_TYPE.ETH_SIGN,
-          })}
-        >
+        <div className="request-signature__notice">
           { notice }
-          {
-            type === MESSAGE_TYPE.ETH_SIGN
-              ? (
-                <span
-                  className="request-signature__help-link"
-                  onClick={() => {
-                    global.platform.openTab({
-                      url: 'https://metamask.zendesk.com/hc/en-us/articles/360015488751',
-                    })
-                  }}
-                >
-                  { this.context.t('learnMore') }
-                </span>
-              )
-              : null
-          }
         </div>
         <div className="request-signature__rows">
           {

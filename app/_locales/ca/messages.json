@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Connectant a $1 "
   },
-  "connectingToKovan": {
-    "message": "Conectant a la xarxa de Kovan Test"
-  },
-  "connectingToMainnet": {
-    "message": "Connectant a Xarxa Principal Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Connectant a la xarxa de test Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Connectant a la Xarxa de Prova Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Connectant al host local 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Connectant a Xarxa de Prova Goerli"
   },
   "contractDeployment": {
     "message": "Desplegament de Contracte"
@@ -441,13 +426,6 @@
   "generalSettingsDescription": {
     "message": "Conversió de divises, divisa principal, idioma, icones d'identificació única"
   },
-  "getEther": {
-    "message": "Aconsegueix Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Aconsegueix Ether d'una aixeta per $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Aconsegueix ajuda."
   },
@@ -554,9 +532,6 @@
     "message": "Arxiu JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Xarxa de Prova Kovan"
-  },
   "learnMore": {
     "message": "Saber més"
   },
@@ -607,9 +582,6 @@
   },
   "ecfWalletVersion": {
     "message": "Versió ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Si us plau, introdueix la teva contrasenya per confirmar que ets tu!"
   },
   "myAccounts": {
     "message": "Els meus Comptes"
@@ -852,12 +824,6 @@
   "rinkeby": {
     "message": "Xarxa del test Rinkeby"
   },
-  "ropsten": {
-    "message": "Xarxa de Prova Ropsten"
-  },
-  "goerli": {
-    "message": "Xarxa de test Goerli"
-  },
   "save": {
     "message": "Desa"
   },
@@ -990,9 +956,6 @@
   "signed": {
     "message": "Signat"
   },
-  "signNotice": {
-    "message": "Signar aquest missatge pot tenir efectes secundaris perillosos. Signa només els missatges de llocs en els quals confiïs plenament amb la totalitat del teu compte. Aquest mètode perillós serà retirat en versions posteriors."
-  },
   "sigRequest": {
     "message": "Sol·licitud de Signatura"
   },
@@ -1052,27 +1015,6 @@
   },
   "symbolBetweenZeroTwelve": {
     "message": "El símbol ha de tenir com a mínim 11 caràcters."
-  },
-  "syncWithMobile": {
-    "message": "Sincronitza amb el mòbil"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sincronitzar amb mòbil"
-  },
-  "syncWithMobileDesc": {
-    "message": "Pots sincronitzar els teus comptes i la teva informació amb el teu dispositiu mòbil. Obre l'app mòbil de MetaTask, ves a \"Configuració\" i \"Sincronitzar desde l"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Si acabes d'obrir l'app mòbil ecf-wallet per primer cop, tan sols has de seguir els passos del teu telèfon."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Escaneja aquest codi amb la teva aplicació mòbil de ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Assegura't que no hi ha ningú mirant la teva pantalla quan escanegis aquest codi"
-  },
-  "syncWithMobileComplete": {
-    "message": "Les teves dades s'han sincronitzat amb èxit. Disfruta de l'app mòbil de ecf-wallet!"
   },
   "terms": {
     "message": "Condicions d'ús"

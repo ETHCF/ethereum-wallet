@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "מתחבר ל- $1 "
   },
-  "connectingToKovan": {
-    "message": "מתחבר ל-Kovan Test Network"
-  },
-  "connectingToMainnet": {
-    "message": "מתחבר לרשת אתריום הראשית"
-  },
-  "connectingToRopsten": {
-    "message": "מתחבר אל רשת בדיקה Ropsten "
-  },
-  "connectingToRinkeby": {
-    "message": "מתחבר ל- Rinkeby Test Network  "
-  },
   "connectingToLocalhost": {
     "message": "מתחבר אל Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "מתחבר ל-Goerli Test Network"
   },
   "contractDeployment": {
     "message": "שליחת חוזה (Contract Deployment)"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "המרת מטבע, מטבע עיקרי, שפה, blockies identicon"
   },
-  "getEther": {
-    "message": "השג/י את'ר"
-  },
-  "getEtherFromFaucet": {
-    "message": "השג/י את'ר מברז (faucet) עבור ה-$1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "בקש/י עזרה."
   },
@@ -567,9 +545,6 @@
     "message": "קובץ JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "רשת בדיקה Kovan "
-  },
   "max": {
     "message": "מקסימום"
   },
@@ -620,9 +595,6 @@
   },
   "ecfWalletVersion": {
     "message": "גרסת ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "נא להזין את הססמה שלך כדי לאשר שזה/זו אכן את/ה!"
   },
   "myAccounts": {
     "message": "החשבונות שלי"
@@ -871,9 +843,6 @@
   "rinkeby": {
     "message": "רשת בדיקה Rinkeby "
   },
-  "goerli": {
-    "message": "רשת בדיקה Goerli "
-  },
   "save": {
     "message": "שמור"
   },
@@ -1006,9 +975,6 @@
   "signed": {
     "message": "חתום"
   },
-  "signNotice": {
-    "message": "לחתימה על הודעה זו יכולות להיות תוצאות לוואי מסוכנות. מומלץ לחתום רק הודעות מאתרים שיש לך אמון מלא בהם והפקדת את כל החשבון שלך בידיהם. השיטה המסוכנת תוסר בגרסה עתידית."
-  },
   "sigRequest": {
     "message": "בקשת חתימה"
   },
@@ -1069,32 +1035,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "הסמל חייב להיות 11 תווים או פחות."
   },
-  "syncWithMobile": {
-    "message": "סנכרן עם הנייד"
-  },
-  "syncWithMobileTitle": {
-    "message": "סנכרן עם הנייד"
-  },
-  "syncWithMobileDesc": {
-    "message": "באפשרותך לסנכרן את החשבונות והמידע שלך עם המכשיר הנייד שלך. יש לפתוח את האפליקציה לנייד של ecf-wallet, לעבור אל \"הגדרות\" וללחוץ על \"סנכרון מהרחבה לדפדפן\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "אם את/ה פותח/ת  את אפליקציית ecf-wallet Mobile בפעם הראשונה, פשוט בצע/י את השלבים בטלפון שלך."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "יש לסרוק קוד QR זה באמצעות אפליקציית ecf-wallet לטלפון נייד"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "ודא/י כי איש אינו מסתכל על המסך שלך בזמן סריקת קוד זה"
-  },
-  "syncWithMobileComplete": {
-    "message": "הנתונים שלך סונכרנו בהצלחה. תיהנה/י מאפליקציית ecf-wallet לטלפונים ניידים! "
-  },
   "terms": {
     "message": "תנאי שימוש"
-  },
-  "testFaucet": {
-    "message": "בדיקת ברז (Faucet)"
   },
   "thisWillCreate": {
     "message": "זה ייצור ארנק חדש וצירוף גרעין (seed phrase)"

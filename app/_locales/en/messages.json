@@ -370,23 +370,8 @@
   "connectingTo": {
     "message": "Connecting to $1"
   },
-  "connectingToKovan": {
-    "message": "Connecting to Kovan Test Network"
-  },
-  "connectingToMainnet": {
-    "message": "Connecting to Main Ethereum Network"
-  },
-  "connectingToRopsten": {
-    "message": "Connecting to Ropsten Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Connecting to Rinkeby Test Network"
-  },
   "connectingToLocalhost": {
     "message": "Connecting to Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Connecting to Goerli Test Network"
   },
   "contacts": {
     "message": "Contacts"
@@ -683,13 +668,6 @@
   "generalSettingsDescription": {
     "message": "Currency conversion, primary currency, language, blockies identicon"
   },
-  "getEther": {
-    "message": "Get Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Get Ether from a faucet for the $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Get Help."
   },
@@ -821,9 +799,6 @@
     "message": "JSON File",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan Test Network"
-  },
   "max": {
     "message": "Max"
   },
@@ -892,9 +867,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet Version"
-  },
-  "mobileSyncText": {
-    "message": "Please enter your password to confirm it's you!"
   },
   "myAccounts": {
     "message": "My Accounts"
@@ -1003,9 +975,6 @@
   },
   "noTransactions": {
     "message": "You have no transactions"
-  },
-  "noThanks": {
-    "message": "No Thanks"
   },
   "notCurrentAccount": {
     "message": "Is this the correct account? It's different from the currently selected account in your wallet"
@@ -1181,12 +1150,6 @@
   "rinkeby": {
     "message": "Rinkeby Test Network"
   },
-  "ropsten": {
-    "message": "Ropsten Test Network"
-  },
-  "goerli": {
-    "message": "Goerli Test Network"
-  },
   "save": {
     "message": "Save"
   },
@@ -1350,9 +1313,6 @@
   "signed": {
     "message": "Signed"
   },
-  "signNotice": {
-    "message": "Signing this message can have \ndangerous side effects. Only sign messages from \nsites you fully trust with your entire account.\n This dangerous method will be removed in a future version. "
-  },
   "sigRequest": {
     "message": "Signature Request"
   },
@@ -1438,32 +1398,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Symbol must be 11 characters or fewer."
   },
-  "syncWithMobile": {
-    "message": "Sync with mobile"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sync with mobile"
-  },
-  "syncWithMobileDesc": {
-    "message": "You can sync your accounts and information with your mobile device. Open the mobile wallet app, go to \"Settings\" and tap on \"Sync from Browser Extension\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "If you just open the mobile wallet app for the first time, just follow the steps in your phone."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Scan this code with your mobile wallet app"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Make sure nobody else is looking at your screen when you scan this code"
-  },
-  "syncWithMobileComplete": {
-    "message": "Your data has been synced successfully. Enjoy the mobile wallet app!"
-  },
   "terms": {
     "message": "Terms of Use"
-  },
-  "testFaucet": {
-    "message": "Test Faucet"
   },
   "thisWillCreate": {
     "message": "This will create a new wallet and seed phrase"
@@ -1708,5 +1644,121 @@
   "encryptionPublicKeyNotice": {
     "message": "$1 would like your public encryption key. By consenting, this site will be able to compose encrypted messages to you.",
     "description": "$1 is the web3 site name"
+  },
+  "srpQuizTitle": {
+    "message": "Quick safety check"
+  },
+  "srpQuizDescription": {
+    "message": "Answer two questions to show you know how to keep your seed phrase safe."
+  },
+  "srpQuizProgress": {
+    "message": "Question $1 of $2",
+    "description": "$1 is the current question number and $2 is the number of questions"
+  },
+  "srpQuizQuestionOne": {
+    "message": "Someone in a support chat says they need your seed phrase to fix your wallet. What do you do?"
+  },
+  "srpQuizQuestionOneRightAnswer": {
+    "message": "Refuse and stop talking to them"
+  },
+  "srpQuizQuestionOneWrongAnswer": {
+    "message": "Send it so they can help"
+  },
+  "srpQuizQuestionOneRightAnswerTitle": {
+    "message": "Correct. Real support never asks for it."
+  },
+  "srpQuizQuestionOneRightAnswerDescription": {
+    "message": "Whoever has your seed phrase controls your funds. No genuine helper needs it, so a request for it is always an attempt to steal from you."
+  },
+  "srpQuizQuestionOneWrongAnswerTitle": {
+    "message": "No. That request is a theft attempt."
+  },
+  "srpQuizQuestionOneWrongAnswerDescription": {
+    "message": "Your seed phrase gives full control of your funds. Nobody legitimate will ever ask for it, whoever they claim to be."
+  },
+  "srpQuizQuestionTwo": {
+    "message": "Where should you keep your seed phrase?"
+  },
+  "srpQuizQuestionTwoRightAnswer": {
+    "message": "Written down offline, somewhere only I can reach"
+  },
+  "srpQuizQuestionTwoWrongAnswer": {
+    "message": "In a screenshot or cloud note so it's always handy"
+  },
+  "srpQuizQuestionTwoRightAnswerTitle": {
+    "message": "Correct. Keep it offline."
+  },
+  "srpQuizQuestionTwoRightAnswerDescription": {
+    "message": "Paper or metal stored somewhere private keeps it away from malware and hacked accounts. Without it, nobody can restore your wallet for you, so keep a spare copy somewhere equally safe."
+  },
+  "srpQuizQuestionTwoWrongAnswerTitle": {
+    "message": "Not safe. Online copies get stolen."
+  },
+  "srpQuizQuestionTwoWrongAnswerDescription": {
+    "message": "Photos, cloud notes and messages can be read by malware or by anyone who gets into the account. Keep it offline instead."
+  },
+  "holdToRevealSeedPhrase": {
+    "message": "Hold to reveal seed phrase"
+  },
+  "holdToRevealPrivateKey": {
+    "message": "Hold to reveal private key"
+  },
+  "holdToRevealHint": {
+    "message": "Check that no one can see your screen."
+  },
+  "sensitiveClipboardWarning": {
+    "message": "Copied. Your clipboard will be cleared in 1 minute. Until then, any app that can read the clipboard can see it."
+  },
+  "clearClipboardNow": {
+    "message": "Clear clipboard now"
+  },
+  "clipboardCleared": {
+    "message": "Clipboard cleared."
+  },
+  "clipboardClearFailed": {
+    "message": "The clipboard couldn’t be cleared automatically. Copy something else to overwrite it."
+  },
+  "testNetworks": {
+    "message": "Test networks"
+  },
+  "networkRequestAddTitle": {
+    "message": "Add this network?"
+  },
+  "networkRequestSwitchTitle": {
+    "message": "Change networks?"
+  },
+  "networkRequestAddDescription": {
+    "message": "$1 wants to add this network and switch to it.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestSwitchDescription": {
+    "message": "$1 wants to switch the wallet to this network.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestCurrentNetwork": {
+    "message": "Connected now"
+  },
+  "networkRequestApproveAdd": {
+    "message": "Add and switch"
+  },
+  "networkRequestApproveSwitch": {
+    "message": "Change network"
+  },
+  "networkRequestRpcNotice": {
+    "message": "This site chose the RPC provider. The provider can see your IP address and which accounts you use, and it could show false balances or transaction results."
+  },
+  "networkRequestUnknownChain": {
+    "message": "ECF Wallet doesn’t recognize this network. Only add it if you trust this site."
+  },
+  "networkRequestSymbolMismatch": {
+    "message": "$1 uses $2 as its currency, but this site says $3. The site may be impersonating $1.",
+    "description": "$1 is a network name, $2 the expected currency symbol and $3 the symbol the site gave"
+  },
+  "networkRequestInsecureRpc": {
+    "message": "This RPC provider uses an unencrypted HTTP connection on your computer."
+  },
+  "networkRequestDifferentRpc": {
+    "message": "You already have a network with this chain ID that uses $1. Approving adds a second RPC provider for it.",
+    "description": "$1 is an RPC URL"
   }
 }

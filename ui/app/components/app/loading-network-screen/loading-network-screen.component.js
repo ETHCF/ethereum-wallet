@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../ui/button'
 import LoadingScreen from '../../ui/loading-screen'
+import { getConnectingLabel } from '../../../helpers/utils/network-display'
 
 export default class LoadingNetworkScreen extends PureComponent {
   state = {
@@ -33,27 +34,7 @@ export default class LoadingNetworkScreen extends PureComponent {
       return loadingMessage
     }
     const { provider, providerId } = this.props
-    const providerName = provider.type
-
-    let name
-
-    if (providerName === 'mainnet') {
-      name = this.context.t('connectingToMainnet')
-    } else if (providerName === 'ropsten') {
-      name = this.context.t('connectingToRopsten')
-    } else if (providerName === 'kovan') {
-      name = this.context.t('connectingToKovan')
-    } else if (providerName === 'rinkeby') {
-      name = this.context.t('connectingToRinkeby')
-    } else if (providerName === 'localhost') {
-      name = this.context.t('connectingToLocalhost')
-    } else if (providerName === 'goerli') {
-      name = this.context.t('connectingToGoerli')
-    } else {
-      name = this.context.t('connectingTo', [providerId])
-    }
-
-    return name
+    return getConnectingLabel(provider, providerId, this.context.t)
   }
 
   renderErrorScreenContent = () => {
@@ -120,7 +101,7 @@ export default class LoadingNetworkScreen extends PureComponent {
         header={(
           <div
             className="page-container__header-close"
-            onClick={() => setProviderType(lastSelectedProvider || 'ropsten')}
+            onClick={() => setProviderType(lastSelectedProvider || 'mainnet')}
           />
         )}
         showLoadingSpinner={!this.state.showErrorScreen}

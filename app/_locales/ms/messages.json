@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "Menyambungkan kepada $1"
   },
-  "connectingToKovan": {
-    "message": "Menyambungkan kepada Rangkaian Ujian Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Menyambung kepada Rangkaian Ethereum Utama"
-  },
-  "connectingToRopsten": {
-    "message": "Menyambungkan kepada Rangkaian Ujian Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Menyambung kepada Rangkaian Ujian Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Menyambung kepada Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Menyambung kepada Rangkaian Ujian Goerli"
   },
   "contractDeployment": {
     "message": "Penyusunan Kontrak"
@@ -435,13 +420,6 @@
   "generalSettingsDescription": {
     "message": "Penukaran mata wang, mata wang utama, bahasa, blockies identicon"
   },
-  "getEther": {
-    "message": "Dapatkan Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Dapatkan Ether daripada pili untuk $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Dapatkan Bantuan."
   },
@@ -547,9 +525,6 @@
     "message": "Fail JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Rangkaian Ujian Kovan"
-  },
   "max": {
     "message": "Maks"
   },
@@ -597,9 +572,6 @@
   },
   "ecfWalletVersion": {
     "message": "Versi ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Sila masukkan kata laluan anda untuk mengesahkan ini memang anda!"
   },
   "myAccounts": {
     "message": "Akaun Saya"
@@ -848,12 +820,6 @@
   "rinkeby": {
     "message": "Rangkaian Ujian Rinkeby"
   },
-  "ropsten": {
-    "message": "Rangkaian Ujian Ropsten"
-  },
-  "goerli": {
-    "message": "Rangkaian Ujian Goerli"
-  },
   "save": {
     "message": "Simpan"
   },
@@ -986,9 +952,6 @@
   "signed": {
     "message": "Ditandatangani"
   },
-  "signNotice": {
-    "message": "Menandatangani mesej ini boleh menyebabkan kesan sampingan yang berbahaya. Hanya tandatangan mesej daripada tapak yang anda percayai sepenuhnya dengan seluruh akaun anda. Kaedah berbahaya ini akan dibuang dalam versi akan datang."
-  },
   "sigRequest": {
     "message": "Permintaan Tandatangan"
   },
@@ -1049,32 +1012,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbol mestilah 11 aksara atau kurang."
   },
-  "syncWithMobile": {
-    "message": "Segerakkan dengan telefon mudah alih"
-  },
-  "syncWithMobileTitle": {
-    "message": "Segerakkan dengan mudah alih"
-  },
-  "syncWithMobileDesc": {
-    "message": "Anda boleh menyegerakkan akaun dan maklumat anda dengan peranti mudah alih anda. Buka ap mudah alih ecf-wallet, pergi ke \"Tetapan\" dan ketik \"Segerakkan daripada Sambungan Pelayar\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Jika ini kali pertama anda membuka aplikasi mudah alih ecf-wallet, anda cuma perlu ikuti langkah-langkah di telefon anda."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Imbas kod ini dengan aplikasi mudah alih ecf-wallet anda"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pastikan tiada orang lain melihat skrin anda ketika anda mengimbas kod ini"
-  },
-  "syncWithMobileComplete": {
-    "message": "Data anda berjaya disegerakkan. Nikmati aplikasi mudah alih ecf-wallet!"
-  },
   "terms": {
     "message": "Syarat-syarat Penggunaan"
-  },
-  "testFaucet": {
-    "message": "Uji Pili"
   },
   "thisWillCreate": {
     "message": "Ini akan mencipta dompet dan frasa benih baru"

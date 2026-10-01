@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "$1 ಗೆ ಸಂಪರ್ಕಪಡಿಸಲಾಗುತ್ತಿದೆ"
   },
-  "connectingToKovan": {
-    "message": "Kovan ಪರೀಕ್ಷಾ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ "
-  },
-  "connectingToMainnet": {
-    "message": "ಮುಖ್ಯ ಎಥೆರಿಯಮ್ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
-  },
-  "connectingToRopsten": {
-    "message": "Ropsten ಪರೀಕ್ಷಾ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
-  },
-  "connectingToRinkeby": {
-    "message": "Rinkeby ಪರೀಕ್ಷಾ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
-  },
   "connectingToLocalhost": {
     "message": "ಲೋಕಲ್‌ಹೋಸ್ಟ್ 8545 ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
-  },
-  "connectingToGoerli": {
-    "message": "Goerli ಪರೀಕ್ಷಾ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
   },
   "contractDeployment": {
     "message": "ಒಪ್ಪಂದದ ನಿಯೋಜನೆ"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "ಕರೆನ್ಸಿ ಪರಿವರ್ತನೆ, ಪ್ರಾಥಮಿಕ ಕರೆನ್ಸಿ, ಭಾಷೆ, ನಿರ್ಬಂಧಗಳ ಗುರುತಿಸುವಿಕೆ"
   },
-  "getEther": {
-    "message": "ಎಥರ್ ಪಡೆಯಿರಿ"
-  },
-  "getEtherFromFaucet": {
-    "message": "$1 ಗಾಗಿ ಫಾಸೆಟ್‌ನಿಂದ ಎಥರ್ ಅನ್ನು ಪಡೆಯಿರಿ",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "ಸಹಾಯವನ್ನು ಪಡೆಯಿರಿ."
   },
@@ -567,9 +545,6 @@
     "message": "JSON ಫೈಲ್",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan ಪರೀಕ್ಷೆ ನೆಟ್‌ವರ್ಕ್"
-  },
   "max": {
     "message": "ಗರಿಷ್ಟ"
   },
@@ -623,9 +598,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet ಆವೃತ್ತಿ"
-  },
-  "mobileSyncText": {
-    "message": "ಇದು ನೀವೇ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಲು ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನಮೂದಿಸಿ!"
   },
   "myAccounts": {
     "message": "ನನ್ನ ಖಾತೆಗಳು"
@@ -874,12 +846,6 @@
   "rinkeby": {
     "message": "Rinkeby ಪರೀಕ್ಷೆ ನೆಟ್‌ವರ್ಕ್"
   },
-  "ropsten": {
-    "message": "Ropsten ಪರೀಕ್ಷೆ ನೆಟ್‌ವರ್ಕ್"
-  },
-  "goerli": {
-    "message": "Goerli ಪರೀಕ್ಷೆ ನೆಟ್‌ವರ್ಕ್"
-  },
   "save": {
     "message": "ಉಳಿಸು"
   },
@@ -1012,9 +978,6 @@
   "signed": {
     "message": "ಸಹಿ ಮಾಡಲಾಗಿದೆ"
   },
-  "signNotice": {
-    "message": "ಈ ಸಂದೇಶಕ್ಕೆ ಸಹಿ ಮಾಡುವಿಕೆಯು \nಅಪಾಯಕಾರಿ ಅಡ್ಡಪರಿಣಾಮಗಳನ್ನು ಹೊಂದಿರಬಹುದು. ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಖಾತೆಯೊಂದಿಗೆ ನೀವು ಸಂಪೂರ್ಣವಾಗಿ ನಂಬುವ ಸೈಟ್‌ಗಳಿಂದ\nಮಾತ್ರ ಸಂದೇಶಗಳಿಗೆ ಸಹಿ ಮಾಡಿ.\nಭವಿಷ್ಯದ ಆವೃತ್ತಿಯಲ್ಲಿ ಈ ಅಪಾಯಕಾರಿ ವಿಧಾನವನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ."
-  },
   "sigRequest": {
     "message": "ಸಹಿಯ ವಿನಂತಿ"
   },
@@ -1075,32 +1038,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "ಚಿಹ್ನೆಯು 0 ಮತ್ತು 12 ಅಕ್ಷರಗಳ ನಡುವೆ ಇರಬೇಕು."
   },
-  "syncWithMobile": {
-    "message": "ಮೊಬೈಲ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಿ"
-  },
-  "syncWithMobileTitle": {
-    "message": "ಮೊಬೈಲ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಿ"
-  },
-  "syncWithMobileDesc": {
-    "message": "ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಖಾತೆಗಳು ಮತ್ತು ಮಾಹಿತಿಯನ್ನು ನೀವು ಸಿಂಕ್ ಮಾಡಬಹುದಾಗಿದೆ. ecf-wallet ಮೊಬೈಲ್ ಅಪ್ಲಿಕೇಶನ್ ತೆರೆಯಿರಿ, \"ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ\" ಹೋಗಿ ಮತ್ತು \"ಬ್ರೌಸರ್ ವಿಸ್ತರಣೆಯಿಂದ ಸಿಂಕ್ ಮಾಡಿ\" ಟ್ಯಾಪ್ ಮಾಡಿ"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "ನೀವು ಮೊದಲ ಬಾರಿಗೆ ecf-wallet ಮೊಬೈಲ್ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ತೆರೆದರೆ, ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿರುವ ಹಂತಗಳನ್ನು ಅನುಸರಿಸಿ."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "ನಿಮ್ಮ ecf-wallet ಮೊಬೈಲ್ ಅಪ್ಲಿಕೇಶನ್ ಮೂಲಕ ಈ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "ನೀವು ಈ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿರುವಾಗ ಯಾರೂ ನಿಮ್ಮ ಪರದೆಯ ಕಡೆಗೆ ನೋಡುತ್ತಿಲ್ಲವೇ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ."
-  },
-  "syncWithMobileComplete": {
-    "message": "ನಿಮ್ಮ ಡೇಟಾ ಯಶಸ್ವಿಯಾಗಿ ಸಿಂಕ್ ಆಗಿದೆ. ecf-wallet ಮೊಬೈಲ್ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಆನಂದಿಸಿ!"
-  },
   "terms": {
     "message": "ಬಳಕೆಯ ನಿಯಮಗಳು"
-  },
-  "testFaucet": {
-    "message": "ಫಾಸೆಟ್ ಪರೀಕ್ಷಿಸಿ"
   },
   "thisWillCreate": {
     "message": "ಇದು ಹೊಸ ವ್ಯಾಲೆಟ್ ಮತ್ತು ಸೀಡ್ ಫ್ರೇಸ್ ಅನ್ನು ರಚಿಸುತ್ತದೆ"

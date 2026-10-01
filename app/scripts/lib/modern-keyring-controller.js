@@ -1,5 +1,6 @@
 import KeyringController from 'eth-keyring-controller'
 import { validateMnemonic } from 'bip39'
+import log from 'loglevel'
 import { signTypedData } from './signing-utils'
 
 // Preserve the vault format and account derivation while guarding the legacy
@@ -56,7 +57,27 @@ export default class ModernKeyringController extends KeyringController {
     await this.unlockKeyrings(password)
     this.assertVaultGeneration(generation)
     this.setUnlocked()
+    // Runs after unlocking so the slower key derivation does not delay it.
+    this.upgradeVaultEncryption(password)
     return this.fullUpdate()
+  }
+
+  /**
+   * Re-encrypts a vault that uses an outdated key derivation. Only a real
+   * password unlock can do this; restored sessions hold just the old key.
+   * Like any save, it is serialized with other vault writes and cancelled by Lock.
+   */
+  async upgradeVaultEncryption (password) {
+    const { vault } = this.store.getState()
+    if (!this.encryptor.isVaultUpdated || password === this.encryptor.sessionPassword || this.encryptor.isVaultUpdated(vault)) {
+      return
+    }
+    try {
+      await this.persistAllKeyrings(password)
+    } catch (error) {
+      // The existing vault remains valid, so the upgrade is retried on the next unlock.
+      log.error('Failed to upgrade vault encryption', error)
+    }
   }
 
   async unlockKeyrings (password) {

@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Pieslēdzas $1"
   },
-  "connectingToKovan": {
-    "message": "Savienojas ar Kovan testa tīklu"
-  },
-  "connectingToMainnet": {
-    "message": "Savienojas ar galveno Ethereum tīklu"
-  },
-  "connectingToRopsten": {
-    "message": "Pieslēdzas Ropsten testa tīklam"
-  },
-  "connectingToRinkeby": {
-    "message": "Pieslēdzas Rinkeby testa tīklam"
-  },
   "connectingToLocalhost": {
     "message": "Savienojas ar vietējo resursdatoru 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Pieslēdzas Goerli testa tīklam"
   },
   "contractDeployment": {
     "message": "Līgumu pielietošana"
@@ -447,13 +432,6 @@
   "generalSettingsDescription": {
     "message": "Valūtas konvertēšana, galvenā valūta, valoda, bloku identifikators"
   },
-  "getEther": {
-    "message": "Saņemt Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Vai vēlaties $1 iegūt Ether no krāna?",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Saņemt palīdzību."
   },
@@ -563,9 +541,6 @@
     "message": "JSON datne",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan testa tīkls"
-  },
   "max": {
     "message": "Maks."
   },
@@ -619,9 +594,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet versija"
-  },
-  "mobileSyncText": {
-    "message": "Lūdzu, ievadiet paroli, lai apstiprinātu, ka tas esat jūs."
   },
   "myAccounts": {
     "message": "Mani konti"
@@ -870,12 +842,6 @@
   "rinkeby": {
     "message": "Rinkeby testa tīkls"
   },
-  "ropsten": {
-    "message": "Ropsten testa tīkls"
-  },
-  "goerli": {
-    "message": "Goerli testa tīkls"
-  },
   "save": {
     "message": "Saglabāt"
   },
@@ -1008,9 +974,6 @@
   "signed": {
     "message": "Parakstīts"
   },
-  "signNotice": {
-    "message": "Šī ziņojuma parakstīšana var radīt \nbīstamas blaknes. Parakstiet tikai tādus ziņojumus,\nkuriem pilnībā uzticaties ar savu konta informāciju.\n Turpmākajās versijās šī bīstamā metode tiks noņemta. "
-  },
   "sigRequest": {
     "message": "Paraksta pieprasījums"
   },
@@ -1071,32 +1034,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbolā nedrīkst būt vairāk par 11 rakstzīmēm."
   },
-  "syncWithMobile": {
-    "message": "Sinhronizēt ar tālruni"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sinhronizēt ar tālruni"
-  },
-  "syncWithMobileDesc": {
-    "message": "Jūs varat sinhronizēt savus kontus un informāciju ar mobilo ierīci. Atveriet ecf-wallet mobilo lietotni, ejiet uz \"Iestatījumi\" un pieskarieties pie \"Sinhronizēt no pārlūka paplašinājuma\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Ja esat pirmoreiz atvēris ecf-wallet mobilo lietotni, vienkārši sekojiet norādēm tālrunī."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Noskenējiet šo kodu ar ecf-wallet mobilo lietotni"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pārliecinieties, ka neviens cits neskatās jūsu ekrānā, kad skenējat šo kodu."
-  },
-  "syncWithMobileComplete": {
-    "message": "Jūsu dati sekmīgi sinhronizēti. Patīkamu ecf-wallet mobilās lietotnes lietošanu!"
-  },
   "terms": {
     "message": "Lietošanas noteikumi"
-  },
-  "testFaucet": {
-    "message": "Testa krāns"
   },
   "thisWillCreate": {
     "message": "Šādi tiks izveidots jauna maks un atkopšanas frāze"

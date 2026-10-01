@@ -61,18 +61,6 @@
   "confirmPassword": {
     "message": "Potvrdit heslo"
   },
-  "connectingToKovan": {
-    "message": "Připojuji se k Kovan Test Network"
-  },
-  "connectingToMainnet": {
-    "message": "Připojuji se k Main Ethereum Network"
-  },
-  "connectingToRopsten": {
-    "message": "Připojuji se k Ropsten Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Připojuji se k Rinkeby Test Network"
-  },
   "contractDeployment": {
     "message": "Nasazení kontraktu"
   },
@@ -167,13 +155,6 @@
   },
   "gasPrice": {
     "message": "Cena paliva (GWEI)"
-  },
-  "getEther": {
-    "message": "Získejte Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Získejte Ether z faucetu za $1.",
-    "description": "Displays network name for Ether faucet"
   },
   "here": {
     "message": "zde",
@@ -386,9 +367,6 @@
   "signed": {
     "message": "Podepsáno"
   },
-  "signNotice": {
-    "message": "Podepsání zprávy může mít \nnebezpečný vedlejší učinek. Podepisujte zprávy pouze ze \nstránek, kterým plně důvěřujete celým svým účtem.\n Tato nebezpečná metoda bude odebrána v budoucí verzi. "
-  },
   "sigRequest": {
     "message": "Požadavek podpisu"
   },
@@ -412,9 +390,6 @@
   },
   "terms": {
     "message": "Podmínky použití"
-  },
-  "testFaucet": {
-    "message": "Testovací faucet"
   },
   "to": {
     "message": "Komu"

@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": " $1 এর সাথে সংযোগ করছে"
   },
-  "connectingToKovan": {
-    "message": "কোভান টেস্ট নেটওয়ার্কের সাথে সংযোগ করছে"
-  },
-  "connectingToMainnet": {
-    "message": "মুখ্য Ethereum নেটওয়ার্কের সাথে সংযোগ করছে"
-  },
-  "connectingToRopsten": {
-    "message": "রপস্টেন টেস্ট নেটওয়ার্কের সাথে সংযোগ করছে"
-  },
-  "connectingToRinkeby": {
-    "message": "রিঙ্কেবি টেস্ট নেটওয়ার্কের সাথে সংযোগ করছে"
-  },
   "connectingToLocalhost": {
     "message": "লোকালহোস্ট 8545 এর সাথে সংযোগ করছে"
-  },
-  "connectingToGoerli": {
-    "message": "গোয়েরলি টেস্ট নেটওয়ার্কের সাথে সংযোগ করা হচ্ছে"
   },
   "contractDeployment": {
     "message": "কন্ট্র্যাক্ট নিয়োজন"
@@ -451,13 +436,6 @@
   "generalSettingsDescription": {
     "message": "মুদ্রা বিনিময়, প্রাথমিক মুদ্রা, ভাষা, ব্লকিস আইডেন্টিকন"
   },
-  "getEther": {
-    "message": "ইথার পান"
-  },
-  "getEtherFromFaucet": {
-    "message": "$1 এর জন্য একটি ফসেট থেকে ইথার পান",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "সহায়তা পান।"
   },
@@ -567,9 +545,6 @@
     "message": "JSON ফাইল",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "কোভান টেস্ট নেটওয়ার্ক"
-  },
   "max": {
     "message": "সর্বাধিক"
   },
@@ -623,9 +598,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet সংস্করণ"
-  },
-  "mobileSyncText": {
-    "message": "এটি যে আপনি তা নিশ্চিত করতে অনুগ্রহ করে আপনার পাসওয়ার্ড লিখুন!"
   },
   "myAccounts": {
     "message": "আমার অ্যাকাউন্টগুলি"
@@ -874,12 +846,6 @@
   "rinkeby": {
     "message": "রিঙ্কেবি টেস্ট নেটওয়ার্ক"
   },
-  "ropsten": {
-    "message": "রোপস্টেন টেস্ট নেটওয়ার্ক"
-  },
-  "goerli": {
-    "message": "গোয়েরলি টেস্ট নেটওয়ার্ক"
-  },
   "save": {
     "message": "সেভ করুন"
   },
@@ -1012,9 +978,6 @@
   "signed": {
     "message": "স্বাক্ষরিত"
   },
-  "signNotice": {
-    "message": "এই বার্তাটিতে সাইন আইন করার \nবিপজ্জনক পার্শ্ব প্রতিক্রিয়া থাকতে পারে। আপনি সম্পূর্ণ বিশ্বাস করেন শুধুমাত্র সেই \nসাইটের থেকে আসা বার্তাগুলিতেই আপনার সামগ্রিক অ্যাকাউন্টের মাধ্যমে সাইন করুন।\n এই বিপজ্জনক পদ্ধতিটি পরবর্তী সংস্করণে অপসারণ করা হবে। "
-  },
   "sigRequest": {
     "message": "স্বাক্ষরের অনুরোধ"
   },
@@ -1075,32 +1038,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "প্রতীকটি 11 টি অক্ষর বা তার চেয়ে কম হতে হবে।"
   },
-  "syncWithMobile": {
-    "message": "মোবাইল দিয়ে সিঙ্ক করুন"
-  },
-  "syncWithMobileTitle": {
-    "message": "মোবাইল দিয়ে সিঙ্ক করুন"
-  },
-  "syncWithMobileDesc": {
-    "message": "আপনি আপনার অ্যাকাউন্ট এবং তথ্য আপনার মোবাইল ডিভাইস দিয়ে সিঙ্ক করতে পারেন। ecf-wallet মোবাইল অ্যাপটি খুলুন, \"সেটিংস\" এ যান এবং \"ব্রাউজার এক্সটেনশন থেকে সিঙ্ক করুন\" এ ট্যাপ করুন "
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "আপনি প্রথমবারের জন্য ecf-wallet খোলার পরে, শুধু আপনার ফোনে পদক্ষেপগুলি অনুসরণ করুন। "
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "আপনার ecf-wallet মোবাইল অ্যাপ দিয়ে এই কোডটি স্ক্যান করুন"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "এই কোডটি স্ক্যান করার সময় কেউ আপনার স্ক্রিনটি দেখছে না তা নিশ্চিত করুন"
-  },
-  "syncWithMobileComplete": {
-    "message": "আপনার ডেটা সফলভাবে সিঙ্ক করা হয়েছে। ecf-wallet মোবাইল অ্যাপ উপভোগ করুন!"
-  },
   "terms": {
     "message": "ব্যবহারের শর্তাবলী"
-  },
-  "testFaucet": {
-    "message": "টেস্ট ফসেট"
   },
   "thisWillCreate": {
     "message": "এটি একটি নতুন ওয়ালেট এবং সীড ফ্রেজ তৈরি করবে"

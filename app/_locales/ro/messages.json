@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Se conectează la $1"
   },
-  "connectingToKovan": {
-    "message": "Se conectează la rețeaua de test Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Se conectează la rețeaua Ethereum principală"
-  },
-  "connectingToRopsten": {
-    "message": "Se conectează la rețeaua de test Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Se conectează la Rețeaua de test Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Se conectează la localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Se conectează la rețeaua de test Goerli"
   },
   "contractDeployment": {
     "message": "Implementarea contractului"
@@ -444,13 +429,6 @@
   "generalSettingsDescription": {
     "message": "Schimb valutar, moneda principală, limba, blockies identicon"
   },
-  "getEther": {
-    "message": "Obțineți Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Obțineți Ether de la un robinet pentru $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Obțineți ajutor."
   },
@@ -557,9 +535,6 @@
     "message": "Fișier JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Rețea de test Kovan"
-  },
   "max": {
     "message": "Maximum"
   },
@@ -610,9 +585,6 @@
   },
   "ecfWalletVersion": {
     "message": "Versiune ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Vă rugăm introduceți parola pentru a vă confirma identitatea!"
   },
   "myAccounts": {
     "message": "Conturile mele"
@@ -861,12 +833,6 @@
   "rinkeby": {
     "message": "Rețea test Rinkeby"
   },
-  "ropsten": {
-    "message": "Rețea de testare Ropsten"
-  },
-  "goerli": {
-    "message": "Rețea de test Goerli"
-  },
   "save": {
     "message": "Salvează"
   },
@@ -999,9 +965,6 @@
   "signed": {
     "message": "Semnat"
   },
-  "signNotice": {
-    "message": "Semnarea acestui mesaj poate avea efecte secundare periculoase. Semnați mesajele numai de pe site-urile în care aveți încredere deplină să vă acceseze întregul cont. Această metodă periculoasă va fi eliminată într-o versiune viitoare."
-  },
   "sigRequest": {
     "message": "Solicitare de semnătură"
   },
@@ -1062,32 +1025,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbolul trebuie să fie de 11 caractere sau mai puțin."
   },
-  "syncWithMobile": {
-    "message": "Sincronizați cu dispozitivul mobil"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sincronizați cu mobilul"
-  },
-  "syncWithMobileDesc": {
-    "message": "Vă puteți sincroniza conturile și informațiile cu dispozitivul dvs. mobil. Deschideți aplicația mobilă ecf-wallet, mergeți la „Setări” și atingeți „Sincronizare de la extensia de browser”"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Dacă deschideți aplicația pentru mobil ecf-wallet pentru prima oară, urmați pașii afișați pe telefonul dvs."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Scanați acest cod folosind aplicația dvs. mobilă ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Asigurați-vă că nimeni altcineva nu poate vedea ecranul dvs. când scanați acest cod"
-  },
-  "syncWithMobileComplete": {
-    "message": "Datele dvs. au fost sincronizate cu succes. Bucurați-vă de aplicația mobilă ecf-wallet!"
-  },
   "terms": {
     "message": "Termeni și condiții"
-  },
-  "testFaucet": {
-    "message": "Robinet de testare"
   },
   "thisWillCreate": {
     "message": "Această acțiune va crea un nou portofel și o nouă fraza inițială."

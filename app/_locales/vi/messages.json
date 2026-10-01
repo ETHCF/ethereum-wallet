@@ -126,13 +126,6 @@
   "gasPrice": {
     "message": "Giá ga (GWEI)"
   },
-  "getEther": {
-    "message": "Lấy Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Lấy Ether từ vòi với giá $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "tại đây",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -166,9 +159,6 @@
   "jsonFile": {
     "message": "Tập tin JSON",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Mạng thử nghiệm Kovan"
   },
   "loading": {
     "message": "Đang tải..."
@@ -249,9 +239,6 @@
   "rinkeby": {
     "message": "Mạng thử nghiệm Rinkeby"
   },
-  "ropsten": {
-    "message": "Mạng thử nghiệm Ropsten"
-  },
   "save": {
     "message": "Lưu"
   },
@@ -273,14 +260,8 @@
   "signatureRequest": {
     "message": "Yêu cầu chữ ký"
   },
-  "signNotice": {
-    "message": "Ký nhận vào tin nhắn này có thể gây nguy hiểm. Chỉ nên ký nhận tin nhắn từ những nguồn bạn hoàn toàn tin tưởng có thể dùng với tài khoản của bạn. Cách thức nguy hiểm này sẽ bị xóa trong phiên bản sắp tới."
-  },
   "sigRequest": {
     "message": "Yêu cầu chữ ký"
-  },
-  "testFaucet": {
-    "message": "Vòi nhận tiền ETH ảo để thử nghiệm"
   },
   "to": {
     "message": "Đến"

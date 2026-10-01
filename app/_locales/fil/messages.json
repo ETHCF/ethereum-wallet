@@ -191,23 +191,8 @@
   "connectingTo": {
     "message": "Kumokonekta sa $1"
   },
-  "connectingToKovan": {
-    "message": "Kumokonekta sa Kovan Test Network"
-  },
-  "connectingToMainnet": {
-    "message": "Kumokonekta sa Main Ethereum Network"
-  },
-  "connectingToRopsten": {
-    "message": "Kumokonekta sa Ropsten Test Network"
-  },
-  "connectingToRinkeby": {
-    "message": "Kumokonekta sa Rinkeby Test Network"
-  },
   "connectingToLocalhost": {
     "message": "Kumokonekta sa Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Kumokonekta sa Goerli Test Network"
   },
   "contractDeployment": {
     "message": "Deployment ng Contract"
@@ -417,13 +402,6 @@
   "generalSettingsDescription": {
     "message": "Pagpapapalit ng currency, pangunahing currency, wika, blockies identicon"
   },
-  "getEther": {
-    "message": "Kumuha ng Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Kumuha ng Ether mula sa isang faucet para sa $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Humingi ng Tulong."
   },
@@ -561,9 +539,6 @@
   },
   "ecfWalletVersion": {
     "message": "Bersyon ng ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Pakilagay ang iyong password para kumpirmahing ikaw ito!"
   },
   "myAccounts": {
     "message": "Mga Account Ko"
@@ -921,9 +896,6 @@
   "signed": {
     "message": "Na-sign"
   },
-  "signNotice": {
-    "message": "Kapag na-sign ang mensaheng ito, maaaring magkaroon \nng mapapanganib na side effect. Mag-sign lang ng mga mensaheng mula \nsa mga site na ganap mong pinagkakatiwalaang gumamit sa iyong account.\n Isa itong mapanganib na method na aalisin sa isang bersyon sa hinaharap. "
-  },
   "somethingWentWrong": {
     "message": "Oops! Nagkaroon ng problema."
   },
@@ -980,27 +952,6 @@
   },
   "symbolBetweenZeroTwelve": {
     "message": "Ang simbolo ay dapat na 11 character o mas kaunti."
-  },
-  "syncWithMobile": {
-    "message": "I-sync sa mobile"
-  },
-  "syncWithMobileTitle": {
-    "message": "I-sync sa mobile"
-  },
-  "syncWithMobileDesc": {
-    "message": "Maaari mong i-sync ang iyong mga account at impormasyon sa iyong mobile device. Buksan ang mobile wallet app, pumunta sa \"Settings\" at mag-tap sa \"Sync from Browser Extension\""
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Kung bubuksan mo ang mobile wallet app sa unang pagkakataon, sundin lang ang mga hakbang sa iyong telepono."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "I-scan ang code na ito sa iyong mobile wallet app"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Tiyaking walang ibang taong tumitingin sa iyong screen kapag sina-scan mo ang code na ito"
-  },
-  "syncWithMobileComplete": {
-    "message": "Matagumpay na na-sync ang iyong data. I-enjoy ang mobile wallet app!"
   },
   "terms": {
     "message": "Mga Tuntunin ng Paggamit"

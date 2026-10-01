@@ -64,18 +64,6 @@
   "confirmPassword": {
     "message": "Подтвердите пароль"
   },
-  "connectingToKovan": {
-    "message": "Соединение с тестовой сетью Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Соединение с основной сетью Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Соединение с тестовой сетью Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Соединение с тестовой сетью Rinkeby"
-  },
   "contractDeployment": {
     "message": "Развертывание контракта"
   },
@@ -171,13 +159,6 @@
   "gasPrice": {
     "message": "Цена за газ (GWEI)"
   },
-  "getEther": {
-    "message": "Получить Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Получить Ether из крана для $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "тут",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -229,9 +210,6 @@
   "jsonFile": {
     "message": "JSON файл",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Тестовая сеть Kovan"
   },
   "max": {
     "message": "Максимум"
@@ -351,9 +329,6 @@
   "rinkeby": {
     "message": "Тестовая сеть Rinkeby"
   },
-  "ropsten": {
-    "message": "Тестовая сеть Ropsten"
-  },
   "save": {
     "message": "Сохранить"
   },
@@ -399,9 +374,6 @@
   "signed": {
     "message": "Подписана"
   },
-  "signNotice": {
-    "message": "Подпись этого сообщения может иметь \nопасные побочные эффекты. Подписывайте только сообщения \nс сайтов, которым вы полностью доверяете свой аккаунт. Этот опасный метод будет удален в будущей версии."
-  },
   "sigRequest": {
     "message": "Запрос подписи"
   },
@@ -425,9 +397,6 @@
   },
   "terms": {
     "message": "Условия пользования"
-  },
-  "testFaucet": {
-    "message": "Тестовый кран"
   },
   "to": {
     "message": "Получатель"
@@ -634,9 +603,6 @@
   "connectingToLocalhost": {
     "message": "Подключение к Localhost:8545"
   },
-  "connectingToGoerli": {
-    "message": "Подключение к тестовой сети Goerli"
-  },
   "copyAddress": {
     "message": "Скопировать адрес в буфер обмена"
   },
@@ -838,9 +804,6 @@
   "ecfWalletVersion": {
     "message": "Версия ECF Wallet"
   },
-  "mobileSyncText": {
-    "message": "Пожалуйста, введите ваш пароль, чтобы подтвердить, что это вы!"
-  },
   "myWalletAccounts": {
     "message": "Мои кошельки"
   },
@@ -894,9 +857,6 @@
   },
   "noConversionRateAvailable": {
     "message": "Курсы валют недоступны"
-  },
-  "noThanks": {
-    "message": "Нет, спасибо"
   },
   "notEnoughGas": {
     "message": "Не хватает газа"
@@ -1002,9 +962,6 @@
   },
   "readyToConnect": {
     "message": "Готовы подключиться?"
-  },
-  "goerli": {
-    "message": "Тестовая сеть Goerli"
   },
   "slow": {
     "message": "Медленно"
@@ -1131,27 +1088,6 @@
   },
   "symbol": {
     "message": "Символ"
-  },
-  "syncWithMobile": {
-    "message": "Синхронизация с мобильным"
-  },
-  "syncWithMobileTitle": {
-    "message": "Синхронизация с мобильным"
-  },
-  "syncWithMobileDesc": {
-    "message": "Вы можете синхронизировать свои учетные записи и информацию с вашим мобильным устройством. Откройте мобильное приложение ecf-wallet, перейдите в «Настройки» и нажмите «Синхронизировать с расширением браузера»."
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Если вы впервые открываете приложение ecf-wallet Mobile, просто следуйте инструкциям на телефоне."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Сканируйте этот код с помощью мобильного приложения ecf-wallet."
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Убедитесь, что никто не смотрит на ваш экран при сканировании этого кода"
-  },
-  "syncWithMobileComplete": {
-    "message": "Ваши данные были успешно синхронизированы. Наслаждайтесь мобильным приложением ecf-wallet!"
   },
   "thisWillCreate": {
     "message": "Это создаст новый кошелек и начальную фразу"

@@ -219,13 +219,6 @@
   "gasPrice": {
     "message": "ガスプライス (GWEI)"
   },
-  "getEther": {
-    "message": "Etherを取得する"
-  },
-  "getEtherFromFaucet": {
-    "message": "フォーセットで $1のEtherを得ることができます。",
-    "description": "Displays network name for Ether faucet"
-  },
   "here": {
     "message": "ここ",
     "description": "as in -click here- for more information (goes with troubleTokenBalances)"
@@ -265,9 +258,6 @@
   "jsonFile": {
     "message": "JSONファイル",
     "description": "format for importing an account"
-  },
-  "kovan": {
-    "message": "Kovanテストネットワーク"
   },
   "max": {
     "message": "最大"
@@ -384,9 +374,6 @@
   "rinkeby": {
     "message": "Rinkebyテストネットワーク"
   },
-  "ropsten": {
-    "message": "Ropstenテストネットワーク"
-  },
   "save": {
     "message": "保存"
   },
@@ -426,17 +413,11 @@
   "signatureRequest": {
     "message": "署名リクエスト"
   },
-  "signNotice": {
-    "message": "このメッセージへの署名は危険となる可能性があります。\n完全に信頼するサイトからのメッセージのみ、\nあなたのアカウントで署名して下さい。今後のバージョンでは、\nこの危険なメソッドは削除される予定です。"
-  },
   "sigRequest": {
     "message": "署名リクエスト"
   },
   "terms": {
     "message": "利用規約"
-  },
-  "testFaucet": {
-    "message": "Faucetをテスト"
   },
   "to": {
     "message": "送信先"

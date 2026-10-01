@@ -555,59 +555,6 @@ describe('Actions', function () {
     })
   })
 
-  describe('#signMsg', function () {
-
-    let signMessageSpy, ecfWalletMsgs, msgId, messages
-
-    const msgParams = {
-      from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
-      data: '0x879a053d4800c6354e76c7985a865d2922c82fb5b3f4577b2fe08b998954f2e0',
-    }
-
-    beforeEach(function () {
-      ecfWalletController.newUnsignedMessage(msgParams, noop)
-      ecfWalletMsgs = ecfWalletController.messageManager.getUnapprovedMsgs()
-      messages = ecfWalletController.messageManager.messages
-      msgId = Object.keys(ecfWalletMsgs)[0]
-      messages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
-    })
-
-    afterEach(function () {
-      signMessageSpy.restore()
-    })
-
-    it('calls signMsg in background', async function () {
-      const store = mockStore()
-
-      signMessageSpy = sinon.spy(background, 'signMessage')
-      await store.dispatch(actions.signMsg(msgParams))
-      assert(signMessageSpy.calledOnce)
-
-    })
-
-    it('errors when signMessage in background throws', async function () {
-      const store = mockStore()
-      const expectedActions = [
-        { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'DISPLAY_WARNING', value: 'error' },
-      ]
-
-      signMessageSpy = sinon.stub(background, 'signMessage')
-      signMessageSpy.callsFake((_, callback) => {
-        callback(new Error('error'))
-      })
-
-      try {
-        await store.dispatch(actions.signMsg())
-        assert.fail('Should have thrown error')
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions)
-      }
-    })
-
-  })
-
   describe('#signPersonalMsg', function () {
 
     let signPersonalMessageSpy, ecfWalletMsgs, msgId, personalMessages

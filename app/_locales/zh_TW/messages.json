@@ -212,23 +212,8 @@
   "connectingTo": {
     "message": "連線到$1"
   },
-  "connectingToKovan": {
-    "message": "連線到 Kovan 測試網路"
-  },
-  "connectingToMainnet": {
-    "message": "連線到主 Ethereum 網路"
-  },
-  "connectingToRopsten": {
-    "message": "連線到 Ropsten 測試網路"
-  },
-  "connectingToRinkeby": {
-    "message": "連線到 Rinkeby 測試網路"
-  },
   "connectingToLocalhost": {
     "message": "連接至本地主機 8545"
-  },
-  "connectingToGoerli": {
-    "message": "連接至 Goerli 測試網路"
   },
   "contractDeployment": {
     "message": "部署合約"
@@ -448,13 +433,6 @@
   "generalSettingsDescription": {
     "message": "貨幣轉換，主要貨幣，語言，區塊鏈哈希頭像"
   },
-  "getEther": {
-    "message": "取得乙太幣"
-  },
-  "getEtherFromFaucet": {
-    "message": "從水管取得 $1 乙太幣。",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "取得協助"
   },
@@ -564,9 +542,6 @@
     "message": "JSON 格式檔案",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan 測試網路"
-  },
   "max": {
     "message": "最大值"
   },
@@ -617,9 +592,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet 版本"
-  },
-  "mobileSyncText": {
-    "message": "請輸入密碼確認身份！"
   },
   "myAccounts": {
     "message": "我的帳戶"
@@ -859,12 +831,6 @@
   "rinkeby": {
     "message": "Rinkeby 測試網路"
   },
-  "ropsten": {
-    "message": "Ropsten 測試網路"
-  },
-  "goerli": {
-    "message": "Goerli 測試網路"
-  },
   "save": {
     "message": "儲存"
   },
@@ -991,9 +957,6 @@
   "signed": {
     "message": "已簽署"
   },
-  "signNotice": {
-    "message": "簽署此訊息可能會產生危險地副作用。 \n只從您完全信任的網站上簽署。這種危險的方法，將在未來的版本中被移除。"
-  },
   "sigRequest": {
     "message": "請求簽署"
   },
@@ -1054,32 +1017,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "符號不得超過11個字符。"
   },
-  "syncWithMobile": {
-    "message": "和移動裝置同步"
-  },
-  "syncWithMobileTitle": {
-    "message": "和移動裝置同步"
-  },
-  "syncWithMobileDesc": {
-    "message": "你可以用移動裝置同步帳號與資訊。開啟 ecf-wallet 移動 app，至「設定」並點擊「自瀏覽器擴充功能同步」"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "如你是第一次開啟 ecf-wallet 移動 app，只要跟著手機上的指示操作即可。"
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "用你的 ecf-wallet 移動 app 掃描此代碼"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "掃描代碼時確保沒有其他人在看你的螢幕"
-  },
-  "syncWithMobileComplete": {
-    "message": "你的資料已成功同步。開始活用 ecf-wallet 移動 app！"
-  },
   "terms": {
     "message": "使用條款"
-  },
-  "testFaucet": {
-    "message": "測試水管"
   },
   "thisWillCreate": {
     "message": "這將創建新的錢包與助記詞"

@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Povezivanje na $1"
   },
-  "connectingToKovan": {
-    "message": "Povezivanje na testnu mrežu Kovan"
-  },
-  "connectingToMainnet": {
-    "message": "Povezivanje na glavnu mrežu Ethereum"
-  },
-  "connectingToRopsten": {
-    "message": "Povezivanje na testnu mrežu Ropsten"
-  },
-  "connectingToRinkeby": {
-    "message": "Povezivanje na testnu mrežu Rinkeby"
-  },
   "connectingToLocalhost": {
     "message": "Povezivanje na Localhost 8545"
-  },
-  "connectingToGoerli": {
-    "message": "Povezivanje na testnu mrežu Goerli"
   },
   "contractDeployment": {
     "message": "Primjena ugovora"
@@ -447,13 +432,6 @@
   "generalSettingsDescription": {
     "message": "Konverzija valuta, glavna valuta, jezik, blockies identicon"
   },
-  "getEther": {
-    "message": "Dohvati Ether"
-  },
-  "getEtherFromFaucet": {
-    "message": "Dohvati Ether iz svežnja za $1",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Potražite pomoć."
   },
@@ -563,9 +541,6 @@
     "message": "Datoteka JSON",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Testna mreža Kovan"
-  },
   "max": {
     "message": "Najviše"
   },
@@ -616,9 +591,6 @@
   },
   "ecfWalletVersion": {
     "message": "Inačica usluge ECF Wallet"
-  },
-  "mobileSyncText": {
-    "message": "Upišite svoju lozinku kako biste potvrdili da ste to vi!"
   },
   "myAccounts": {
     "message": "Moji računi"
@@ -867,12 +839,6 @@
   "rinkeby": {
     "message": "Testna mreža Rinkeby"
   },
-  "ropsten": {
-    "message": "Testna mreža Ropsten"
-  },
-  "goerli": {
-    "message": "Testna mreža Goerli"
-  },
   "save": {
     "message": "Spremi"
   },
@@ -1005,9 +971,6 @@
   "signed": {
     "message": "Potpisano"
   },
-  "signNotice": {
-    "message": "Potpisivanje ove poruke može\nimati opasne neželjene učinke. Samo potpisujte poruke\ns mrežnih mjesta u koja imate potpuno povjerenje kada je riječ o vašem cijelom računu.\nOvaj se opasni način uklanja u sljedećoj inačici."
-  },
   "sigRequest": {
     "message": "Zahtjev za potpisom"
   },
@@ -1068,32 +1031,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "Simbol mora biti 11 znakova ili manje."
   },
-  "syncWithMobile": {
-    "message": "Sinkroniziraj s mobilnim telefonom"
-  },
-  "syncWithMobileTitle": {
-    "message": "Sinkroniziraj s mobilnim telefonom"
-  },
-  "syncWithMobileDesc": {
-    "message": "Možete sinkronizirati svoje račune i informacije s vašim mobilnim telefonom. Otvorite mobilnu aplikaciju ecf-wallet, idite u stavku „Postavke” i dodirnite „Sinkroniziraj iz dodatka preglednika”"
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Kad otvorite mobilnu aplikaciju ecf-wallet po prvi puta, pridržavajte se koraka koji se prikazuju na telefonu."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Skenirajte ovaj kôd uporabom mobilne aplikacije ecf-wallet"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Pazite da nitko ne gleda u vaš zaslon dok skenirate ovaj kôd"
-  },
-  "syncWithMobileComplete": {
-    "message": "Vaši su podatci uspješno sinkronizirani. Uživajte u mobilnoj aplikaciji ecf-wallet!"
-  },
   "terms": {
     "message": "Odredbe uporabe"
-  },
-  "testFaucet": {
-    "message": "Testni snop"
   },
   "thisWillCreate": {
     "message": "Ovom se radnjom stvara novi novčanik i početna rečenica"

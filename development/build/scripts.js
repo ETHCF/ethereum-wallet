@@ -24,6 +24,22 @@ const { createTask, composeParallel, composeSeries, runInChildProcess } = requir
 
 module.exports = createScriptTasks
 
+// SES lockdown freezes the intrinsics before bundles run (see
+// app/lockdown-run.js). The symbol-observable ponyfill adds a property to the
+// frozen Symbol constructor, which then throws; use a local symbol instead.
+const sesCompatibilityTransform = makeStringTransform('ses-compatibility', { includeExtensions: ['.js'] }, (content, { file }, cb) => {
+  if (!(/[\\/]symbol-observable[\\/](lib|es)[\\/]ponyfill\.js$/u).test(file)) {
+    cb(null, content)
+    return
+  }
+  const mutation = /\b_?Symbol\.observable = result;/u
+  if (!mutation.test(content)) {
+    cb(new Error(`ses-compatibility: unexpected contents in ${file}`))
+    return
+  }
+  cb(null, content.replace(mutation, ''))
+})
+
 const dependencies = Object.keys((packageJSON && packageJSON.dependencies) || {})
 const materialUIDependencies = ['@material-ui/core']
 const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
@@ -310,6 +326,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     let bundler = browserify(browserifyOpts)
       .transform('babelify')
       .transform('brfs')
+      .transform(sesCompatibilityTransform, { global: true })
 
     if (opts.buildLib) {
       bundler = bundler.require(opts.dependenciesToBundle)
@@ -326,8 +343,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       ECF_WALLET_ENVIRONMENT: environment,
       NODE_ENV: opts.devMode ? 'development' : 'production',
       IN_TEST: opts.testing ? 'true' : false,
-      PUBNUB_SUB_KEY: process.env.PUBNUB_SUB_KEY || '',
-      PUBNUB_PUB_KEY: process.env.PUBNUB_PUB_KEY || '',
       ETH_GAS_STATION_API_KEY: process.env.ETH_GAS_STATION_API_KEY || '',
       CONF: opts.devMode ? conf : ({}),
     }), {

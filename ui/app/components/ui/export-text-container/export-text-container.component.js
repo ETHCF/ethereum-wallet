@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import { exportAsFile } from '../../../helpers/utils/util'
 import Copy from '../icon/copy-icon.component'
 import { useI18nContext } from '../../../hooks/useI18nContext'
-import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useSensitiveClipboard } from '../../../hooks/useSensitiveClipboard'
+import SensitiveClipboardNotice from '../sensitive-clipboard-notice'
 
 function ExportTextContainer ({ text = '' }) {
   const t = useI18nContext()
-  const [copied, handleCopy] = useCopyToClipboard()
+  // Only secrets are exported, so copies are cleared from the clipboard later.
+  const [clipboardState, handleCopy, clearClipboard] = useSensitiveClipboard()
 
   return (
     <div className="export-text-container">
@@ -23,7 +25,7 @@ function ExportTextContainer ({ text = '' }) {
         >
           <Copy size={17} color="#3098DC" />
           <div className="export-text-container__button-text">
-            {copied ? t('copiedExclamation') : t('copyToClipboard')}
+            {clipboardState === 'copied' ? t('copiedExclamation') : t('copyToClipboard')}
           </div>
         </div>
         <div
@@ -36,6 +38,7 @@ function ExportTextContainer ({ text = '' }) {
           </div>
         </div>
       </div>
+      <SensitiveClipboardNotice state={clipboardState} onClear={clearClipboard} />
     </div>
   )
 }

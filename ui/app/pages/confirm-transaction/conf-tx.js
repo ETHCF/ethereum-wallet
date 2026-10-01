@@ -118,14 +118,6 @@ class ConfirmTxScreen extends Component {
     return SignatureRequestOriginal
   }
 
-  signMessage (msgData, event) {
-    log.info('conf-tx.js: signing message')
-    const params = msgData.msgParams
-    params.ecfWalletId = msgData.id
-    this.stopPropagation(event)
-    return this.props.dispatch(actions.signMsg(params))
-  }
-
   stopPropagation (event) {
     if (event.stopPropagation) {
       event.stopPropagation()
@@ -146,12 +138,6 @@ class ConfirmTxScreen extends Component {
     params.ecfWalletId = msgData.id
     this.stopPropagation(event)
     return this.props.dispatch(actions.signTypedMsg(params))
-  }
-
-  cancelMessage (msgData, event) {
-    log.info('canceling message')
-    this.stopPropagation(event)
-    return this.props.dispatch(actions.cancelMsg(msgData))
   }
 
   cancelPersonalMessage (msgData, event) {
@@ -243,10 +229,8 @@ class ConfirmTxScreen extends Component {
         identities={this.props.identities}
         currentCurrency={currentCurrency}
         blockGasLimit={blockGasLimit}
-        signMessage={this.signMessage.bind(this, txData)}
         signPersonalMessage={this.signPersonalMessage.bind(this, txData)}
         signTypedMessage={this.signTypedMessage.bind(this, txData)}
-        cancelMessage={this.cancelMessage.bind(this, txData)}
         cancelPersonalMessage={this.cancelPersonalMessage.bind(this, txData)}
         cancelTypedMessage={this.cancelTypedMessage.bind(this, txData)}
       />

@@ -1,6 +1,7 @@
 import { stripHexPrefix, addHexPrefix } from 'ethereumjs-util'
 import { createSelector } from 'reselect'
 import { NETWORK_TYPES } from '../helpers/constants/common'
+import { BUILT_IN_NETWORKS } from '../../../app/scripts/controllers/network/enums'
 import {
   shortenAddress,
   checksumAddress,
@@ -229,7 +230,16 @@ export function getTotalUnapprovedCount (state) {
 
   return unapprovedMsgCount + unapprovedPersonalMsgCount + unapprovedDecryptMsgCount +
     unapprovedEncryptionPublicKeyMsgCount + unapprovedTypedMessagesCount +
-    getUnapprovedTxCount(state) + getPermissionsRequestCount(state) + getSuggestedTokenCount(state)
+    getUnapprovedTxCount(state) + getPermissionsRequestCount(state) + getSuggestedTokenCount(state) +
+    getNetworkRequests(state).length
+}
+
+/**
+ * @returns {Object[]} Pending requests from sites to add or switch networks, oldest first.
+ */
+export function getNetworkRequests (state) {
+  const { pendingNetworkRequests = {} } = state.ecfWallet
+  return Object.values(pendingNetworkRequests).sort((a, b) => a.time - b.time)
 }
 
 function getUnapprovedTxCount (state) {
@@ -247,17 +257,9 @@ export function getIsMainnet (state) {
   return networkType === NETWORK_TYPES.MAINNET
 }
 
+// Whether mainnet gas price data applies. Other networks use the node's estimates.
 export function isEthereumNetwork (state) {
-  const networkType = getNetworkIdentifier(state)
-  const {
-    KOVAN,
-    MAINNET,
-    RINKEBY,
-    ROPSTEN,
-    GOERLI,
-  } = NETWORK_TYPES
-
-  return [KOVAN, MAINNET, RINKEBY, ROPSTEN, GOERLI].includes(networkType)
+  return getIsMainnet(state)
 }
 
 export function getPreferences ({ ecfWallet }) {
@@ -288,7 +290,11 @@ export function getDomainMetadata (state) {
 
 export function getRpcPrefsForCurrentProvider (state) {
   const { frequentRpcListDetail, provider } = state.ecfWallet
-  const selectRpcInfo = frequentRpcListDetail.find((rpcInfo) => rpcInfo.rpcUrl === provider.rpcTarget)
+  const builtIn = BUILT_IN_NETWORKS[provider?.type]
+  if (builtIn) {
+    return { blockExplorerUrl: builtIn.blockExplorerUrl }
+  }
+  const selectRpcInfo = frequentRpcListDetail?.find((rpcInfo) => rpcInfo.rpcUrl === provider?.rpcTarget)
   const { rpcPrefs = {} } = selectRpcInfo || {}
   return rpcPrefs
 }

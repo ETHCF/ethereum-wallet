@@ -27,8 +27,6 @@ function mergeProps (stateProps, dispatchProps, ownProps) {
     signTypedMessage,
     cancelPersonalMessage,
     cancelTypedMessage,
-    signMessage,
-    cancelMessage,
     txData,
   } = ownProps
 
@@ -45,9 +43,6 @@ function mergeProps (stateProps, dispatchProps, ownProps) {
   } else if (type === MESSAGE_TYPE.ETH_SIGN_TYPED_DATA) {
     cancel = cancelTypedMessage
     sign = signTypedMessage
-  } else if (type === MESSAGE_TYPE.ETH_SIGN) {
-    cancel = cancelMessage
-    sign = signMessage
   }
 
   return {

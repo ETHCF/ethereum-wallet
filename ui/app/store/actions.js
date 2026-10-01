@@ -2,7 +2,6 @@ import abi from 'human-standard-token-abi'
 import pify from 'pify'
 import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
-import getBuyEthUrl from '../../../app/scripts/lib/buy-eth-url'
 import { checksumAddress } from '../helpers/utils/util'
 import { calcTokenBalance, estimateGas } from '../pages/send/send.utils'
 import { fetchLocale, loadRelativeTimeFormatLocaleData } from '../helpers/utils/i18n-helper'
@@ -228,20 +227,20 @@ export function tryReverseResolveAddress (address) {
   }
 }
 
-export function fetchInfoToSync () {
-  return (dispatch) => {
-    log.debug(`background.fetchInfoToSync`)
-    return new Promise((resolve, reject) => {
-      background.fetchInfoToSync((err, result) => {
-        if (err) {
-          dispatch(displayWarning(err.message))
-          reject(err)
-          return
-        }
-        resolve(result)
-      })
-    })
-  }
+export function approveNetworkRequest (id) {
+  return () => promisifiedBackground.approveNetworkRequest(id)
+}
+
+export function rejectNetworkRequest (id) {
+  return () => promisifiedBackground.rejectNetworkRequest(id)
+}
+
+export function scheduleClipboardClear () {
+  return () => promisifiedBackground.scheduleClipboardClear()
+}
+
+export function clearClipboard () {
+  return () => promisifiedBackground.clearClipboard()
 }
 
 export function resetAccount () {
@@ -447,28 +446,6 @@ export function setCurrentCurrency (currencyCode) {
         conversionDate: data.conversionDate,
       },
     })
-  }
-}
-
-export function signMsg (msgData) {
-  log.debug('action - signMsg')
-  return async (dispatch) => {
-    dispatch(showLoadingIndication())
-    log.debug(`actions calling background.signMessage`)
-    let newState
-    try {
-      newState = await promisifiedBackground.signMessage(msgData)
-    } catch (error) {
-      dispatch(hideLoadingIndication())
-      log.error(error)
-      dispatch(displayWarning(error.message))
-      throw error
-    }
-    dispatch(hideLoadingIndication())
-    dispatch(updateEcfWalletState(newState))
-    dispatch(completedTx(msgData.ecfWalletId))
-    dispatch(closeCurrentNotificationWindow())
-    return msgData
   }
 }
 
@@ -895,23 +872,6 @@ export function txError (err) {
   return {
     type: actionConstants.TRANSACTION_ERROR,
     message: err.message,
-  }
-}
-
-export function cancelMsg (msgData) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication())
-
-    let newState
-    try {
-      newState = await promisifiedBackground.cancelMessage(msgData.id)
-    } finally {
-      dispatch(hideLoadingIndication())
-    }
-    dispatch(updateEcfWalletState(newState))
-    dispatch(completedTx(msgData.id))
-    dispatch(closeCurrentNotificationWindow())
-    return msgData
   }
 }
 
@@ -1806,16 +1766,6 @@ export function clearAccountDetails () {
 export function showSendTokenPage () {
   return {
     type: actionConstants.SHOW_SEND_TOKEN_PAGE,
-  }
-}
-
-export function buyEth (opts) {
-  return (dispatch) => {
-    const url = getBuyEthUrl(opts)
-    global.platform.openTab({ url })
-    dispatch({
-      type: actionConstants.BUY_ETH,
-    })
   }
 }
 

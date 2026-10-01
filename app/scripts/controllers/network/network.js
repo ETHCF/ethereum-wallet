@@ -8,15 +8,17 @@ import providerFromEngine from 'eth-json-rpc-middleware/providerFromEngine'
 import log from 'loglevel'
 import { createSwappableProxy, createEventEmitterProxy } from 'swappable-obj-proxy'
 import createEcfWalletMiddleware from './createEcfWalletMiddleware'
-import createInfuraClient from './createInfuraClient'
+import createBuiltInClient from './createBuiltInClient'
 import createJsonRpcClient from './createJsonRpcClient'
 import createLocalhostClient from './createLocalhostClient'
 
+import { normalizeChainId } from './chain-utils'
 import {
-  RINKEBY,
+  SEPOLIA,
   MAINNET,
   LOCALHOST,
-  INFURA_PROVIDER_TYPES,
+  BUILT_IN_NETWORKS,
+  BUILT_IN_NETWORK_TYPES,
 } from './enums'
 
 const networks = { networkList: {} }
@@ -28,7 +30,7 @@ let defaultProviderConfigType
 if (process.env.IN_TEST === 'true') {
   defaultProviderConfigType = LOCALHOST
 } else if (ECF_WALLET_DEBUG || env === 'test') {
-  defaultProviderConfigType = RINKEBY
+  defaultProviderConfigType = SEPOLIA
 } else {
   defaultProviderConfigType = MAINNET
 }
@@ -138,6 +140,15 @@ export default class NetworkController extends EventEmitter {
           this.setNetworkState('loading')
           return
         }
+        // A custom RPC that reports a different chain than the one configured
+        // could get transactions signed for the wrong chain. Refuse to use it.
+        const expectedChainId = type === 'rpc' ? this.providerStore.getState().chainId : undefined
+        if (expectedChainId && normalizeChainId(expectedChainId) !== normalizeChainId(chainId)) {
+          log.warn(`NetworkController - RPC returned chain ID ${chainId}, expected ${expectedChainId}`)
+          this._chainId = undefined
+          this.setNetworkState('loading')
+          return
+        }
         this._chainId = chainId
         this.setNetworkState(network, type)
       })
@@ -158,8 +169,8 @@ export default class NetworkController extends EventEmitter {
 
   async setProviderType (type, rpcTarget = '', ticker = 'ETH', nickname = '') {
     assert.notEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`)
-    assert(INFURA_PROVIDER_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`)
-    const providerConfig = { type, rpcTarget, ticker, nickname }
+    assert(BUILT_IN_NETWORK_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`)
+    const providerConfig = { type, rpcTarget, ticker: BUILT_IN_NETWORKS[type]?.ticker || ticker, nickname }
     this.providerConfig = providerConfig
   }
 
@@ -189,10 +200,9 @@ export default class NetworkController extends EventEmitter {
   _configureProvider (opts) {
     this._chainId = undefined
     const { type, rpcTarget, chainId, ticker, nickname } = opts
-    // infura type-based endpoints
-    const isInfura = INFURA_PROVIDER_TYPES.includes(type)
-    if (isInfura) {
-      this._configureInfuraProvider(opts)
+    // built-in networks
+    if (BUILT_IN_NETWORK_TYPES.includes(type)) {
+      this._configureBuiltInProvider(opts)
     // other type-based rpc endpoints
     } else if (type === LOCALHOST) {
       this._configureLocalhostProvider()
@@ -204,15 +214,15 @@ export default class NetworkController extends EventEmitter {
     }
   }
 
-  _configureInfuraProvider ({ type }) {
-    log.info('NetworkController - configureInfuraProvider', type)
-    const networkClient = createInfuraClient({
+  _configureBuiltInProvider ({ type }) {
+    log.info('NetworkController - configureBuiltInProvider', type)
+    const networkClient = createBuiltInClient({
       network: type,
     })
     this._setNetworkClient(networkClient)
     // setup networkConfig
     const settings = {
-      ticker: 'ETH',
+      ticker: BUILT_IN_NETWORKS[type].ticker,
     }
     this.networkConfig.putState(settings)
   }

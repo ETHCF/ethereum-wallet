@@ -64,10 +64,16 @@ describe('Transactions utils', function () {
           hash: '0xabcd',
         },
         {
-          expected: 'https://ropsten.etherscan.io/tx/0xdef0',
-          networkId: '3',
+          expected: 'https://basescan.org/tx/0xdef0',
+          networkId: '8453',
           hash: '0xdef0',
           rpcPrefs: {},
+        },
+        {
+          // shut-down testnets and unknown networks have no explorer
+          expected: '',
+          networkId: '3',
+          hash: '0xdef0',
         },
         {
           // test handling of `blockExplorerUrl` for a custom RPC

@@ -1,21 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {
-  MAINNET_NETWORK_ID,
-  ROPSTEN_NETWORK_ID,
-  RINKEBY_NETWORK_ID,
-  KOVAN_NETWORK_ID,
-  GOERLI_NETWORK_ID,
-} from '../../../../../app/scripts/controllers/network/enums'
-
-const networkIdToTypeMap = {
-  [MAINNET_NETWORK_ID]: 'mainnet',
-  [ROPSTEN_NETWORK_ID]: 'ropsten',
-  [RINKEBY_NETWORK_ID]: 'rinkeby',
-  [GOERLI_NETWORK_ID]: 'goerli',
-  [KOVAN_NETWORK_ID]: 'kovan',
-}
+import { getBuiltInNetworkByNetworkId } from '../../../../../app/scripts/controllers/network/enums'
+import { getNetworkDisplayName } from '../../../helpers/utils/network-display'
 
 export default class NetworkDisplay extends Component {
   static defaultProps = {
@@ -32,37 +19,21 @@ export default class NetworkDisplay extends Component {
     t: PropTypes.func,
   }
 
-  renderNetworkIcon () {
-    const { network } = this.props
-    const networkClass = networkIdToTypeMap[network]
-
-    return networkClass
-      ? <div className={`network-display__icon network-display__icon--${networkClass}`} />
-      : (
-        <div
-          className="i fa fa-question-circle fa-med"
-          style={{
-            margin: '0 4px',
-            color: 'rgb(125, 128, 130)',
-          }}
-        />
-      )
-  }
-
   render () {
-    const { colored, network, provider: { type, nickname } } = this.props
-    const networkClass = networkIdToTypeMap[network]
+    const { colored, network, provider } = this.props
+    const builtIn = getBuiltInNetworkByNetworkId(network)
 
     return (
       <div
         className={classnames('network-display__container', {
           'network-display__container--colored': colored,
-          [`network-display__container--${networkClass}`]: colored && networkClass,
         })}
+        // A light tint of the network's color.
+        style={colored && builtIn ? { backgroundColor: `${builtIn.color}26` } : undefined}
       >
         {
-          networkClass
-            ? <div className={`network-display__icon network-display__icon--${networkClass}`} />
+          builtIn
+            ? <div className="network-display__icon" style={{ backgroundColor: builtIn.color }} />
             : (
               <div
                 className="i fa fa-question-circle fa-med"
@@ -74,7 +45,7 @@ export default class NetworkDisplay extends Component {
             )
         }
         <div className="network-display__name">
-          { type === 'rpc' && nickname ? nickname : this.context.t(type) }
+          { getNetworkDisplayName(provider, this.context.t) }
         </div>
       </div>
     )

@@ -1,7 +1,8 @@
 import { strict as assert } from 'assert'
 import { webcrypto } from 'crypto'
 import passworder from 'browser-passworder'
-import SessionEncryptor from '../../../app/scripts/lib/session-encryptor'
+import SessionEncryptor, { PBKDF2_ITERATIONS, isVaultUpdated } from '../../../app/scripts/lib/session-encryptor'
+import KeyringController from '../../../app/scripts/lib/modern-keyring-controller'
 import browserGlobal from '../../../app/scripts/lib/browser-global'
 
 describe('Manifest V3 vault sessions', function () {
@@ -75,5 +76,59 @@ describe('Manifest V3 vault sessions', function () {
     await assert.rejects(encryptor.decrypt('incorrect', vault), /Incorrect password/u)
     await encryptor.save()
     assert.deepEqual(values, {})
+  })
+
+  it('derives new vault keys with 600,000 PBKDF2 rounds and records them in the vault', async function () {
+    const encryptor = new SessionEncryptor(storage)
+    const vault = await encryptor.encrypt('password', [{ secret: 1 }])
+    assert.deepEqual(JSON.parse(vault).keyMetadata, { algorithm: 'PBKDF2', params: { iterations: PBKDF2_ITERATIONS } })
+    assert.equal(isVaultUpdated(vault), true)
+    await assert.rejects(passworder.decrypt('password', vault), /Incorrect password/u, 'legacy round counts must not open the new vault')
+    assert.deepEqual(await new SessionEncryptor().decrypt('password', vault), [{ secret: 1 }])
+
+    await encryptor.save()
+    const restarted = new SessionEncryptor(storage)
+    assert.equal(await restarted.restore(vault), true)
+    const updated = await restarted.encrypt(restarted.sessionPassword, [{ secret: 2 }])
+    assert.equal(JSON.parse(updated).keyMetadata.params.iterations, PBKDF2_ITERATIONS)
+    assert.deepEqual(await new SessionEncryptor().decrypt('password', updated), [{ secret: 2 }])
+  })
+
+  it('rejects vaults with unsupported or weakened key derivation metadata', async function () {
+    const vault = JSON.parse(await new SessionEncryptor().encrypt('password', []))
+    for (const keyMetadata of [
+      { algorithm: 'scrypt', params: { iterations: PBKDF2_ITERATIONS } },
+      { algorithm: 'PBKDF2', params: { iterations: 1 } },
+      { algorithm: 'PBKDF2', params: { iterations: '600000' } },
+      null,
+    ]) {
+      await assert.rejects(new SessionEncryptor().decrypt('password', JSON.stringify({ ...vault, keyMetadata })), /Unsupported vault key derivation/u)
+    }
+  })
+
+  it('upgrades a legacy vault when unlocked with the password, but not from a restored session', async function () {
+    const contents = [{ type: 'Simple Key Pair', data: [Buffer.alloc(32, 1).toString('hex')] }]
+    const legacyVault = await passworder.encrypt('password', contents)
+    assert.equal(isVaultUpdated(legacyVault), false)
+
+    const sessionEncryptor = new SessionEncryptor(storage)
+    await sessionEncryptor.decrypt('password', legacyVault)
+    await sessionEncryptor.save()
+    const restored = new SessionEncryptor(storage)
+    assert.equal(await restored.restore(legacyVault), true)
+    const sessionController = new KeyringController({ initState: { vault: legacyVault }, encryptor: restored })
+    await sessionController.submitPassword(restored.sessionPassword)
+    assert.equal(isVaultUpdated(sessionController.store.getState().vault), false)
+
+    const encryptor = new SessionEncryptor()
+    const controller = new KeyringController({ initState: { vault: legacyVault }, encryptor })
+    await controller.submitPassword('password')
+    assert.equal(controller.memStore.getState().isUnlocked, true)
+    await controller.vaultWrites
+    const upgraded = controller.store.getState().vault
+    assert.equal(isVaultUpdated(upgraded), true)
+    assert.notEqual(JSON.parse(upgraded).salt, JSON.parse(legacyVault).salt)
+    assert.deepEqual(await new SessionEncryptor().decrypt('password', upgraded), contents)
+    assert.equal((await controller.getAccounts()).length, 1)
   })
 })

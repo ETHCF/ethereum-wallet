@@ -1,0 +1,54 @@
+.confirm-network-request {
+  &__content {
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  &__origin {
+    margin-bottom: 12px;
+    font-weight: 500;
+    word-break: break-all;
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 12px;
+    margin: 0 0 12px;
+    font-size: 13px;
+
+    dt {
+      color: $Grey-500;
+    }
+
+    dd {
+      margin: 0;
+      word-break: break-all;
+    }
+  }
+
+  &__notice,
+  &__warning,
+  &__error {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  &__notice {
+    background: $Grey-000;
+  }
+
+  &__warning {
+    border: 1px solid $Yellow-500;
+    background: $Yellow-100;
+  }
+
+  &__error {
+    border: 1px solid $Red-500;
+    background: $Red-000;
+    color: $Red-600;
+  }
+}

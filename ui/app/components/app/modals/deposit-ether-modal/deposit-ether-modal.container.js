@@ -1,12 +1,6 @@
 import { connect } from 'react-redux'
-import { buyEth, hideModal, showModal, hideWarning } from '../../../../store/actions'
+import { hideModal, showModal, hideWarning } from '../../../../store/actions'
 import DepositEtherModal from './deposit-ether-modal.component'
-
-function mapStateToProps (state) {
-  return {
-    network: state.ecfWallet.network,
-  }
-}
 
 function mapDispatchToProps (dispatch) {
   return {
@@ -19,8 +13,7 @@ function mapDispatchToProps (dispatch) {
     showAccountDetailModal: () => {
       dispatch(showModal({ name: 'ACCOUNT_DETAILS' }))
     },
-    toFaucet: (network) => dispatch(buyEth({ network })),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositEtherModal)
+export default connect(null, mapDispatchToProps)(DepositEtherModal)

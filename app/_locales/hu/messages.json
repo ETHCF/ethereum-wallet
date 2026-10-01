@@ -215,23 +215,8 @@
   "connectingTo": {
     "message": "Kapcsolódás: $1"
   },
-  "connectingToKovan": {
-    "message": "Csatlakozás a Kovan teszthálózathoz"
-  },
-  "connectingToMainnet": {
-    "message": "Csatlakozás a fő Ethereum hálózathoz"
-  },
-  "connectingToRopsten": {
-    "message": "Csatlakozás a Ropsten teszthálózathoz"
-  },
-  "connectingToRinkeby": {
-    "message": "Kapcsolódás a Rinkeby Teszthálózathoz"
-  },
   "connectingToLocalhost": {
     "message": "Csatlakozás a Localhost 8645-höz"
-  },
-  "connectingToGoerli": {
-    "message": "Csatlakozás a Goerli teszthálózathoz"
   },
   "contractDeployment": {
     "message": "Szerződés alkalmazása"
@@ -447,13 +432,6 @@
   "generalSettingsDescription": {
     "message": "Pénznem átváltása, elsődleges pénznem, nyelv, blockies identikonok"
   },
-  "getEther": {
-    "message": "Ether beszerzése"
-  },
-  "getEtherFromFaucet": {
-    "message": "Szerezzen Ethert pénzcsapból a(z) $1-ért",
-    "description": "Displays network name for Ether faucet"
-  },
   "getHelp": {
     "message": "Segítség kérése"
   },
@@ -563,9 +541,6 @@
     "message": "JSON-fájl",
     "description": "format for importing an account"
   },
-  "kovan": {
-    "message": "Kovan teszthálózat"
-  },
   "max": {
     "message": "Maximum"
   },
@@ -616,9 +591,6 @@
   },
   "ecfWalletVersion": {
     "message": "ECF Wallet verzió"
-  },
-  "mobileSyncText": {
-    "message": "Kérünk írd be jelszavad, hogy igazold kiléted!"
   },
   "myAccounts": {
     "message": "Fiókjaim"
@@ -867,12 +839,6 @@
   "rinkeby": {
     "message": "Rinkeby teszthálózat"
   },
-  "ropsten": {
-    "message": "Ropsten teszthálózat"
-  },
-  "goerli": {
-    "message": "Goerli teszthálózat"
-  },
   "save": {
     "message": "Mentés"
   },
@@ -1005,9 +971,6 @@
   "signed": {
     "message": "Aláírva"
   },
-  "signNotice": {
-    "message": "Az üzenet aláírása veszélyes következményekkel járhat. Csak olyan webhely üzenetét írja alá, amelyben teljes mértékben és a teljes fiókjával megbízik. Ezt a veszélyes módszert egy későbbi verzióból eltávolítjuk."
-  },
   "sigRequest": {
     "message": "Aláírás kérése"
   },
@@ -1068,32 +1031,8 @@
   "symbolBetweenZeroTwelve": {
     "message": "A szimbólum 0 és 12 karakter között kell legyen."
   },
-  "syncWithMobile": {
-    "message": "Szinkronizálás telefonnal"
-  },
-  "syncWithMobileTitle": {
-    "message": "Szinkronizálás mobillal"
-  },
-  "syncWithMobileDesc": {
-    "message": "Szinkronizálhatja fiókjait és adatait a mobilkészülékkel. Nyissa meg a ecf-wallet mobilalkalmazást, lépjen a \"Beállítások\" elemre, majd koppintson a \"Szinkronizálás a böngésző bővítményéből\" elemre."
-  },
-  "syncWithMobileDescNewUsers": {
-    "message": "Ha most először nyitja meg a ecf-wallet mobilalkalmazást, kövesse a telefonon megadott lépéseket."
-  },
-  "syncWithMobileScanThisCode": {
-    "message": "Olvasd be ezt a kódot ecf-wallet mobilalkalmazásoddal"
-  },
-  "syncWithMobileBeCareful": {
-    "message": "Győződjön meg arról, hogy senki nem látja a képernyőt, amikor beolvassa ezt a kódot"
-  },
-  "syncWithMobileComplete": {
-    "message": "Adatai szinkronizálása sikerült. Élvezze a ecf-wallet mobilalkalmazást!"
-  },
   "terms": {
     "message": "Használati feltételek"
-  },
-  "testFaucet": {
-    "message": "Teszt csap"
   },
   "thisWillCreate": {
     "message": "Eh új pénztárcát és termelési időszakot hoz létre"
