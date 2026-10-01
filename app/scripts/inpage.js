@@ -36,7 +36,6 @@ import pump from 'pump'
 import { WindowPostMessageStream } from '@metamask/post-message-stream'
 import ObjectMultiplex from '@metamask/object-multiplex'
 import { MetaMaskInpageProvider } from '@metamask/providers'
-import { setGlobalProvider } from '@metamask/providers/initializeInpageProvider'
 import shouldInjectProvider from './lib/should-inject-provider'
 import announceProvider from './lib/announce-provider'
 /* eslint-enable import/first */
@@ -74,13 +73,27 @@ if (shouldInjectProvider()) {
 
   // Preserve another wallet's legacy globals. Discovery works independently of
   // window.ethereum, even when another extension makes that property read-only.
+  setLegacyProvider(provider)
+
+  announceProvider(provider)
+}
+
+/**
+ * Sets window.ethereum unless another wallet already set it or claimed it with a
+ * read-only property or a getter, which may still return nothing.
+ *
+ * @param {Object} provider - The provider
+ */
+function setLegacyProvider (provider) {
+  const descriptor = Object.getOwnPropertyDescriptor(window, 'ethereum')
+  const claimed = descriptor && (descriptor.get || descriptor.set ? !descriptor.set : !descriptor.writable)
+  if (window.ethereum || claimed) {
+    return
+  }
   try {
-    if (!window.ethereum) {
-      setGlobalProvider(provider)
-    }
+    window.ethereum = provider
+    window.dispatchEvent(new window.Event('ethereum#initialized'))
   } catch (error) {
     log.debug('ecf-wallet - could not set the legacy provider', error)
   }
-
-  announceProvider(provider)
 }

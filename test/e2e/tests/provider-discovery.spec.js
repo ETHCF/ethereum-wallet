@@ -3,7 +3,8 @@ const { withFixtures } = require('../helpers')
 const connectBrowser = require('../webdriver/browser-cdp')
 
 describe('Wallet provider discovery', function () {
-  for (const otherWallet of [false, 'readonly', 'getter']) {
+  // 'empty-getter': a wallet that claims window.ethereum with a getter that returns nothing yet.
+  for (const otherWallet of [false, 'readonly', 'getter', 'empty-getter']) {
     it(`announces ECF Wallet ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider without web3'}`, async function () {
       if (process.env.SELENIUM_BROWSER !== 'chrome') {
         this.skip()
@@ -22,7 +23,7 @@ describe('Wallet provider discovery', function () {
               window.addEventListener('ethereum#initialized', () => initializedEvents++);
               if (${Boolean(otherWallet)}) {
                 window.otherProvider = { request: () => Promise.resolve('other-wallet') };
-                Object.defineProperty(window, 'ethereum', ${otherWallet === 'getter' ? '{ get: () => otherProvider }' : '{ value: otherProvider, writable: false }'});
+                Object.defineProperty(window, 'ethereum', ${{ getter: '{ get: () => otherProvider }', 'empty-getter': '{ get: () => undefined }' }[otherWallet] || '{ value: otherProvider, writable: false }'});
                 window.web3 = { currentProvider: otherProvider };
               }
             `,
@@ -50,7 +51,7 @@ describe('Wallet provider discovery', function () {
               stable: announcements.length === 3 && announcements.every(item =>
                 item.info.uuid === first.info.uuid && item.provider === first.provider),
               frozen: Object.isFrozen(first) && Object.isFrozen(first.info),
-              legacy: window.ethereum === ${otherWallet ? 'otherProvider' : 'first.provider'},
+              legacy: window.ethereum === ${{ false: 'first.provider', 'empty-getter': 'undefined' }[otherWallet] || 'otherProvider'},
               web3: ${otherWallet ? 'window.web3.currentProvider === otherProvider' : 'window.web3 === undefined'},
               initializedEvents,
               secureContext: window.isSecureContext
