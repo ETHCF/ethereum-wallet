@@ -12,11 +12,10 @@ import EthQuery from 'eth-query'
 import ObservableStore from 'obs-store'
 import log from 'loglevel'
 import pify from 'pify'
-import Web3 from 'web3'
-import SINGLE_CALL_BALANCES_ABI from 'single-call-balance-checker-abi'
 import { MAINNET_NETWORK_ID } from '../controllers/network/enums'
 
 import { SINGLE_CALL_BALANCES_ADDRESS } from '../controllers/network/contract-addresses'
+import getSingleCallBalances from './single-call-balances'
 import { bnToHex } from './util'
 
 export default class AccountTracker {
@@ -68,8 +67,6 @@ export default class AccountTracker {
         this.store.updateState({ accounts, currentBlockGasLimit: '' })
       })
     }
-
-    this.web3 = new Web3(this._provider)
   }
 
   start () {
@@ -259,14 +256,10 @@ export default class AccountTracker {
    */
   async _updateAccountsViaBalanceChecker (addresses, deployedContractAddress) {
     const request = this._beginBalanceRequest(addresses)
-    this.web3.setProvider(this._provider)
-    const ethContract = this.web3.eth.contract(SINGLE_CALL_BALANCES_ABI).at(deployedContractAddress)
-    const ethBalance = ['0x0']
+    const ethBalance = ['0x0000000000000000000000000000000000000000']
 
     try {
-      const result = await new Promise((resolve, reject) => {
-        ethContract.balances(addresses, ethBalance, (error, balances) => (error ? reject(error) : resolve(balances)))
-      })
+      const result = await getSingleCallBalances(this._query, deployedContractAddress, addresses, ethBalance)
       const accounts = { ...this.store.getState().accounts }
       addresses.forEach((address, index) => {
         if (accounts[address] && this._isCurrentBalanceRequest(address, request)) {

@@ -1,6 +1,7 @@
 import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
 import { BN } from 'ethereumjs-util'
+import abi from 'ethereumjs-abi'
 import ObservableStore from 'obs-store'
 import AccountTracker from '../../../app/scripts/lib/account-tracker'
 import CachedBalancesController from '../../../app/scripts/controllers/cached-balances'
@@ -179,9 +180,9 @@ describe('Asynchronous state races', function () {
   it('discards stale batch balances and does not resurrect removed accounts', async function () {
     const { network, tracker } = balances()
     const replies = []
-    tracker.web3 = {
-      setProvider: () => undefined,
-      eth: { contract: () => ({ at: () => ({ balances: (_, __, done) => replies.push(done) }) }) },
+    const encode = (value) => `0x${abi.rawEncode(['uint256[]'], [[value]]).toString('hex')}`
+    tracker._query = {
+      call: () => new Promise((resolve) => replies.push((_, [value]) => resolve(encode(value)))),
     }
     const old = tracker._updateAccountsViaBalanceChecker([address], 'contract')
     network.id = '200'

@@ -36,9 +36,6 @@ import LocalMessageDuplexStream from 'post-message-stream'
 import { initProvider, setGlobalProvider } from '@metamask/inpage-provider'
 import shouldInjectProvider from './lib/should-inject-provider'
 import announceProvider from './lib/announce-provider'
-
-// TODO:deprecate:2020
-import setupWeb3 from './lib/setupWeb3'
 /* eslint-enable import/first */
 
 restoreContextAfterImports()
@@ -74,9 +71,4 @@ if (shouldInjectProvider()) {
   }
 
   announceProvider(provider)
-
-  // TODO:deprecate:2020
-  if (window.ethereum === provider && typeof window.web3 === 'undefined') {
-    setupWeb3(log)
-  }
 }

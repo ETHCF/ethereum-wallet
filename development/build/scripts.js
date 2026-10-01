@@ -107,6 +107,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     for (const [name, entry, globalName] of [
       ['hardware', './app/scripts/hardware.js'],
       ['transaction-codec', './app/scripts/lib/transaction-codec-implementation.js', 'ecfWalletTransactionCodec'],
+      ['modern-controllers', './app/scripts/lib/modern-controllers-implementation.js', 'ecfWalletModernControllers'],
     ]) {
       standardSubtasks.push(createTask(`${taskPrefix}:${name}`, async () => {
         const options = {

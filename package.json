@@ -77,12 +77,13 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@ledgerhq/hw-transport-webhid": "^6.36.0",
     "@material-ui/core": "^4.12.4",
-    "@metamask/controllers": "^2.0.5",
+    "@metamask/address-book-controller": "^8.0.0",
     "@metamask/eth-ledger-bridge-keyring": "^13.1.0",
     "@metamask/eth-sig-util": "^9.0.0",
     "@metamask/eth-token-tracker": "^3.1.0",
     "@metamask/eth-trezor-keyring": "^11.0.0",
     "@metamask/inpage-provider": "^6.3.0",
+    "@metamask/messenger": "^3.0.0",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^1.9.7",
     "@spruceid/siwe-parser": "^3.0.0",
@@ -171,10 +172,8 @@
     "safe-event-emitter": "^1.0.1",
     "safe-json-stringify": "^1.2.0",
     "ses": "2.3.0",
-    "single-call-balance-checker-abi": "^1.0.0",
     "swappable-obj-proxy": "^1.1.0",
     "valid-url": "^1.0.9",
-    "web3": "^0.20.7",
     "web3-stream-provider": "^4.0.1"
   },
   "devDependencies": {
@@ -314,7 +313,7 @@
     "web3": false
   },
   "engines": {
-    "node": "^26.10.0",
+    "node": "^24.21.0",
     "yarn": "^1.22.22"
   }
 }

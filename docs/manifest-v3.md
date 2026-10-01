@@ -112,6 +112,8 @@ The packaged `transaction-codec.js` bundle loads before the background scripts
 in both browsers. It supplies EthereumJS 10, current `@metamask/eth-sig-util` 9,
 and the SIWE parser without forcing the legacy Browserify pipeline to parse
 these dependencies. Private keys remain in the background process.
+`modern-controllers.js` loads after it the same way and supplies the ESM-only
+`@metamask/address-book-controller`.
 
 EIP-712 V1, V3, and V4 requests are supported. V3/V4 accept JSON strings or
 objects; V4 supports arrays and nested structs. Validation hashes the actual

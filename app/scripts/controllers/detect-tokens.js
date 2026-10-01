@@ -1,7 +1,8 @@
-import Web3 from 'web3'
+import EthQuery from 'eth-query'
+import pify from 'pify'
 import contracts from 'eth-contract-metadata'
 import { warn } from 'loglevel'
-import SINGLE_CALL_BALANCES_ABI from 'single-call-balance-checker-abi'
+import getSingleCallBalances from '../lib/single-call-balances'
 import { MAINNET } from './network/enums'
 
 // By default, poll every 3 minutes
@@ -38,7 +39,6 @@ export default class DetectTokensController {
     }
 
     const tokensToDetect = []
-    this.web3.setProvider(this._network._provider)
     for (const contractAddress in contracts) {
       if (contracts[contractAddress].erc20 && !(this.tokenAddresses.includes(contractAddress.toLowerCase()))) {
         tokensToDetect.push(contractAddress)
@@ -62,15 +62,8 @@ export default class DetectTokensController {
   }
 
   async _getTokenBalances (tokens) {
-    const ethContract = this.web3.eth.contract(SINGLE_CALL_BALANCES_ABI).at(SINGLE_CALL_BALANCES_ADDRESS)
-    return new Promise((resolve, reject) => {
-      ethContract.balances([this.selectedAddress], tokens, (error, result) => {
-        if (error) {
-          return reject(error)
-        }
-        return resolve(result)
-      })
-    })
+    const query = pify(new EthQuery(this._network._provider))
+    return getSingleCallBalances(query, SINGLE_CALL_BALANCES_ADDRESS, [this.selectedAddress], tokens)
   }
 
   /**
@@ -133,7 +126,6 @@ export default class DetectTokensController {
       return
     }
     this._network = network
-    this.web3 = new Web3(network._provider)
   }
 
   /**

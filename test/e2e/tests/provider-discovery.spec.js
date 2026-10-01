@@ -4,7 +4,7 @@ const connectBrowser = require('../webdriver/browser-cdp')
 
 describe('Wallet provider discovery', function () {
   for (const otherWallet of [false, 'readonly', 'getter']) {
-    it(`announces ECF Wallet ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider'}`, async function () {
+    it(`announces ECF Wallet ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider without web3'}`, async function () {
       if (process.env.SELENIUM_BROWSER !== 'chrome') {
         this.skip()
       }
@@ -51,7 +51,7 @@ describe('Wallet provider discovery', function () {
                 item.info.uuid === first.info.uuid && item.provider === first.provider),
               frozen: Object.isFrozen(first) && Object.isFrozen(first.info),
               legacy: window.ethereum === ${otherWallet ? 'otherProvider' : 'first.provider'},
-              web3: ${otherWallet ? 'window.web3.currentProvider === otherProvider' : '!!window.web3'},
+              web3: ${otherWallet ? 'window.web3.currentProvider === otherProvider' : 'window.web3 === undefined'},
               initializedEvents,
               secureContext: window.isSecureContext
             };

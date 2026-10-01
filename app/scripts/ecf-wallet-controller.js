@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 MetaMask
  * @license   MIT
  */
+/* global globalThis */
 
 import EventEmitter from 'events'
 
@@ -22,11 +23,6 @@ import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
-import {
-  AddressBookController,
-  CurrencyRateController,
-  PhishingController,
-} from '@metamask/controllers'
 import KeyringController from './lib/modern-keyring-controller'
 import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
 import ComposableObservableStore from './lib/ComposableObservableStore'
@@ -56,6 +52,8 @@ import PersonalMessageManager from './lib/personal-message-manager'
 import TypedMessageManager from './lib/typed-message-manager'
 import TransactionController from './controllers/transactions'
 import TokenRatesController from './controllers/token-rates'
+import CurrencyRateController from './controllers/currency-rate'
+import PhishingController from './controllers/phishing'
 import DetectTokensController from './controllers/detect-tokens'
 import { PermissionsController } from './controllers/permissions'
 import getRestrictedMethods from './controllers/permissions/restrictedMethods'
@@ -122,7 +120,7 @@ export default class EcfWalletController extends EventEmitter {
       preferencesStore: this.preferencesController.store,
     })
 
-    this.currencyRateController = new CurrencyRateController(undefined, initState.CurrencyController)
+    this.currencyRateController = new CurrencyRateController(initState.CurrencyController)
 
     this.phishingController = new PhishingController()
 
@@ -211,7 +209,9 @@ export default class EcfWalletController extends EventEmitter {
       keyringMemStore: this.keyringController.memStore,
     })
 
-    this.addressBookController = new AddressBookController(undefined, initState.AddressBookController)
+    const addressBook = globalThis.ecfWalletModernControllers.createAddressBookController(initState.AddressBookController)
+    this.addressBookController = addressBook.controller
+    this.addressBookStore = addressBook.store
 
     this.originThrottler = new OriginThrottler()
 
@@ -282,8 +282,8 @@ export default class EcfWalletController extends EventEmitter {
       TransactionController: this.txController.store,
       KeyringController: this.keyringController.store,
       PreferencesController: this.preferencesController.store,
-      AddressBookController: this.addressBookController,
-      CurrencyController: this.currencyRateController,
+      AddressBookController: this.addressBookStore,
+      CurrencyController: this.currencyRateController.store,
       NetworkController: this.networkController.store,
       CachedBalancesController: this.cachedBalancesController.store,
       AlertController: this.alertController.store,
@@ -306,8 +306,8 @@ export default class EcfWalletController extends EventEmitter {
       TypesMessageManager: this.typedMessageManager.memStore,
       KeyringController: this.keyringController.memStore,
       PreferencesController: this.preferencesController.store,
-      AddressBookController: this.addressBookController,
-      CurrencyController: this.currencyRateController,
+      AddressBookController: this.addressBookStore,
+      CurrencyController: this.currencyRateController.store,
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
       IncomingTransactionsController: this.incomingTransactionsController.store,
@@ -1732,8 +1732,7 @@ export default class EcfWalletController extends EventEmitter {
         nativeCurrency: ticker,
         currentCurrency: currencyCode,
       }
-      this.currencyRateController.update(currencyState)
-      this.currencyRateController.configure(currencyState)
+      this.currencyRateController.setCurrency(currencyState)
       cb(null, this.currencyRateController.state)
       return
     } catch (err) {
