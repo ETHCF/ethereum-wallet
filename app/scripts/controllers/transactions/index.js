@@ -5,11 +5,11 @@ import BN from 'bn.js'
 import EthQuery from 'ethjs-query'
 import { ethErrors } from 'eth-json-rpc-errors'
 import abi from 'human-standard-token-abi'
-import abiDecoder from 'abi-decoder'
 import NonceTracker from 'nonce-tracker'
 import log from 'loglevel'
 import { isFeeMarketTransaction, replacementFees } from '../../lib/transaction-fees'
 import { createTransaction } from '../../lib/transaction-codec'
+import createMethodDecoder from '../../lib/abi-method-decoder'
 import {
   TOKEN_METHOD_APPROVE,
   TOKEN_METHOD_TRANSFER,
@@ -32,7 +32,7 @@ import {
   TRANSACTION_STATUS_APPROVED,
 } from './enums'
 
-abiDecoder.addABI(abi)
+const decodeTokenMethod = createMethodDecoder(abi)
 
 const SIMPLE_GAS_COST = '0x5208' // Hex for 21000, cost of a simple send.
 const MAX_MEMSTORE_TX_LIST_SIZE = 100 // Number of transactions (by unique nonces) to keep in memory
@@ -876,7 +876,7 @@ export default class TransactionController extends EventEmitter {
   */
   async _determineTransactionCategory (txParams) {
     const { data, to } = txParams
-    const { name } = (data && abiDecoder.decodeMethod(data)) || {}
+    const { name } = (data && decodeTokenMethod(data)) || {}
     const tokenMethodName = [
       TOKEN_METHOD_APPROVE,
       TOKEN_METHOD_TRANSFER,

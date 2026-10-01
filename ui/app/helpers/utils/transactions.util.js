@@ -1,7 +1,6 @@
 import ethUtil from 'ethereumjs-util'
 import MethodRegistry from 'eth-method-registry'
 import abi from 'human-standard-token-abi'
-import abiDecoder from 'abi-decoder'
 import log from 'loglevel'
 import {
   TRANSACTION_TYPE_CANCEL,
@@ -9,6 +8,7 @@ import {
 } from '../../../../app/scripts/controllers/transactions/enums'
 import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums'
 import { getTxExplorerUrl } from '../../../../app/scripts/lib/block-explorer'
+import createMethodDecoder from '../../../../app/scripts/lib/abi-method-decoder'
 import {
   TOKEN_METHOD_TRANSFER,
   TOKEN_METHOD_APPROVE,
@@ -29,10 +29,10 @@ import fetchWithCache from './fetch-with-cache'
 
 import { addCurrencies } from './conversion-util'
 
-abiDecoder.addABI(abi)
+const decodeTokenMethod = createMethodDecoder(abi)
 
 export function getTokenData (data = '') {
-  return abiDecoder.decodeMethod(data)
+  return decodeTokenMethod(data)
 }
 
 async function getMethodFrom4Byte (fourBytePrefix) {
