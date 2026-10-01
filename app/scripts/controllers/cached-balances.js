@@ -23,6 +23,7 @@ export default class CachedBalancesController {
 
     this.accountTracker = accountTracker
     this.getNetwork = getNetwork
+    this.generation = 0
 
     const initState = { cachedBalances: {}, ...opts.initState }
     this.store = new ObservableStore(initState)
@@ -38,8 +39,13 @@ export default class CachedBalancesController {
    * @returns {Promise<void>}
    */
   async updateCachedBalances ({ accounts }) {
+    const { generation } = this
     const network = await this.getNetwork()
-    const balancesToCache = await this._generateBalancesToCache(accounts, network)
+    if (generation !== this.generation || network === 'loading') {
+      return
+    }
+    // Merge and commit together so concurrent updates cannot lose a network.
+    const balancesToCache = this._generateBalancesToCache(accounts, network)
     this.store.updateState({
       cachedBalances: balancesToCache,
     })
@@ -69,6 +75,7 @@ export default class CachedBalancesController {
    */
 
   clearCachedBalances () {
+    this.generation += 1
     this.store.updateState({ cachedBalances: {} })
   }
 

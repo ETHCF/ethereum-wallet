@@ -230,8 +230,10 @@ export default class EcfWalletController extends EventEmitter {
 
     this.txController.on(`tx:status-update`, async (txId, status) => {
       if (status === 'confirmed' || status === 'failed') {
-        const txMeta = this.txController.txStateManager.getTx(txId)
-        this.platform.showTransactionNotification(txMeta)
+        const txMeta = this.txController.txStateManager.getFullTxList().find((tx) => tx.id === txId)
+        if (txMeta) {
+          this.platform.showTransactionNotification(txMeta)
+        }
 
       }
     })
@@ -1296,9 +1298,10 @@ export default class EcfWalletController extends EventEmitter {
     log.info('EcfWalletController - eth_signTypedData')
     const msgId = msgParams.ecfWalletId
     const version = this.typedMessageManager.getMsg(msgId)?.msgParams.version
+    // Only the call that successfully claims approval owns the signing result.
+    // A duplicate/stale approval must not fail somebody else's pending request.
+    const cleanMsgParams = await this.typedMessageManager.approveMessage(msgParams)
     try {
-      const cleanMsgParams = await this.typedMessageManager.approveMessage(msgParams)
-
       // For some reason every version after V1 used stringified params.
       if (version !== 'V1') {
         // But we don't have to require that. We can stop suggesting it now:

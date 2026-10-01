@@ -22,7 +22,16 @@ export default class NotificationManager {
    * notification windows are given a 'popup' type.
    *
    */
-  async showPopup () {
+  showPopup () {
+    if (!this._showingPopup) {
+      this._showingPopup = this._showPopup().finally(() => {
+        this._showingPopup = null
+      })
+    }
+    return this._showingPopup
+  }
+
+  async _showPopup () {
     const popup = await this._getPopup()
 
     // Bring focus to chrome popup

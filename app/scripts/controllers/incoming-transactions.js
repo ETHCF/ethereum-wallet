@@ -143,11 +143,14 @@ export default class IncomingTransactionsController {
   async _updateStateWithNewTxData ({
     latestIncomingTxBlockNumber,
     newTxs,
-    currentIncomingTxs,
-    currentBlocksByNetwork,
     fetchedBlockNumber,
     network,
   }) {
+    // Responses may finish out of order. Merge into the latest committed state.
+    const {
+      incomingTransactions: currentIncomingTxs,
+      incomingTxLastFetchedBlocksByNetwork: currentBlocksByNetwork,
+    } = this.store.getState()
     const newLatestBlockHashByNetwork = latestIncomingTxBlockNumber
       ? parseInt(latestIncomingTxBlockNumber, 10) + 1
       : fetchedBlockNumber + 1
@@ -161,7 +164,7 @@ export default class IncomingTransactionsController {
     this.store.updateState({
       incomingTxLastFetchedBlocksByNetwork: {
         ...currentBlocksByNetwork,
-        [network]: newLatestBlockHashByNetwork,
+        [network]: Math.max(currentBlocksByNetwork[network] || 0, newLatestBlockHashByNetwork),
       },
       incomingTransactions: newIncomingTransactions,
     })

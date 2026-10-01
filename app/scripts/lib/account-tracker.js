@@ -62,6 +62,17 @@ export default class AccountTracker {
     // bind function for easier listener syntax
     this._updateForBlock = this._updateForBlock.bind(this)
     this.network = opts.network
+    this.networkGeneration = 0
+    this.balanceRequests = new Map()
+    this.blockRequest = 0
+    if (this.network.on) {
+      this.network.on('networkDidChange', () => {
+        this.networkGeneration += 1
+        this.balanceRequests.clear()
+        const accounts = Object.fromEntries(Object.keys(this.store.getState().accounts).map((address) => [address, {}]))
+        this.store.updateState({ accounts, currentBlockGasLimit: '' })
+      })
+    }
 
     this.web3 = new Web3(this._provider)
   }
@@ -146,6 +157,7 @@ export default class AccountTracker {
     // remove each state object
     addresses.forEach((address) => {
       delete accounts[address]
+      this.balanceRequests.delete(address)
     })
     // save accounts state
     this.store.updateState({ accounts })
@@ -156,6 +168,7 @@ export default class AccountTracker {
    */
 
   clearAccounts () {
+    this.balanceRequests.clear()
     this.store.updateState({ accounts: {} })
   }
 
@@ -169,11 +182,14 @@ export default class AccountTracker {
    *
    */
   async _updateForBlock (blockNumber) {
+    const generation = this.networkGeneration
+    this.blockRequest += 1
+    const request = this.blockRequest
     this._currentBlockNumber = blockNumber
 
     // block gasLimit polling shouldn't be in account-tracker shouldn't be here...
     const currentBlock = await this._query.getBlockByNumber(blockNumber, false)
-    if (!currentBlock) {
+    if (!currentBlock || generation !== this.networkGeneration || request !== this.blockRequest) {
       return
     }
     const currentBlockGasLimit = currentBlock.gasLimit
@@ -229,17 +245,28 @@ export default class AccountTracker {
    *
    */
   async _updateAccount (address) {
+    const request = this._beginBalanceRequest([address])
     // query balance
     const balance = await this._query.getBalance(address)
     const result = { address, balance }
     // update accounts state
     const { accounts } = this.store.getState()
     // only populate if the entry is still present
-    if (!accounts[address]) {
+    if (!accounts[address] || !this._isCurrentBalanceRequest(address, request)) {
       return
     }
-    accounts[address] = result
-    this.store.updateState({ accounts })
+    this.store.updateState({ accounts: { ...accounts, [address]: result } })
+  }
+
+  _beginBalanceRequest (addresses) {
+    const request = { generation: this.networkGeneration, network: this.network.getNetworkState() }
+    addresses.forEach((address) => this.balanceRequests.set(address, request))
+    return request
+  }
+
+  _isCurrentBalanceRequest (address, request) {
+    return this.balanceRequests.get(address) === request &&
+      request.generation === this.networkGeneration && request.network === this.network.getNetworkState()
   }
 
   /**
@@ -248,23 +275,27 @@ export default class AccountTracker {
    * @param {*} deployedContractAddress
    */
   async _updateAccountsViaBalanceChecker (addresses, deployedContractAddress) {
-    const { accounts } = this.store.getState()
+    const request = this._beginBalanceRequest(addresses)
     this.web3.setProvider(this._provider)
     const ethContract = this.web3.eth.contract(SINGLE_CALL_BALANCES_ABI).at(deployedContractAddress)
     const ethBalance = ['0x0']
 
-    ethContract.balances(addresses, ethBalance, (error, result) => {
-      if (error) {
-        log.warn(`ecf-wallet - Account Tracker single call balance fetch failed`, error)
-        Promise.all(addresses.map(this._updateAccount.bind(this)))
-        return
-      }
+    try {
+      const result = await new Promise((resolve, reject) => {
+        ethContract.balances(addresses, ethBalance, (error, balances) => (error ? reject(error) : resolve(balances)))
+      })
+      const accounts = { ...this.store.getState().accounts }
       addresses.forEach((address, index) => {
-        const balance = bnToHex(result[index])
-        accounts[address] = { address, balance }
+        if (accounts[address] && this._isCurrentBalanceRequest(address, request)) {
+          const balance = bnToHex(result[index])
+          accounts[address] = { address, balance }
+        }
       })
       this.store.updateState({ accounts })
-    })
+    } catch (error) {
+      log.warn(`ecf-wallet - Account Tracker single call balance fetch failed`, error)
+      await Promise.all(addresses.filter((address) => this._isCurrentBalanceRequest(address, request)).map(this._updateAccount.bind(this)))
+    }
   }
 
 }

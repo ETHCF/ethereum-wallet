@@ -17,7 +17,7 @@ describe('CachedBalancesController', function () {
         },
       })
 
-      controller._generateBalancesToCache = sinon.stub().callsFake(() => Promise.resolve('mockNewCachedBalances'))
+      controller._generateBalancesToCache = sinon.stub().returns('mockNewCachedBalances')
 
       await controller.updateCachedBalances({ accounts: 'mockAccounts' })
 

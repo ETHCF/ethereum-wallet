@@ -276,7 +276,7 @@ describe('IncomingTransactionsController', function () {
           'FAKE_NETWORK': 445,
         },
         incomingTransactions: {
-          '0x123456': { id: 777, hash: '0x123456' },
+          '0x123456': { id: 777 },
           '0xfff': { id: 555, hash: '0xfff' },
         },
       })
@@ -301,7 +301,7 @@ describe('IncomingTransactionsController', function () {
           'FAKE_NETWORK': 1112,
         },
         incomingTransactions: {
-          '0x123456': { id: 777, hash: '0x123456' },
+          '0x123456': { id: 777 },
           '0xfff': { id: 555, hash: '0xfff' },
         },
       })

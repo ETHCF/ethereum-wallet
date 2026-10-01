@@ -74,6 +74,7 @@ export default class TransactionController extends EventEmitter {
     this.blockTracker = opts.blockTracker
     this.signEthTx = opts.signTransaction
     this.inProcessOfSigning = new Set()
+    this.networkGeneration = 0
 
     this.memStore = new ObservableStore({})
     this.query = new EthQuery(this.provider)
@@ -114,6 +115,7 @@ export default class TransactionController extends EventEmitter {
     this._updateMemstore()
     this.txStateManager.store.subscribe(() => this._updateMemstore())
     this.networkStore.subscribe(() => {
+      this.networkGeneration += 1
       this._onBootCleanUp()
       this._updateMemstore()
     })
@@ -504,6 +506,7 @@ export default class TransactionController extends EventEmitter {
     @param {number} txId - the tx's Id
   */
   async approveTransaction (txId) {
+    const { networkGeneration } = this
     // TODO: Move this safety out of this function.
     // Since this transaction is async,
     // we need to keep track of what is currently being signed,
@@ -524,6 +527,7 @@ export default class TransactionController extends EventEmitter {
       let { customNonceValue } = txMeta
       customNonceValue = Number(customNonceValue)
       nonceLock = await this.nonceTracker.getNonceLock(fromAddress)
+      this.assertNetworkGeneration(networkGeneration)
       // add nonce to txParams
       // Preserve explicit and replacement nonces; otherwise allocate the next nonce.
       const nonce = txMeta.txParams.nonce === undefined ? nonceLock.nextNonce : txMeta.txParams.nonce
@@ -538,7 +542,7 @@ export default class TransactionController extends EventEmitter {
       this.txStateManager.updateTx(txMeta, 'transactions#approveTransaction')
       // sign transaction
       const rawTx = await this.signTransaction(txId)
-      await this.publishTransaction(txId, rawTx)
+      await this.publishTransaction(txId, rawTx, networkGeneration)
       // must set transaction to submitted/failed before releasing lock
       nonceLock.releaseLock()
     } catch (err) {
@@ -565,6 +569,7 @@ export default class TransactionController extends EventEmitter {
     @returns {string} - rawTx
   */
   async signTransaction (txId) {
+    const { networkGeneration } = this
     const txMeta = this.txStateManager.getTx(txId)
     // add network/chain id
     const chainId = this.getChainId()
@@ -586,6 +591,10 @@ export default class TransactionController extends EventEmitter {
     const unsignedTx = createTransaction(txParams, chainId)
     const expectedMessage = Number(txParams.type) ? Buffer.from(unsignedTx.getHashedMessageToSign()) : undefined
     const ethTx = await this.signEthTx(unsignedTx, fromAddress) || unsignedTx
+    this.assertNetworkGeneration(networkGeneration)
+    if (this.getChainId() !== chainId) {
+      throw new Error('Network changed while signing. Please submit the transaction again.')
+    }
     if (expectedMessage && (!Number(ethTx.type) ||
         !expectedMessage.equals(Buffer.from(ethTx.getHashedMessageToSign())) ||
         ethTx.getSenderAddress().toString().toLowerCase() !== fromAddress.toLowerCase())) {
@@ -610,14 +619,26 @@ export default class TransactionController extends EventEmitter {
     return rawTx
   }
 
+  assertNetworkGeneration (generation) {
+    if (generation !== this.networkGeneration) {
+      throw new Error('Network changed while signing. Please submit the transaction again.')
+    }
+  }
+
   /**
     publishes the raw tx and sets the txMeta to submitted
     @param {number} txId - the tx's Id
     @param {string} rawTx - the hex string of the serialized signed transaction
+    @param {number} networkGeneration - the network generation when approval began
     @returns {Promise<void>}
   */
-  async publishTransaction (txId, rawTx) {
+  async publishTransaction (txId, rawTx, networkGeneration = this.networkGeneration) {
+    this.assertNetworkGeneration(networkGeneration)
     const txMeta = this.txStateManager.getTx(txId)
+    const chainId = txMeta?.signingChainId ?? txMeta?.txParams?.chainId
+    if (!txMeta || (chainId !== undefined && Number(chainId) !== this.getChainId())) {
+      throw new Error('Network changed before publishing. Please submit the transaction again.')
+    }
     txMeta.rawTx = rawTx
     this.txStateManager.updateTx(txMeta, 'transactions#publishTransaction')
     let txHash

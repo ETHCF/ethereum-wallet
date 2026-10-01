@@ -19,46 +19,57 @@ export default class SessionEncryptor {
   }
 
   async restore (vault) {
+    const { generation } = this
     if (!this.storage || !vault) {
       return false
     }
     await this.storage.setAccessLevel?.({ accessLevel: 'TRUSTED_CONTEXTS' })
     const saved = (await this.storage.get(SESSION_KEY))[SESSION_KEY]
+    this.assertGeneration(generation)
     if (!saved || saved.salt !== JSON.parse(vault).salt) {
       await this.clear()
       return false
     }
     try {
-      this.key = await browserGlobal.crypto.subtle.importKey('jwk', saved.key, 'AES-GCM', true, ['encrypt', 'decrypt'])
-      this.cached = saved
+      const key = await browserGlobal.crypto.subtle.importKey('jwk', saved.key, 'AES-GCM', true, ['encrypt', 'decrypt'])
       // Validate against the persisted vault before attempting session unlock.
-      await passworder.decryptWithKey(this.key, JSON.parse(vault))
+      await passworder.decryptWithKey(key, JSON.parse(vault))
+      this.assertGeneration(generation)
+      this.key = key
+      this.cached = saved
       return true
     } catch (_) {
-      await this.clear()
+      if (generation === this.generation) {
+        await this.clear()
+      }
       return false
     }
   }
 
   async encrypt (password, data) {
+    const { generation } = this
     const salt = password === this.sessionPassword && this.cached
       ? this.cached.salt
       : passworder.generateSalt()
     const key = await this.getKey(password, salt)
     const payload = await passworder.encryptWithKey(key, data)
-    await this.remember(key, salt)
+    await this.remember(key, salt, generation)
     return JSON.stringify({ ...payload, salt })
   }
 
   async decrypt (password, vault) {
+    const { generation } = this
     const payload = JSON.parse(vault)
     const key = await this.getKey(password, payload.salt)
     const data = await passworder.decryptWithKey(key, payload)
-    await this.remember(key, payload.salt)
+    await this.remember(key, payload.salt, generation)
     return data
   }
 
   async getKey (password, salt) {
+    if (typeof password !== 'string') {
+      throw new Error('Password must be text.')
+    }
     if (password === this.sessionPassword) {
       if (!this.key || salt !== this.cached?.salt) {
         throw new Error('Wallet session expired. Unlock the wallet again.')
@@ -76,13 +87,17 @@ export default class SessionEncryptor {
     }, material, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt'])
   }
 
-  async remember (key, salt) {
-    const { generation } = this
-    const serializedKey = await browserGlobal.crypto.subtle.exportKey('jwk', key)
-    if (generation === this.generation) {
-      this.key = key
-      this.cached = { key: serializedKey, salt }
+  assertGeneration (generation) {
+    if (generation !== this.generation) {
+      throw new Error('Wallet operation cancelled because the wallet was locked or replaced.')
     }
+  }
+
+  async remember (key, salt, generation = this.generation) {
+    const serializedKey = await browserGlobal.crypto.subtle.exportKey('jwk', key)
+    this.assertGeneration(generation)
+    this.key = key
+    this.cached = { key: serializedKey, salt }
   }
 
   async save () {

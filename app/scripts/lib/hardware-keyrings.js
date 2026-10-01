@@ -128,11 +128,14 @@ export function createRemoteKeyring (type, send = requestHardware) {
       this.id = global.crypto.randomUUID()
       this.queue = Promise.resolve()
       this.generation = connectionGeneration
+      this.stateRevision = 0
+      this.settingRevisions = {}
+      this.removedAccounts = new Map()
       this.deserialize(opts)
     }
 
     async serialize () {
-      return this.state
+      return JSON.parse(JSON.stringify(this.state))
     }
 
     async deserialize (opts = {}) {
@@ -149,6 +152,8 @@ export function createRemoteKeyring (type, send = requestHardware) {
 
     setAccountToUnlock (index) {
       this.state.unlockedAccount = Number(index)
+      this.stateRevision += 1
+      this.settingRevisions.unlockedAccount = this.stateRevision
     }
 
     setHdPath (hdPath) {
@@ -156,10 +161,15 @@ export function createRemoteKeyring (type, send = requestHardware) {
         this.state.legacyHdPath = this.state.legacyHdPath || this.state.hdPath
       }
       this.state.hdPath = hdPath
+      this.stateRevision += 1
+      this.settingRevisions.hdPath = this.stateRevision
+      this.settingRevisions.legacyHdPath = this.stateRevision
     }
 
     removeAccount (address) {
       this.state.accounts = this.state.accounts.filter((account) => account.toLowerCase() !== address.toLowerCase())
+      this.stateRevision += 1
+      this.removedAccounts.set(address.toLowerCase(), this.stateRevision)
     }
 
     async forgetDevice () {
@@ -170,15 +180,30 @@ export function createRemoteKeyring (type, send = requestHardware) {
     }
 
     async call (method, args) {
+      const revision = this.stateRevision
+      // Freeze user-selected settings when enqueued, while still carrying public
+      // account state returned by earlier operations in the same queue.
+      const settings = {}
+      for (const field of ['hdPath', 'legacyHdPath', 'unlockedAccount']) {
+        settings[field] = this.state[field]
+      }
       const operation = this.queue.then(async () => {
         if (this.generation !== connectionGeneration) {
           throw new Error('Hardware wallet request cancelled because the wallet was locked.')
         }
-        const response = await send({ id: this.id, keyringType: type, method, args, state: this.state, network: this.network })
+        const state = JSON.parse(JSON.stringify({ ...this.state, ...settings }))
+        const response = await send({ id: this.id, keyringType: type, method, args, state, network: this.network })
         if (this.generation !== connectionGeneration) {
           throw new Error('Hardware wallet request cancelled because the wallet was locked.')
         }
-        this.state = response.state
+        const updated = { ...response.state }
+        for (const [field, changedAt] of Object.entries(this.settingRevisions)) {
+          if (changedAt > revision) {
+            updated[field] = this.state[field]
+          }
+        }
+        updated.accounts = updated.accounts.filter((account) => !(this.removedAccounts.get(account.toLowerCase()) > revision))
+        this.state = updated
         this.unlocked = response.unlocked
         return response.result
       })

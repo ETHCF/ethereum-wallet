@@ -433,7 +433,7 @@ export default class TransactionStateManager extends EventEmitter {
   setTxStatusFailed (txId, err) {
     const error = err || new Error('Internal ecf-wallet failure')
 
-    const txMeta = this.getTx(txId)
+    const txMeta = this.getFullTxList().find((tx) => tx.id === txId)
     txMeta.err = {
       message: error.toString(),
       rpc: error.value,
@@ -482,7 +482,8 @@ export default class TransactionStateManager extends EventEmitter {
     @emits update:badge
   */
   _setTxStatus (txId, status) {
-    const txMeta = this.getTx(txId)
+    // An in-flight request must finish even if its network is no longer selected.
+    const txMeta = this.getFullTxList().find((tx) => tx.id === txId)
 
     if (!txMeta) {
       return

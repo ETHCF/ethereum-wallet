@@ -107,6 +107,73 @@ describe('Modern transaction pipeline', function () {
     await assert.rejects(tx.signTransaction(meta.id), /does not match/u)
   })
 
+  const networkSwitchScenarios = ['shared history ID', 'different network', 'switch away and back']
+  networkSwitchScenarios.forEach((scenario) => {
+    it(`does not broadcast after a network switch during signing: ${scenario}`, async function () {
+      const { tx } = controller()
+      let chainId = '0x539'
+      tx.getSigningChainId = () => chainId
+      const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'ecf-wallet')
+      let release, started
+      const ready = new Promise((resolve) => {
+        started = resolve
+      })
+      const finish = new Promise((resolve) => {
+        release = resolve
+      })
+      tx.signEthTx = async (unsigned) => {
+        started()
+        await finish
+        return unsigned.sign(key)
+      }
+      let lockReleased = false
+      tx.nonceTracker.getNonceLock = async () => ({
+        nextNonce: 7, nonceDetails: {}, releaseLock: () => {
+          lockReleased = true
+        },
+      })
+      let broadcasts = 0
+      tx.query = {
+        sendRawTransaction: async () => {
+          broadcasts += 1
+        },
+      }
+      const result = new Promise((resolve) => tx.txStateManager.once(`${meta.id}:finished`, resolve))
+      const failed = assert.rejects(tx.approveTransaction(meta.id), /Network changed/u)
+      await ready
+      chainId = '0x1'
+      if (scenario !== 'shared history ID') {
+        tx.networkStore.putState('1')
+      }
+      if (scenario === 'switch away and back') {
+        chainId = '0x539'
+        tx.networkStore.putState('1337')
+      }
+      release()
+      await failed
+      assert.equal(broadcasts, 0)
+      assert.equal(lockReleased, true)
+      assert.equal((await result).status, 'failed')
+      assert.equal(tx.txStateManager.getFullTxList().find(({ id }) => id === meta.id).status, 'failed')
+    })
+  })
+
+  it('checks the chain again if it changes between signing and publishing', async function () {
+    const { tx } = controller()
+    tx.getSigningChainId = () => '0x539'
+    const meta = await tx.addUnapprovedTransaction({ ...base, type: '0x2' }, 'ecf-wallet')
+    const raw = await tx.signTransaction(meta.id)
+    let broadcasts = 0
+    tx.query = {
+      sendRawTransaction: async () => {
+        broadcasts += 1
+      },
+    }
+    tx.getSigningChainId = () => '0x1'
+    await assert.rejects(tx.publishTransaction(meta.id, raw), /Network changed before publishing/u)
+    assert.equal(broadcasts, 0)
+  })
+
   it('estimates access-list intrinsic costs instead of using the simple-send shortcut', async function () {
     const { tx } = controller()
     const params = { ...base, type: '0x2', accessList }
