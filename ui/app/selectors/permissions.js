@@ -1,6 +1,6 @@
 import { forOwn } from 'lodash'
 import {
-  CAVEAT_NAMES,
+  CAVEAT_TYPES,
 } from '../../../app/scripts/controllers/permissions/enums'
 import { getEcfWalletAccountsOrdered, getOriginOfCurrentTab, getSelectedAddress } from '.'
 
@@ -13,7 +13,7 @@ import { getEcfWalletAccountsOrdered, getOriginOfCurrentTab, getSelectedAddress 
  * @returns {Object} The permissions domains object.
  */
 export function getPermissionDomains (state) {
-  return state.ecfWallet.domains || {}
+  return state.ecfWallet.subjects || {}
 }
 
 /**
@@ -160,13 +160,7 @@ function getAccountsFromDomain (domain) {
 }
 
 function getAccountsPermissionFromDomain (domain = {}) {
-  return (
-    Array.isArray(domain.permissions)
-      ? domain.permissions.find(
-        (perm) => perm.parentCapability === 'eth_accounts',
-      )
-      : {}
-  )
+  return domain?.permissions?.eth_accounts || {}
 }
 
 function getAccountsFromPermission (accountsPermission) {
@@ -182,13 +176,13 @@ function getAccountsCaveatFromPermission (accountsPermission = {}) {
   return (
     Array.isArray(accountsPermission.caveats) &&
     accountsPermission.caveats.find(
-      (c) => c.name === CAVEAT_NAMES.exposedAccounts,
+      (c) => c.type === CAVEAT_TYPES.restrictReturnedAccounts,
     )
   )
 }
 
 function domainSelector (state, origin) {
-  return origin && state.ecfWallet.domains?.[origin]
+  return origin && state.ecfWallet.subjects?.[origin]
 }
 
 export function getAccountToConnectToActiveTab (state) {
@@ -236,14 +230,11 @@ export function getOrderedConnectedAccountsForActiveTab (state) {
 export function getPermissionsForActiveTab (state) {
   const { activeTab, ecfWallet } = state
   const {
-    domains = {},
+    subjects = {},
   } = ecfWallet
 
-  return domains[activeTab.origin]?.permissions?.map(({ parentCapability }) => {
-    return {
-      key: parentCapability,
-    }
-  })
+  const permissions = subjects[activeTab.origin]?.permissions
+  return permissions && Object.keys(permissions).map((key) => ({ key }))
 }
 
 export function getLastConnectedInfo (state) {

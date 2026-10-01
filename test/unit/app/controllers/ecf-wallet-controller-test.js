@@ -2,7 +2,6 @@ import assert from 'assert'
 import sinon from 'sinon'
 import { cloneDeep } from 'lodash'
 import nock from 'nock'
-import ethUtil from 'ethereumjs-util'
 import { obj as createThoughStream } from 'through2'
 import EthQuery from 'eth-query'
 import proxyquire from 'proxyquire'
@@ -137,13 +136,9 @@ describe('EcfWalletController', function () {
 
     it('adds private key to keyrings in KeyringController', async function () {
       const simpleKeyrings = ecfWalletController.keyringController.getKeyringsByType('Simple Key Pair')
-      const privKeyBuffer = simpleKeyrings[0].wallets[0].getPrivateKey()
-      const pubKeyBuffer = simpleKeyrings[0].wallets[0].getPublicKey()
-      const addressBuffer = ethUtil.pubToAddress(pubKeyBuffer)
-      const privKey = ethUtil.bufferToHex(privKeyBuffer)
-      const pubKey = ethUtil.bufferToHex(addressBuffer)
-      assert.equal(privKey, ethUtil.addHexPrefix(importPrivkey))
-      assert.equal(pubKey, '0xe18035bf8712672935fdb4e5e431b1a0183d2dfc')
+      const [address] = await simpleKeyrings[0].getAccounts()
+      assert.equal(address, '0xe18035bf8712672935fdb4e5e431b1a0183d2dfc')
+      assert.equal(await simpleKeyrings[0].exportAccount(address), importPrivkey)
     })
 
     it('adds 1 account', async function () {

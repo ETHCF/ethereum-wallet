@@ -4,14 +4,12 @@ import sinon from 'sinon'
 import { TOKEN_TRANSFER_FUNCTION_SIGNATURE } from '../../send.constants'
 
 const stubs = {
-  rawEncode: sinon.stub().callsFake((arr1, arr2) => {
-    return [...arr1, ...arr2]
-  }),
+  encode: sinon.stub().returns([0x12, 0x34]),
 }
 
 const sendUtils = proxyquire('../send-footer.utils.js', {
-  'ethereumjs-abi': {
-    rawEncode: stubs.rawEncode,
+  '@metamask/abi-utils': {
+    encode: stubs.encode,
   },
 })
 const {
@@ -224,7 +222,7 @@ describe('send-footer utils', function () {
           gasPrice: '0xmockGasPrice',
           value: '0x0',
           to: '0xmockTokenAddress',
-          data: `${TOKEN_TRANSFER_FUNCTION_SIGNATURE}ss56Tont`,
+          data: `${TOKEN_TRANSFER_FUNCTION_SIGNATURE}1234`,
         },
       })
     })

@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from './enums'
 
 // Chain IDs larger than this cannot be represented in all Ethereum tooling.

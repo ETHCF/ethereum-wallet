@@ -1,16 +1,15 @@
 import { strict as assert } from 'assert'
 import sinon from 'sinon'
-import Transaction from 'ethereumjs-tx'
-import EthereumHDKey from 'ethereumjs-wallet/hdkey'
-import { toChecksumAddress } from 'ethereumjs-util'
-import sigUtil from 'eth-sig-util'
+import { hdkey } from '@ethereumjs/wallet'
+import { rlp, toChecksumAddress } from 'ethereumjs-util'
+import * as sigUtil from '@metamask/eth-sig-util'
 import { TrezorKeyring } from '@metamask/eth-trezor-keyring'
 import { LedgerKeyring } from '@metamask/eth-ledger-bridge-keyring'
 import { createTransaction, decodeTransaction } from '../../../app/scripts/lib/transaction-codec'
 import { createRemoteKeyring } from '../../../app/scripts/lib/hardware-keyrings'
 import { createHardwareRequestHandler } from '../../../app/scripts/lib/hardware-transport'
 
-const root = EthereumHDKey.fromMasterSeed(Buffer.alloc(32, 1))
+const root = hdkey.EthereumHDKey.fromMasterSeed(Buffer.alloc(32, 1))
 const ledgerPath = "m/44'/60'/0'"
 const trezorPath = "m/44'/60'/0'/0"
 
@@ -23,25 +22,27 @@ function publicKey (path) {
   }
 }
 
+// Simulates the device: signs what the keyring sent and returns v, r and s.
 function signTransaction (path, data) {
-  const typed = typeof data === 'string' ? ['01', '02'].includes(data.slice(0, 2)) : Number(data.type) > 0
-  if (typed) {
-    const unsigned = typeof data === 'string' ? decodeTransaction(data, 1337) : createTransaction(data, 1337)
-    const signed = unsigned.sign(root.derivePath(path).getWallet().getPrivateKey())
-    return { v: signed.v.toString(16).padStart(2, '0'), r: signed.r.toString(16).padStart(64, '0'), s: signed.s.toString(16).padStart(64, '0') }
+  let unsigned
+  if (typeof data !== 'string') {
+    unsigned = createTransaction(data, Number(data.chainId || 1337))
+  } else if (['01', '02'].includes(data.slice(0, 2))) {
+    unsigned = decodeTransaction(data, 1337)
+  } else {
+    // Ledger sends the legacy EIP-155 signing payload: the fields, then chain ID, 0, 0.
+    const [nonce, gasPrice, gasLimit, to, value, txData, chainId] = rlp.decode(Buffer.from(data, 'hex'))
+      .map((field) => `0x${field.toString('hex')}`)
+    unsigned = createTransaction({ nonce, gasPrice, gasLimit, to, value, data: txData }, Number(chainId))
   }
-  const tx = typeof data === 'string' ? new Transaction(Buffer.from(data, 'hex')) : new Transaction(data)
-  // Ledger sends the EIP-155 signing payload, whose v is the chain ID.
-  if (typeof data === 'string') {
-    tx._chainId = parseInt(tx.v.toString('hex'), 16)
-  }
-  tx.sign(root.derivePath(path).getWallet().getPrivateKey())
-  return { v: tx.v.toString('hex'), r: tx.r.toString('hex'), s: tx.s.toString('hex') }
+  const signed = unsigned.sign(Buffer.from(root.derivePath(path).getWallet().getPrivateKey()))
+  const v = signed.v.toString(16)
+  return { v: v.padStart(v.length + (v.length % 2), '0'), r: signed.r.toString(16).padStart(64, '0'), s: signed.s.toString(16).padStart(64, '0') }
 }
 
 function signMessage (path, data, typed = false) {
-  const key = root.derivePath(path).getWallet().getPrivateKey()
-  return typed ? sigUtil.signTypedData_v4(key, { data }) : sigUtil.personalSign(key, { data })
+  const key = Buffer.from(root.derivePath(path).getWallet().getPrivateKey())
+  return typed ? sigUtil.signTypedData({ privateKey: key, data, version: sigUtil.SignTypedDataVersion.V4 }) : sigUtil.personalSign({ privateKey: key, data })
 }
 
 function ledgerSignature (signature) {
@@ -111,15 +112,16 @@ describe('Current hardware keyring compatibility', function () {
         await keyring.getFirstPage()
         keyring.setAccountToUnlock(2)
         const [account] = await keyring.addAccounts(1)
-        const tx = new Transaction({
+        const tx = createTransaction({
           nonce: '0x01', gasPrice: '0x04a817c800', gasLimit: '0x5208',
-          to: `0x${'2'.repeat(40)}`, value: '0x01', chainId: 1337,
-        })
+          to: `0x${'2'.repeat(40)}`, value: '0x01',
+        }, 1337)
         const signed = await keyring.signTransaction(account, tx)
-        assert.equal(signed.getChainId(), 1337)
+        assert.equal(signed.type, 0)
+        assert.equal(Number(signed.common.chainId()), 1337)
         assert.equal(signed.verifySignature(), true)
-        assert.equal(`0x${signed.getSenderAddress().toString('hex')}`, account.toLowerCase())
-        assert.deepEqual(signed.raw.slice(0, 6), tx.raw.slice(0, 6))
+        assert.equal(signed.getSenderAddress().toString(), account.toLowerCase())
+        assert.deepEqual(signed.raw().slice(0, 6), tx.raw().slice(0, 6))
       })
 
       for (const type of kind === 'ledger' ? ['0x1', '0x2'] : ['0x2']) {
@@ -149,7 +151,7 @@ describe('Current hardware keyring compatibility', function () {
         const [address] = await keyring.addAccounts(1)
         const message = '0x68656c6c6f'
         const personal = await keyring.signPersonalMessage(address, message)
-        assert.equal(sigUtil.recoverPersonalSignature({ data: message, sig: personal }), address.toLowerCase())
+        assert.equal(sigUtil.recoverPersonalSignature({ data: message, signature: personal }), address.toLowerCase())
         const data = {
           types: { EIP712Domain: [{ name: 'chainId', type: 'uint256' }], Greeting: [{ name: 'text', type: 'string' }] },
           primaryType: 'Greeting', domain: { chainId: 1337 }, message: { text: 'hello' },
@@ -158,7 +160,7 @@ describe('Current hardware keyring compatibility', function () {
         // operation must work with only the returned, serialized public state.
         const restored = setupHardware(kind, await keyring.serialize())
         const typed = await restored.keyring.signTypedData(address, data, { version: 'V4' })
-        assert.equal(sigUtil.recoverTypedSignature_v4({ data, sig: typed }), address.toLowerCase())
+        assert.equal(sigUtil.recoverTypedSignature({ data, signature: typed, version: sigUtil.SignTypedDataVersion.V4 }), address.toLowerCase())
       })
 
       it('replaces a previous transport session after background restoration', async function () {
@@ -242,7 +244,7 @@ describe('Current hardware keyring compatibility', function () {
     keyring.setAccountToUnlock(0)
     const [address] = await keyring.addAccounts(1)
     bridge.deviceSignTransaction.rejects(new Error('User rejected'))
-    const tx = new Transaction({ chainId: 1, gasLimit: '0x5208' })
+    const tx = createTransaction({ gasLimit: '0x5208' }, 1)
     await assert.rejects(keyring.signTransaction(address, tx))
     assert.equal(bridge.deviceSignTransaction.callCount, 1)
     assert.deepEqual(await keyring.getAccounts(), [address])

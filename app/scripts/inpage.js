@@ -32,8 +32,11 @@ cleanContextForImports()
 
 /* eslint-disable import/first */
 import log from 'loglevel'
-import LocalMessageDuplexStream from 'post-message-stream'
-import { initProvider, setGlobalProvider } from '@metamask/inpage-provider'
+import pump from 'pump'
+import { WindowPostMessageStream } from '@metamask/post-message-stream'
+import ObjectMultiplex from '@metamask/object-multiplex'
+import { MetaMaskInpageProvider } from '@metamask/providers'
+import { setGlobalProvider } from '@metamask/providers/initializeInpageProvider'
 import shouldInjectProvider from './lib/should-inject-provider'
 import announceProvider from './lib/announce-provider'
 /* eslint-enable import/first */
@@ -48,17 +51,26 @@ log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
 if (shouldInjectProvider()) {
   // setup background connection
-  const ecfWalletStream = new LocalMessageDuplexStream({
+  const ecfWalletStream = new WindowPostMessageStream({
     name: 'ecf-wallet-inpage',
     target: 'ecf-wallet-contentscript',
   })
-
-  const provider = initProvider({
-    connectionStream: ecfWalletStream,
-    shouldSetOnWindow: false,
+  // The content script forwards each named channel to the background.
+  const mux = new ObjectMultiplex()
+  pump(ecfWalletStream, mux, ecfWalletStream, (error) => {
+    log.warn('ecf-wallet - lost connection to the content script', error)
   })
-  // Dapps handle chainChanged; disable the legacy page reload and its warning.
-  provider.autoRefreshOnNetworkChange = false
+
+  const inpageProvider = new MetaMaskInpageProvider(mux.createStream('provider'), {
+    logger: log,
+    // The site's name and icon are shown when it asks to connect.
+    shouldSendMetadata: true,
+  })
+  // As upstream does: pages cannot delete the provider's properties.
+  const provider = new Proxy(inpageProvider, {
+    deleteProperty: () => true,
+    get: (target, property) => target[property],
+  })
 
   // Preserve another wallet's legacy globals. Discovery works independently of
   // window.ethereum, even when another extension makes that property read-only.

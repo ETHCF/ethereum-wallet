@@ -1,5 +1,5 @@
 import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 
 /**
  * Create middleware for handling certain methods and preprocessing permissions requests.
@@ -7,17 +7,17 @@ import { ethErrors } from 'eth-json-rpc-errors'
 export default function createPermissionsMethodMiddleware ({
   addDomainMetadata,
   getAccounts,
+  getPermissions,
   getUnlockPromise,
   hasPermission,
   notifyAccountsChanged,
   requestAccountsPermission,
+  requestPermissions,
 }) {
 
   let isProcessingRequestAccounts = false
 
   return createAsyncMiddleware(async (req, res, next) => {
-
-    let responseHandler
 
     switch (req.method) {
 
@@ -38,9 +38,8 @@ export default function createPermissionsMethodMiddleware ({
         return
       }
 
-      // Intercepting eth_accounts requests for backwards compatibility:
-      // The getAccounts call below wraps the rpc-cap middleware, and returns
-      // an empty array in case of errors (such as 4100:unauthorized)
+      // getAccounts returns an empty array instead of an error (such as
+      // 4100: unauthorized) for sites without the eth_accounts permission
       case 'eth_accounts': {
 
         res.result = await getAccounts()
@@ -93,46 +92,38 @@ export default function createPermissionsMethodMiddleware ({
         return
       }
 
-      // custom method for getting metadata from the requesting domain,
-      // sent automatically by the inpage provider when it's initialized
-      case 'wallet_sendDomainMetadata': {
-
-        if (typeof req.domainMetadata?.name === 'string') {
-          addDomainMetadata(req.origin, req.domainMetadata)
+      // the site's name and icon, sent automatically by the inpage provider
+      // when it's initialized
+      case 'metamask_sendDomainMetadata': {
+        const { name, icon } = req.params || {}
+        if (typeof name === 'string') {
+          addDomainMetadata(req.origin, typeof icon === 'string' ? { name, icon } : { name })
         }
         res.result = true
         return
       }
 
-      // register return handler to send accountsChanged notification
+      // EIP-2255. Only eth_accounts can be requested.
       case 'wallet_requestPermissions': {
-
-        if ('eth_accounts' in req.params?.[0]) {
-
-          responseHandler = async () => {
-
-            if (Array.isArray(res.result)) {
-              for (const permission of res.result) {
-                if (permission.parentCapability === 'eth_accounts') {
-                  notifyAccountsChanged(await getAccounts())
-                }
-              }
-            }
-          }
+        const [requested] = Array.isArray(req.params) ? req.params : []
+        if (!requested || typeof requested !== 'object' || Array.isArray(requested)) {
+          throw ethErrors.rpc.invalidParams({ message: 'Expected an object of requested permissions.', data: req.params })
         }
-        break
+        res.result = await requestPermissions(requested)
+        notifyAccountsChanged(await getAccounts())
+        return
+      }
+
+      case 'wallet_getPermissions': {
+        res.result = Object.values(getPermissions() || {})
+        return
       }
 
       default:
         break
     }
 
-    // when this promise resolves, the response is on its way back
     // eslint-disable-next-line callback-return
     await next()
-
-    if (responseHandler) {
-      responseHandler()
-    }
   })
 }

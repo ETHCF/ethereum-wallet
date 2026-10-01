@@ -133,6 +133,23 @@ function BnMultiplyByFraction (targetBN, numerator, denominator) {
 }
 
 /**
+ * Lowercases an address and adds the 0x prefix, as eth-sig-util's normalize did.
+ *
+ * @param {string|number} input - The address, or an integer
+ * @returns {string|undefined} - The normalized address, or undefined for empty input
+ */
+function normalizeAddress (input) {
+  if (!input) {
+    return undefined
+  }
+  const value = typeof input === 'number' ? ethUtil.bufferToHex(ethUtil.toBuffer(input)) : input
+  if (typeof value !== 'string') {
+    throw new Error(`normalizeAddress() requires hex string or integer input. received ${typeof value}: ${value}`)
+  }
+  return ethUtil.addHexPrefix(value.toLowerCase())
+}
+
+/**
  * Returns an Error if extension.runtime.lastError is present
  * this is a workaround for the non-standard error object that's used
  * @returns {Error|undefined}
@@ -158,4 +175,5 @@ export {
   bnToHex,
   BnMultiplyByFraction,
   checkForError,
+  normalizeAddress,
 }

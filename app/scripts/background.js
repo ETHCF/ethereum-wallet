@@ -495,7 +495,7 @@ async function setupController (initState, initLangCode) {
   controller.decryptMessageManager.on('updateBadge', updateBadge)
   controller.encryptionPublicKeyManager.on('updateBadge', updateBadge)
   controller.typedMessageManager.on('updateBadge', updateBadge)
-  controller.permissionsController.permissions.subscribe(updateBadge)
+  controller.permissionsController.approvals.store.subscribe(updateBadge)
   controller.appStateController.on('updateBadge', updateBadge)
 
   /**
@@ -509,7 +509,7 @@ async function setupController (initState, initLangCode) {
     const { unapprovedDecryptMsgCount } = controller.decryptMessageManager
     const { unapprovedEncryptionPublicKeyMsgCount } = controller.encryptionPublicKeyManager
     const { unapprovedTypedMessagesCount } = controller.typedMessageManager
-    const pendingPermissionRequests = Object.keys(controller.permissionsController.permissions.state.permissionsRequests).length
+    const pendingPermissionRequests = controller.permissionsController.approvals.store.getState().permissionsRequests.length
     const waitingForUnlockCount = controller.appStateController.waitingForUnlock.length
     const count = unapprovedTxCount + unapprovedPersonalMsgCount + unapprovedDecryptMsgCount + unapprovedEncryptionPublicKeyMsgCount +
                  unapprovedTypedMessagesCount + pendingPermissionRequests + waitingForUnlockCount

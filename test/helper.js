@@ -81,11 +81,8 @@ Object.defineProperty(window, 'localStorage', { value: {}, configurable: true })
 // override @metamask/logo
 window.requestAnimationFrame = () => undefined
 
-// crypto.getRandomValues
-if (!window.crypto) {
-  window.crypto = {}
-}
-if (!window.crypto.getRandomValues) {
+// The extension runs with full WebCrypto (getRandomValues, randomUUID, subtle).
+if (!window.crypto?.subtle || !window.crypto?.randomUUID) {
   // eslint-disable-next-line global-require
-  window.crypto.getRandomValues = require('polyfill-crypto.getrandomvalues')
+  Object.defineProperty(window, 'crypto', { value: require('crypto').webcrypto, configurable: true, writable: true })
 }

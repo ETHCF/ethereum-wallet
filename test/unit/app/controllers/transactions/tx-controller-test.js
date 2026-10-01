@@ -1,9 +1,8 @@
 import { strict as assert } from 'assert'
 import EventEmitter from 'events'
-import ethUtil from 'ethereumjs-util'
-import EthTx from 'ethereumjs-tx'
 import ObservableStore from 'obs-store'
 import sinon from 'sinon'
+import { decodeTransaction } from '../../../../../app/scripts/lib/transaction-codec'
 import TransactionController from '../../../../../app/scripts/controllers/transactions'
 import { TRANSACTION_TYPE_RETRY } from '../../../../../app/scripts/controllers/transactions/enums'
 
@@ -43,10 +42,7 @@ describe('Transaction Controller', function () {
       networkStore: new ObservableStore(currentNetworkId),
       txHistoryLimit: 10,
       blockTracker: blockTrackerStub,
-      signTransaction: (ethTx) => new Promise((resolve) => {
-        ethTx.sign(fromAccount.key)
-        resolve()
-      }),
+      signTransaction: async (ethTx) => ethTx.sign(fromAccount.key),
       getPermittedAccounts: () => undefined,
     })
     txController.nonceTracker.getNonceLock = () => Promise.resolve({ nextNonce: 0, releaseLock: noop })
@@ -325,8 +321,10 @@ describe('Transaction Controller', function () {
     it('prepares a tx with the chainId set', async function () {
       txController.addTx({ id: '1', status: 'unapproved', ecfWalletNetworkId: currentNetworkId, txParams: { from: fromAccount.address } }, noop)
       const rawTx = await txController.signTransaction('1')
-      const ethTx = new EthTx(ethUtil.toBuffer(rawTx))
-      assert.equal(ethTx.getChainId(), 42)
+      // Decoding rejects an EIP-155 signature for any other chain.
+      const ethTx = decodeTransaction(rawTx, 42)
+      assert.equal(Number(ethTx.common.chainId()), 42)
+      assert.throws(() => decodeTransaction(rawTx, 1), /Incompatible EIP155-based V/u)
     })
   })
 
@@ -397,7 +395,8 @@ describe('Transaction Controller', function () {
 
       txParams = {
         nonce: '0x00',
-        from: '0xB09d8505E1F4EF1CeA089D47094f5DD3464083d4',
+        // The signer signs with this account's key.
+        from: fromAccount.address,
         to: '0xB09d8505E1F4EF1CeA089D47094f5DD3464083d4',
         gas: '0x5209',
         gasPrice: '0xa',
@@ -572,10 +571,7 @@ describe('Transaction Controller', function () {
         networkStore: new ObservableStore(currentNetworkId),
         txHistoryLimit: 10,
         blockTracker: _blockTrackerStub,
-        signTransaction: (ethTx) => new Promise((resolve) => {
-          ethTx.sign(_fromAccount.key)
-          resolve()
-        }),
+        signTransaction: async (ethTx) => ethTx.sign(_fromAccount.key),
       })
       const result = await _txController._determineTransactionCategory({
         to: '0x9e673399f795D01116e9A8B2dD2F156705131ee9',
@@ -604,10 +600,7 @@ describe('Transaction Controller', function () {
         networkStore: new ObservableStore(currentNetworkId),
         txHistoryLimit: 10,
         blockTracker: _blockTrackerStub,
-        signTransaction: (ethTx) => new Promise((resolve) => {
-          ethTx.sign(_fromAccount.key)
-          resolve()
-        }),
+        signTransaction: async (ethTx) => ethTx.sign(_fromAccount.key),
       })
       const result = await _txController._determineTransactionCategory({
         to: '0x9e673399f795D01116e9A8B2dD2F156705131ee9',

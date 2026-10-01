@@ -27,6 +27,7 @@ const {
 
 const {
   ACCOUNTS,
+  EXTRA_ACCOUNT,
   EXPECTED_HISTORIES,
   DOMAINS,
   PERM_NAMES,
@@ -85,11 +86,11 @@ describe('permissions log', function () {
 
       let log, req, res
 
-      // test_method, success
+      // eth_accounts, success
 
-      req = RPC_REQUESTS.test_method(DOMAINS.a.origin)
+      req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin)
       req.id = REQUEST_IDS.a
-      res = { foo: 'bar' }
+      res = { result: [ACCOUNTS.a.primary] }
 
       logMiddleware({ ...req }, res)
 
@@ -136,9 +137,9 @@ describe('permissions log', function () {
         LOG_METHOD_TYPES.restricted, true,
       )
 
-      // test_method, no response
+      // eth_accounts, no response
 
-      req = RPC_REQUESTS.test_method(DOMAINS.a.origin)
+      req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin)
       req.id = REQUEST_IDS.a
       res = null
 
@@ -171,7 +172,7 @@ describe('permissions log', function () {
       const id2 = nanoid()
       const id3 = nanoid()
 
-      const req = RPC_REQUESTS.test_method(DOMAINS.a.origin)
+      const req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin)
 
       // get make requests
       req.id = id1
@@ -231,7 +232,7 @@ describe('permissions log', function () {
 
     it('handles a lack of response', function () {
 
-      let req = RPC_REQUESTS.test_method(DOMAINS.a.origin)
+      let req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin)
       req.id = REQUEST_IDS.a
       let res = { foo: 'bar' }
 
@@ -273,7 +274,7 @@ describe('permissions log', function () {
       assert.equal(log.length, 0, 'log should be empty')
 
       const res = { foo: 'bar' }
-      const req1 = RPC_REQUESTS.wallet_sendDomainMetadata(DOMAINS.c.origin, 'foobar')
+      const req1 = RPC_REQUESTS.metamask_sendDomainMetadata(DOMAINS.c.origin, 'foobar')
       const req2 = RPC_REQUESTS.custom(DOMAINS.b.origin, 'eth_getBlockNumber')
       const req3 = RPC_REQUESTS.custom(DOMAINS.b.origin, 'net_version')
 
@@ -287,7 +288,7 @@ describe('permissions log', function () {
 
     it('enforces log limit', function () {
 
-      const req = RPC_REQUESTS.test_method(DOMAINS.a.origin)
+      const req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin)
       const res = { foo: 'bar' }
 
       // max out log
@@ -353,9 +354,9 @@ describe('permissions log', function () {
       let permHistory
 
       const req = RPC_REQUESTS.requestPermission(
-        DOMAINS.a.origin, PERM_NAMES.test_method,
+        DOMAINS.a.origin, PERM_NAMES.eth_accounts,
       )
-      const res = { result: [PERMS.granted.test_method()] }
+      const res = { result: [PERMS.granted.eth_accounts(ACCOUNTS.a.permitted)] }
 
       // noop => no response
       logMiddleware({ ...req }, { ...res }, noop)
@@ -371,8 +372,8 @@ describe('permissions log', function () {
         Object.keys(permHistory).length, 1,
         'history should have single origin',
       )
-      assert.ok(
-        Boolean(permHistory[DOMAINS.a.origin]),
+      assert.deepEqual(
+        permHistory, EXPECTED_HISTORIES.case1[0],
         'history should have expected origin',
       )
     })
@@ -380,10 +381,10 @@ describe('permissions log', function () {
     it('ignores malformed permissions requests', function () {
 
       const req = RPC_REQUESTS.requestPermission(
-        DOMAINS.a.origin, PERM_NAMES.test_method,
+        DOMAINS.a.origin, PERM_NAMES.eth_accounts,
       )
       delete req.params
-      const res = { result: [PERMS.granted.test_method()] }
+      const res = { result: [PERMS.granted.eth_accounts(ACCOUNTS.a.permitted)] }
 
       // no params => no response
       logMiddleware({ ...req }, { ...res })
@@ -472,8 +473,28 @@ describe('permissions log', function () {
       )
     })
 
-    // wallet_requestPermissions returns all permissions approved for the
-    // requesting origin, including old ones
+    it('ignores caveats of other types for eth_accounts', async function () {
+
+      const req = RPC_REQUESTS.requestPermission(
+        DOMAINS.a.origin, PERM_NAMES.eth_accounts,
+      )
+      const res = {
+        result: [PERMS.granted.eth_accounts(ACCOUNTS.a.permitted)],
+      }
+      res.result[0].caveats.push({ type: 'foo', value: [EXTRA_ACCOUNT] })
+      // old rpc-cap caveat shape
+      res.result[0].caveats.push({ name: 'exposedAccounts', type: 'filterResponse', value: [EXTRA_ACCOUNT] })
+
+      logMiddleware({ ...req }, { ...res })
+
+      assert.deepEqual(
+        permLog.getHistory(),
+        EXPECTED_HISTORIES.case1[0],
+        'should have correct history',
+      )
+    })
+
+    // the response may include permissions that were not requested
     it('handles unrequested permissions on the response', async function () {
 
       const req = RPC_REQUESTS.requestPermission(
@@ -482,7 +503,7 @@ describe('permissions log', function () {
       const res = {
         result: [
           PERMS.granted.eth_accounts(ACCOUNTS.a.permitted),
-          PERMS.granted.test_method(),
+          { parentCapability: PERM_NAMES.does_not_exist },
         ],
       }
 
@@ -500,11 +521,11 @@ describe('permissions log', function () {
     it('does not update history if no new permissions are approved', async function () {
 
       let req = RPC_REQUESTS.requestPermission(
-        DOMAINS.a.origin, PERM_NAMES.test_method,
+        DOMAINS.a.origin, PERM_NAMES.eth_accounts,
       )
       let res = {
         result: [
-          PERMS.granted.test_method(),
+          PERMS.granted.eth_accounts(ACCOUNTS.b.permitted),
         ],
       }
 
@@ -526,9 +547,7 @@ describe('permissions log', function () {
         DOMAINS.a.origin, PERM_NAMES.eth_accounts,
       )
       res = {
-        result: [
-          PERMS.granted.test_method(),
-        ],
+        result: [],
       }
 
       logMiddleware({ ...req }, { ...res })
@@ -554,10 +573,10 @@ describe('permissions log', function () {
       // first origin
       round1.push({
         req: RPC_REQUESTS.requestPermission(
-          DOMAINS.a.origin, PERM_NAMES.test_method,
+          DOMAINS.a.origin, PERM_NAMES.eth_accounts,
         ),
         res: {
-          result: [PERMS.granted.test_method()],
+          result: [PERMS.granted.eth_accounts(ACCOUNTS.a.permitted)],
         },
       })
 
@@ -571,17 +590,11 @@ describe('permissions log', function () {
         },
       })
 
-      // third origin
+      // third origin, via eth_requestAccounts
       round1.push({
-        req: RPC_REQUESTS.requestPermissions(DOMAINS.c.origin, {
-          [PERM_NAMES.test_method]: {},
-          [PERM_NAMES.eth_accounts]: {},
-        }),
+        req: RPC_REQUESTS.eth_requestAccounts(DOMAINS.c.origin),
         res: {
-          result: [
-            PERMS.granted.test_method(),
-            PERMS.granted.eth_accounts(ACCOUNTS.c.permitted),
-          ],
+          result: ACCOUNTS.c.permitted,
         },
       })
 
@@ -612,10 +625,10 @@ describe('permissions log', function () {
       // first origin
       round2.push({
         req: RPC_REQUESTS.requestPermission(
-          DOMAINS.a.origin, PERM_NAMES.test_method,
+          DOMAINS.a.origin, PERM_NAMES.eth_accounts,
         ),
         res: {
-          result: [PERMS.granted.test_method()],
+          result: [PERMS.granted.eth_accounts([ACCOUNTS.a.permitted[0]])],
         },
       })
 

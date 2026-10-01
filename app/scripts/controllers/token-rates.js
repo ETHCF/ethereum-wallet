@@ -1,8 +1,8 @@
 import ObservableStore from 'obs-store'
 import log from 'loglevel'
-import { normalize as normalizeAddress } from 'eth-sig-util'
 import ethUtil from 'ethereumjs-util'
 import browserGlobal from '../lib/browser-global'
+import { normalizeAddress } from '../lib/util'
 
 // By default, poll every 3 minutes
 const DEFAULT_INTERVAL = 180 * 1000

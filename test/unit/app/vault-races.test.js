@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import { webcrypto } from 'crypto'
-import passworder from 'browser-passworder'
+import passworder from '../../lib/legacy-passworder'
 import SessionEncryptor from '../../../app/scripts/lib/session-encryptor'
 import KeyringController from '../../../app/scripts/lib/modern-keyring-controller'
 import browserGlobal from '../../../app/scripts/lib/browser-global'

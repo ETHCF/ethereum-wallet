@@ -1,7 +1,6 @@
 import EventEmitter from 'events'
 import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-json-rpc-errors'
-import { ethErrors as engineErrors } from 'eth-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
 import fetchWithTimeout from '../lib/fetch-with-timeout'
 import createId from '../lib/random-id'
@@ -22,7 +21,7 @@ export const UNRECOGNIZED_CHAIN_ERROR_CODE = 4902
 // json-rpc-engine replaces error codes it does not know, such as 4902, with
 // an internal error unless the error is an instance of its own error class.
 function unrecognizedChainError (message) {
-  return engineErrors.provider.custom({ code: UNRECOGNIZED_CHAIN_ERROR_CODE, message })
+  return ethErrors.provider.custom({ code: UNRECOGNIZED_CHAIN_ERROR_CODE, message })
 }
 
 const fetchRpc = fetchWithTimeout({ timeout: 10000 })

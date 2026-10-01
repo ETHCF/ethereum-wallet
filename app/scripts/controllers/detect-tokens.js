@@ -1,6 +1,6 @@
 import EthQuery from 'eth-query'
 import pify from 'pify'
-import contracts from 'eth-contract-metadata'
+import contracts from '@metamask/contract-metadata'
 import { warn } from 'loglevel'
 import getSingleCallBalances from '../lib/single-call-balances'
 import { MAINNET } from './network/enums'
@@ -28,7 +28,7 @@ export default class DetectTokensController {
   }
 
   /**
-   * For each token in eth-contract-metadata, find check selectedAddress balance.
+   * For each token in @metamask/contract-metadata, check the selectedAddress balance.
    */
   async detectNewTokens () {
     if (!this.isActive) {

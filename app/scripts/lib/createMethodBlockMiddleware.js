@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 
 /**
  * RPC methods the wallet refuses outright, mapped to the reason given to the site.

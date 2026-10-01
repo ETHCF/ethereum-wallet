@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 import assert from 'assert'
 import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 import { isValidAddress } from 'ethereumjs-util'
 import BN from 'bn.js'
 import log from 'loglevel'

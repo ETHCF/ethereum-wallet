@@ -1,6 +1,6 @@
-import abi from 'ethereumjs-abi'
 import ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
+import { decodeArguments } from './abi-method-decoder'
 
 // Every check here runs on this device, using data the wallet already has and
 // the user's own RPC node. Nothing is sent to an outside analysis service.
@@ -56,17 +56,11 @@ export function decodeCall (data) {
     return undefined
   }
   const call = CALLS[data.slice(2, 10).toLowerCase()]
-  // Each argument takes at least one 32-byte word; shorter data is malformed.
-  if (!call || (data.length - 10) / 2 < 32 * call.types.length) {
+  const values = call && decodeArguments(call.types, data.slice(10))
+  if (!values) {
     return undefined
   }
-  let values
-  try {
-    values = abi.rawDecode(call.types, Buffer.from(data.slice(10), 'hex'))
-  } catch (_) {
-    return undefined
-  }
-  const address = (index) => `0x${values[index].toString(16).padStart(40, '0')}`
+  const address = (index) => values[index]
   return {
     kind: call.kind,
     recipient: call.recipient === undefined ? undefined : address(call.recipient),

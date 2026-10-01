@@ -1,4 +1,4 @@
-import ethAbi from 'ethereumjs-abi'
+import { encode } from '@metamask/abi-utils'
 import ethUtil from 'ethereumjs-util'
 import { TOKEN_TRANSFER_FUNCTION_SIGNATURE } from '../send.constants'
 
@@ -59,10 +59,7 @@ export function constructUpdatedTx ({
       value: '0',
       to: sendToken.address,
       data: (
-        TOKEN_TRANSFER_FUNCTION_SIGNATURE + Array.prototype.map.call(
-          ethAbi.rawEncode(['address', 'uint256'], [to, ethUtil.addHexPrefix(amount)]),
-          (x) => (`00${x.toString(16)}`).slice(-2),
-        ).join('')
+        TOKEN_TRANSFER_FUNCTION_SIGNATURE + Buffer.from(encode(['address', 'uint256'], [to, ethUtil.addHexPrefix(amount)])).toString('hex')
       ),
     }))
   }

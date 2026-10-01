@@ -1,0 +1,54 @@
+{
+  "note": "Written by the old keyring stack (eth-keyring-controller 6.2.1). Do not regenerate with newer code.",
+  "password": "correct horse battery staple",
+  "mnemonic": "debris dizzy just program just float decrease vacant alarm reduce speak stadium",
+  "simpleKey": "4646464646464646464646464646464646464646464646464646464646464646",
+  "legacy10k": {
+    "vault": "{\"data\":\"xUtDMKabY3Egw/uAL/Qoms7oigFvbqT6WUNMT+dP88lgi4F7YOOt7rpUjJSYEKcySoSjtRytgiwDXtONarUzPpV4w51FqeAG18QQJzc72cHKnPF6cfGXQKgERVPFkTn3ERGtlRy6An/DhNsWb4Q1tscAOhdVaTR7J8jxevPDwDAMU5KZ2RPskxuHMCr8fUcymwp8ULvtqBE0ORzD10HdWW8zSuY/S3RezR453swaDu9K7wGcKe+/jVJR05lU1TtAIWWrkYB1qdeJ04CEPJ6gbIQfJ2TVw3B2yWCzJ1Hj7bN1sO2DdgKQfQ6rhNeb77Q4VfrHZPB/YARfjfr6uWsLToFmghkjE6tUjP0RHxF2BMsjeoQoCUaWL/1jJDl7SR5o7panSg==\",\"iv\":\"Jumwb2nsUtWGEmqJx14zIw==\",\"salt\":\"cAF8+zDKRI8jKd/iimR+Sb9YniLECODZuRDcSy7zc4M=\"}",
+    "accounts": [
+      "0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc",
+      "0xec1adf982415d2ef5ec55899b9bfb8bc0f29251b",
+      "0x9d8a62f656a8d1615c1294fd71e9cfb3e4855a4f"
+    ],
+    "keyrings": [
+      {
+        "type": "HD Key Tree",
+        "data": {
+          "mnemonic": "debris dizzy just program just float decrease vacant alarm reduce speak stadium",
+          "numberOfAccounts": 2,
+          "hdPath": "m/44'/60'/0'/0"
+        }
+      },
+      {
+        "type": "Simple Key Pair",
+        "data": [
+          "4646464646464646464646464646464646464646464646464646464646464646"
+        ]
+      }
+    ]
+  },
+  "session600k": {
+    "vault": "{\"data\":\"UgDGknZfL0ymq1sAX8WzewdOzi4xf+8nDUFAl6gWgUG+pViSKsujAePbFxuIGAM2yRMQNols4vLFOvIL4r1ry4aOZmFb5PA5U1eEw/2dImYCMJJMevcrJ9a64sdViZ9unOvh6ynvJJk24ygI5Wm+nxLAEYvm8mUS6EBP0mBiybXArm3A25gIRAEufIkMkBF+lSNjj/Lk7XshdPFMB/mzbP+4QNZMIJw1AJbASdbar9vAlP9ijKzXkNk47yuFYbL8TbS+jwtqc3ZGxglHQJ43b2OuqD6Zr+yBY8yMqAQaboP9j2GvQrIZ1HzpxKk7DIE3Om9rKAf7IQ+qWssR2PTuvSGuMNyizSeTVh+UgfpVpBtnCs0LAj5NCewpuvbYbcMgB0ZPZw==\",\"iv\":\"ba1iVzjX9S5Rvefam6xslA==\",\"salt\":\"QUbWBVLkECwCISB+gxickW/Xo6NSd/zXA9tDOyJfps4=\",\"keyMetadata\":{\"algorithm\":\"PBKDF2\",\"params\":{\"iterations\":600000}}}",
+    "accounts": [
+      "0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc",
+      "0xec1adf982415d2ef5ec55899b9bfb8bc0f29251b",
+      "0x9d8a62f656a8d1615c1294fd71e9cfb3e4855a4f"
+    ],
+    "keyrings": [
+      {
+        "type": "HD Key Tree",
+        "data": {
+          "mnemonic": "debris dizzy just program just float decrease vacant alarm reduce speak stadium",
+          "numberOfAccounts": 2,
+          "hdPath": "m/44'/60'/0'/0"
+        }
+      },
+      {
+        "type": "Simple Key Pair",
+        "data": [
+          "4646464646464646464646464646464646464646464646464646464646464646"
+        ]
+      }
+    ]
+  }
+}

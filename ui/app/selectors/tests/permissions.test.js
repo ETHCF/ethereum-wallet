@@ -1,8 +1,10 @@
 import assert from 'assert'
 import {
+  getAddressConnectedDomainMap,
   getConnectedDomainsForSelectedAddress,
   getOrderedConnectedAccountsForActiveTab,
   getPermissionsForActiveTab,
+  getPermittedAccountsByOrigin,
 } from '../permissions'
 
 describe('selectors', function () {
@@ -24,17 +26,14 @@ describe('selectors', function () {
               'host': 'remix.ethereum.org',
             },
           },
-          domains: {
+          subjects: {
             'peepeth.com': {
-              'permissions': [
-                {
-                  '@context': [
-                    'https://github.com/MetaMask/rpc-cap',
-                  ],
+              'origin': 'peepeth.com',
+              'permissions': {
+                'eth_accounts': {
                   'caveats': [
                     {
-                      'name': 'exposedAccounts',
-                      'type': 'filterResponse',
+                      'type': 'restrictReturnedAccounts',
                       'value': [
                         '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                       ],
@@ -45,21 +44,18 @@ describe('selectors', function () {
                   'invoker': 'peepeth.com',
                   'parentCapability': 'eth_accounts',
                 },
-              ],
+              },
             },
             'https://remix.ethereum.org': {
-              'permissions': [
-                {
-                  '@context': [
-                    'https://github.com/MetaMask/rpc-cap',
-                  ],
+              'origin': 'https://remix.ethereum.org',
+              'permissions': {
+                'eth_accounts': {
                   'caveats': [
                     {
-                      'type': 'filterResponse',
+                      'type': 'restrictReturnedAccounts',
                       'value': [
                         '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                       ],
-                      'name': 'exposedAccounts',
                     },
                   ],
                   'date': 1585685128948,
@@ -67,7 +63,7 @@ describe('selectors', function () {
                   'invoker': 'https://remix.ethereum.org',
                   'parentCapability': 'eth_accounts',
                 },
-              ],
+              },
             },
           },
         },
@@ -104,17 +100,14 @@ describe('selectors', function () {
               'host': 'remix.ethereum.com',
             },
           },
-          domains: {
+          subjects: {
             'peepeth.com': {
-              'permissions': [
-                {
-                  '@context': [
-                    'https://github.com/MetaMask/rpc-cap',
-                  ],
+              'origin': 'peepeth.com',
+              'permissions': {
+                'eth_accounts': {
                   'caveats': [
                     {
-                      'name': 'exposedAccounts',
-                      'type': 'filterResponse',
+                      'type': 'restrictReturnedAccounts',
                       'value': [
                         '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                       ],
@@ -125,22 +118,19 @@ describe('selectors', function () {
                   'invoker': 'peepeth.com',
                   'parentCapability': 'eth_accounts',
                 },
-              ],
+              },
             },
             'https://remix.ethereum.org': {
-              'permissions': [
-                {
-                  '@context': [
-                    'https://github.com/MetaMask/rpc-cap',
-                  ],
+              'origin': 'https://remix.ethereum.org',
+              'permissions': {
+                'eth_accounts': {
                   'caveats': [
                     {
-                      'type': 'filterResponse',
+                      'type': 'restrictReturnedAccounts',
                       'value': [
                         '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                         '0x7250739de134d33ec7ab1ee592711e15098c9d2d',
                       ],
-                      'name': 'exposedAccounts',
                     },
                   ],
                   'date': 1585685128948,
@@ -148,7 +138,7 @@ describe('selectors', function () {
                   'invoker': 'https://remix.ethereum.org',
                   'parentCapability': 'eth_accounts',
                 },
-              ],
+              },
             },
           },
         },
@@ -191,17 +181,14 @@ describe('selectors', function () {
           },
         },
         cachedBalances: {},
-        domains: {
+        subjects: {
           'https://remix.ethereum.org': {
-            'permissions': [
-              {
-                '@context': [
-                  'https://github.com/MetaMask/rpc-cap',
-                ],
+            'origin': 'https://remix.ethereum.org',
+            'permissions': {
+              'eth_accounts': {
                 'caveats': [
                   {
-                    'name': 'exposedAccounts',
-                    'type': 'filterResponse',
+                    'type': 'restrictReturnedAccounts',
                     'value': [
                       '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                       '0x7250739de134d33ec7ab1ee592711e15098c9d2d',
@@ -216,18 +203,15 @@ describe('selectors', function () {
                 'invoker': 'https://remix.ethereum.org',
                 'parentCapability': 'eth_accounts',
               },
-            ],
+            },
           },
           'peepeth.com': {
-            'permissions': [
-              {
-                '@context': [
-                  'https://github.com/MetaMask/rpc-cap',
-                ],
+            'origin': 'peepeth.com',
+            'permissions': {
+              'eth_accounts': {
                 'caveats': [
                   {
-                    'name': 'exposedAccounts',
-                    'type': 'filterResponse',
+                    'type': 'restrictReturnedAccounts',
                     'value': [
                       '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                     ],
@@ -238,7 +222,7 @@ describe('selectors', function () {
                 'invoker': 'peepeth.com',
                 'parentCapability': 'eth_accounts',
               },
-            ],
+            },
           },
         },
         identities: {
@@ -349,17 +333,14 @@ describe('selectors', function () {
             'name': 'Account 2',
           },
         },
-        domains: {
+        subjects: {
           'https://remix.ethereum.org': {
-            'permissions': [
-              {
-                '@context': [
-                  'https://github.com/MetaMask/rpc-cap',
-                ],
+            'origin': 'https://remix.ethereum.org',
+            'permissions': {
+              'eth_accounts': {
                 'caveats': [
                   {
-                    'name': 'exposedAccounts',
-                    'type': 'filterResponse',
+                    'type': 'restrictReturnedAccounts',
                     'value': [
                       '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                       '0x7250739de134d33ec7ab1ee592711e15098c9d2d',
@@ -371,18 +352,15 @@ describe('selectors', function () {
                 'invoker': 'https://remix.ethereum.org',
                 'parentCapability': 'eth_accounts',
               },
-            ],
+            },
           },
           'peepeth.com': {
-            'permissions': [
-              {
-                '@context': [
-                  'https://github.com/MetaMask/rpc-cap',
-                ],
+            'origin': 'peepeth.com',
+            'permissions': {
+              'eth_accounts': {
                 'caveats': [
                   {
-                    'name': 'exposedAccounts',
-                    'type': 'filterResponse',
+                    'type': 'restrictReturnedAccounts',
                     'value': [
                       '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                     ],
@@ -393,18 +371,15 @@ describe('selectors', function () {
                 'invoker': 'peepeth.com',
                 'parentCapability': 'eth_accounts',
               },
-            ],
+            },
           },
           'uniswap.exchange': {
-            'permissions': [
-              {
-                '@context': [
-                  'https://github.com/MetaMask/rpc-cap',
-                ],
+            'origin': 'uniswap.exchange',
+            'permissions': {
+              'eth_accounts': {
                 'caveats': [
                   {
-                    'name': 'exposedAccounts',
-                    'type': 'filterResponse',
+                    'type': 'restrictReturnedAccounts',
                     'value': [
                       '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5',
                     ],
@@ -415,7 +390,7 @@ describe('selectors', function () {
                 'invoker': 'uniswap.exchange',
                 'parentCapability': 'eth_accounts',
               },
-            ],
+            },
           },
         },
         domainMetadata: {
@@ -442,6 +417,67 @@ describe('selectors', function () {
       assert.deepEqual(getPermissionsForActiveTab(mockState), [{
         key: 'eth_accounts',
       }])
+    })
+  })
+
+  describe('getPermittedAccountsByOrigin', function () {
+    const account1 = '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5'
+    const account2 = '0x7250739de134d33ec7ab1ee592711e15098c9d2d'
+
+    const getSubject = (origin, caveats) => ({
+      origin,
+      permissions: {
+        eth_accounts: {
+          caveats,
+          date: 1,
+          id: origin,
+          invoker: origin,
+          parentCapability: 'eth_accounts',
+        },
+      },
+    })
+
+    const mockState = {
+      ecfWallet: {
+        domainMetadata: {
+          'https://remix.ethereum.org': { name: 'Remix', icon: 'remix.png' },
+        },
+        subjects: {
+          'https://remix.ethereum.org': getSubject('https://remix.ethereum.org', [
+            { type: 'restrictReturnedAccounts', value: [account1, account2] },
+          ]),
+          'peepeth.com': getSubject('peepeth.com', [
+            { type: 'restrictReturnedAccounts', value: [account1] },
+          ]),
+          // rpc-cap caveat shape: not a permitted account
+          'old.shape': getSubject('old.shape', [
+            { name: 'exposedAccounts', type: 'filterResponse', value: [account2] },
+          ]),
+        },
+      },
+    }
+
+    it('should return the permitted accounts of each origin', function () {
+      assert.deepEqual(getPermittedAccountsByOrigin(mockState), {
+        'https://remix.ethereum.org': [account1, account2],
+        'peepeth.com': [account1],
+      })
+    })
+
+    it('should map addresses to their connected domains', function () {
+      assert.deepEqual(getAddressConnectedDomainMap(mockState), {
+        [account1]: {
+          'https://remix.ethereum.org': { icon: 'remix.png', name: 'Remix' },
+          'peepeth.com': { icon: undefined, name: 'peepeth.com' },
+        },
+        [account2]: {
+          'https://remix.ethereum.org': { icon: 'remix.png', name: 'Remix' },
+        },
+      })
+    })
+
+    it('should return no accounts without subjects', function () {
+      assert.deepEqual(getPermittedAccountsByOrigin({ ecfWallet: {} }), {})
     })
   })
 

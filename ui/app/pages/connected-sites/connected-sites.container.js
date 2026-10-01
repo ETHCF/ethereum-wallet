@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removePermittedAccount(domainKey, address))
     },
     disconnectAllAccounts: (domainKey, domain) => {
-      const permissionMethodNames = domain.permissions.map(({ parentCapability }) => parentCapability)
+      const permissionMethodNames = Object.keys(domain.permissions)
       dispatch(removePermissionsFor({
         [domainKey]: permissionMethodNames,
       }))

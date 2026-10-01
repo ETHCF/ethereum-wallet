@@ -1,5 +1,5 @@
-import abi from 'ethereumjs-abi'
-import { BN } from 'ethereumjs-util'
+import { encode, decode } from '@metamask/abi-utils'
+import { sha3 } from 'ethereumjs-util'
 
 const elementType = (type) => type.replace(/\[\d*\]$/u, '')
 
@@ -7,25 +7,46 @@ function formatValue (type, value) {
   if (Array.isArray(value)) {
     return value.map((item) => formatValue(elementType(type), item))
   }
-  if (type === 'address') {
-    return `0x${value}`
+  if (value instanceof Uint8Array) {
+    return `0x${Buffer.from(value).toString('hex')}`
   }
-  if (Buffer.isBuffer(value)) {
-    return `0x${value.toString('hex')}`
-  }
-  if (BN.isBN(value)) {
+  if (typeof value === 'bigint') {
     return value.toString(10)
   }
   return value
 }
 
-// rawDecode returns addresses without the 0x prefix, which rawEncode would
-// read as decimal numbers.
-function toEncodable (type, value) {
-  if (Array.isArray(value)) {
-    return value.map((item) => toEncodable(elementType(type), item))
+/**
+ * @param {string} signature - A function signature, such as 'transfer(address,uint256)'
+ * @returns {string} The 4-byte selector as unprefixed lowercase hex
+ */
+export function functionSelector (signature) {
+  return sha3(signature).slice(0, 4).toString('hex')
+}
+
+/**
+ * Decodes ABI-encoded arguments, rejecting data that does not contain them.
+ *
+ * @param {string[]} types - The argument types
+ * @param {string} hex - The encoded arguments, without selector or 0x prefix
+ * @returns {Array|undefined} The values (addresses as lowercase hex, integers
+ * as bigint, bytes as Uint8Array), or undefined if the data is malformed
+ */
+export function decodeArguments (types, hex) {
+  if (typeof hex !== 'string' || !(/^(?:[0-9a-f]{2})*$/iu).test(hex)) {
+    return undefined
   }
-  return type === 'address' ? `0x${value}` : value
+  const encoded = Buffer.from(hex, 'hex')
+  try {
+    const values = decode(types, encoded)
+    // The decoder zero-fills missing bytes and ignores dirty padding. Return
+    // nothing rather than arguments the data does not actually contain.
+    // Trailing bytes are allowed, as Solidity accepts them.
+    const canonical = Buffer.from(encode(types, values))
+    return encoded.slice(0, canonical.length).equals(canonical) ? values : undefined
+  } catch (_) {
+    return undefined
+  }
 }
 
 /**
@@ -41,28 +62,15 @@ export default function createMethodDecoder (abiDefinition) {
   for (const item of abiDefinition) {
     if (item.type === 'function') {
       const types = item.inputs.map(({ type }) => type)
-      methods.set(abi.methodID(item.name, types).toString('hex'), { ...item, types })
+      methods.set(functionSelector(`${item.name}(${types.join(',')})`), { ...item, types })
     }
   }
 
   return function decodeMethod (data) {
     const hex = typeof data === 'string' ? data.replace(/^0x/iu, '').toLowerCase() : ''
     const method = methods.get(hex.slice(0, 8))
-    if (!method || !(/^(?:[0-9a-f]{2})*$/u).test(hex)) {
-      return undefined
-    }
-    const encoded = Buffer.from(hex.slice(8), 'hex')
-    let values
-    try {
-      values = abi.rawDecode(method.types, encoded)
-      // rawDecode zero-fills missing bytes and ignores dirty padding. Show
-      // nothing rather than arguments the call data does not actually contain.
-      // Trailing bytes are allowed, as Solidity accepts them.
-      const canonical = abi.rawEncode(method.types, method.types.map((type, index) => toEncodable(type, values[index])))
-      if (!encoded.slice(0, canonical.length).equals(canonical)) {
-        return undefined
-      }
-    } catch (_) {
+    const values = method && decodeArguments(method.types, hex.slice(8))
+    if (!values) {
       return undefined
     }
     return {

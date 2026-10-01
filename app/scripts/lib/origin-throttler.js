@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 
 // Requests that open a prompt. A site that keeps sending them after being
 // rejected is flooding the user, often to wear them down into approving.

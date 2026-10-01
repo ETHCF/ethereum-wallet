@@ -1,5 +1,5 @@
-import KeyringController from 'eth-keyring-controller'
 import log from 'loglevel'
+import { HD_KEY_TREE, createSoftwareKeyring, getSoftwareKeyringTypes } from './software-keyrings'
 
 const seedPhraseVerifier = {
 
@@ -21,14 +21,11 @@ const seedPhraseVerifier = {
       throw new Error('No created accounts defined.')
     }
 
-    const keyringController = new KeyringController({})
-    const Keyring = keyringController.getKeyringClassForType('HD Key Tree')
-    const opts = {
+    const Keyring = getSoftwareKeyringTypes().find(({ type }) => type === HD_KEY_TREE)
+    const keyring = await createSoftwareKeyring(Keyring, {
       mnemonic: seedWords,
       numberOfAccounts: createdAccounts.length,
-    }
-
-    const keyring = new Keyring(opts)
+    })
     const restoredAccounts = await keyring.getAccounts()
     log.debug(`Created accounts: ${JSON.stringify(createdAccounts)}`)
     log.debug(`Restored accounts: ${JSON.stringify(restoredAccounts)}`)

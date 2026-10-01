@@ -1,4 +1,3 @@
-import Transaction from 'ethereumjs-tx'
 import { TransactionFactory } from '@ethereumjs/tx-hardware'
 import { Common, Hardfork } from '@ethereumjs/common-hardware'
 import { TrezorKeyring, TrezorConnectBridge } from '@metamask/eth-trezor-keyring'
@@ -117,7 +116,7 @@ export function createHardwareRequestHandler ({
       if (![0, 1, 2].includes(type)) {
         throw new Error('Unsupported hardware transaction type')
       }
-      const tx = type === 0 ? new Transaction(params) : TransactionFactory.fromTxData(params, {
+      const tx = TransactionFactory.fromTxData({ ...params, type }, {
         common: Common.custom({ chainId: Number(params.chainId) }, { hardfork: Hardfork.London }),
       })
       callArgs = [args[0], tx]

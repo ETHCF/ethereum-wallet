@@ -23,7 +23,7 @@ const stubs = {
   conversionGTE: sinon.stub().callsFake((obj1, obj2) => obj1.value >= obj2.value),
   multiplyCurrencies: sinon.stub().callsFake((a, b) => `${a}x${b}`),
   calcTokenAmount: sinon.stub().callsFake((a, d) => `calc:${a}${d}`),
-  rawEncode: sinon.stub().returns([16, 1100]),
+  encode: sinon.stub().returns([16, 1100]),
   conversionGreaterThan: sinon.stub().callsFake((obj1, obj2) => obj1.value > obj2.value),
   conversionLessThan: sinon.stub().callsFake((obj1, obj2) => obj1.value < obj2.value),
 }
@@ -38,8 +38,8 @@ const sendUtils = proxyquire('../send.utils.js', {
     conversionLessThan: stubs.conversionLessThan,
   },
   '../../helpers/utils/token-util': { calcTokenAmount: stubs.calcTokenAmount },
-  'ethereumjs-abi': {
-    rawEncode: stubs.rawEncode,
+  '@metamask/abi-utils': {
+    encode: stubs.encode,
   },
 })
 
@@ -117,11 +117,11 @@ describe('send utils', function () {
       assert.equal(generateTokenTransferData({ toAddress: 'mockAddress', amount: '0xa', sendToken: undefined }), undefined)
     })
 
-    it('should call abi.rawEncode with the correct params', function () {
-      stubs.rawEncode.resetHistory()
+    it('should call encode with the correct params', function () {
+      stubs.encode.resetHistory()
       generateTokenTransferData({ toAddress: 'mockAddress', amount: 'ab', sendToken: { address: '0x0' } })
       assert.deepEqual(
-        stubs.rawEncode.getCall(0).args,
+        stubs.encode.getCall(0).args,
         [['address', 'uint256'], ['mockAddress', '0xab']],
       )
     })

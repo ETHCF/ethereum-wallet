@@ -1,7 +1,7 @@
 import { strict as assert } from 'assert'
-import Transaction from 'ethereumjs-tx'
 import { hexToBn, bnToHex } from '../../../../../app/scripts/lib/util'
 import TxUtils from '../../../../../app/scripts/controllers/transactions/tx-gas-utils'
+import { createTransaction } from '../../../../../app/scripts/lib/transaction-codec'
 
 describe('txUtils', function () {
   let txUtils
@@ -24,10 +24,9 @@ describe('txUtils', function () {
         gasPrice: '0x199c82cc00',
         data: '0x',
         nonce: '0x3',
-        chainId: 42,
       }
-      const ethTx = new Transaction(txParams)
-      assert.equal(ethTx.getChainId(), 42, 'chainId is set from tx params')
+      const ethTx = createTransaction(txParams, 42)
+      assert.equal(Number(ethTx.common.chainId()), 42, 'chainId is set on the transaction')
     })
   })
 

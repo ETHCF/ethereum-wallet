@@ -74,19 +74,14 @@ describe('Unconnected Account Alert', function () {
           },
         },
       },
-      domains: {
+      subjects: {
         'https://test.dapp': {
-          permissions: [
-            {
+          origin: 'https://test.dapp',
+          permissions: {
+            eth_accounts: {
               caveats: [
                 {
-                  name: 'primaryAccountOnly',
-                  type: 'limitResponseLength',
-                  value: 1,
-                },
-                {
-                  name: 'exposedAccounts',
-                  type: 'filterResponse',
+                  type: 'restrictReturnedAccounts',
                   value: [
                     '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
                   ],
@@ -95,7 +90,7 @@ describe('Unconnected Account Alert', function () {
               invoker: 'https://test.dapp',
               parentCapability: 'eth_accounts',
             },
-          ],
+          },
         },
       },
     },

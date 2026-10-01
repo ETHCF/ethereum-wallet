@@ -12,8 +12,14 @@ describe('Telemetry removal', function () {
         const done = arguments[arguments.length - 1];
         chrome.storage.local.get(['meta', 'data'], state => done(state));
       `)
-      // Migration 1 moves wallets off shut-down testnets.
-      assert.equal(storage.meta.version, 1)
+      // Migration 1 moves wallets off shut-down testnets; migration 2 moves
+      // site permissions to the PermissionController format.
+      assert.equal(storage.meta.version, 2)
+      assert.equal(Object.prototype.hasOwnProperty.call(storage.data, 'PermissionsController'), false)
+      assert.deepEqual(
+        storage.data.PermissionController.subjects['http://127.0.0.1:8080'].permissions.eth_accounts.caveats,
+        [{ type: 'restrictReturnedAccounts', value: ['0x5cfe73b6021e818b776b421b1c4db2474086a7e1'] }],
+      )
       assert.equal(Object.prototype.hasOwnProperty.call(storage.data, 'ThreeBoxController'), false)
       const preferences = storage.data.PreferencesController
       for (const key of ['metaMetricsId', 'metaMetricsSendCount', 'participateInMetaMetrics']) {

@@ -10,9 +10,8 @@ import EventEmitter from 'events'
 import pump from 'pump'
 import Dnode from 'dnode'
 import extension from 'extensionizer'
-import ObservableStore from 'obs-store'
-import asStream from 'obs-store/lib/asStream'
 import RpcEngine from 'json-rpc-engine'
+import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
 import { debounce } from 'lodash'
 import createEngineStream from 'json-rpc-middleware-stream/engineStream'
 import createFilterMiddleware from 'eth-json-rpc-filters'
@@ -24,6 +23,7 @@ import log from 'loglevel'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import KeyringController from './lib/modern-keyring-controller'
+import { mnemonicToString } from './lib/software-keyrings'
 import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
 import ComposableObservableStore from './lib/ComposableObservableStore'
 import AccountTracker from './lib/account-tracker'
@@ -56,7 +56,7 @@ import CurrencyRateController from './controllers/currency-rate'
 import PhishingController from './controllers/phishing'
 import DetectTokensController from './controllers/detect-tokens'
 import { PermissionsController } from './controllers/permissions'
-import getRestrictedMethods from './controllers/permissions/restrictedMethods'
+import { NOTIFICATION_NAMES } from './controllers/permissions/enums'
 import nodeify from './lib/nodeify'
 import accountImporter from './account-import-strategies'
 import selectChainId from './lib/select-chain-id'
@@ -191,17 +191,17 @@ export default class EcfWalletController extends EventEmitter {
       encryptor: opts.encryptor || undefined,
     })
     this.keyringController.memStore.subscribe((s) => this._onKeyringControllerUpdate(s))
-    this.keyringController.on('unlock', () => this.emit('unlock'))
+    this.keyringController.on('unlock', () => this._onUnlock())
+    this.keyringController.on('lock', () => this._onLock())
 
     this.permissionsController = new PermissionsController({
       getKeyringAccounts: this.keyringController.getAccounts.bind(this.keyringController),
-      getRestrictedMethods,
       getUnlockPromise: this.appStateController.getUnlockPromise.bind(this.appStateController),
       notifyDomain: this.notifyConnections.bind(this),
       notifyAllDomains: this.notifyAllConnections.bind(this),
       preferences: this.preferencesController.store,
       showPermissionRequest: opts.showPermissionRequest,
-    }, initState.PermissionsController, initState.PermissionsMetadata)
+    }, initState.PermissionController, initState.PermissionsMetadata)
 
     this.detectTokensController = new DetectTokensController({
       preferences: this.preferencesController,
@@ -289,7 +289,7 @@ export default class EcfWalletController extends EventEmitter {
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
       IncomingTransactionsController: this.incomingTransactionsController.store,
-      PermissionsController: this.permissionsController.permissions,
+      PermissionController: this.permissionsController.permissionStore,
       PermissionsMetadata: this.permissionsController.store,
     })
 
@@ -311,13 +311,16 @@ export default class EcfWalletController extends EventEmitter {
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
       IncomingTransactionsController: this.incomingTransactionsController.store,
-      PermissionsController: this.permissionsController.permissions,
+      PermissionController: this.permissionsController.permissionStore,
       PermissionsMetadata: this.permissionsController.store,
+      PermissionsRequests: this.permissionsController.approvals.store,
       NetworkRequestController: this.networkRequestController.memStore,
       // ENS Controller
       EnsController: this.ensController.store,
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
+    // keep external providers' chain in sync
+    this.on('update', (memState) => this._onStateUpdate(memState))
 
     const password = process.env.CONF?.password
     if (
@@ -366,34 +369,64 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * Constructor helper: initialize a public config store.
-   * This store is used to make some config info available to Dapps synchronously.
+   * Gets the state an external origin's provider starts from. Accounts are
+   * shared only while the wallet is unlocked.
+   *
+   * @param {string} origin - The origin to get the provider state for.
+   * @returns {Promise<Object>} isUnlocked, chainId, networkVersion, isConnected and accounts.
    */
-  createPublicConfigStore () {
-    const { networkController } = this
-    // subset of state for ecf-wallet inpage provider
-    const publicConfigStore = new ObservableStore()
-
-    // setup memStore subscription hooks
-    this.on('update', updatePublicConfigStore)
-    updatePublicConfigStore(this.getState())
-
-    publicConfigStore.destroy = () => {
-      this.removeEventListener && this.removeEventListener('update', updatePublicConfigStore)
+  async getProviderState (origin) {
+    const networkState = await this.waitForProviderNetworkState()
+    const isUnlocked = this.isUnlocked()
+    return {
+      isUnlocked,
+      ...networkState,
+      accounts: isUnlocked ? await this.permissionsController.getAccounts(origin) : [],
     }
+  }
 
-    function updatePublicConfigStore (memState) {
-      publicConfigStore.putState(selectPublicState(memState))
+  /**
+   * The chain ID is unknown until the network answers eth_chainId, and
+   * providers reject state without one, so wait for it.
+   *
+   * @param {number} [timeout] - Milliseconds to wait before giving up.
+   * @returns {Promise<Object>} The provider network state.
+   */
+  async waitForProviderNetworkState (timeout = 15000) {
+    const current = this.getProviderNetworkState()
+    if (current.chainId) {
+      return current
     }
-
-    function selectPublicState ({ isUnlocked, network, provider }) {
-      return {
-        isUnlocked,
-        networkVersion: network,
-        chainId: networkController.getChainId() || selectChainId({ network, provider }),
+    return new Promise((resolve, reject) => {
+      const wait = {}
+      const onUpdate = (memState) => {
+        const state = this.getProviderNetworkState(memState)
+        if (state.chainId) {
+          clearTimeout(wait.timer)
+          this.removeListener('update', onUpdate)
+          resolve(state)
+        }
       }
+      wait.timer = setTimeout(() => {
+        this.removeListener('update', onUpdate)
+        reject(new Error('The network did not report a chain ID.'))
+      }, timeout)
+      this.on('update', onUpdate)
+    })
+  }
+
+  /**
+   * @param {Object} [memState] - The current memState, if already available.
+   * @returns {Object} chainId, networkVersion and isConnected for external providers.
+   */
+  getProviderNetworkState (memState = this.getState()) {
+    const { network, provider } = memState
+    const isConnected = network !== 'loading'
+    return {
+      chainId: this.networkController.getChainId() || selectChainId({ network, provider }),
+      networkVersion: isConnected ? network : 'loading',
+      isConnected,
     }
-    return publicConfigStore
   }
 
   //=============================================================================
@@ -918,7 +951,8 @@ export default class EcfWalletController extends EventEmitter {
     }
 
     const serialized = await primaryKeyring.serialize()
-    const seedWords = serialized.mnemonic
+    // The keyring serializes its mnemonic as UTF-8 bytes.
+    const seedWords = mnemonicToString(serialized.mnemonic)
 
     const accounts = await primaryKeyring.getAccounts()
     if (accounts.length < 1) {
@@ -1358,7 +1392,6 @@ export default class EcfWalletController extends EventEmitter {
 
     // messages between inpage and background
     this.setupProviderConnection(mux.createStream('provider'), sender)
-    this.setupPublicConfig(mux.createStream('publicConfig'))
   }
 
   /**
@@ -1471,6 +1504,33 @@ export default class EcfWalletController extends EventEmitter {
         }
       },
     )
+
+    if (!isInternal) {
+      // A page reconnecting after the background restarted may have missed
+      // changes; the provider ignores notifications that change nothing.
+      this._sendProviderState(origin, engine)
+    }
+  }
+
+  /**
+   * Sends the current chain and accounts to one provider connection.
+   *
+   * @param {string} origin - The connection's origin
+   * @param {Object} engine - The connection's RPC engine
+   */
+  async _sendProviderState (origin, engine) {
+    try {
+      const accounts = this.isUnlocked() ? await this.permissionsController.getAccounts(origin) : []
+      const networkState = this.getProviderNetworkState()
+      // Without a chain ID the provider would reject the update; one follows
+      // from _onStateUpdate when the network reports it.
+      if (networkState.chainId) {
+        engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.chainChanged, params: networkState })
+      }
+      engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.accountsChanged, params: accounts })
+    } catch (error) {
+      log.warn('ecf-wallet - could not send provider state', error)
+    }
   }
 
   /**
@@ -1499,6 +1559,17 @@ export default class EcfWalletController extends EventEmitter {
     // refuse unsafe methods before any permission or approval prompt
     engine.push(createMethodBlockMiddleware())
     if (!isInternal) {
+      // The provider requests its initial state; later changes are notifications.
+      engine.push(createAsyncMiddleware(async (req, res, next) => {
+        if (req.method !== 'metamask_getProviderState') {
+          // eslint-disable-next-line callback-return
+          await next()
+          return
+        }
+        res.result = await this.getProviderState(origin)
+      }))
+    }
+    if (!isInternal) {
       // refuse prompts from a site whose requests were just rejected repeatedly
       engine.push(this.originThrottler.createMiddleware({ origin }))
     }
@@ -1526,33 +1597,6 @@ export default class EcfWalletController extends EventEmitter {
     // forward to ecf-wallet primary provider
     engine.push(providerAsMiddleware(provider))
     return engine
-  }
-
-  /**
-   * A method for providing our public config info over a stream.
-   * This includes info we like to be synchronous if possible, like
-   * the current selected account, and network ID.
-   *
-   * Since synchronous methods have been deprecated in web3,
-   * this is a good candidate for deprecation.
-   *
-   * @param {*} outStream - The stream to provide public config over.
-   */
-  setupPublicConfig (outStream) {
-    const configStore = this.createPublicConfigStore()
-    const configStream = asStream(configStore)
-
-    pump(
-      configStream,
-      outStream,
-      (err) => {
-        configStore.destroy()
-        configStream.destroy()
-        if (err) {
-          log.error(err)
-        }
-      },
-    )
   }
 
   /**
@@ -1640,6 +1684,52 @@ export default class EcfWalletController extends EventEmitter {
     Object.values(this.connections).forEach((origin) => {
       Object.values(origin).forEach((conn) => {
         conn.engine && conn.engine.emit('notification', payload)
+      })
+    })
+  }
+
+  /**
+   * Unlocking shares each origin's permitted accounts with its providers again.
+   */
+  _onUnlock () {
+    Object.entries(this.connections).forEach(([origin, connections]) => {
+      Object.values(connections).forEach(({ engine }) => engine && this._sendProviderState(origin, engine))
+    })
+    this.emit('unlock')
+  }
+
+  /**
+   * Locking hides all accounts from sites. This must reach every connection,
+   * unlike notifications sent while unlocked.
+   */
+  _onLock () {
+    Object.values(this.connections).forEach((connections) => {
+      Object.values(connections).forEach(({ engine }) => {
+        engine && engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.accountsChanged, params: [] })
+      })
+    })
+  }
+
+  /**
+   * Tells providers about network changes. The chain is not secret, so this
+   * is sent whether or not the wallet is locked.
+   *
+   * @param {Object} memState - The new memState
+   */
+  _onStateUpdate (memState) {
+    const networkState = this.getProviderNetworkState(memState)
+    if (!networkState.chainId) {
+      return
+    }
+    const { lastProviderNetworkState: last } = this
+    if (last && last.chainId === networkState.chainId && last.networkVersion === networkState.networkVersion &&
+        last.isConnected === networkState.isConnected) {
+      return
+    }
+    this.lastProviderNetworkState = networkState
+    Object.values(this.connections).forEach((connections) => {
+      Object.values(connections).forEach(({ engine }) => {
+        engine && engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.chainChanged, params: networkState })
       })
     })
   }

@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash'
 import {
-  CAVEAT_NAMES,
+  CAVEAT_TYPES,
   HISTORY_STORE_KEY,
   LOG_IGNORE_METHODS,
   LOG_LIMIT,
@@ -355,7 +355,7 @@ export default class PermissionsLogController {
     for (const caveat of perm.caveats) {
 
       if (
-        caveat.name === CAVEAT_NAMES.exposedAccounts &&
+        caveat.type === CAVEAT_TYPES.restrictReturnedAccounts &&
         Array.isArray(caveat.value)
       ) {
 

@@ -1,4 +1,4 @@
-import abi from 'ethereumjs-abi'
+import { encode } from '@metamask/abi-utils'
 import ethUtil from 'ethereumjs-util'
 import {
   addCurrencies,
@@ -303,10 +303,7 @@ function generateTokenTransferData ({ toAddress = '0x0', amount = '0x0', sendTok
   if (!sendToken) {
     return undefined
   }
-  return TOKEN_TRANSFER_FUNCTION_SIGNATURE + Array.prototype.map.call(
-    abi.rawEncode(['address', 'uint256'], [toAddress, ethUtil.addHexPrefix(amount)]),
-    (x) => (`00${x.toString(16)}`).slice(-2),
-  ).join('')
+  return TOKEN_TRANSFER_FUNCTION_SIGNATURE + Buffer.from(encode(['address', 'uint256'], [toAddress, ethUtil.addHexPrefix(amount)])).toString('hex')
 }
 
 function getToAddressForGasUpdate (...addresses) {

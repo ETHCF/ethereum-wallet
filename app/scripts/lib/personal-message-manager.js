@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 import ObservableStore from 'obs-store'
 import ethUtil from 'ethereumjs-util'
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 import log from 'loglevel'
 import { detectSIWE } from './signing-utils'
 import createId from './random-id'

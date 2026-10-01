@@ -2,16 +2,16 @@ import { strict as assert } from 'assert'
 import vm from 'vm'
 import path from 'path'
 import { build } from 'esbuild'
-import EthereumHDKey from 'ethereumjs-wallet/hdkey'
+import { hdkey } from '@ethereumjs/wallet'
 import { publicToAddress, toChecksumAddress } from 'ethereumjs-util'
 import browserOptions from '../../../development/build/browser-options'
 
 describe('Browser hardware key derivation', function () {
   it('derives public keys and Trezor account pages in the browser bundle', async function () {
     this.timeout(10000)
-    const parent = EthereumHDKey.fromMasterSeed(Buffer.alloc(32, 1))._hdkey
-    const publicKey = parent.publicKey.toString('hex')
-    const chainCode = parent.chainCode.toString('hex')
+    const parent = hdkey.EthereumHDKey.fromMasterSeed(Buffer.alloc(32, 1))._hdkey
+    const publicKey = Buffer.from(parent.publicKey).toString('hex')
+    const chainCode = Buffer.from(parent.chainCode).toString('hex')
     const result = await build({
       ...browserOptions(),
       stdin: {
@@ -41,14 +41,14 @@ describe('Browser hardware key derivation', function () {
     browser.AbortController = global.AbortController
     browser.AbortSignal = global.AbortSignal
     vm.runInContext(result.outputFiles[0].text, browser, { displayErrors: false })
-    assert.deepEqual(Array.from(browser.derivedKeys), [0, 1, 4, 5].map((index) => parent.deriveChild(index).publicKey.toString('hex')))
+    assert.deepEqual(Array.from(browser.derivedKeys), [0, 1, 4, 5].map((index) => Buffer.from(parent.deriveChild(index).publicKey).toString('hex')))
     assert.match(browser.invalidKeyError, /Public key must be 33 or 65 bytes/u)
     const pages = await browser.accountPages
     const accounts = Array.from(pages[0]).concat(Array.from(pages[1]))
     assert.equal(accounts.length, 10)
     accounts.forEach((account, index) => {
       assert.equal(account.index, index)
-      assert.equal(account.address, toChecksumAddress(publicToAddress(parent.deriveChild(index).publicKey, true).toString('hex')))
+      assert.equal(account.address, toChecksumAddress(publicToAddress(Buffer.from(parent.deriveChild(index).publicKey), true).toString('hex')))
     })
   })
 })

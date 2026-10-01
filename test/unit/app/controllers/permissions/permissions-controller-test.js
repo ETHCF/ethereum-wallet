@@ -1,6 +1,4 @@
 import { strict as assert } from 'assert'
-import { find } from 'lodash'
-import nanoid from 'nanoid'
 import sinon from 'sinon'
 
 import {
@@ -15,12 +13,12 @@ import {
 } from '../../../../../app/scripts/controllers/permissions'
 
 import {
+  getPendingRequests,
   getRequestUserApprovalHelper,
   grantPermissions,
 } from './helpers'
 
 import {
-  noop,
   constants,
   getters,
   getNotifyDomain,
@@ -29,6 +27,7 @@ import {
 } from './mocks'
 
 const {
+  CAVEATS,
   ERRORS,
   NOTIFICATIONS,
   PERMS,
@@ -51,6 +50,14 @@ const initNotifications = () => {
   }, {})
 }
 
+const validatePermission = (perm, name, origin, caveats) => {
+  assert.equal(perm.parentCapability, name, 'should have expected permission name')
+  assert.equal(perm.invoker, origin, 'should have expected permission origin')
+  assert.deepEqual(perm.caveats, caveats, 'should have expected permission caveats')
+  assert.ok(typeof perm.id === 'string' && perm.id, 'should have an id')
+  assert.ok(Number.isInteger(perm.date), 'should have a date')
+}
+
 const initPermController = (notifications = initNotifications()) => {
   return new PermissionsController({
     ...getPermControllerOpts(),
@@ -69,11 +76,11 @@ describe('permissions controller', function () {
       permController = initPermController()
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -110,11 +117,11 @@ describe('permissions controller', function () {
       const permController = initPermController()
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.test_method(),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
 
       assert.ok(
@@ -122,17 +129,13 @@ describe('permissions controller', function () {
         'should return true for granted permission',
       )
       assert.ok(
-        permController.hasPermission(DOMAINS.b.origin, 'test_method'),
+        permController.hasPermission(DOMAINS.b.origin, 'eth_accounts'),
         'should return true for granted permission',
       )
 
       assert.ok(
-        !permController.hasPermission(DOMAINS.a.origin, 'test_method'),
+        !permController.hasPermission(DOMAINS.c.origin, 'eth_accounts'),
         'should return false for non-granted permission',
-      )
-      assert.ok(
-        !permController.hasPermission(DOMAINS.b.origin, 'eth_accounts'),
-        'should return true for non-granted permission',
       )
 
       assert.ok(
@@ -155,15 +158,15 @@ describe('permissions controller', function () {
 
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
       grantPermissions(
         permController, DOMAINS.c.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.c.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.c.permitted),
       )
 
       let aAccounts = await permController.getAccounts(DOMAINS.a.origin)
@@ -189,7 +192,7 @@ describe('permissions controller', function () {
         assert.deepEqual(
           notifications[origin],
           [NOTIFICATIONS.removedAccounts()],
-          'origin should have single wallet_accountsChanged:[] notification',
+          'origin should have single metamask_accountsChanged:[] notification',
         )
       })
 
@@ -202,15 +205,15 @@ describe('permissions controller', function () {
       assert.deepEqual(cAccounts, [], 'third origin should have no accounts')
 
       Object.keys(notifications).forEach((origin) => {
-        assert.deepEqual(
-          permController.permissions.getPermissionsForDomain(origin),
-          [],
+        assert.equal(
+          permController.permissions.getPermissions(origin),
+          undefined,
           'origin should have no permissions',
         )
       })
 
       assert.deepEqual(
-        Object.keys(permController.permissions.getDomains()), [],
+        permController.permissions.getSubjectNames(), [],
         'all domains should be deleted',
       )
     })
@@ -225,11 +228,11 @@ describe('permissions controller', function () {
       permController = initPermController(notifications)
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -268,40 +271,43 @@ describe('permissions controller', function () {
       )
 
       assert.deepEqual(
-        Object.keys(permController.permissions.getDomains()), [],
+        permController.permissions.getSubjectNames(), [],
         'all domains should be deleted',
       )
     })
 
-    it('only removes targeted permissions from single domain', async function () {
+    it('only removes targeted, existing permissions from single domain', async function () {
 
-      grantPermissions(
-        permController, DOMAINS.b.origin, PERMS.finalizedRequests.test_method(),
+      // the origin does not have this permission: it is skipped
+      permController.removePermissionsFor({
+        [DOMAINS.b.origin]: [PERM_NAMES.does_not_exist],
+      })
+
+      assert.deepEqual(
+        Object.keys(permController.permissions.getPermissions(DOMAINS.b.origin)),
+        [PERM_NAMES.eth_accounts],
+        'no permission should have been removed',
       )
-
-      let bPermissions = permController.permissions.getPermissionsForDomain(DOMAINS.b.origin)
-
-      assert.ok(
-        (
-          bPermissions.length === 2 &&
-          find(bPermissions, { parentCapability: PERM_NAMES.eth_accounts }) &&
-          find(bPermissions, { parentCapability: PERM_NAMES.test_method })
-        ),
-        'origin should have correct permissions',
+      assert.deepEqual(
+        notifications[DOMAINS.b.origin], [],
+        'origin should have no notifications',
       )
 
       permController.removePermissionsFor({
-        [DOMAINS.b.origin]: [PERM_NAMES.test_method],
+        [DOMAINS.b.origin]: [PERM_NAMES.does_not_exist, PERM_NAMES.eth_accounts],
       })
 
-      bPermissions = permController.permissions.getPermissionsForDomain(DOMAINS.b.origin)
-
+      assert.equal(
+        permController.permissions.getPermissions(DOMAINS.b.origin), undefined,
+        'targeted existing permission should have been removed',
+      )
+      assert.deepEqual(
+        notifications[DOMAINS.b.origin], [NOTIFICATIONS.removedAccounts()],
+        'origin should have correct notification',
+      )
       assert.ok(
-        (
-          bPermissions.length === 1 &&
-          find(bPermissions, { parentCapability: PERM_NAMES.eth_accounts })
-        ),
-        'only targeted permission should have been removed',
+        permController.hasPermission(DOMAINS.a.origin, PERM_NAMES.eth_accounts),
+        'other origin should keep its permission',
       )
     })
 
@@ -330,22 +336,24 @@ describe('permissions controller', function () {
       )
 
       assert.deepEqual(
-        Object.keys(permController.permissions.getDomains()), [DOMAINS.a.origin],
+        permController.permissions.getSubjectNames(), [DOMAINS.a.origin],
         'only first origin should remain',
       )
     })
 
-    it('send notification but does not affect permissions for unknown domain', async function () {
+    it('sends no notification and does not affect permissions for unknown domain', async function () {
 
       // it knows nothing of this origin
       permController.removePermissionsFor({
         [DOMAINS.c.origin]: [PERM_NAMES.eth_accounts],
       })
 
-      assert.deepEqual(
-        notifications[DOMAINS.c.origin], [NOTIFICATIONS.removedAccounts()],
-        'unknown origin should have notification',
-      )
+      Object.keys(notifications).forEach((origin) => {
+        assert.deepEqual(
+          notifications[origin], [],
+          'no origin should have notifications',
+        )
+      })
 
       const aAccounts = await permController.getAccounts(DOMAINS.a.origin)
       const bAccounts = await permController.getAccounts(DOMAINS.b.origin)
@@ -360,7 +368,7 @@ describe('permissions controller', function () {
       )
 
       assert.deepEqual(
-        Object.keys(permController.permissions.getDomains()),
+        permController.permissions.getSubjectNames(),
         [DOMAINS.a.origin, DOMAINS.b.origin],
         'should have correct domains',
       )
@@ -375,11 +383,11 @@ describe('permissions controller', function () {
       permController = initPermController()
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -465,11 +473,11 @@ describe('permissions controller', function () {
       permController = initPermController(notifications)
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -502,19 +510,6 @@ describe('permissions controller', function () {
         () => permController.addPermittedAccount(DOMAINS.c.origin, EXTRA_ACCOUNT),
         ERRORS.addPermittedAccount.invalidOrigin(),
         'should throw on origin without permissions',
-      )
-    })
-
-    it('should throw if origin lacks eth_accounts permission', async function () {
-      grantPermissions(
-        permController, DOMAINS.c.origin,
-        PERMS.finalizedRequests.test_method(),
-      )
-
-      await assert.rejects(
-        () => permController.addPermittedAccount(DOMAINS.c.origin, EXTRA_ACCOUNT),
-        ERRORS.addPermittedAccount.noEthAccountsPermission(),
-        'should throw on origin without eth_accounts permission',
       )
     })
 
@@ -552,11 +547,11 @@ describe('permissions controller', function () {
       permController = initPermController(notifications)
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -589,19 +584,6 @@ describe('permissions controller', function () {
         () => permController.removePermittedAccount(DOMAINS.c.origin, EXTRA_ACCOUNT),
         ERRORS.removePermittedAccount.invalidOrigin(),
         'should throw on origin without permissions',
-      )
-    })
-
-    it('should throw if origin lacks eth_accounts permission', async function () {
-      grantPermissions(
-        permController, DOMAINS.c.origin,
-        PERMS.finalizedRequests.test_method(),
-      )
-
-      await assert.rejects(
-        () => permController.removePermittedAccount(DOMAINS.c.origin, EXTRA_ACCOUNT),
-        ERRORS.removePermittedAccount.noEthAccountsPermission(),
-        'should throw on origin without eth_accounts permission',
       )
     })
 
@@ -662,15 +644,15 @@ describe('permissions controller', function () {
       permController = initPermController(notifications)
       grantPermissions(
         permController, DOMAINS.a.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
       grantPermissions(
         permController, DOMAINS.c.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.b.permitted),
       )
     })
 
@@ -759,62 +741,6 @@ describe('permissions controller', function () {
     })
   })
 
-  describe('finalizePermissionsRequest', function () {
-
-    let permController
-
-    beforeEach(function () {
-      permController = initPermController()
-    })
-
-    it('throws on non-keyring accounts', async function () {
-
-      await assert.rejects(
-        permController.finalizePermissionsRequest(
-          PERMS.requests.eth_accounts(), [DUMMY_ACCOUNT],
-        ),
-        ERRORS.validatePermittedAccounts.nonKeyringAccount(DUMMY_ACCOUNT),
-        'should throw on non-keyring account',
-      )
-    })
-
-    it('adds caveat to eth_accounts permission', async function () {
-
-      const perm = await permController.finalizePermissionsRequest(
-        PERMS.requests.eth_accounts(),
-        ACCOUNTS.a.permitted,
-      )
-
-      assert.deepEqual(perm, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted))
-    })
-
-    it('replaces caveat of eth_accounts permission', async function () {
-
-      const perm = await permController.finalizePermissionsRequest(
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
-        ACCOUNTS.b.permitted,
-      )
-
-      assert.deepEqual(
-        perm, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
-        'permission should have correct caveat',
-      )
-    })
-
-    it('handles non-eth_accounts permission', async function () {
-
-      const perm = await permController.finalizePermissionsRequest(
-        PERMS.finalizedRequests.test_method(),
-        ACCOUNTS.b.permitted,
-      )
-
-      assert.deepEqual(
-        perm, PERMS.finalizedRequests.test_method(),
-        'permission should have correct caveat',
-      )
-    })
-  })
-
   describe('preferences state update', function () {
 
     let permController, notifications, preferences, identities
@@ -844,11 +770,11 @@ describe('permissions controller', function () {
       })
       grantPermissions(
         permController, DOMAINS.b.origin,
-        PERMS.finalizedRequests.eth_accounts([...ACCOUNTS.a.permitted, EXTRA_ACCOUNT]),
+        PERMS.grants.eth_accounts([...ACCOUNTS.a.permitted, EXTRA_ACCOUNT]),
       )
       grantPermissions(
         permController, DOMAINS.c.origin,
-        PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
       )
     })
 
@@ -954,11 +880,11 @@ describe('permissions controller', function () {
     it('does nothing if called on non-existing request', async function () {
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty on init',
       )
 
-      sinon.spy(permController, 'finalizePermissionsRequest')
+      sinon.spy(permController.permissions, 'acceptPermissionsRequest')
 
       const request = PERMS.approvedRequest(REQUEST_IDS.a, null)
 
@@ -968,12 +894,12 @@ describe('permissions controller', function () {
       )
 
       assert.ok(
-        permController.finalizePermissionsRequest.notCalled,
-        'should not call finalizePermissionRequest',
+        permController.permissions.acceptPermissionsRequest.notCalled,
+        'should not call acceptPermissionsRequest',
       )
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should still be empty after request',
       )
     })
@@ -987,7 +913,7 @@ describe('permissions controller', function () {
 
       const rejectionPromise = assert.rejects(
         requestUserApproval(REQUEST_IDS.a),
-        ERRORS.validatePermittedAccounts.invalidParam(),
+        ERRORS.approvePermissionsRequest.invalidAccounts(),
         'should reject with "null" accounts',
       )
 
@@ -995,8 +921,37 @@ describe('permissions controller', function () {
       await rejectionPromise
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after rejection',
+      )
+    })
+
+    it('rejects request with non-keyring accounts', async function () {
+
+      const request = PERMS.approvedRequest(
+        REQUEST_IDS.a,
+        PERMS.requests.eth_accounts(),
+      )
+
+      const rejectionPromise = assert.rejects(
+        requestUserApproval(REQUEST_IDS.a),
+        {
+          code: -32600,
+          message: ERRORS.validatePermittedAccounts.nonKeyringAccount(DUMMY_ACCOUNT).message,
+        },
+        'should reject with non-keyring account',
+      )
+
+      await permController.approvePermissionsRequest(request, [DUMMY_ACCOUNT])
+      await rejectionPromise
+
+      assert.equal(
+        getPendingRequests(permController).length, 0,
+        'pending approvals should be empty after rejection',
+      )
+      assert.deepEqual(
+        permController.permissions.getSubjectNames(), [],
+        'no permissions should have been granted',
       )
     })
 
@@ -1014,8 +969,91 @@ describe('permissions controller', function () {
       await requestRejection
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after rejection',
+      )
+    })
+
+    it('rejects request with no permissions and no accounts with the same error', async function () {
+
+      const request = PERMS.approvedRequest(REQUEST_IDS.a, {})
+
+      const requestRejection = assert.rejects(
+        requestUserApproval(REQUEST_IDS.a),
+        ERRORS.approvePermissionsRequest.noPermsRequested(),
+        'should reject without a TypeError when no accounts are given',
+      )
+
+      await permController.approvePermissionsRequest(request, null)
+      await requestRejection
+    })
+
+    it('does not grant approved permissions that the site did not request', async function () {
+
+      const request = PERMS.approvedRequest(REQUEST_IDS.a, {
+        [PERM_NAMES.does_not_exist]: {},
+      })
+
+      const requestRejection = assert.rejects(
+        requestUserApproval(REQUEST_IDS.a, DOMAINS.a.origin),
+        ERRORS.approvePermissionsRequest.noPermsRequested(),
+        'should reject if no requested permission was approved',
+      )
+
+      await permController.approvePermissionsRequest(request, ACCOUNTS.a.permitted)
+      await requestRejection
+
+      assert.deepEqual(
+        permController.permissions.getSubjectNames(), [],
+        'no permissions should have been granted',
+      )
+    })
+
+    it('grants only the requested permissions when approving extra ones', async function () {
+
+      sinon.spy(permController.permissions, 'acceptPermissionsRequest')
+
+      const request = PERMS.approvedRequest(REQUEST_IDS.a, {
+        ...PERMS.requests.eth_accounts(),
+        ...PERMS.requests.does_not_exist(),
+      })
+
+      const requestApproval = requestUserApproval(REQUEST_IDS.a, DOMAINS.a.origin)
+
+      await permController.approvePermissionsRequest(request, ACCOUNTS.a.permitted)
+      const perms = await requestApproval
+
+      assert.deepEqual(
+        Object.keys(permController.permissions.acceptPermissionsRequest.firstCall.args[0].permissions),
+        [PERM_NAMES.eth_accounts],
+        'should only accept the requested permission',
+      )
+      assert.deepEqual(
+        perms.map((perm) => perm.parentCapability), [PERM_NAMES.eth_accounts],
+        'should only grant the requested permission',
+      )
+      assert.deepEqual(
+        Object.keys(permController.permissions.getPermissions(DOMAINS.a.origin)),
+        [PERM_NAMES.eth_accounts],
+        'origin should only have the requested permission',
+      )
+    })
+
+    it('uses the pending request metadata, not the approved one', async function () {
+
+      const request = {
+        ...PERMS.approvedRequest(REQUEST_IDS.a, PERMS.requests.eth_accounts()),
+      }
+      request.metadata = { id: REQUEST_IDS.a, origin: DOMAINS.b.origin }
+
+      const requestApproval = requestUserApproval(REQUEST_IDS.a, DOMAINS.a.origin)
+
+      await permController.approvePermissionsRequest(request, ACCOUNTS.a.permitted)
+      await requestApproval
+
+      assert.deepEqual(
+        permController.permissions.getSubjectNames(), [DOMAINS.a.origin],
+        'should grant to the requesting origin only',
       )
     })
 
@@ -1027,7 +1065,7 @@ describe('permissions controller', function () {
 
       const requestApproval = assert.doesNotReject(
         async () => {
-          perms = await requestUserApproval(REQUEST_IDS.a)
+          perms = await requestUserApproval(REQUEST_IDS.a, DOMAINS.a.origin)
         },
         'should not reject single valid request',
       )
@@ -1035,13 +1073,18 @@ describe('permissions controller', function () {
       await permController.approvePermissionsRequest(request, ACCOUNTS.a.permitted)
       await requestApproval
 
+      assert.equal(perms.length, 1, 'should produce single permission')
+      validatePermission(
+        perms[0], PERM_NAMES.eth_accounts, DOMAINS.a.origin,
+        CAVEATS.eth_accounts(ACCOUNTS.a.permitted),
+      )
       assert.deepEqual(
-        perms, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
-        'should produce expected approved permissions',
+        await permController.getAccounts(DOMAINS.a.origin), [ACCOUNTS.a.primary],
+        'origin should have correct accounts',
       )
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after approval',
       )
     })
@@ -1068,6 +1111,11 @@ describe('permissions controller', function () {
         'should not reject request',
       )
 
+      assert.equal(
+        getPendingRequests(permController).length, 2,
+        'should have two pending approvals',
+      )
+
       // approve out of order
       await permController.approvePermissionsRequest(request2, ACCOUNTS.b.permitted)
       // add a non-existing request to the mix
@@ -1077,18 +1125,18 @@ describe('permissions controller', function () {
       await approval1
       await approval2
 
-      assert.deepEqual(
-        perms1, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.a.permitted),
-        'first request should produce expected approved permissions',
+      validatePermission(
+        perms1[0], PERM_NAMES.eth_accounts, DOMAINS.a.origin,
+        CAVEATS.eth_accounts(ACCOUNTS.a.permitted),
       )
 
-      assert.deepEqual(
-        perms2, PERMS.finalizedRequests.eth_accounts(ACCOUNTS.b.permitted),
-        'second request should produce expected approved permissions',
+      validatePermission(
+        perms2[0], PERM_NAMES.eth_accounts, DOMAINS.b.origin,
+        CAVEATS.eth_accounts(ACCOUNTS.b.permitted),
       )
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after approvals',
       )
     })
@@ -1106,7 +1154,7 @@ describe('permissions controller', function () {
     it('does nothing if called on non-existing request', async function () {
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty on init',
       )
 
@@ -1116,12 +1164,12 @@ describe('permissions controller', function () {
       )
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should still be empty after request',
       )
     })
 
-    it('rejects single existing request', async function () {
+    it('rejects single existing request with code 4001', async function () {
 
       const requestRejection = assert.rejects(
         requestUserApproval(REQUEST_IDS.a),
@@ -1133,8 +1181,12 @@ describe('permissions controller', function () {
       await requestRejection
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after rejection',
+      )
+      assert.deepEqual(
+        permController.permissions.getSubjectNames(), [],
+        'no permissions should have been granted',
       )
     })
 
@@ -1162,7 +1214,7 @@ describe('permissions controller', function () {
       await requestRejection2
 
       assert.equal(
-        permController.pendingApprovals.size, 0,
+        getPendingRequests(permController).length, 0,
         'pending approvals should be empty after approval',
       )
     })
@@ -1478,25 +1530,21 @@ describe('permissions controller', function () {
 
   describe('_trimDomainMetadata', function () {
 
-    const permController = initPermController()
-
     it('trims domain metadata for domains without permissions', function () {
+
+      const permController = initPermController()
+      grantPermissions(
+        permController, DOMAINS.a.origin,
+        PERMS.grants.eth_accounts(ACCOUNTS.a.permitted),
+      )
 
       const metadataArg = {
         [DOMAINS.a.origin]: {},
         [DOMAINS.b.origin]: {},
       }
 
-      permController.permissions.getDomains = sinon.fake.returns({
-        [DOMAINS.a.origin]: {},
-      })
-
       const metadataResult = permController._trimDomainMetadata(metadataArg)
 
-      assert.equal(
-        permController.permissions.getDomains.getCalls().length, 1,
-        'should have called permissions.getDomains once',
-      )
       assert.deepEqual(
         metadataResult,
         {
@@ -1504,6 +1552,153 @@ describe('permissions controller', function () {
         },
         'should have produced expected state',
       )
+      assert.deepEqual(
+        metadataArg,
+        {
+          [DOMAINS.a.origin]: {},
+          [DOMAINS.b.origin]: {},
+        },
+        'should not have mutated the argument',
+      )
+    })
+
+    it('trims restored domain metadata on construction', function () {
+
+      const permController = new PermissionsController(
+        getPermControllerOpts(),
+        {
+          subjects: {
+            [DOMAINS.a.origin]: {
+              origin: DOMAINS.a.origin,
+              permissions: {
+                eth_accounts: {
+                  id: 'foo',
+                  parentCapability: PERM_NAMES.eth_accounts,
+                  invoker: DOMAINS.a.origin,
+                  date: 1,
+                  caveats: CAVEATS.eth_accounts(ACCOUNTS.a.permitted),
+                },
+              },
+            },
+          },
+        },
+        {
+          [METADATA_STORE_KEY]: {
+            [DOMAINS.a.origin]: { name: 'a' },
+            [DOMAINS.b.origin]: { name: 'b' },
+          },
+        },
+      )
+
+      assert.deepEqual(
+        permController.store.getState()[METADATA_STORE_KEY],
+        { [DOMAINS.a.origin]: { name: 'a' } },
+        'should only keep metadata for domains with permissions',
+      )
+      assert.deepEqual(
+        permController.permissions.getSubjectNames(), [DOMAINS.a.origin],
+        'should have restored permissions',
+      )
+    })
+  })
+
+  describe('approvals shim', function () {
+
+    let permController
+
+    beforeEach(function () {
+      permController = initPermController()
+    })
+
+    const addRequest = (id, origin) => {
+      return permController.approvals.addRequest({
+        id,
+        origin,
+        type: 'wallet_requestPermissions',
+        requestData: {
+          metadata: { id, origin },
+          permissions: PERMS.requests.eth_accounts(),
+        },
+      }, true)
+    }
+
+    it('accepts only a single pending request per origin', async function () {
+
+      const showPermissionRequest = sinon.spy(permController, '_showPermissionRequest')
+
+      const pending = addRequest(REQUEST_IDS.a, DOMAINS.a.origin)
+
+      assert.throws(
+        () => addRequest(REQUEST_IDS.b, DOMAINS.a.origin),
+        ERRORS.approvals.requestAlreadyPending(),
+        'should throw expected error',
+      )
+
+      assert.deepEqual(
+        getPendingRequests(permController),
+        [{
+          metadata: { id: REQUEST_IDS.a, origin: DOMAINS.a.origin },
+          permissions: PERMS.requests.eth_accounts(),
+        }],
+        'should have single pending request',
+      )
+      assert.ok(permController.approvals.hasRequest({ id: REQUEST_IDS.a }))
+      assert.ok(!permController.approvals.hasRequest({ id: REQUEST_IDS.b }))
+      assert.ok(permController.approvals.hasRequest({ origin: DOMAINS.a.origin }))
+      assert.ok(showPermissionRequest.calledOnce, 'should show the request once')
+
+      // other origins are not affected
+      const other = addRequest(REQUEST_IDS.c, DOMAINS.b.origin)
+      assert.equal(getPendingRequests(permController).length, 2)
+
+      await permController.approvals.acceptRequest(REQUEST_IDS.a, 'foo')
+      assert.equal(await pending, 'foo', 'should resolve with the accepted value')
+
+      // the origin can make a new request once the first is settled
+      const next = addRequest(REQUEST_IDS.b, DOMAINS.a.origin)
+      assert.equal(getPendingRequests(permController).length, 2)
+
+      permController.approvals.rejectRequest(REQUEST_IDS.b, new Error('bar'))
+      permController.approvals.rejectRequest(REQUEST_IDS.c, new Error('baz'))
+      await assert.rejects(next, { message: 'bar' })
+      await assert.rejects(other, { message: 'baz' })
+      assert.equal(getPendingRequests(permController).length, 0)
+    })
+
+    it('rejects a second request from an origin through the permission controller', async function () {
+
+      const first = permController._requestPermissions(
+        { origin: DOMAINS.a.origin }, PERMS.requests.eth_accounts(), REQUEST_IDS.a,
+      )
+
+      await assert.rejects(
+        permController._requestPermissions(
+          { origin: DOMAINS.a.origin }, PERMS.requests.eth_accounts(), REQUEST_IDS.b,
+        ),
+        ERRORS.approvals.requestAlreadyPending(),
+        'should reject with expected error',
+      )
+
+      assert.equal(getPendingRequests(permController).length, 1)
+
+      await permController.approvePermissionsRequest(
+        PERMS.approvedRequest(REQUEST_IDS.a, PERMS.requests.eth_accounts()),
+        ACCOUNTS.a.permitted,
+      )
+      await assert.doesNotReject(first, 'first request should be approved')
+    })
+
+    it('throws on unknown requests and unsupported types', function () {
+
+      assert.throws(
+        () => permController.approvals.rejectRequest(REQUEST_IDS.a, new Error('foo')),
+        { message: `Permissions request with id '${REQUEST_IDS.a}' not found.` },
+      )
+      assert.throws(
+        () => permController.approvals.addRequest({ id: REQUEST_IDS.a, origin: DOMAINS.a.origin, type: 'foo' }),
+        { message: 'Unsupported approval type: foo' },
+      )
+      assert.equal(permController.approvals.getRequest(REQUEST_IDS.a), undefined)
     })
   })
 
@@ -1526,40 +1721,93 @@ describe('permissions controller', function () {
       _requestPermissions.restore()
     })
 
-    it('_addPendingApproval: should throw if adding origin twice', function () {
+    it('requestAccountsPermissionWithId returns the pending request id, and notifies on approval', async function () {
+      const notifications = initNotifications()
+      permController = initPermController(notifications)
 
-      const id = nanoid()
-      const origin = DOMAINS.a
-
-      permController._addPendingApproval(id, origin, noop, noop)
-
-      const otherId = nanoid()
-
-      assert.throws(
-        () => permController._addPendingApproval(otherId, origin, noop, noop),
-        ERRORS.pendingApprovals.duplicateOriginOrId(otherId, origin),
-        'should throw expected error',
-      )
-
-      assert.equal(
-        permController.pendingApprovals.size, 1,
-        'pending approvals should have single entry',
-      )
-
-      assert.equal(
-        permController.pendingApprovalOrigins.size, 1,
-        'pending approval origins should have single item',
-      )
+      const id = await permController.requestAccountsPermissionWithId(DOMAINS.a.origin)
 
       assert.deepEqual(
-        permController.pendingApprovals.get(id),
-        { origin, resolve: noop, reject: noop },
-        'pending approvals should have expected entry',
+        getPendingRequests(permController),
+        [{
+          metadata: { id, origin: DOMAINS.a.origin },
+          permissions: PERMS.requests.eth_accounts(),
+        }],
+        'should have pending request with returned id',
       )
 
-      assert.ok(
-        permController.pendingApprovalOrigins.has(origin),
-        'pending approval origins should have expected item',
+      await permController.approvePermissionsRequest(
+        PERMS.approvedRequest(id, PERMS.requests.eth_accounts()),
+        ACCOUNTS.a.permitted,
+      )
+      // let the request's promise chain settle
+      await new Promise((resolve) => setImmediate(resolve))
+
+      assert.deepEqual(
+        notifications[DOMAINS.a.origin],
+        [NOTIFICATIONS.newAccounts([ACCOUNTS.a.primary])],
+        'origin should have been notified of its accounts',
+      )
+    })
+
+    it('requestAccountsPermissionWithId swallows rejection', async function () {
+      const notifications = initNotifications()
+      permController = initPermController(notifications)
+
+      const id = await permController.requestAccountsPermissionWithId(DOMAINS.a.origin)
+      await permController.rejectPermissionsRequest(id)
+      // an unhandled rejection would fail the test run
+      await new Promise((resolve) => setImmediate(resolve))
+
+      assert.deepEqual(
+        notifications[DOMAINS.a.origin], [],
+        'origin should not have been notified',
+      )
+      assert.equal(
+        getPendingRequests(permController).length, 0,
+        'request should no longer be pending',
+      )
+    })
+
+    it('_requestPermissions only accepts eth_accounts', async function () {
+      for (const permissions of [
+        {},
+        null,
+        PERMS.requests.does_not_exist(),
+        { ...PERMS.requests.eth_accounts(), ...PERMS.requests.does_not_exist() },
+      ]) {
+        await assert.rejects(
+          permController._requestPermissions({ origin: DOMAINS.a.origin }, permissions),
+          ERRORS.requestPermissions.onlyEthAccounts(),
+          'should reject with expected error',
+        )
+      }
+      assert.equal(
+        getPendingRequests(permController).length, 0,
+        'should have no pending requests',
+      )
+    })
+
+    it('_requestPermissions ignores requested caveats', async function () {
+      sinon.spy(permController.permissions, 'requestPermissions')
+      const request = permController._requestPermissions(
+        { origin: DOMAINS.a.origin },
+        { eth_accounts: { caveats: CAVEATS.eth_accounts([EXTRA_ACCOUNT]) } },
+        REQUEST_IDS.a,
+      )
+      assert.deepEqual(
+        permController.permissions.requestPermissions.firstCall.args[1],
+        PERMS.requests.eth_accounts(),
+        'should request eth_accounts without caveats',
+      )
+      await permController.approvePermissionsRequest(
+        PERMS.approvedRequest(REQUEST_IDS.a, PERMS.requests.eth_accounts()),
+        ACCOUNTS.b.permitted,
+      )
+      await request
+      assert.deepEqual(
+        permController._getPermittedAccounts(DOMAINS.a.origin), ACCOUNTS.b.permitted,
+        'should grant the user-approved accounts',
       )
     })
 

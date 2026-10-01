@@ -1,7 +1,7 @@
-const fs = require('fs')
+// esbuild embeds the existing wallet icon in the inpage bundle as text.
+import iconSvg from '../../images/logo/ecf-wallet-icon.svg'
 
-// brfs embeds the existing wallet icon in the inpage bundle.
-const icon = `data:image/svg+xml,${encodeURIComponent(fs.readFileSync(`${__dirname}/../../images/logo/ecf-wallet-icon.svg`, 'utf8'))}`
+const icon = `data:image/svg+xml,${encodeURIComponent(iconSvg)}`
 
 export default function announceProvider (provider) {
   const info = Object.freeze({

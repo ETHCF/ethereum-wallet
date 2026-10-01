@@ -1,5 +1,5 @@
 import { strict as assert } from 'assert'
-import abi from 'ethereumjs-abi'
+import { encode as abiEncode } from '@metamask/abi-utils'
 import {
   decodeCall,
   decodePermit,
@@ -16,7 +16,7 @@ const TOKEN = '0x6b175474e89094c44da98b954eedeac495271d0f'
 const SPENDER = '0x000000000022d473030f116ddee9f6b43ac78ba3'
 const MAX = `0x${'f'.repeat(64)}`
 
-const encode = (selector, types, values) => `0x${selector}${abi.rawEncode(types, values).toString('hex')}`
+const encode = (selector, types, values) => `0x${selector}${Buffer.from(abiEncode(types, values)).toString('hex')}`
 const ids = (alerts) => alerts.map(({ id }) => id)
 
 function makeContext ({ contracts = [TOKEN, SPENDER], known = [FRIEND], tokens = [] } = {}) {

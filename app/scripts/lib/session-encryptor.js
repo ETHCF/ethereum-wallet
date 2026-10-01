@@ -1,4 +1,5 @@
-import passworder from 'browser-passworder'
+// Only the AES-GCM helpers; key derivation and its bounds stay in this file.
+import * as passworder from '@metamask/browser-passworder'
 import browserGlobal from './browser-global'
 
 const SESSION_KEY = 'ecfWalletVaultKey'

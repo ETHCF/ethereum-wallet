@@ -36,8 +36,7 @@ function typedManager () {
 describe('Modern message signing', function () {
   it('signs V4 arrays with the current implementation and recovers the software account', async function () {
     const controller = new KeyringController({})
-    const SoftwareKeyring = controller.keyringTypes.find((Type) => Type.type === 'Simple Key Pair')
-    controller.keyrings = [new SoftwareKeyring([key.toString('hex')])]
+    controller.keyrings = [await controller.createKeyring('Simple Key Pair', [key.toString('hex')])]
     const signature = await controller.signTypedMessage({ from, data }, { version: 'V4' })
     assert.equal(recoverTypedSignature({ data, signature, version: 'V4' }), from)
     assert.throws(() => validateTypedData(data, 'V3'), /Arrays/u)
@@ -83,8 +82,7 @@ describe('Modern message signing', function () {
     const approved = await manager.approveMessage({ ecfWalletId: id, data: hex('substituted') })
     assert.equal(approved.data, hex(text))
     const controller = new KeyringController({})
-    const SoftwareKeyring = controller.keyringTypes.find((Type) => Type.type === 'Simple Key Pair')
-    controller.keyrings = [new SoftwareKeyring([key.toString('hex')])]
+    controller.keyrings = [await controller.createKeyring('Simple Key Pair', [key.toString('hex')])]
     const signature = await controller.signPersonalMessage(approved)
     assert.equal(recoverPersonalSignature({ data: hex(text), signature }), from)
   })

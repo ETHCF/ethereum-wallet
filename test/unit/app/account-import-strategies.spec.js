@@ -39,11 +39,10 @@ describe('Account Import Strategies', function () {
     it('fails when password is incorrect for keystore', async function () {
       const wrongPassword = 'password2'
 
-      try {
-        await accountImporter.importAccount('JSON File', [json, wrongPassword])
-      } catch (error) {
-        assert.equal(error.message, 'Key derivation failed - possibly wrong passphrase')
-      }
+      await assert.rejects(
+        accountImporter.importAccount('JSON File', [json, wrongPassword]),
+        { message: 'Key derivation failed - possibly wrong passphrase' },
+      )
     })
 
     it('imports json string and password to return a private key', async function () {

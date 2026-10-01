@@ -1,7 +1,7 @@
 import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
 import { BN } from 'ethereumjs-util'
-import abi from 'ethereumjs-abi'
+import { encode as abiEncode } from '@metamask/abi-utils'
 import ObservableStore from 'obs-store'
 import AccountTracker from '../../../app/scripts/lib/account-tracker'
 import CachedBalancesController from '../../../app/scripts/controllers/cached-balances'
@@ -180,7 +180,7 @@ describe('Asynchronous state races', function () {
   it('discards stale batch balances and does not resurrect removed accounts', async function () {
     const { network, tracker } = balances()
     const replies = []
-    const encode = (value) => `0x${abi.rawEncode(['uint256[]'], [[value]]).toString('hex')}`
+    const encode = (value) => `0x${Buffer.from(abiEncode(['uint256[]'], [[value.toString(10)]])).toString('hex')}`
     tracker._query = {
       call: () => new Promise((resolve) => replies.push((_, [value]) => resolve(encode(value)))),
     }

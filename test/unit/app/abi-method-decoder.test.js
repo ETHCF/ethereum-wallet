@@ -1,11 +1,11 @@
 import { strict as assert } from 'assert'
-import abi from 'ethereumjs-abi'
+import { encode } from '@metamask/abi-utils'
 import tokenAbi from 'human-standard-token-abi'
-import createMethodDecoder from '../../../app/scripts/lib/abi-method-decoder'
+import createMethodDecoder, { functionSelector } from '../../../app/scripts/lib/abi-method-decoder'
 
 const decode = createMethodDecoder(tokenAbi)
 const to = '0x00000000000000000000000000000000000000ab'
-const call = (name, types, values) => `0x${abi.methodID(name, types).toString('hex')}${abi.rawEncode(types, values).toString('hex')}`
+const call = (name, types, values) => `0x${functionSelector(`${name}(${types})`)}${Buffer.from(encode(types, values)).toString('hex')}`
 const transfer = call('transfer', ['address', 'uint256'], [to, '1000000000000000000000000'])
 
 describe('createMethodDecoder', function () {

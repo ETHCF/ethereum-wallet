@@ -1,5 +1,8 @@
-import abi from 'ethereumjs-abi'
-import { stripHexPrefix } from 'ethereumjs-util'
+import { encode } from '@metamask/abi-utils'
+import { BN, stripHexPrefix } from 'ethereumjs-util'
+import { decodeArguments, functionSelector } from './abi-method-decoder'
+
+const BALANCES_SELECTOR = functionSelector('balances(address[],address[])')
 
 /**
  * Reads balances from a deployed single-call balance checker contract.
@@ -12,11 +15,11 @@ import { stripHexPrefix } from 'ethereumjs-util'
  * @returns {Promise<BN[]>} The balances
  */
 export default async function getSingleCallBalances (query, contractAddress, users, tokens) {
-  const data = abi.simpleEncode('balances(address[],address[]):(uint256[])', users, tokens)
-  const result = await query.call({ to: contractAddress, data: `0x${data.toString('hex')}` }, 'latest')
-  const [balances] = abi.rawDecode(['uint256[]'], Buffer.from(stripHexPrefix(result || ''), 'hex'))
+  const args = Buffer.from(encode(['address[]', 'address[]'], [users, tokens])).toString('hex')
+  const result = await query.call({ to: contractAddress, data: `0x${BALANCES_SELECTOR}${args}` }, 'latest')
+  const [balances = []] = decodeArguments(['uint256[]'], stripHexPrefix(result || '')) || []
   if (balances.length !== users.length * tokens.length) {
     throw new Error(`Balance checker returned ${balances.length} balances, expected ${users.length * tokens.length}`)
   }
-  return balances
+  return balances.map((balance) => new BN(balance.toString(10)))
 }

@@ -11,7 +11,6 @@ const browserify = require('browserify')
 const envify = require('envify/custom')
 const sourcemaps = require('gulp-sourcemaps')
 const lavamoat = require('lavamoat-browserify')
-const terser = require('gulp-terser-js')
 const pify = require('pify')
 const endOfStream = pify(require('end-of-stream'))
 const { makeStringTransform } = require('browserify-transform-tools')
@@ -20,7 +19,8 @@ const conf = require('rc')('ecf-wallet', {})
 
 const packageJSON = require('../../package.json')
 const browserOptions = require('./browser-options')
-const { createTask, composeParallel, composeSeries, runInChildProcess } = require('./task')
+const terser = require('./terser-stream')
+const { createTask, composeParallel, runInChildProcess } = require('./task')
 
 module.exports = createScriptTasks
 
@@ -104,28 +104,50 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       return createTask(`${taskPrefix}:${filename}`,
         createBundleTaskForBuildJsExtensionNormal({ filename, devMode, testing }))
     })
+    // esbuild tree-shakes ESM dependencies, which matters most for the scripts
+    // injected into every page (inpage, contentscript).
     for (const [name, entry, globalName] of [
       ['hardware', './app/scripts/hardware.js'],
       ['transaction-codec', './app/scripts/lib/transaction-codec-implementation.js', 'ecfWalletTransactionCodec'],
       ['modern-controllers', './app/scripts/lib/modern-controllers-implementation.js', 'ecfWalletModernControllers'],
+      ['inpage', './app/scripts/inpage.js'],
+      ['contentscript', './app/scripts/contentscript.js'],
     ]) {
       standardSubtasks.push(createTask(`${taskPrefix}:${name}`, async () => {
         const options = {
           entryPoints: [entry],
           outfile: `./dist/chrome/${name}.js`,
           globalName,
-          ...browserOptions(),
+          ...browserOptions({ pageScript: name === 'inpage' || name === 'contentscript' }),
           minify: !devMode,
+          // Pages may inspect the provider's class name.
+          keepNames: name === 'inpage',
           sourcemap: true,
-          define: { global: 'globalThis', 'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production') },
+          define: {
+            global: 'globalThis',
+            'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production'),
+            'process.env.ECF_WALLET_DEBUG': JSON.stringify(Boolean(devMode)),
+            'process.env.ECF_WALLET_ENVIRONMENT': JSON.stringify(getEnvironment({ devMode, test: testing })),
+            'process.env.IN_TEST': JSON.stringify(testing ? 'true' : false),
+          },
           write: false,
         }
         const writeBundle = async (result) => {
+          const outputs = result.outputFiles.map((file) => ({ base: file.path.split('/').pop(), contents: file.contents }))
+          // Like the Browserify bundles, production keeps source maps out of the
+          // packaged extension, in dist/sourcemaps.
+          const maps = devMode ? [] : outputs.filter(({ base }) => base.endsWith('.map'))
+          const files = outputs.filter((file) => !maps.includes(file)).map((file) => (devMode || !file.base.endsWith('.js') ? file : {
+            ...file,
+            contents: Buffer.from(Buffer.from(file.contents).toString().replace(
+              `//# sourceMappingURL=${file.base}.map`, `//# sourceMappingURL=../sourcemaps/${file.base}.map`,
+            )),
+          }))
+          await fs.ensureDir('./dist/sourcemaps')
+          await Promise.all(maps.map(({ base, contents }) => fs.writeFile(`./dist/sourcemaps/${base}`, contents)))
           await Promise.all(browserPlatforms.map(async (platform) => {
             await fs.ensureDir(`./dist/${platform}`)
-            await Promise.all(result.outputFiles.map((file) => fs.writeFile(
-              `./dist/${platform}/${file.path.split('/').pop()}`, file.contents,
-            )))
+            await Promise.all(files.map(({ base, contents }) => fs.writeFile(`./dist/${platform}/${base}`, contents)))
           }))
         }
         if (devMode) {
@@ -144,9 +166,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
         }
       }))
     }
-    const contentscriptSubtask = createTask(`${taskPrefix}:contentscript`,
-      createTaskForBuildJsExtensionContentscript({ devMode, testing }))
-
     // task for initiating livereload
     const initiateLiveReload = async () => {
       if (devMode) {
@@ -164,8 +183,7 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
     }
 
     // make each bundle run in a separate process
-    const allSubtasks = [...standardSubtasks, contentscriptSubtask].map((subtask) => runInChildProcess(subtask))
-    // const allSubtasks = [...standardSubtasks, contentscriptSubtask].map(subtask => (subtask))
+    const allSubtasks = standardSubtasks.map((subtask) => runInChildProcess(subtask))
     // make a parent task that runs each task in a child thread
     return composeParallel(initiateLiveReload, ...allSubtasks)
   }
@@ -179,29 +197,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       devMode,
       testing,
     })
-  }
-
-  function createTaskForBuildJsExtensionContentscript ({ devMode, testing }) {
-    const inpage = 'inpage'
-    const contentscript = 'contentscript'
-    return composeSeries(
-      bundleTask({
-        label: inpage,
-        filename: `${inpage}.js`,
-        filepath: `./app/scripts/${inpage}.js`,
-        externalDependencies: devMode ? undefined : externalDependenciesMap[inpage],
-        devMode,
-        testing,
-      }),
-      bundleTask({
-        label: contentscript,
-        filename: `${contentscript}.js`,
-        filepath: `./app/scripts/${contentscript}.js`,
-        externalDependencies: devMode ? undefined : externalDependenciesMap[contentscript],
-        devMode,
-        testing,
-      }),
-    )
   }
 
   function bundleTask (opts) {
@@ -250,9 +245,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
           .pipe(terser({
             mangle: {
               reserved: ['MetamaskInpageProvider'],
-            },
-            sourceMap: {
-              content: true,
             },
           }))
       }

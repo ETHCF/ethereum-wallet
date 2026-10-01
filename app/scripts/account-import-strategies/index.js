@@ -1,18 +1,11 @@
-import log from 'loglevel'
-import Wallet from 'ethereumjs-wallet'
-import importers from 'ethereumjs-wallet/thirdparty'
+/* global globalThis */
 import ethUtil from 'ethereumjs-util'
 
 const accountImporter = {
 
-  importAccount (strategy, args) {
-    try {
-      const importer = this.strategies[strategy]
-      const privateKeyHex = importer(...args)
-      return Promise.resolve(privateKeyHex)
-    } catch (e) {
-      return Promise.reject(e)
-    }
+  async importAccount (strategy, args) {
+    const importer = this.strategies[strategy]
+    return importer(...args)
   },
 
   strategies: {
@@ -31,24 +24,10 @@ const accountImporter = {
       const stripped = ethUtil.stripHexPrefix(prefixed)
       return stripped
     },
-    'JSON File': (input, password) => {
-      let wallet
-      try {
-        wallet = importers.fromEtherWallet(input, password)
-      } catch (e) {
-        log.debug('Attempt to import as EtherWallet format failed, trying V3')
-        wallet = Wallet.fromV3(input, password, true)
-      }
-
-      return walletToPrivateKey(wallet)
-    },
+    // Keystore decryption uses the modern EthereumJS bundle (see transaction-codec.js).
+    'JSON File': (input, password) => globalThis.ecfWalletTransactionCodec.decryptKeystore(input, password),
   },
 
-}
-
-function walletToPrivateKey (wallet) {
-  const privateKeyBuffer = wallet.getPrivateKey()
-  return ethUtil.bufferToHex(privateKeyBuffer)
 }
 
 export default accountImporter

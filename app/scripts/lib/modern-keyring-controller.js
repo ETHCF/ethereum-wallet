@@ -1,16 +1,60 @@
-import KeyringController from 'eth-keyring-controller'
+import { EventEmitter } from 'events'
+import ObservableStore from 'obs-store'
 import { validateMnemonic } from 'bip39'
 import log from 'loglevel'
 import { signTypedData } from './signing-utils'
+import SessionEncryptor from './session-encryptor'
+import { normalizeAddress } from './util'
+import {
+  HD_KEY_TREE,
+  SIMPLE_KEY_PAIR,
+  createSoftwareKeyring,
+  getSoftwareKeyringTypes,
+  serializeKeyring,
+} from './software-keyrings'
 
-// Preserve the vault format and account derivation while guarding the legacy
-// controller's asynchronous writes and unlocks against wallet lifecycle changes.
-export default class ModernKeyringController extends KeyringController {
-  constructor (opts) {
-    super(opts)
+function memoryStorage () {
+  const values = {}
+  return {
+    get: async (key) => ({ [key]: values[key] }),
+    set: async (data) => Object.assign(values, data),
+    remove: async (key) => {
+      delete values[key]
+    },
+    setAccessLevel: async () => undefined,
+  }
+}
+
+// Manages the encrypted vault and the keyrings in it. It keeps the vault
+// format and account derivation of eth-keyring-controller, which it replaces,
+// and guards asynchronous writes and unlocks against wallet lifecycle changes.
+export default class ModernKeyringController extends EventEmitter {
+
+  /**
+   * @param {Object} opts
+   * @param {Function[]} [opts.keyringTypes] - Additional (hardware) keyring classes
+   * @param {Object} [opts.initState] - The persisted state, holding the vault
+   * @param {Object} [opts.encryptor] - Encrypts the vault; the wallet passes its
+   * SessionEncryptor. Defaults to one without a persisted session.
+   */
+  constructor ({ keyringTypes = [], initState = {}, encryptor } = {}) {
+    super()
+    this.additionalKeyringTypes = keyringTypes
+    this.store = new ObservableStore(initState)
+    this.memStore = new ObservableStore({
+      isUnlocked: false,
+      keyringTypes: [SIMPLE_KEY_PAIR, HD_KEY_TREE, ...keyringTypes.map((Keyring) => Keyring.type)],
+      keyrings: [],
+    })
+    this.encryptor = encryptor || new SessionEncryptor(memoryStorage())
+    this.keyrings = []
     this.vaultGeneration = 0
     this.vaultWrites = Promise.resolve()
     this.keyringDisplayRequest = 0
+  }
+
+  get keyringTypes () {
+    return [...getSoftwareKeyringTypes(), ...this.additionalKeyringTypes]
   }
 
   assertVaultGeneration (generation) {
@@ -19,15 +63,63 @@ export default class ModernKeyringController extends KeyringController {
     }
   }
 
+  fullUpdate () {
+    this.emit('update', this.memStore.getState())
+    return this.memStore.getState()
+  }
+
+  setUnlocked () {
+    this.memStore.updateState({ isUnlocked: true })
+    this.emit('unlock')
+  }
+
   async setLocked () {
     this.vaultGeneration += 1
     this.password = null
+    const { keyrings } = this
     this.keyrings = []
     this.memStore.updateState({ isUnlocked: false, keyrings: [] })
     // Notify synchronously so session keys and hardware requests are invalidated
     // before any pending promise can restore them.
     this.emit('lock')
+    keyrings.forEach((keyring) => keyring.destroy?.())
     return this.fullUpdate()
+  }
+
+  async verifyPassword (password) {
+    const { vault } = this.store.getState()
+    if (!vault) {
+      throw new Error('Cannot unlock without a previous vault.')
+    }
+    await this.encryptor.decrypt(password, vault)
+  }
+
+  getKeyringClassForType (type) {
+    return this.keyringTypes.find((Keyring) => Keyring.type === type)
+  }
+
+  getKeyringsByType (type) {
+    return this.keyrings.filter((keyring) => keyring.type === type)
+  }
+
+  /**
+   * Creates a keyring from its serialized form, or an empty one. Unknown types
+   * fail loudly rather than dropping keys from the vault.
+   *
+   * @param {string} type - The keyring type
+   * @param {*} [data] - The serialized keyring
+   * @returns {Promise<Object>} The keyring
+   */
+  async createKeyring (type, data) {
+    const Keyring = this.getKeyringClassForType(type)
+    if (!Keyring) {
+      throw new Error(`Unsupported keyring type: ${type}`)
+    }
+    if (getSoftwareKeyringTypes().includes(Keyring)) {
+      return createSoftwareKeyring(Keyring, data)
+    }
+    // Hardware keyrings deserialize in their constructor.
+    return new Keyring(data)
   }
 
   persistAllKeyrings (password = this.password) {
@@ -38,7 +130,7 @@ export default class ModernKeyringController extends KeyringController {
         throw new Error('KeyringController - password is not a string')
       }
       const serialized = await Promise.all(this.keyrings.map(async (keyring) => ({
-        type: keyring.type, data: await keyring.serialize(),
+        type: keyring.type, data: await serializeKeyring(keyring),
       })))
       this.assertVaultGeneration(generation)
       const vault = await this.encryptor.encrypt(password, serialized)
@@ -91,9 +183,7 @@ export default class ModernKeyringController extends KeyringController {
     const serialized = await this.encryptor.decrypt(password, vault)
     this.assertVaultGeneration(generation)
     const keyrings = await Promise.all(serialized.map(async ({ type, data }) => {
-      const Keyring = this.getKeyringClassForType(type)
-      const keyring = new Keyring()
-      await keyring.deserialize(data)
+      const keyring = await this.createKeyring(type, data)
       await keyring.getAccounts()
       return keyring
     }))
@@ -107,8 +197,7 @@ export default class ModernKeyringController extends KeyringController {
 
   async addNewKeyring (type, opts) {
     const generation = this.vaultGeneration
-    const Keyring = this.getKeyringClassForType(type)
-    const keyring = new Keyring(opts)
+    const keyring = await this.createKeyring(type, opts)
     const accounts = await keyring.getAccounts()
     await this.checkForDuplicate(type, accounts)
     this.assertVaultGeneration(generation)
@@ -121,16 +210,54 @@ export default class ModernKeyringController extends KeyringController {
     return keyring
   }
 
+  async checkForDuplicate (type, newAccounts) {
+    if (type !== SIMPLE_KEY_PAIR) {
+      return newAccounts
+    }
+    const accounts = await this.getAccounts()
+    if (accounts.includes(normalizeAddress(newAccounts[0]))) {
+      throw new Error('The account you\'re are trying to import is a duplicate')
+    }
+    return newAccounts
+  }
+
+  displayForKeyring (keyring) {
+    return keyring.getAccounts().then((accounts) => ({
+      type: keyring.type,
+      accounts: accounts.map(normalizeAddress),
+    }))
+  }
+
   async _updateMemStoreKeyrings () {
     const generation = this.vaultGeneration
     const current = this.keyrings
     this.keyringDisplayRequest += 1
     const request = this.keyringDisplayRequest
-    const keyrings = await Promise.all(current.map(this.displayForKeyring))
+    const keyrings = await Promise.all(current.map((keyring) => this.displayForKeyring(keyring)))
     if (generation === this.vaultGeneration && current === this.keyrings && request === this.keyringDisplayRequest) {
       this.memStore.updateState({ keyrings })
     }
     return this.memStore.getState()
+  }
+
+  async getAccounts () {
+    const accounts = await Promise.all((this.keyrings || []).map((keyring) => keyring.getAccounts()))
+    return accounts.flat().map(normalizeAddress)
+  }
+
+  async getKeyringForAccount (address) {
+    const hexed = normalizeAddress(address)
+    const candidates = await Promise.all(this.keyrings.map(async (keyring) => [keyring, await keyring.getAccounts()]))
+    const winner = candidates.find(([, accounts]) => accounts.map(normalizeAddress).includes(hexed))
+    if (winner) {
+      return winner[0]
+    }
+    let errorInfo = 'Error info: '
+    if (!address) {
+      errorInfo += 'The address passed in is invalid/empty; '
+    }
+    errorInfo += candidates.length ? 'There are keyrings, but none match the address;' : 'There are no keyrings; '
+    throw new Error(`No keyring found for the requested account. ${errorInfo}`)
   }
 
   async addNewAccount (keyring) {
@@ -145,6 +272,11 @@ export default class ModernKeyringController extends KeyringController {
     return this.fullUpdate()
   }
 
+  async exportAccount (address) {
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.exportAccount(normalizeAddress(address))
+  }
+
   async removeAccount (address) {
     const generation = this.vaultGeneration
     const keyring = await this.getKeyringForAccount(address)
@@ -152,7 +284,7 @@ export default class ModernKeyringController extends KeyringController {
     if (typeof keyring.removeAccount !== 'function') {
       throw new Error(`Keyring ${keyring.type} doesn't support account removal operations`)
     }
-    await keyring.removeAccount(address)
+    await keyring.removeAccount(normalizeAddress(address))
     this.assertVaultGeneration(generation)
     this.emit('removedAccount', address)
     await this.removeEmptyKeyrings()
@@ -178,17 +310,22 @@ export default class ModernKeyringController extends KeyringController {
   }
 
   async createNewVaultAndKeychain (password) {
-    return this.createVault(password, { numberOfAccounts: 1 }, true)
+    return this.createVault(password, undefined, true)
   }
 
   async createNewVaultAndRestore (password, mnemonic) {
     if (!validateMnemonic(mnemonic)) {
       throw new Error('Seed phrase is invalid.')
     }
-    return this.createVault(password, { mnemonic, numberOfAccounts: 1 })
+    return this.createVault(password, mnemonic)
   }
 
-  async createVault (password, opts, notify = false) {
+  /**
+   * @param {string} password - The vault password
+   * @param {string} [mnemonic] - The seed phrase; a random one if omitted
+   * @param {boolean} [notify] - Whether to emit newVault
+   */
+  async createVault (password, mnemonic, notify = false) {
     if (typeof password !== 'string') {
       throw new Error('Password must be text.')
     }
@@ -197,8 +334,11 @@ export default class ModernKeyringController extends KeyringController {
     await this.encryptor.clear?.()
     await this.vaultWrites
     this.assertVaultGeneration(generation)
-    const Keyring = this.getKeyringClassForType('HD Key Tree')
-    const keyring = new Keyring(opts)
+    const keyring = await this.createKeyring(HD_KEY_TREE, mnemonic === undefined ? undefined : { mnemonic, numberOfAccounts: 1 })
+    if (mnemonic === undefined) {
+      await keyring.generateRandomMnemonic()
+      await keyring.addAccounts(1)
+    }
     const [address] = await keyring.getAccounts()
     this.assertVaultGeneration(generation)
     if (!address) {
@@ -216,13 +356,45 @@ export default class ModernKeyringController extends KeyringController {
     return this.fullUpdate()
   }
 
+  async signTransaction (ethTx, fromAddress, opts = {}) {
+    const address = normalizeAddress(fromAddress)
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.signTransaction(address, ethTx, opts)
+  }
+
+  async signMessage (msgParams, opts = {}) {
+    const address = normalizeAddress(msgParams.from)
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.signMessage(address, msgParams.data, opts)
+  }
+
+  async signPersonalMessage (msgParams, opts = {}) {
+    const address = normalizeAddress(msgParams.from)
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.signPersonalMessage(address, msgParams.data, opts)
+  }
+
+  async getEncryptionPublicKey (fromAddress, opts = {}) {
+    const address = normalizeAddress(fromAddress)
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.getEncryptionPublicKey(address, opts)
+  }
+
+  async decryptMessage (msgParams, opts = {}) {
+    const address = normalizeAddress(msgParams.from)
+    const keyring = await this.getKeyringForAccount(address)
+    return keyring.decryptMessage(address, msgParams.data, opts)
+  }
+
   async signTypedMessage (params, opts = { version: 'V1' }) {
-    const keyring = await this.getKeyringForAccount(params.from)
-    if (['HD Key Tree', 'Simple Key Pair'].includes(keyring.type)) {
+    const address = normalizeAddress(params.from)
+    const keyring = await this.getKeyringForAccount(address)
+    if ([HD_KEY_TREE, SIMPLE_KEY_PAIR].includes(keyring.type)) {
+      // The wallet's own typed-data signing validates the payload first.
       return signTypedData({
-        privateKey: keyring.getPrivateKeyFor(params.from), data: params.data, version: opts.version,
+        privateKey: Buffer.from(await keyring.exportAccount(address), 'hex'), data: params.data, version: opts.version,
       })
     }
-    return super.signTypedMessage(params, opts)
+    return keyring.signTypedData(address, params.data, opts)
   }
 }

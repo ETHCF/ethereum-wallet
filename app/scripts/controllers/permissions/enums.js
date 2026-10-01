@@ -9,22 +9,19 @@ export const METADATA_STORE_KEY = 'domainMetadata'
 
 export const METADATA_CACHE_MAX_SIZE = 100
 
-export const CAVEAT_NAMES = {
-  exposedAccounts: 'exposedAccounts',
-  primaryAccountOnly: 'primaryAccountOnly',
-}
-
 export const CAVEAT_TYPES = {
-  limitResponseLength: 'limitResponseLength',
-  filterResponse: 'filterResponse',
+  // The accounts a site may see; it sees only the primary one of them.
+  restrictReturnedAccounts: 'restrictReturnedAccounts',
 }
 
 export const NOTIFICATION_NAMES = {
-  accountsChanged: 'wallet_accountsChanged',
+  accountsChanged: 'metamask_accountsChanged',
+  chainChanged: 'metamask_chainChanged',
 }
 
 export const LOG_IGNORE_METHODS = [
-  'wallet_sendDomainMetadata',
+  'metamask_sendDomainMetadata',
+  'metamask_getProviderState',
 ]
 
 export const LOG_METHOD_TYPES = {

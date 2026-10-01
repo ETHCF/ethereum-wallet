@@ -1,6 +1,6 @@
 import querystring from 'querystring'
 import pump from 'pump'
-import LocalMessageDuplexStream from 'post-message-stream'
+import { WindowPostMessageStream } from '@metamask/post-message-stream'
 import ObjectMultiplex from 'obj-multiplex'
 import extension from 'extensionizer'
 import shouldInjectProvider from './lib/should-inject-provider'
@@ -26,7 +26,7 @@ async function start () {
  */
 async function setupStreams () {
   // the transport-specific streams for communication between inpage and background
-  const pageStream = new LocalMessageDuplexStream({
+  const pageStream = new WindowPostMessageStream({
     name: 'ecf-wallet-contentscript',
     target: 'ecf-wallet-inpage',
   })
@@ -52,9 +52,8 @@ async function setupStreams () {
     (err) => logStreamDisconnectWarning('ecf-wallet Background Multiplex', err),
   )
 
-  // forward communication across inpage-background for these channels only
+  // forward communication across inpage-background for this channel only
   forwardTrafficBetweenMuxers('provider', pageMux, extensionMux)
-  forwardTrafficBetweenMuxers('publicConfig', pageMux, extensionMux)
 
   // connect "phishing" channel to warning system
   const phishingStream = extensionMux.createStream('phishing')

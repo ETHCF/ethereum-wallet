@@ -3,6 +3,7 @@
 // receives { meta, data } and must return that shape with meta.version updated.
 const migrations = [
   require('./001').default,
+  require('./002').default,
 ]
 
 export default migrations

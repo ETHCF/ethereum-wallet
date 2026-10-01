@@ -1,9 +1,9 @@
-import EventEmitter from 'safe-event-emitter'
+import EventEmitter from '@metamask/safe-event-emitter'
 import ObservableStore from 'obs-store'
 import ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import EthQuery from 'ethjs-query'
-import { ethErrors } from 'eth-json-rpc-errors'
+import { ethErrors } from 'eth-rpc-errors'
 import abi from 'human-standard-token-abi'
 import NonceTracker from 'nonce-tracker'
 import log from 'loglevel'
@@ -597,15 +597,17 @@ export default class TransactionController extends EventEmitter {
       txMeta.txParams.chainId = `0x${chainId.toString(16)}`
     }
     const unsignedTx = createTransaction(txParams, chainId)
-    const expectedMessage = Number(txParams.type) ? Buffer.from(unsignedTx.getHashedMessageToSign()) : undefined
-    const ethTx = await this.signEthTx(unsignedTx, fromAddress) || unsignedTx
+    const expectedMessage = Buffer.from(unsignedTx.getHashedMessageToSign())
+    const ethTx = await this.signEthTx(unsignedTx, fromAddress)
     this.assertNetworkGeneration(networkGeneration)
     if (this.getChainId() !== chainId) {
       throw new Error('Network changed while signing. Please submit the transaction again.')
     }
-    if (expectedMessage && (!Number(ethTx.type) ||
+    // Signed transactions are new objects, so check that the signer kept the
+    // approved fields, type and chain (the hash covers both) and account.
+    if (!ethTx || ethTx.type !== unsignedTx.type ||
         !expectedMessage.equals(Buffer.from(ethTx.getHashedMessageToSign())) ||
-        ethTx.getSenderAddress().toString().toLowerCase() !== fromAddress.toLowerCase())) {
+        ethTx.getSenderAddress().toString().toLowerCase() !== fromAddress.toLowerCase()) {
       throw new Error('The signed transaction does not match the approved transaction or account')
     }
     if (!ethTx.verifySignature()) {
