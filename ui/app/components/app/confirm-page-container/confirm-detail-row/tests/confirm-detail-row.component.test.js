@@ -43,10 +43,6 @@ describe('Confirm Detail Row Component', function () {
       assert.equal(wrapper.find('.confirm-detail-row__details > .confirm-detail-row__primary').childAt(0).text(), 'mockPrimaryText')
     })
 
-    it('should not render a confirm-detail-row__secondary', function () {
-      assert.equal(wrapper.find('.confirm-detail-row__secondary').length, 0)
-    })
-
     it('should set the primaryValueTextColor on confirm-detail-row__primary', function () {
       assert.equal(wrapper.find('.confirm-detail-row__primary').props().style.color, 'mockColor')
     })

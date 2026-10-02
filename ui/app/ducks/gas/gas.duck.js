@@ -17,13 +17,10 @@ const BASIC_GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_L
 const BASIC_GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_STARTED'
 const GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_FINISHED'
 const GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_STARTED'
-const RESET_CUSTOM_GAS_STATE = 'ecf-wallet/gas/RESET_CUSTOM_GAS_STATE'
 const RESET_CUSTOM_DATA = 'ecf-wallet/gas/RESET_CUSTOM_DATA'
 const SET_BASIC_GAS_ESTIMATE_DATA = 'ecf-wallet/gas/SET_BASIC_GAS_ESTIMATE_DATA'
-const SET_CUSTOM_GAS_ERRORS = 'ecf-wallet/gas/SET_CUSTOM_GAS_ERRORS'
 const SET_CUSTOM_GAS_LIMIT = 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT'
 const SET_CUSTOM_GAS_PRICE = 'ecf-wallet/gas/SET_CUSTOM_GAS_PRICE'
-const SET_CUSTOM_GAS_TOTAL = 'ecf-wallet/gas/SET_CUSTOM_GAS_TOTAL'
 const SET_PRICE_AND_TIME_ESTIMATES = 'ecf-wallet/gas/SET_PRICE_AND_TIME_ESTIMATES'
 const SET_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_API_ESTIMATES_LAST_RETRIEVED'
 const SET_BASIC_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_API_ESTIMATES_LAST_RETRIEVED'
@@ -53,7 +50,6 @@ const initState = {
   priceAndTimeEstimatesLastRetrieved: 0,
   basicPriceAndTimeEstimatesLastRetrieved: 0,
   basicPriceEstimatesLastRetrieved: 0,
-  errors: {},
 }
 
 // Reducer
@@ -100,26 +96,10 @@ export default function reducer (state = initState, action) {
           limit: action.value,
         },
       }
-    case SET_CUSTOM_GAS_TOTAL:
-      return {
-        ...state,
-        customData: {
-          ...state.customData,
-          total: action.value,
-        },
-      }
     case SET_PRICE_AND_TIME_ESTIMATES:
       return {
         ...state,
         priceAndTimeEstimates: action.value,
-      }
-    case SET_CUSTOM_GAS_ERRORS:
-      return {
-        ...state,
-        errors: {
-          ...state.errors,
-          ...action.value,
-        },
       }
     case SET_API_ESTIMATES_LAST_RETRIEVED:
       return {
@@ -141,8 +121,6 @@ export default function reducer (state = initState, action) {
         ...state,
         customData: cloneDeep(initState.customData),
       }
-    case RESET_CUSTOM_GAS_STATE:
-      return cloneDeep(initState)
     default:
       return state
   }
@@ -520,20 +498,6 @@ export function setCustomGasLimit (newLimit) {
   }
 }
 
-export function setCustomGasTotal (newTotal) {
-  return {
-    type: SET_CUSTOM_GAS_TOTAL,
-    value: newTotal,
-  }
-}
-
-export function setCustomGasErrors (newErrors) {
-  return {
-    type: SET_CUSTOM_GAS_ERRORS,
-    value: newErrors,
-  }
-}
-
 export function setApiEstimatesLastRetrieved (retrievalTime) {
   return {
     type: SET_API_ESTIMATES_LAST_RETRIEVED,
@@ -553,10 +517,6 @@ export function setBasicPriceEstimatesLastRetrieved (retrievalTime) {
     type: SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED,
     value: retrievalTime,
   }
-}
-
-export function resetCustomGasState () {
-  return { type: RESET_CUSTOM_GAS_STATE }
 }
 
 export function resetCustomData () {

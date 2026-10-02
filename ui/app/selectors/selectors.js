@@ -31,21 +31,6 @@ export function getCurrentKeyring (state) {
   return keyring
 }
 
-export function getAccountType (state) {
-  const currentKeyring = getCurrentKeyring(state)
-  const type = currentKeyring && currentKeyring.type
-
-  switch (type) {
-    case 'Trezor Hardware':
-    case 'Ledger Hardware':
-      return 'hardware'
-    case 'Simple Key Pair':
-      return 'imported'
-    default:
-      return 'default'
-  }
-}
-
 export function getCurrentNetworkId (state) {
   return state.ecfWallet.network
 }
@@ -80,15 +65,6 @@ export function getSelectedIdentity (state) {
   const { identities } = state.ecfWallet
 
   return identities[selectedAddress]
-}
-
-export function getNumberOfAccounts (state) {
-  return Object.keys(state.ecfWallet.accounts).length
-}
-
-export function getNumberOfTokens (state) {
-  const { tokens } = state.ecfWallet
-  return tokens ? tokens.length : 0
 }
 
 export function getEcfWalletKeyrings (state) {

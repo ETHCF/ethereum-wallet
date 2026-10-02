@@ -2,10 +2,8 @@ import assert from 'assert'
 import proxyquire from 'proxyquire'
 
 const {
-  getCustomGasErrors,
   getCustomGasLimit,
   getCustomGasPrice,
-  getCustomGasTotal,
   getEstimatedGasPrices,
   getEstimatedGasTimes,
   getPriceAndTimeEstimates,
@@ -26,20 +24,6 @@ describe('custom-gas selectors', function () {
     it('should return gas.customData.limit', function () {
       const mockState = { gas: { customData: { limit: 'mockLimit' } } }
       assert.equal(getCustomGasLimit(mockState), 'mockLimit')
-    })
-  })
-
-  describe('getCustomGasTotal()', function () {
-    it('should return gas.customData.total', function () {
-      const mockState = { gas: { customData: { total: 'mockTotal' } } }
-      assert.equal(getCustomGasTotal(mockState), 'mockTotal')
-    })
-  })
-
-  describe('getCustomGasErrors()', function () {
-    it('should return gas.errors', function () {
-      const mockState = { gas: { errors: 'mockErrors' } }
-      assert.equal(getCustomGasErrors(mockState), 'mockErrors')
     })
   })
 

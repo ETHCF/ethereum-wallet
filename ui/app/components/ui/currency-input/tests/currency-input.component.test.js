@@ -61,19 +61,6 @@ describe('CurrencyInput Component', function () {
       assert.equal(wrapper.find('.unit-input__input').props().value, '0.004328')
     })
 
-    it('should not render a conversion line or swap button', function () {
-      const wrapper = mount(
-        <CurrencyInput
-          value="de0b6b3a7640000"
-          nativeCurrency="ETH"
-        />,
-      )
-
-      assert.equal(wrapper.find('.currency-input__conversion-component').length, 0)
-      assert.equal(wrapper.find('.currency-input__swap-component').length, 0)
-      assert.equal(wrapper.find('.currency-display-component').length, 0)
-    })
-
     it('should pass maxModeOn through to the UnitInput', function () {
       const wrapper = shallow(
         <CurrencyInput

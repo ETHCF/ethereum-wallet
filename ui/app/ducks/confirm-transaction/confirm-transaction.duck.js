@@ -25,26 +25,17 @@ import { conversionUtil } from '../../helpers/utils/conversion-util'
 const createActionType = (action) => `ecf-wallet/confirm-transaction/${action}`
 
 const UPDATE_TX_DATA = createActionType('UPDATE_TX_DATA')
-const CLEAR_TX_DATA = createActionType('CLEAR_TX_DATA')
 const UPDATE_TOKEN_DATA = createActionType('UPDATE_TOKEN_DATA')
-const CLEAR_TOKEN_DATA = createActionType('CLEAR_TOKEN_DATA')
-const UPDATE_METHOD_DATA = createActionType('UPDATE_METHOD_DATA')
-const CLEAR_METHOD_DATA = createActionType('CLEAR_METHOD_DATA')
 const CLEAR_CONFIRM_TRANSACTION = createActionType('CLEAR_CONFIRM_TRANSACTION')
 const UPDATE_TRANSACTION_AMOUNTS = createActionType('UPDATE_TRANSACTION_AMOUNTS')
 const UPDATE_TRANSACTION_FEES = createActionType('UPDATE_TRANSACTION_FEES')
 const UPDATE_TRANSACTION_TOTALS = createActionType('UPDATE_TRANSACTION_TOTALS')
-const UPDATE_TOKEN_PROPS = createActionType('UPDATE_TOKEN_PROPS')
 const UPDATE_NONCE = createActionType('UPDATE_NONCE')
-const UPDATE_TO_SMART_CONTRACT = createActionType('UPDATE_TO_SMART_CONTRACT')
-const FETCH_DATA_START = createActionType('FETCH_DATA_START')
-const FETCH_DATA_END = createActionType('FETCH_DATA_END')
 
 // Initial state
 const initState = {
   txData: {},
   tokenData: {},
-  methodData: {},
   tokenProps: {
     tokenDecimals: '',
     tokenSymbol: '',
@@ -56,8 +47,6 @@ const initState = {
   hexTransactionFee: '',
   hexTransactionTotal: '',
   nonce: '',
-  toSmartContract: false,
-  fetchingData: false,
 }
 
 // Reducer
@@ -70,34 +59,12 @@ export default function reducer (state = initState, action = {}) {
           ...action.payload,
         },
       }
-    case CLEAR_TX_DATA:
-      return {
-        ...state,
-        txData: {},
-      }
     case UPDATE_TOKEN_DATA:
       return {
         ...state,
         tokenData: {
           ...action.payload,
         },
-      }
-    case CLEAR_TOKEN_DATA:
-      return {
-        ...state,
-        tokenData: {},
-      }
-    case UPDATE_METHOD_DATA:
-      return {
-        ...state,
-        methodData: {
-          ...action.payload,
-        },
-      }
-    case CLEAR_METHOD_DATA:
-      return {
-        ...state,
-        methodData: {},
       }
     case UPDATE_TRANSACTION_AMOUNTS: {
       const { ethTransactionAmount, hexTransactionAmount } = action.payload
@@ -123,36 +90,10 @@ export default function reducer (state = initState, action = {}) {
         hexTransactionTotal: hexTransactionTotal || state.hexTransactionTotal,
       }
     }
-    case UPDATE_TOKEN_PROPS: {
-      const { tokenSymbol = '', tokenDecimals = '' } = action.payload
-      return {
-        ...state,
-        tokenProps: {
-          ...state.tokenProps,
-          tokenSymbol,
-          tokenDecimals,
-        },
-      }
-    }
     case UPDATE_NONCE:
       return {
         ...state,
         nonce: action.payload,
-      }
-    case UPDATE_TO_SMART_CONTRACT:
-      return {
-        ...state,
-        toSmartContract: action.payload,
-      }
-    case FETCH_DATA_START:
-      return {
-        ...state,
-        fetchingData: true,
-      }
-    case FETCH_DATA_END:
-      return {
-        ...state,
-        fetchingData: false,
       }
     case CLEAR_CONFIRM_TRANSACTION:
       return initState
@@ -169,35 +110,10 @@ export function updateTxData (txData) {
   }
 }
 
-export function clearTxData () {
-  return {
-    type: CLEAR_TX_DATA,
-  }
-}
-
 export function updateTokenData (tokenData) {
   return {
     type: UPDATE_TOKEN_DATA,
     payload: tokenData,
-  }
-}
-
-export function clearTokenData () {
-  return {
-    type: CLEAR_TOKEN_DATA,
-  }
-}
-
-export function updateMethodData (methodData) {
-  return {
-    type: UPDATE_METHOD_DATA,
-    payload: methodData,
-  }
-}
-
-export function clearMethodData () {
-  return {
-    type: CLEAR_METHOD_DATA,
   }
 }
 
@@ -222,30 +138,10 @@ export function updateTransactionTotals (totals) {
   }
 }
 
-export function updateTokenProps (tokenProps) {
-  return {
-    type: UPDATE_TOKEN_PROPS,
-    payload: tokenProps,
-  }
-}
-
 export function updateNonce (nonce) {
   return {
     type: UPDATE_NONCE,
     payload: nonce,
-  }
-}
-
-export function updateToSmartContract (toSmartContract) {
-  return {
-    type: UPDATE_TO_SMART_CONTRACT,
-    payload: toSmartContract,
-  }
-}
-
-export function setFetchingData (isFetching) {
-  return {
-    type: isFetching ? FETCH_DATA_START : FETCH_DATA_END,
   }
 }
 

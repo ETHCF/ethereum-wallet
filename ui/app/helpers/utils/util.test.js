@@ -197,77 +197,6 @@ describe('util', function () {
   })
 
   describe('normalizing values', function () {
-    describe('#normalizeToWei', function () {
-      it('should convert an eth to the appropriate equivalent values', function () {
-        const valueTable = {
-          wei: '1000000000000000000',
-          kwei: '1000000000000000',
-          mwei: '1000000000000',
-          gwei: '1000000000',
-          szabo: '1000000',
-          finney: '1000',
-          ether: '1',
-          // kether:'0.001',
-          // mether:'0.000001',
-          // AUDIT: We're getting BN numbers on these ones.
-          // I think they're big enough to ignore for now.
-          // gether:'0.000000001',
-          // tether:'0.000000000001',
-        }
-        const oneEthBn = new ethUtil.BN(ethInWei, 10)
-
-        Object.keys(valueTable).forEach((currency) => {
-          const value = new ethUtil.BN(valueTable[currency], 10)
-          const output = util.normalizeToWei(value, currency)
-          assert.equal(output.toString(10), valueTable.wei, `value of ${output.toString(10)} ${currency} should convert to ${oneEthBn}`)
-        })
-      })
-    })
-
-    describe('#normalizeEthStringToWei', function () {
-      it('should convert decimal eth to pure wei BN', function () {
-        const input = '1.23456789'
-        const output = util.normalizeEthStringToWei(input)
-        assert.equal(output.toString(10), '1234567890000000000')
-      })
-
-      it('should convert 1 to expected wei', function () {
-        const input = '1'
-        const output = util.normalizeEthStringToWei(input)
-        assert.equal(output.toString(10), ethInWei)
-      })
-
-      it('should account for overflow numbers gracefully by dropping extra precision.', function () {
-        const input = '1.11111111111111111111'
-        const output = util.normalizeEthStringToWei(input)
-        assert.equal(output.toString(10), '1111111111111111111')
-      })
-
-      it('should not truncate very exact wei values that do not have extra precision.', function () {
-        const input = '1.100000000000000001'
-        const output = util.normalizeEthStringToWei(input)
-        assert.equal(output.toString(10), '1100000000000000001')
-      })
-    })
-
-    describe('#normalizeNumberToWei', function () {
-      it('should handle a simple use case', function () {
-        const input = 0.0002
-        const output = util.normalizeNumberToWei(input, 'ether')
-        const str = output.toString(10)
-        assert.equal(str, '200000000000000')
-      })
-
-      it('should convert a kwei number to the appropriate equivalent wei', function () {
-        const result = util.normalizeNumberToWei(1.111, 'kwei')
-        assert.equal(result.toString(10), '1111', 'accepts decimals')
-      })
-
-      it('should convert a ether number to the appropriate equivalent wei', function () {
-        const result = util.normalizeNumberToWei(1.111, 'ether')
-        assert.equal(result.toString(10), '1111000000000000000', 'accepts decimals')
-      })
-    })
     describe('#isHex', function () {
       it('should return true when given a hex string', function () {
         const result = util.isHex('c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2')
@@ -332,50 +261,6 @@ describe('util', function () {
 
     it('should return false when the passed address is not in the passed list', function () {
       assert(util.checkExistingAddresses('b', tokenList) === false)
-    })
-  })
-
-  describe('toPrecisionWithoutTrailingZeros', function () {
-    const testData = [
-      { args: ['0', 9], result: '0' },
-      { args: [0, 9], result: '0' },
-      { args: ['0.0', 9], result: '0' },
-      { args: ['0.000000000000', 9], result: '0' },
-      { args: ['1', 9], result: '1' },
-      { args: [1], result: '1' },
-      { args: ['1.0', 9], result: '1' },
-      { args: ['1.000000000', 9], result: '1' },
-      { args: ['000000001', 9], result: '1' },
-      { args: ['000000001.0', 9], result: '1' },
-      { args: ['100000000', 9], result: '100000000' },
-      { args: ['100000000.00001', 9], result: '100000000' },
-      { args: ['100.00001', 9], result: '100.00001' },
-      { args: ['100.00001000', 9], result: '100.00001' },
-      { args: ['100.000010001', 9], result: '100.00001' },
-      { args: ['10.010101', 9], result: '10.010101' },
-      { args: ['0.1', 5], result: '0.1' },
-      { args: ['0.10', 5], result: '0.1' },
-      { args: ['0.1010', 5], result: '0.101' },
-      { args: ['0.01001', 5], result: '0.01001' },
-      { args: ['0.010010', 5], result: '0.01001' },
-      { args: ['0.010011', 5], result: '0.010011' },
-      { args: ['1.01005', 5], result: '1.0101' },
-      { args: ['1.000049', 5], result: '1' },
-      { args: ['1.00005', 5], result: '1.0001' },
-      { args: ['0.0000123456789', 9], result: '0.0000123456789' },
-      { args: ['1.0000123456789', 10], result: '1.000012346' },
-      { args: ['10000.0000012345679', 10], result: '10000' },
-      { args: ['1000000000000', 10], result: '1e+12' },
-      { args: ['1000050000000', 10], result: '1.00005e+12' },
-      { args: ['100000000000000000000', 10], result: '1e+20' },
-      { args: ['100005000000000000000', 10], result: '1.00005e+20' },
-      { args: ['100005000000000000000.0', 10], result: '1.00005e+20' },
-    ]
-
-    testData.forEach(({ args, result }) => {
-      it(`should return ${result} when passed number ${args[0]} and precision ${args[1]}`, function () {
-        assert.equal(util.toPrecisionWithoutTrailingZeros(...args), result)
-      })
     })
   })
 })

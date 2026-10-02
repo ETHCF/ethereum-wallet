@@ -127,10 +127,6 @@ export const BUILT_IN_NETWORK_TYPES = Object.keys(BUILT_IN_NETWORKS)
 // Testnets that have shut down. Wallets that used one are moved to Sepolia.
 export const DEPRECATED_NETWORK_TYPES = ['ropsten', 'rinkeby', 'kovan', 'goerli']
 
-export const NETWORK_TYPE_TO_ID_MAP = Object.fromEntries(
-  BUILT_IN_NETWORK_TYPES.map((type) => [type, { networkId: BUILT_IN_NETWORKS[type].networkId, chainId: BUILT_IN_NETWORKS[type].chainId }]),
-)
-
 export const NETWORK_TO_NAME_MAP = Object.fromEntries(
   BUILT_IN_NETWORK_TYPES.flatMap((type) => {
     const { name, networkId, chainId } = BUILT_IN_NETWORKS[type]

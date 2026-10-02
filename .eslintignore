@@ -8,5 +8,4 @@ test-*/**
 docs/**
 coverage/
 
-app/scripts/chromereload.js
 app/vendor/**

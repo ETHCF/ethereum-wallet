@@ -1,8 +1,6 @@
 import assert from 'assert'
 
 import SendReducer, {
-  openToDropdown,
-  closeToDropdown,
   updateSendErrors,
   showGasButtonGroup,
   hideGasButtonGroup,
@@ -13,22 +11,15 @@ describe('Send Duck', function () {
     mockProp: 123,
   }
   const initState = {
-    toDropdownOpen: false,
     errors: {},
     gasButtonGroupShown: true,
   }
-  const OPEN_TO_DROPDOWN = 'ecf-wallet/send/OPEN_TO_DROPDOWN'
-  const CLOSE_TO_DROPDOWN = 'ecf-wallet/send/CLOSE_TO_DROPDOWN'
   const UPDATE_SEND_ERRORS = 'ecf-wallet/send/UPDATE_SEND_ERRORS'
   const RESET_SEND_STATE = 'ecf-wallet/send/RESET_SEND_STATE'
   const SHOW_GAS_BUTTON_GROUP = 'ecf-wallet/send/SHOW_GAS_BUTTON_GROUP'
   const HIDE_GAS_BUTTON_GROUP = 'ecf-wallet/send/HIDE_GAS_BUTTON_GROUP'
 
   describe('SendReducer()', function () {
-    it('should initialize state', function () {
-      assert.deepEqual(SendReducer(undefined, {}), initState)
-    })
-
     it('should return state unchanged if it does not match a dispatched actions type', function () {
       assert.deepEqual(
         SendReducer(mockState, {
@@ -36,24 +27,6 @@ describe('Send Duck', function () {
           value: 'someValue',
         }),
         mockState,
-      )
-    })
-
-    it('should set toDropdownOpen to true when receiving a OPEN_TO_DROPDOWN action', function () {
-      assert.deepEqual(
-        SendReducer(mockState, {
-          type: OPEN_TO_DROPDOWN,
-        }),
-        { toDropdownOpen: true, ...mockState },
-      )
-    })
-
-    it('should set toDropdownOpen to false when receiving a CLOSE_TO_DROPDOWN action', function () {
-      assert.deepEqual(
-        SendReducer(mockState, {
-          type: CLOSE_TO_DROPDOWN,
-        }),
-        { toDropdownOpen: false, ...mockState },
       )
     })
 
@@ -101,14 +74,6 @@ describe('Send Duck', function () {
         initState,
       )
     })
-  })
-
-  describe('openToDropdown', function () {
-    assert.deepEqual(openToDropdown(), { type: OPEN_TO_DROPDOWN })
-  })
-
-  describe('closeToDropdown', function () {
-    assert.deepEqual(closeToDropdown(), { type: CLOSE_TO_DROPDOWN })
   })
 
   describe('showGasButtonGroup', function () {

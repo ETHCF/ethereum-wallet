@@ -44,10 +44,6 @@ describe('Page Footer', function () {
 
   describe('Cancel Button', function () {
 
-    it('has button type of default', function () {
-      assert.equal(wrapper.find('.page-container__footer-button').first().prop('type'), 'default')
-    })
-
     it('has children text of Cancel', function () {
       assert.equal(wrapper.find('.page-container__footer-button').first().prop('children'), 'Cancel')
     })

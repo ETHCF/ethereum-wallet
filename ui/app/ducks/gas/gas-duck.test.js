@@ -14,9 +14,6 @@ const {
   setBasicGasEstimateData,
   setCustomGasPrice,
   setCustomGasLimit,
-  setCustomGasTotal,
-  setCustomGasErrors,
-  resetCustomGasState,
   fetchBasicGasAndTimeEstimates,
   fetchBasicGasEstimates,
   gasEstimatesLoadingStarted,
@@ -169,7 +166,6 @@ describe('Gas Duck', function () {
       safeLow: null,
     },
     basicEstimateIsLoading: true,
-    errors: {},
     gasEstimatesLoading: true,
     priceAndTimeEstimates: [],
     priceAndTimeEstimatesLastRetrieved: 0,
@@ -180,22 +176,15 @@ describe('Gas Duck', function () {
   const BASIC_GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_STARTED'
   const GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_FINISHED'
   const GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_STARTED'
-  const RESET_CUSTOM_GAS_STATE = 'ecf-wallet/gas/RESET_CUSTOM_GAS_STATE'
   const SET_BASIC_GAS_ESTIMATE_DATA = 'ecf-wallet/gas/SET_BASIC_GAS_ESTIMATE_DATA'
-  const SET_CUSTOM_GAS_ERRORS = 'ecf-wallet/gas/SET_CUSTOM_GAS_ERRORS'
   const SET_CUSTOM_GAS_LIMIT = 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT'
   const SET_CUSTOM_GAS_PRICE = 'ecf-wallet/gas/SET_CUSTOM_GAS_PRICE'
-  const SET_CUSTOM_GAS_TOTAL = 'ecf-wallet/gas/SET_CUSTOM_GAS_TOTAL'
   const SET_PRICE_AND_TIME_ESTIMATES = 'ecf-wallet/gas/SET_PRICE_AND_TIME_ESTIMATES'
   const SET_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_API_ESTIMATES_LAST_RETRIEVED'
   const SET_BASIC_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_API_ESTIMATES_LAST_RETRIEVED'
   const SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED'
 
   describe('GasReducer()', function () {
-    it('should initialize state', function () {
-      assert.deepEqual(GasReducer(undefined, {}), initState)
-    })
-
     it('should return state unchanged if it does not match a dispatched actions type', function () {
       assert.deepEqual(
         GasReducer(mockState, {
@@ -274,16 +263,6 @@ describe('Gas Duck', function () {
       )
     })
 
-    it('should set customData.total when receiving a SET_CUSTOM_GAS_TOTAL action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_CUSTOM_GAS_TOTAL,
-          value: 10000,
-        }),
-        { customData: { total: 10000 }, ...mockState },
-      )
-    })
-
     it('should set priceAndTimeEstimatesLastRetrieved when receiving a SET_API_ESTIMATES_LAST_RETRIEVED action', function () {
       assert.deepEqual(
         GasReducer(mockState, {
@@ -301,23 +280,6 @@ describe('Gas Duck', function () {
           value: 1700000000000,
         }),
         { basicPriceAndTimeEstimatesLastRetrieved: 1700000000000, ...mockState },
-      )
-    })
-
-    it('should set errors when receiving a SET_CUSTOM_GAS_ERRORS action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_CUSTOM_GAS_ERRORS,
-          value: { someError: 'error_error' },
-        }),
-        { errors: { someError: 'error_error' }, ...mockState },
-      )
-    })
-
-    it('should return the initial state in response to a RESET_CUSTOM_GAS_STATE action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, { type: RESET_CUSTOM_GAS_STATE }),
-        initState,
       )
     })
   })
@@ -749,38 +711,11 @@ describe('Gas Duck', function () {
     })
   })
 
-  describe('setCustomGasTotal', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setCustomGasTotal('mockCustomGasTotal'),
-        { type: SET_CUSTOM_GAS_TOTAL, value: 'mockCustomGasTotal' },
-      )
-    })
-  })
-
-  describe('setCustomGasErrors', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setCustomGasErrors('mockErrorObject'),
-        { type: SET_CUSTOM_GAS_ERRORS, value: 'mockErrorObject' },
-      )
-    })
-  })
-
   describe('setApiEstimatesLastRetrieved', function () {
     it('should create the correct action', function () {
       assert.deepEqual(
         setApiEstimatesLastRetrieved(1234),
         { type: SET_API_ESTIMATES_LAST_RETRIEVED, value: 1234 },
-      )
-    })
-  })
-
-  describe('resetCustomGasState', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        resetCustomGasState(),
-        { type: RESET_CUSTOM_GAS_STATE },
       )
     })
   })

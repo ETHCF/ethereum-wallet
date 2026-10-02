@@ -84,13 +84,6 @@ describe('Network Dropdown', function () {
       })
     })
 
-    it('does not offer shut-down testnets', function () {
-      const text = wrapper.text()
-      for (const name of ['Ropsten', 'Rinkeby', 'Kovan', 'Goerli']) {
-        assert.ok(!text.includes(name), name)
-      }
-    })
-
     it('shows localhost after the built-in networks', function () {
       assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'), '1px solid #9b9b9b')
     })

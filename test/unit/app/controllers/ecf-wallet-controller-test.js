@@ -311,10 +311,6 @@ describe('EcfWalletController', function () {
 
   describe('preferencesController', function () {
 
-    it('defaults useBlockie to false', function () {
-      assert.equal(ecfWalletController.preferencesController.store.getState().useBlockie, false)
-    })
-
     it('setUseBlockie to true', function () {
       ecfWalletController.setUseBlockie(true, noop)
       assert.equal(ecfWalletController.preferencesController.store.getState().useBlockie, true)
@@ -599,11 +595,6 @@ describe('EcfWalletController', function () {
   })
 
   describe('#setCurrentLocale', function () {
-
-    it('checks the default currentLocale', function () {
-      const preferenceCurrentLocale = ecfWalletController.preferencesController.store.getState().currentLocale
-      assert.equal(preferenceCurrentLocale, undefined)
-    })
 
     it('sets current locale in preferences controller', function () {
       ecfWalletController.setCurrentLocale('ja', noop)

@@ -3,7 +3,6 @@ import * as reactRedux from 'react-redux'
 import { renderHook } from '@testing-library/react-hooks'
 import sinon from 'sinon'
 import transactions from '../../../../test/data/transaction-data.json'
-import * as methodDataHook from '../useMethodData'
 import { showSidebar } from '../../store/actions'
 import { useRetryTransaction } from '../useRetryTransaction'
 
@@ -24,7 +23,6 @@ describe('useRetryTransaction', function () {
 
     it('retryTransaction function should show retry sidebar', async function () {
       sinon.stub(reactRedux, 'useDispatch').returns(dispatch)
-      sinon.stub(methodDataHook, 'useMethodData').returns({})
       try {
         const { result } = renderHook(() => useRetryTransaction(retryEnabledTransaction, true))
         const retry = result.current

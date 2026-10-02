@@ -94,18 +94,6 @@ export function isConfirmDeployContract (txData = {}) {
 }
 
 /**
- * Returns four-byte method signature from data
- *
- * @param {string} data - The hex data (@code txParams.data) of a transaction
- * @returns {string} - The four-byte method signature
- */
-export function getFourBytePrefix (data = '') {
-  const prefixedData = ethUtil.addHexPrefix(data)
-  const fourBytePrefix = prefixedData.slice(0, 10)
-  return fourBytePrefix
-}
-
-/**
   * Given an transaction category, returns a boolean which indicates whether the transaction is calling an erc20 token method
   *
   * @param {string} transactionCategory - The category of transaction being evaluated
@@ -167,31 +155,6 @@ export function getTransactionActionKey (transaction) {
   } else {
     return SEND_ETHER_ACTION_KEY
   }
-}
-
-export function getLatestSubmittedTxWithNonce (transactions = [], nonce = '0x0') {
-  if (!transactions.length) {
-    return {}
-  }
-
-  return transactions.reduce((acc, current) => {
-    const { submittedTime, txParams: { nonce: currentNonce } = {} } = current
-
-    if (currentNonce === nonce) {
-      if (!acc.submittedTime) {
-        return current
-      }
-      return submittedTime > acc.submittedTime ? current : acc
-    }
-    return acc
-  }, {})
-}
-
-export async function isSmartContractAddress (address) {
-  const code = await global.eth.getCode(address)
-  // Geth will return '0x', and ganache-core v2.2.1 will return '0x0'
-  const codeIsEmpty = !code || code === '0x' || code === '0x0'
-  return !codeIsEmpty
 }
 
 export function sumHexes (...args) {

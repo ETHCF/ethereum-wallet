@@ -482,11 +482,6 @@ describe('preferences controller', function () {
   })
 
   describe('setPasswordForgotten', function () {
-    it('should default to false', function () {
-      const state = preferencesController.store.getState()
-      assert.equal(state.forgottenPassword, false)
-    })
-
     it('should set the forgottenPassword property in state', function () {
       assert.equal(preferencesController.store.getState().forgottenPassword, false)
 
@@ -528,11 +523,6 @@ describe('preferences controller', function () {
   })
 
   describe('setUsePhishDetect', function () {
-    it('should default to true', function () {
-      const state = preferencesController.store.getState()
-      assert.equal(state.usePhishDetect, true)
-    })
-
     it('should set the usePhishDetect property in state', function () {
       assert.equal(preferencesController.store.getState().usePhishDetect, true)
       preferencesController.setUsePhishDetect(false)
