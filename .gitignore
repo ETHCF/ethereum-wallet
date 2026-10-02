@@ -26,7 +26,6 @@ temp
 .DS_Store
 app/.DS_Store
 
-.out/
 coverage/
 dist
 builds/
@@ -46,3 +45,4 @@ notes.txt
 .nyc_output
 
 .ecf-walletrc
+/.out

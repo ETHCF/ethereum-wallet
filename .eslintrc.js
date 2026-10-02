@@ -112,7 +112,6 @@ module.exports = {
   }, {
     files: [
       'app/scripts/migrations/*.js',
-      '*.stories.js',
     ],
     rules: {
       'import/no-anonymous-default-export': ['error', { 'allowObject': true }],
