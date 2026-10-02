@@ -3,7 +3,7 @@ import * as reactRedux from 'react-redux'
 import { renderHook } from '@testing-library/react-hooks'
 import sinon from 'sinon'
 import transactions from '../../../../test/data/transaction-data.json'
-import { getConversionRate, getSelectedAccount } from '../../selectors'
+import { getSelectedAccount } from '../../selectors'
 import { useCancelTransaction } from '../useCancelTransaction'
 import { showModal } from '../../store/actions'
 import { increaseLastGasPrice } from '../../helpers/utils/confirm-tx.util'
@@ -24,9 +24,7 @@ describe('useCancelTransaction', function () {
     before(function () {
       useSelector = sinon.stub(reactRedux, 'useSelector')
       useSelector.callsFake((selector) => {
-        if (selector === getConversionRate) {
-          return 280.46
-        } else if (selector === getSelectedAccount) {
+        if (selector === getSelectedAccount) {
           return {
             balance: '0x3',
           }
@@ -67,9 +65,7 @@ describe('useCancelTransaction', function () {
     before(function () {
       useSelector = sinon.stub(reactRedux, 'useSelector')
       useSelector.callsFake((selector) => {
-        if (selector === getConversionRate) {
-          return 280.46
-        } else if (selector === getSelectedAccount) {
+        if (selector === getSelectedAccount) {
           return {
             balance: '0x9C2007651B2500000',
           }
