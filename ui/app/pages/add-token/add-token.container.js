@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 
 import { setPendingTokens, clearPendingTokens } from '../../store/actions'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import AddToken from './add-token.component'
 
 const mapStateToProps = (state) => {
@@ -21,4 +22,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToken)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddToken))

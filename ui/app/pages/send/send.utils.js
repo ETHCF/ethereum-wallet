@@ -48,7 +48,6 @@ function isBalanceSufficient ({
   amount = '0x0',
   balance = '0x0',
   gasTotal = '0x0',
-  primaryCurrency,
 }) {
   const totalAmount = addCurrencies(amount, gasTotal, {
     aBase: 16,
@@ -60,12 +59,10 @@ function isBalanceSufficient ({
     {
       value: balance,
       fromNumericBase: 'hex',
-      fromCurrency: primaryCurrency,
     },
     {
       value: totalAmount,
       fromNumericBase: 'hex',
-      fromCurrency: primaryCurrency,
     },
   )
 
@@ -98,7 +95,6 @@ function getAmountErrorObject ({
   amount,
   balance,
   gasTotal,
-  primaryCurrency,
   sendToken,
   tokenBalance,
 }) {
@@ -108,7 +104,6 @@ function getAmountErrorObject ({
       amount,
       balance,
       gasTotal,
-      primaryCurrency,
     })
   }
 
@@ -143,7 +138,6 @@ function getAmountErrorObject ({
 function getGasFeeErrorObject ({
   balance,
   gasTotal,
-  primaryCurrency,
 }) {
   let gasFeeError = null
 
@@ -152,7 +146,6 @@ function getGasFeeErrorObject ({
       amount: '0x0',
       balance,
       gasTotal,
-      primaryCurrency,
     })
 
     if (insufficientFunds) {

@@ -2,8 +2,12 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import TokenTracker from '@metamask/eth-token-tracker'
 import { useSelector } from 'react-redux'
 import { getCurrentNetwork, getSelectedAddress } from '../selectors'
+import { useEqualityCheck } from './useEqualityCheck'
 
-export function useTokenTracker (tokens) {
+export function useTokenTracker (requestedTokens) {
+  // Callers often pass a new array each render; rebuild the tracker only when
+  // the tokens themselves change.
+  const tokens = useEqualityCheck(requestedTokens)
   const network = useSelector(getCurrentNetwork)
   const userAddress = useSelector(getSelectedAddress)
 

@@ -29,7 +29,6 @@ export default class SendTransactionScreen extends Component {
     hasHexData: PropTypes.bool,
     navigate: PropTypes.func,
     network: PropTypes.string,
-    primaryCurrency: PropTypes.string,
     resetSendState: PropTypes.func.isRequired,
     selectedAddress: PropTypes.string,
     sendToken: PropTypes.object,
@@ -72,7 +71,6 @@ export default class SendTransactionScreen extends Component {
       from: { address, balance },
       gasTotal,
       network,
-      primaryCurrency,
       sendToken,
       tokenBalance,
       updateSendErrors,
@@ -114,7 +112,6 @@ export default class SendTransactionScreen extends Component {
         amount,
         balance,
         gasTotal,
-        primaryCurrency,
         sendToken,
         tokenBalance,
       })
@@ -122,7 +119,6 @@ export default class SendTransactionScreen extends Component {
         ? getGasFeeErrorObject({
           balance,
           gasTotal,
-          primaryCurrency,
           sendToken,
         })
         : { gasFee: null }

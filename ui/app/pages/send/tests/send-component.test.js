@@ -55,7 +55,6 @@ describe('Send Component', function () {
         gasTotal="mockGasTotal"
         navigate={{ mockProp: 'history-abc' }}
         network="3"
-        primaryCurrency="mockPrimaryCurrency"
         selectedAddress="mockSelectedAddress"
         sendToken={{ address: 'mockTokenAddress', decimals: 18, symbol: 'TST' }}
         showHexData
@@ -170,7 +169,6 @@ describe('Send Component', function () {
           amount: 'mockAmount',
           balance: 'mockBalance',
           gasTotal: 'mockGasTotal',
-          primaryCurrency: 'mockPrimaryCurrency',
           sendToken: { address: 'mockTokenAddress', decimals: 18, symbol: 'TST' },
           tokenBalance: 'mockTokenBalance',
         },
@@ -190,7 +188,6 @@ describe('Send Component', function () {
         {
           balance: 'mockBalance',
           gasTotal: 'mockGasTotal',
-          primaryCurrency: 'mockPrimaryCurrency',
           sendToken: { address: 'mockTokenAddress', decimals: 18, symbol: 'TST' },
         },
       )

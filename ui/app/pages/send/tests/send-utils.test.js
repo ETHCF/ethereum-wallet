@@ -140,14 +140,12 @@ describe('send utils', function () {
         amount: 15,
         balance: 1,
         gasTotal: 17,
-        primaryCurrency: 'ABC',
         expectedResult: { amount: INSUFFICIENT_FUNDS_ERROR },
       },
       'should not return insufficientFunds error if sendToken is truthy': {
         amount: '0x0',
         balance: 1,
         gasTotal: 17,
-        primaryCurrency: 'ABC',
         sendToken: { address: '0x0', symbol: 'DEF', decimals: 0 },
         decimals: 0,
         tokenBalance: 'sometokenbalance',
@@ -158,7 +156,6 @@ describe('send utils', function () {
         balance: 100,
         decimals: 10,
         gasTotal: 17,
-        primaryCurrency: 'ABC',
         sendToken: { address: '0x0' },
         tokenBalance: 123,
         expectedResult: { amount: INSUFFICIENT_TOKENS_ERROR },
@@ -176,13 +173,11 @@ describe('send utils', function () {
       'should return insufficientFunds error if isBalanceSufficient returns false': {
         balance: 16,
         gasTotal: 17,
-        primaryCurrency: 'ABC',
         expectedResult: { gasFee: INSUFFICIENT_FUNDS_ERROR },
       },
       'should return null error if isBalanceSufficient returns true': {
         balance: 16,
         gasTotal: 15,
-        primaryCurrency: 'ABC',
         expectedResult: { gasFee: null },
       },
     }
@@ -214,7 +209,6 @@ describe('send utils', function () {
         amount: 15,
         balance: 100,
         gasTotal: 17,
-        primaryCurrency: 'ABC',
       })
       assert.deepEqual(
         stubs.addCurrencies.getCall(0).args,
@@ -232,12 +226,10 @@ describe('send utils', function () {
           {
             value: 100,
             fromNumericBase: 'hex',
-            fromCurrency: 'ABC',
           },
           {
             value: 32,
             fromNumericBase: 'hex',
-            fromCurrency: 'ABC',
           },
         ],
       )

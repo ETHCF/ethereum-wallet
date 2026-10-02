@@ -14,7 +14,8 @@ sendButton.addEventListener('click', function () {
     value: '0xde0b6b3a7640000',
     r: '0x25a1bc499cd8799a2ece0fcba0df6e666e54a6e2b4e18c09838e2b621c10db71',
     s: '0x6cf83e6e8f6e82a0a1d7bd10bc343fc0ae4b096c1701aa54e6389d447f98ac6f',
-    v: '0x2d46',
+    // ethereumjs-tx signs for the chain ID this encodes: (v - 35) / 2 = 1337.
+    v: '0xa95',
     to: document.getElementById('address').value,
   }
   var tx = new Tx(rawTx);
@@ -24,5 +25,7 @@ sendButton.addEventListener('click', function () {
 
   web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', (transactionResult) => {
     document.getElementById('success').innerHTML = `Successfully sent transaction: ${transactionResult.transactionHash}`
+  }).on('error', (error) => {
+    document.getElementById('success').innerHTML = `Failed to send transaction: ${error.message}`
   })
 })

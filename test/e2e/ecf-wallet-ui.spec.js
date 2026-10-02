@@ -502,40 +502,31 @@ describe('ecf-wallet', function () {
     })
 
     it('navigates the transactions', async function () {
+      // Route changes render as transitions, so wait for the page to update.
+      const waitForNavigation = (isExpected, message) => driver.wait(async () => {
+        const text = await (await driver.findElement(By.css('.confirm-page-container-navigation'))).getText()
+        return isExpected(text)
+      }, 10000, message)
       await driver.clickElement(By.css('[data-testid="next-page"]'))
-      let navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      let navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('2'), true, 'changed transaction right')
+      await waitForNavigation((text) => text.includes('2') === true, 'changed transaction right')
 
       await driver.clickElement(By.css('[data-testid="next-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('3'), true, 'changed transaction right')
+      await waitForNavigation((text) => text.includes('3') === true, 'changed transaction right')
 
       await driver.clickElement(By.css('[data-testid="next-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('4'), true, 'changed transaction right')
+      await waitForNavigation((text) => text.includes('4') === true, 'changed transaction right')
 
       await driver.clickElement(By.css('[data-testid="first-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('1'), true, 'navigate to first transaction')
+      await waitForNavigation((text) => text.includes('1') === true, 'navigate to first transaction')
 
       await driver.clickElement(By.css('[data-testid="last-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.split('4').length, 3, 'navigate to last transaction')
+      await waitForNavigation((text) => text.split('4').length === 3, 'navigate to last transaction')
 
       await driver.clickElement(By.css('[data-testid="previous-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('3'), true, 'changed transaction left')
+      await waitForNavigation((text) => text.includes('3') === true, 'changed transaction left')
 
       await driver.clickElement(By.css('[data-testid="previous-page"]'))
-      navigationElement = await driver.findElement(By.css('.confirm-page-container-navigation'))
-      navigationText = await navigationElement.getText()
-      assert.equal(navigationText.includes('2'), true, 'changed transaction left')
+      await waitForNavigation((text) => text.includes('2') === true, 'changed transaction left')
     })
 
     it('adds a transaction while confirm screen is in focus', async function () {
@@ -602,6 +593,9 @@ describe('ecf-wallet', function () {
     let extension
     let dapp
     it('creates a deploy contract transaction', async function () {
+      // Rejecting the dapp's transactions above blocks its requests for a
+      // minute (BLOCK_DURATION_MS in app/scripts/lib/origin-throttler.js).
+      await driver.delay(60 * 1000)
       const windowHandles = await driver.getAllWindowHandles()
       extension = windowHandles[0]
       dapp = windowHandles[1]
@@ -763,7 +757,7 @@ describe('ecf-wallet', function () {
       await driver.delay(regularDelayMs * 2)
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Create Token')]`))
-      await driver.delay(largeDelayMs)
+      await driver.waitUntilXWindowHandles(3)
 
       windowHandles = await driver.getAllWindowHandles()
       const popup = windowHandles[2]
@@ -812,7 +806,9 @@ describe('ecf-wallet', function () {
 
       const newTokenAddress = await driver.findElement(By.css('#custom-address'))
       await newTokenAddress.sendKeys(tokenAddress)
-      await driver.delay(regularDelayMs)
+      // Next does nothing until the symbol has been read from the contract.
+      const symbolInput = await driver.findElement(By.css('#custom-symbol'))
+      await driver.wait(async () => (await symbolInput.getAttribute('value')) === 'TST', 10000)
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Next')]`))
       await driver.delay(regularDelayMs)

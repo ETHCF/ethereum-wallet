@@ -67,8 +67,19 @@ class Driver {
   }
 
   async clickElement (locator) {
-    const element = await this.findClickableElement(locator)
-    await element.click()
+    // React may replace the element between finding and clicking it, such as
+    // while a route change renders; find it again if so.
+    for (let attempt = 1; ; attempt++) {
+      try {
+        const element = await this.findClickableElement(locator)
+        await element.click()
+        return
+      } catch (error) {
+        if (error.name !== 'StaleElementReferenceError' || attempt === 3) {
+          throw error
+        }
+      }
+    }
   }
 
   async clickPoint (locator, x, y) {

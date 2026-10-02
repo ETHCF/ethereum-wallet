@@ -101,6 +101,19 @@ const getBorderedThemeInputProps = ({ dir, largeLabel, startAdornment, inputRoot
   },
 })
 
+// Material UI 5 draws disabled text and labels in a fixed dark grey, which
+// cannot be read in dark mode. Disabled fields can still hold values the user
+// needs, such as a token's symbol filled in from its contract.
+const disabledSx = {
+  '& .MuiInputBase-input.Mui-disabled': {
+    color: 'var(--color-text-alternative)',
+    WebkitTextFillColor: 'var(--color-text-alternative)',
+  },
+  '& .MuiInputLabel-root.Mui-disabled': {
+    color: 'var(--color-text-alternative)',
+  },
+}
+
 const themeToInputProps = {
   'material': getMaterialThemeInputProps,
   'bordered': getBorderedThemeInputProps,
@@ -114,6 +127,7 @@ const TextField = ({
   startAdornment,
   largeLabel,
   dir,
+  sx,
   ...textFieldProps
 }) => {
   const inputProps = themeToInputProps[theme]({
@@ -129,6 +143,7 @@ const TextField = ({
       helperText={error}
       {...inputProps}
       {...textFieldProps}
+      sx={[disabledSx, ...(Array.isArray(sx) ? sx : [sx])]}
     />
   )
 }
@@ -149,6 +164,7 @@ TextField.propTypes = {
   theme: PropTypes.oneOf(['bordered', 'material', 'material-white-padded']),
   startAdornment: PropTypes.element,
   largeLabel: PropTypes.bool,
+  sx: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 }
 
 export default TextField
