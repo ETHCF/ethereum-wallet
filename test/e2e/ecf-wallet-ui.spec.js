@@ -1053,7 +1053,8 @@ describe('ecf-wallet', function () {
       await driver.clickElement(By.css('.page-container__footer-button'))
       await driver.wait(until.stalenessOf(gasModal))
 
-      const gasFeeInEth = await driver.findElement(By.css('.confirm-approve-content__transaction-details-content__secondary-fee'))
+      // Without fiat prices, the fee in ETH is the primary fee.
+      const gasFeeInEth = await driver.findElement(By.css('.confirm-approve-content__transaction-details-content__primary-fee'))
       assert.equal(await gasFeeInEth.getText(), '0.0006 ETH')
     })
 
@@ -1083,6 +1084,8 @@ describe('ecf-wallet', function () {
     })
 
     it('submits the transaction', async function () {
+      // The spender is an ordinary account, which the wallet warns about.
+      await driver.clickElement(By.css('[data-testid="security-alerts-acknowledge"]'))
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Confirm')]`))
       await driver.delay(regularDelayMs)
     })
@@ -1239,11 +1242,12 @@ describe('ecf-wallet', function () {
   })
 
   describe('Stores custom RPC history', function () {
+    // Distinct URLs for the same local chain. Anvil only serves the root path.
     const customRpcUrls = [
-      'http://127.0.0.1:8545/1',
-      'http://127.0.0.1:8545/2',
-      'http://127.0.0.1:8545/3',
-      'http://127.0.0.1:8545/4',
+      'http://127.0.0.1:8545/?rpc=1',
+      'http://127.0.0.1:8545/?rpc=2',
+      'http://127.0.0.1:8545/?rpc=3',
+      'http://127.0.0.1:8545/?rpc=4',
     ]
 
     customRpcUrls.forEach((customRpcUrl) => {
@@ -1270,7 +1274,7 @@ describe('ecf-wallet', function () {
       await driver.clickElement(By.css('.network-name'))
       await driver.delay(regularDelayMs)
 
-      await driver.clickElement(By.xpath(`//span[contains(text(), 'Main Ethereum Network')]`))
+      await driver.clickElement(By.xpath(`//span[contains(text(), 'Ethereum Mainnet')]`))
       await driver.delay(largeDelayMs * 2)
     })
 
