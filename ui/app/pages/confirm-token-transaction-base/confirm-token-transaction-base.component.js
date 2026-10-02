@@ -26,6 +26,7 @@ export default class ConfirmTokenTransactionBase extends Component {
     contractExchangeRate: PropTypes.number,
     conversionRate: PropTypes.number,
     currentCurrency: PropTypes.string,
+    nativeCurrencyImage: PropTypes.string,
   }
 
   static defaultProps = {
@@ -69,14 +70,14 @@ export default class ConfirmTokenTransactionBase extends Component {
   }
 
   renderPrimaryTotalTextOverride () {
-    const { tokenAmount, tokenSymbol, ethTransactionTotal } = this.props
+    const { tokenAmount, tokenSymbol, ethTransactionTotal, nativeCurrencyImage } = this.props
     const tokensText = `${tokenAmount} ${tokenSymbol}`
 
     return (
       <div>
         <span>{ `${tokensText} + ` }</span>
         <img
-          src="/images/eth.svg"
+          src={nativeCurrencyImage || '/images/eth.svg'}
           height="18"
         />
         <span>{ ethTransactionTotal }</span>

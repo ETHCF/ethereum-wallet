@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { PRIMARY, SECONDARY, ETH } from '../../../helpers/constants/common'
 import CurrencyDisplay from '../../ui/currency-display'
 import { useUserPreferencedCurrency } from '../../../hooks/useUserPreferencedCurrency'
+import { getNativeCurrencyImage } from '../../../selectors'
 
 export default function UserPreferencedCurrencyDisplay ({
   'data-testid': dataTestId,
@@ -16,14 +18,17 @@ export default function UserPreferencedCurrencyDisplay ({
 }) {
   const { currency, numberOfDecimals } = useUserPreferencedCurrency(type, { ethNumberOfDecimals, fiatNumberOfDecimals, numberOfDecimals: propsNumberOfDecimals })
 
+  const nativeCurrencyImage = useSelector(getNativeCurrencyImage)
+
   const prefixComponent = useMemo(() => {
-    return currency === ETH && showEthLogo && (
+    // currency is only set when displaying the native currency
+    return currency && (nativeCurrencyImage || currency === ETH) && showEthLogo && (
       <img
-        src="/images/eth.svg"
+        src={nativeCurrencyImage || '/images/eth.svg'}
         height={ethLogoHeight}
       />
     )
-  }, [currency, showEthLogo, ethLogoHeight])
+  }, [currency, nativeCurrencyImage, showEthLogo, ethLogoHeight])
 
   return (
     <CurrencyDisplay

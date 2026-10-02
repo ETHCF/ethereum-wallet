@@ -2,6 +2,7 @@ import assert from 'assert'
 import React from 'react'
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
+import * as reactRedux from 'react-redux'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display.component'
 import CurrencyDisplay from '../../../ui/currency-display'
 import * as currencyHook from '../../../../hooks/useCurrencyDisplay'
@@ -10,6 +11,7 @@ import * as currencyPrefHook from '../../../../hooks/useUserPreferencedCurrency'
 describe('UserPreferencedCurrencyDisplay Component', function () {
   describe('rendering', function () {
     beforeEach(function () {
+      sinon.stub(reactRedux, 'useSelector').returns(undefined)
       sinon.stub(currencyHook, 'useCurrencyDisplay').returns(['1', {}])
       sinon.stub(currencyPrefHook, 'useUserPreferencedCurrency').returns({ currency: 'ETH', decimals: 6 })
     })

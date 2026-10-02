@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
 import {
   contractExchangeRateSelector,
+  getNativeCurrencyImage,
   transactionFeeSelector,
 } from '../../selectors'
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
@@ -57,6 +58,7 @@ const mapStateToProps = (state, ownProps) => {
     contractExchangeRate,
     fiatTransactionTotal,
     ethTransactionTotal,
+    nativeCurrencyImage: getNativeCurrencyImage(state),
   }
 }
 

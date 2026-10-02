@@ -1,7 +1,7 @@
 import { stripHexPrefix, addHexPrefix } from 'ethereumjs-util'
 import { createSelector } from 'reselect'
 import { NETWORK_TYPES } from '../helpers/constants/common'
-import { BUILT_IN_NETWORKS } from '../../../app/scripts/controllers/network/enums'
+import { BUILT_IN_NETWORKS, POLYGON } from '../../../app/scripts/controllers/network/enums'
 import {
   shortenAddress,
   checksumAddress,
@@ -260,6 +260,19 @@ export function getIsMainnet (state) {
 // Whether mainnet gas price data applies. Other networks use the node's estimates.
 export function isEthereumNetwork (state) {
   return getIsMainnet(state)
+}
+
+// Network state is the chain ID for built-in networks and net_version for custom RPCs
+const POLYGON_NETWORK_IDS = [BUILT_IN_NETWORKS[POLYGON].chainId, '137']
+
+/**
+ * Returns the logo for the current network's native currency, or undefined to use the default ETH logo
+ */
+export function getNativeCurrencyImage ({ ecfWallet: { network, provider } }) {
+  if (provider?.type === POLYGON || POLYGON_NETWORK_IDS.includes(network)) {
+    return './images/polygon.png'
+  }
+  return undefined
 }
 
 export function getPreferences ({ ecfWallet }) {

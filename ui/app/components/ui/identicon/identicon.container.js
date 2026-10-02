@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { getNativeCurrencyImage } from '../../../selectors'
 import Identicon from './identicon.component'
 
 const mapStateToProps = (state) => {
@@ -6,6 +7,7 @@ const mapStateToProps = (state) => {
 
   return {
     useBlockie,
+    nativeCurrencyImage: getNativeCurrencyImage(state),
   }
 }
 
