@@ -148,8 +148,6 @@ export function getTargetAccount (state, targetAddress) {
   return accounts[targetAddress]
 }
 
-export const getTokenExchangeRates = (state) => state.ecfWallet.contractExchangeRates
-
 export function getAssetImages (state) {
   const assetImages = state.ecfWallet.assetImages || {}
   return assetImages

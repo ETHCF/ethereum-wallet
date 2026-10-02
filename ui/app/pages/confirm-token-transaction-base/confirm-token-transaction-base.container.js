@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
 import {
-  contractExchangeRateSelector,
   getNativeCurrencyImage,
   transactionFeeSelector,
 } from '../../selectors'
@@ -22,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id: paramsTransactionId } = params
   const {
     confirmTransaction,
-    ecfWallet: { currentCurrency, conversionRate, currentNetworkTxList },
+    ecfWallet: { currentCurrency, currentNetworkTxList },
   } = state
 
   const {
@@ -46,7 +45,6 @@ const mapStateToProps = (state, ownProps) => {
   const tokenValue = tokenData && getTokenValue(tokenData.params)
   const toAddress = tokenData && getTokenToAddress(tokenData.params)
   const tokenAmount = tokenData && calcTokenAmount(tokenValue, decimals).toNumber()
-  const contractExchangeRate = contractExchangeRateSelector(state)
 
   return {
     toAddress,
@@ -54,8 +52,6 @@ const mapStateToProps = (state, ownProps) => {
     tokenAmount,
     tokenSymbol,
     currentCurrency,
-    conversionRate,
-    contractExchangeRate,
     fiatTransactionTotal,
     ethTransactionTotal,
     nativeCurrencyImage: getNativeCurrencyImage(state),

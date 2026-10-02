@@ -159,7 +159,6 @@ function queueConnection (port, handler) {
  * @property {Object} unapprovedTxs - An object mapping transaction hashes to unapproved transactions.
  * @property {Array} frequentRpcList - A list of frequently used RPCs, including custom user-provided ones.
  * @property {Array} addressBook - A list of previously sent to addresses.
- * @property {Object} contractExchangeRates - Info about current token prices.
  * @property {Array} tokens - Tokens held by the current user, including their balances.
  * @property {Object} send - TODO: Document
  * @property {boolean} useBlockie - Indicates preferred user identicon format. True for blockie, false for Jazzicon.

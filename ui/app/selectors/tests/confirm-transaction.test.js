@@ -4,7 +4,6 @@ import {
   tokenAmountAndToAddressSelector,
   approveTokenAmountAndToAddressSelector,
   sendTokenTokenAmountAndToAddressSelector,
-  contractExchangeRateSelector,
   conversionRateSelector,
 } from '../confirm-transaction'
 
@@ -132,28 +131,6 @@ describe('Confirm Transaction Selector', function () {
         { toAddress: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc', tokenAmount: 0.01 })
     })
 
-  })
-
-  describe('contractExchangeRateSelector', function () {
-
-    const state = {
-      ecfWallet: {
-        contractExchangeRates: {
-          '0xTokenAddress': '10',
-        },
-      },
-      confirmTransaction: {
-        txData: {
-          txParams: {
-            to: '0xTokenAddress',
-          },
-        },
-      },
-    }
-
-    it('returns contract exchange rate in ecf-wallet state based on confirm transaction txParams token recipient', function () {
-      assert.equal(contractExchangeRateSelector(state), 10)
-    })
   })
 
   describe('conversionRateSelector', function () {

@@ -51,7 +51,6 @@ import EncryptionPublicKeyManager from './lib/encryption-public-key-manager'
 import PersonalMessageManager from './lib/personal-message-manager'
 import TypedMessageManager from './lib/typed-message-manager'
 import TransactionController from './controllers/transactions'
-import TokenRatesController from './controllers/token-rates'
 import CurrencyRateController from './controllers/currency-rate'
 import PhishingController from './controllers/phishing'
 import DetectTokensController from './controllers/detect-tokens'
@@ -126,12 +125,6 @@ export default class EcfWalletController extends EventEmitter {
     this.provider = this.networkController.getProviderAndBlockTracker().provider
     this.blockTracker = this.networkController.getProviderAndBlockTracker().blockTracker
 
-    // token exchange rate tracker
-    this.tokenRatesController = new TokenRatesController({
-      currency: this.currencyRateController,
-      preferences: this.preferencesController.store,
-    })
-
     this.ensController = new EnsController({
       provider: this.provider,
       networkStore: this.networkController.networkStore,
@@ -156,11 +149,9 @@ export default class EcfWalletController extends EventEmitter {
       if (activeControllerConnections > 0) {
         this.accountTracker.start()
         this.incomingTransactionsController.start()
-        this.tokenRatesController.start()
       } else {
         this.accountTracker.stop()
         this.incomingTransactionsController.stop()
-        this.tokenRatesController.stop()
       }
     })
 
@@ -296,7 +287,6 @@ export default class EcfWalletController extends EventEmitter {
       AccountTracker: this.accountTracker.store,
       TxController: this.txController.memStore,
       CachedBalancesController: this.cachedBalancesController.store,
-      TokenRatesController: this.tokenRatesController.store,
       PersonalMessageManager: this.personalMessageManager.memStore,
       DecryptMessageManager: this.decryptMessageManager.memStore,
       EncryptionPublicKeyManager: this.encryptionPublicKeyManager.memStore,

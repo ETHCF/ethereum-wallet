@@ -6,7 +6,7 @@ import SendAmountRow from '../send-amount-row.component'
 
 import SendRowWrapper from '../../send-row-wrapper/send-row-wrapper.component'
 import AmountMaxButton from '../amount-max-button/amount-max-button.container'
-import UserPreferencedTokenInput from '../../../../../components/app/user-preferenced-token-input'
+import TokenInput from '../../../../../components/ui/token-input'
 
 describe('SendAmountRow Component', function () {
   describe('validateAmount', function () {
@@ -109,13 +109,13 @@ describe('SendAmountRow Component', function () {
       assert(wrapper.find(SendRowWrapper).childAt(0).is(AmountMaxButton))
     })
 
-    it('should render a UserPreferencedTokenInput as the second child of the SendRowWrapper', function () {
+    it('should render a TokenInput as the second child of the SendRowWrapper', function () {
       const { wrapper } = shallowRenderSendAmountRow()
 
-      assert(wrapper.find(SendRowWrapper).childAt(1).is(UserPreferencedTokenInput))
+      assert(wrapper.find(SendRowWrapper).childAt(1).is(TokenInput))
     })
 
-    it('should render the UserPreferencedTokenInput with the correct props', function () {
+    it('should render the TokenInput with the correct props', function () {
       const { wrapper, instanceSpies: { updateGas, updateAmount, validateAmount } } = shallowRenderSendAmountRow()
       const {
         onChange,

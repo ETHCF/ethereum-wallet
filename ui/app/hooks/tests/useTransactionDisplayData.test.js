@@ -4,7 +4,6 @@ import { renderHook } from '@testing-library/react-hooks'
 import sinon from 'sinon'
 import transactions from '../../../../test/data/transaction-data.json'
 import { useTransactionDisplayData } from '../useTransactionDisplayData'
-import * as useTokenFiatAmountHooks from '../useTokenFiatAmount'
 import { getPreferences, getShouldShowFiat, getNativeCurrency, getCurrentCurrency } from '../../selectors'
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import * as i18nhooks from '../useI18nContext'
@@ -92,7 +91,7 @@ const expectedResults = [
   },
 ]
 
-let useSelector, useI18nContext, useTokenFiatAmount
+let useSelector, useI18nContext
 
 describe('useTransactionDisplayData', function () {
   let clock
@@ -100,10 +99,6 @@ describe('useTransactionDisplayData', function () {
   before(function () {
     clock = sinon.useFakeTimers({ now: new Date('2020-05-25').getTime(), toFake: ['Date'] })
     useSelector = sinon.stub(reactRedux, 'useSelector')
-    useTokenFiatAmount = sinon.stub(useTokenFiatAmountHooks, 'useTokenFiatAmount')
-    useTokenFiatAmount.returns((tokenAddress) => {
-      return tokenAddress ? '1 TST' : undefined
-    })
     useI18nContext = sinon.stub(i18nhooks, 'useI18nContext')
     useI18nContext.returns((key, variables) => getMessage('en', messages, key, variables))
     useSelector.callsFake((selector) => {

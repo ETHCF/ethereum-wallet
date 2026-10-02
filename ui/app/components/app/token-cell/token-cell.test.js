@@ -17,9 +17,6 @@ describe('Token Cell', function () {
     ecfWallet: {
       currentCurrency: 'usd',
       selectedAddress: '0xAddress',
-      contractExchangeRates: {
-        '0xAnotherToken': 0.015,
-      },
       conversionRate: 7.00,
       preferences: {},
       provider: {

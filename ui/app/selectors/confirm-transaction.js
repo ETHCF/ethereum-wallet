@@ -129,8 +129,6 @@ export const txDataSelector = (state) => state.confirmTransaction.txData
 const tokenDataSelector = (state) => state.confirmTransaction.tokenData
 const tokenPropsSelector = (state) => state.confirmTransaction.tokenProps
 
-const contractExchangeRatesSelector = (state) => state.ecfWallet.contractExchangeRates
-
 const tokenDecimalsSelector = createSelector(
   tokenPropsSelector,
   (tokenProps) => tokenProps && tokenProps.tokenDecimals,
@@ -230,12 +228,6 @@ export const sendTokenTokenAmountAndToAddressSelector = createSelector(
       tokenAmount,
     }
   },
-)
-
-export const contractExchangeRateSelector = createSelector(
-  contractExchangeRatesSelector,
-  tokenAddressSelector,
-  (contractExchangeRates, tokenAddress) => contractExchangeRates[tokenAddress],
 )
 
 export const transactionFeeSelector = function (state, txData) {

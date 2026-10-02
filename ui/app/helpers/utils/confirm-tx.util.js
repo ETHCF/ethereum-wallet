@@ -95,25 +95,6 @@ export function formatCurrency (value, currencyCode) {
     : value
 }
 
-export function convertTokenToFiat ({
-  value,
-  fromCurrency = 'ETH',
-  toCurrency,
-  conversionRate,
-  contractExchangeRate,
-}) {
-  const totalExchangeRate = conversionRate * contractExchangeRate
-
-  return conversionUtil(value, {
-    fromNumericBase: 'dec',
-    toNumericBase: 'dec',
-    fromCurrency,
-    toCurrency,
-    numberOfDecimals: 2,
-    conversionRate: totalExchangeRate,
-  })
-}
-
 export function hasUnconfirmedTransactions (state) {
   return unconfirmedTransactionsCountSelector(state) > 0
 }

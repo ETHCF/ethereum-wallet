@@ -23,7 +23,6 @@ import {
 } from '../helpers/constants/transactions'
 import { getTokens } from '../ducks/ecf-wallet/ecf-wallet'
 import { useI18nContext } from './useI18nContext'
-import { useTokenFiatAmount } from './useTokenFiatAmount'
 import { useUserPreferencedCurrency } from './useUserPreferencedCurrency'
 import { useCurrencyDisplay } from './useCurrencyDisplay'
 import { useTokenDisplayValue } from './useTokenDisplayValue'
@@ -87,7 +86,6 @@ export function useTransactionDisplayData (transactionGroup) {
   const token = isTokenCategory && knownTokens.find(({ address }) => address === recipientAddress)
   const tokenData = useTokenData(initialTransaction?.txParams?.data, isTokenCategory)
   const tokenDisplayValue = useTokenDisplayValue(initialTransaction?.txParams?.data, token, isTokenCategory)
-  const tokenFiatAmount = useTokenFiatAmount(token?.address, tokenDisplayValue, token?.symbol)
 
   const origin = stripHttpSchemes(initialTransaction.origin || initialTransaction.msgParams?.origin || '')
 
@@ -142,8 +140,6 @@ export function useTransactionDisplayData (transactionGroup) {
 
   const [secondaryCurrency] = useCurrencyDisplay(primaryValue, {
     prefix,
-    displayValue: isTokenCategory ? tokenFiatAmount : undefined,
-    hideLabel: isTokenCategory ? true : undefined,
     ...secondaryCurrencyPreferences,
   })
 
@@ -156,7 +152,8 @@ export function useTransactionDisplayData (transactionGroup) {
     primaryCurrency,
     senderAddress,
     recipientAddress,
-    secondaryCurrency: isTokenCategory && !tokenFiatAmount ? undefined : secondaryCurrency,
+    // Tokens have no price, so token transfers show no fiat amount.
+    secondaryCurrency: isTokenCategory ? undefined : secondaryCurrency,
     status,
     isPending: status in PENDING_STATUS_HASH,
   }
