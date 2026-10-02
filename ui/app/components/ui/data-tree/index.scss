@@ -1,0 +1,24 @@
+.data-tree {
+  &__summary {
+    cursor: pointer;
+  }
+
+  &__children {
+    padding-left: 16px;
+  }
+
+  &__key {
+    color: var(--color-text-alternative);
+  }
+
+  &__type {
+    color: var(--color-text-muted);
+  }
+
+  // Values wrap rather than being cut off, so every byte the user signs is visible.
+  &__row &__value {
+    white-space: normal;
+    word-break: break-all;
+    overflow: visible;
+  }
+}

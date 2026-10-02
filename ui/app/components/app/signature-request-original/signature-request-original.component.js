@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ethUtil from 'ethereumjs-util'
-import { ObjectInspector } from 'react-inspector'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
@@ -9,6 +8,7 @@ import Identicon from '../../ui/identicon'
 import AccountListItem from '../account-list-item'
 import { conversionUtil } from '../../../helpers/utils/conversion-util'
 import Button from '../../ui/button'
+import DataTree from '../../ui/data-tree'
 import SiweDetails from './siwe-details'
 
 export default class SignatureRequestOriginal extends Component {
@@ -169,7 +169,7 @@ export default class SignatureRequestOriginal extends Component {
                 <h1>
                   Domain
                 </h1>
-                <ObjectInspector data={domain} expandLevel={1} name="domain" />
+                <DataTree data={domain} expandLevel={1} name="domain" />
               </div>
             )
             : ''
@@ -181,7 +181,7 @@ export default class SignatureRequestOriginal extends Component {
                 <h1>
                   Message
                 </h1>
-                <ObjectInspector data={message} expandLevel={1} name="message" />
+                <DataTree data={message} expandLevel={1} name="message" />
               </div>
             )
             : ''

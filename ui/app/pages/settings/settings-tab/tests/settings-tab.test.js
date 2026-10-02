@@ -33,7 +33,7 @@ describe('Settings Tab', function () {
   })
 
   it('toggles blockies', function () {
-    const toggleBlockies = wrapper.find({ type: 'checkbox' })
+    const toggleBlockies = wrapper.find('[role="switch"]')
 
     toggleBlockies.simulate('click')
     assert(props.setUseBlockie.calledOnce)

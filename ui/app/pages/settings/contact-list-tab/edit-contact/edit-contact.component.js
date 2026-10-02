@@ -125,7 +125,6 @@ export default class EditContact extends PureComponent {
               multiline
               rows={3}
               classes={{
-                inputMultiline: 'address-book__view-contact__text-area',
                 inputRoot: 'address-book__view-contact__text-area-wrapper',
               }}
             />

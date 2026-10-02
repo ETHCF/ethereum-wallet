@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import Select from 'react-select'
+import Dropdown from '../../../components/ui/dropdown'
 import getAccountLink from '../../../../lib/account-link'
 import Button from '../../../components/ui/button'
 
@@ -8,11 +8,11 @@ class AccountList extends Component {
   getHdPaths () {
     return [
       {
-        label: `Ledger Live`,
+        name: `Ledger Live`,
         value: `m/44'/60'/0'/0/0`,
       },
       {
-        label: `Legacy (MEW / MyCrypto)`,
+        name: `Legacy (MEW / MyCrypto)`,
         value: `m/44'/60'/0'`,
       },
     ]
@@ -44,14 +44,12 @@ class AccountList extends Component {
           {this.context.t('selectPathHelp')}
         </p>
         <div className="hw-connect__hdPath">
-          <Select
+          <Dropdown
             className="hw-connect__hdPath__select"
-            name="hd-path-select"
-            clearable={false}
-            value={selectedPath}
+            selectedOption={selectedPath}
             options={options}
-            onChange={(opt) => {
-              onPathChange(opt.value)
+            onChange={(value) => {
+              onPathChange(value)
             }}
           />
         </div>

@@ -40,13 +40,13 @@ describe('Security Tab', function () {
   })
 
   it('toggles incoming txs', function () {
-    const incomingTxs = wrapper.find({ type: 'checkbox' }).at(0)
+    const incomingTxs = wrapper.find('[role="switch"]').at(0)
     incomingTxs.simulate('click')
     assert(props.setShowIncomingTransactionsFeatureFlag.calledOnce)
   })
 
   it('toggles phishing detection', function () {
-    const phishDetect = wrapper.find({ type: 'checkbox' }).at(1)
+    const phishDetect = wrapper.find('[role="switch"]').at(1)
     phishDetect.simulate('click')
     assert(props.setUsePhishDetect.calledOnce)
   })

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import FileInput from 'react-simple-file-input'
 import * as actions from '../../../store/actions'
 import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
@@ -28,9 +27,9 @@ class JsonImportSubview extends Component {
       <div className="new-account-import-form__json">
         <p>{this.context.t('usedByClients')}</p>
         <a className="warning" href={HELP_LINK} target="_blank" rel="noopener noreferrer">{this.context.t('fileImportFail')}</a>
-        <FileInput
-          readAs="text"
-          onLoad={this.onLoad.bind(this)}
+        <input
+          type="file"
+          onChange={this.onFileChange}
           style={{
             padding: '20px 0px 12px 15%',
             fontSize: '15px',
@@ -76,10 +75,9 @@ class JsonImportSubview extends Component {
     )
   }
 
-  onLoad (event) {
-    this.setState({
-      fileContents: event.target.result,
-    })
+  onFileChange = async ({ target }) => {
+    const [file] = target.files
+    this.setState({ fileContents: file ? await file.text() : '' })
   }
 
   createKeyringOnEnter (event) {

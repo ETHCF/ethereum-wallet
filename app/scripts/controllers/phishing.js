@@ -3,7 +3,7 @@ import PhishingDetector from 'eth-phishing-detect/src/detector'
 import DEFAULT_CONFIG from 'eth-phishing-detect/src/config.json'
 import log from 'loglevel'
 
-const CONFIG_URL = 'https://cdn.jsdelivr.net/gh/MetaMask/eth-phishing-detect@master/src/config.json'
+const CONFIG_URL = 'https://cdn.jsdelivr.net/gh/MetaMask/eth-phishing-detect@main/src/config.json'
 // By default, refresh the list every hour
 const DEFAULT_INTERVAL = 60 * 60 * 1000
 

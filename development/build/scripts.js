@@ -41,7 +41,8 @@ const sesCompatibilityTransform = makeStringTransform('ses-compatibility', { inc
 })
 
 const dependencies = Object.keys((packageJSON && packageJSON.dependencies) || {})
-const materialUIDependencies = ['@material-ui/core']
+// The exact paths the UI imports, so they are shared from ui-libs rather than bundled twice.
+const materialUIDependencies = ['@mui/material/TextField', '@mui/material/InputAdornment']
 const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
 const d3Dependencies = ['c3', 'd3']
 

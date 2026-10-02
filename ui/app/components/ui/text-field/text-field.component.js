@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import MaterialTextField from '@material-ui/core/TextField'
+import MaterialTextField from '@mui/material/TextField'
 
 const inputLabelBase = {
   transform: 'none',
@@ -10,96 +9,27 @@ const inputLabelBase = {
   color: 'var(--color-text-alternative)',
 }
 
-const styles = {
-  materialLabel: {
-    '&$materialFocused': {
-      color: 'var(--color-text-alternative)',
-    },
-    '&$materialError': {
-      color: 'var(--color-text-alternative)',
-    },
-    fontWeight: '400',
-    color: 'var(--color-text-alternative)',
-  },
-  materialFocused: {},
-  materialUnderline: {
-    '&:after': {
-      borderBottom: '2px solid #f7861c',
-    },
-  },
-  materialError: {},
-  materialWhitePaddedRoot: {
-    color: '#aeaeae',
-  },
-  materialWhitePaddedInput: {
-    padding: '8px',
-
-    '&::placeholder': {
-      color: '#aeaeae',
-    },
-  },
-  materialWhitePaddedFocused: {
-    color: '#fff',
-  },
-  materialWhitePaddedUnderline: {
-    '&:after': {
-      borderBottom: '2px solid #fff',
-    },
-  },
-  // Non-material styles
-  formLabel: {
-    '&$formLabelFocused': {
-      color: 'var(--color-text-alternative)',
-    },
-    '&$materialError': {
-      color: 'var(--color-text-alternative)',
-    },
-  },
-  formLabelFocused: {},
-  inputFocused: {},
-  inputRoot: {
-    'label + &': {
-      marginTop: '9px',
-    },
-    border: '2px solid var(--color-border-default)',
-    height: '48px',
-    borderRadius: '6px',
-    padding: '0 16px',
-    display: 'flex',
-    alignItems: 'center',
-    '&$inputFocused': {
-      border: '1px solid var(--color-primary-default)',
-    },
-  },
-  largeInputLabel: {
-    ...inputLabelBase,
-    fontSize: '1rem',
-  },
-  inputLabel: {
-    ...inputLabelBase,
-    fontSize: '.75rem',
-  },
-  inputMultiline: {
-    lineHeight: 'initial !important',
-  },
-}
-
-const getMaterialThemeInputProps = ({
-  dir,
-  classes: { materialLabel, materialFocused, materialError, materialUnderline },
-  startAdornment,
-}) => ({
+// Material UI 5 defaults to the outlined variant; these themes build on standard.
+const getMaterialThemeInputProps = ({ dir, startAdornment }) => ({
+  variant: 'standard',
   InputLabelProps: {
-    classes: {
-      root: materialLabel,
-      focused: materialFocused,
-      error: materialError,
+    sx: {
+      '&.Mui-focused': {
+        color: 'var(--color-text-alternative)',
+      },
+      '&.Mui-error': {
+        color: 'var(--color-text-alternative)',
+      },
+      fontWeight: '400',
+      color: 'var(--color-text-alternative)',
     },
   },
   InputProps: {
     startAdornment,
-    classes: {
-      underline: materialUnderline,
+    sx: {
+      '&:after': {
+        borderBottom: '2px solid #f7861c',
+      },
     },
     inputProps: {
       dir,
@@ -107,18 +37,24 @@ const getMaterialThemeInputProps = ({
   },
 })
 
-const getMaterialWhitePaddedThemeInputProps = ({
-  dir,
-  classes: { materialWhitePaddedRoot, materialWhitePaddedFocused, materialWhitePaddedInput, materialWhitePaddedUnderline },
-  startAdornment,
-}) => ({
+const getMaterialWhitePaddedThemeInputProps = ({ dir, startAdornment }) => ({
+  variant: 'standard',
   InputProps: {
     startAdornment,
-    classes: {
-      root: materialWhitePaddedRoot,
-      focused: materialWhitePaddedFocused,
-      input: materialWhitePaddedInput,
-      underline: materialWhitePaddedUnderline,
+    sx: {
+      color: '#aeaeae',
+      '&.Mui-focused': {
+        color: '#fff',
+      },
+      '& .MuiInputBase-input': {
+        padding: '8px',
+        '&::placeholder': {
+          color: '#aeaeae',
+        },
+      },
+      '&:after': {
+        borderBottom: '2px solid #fff',
+      },
     },
     inputProps: {
       dir,
@@ -126,28 +62,38 @@ const getMaterialWhitePaddedThemeInputProps = ({
   },
 })
 
-const getBorderedThemeInputProps = ({
-  dir,
-  classes: { formLabel, formLabelFocused, materialError, largeInputLabel, inputLabel, inputRoot, input, inputFocused },
-  largeLabel,
-  startAdornment,
-}) => ({
+const getBorderedThemeInputProps = ({ dir, largeLabel, startAdornment, inputRootClassName }) => ({
+  variant: 'standard',
   InputLabelProps: {
     shrink: true,
-    className: largeLabel ? largeInputLabel : inputLabel,
-    classes: {
-      root: formLabel,
-      focused: formLabelFocused,
-      error: materialError,
+    sx: {
+      ...inputLabelBase,
+      fontSize: largeLabel ? '1rem' : '.75rem',
+      '&.Mui-focused': {
+        color: 'var(--color-text-alternative)',
+      },
+      '&.Mui-error': {
+        color: 'var(--color-text-alternative)',
+      },
     },
   },
   InputProps: {
     startAdornment,
     disableUnderline: true,
-    classes: {
-      root: inputRoot,
-      input,
-      focused: inputFocused,
+    className: inputRootClassName,
+    sx: {
+      'label + &': {
+        marginTop: '9px',
+      },
+      border: '2px solid var(--color-border-default)',
+      height: '48px',
+      borderRadius: '6px',
+      padding: '0 16px',
+      display: 'flex',
+      alignItems: 'center',
+      '&.Mui-focused': {
+        border: '1px solid var(--color-primary-default)',
+      },
     },
     inputProps: {
       dir,
@@ -170,7 +116,12 @@ const TextField = ({
   dir,
   ...textFieldProps
 }) => {
-  const inputProps = themeToInputProps[theme]({ classes, startAdornment, largeLabel, dir })
+  const inputProps = themeToInputProps[theme]({
+    startAdornment,
+    largeLabel,
+    dir,
+    inputRootClassName: classes?.inputRoot,
+  })
 
   return (
     <MaterialTextField
@@ -190,11 +141,14 @@ TextField.defaultProps = {
 
 TextField.propTypes = {
   error: PropTypes.string,
-  classes: PropTypes.object,
+  // Extra class names; `inputRoot` is added to the bordered theme's input.
+  classes: PropTypes.shape({
+    inputRoot: PropTypes.string,
+  }),
   dir: PropTypes.string,
   theme: PropTypes.oneOf(['bordered', 'material', 'material-white-padded']),
   startAdornment: PropTypes.element,
   largeLabel: PropTypes.bool,
 }
 
-export default withStyles(styles)(TextField)
+export default TextField

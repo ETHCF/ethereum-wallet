@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
+import Button from '../../components/ui/button'
 import TextField from '../../components/ui/text-field'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 
@@ -75,18 +75,17 @@ export default class UnlockPage extends Component {
       fontWeight: '400',
       boxShadow: 'none',
       borderRadius: '4px',
+      width: '100%',
     }
 
     return (
       <Button
-        type="submit"
+        type="primary"
+        submit
+        large
         style={style}
         disabled={!this.state.password}
-        fullWidth
-        variant="raised"
-        size="large"
         onClick={this.handleSubmit}
-        disableRipple
       >
         { this.context.t('unlock') }
       </Button>

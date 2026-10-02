@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 export default class MenuDroppoComponent extends Component {
   static propTypes = {
@@ -93,12 +93,12 @@ export default class MenuDroppoComponent extends Component {
             transform: translateY(0%);
           }
 
-          .menu-droppo-leave {
+          .menu-droppo-exit {
             transition: transform ${speed} ease-in-out;
             transform: translateY(0%);
           }
 
-          .menu-droppo-leave.menu-droppo-leave-active {
+          .menu-droppo-exit.menu-droppo-exit-active {
             transition: transform ${speed} ease-in-out;
             transform: translateY(-200%);
           }
@@ -107,14 +107,13 @@ export default class MenuDroppoComponent extends Component {
         {
           useCssTransition
             ? (
-              <ReactCSSTransitionGroup
-                className="css-transition-group"
-                transitionName="menu-droppo"
-                transitionEnterTimeout={parseInt(speed, 10)}
-                transitionLeaveTimeout={parseInt(speed, 10)}
-              >
-                {this.renderPrimary()}
-              </ReactCSSTransitionGroup>
+              <TransitionGroup className="css-transition-group">
+                {this.props.isOpen && (
+                  <CSSTransition key="menu-droppo" classNames="menu-droppo" timeout={parseInt(speed, 10)}>
+                    {this.renderPrimary()}
+                  </CSSTransition>
+                )}
+              </TransitionGroup>
             )
             : this.renderPrimary()
         }

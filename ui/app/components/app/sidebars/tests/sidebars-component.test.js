@@ -2,7 +2,7 @@ import assert from 'assert'
 import React from 'react'
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Sidebar from '../sidebar.component'
 
 import CustomizeGas from '../../gas-customization/gas-modal-page-container'
@@ -74,8 +74,8 @@ describe('Sidebar Component', function () {
       assert.equal(wrapper.children().length, 1)
     })
 
-    it('should render the ReactCSSTransitionGroup without any children', function () {
-      assert(wrapper.children().at(0).is(ReactCSSTransitionGroup))
+    it('should render the TransitionGroup without any children', function () {
+      assert(wrapper.children().at(0).is(TransitionGroup))
       assert.equal(wrapper.children().at(0).children().length, 0)
     })
 
@@ -84,8 +84,10 @@ describe('Sidebar Component', function () {
       assert.equal(wrapper.children().length, 2)
       assert(wrapper.children().at(1).hasClass('sidebar-overlay'))
       assert.equal(wrapper.children().at(0).children().length, 1)
-      assert(wrapper.children().at(0).children().at(0).hasClass('sidebar-left'))
-      assert(wrapper.children().at(0).children().at(0).children().at(0).is(CustomizeGas))
+      const transition = wrapper.children().at(0).children().at(0)
+      assert(transition.is(CSSTransition))
+      assert(transition.children().at(0).hasClass('sidebar-left'))
+      assert(transition.children().at(0).children().at(0).is(CustomizeGas))
     })
   })
 })
