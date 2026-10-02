@@ -45,13 +45,13 @@ restoreContextAfterImports()
 log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
 /**
- * The upstream provider, identified as ECF Wallet: isECFWallet and _ecfwallet
- * replace isMetaMask and _metamask, so dapps do not mistake it for MetaMask.
+ * The upstream provider, also identified as ECF Wallet: it adds isECFWallet,
+ * and _ecfwallet replaces the _metamask namespace.
  */
 class ECFWalletInpageProvider extends MetaMaskInpageProvider {
   constructor (connectionStream, options) {
     super(connectionStream, options)
-    delete this.isMetaMask
+    // isMetaMask stays true, as upstream sets it, for dapps that only check for it.
     this.isECFWallet = true
 
     // The upstream namespace warns under MetaMask's name, so warn under ours instead.
