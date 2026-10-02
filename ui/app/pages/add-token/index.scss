@@ -36,7 +36,7 @@
     &__edit {
       flex: 1 1 auto;
       text-align: right;
-      color: $primary-blue;
+      color: var(--color-primary-default);
       padding-right: 4px;
       cursor: pointer;
     }

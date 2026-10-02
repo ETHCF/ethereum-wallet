@@ -5,7 +5,7 @@
   text-align: center;
 
   &--active {
-    color: $black;
-    border-bottom: 2px solid $primary-blue;
+    color: var(--color-text-default);
+    border-bottom: 2px solid var(--color-primary-default);
   }
 }

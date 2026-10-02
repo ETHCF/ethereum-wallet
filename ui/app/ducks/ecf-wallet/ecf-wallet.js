@@ -39,6 +39,7 @@ export default function reduceEcfWallet (state = {}, action) {
       autoLockTimeLimit: undefined,
       showFiatInTestnets: false,
       useNativeCurrencyAsPrimaryCurrency: true,
+      theme: 'os',
     },
     firstTimeFlowType: null,
     completedOnboarding: false,

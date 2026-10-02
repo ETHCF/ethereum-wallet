@@ -2,30 +2,30 @@
   display: inline;
 
   &--unapproved {
-    color: $Orange-500;
+    color: var(--color-warning-default);
   }
 
   &--failed {
-    color: $Red-500;
+    color: var(--color-error-default);
   }
 
   &--cancelled {
-    color: $Red-500;
+    color: var(--color-error-default);
   }
 
   &--dropped {
-    color: $Red-500;
+    color: var(--color-error-default);
   }
 
   &--rejected {
-    color: $Red-500;
+    color: var(--color-error-default);
   }
 
   &--pending {
-    color: $Orange-500;
+    color: var(--color-warning-default);
   }
 
   &--queued {
-    color: $Grey-500;
+    color: var(--color-text-alternative);
   }
 }

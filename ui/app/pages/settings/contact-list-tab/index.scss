@@ -18,10 +18,10 @@
     flex-flow: row nowrap;
     padding: 16px 14px;
     flex: 0 0 auto;
-    border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid var(--color-border-muted);
 
     &:hover {
-      border: 1px solid $primary-blue;
+      border: 1px solid var(--color-primary-default);
       cursor: pointer;
     }
   }
@@ -47,20 +47,20 @@
 
     .button {
       justify-content: flex-end;
-      color: $accent-red;
+      color: var(--color-error-default);
       font-size: 14px;
     }
   }
 
   &__input {
-    border: 2px solid $Grey-200;
+    border: 2px solid var(--color-border-muted);
     border-radius: 6px;
-    color: $Grey-800;
+    color: var(--color-text-default);
     padding: 0.875rem 1rem;
     font-size: 1.125rem;
 
     &:focus-within {
-      border-color: $Blue-500;
+      border-color: var(--color-primary-default);
     }
 
     margin-top: 0.25rem;
@@ -87,7 +87,7 @@
       &__label,
       &__label--capitalized {
         font-size: 0.75rem;
-        color: $Grey-500;
+        color: var(--color-text-alternative);
         margin-bottom: 0.25rem;
       }
 
@@ -100,7 +100,7 @@
         display: flex;
         flex-flow: row nowrap;
         font-size: 1.125rem;
-        color: $Grey-800;
+        color: var(--color-text-default);
         word-break: break-word;
 
         &--address {
@@ -125,7 +125,7 @@
           cursor: pointer;
 
           &:hover {
-            color: black;
+            color: var(--color-text-default);
           }
         }
       }
@@ -171,7 +171,7 @@
       font-size: 12px;
       line-height: 12px;
       left: 8px;
-      color: $red;
+      color: var(--color-error-default);
     }
   }
 
@@ -190,7 +190,7 @@
       font-weight: normal;
       font-size: 18px;
       line-height: 25px;
-      color: #000;
+      color: var(--color-text-default);
     }
 
     &__content {
@@ -203,7 +203,7 @@
       font-weight: normal;
       font-size: 14px;
       line-height: 20px;
-      color: #6a737d;
+      color: var(--color-text-alternative);
     }
 
     &__caret {
@@ -233,7 +233,7 @@
     align-items: center;
     border-radius: 50%;
     border-width: 2px;
-    background: $primary-blue;
+    background: var(--color-primary-default);
     margin-right: 5px;
     cursor: pointer;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);

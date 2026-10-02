@@ -9,6 +9,7 @@ import { ENVIRONMENT_TYPE_POPUP } from '../app/scripts/lib/enums'
 import Root from './app/pages'
 import * as actions from './app/store/actions'
 import configureStore from './app/store/store'
+import { applyTheme } from './app/helpers/utils/theme'
 import txHelper from './lib/tx-helper'
 import { fetchLocale, loadRelativeTimeFormatLocaleData } from './app/helpers/utils/i18n-helper'
 import switchDirection from './app/helpers/utils/switch-direction'
@@ -93,6 +94,7 @@ async function startApp (ecfWalletState, backgroundConnection, opts) {
   }
 
   const store = configureStore(draftInitialState)
+  applyTheme(ecfWalletState.preferences?.theme)
 
   // if unconfirmed txs, start on txConf page
   const unapprovedTxsAll = txHelper(

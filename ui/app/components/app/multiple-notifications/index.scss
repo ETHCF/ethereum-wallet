@@ -22,12 +22,12 @@
       position: absolute;
       bottom: 14px;
       left: 16px;
-      color: white;
+      color: var(--color-primary-inverse);
       cursor: pointer;
       visibility: visible;
 
       &:hover {
-        color: #b0d7f2;
+        color: var(--color-primary-default);
         font-size: 1.1rem;
       }
     }

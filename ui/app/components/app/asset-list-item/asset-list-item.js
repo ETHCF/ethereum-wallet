@@ -23,7 +23,6 @@ const AssetListItem = ({
   tokenImage,
   warning,
   primary,
-  secondary,
 }) => {
   const t = useI18nContext()
   const dispatch = useDispatch()
@@ -86,7 +85,6 @@ const AssetListItem = ({
       data-testid={dataTestId}
       title={primary}
       titleIcon={titleIcon}
-      subtitle={secondary ? <h3 title={secondary}>{secondary}</h3> : null}
       onClick={onClick}
       icon={(
         <Identicon
@@ -118,7 +116,6 @@ AssetListItem.propTypes = {
   tokenImage: PropTypes.string,
   warning: PropTypes.node,
   primary: PropTypes.string,
-  secondary: PropTypes.string,
 }
 
 AssetListItem.defaultProps = {

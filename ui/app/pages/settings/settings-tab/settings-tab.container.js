@@ -3,7 +3,9 @@ import {
   setCurrentCurrency,
   setUseBlockie,
   updateCurrentLocale,
+  setThemePreference,
 } from '../../../store/actions'
+import { getPreferences } from '../../../selectors'
 import SettingsTab from './settings-tab.component'
 
 const mapStateToProps = (state) => {
@@ -21,6 +23,7 @@ const mapStateToProps = (state) => {
     currentCurrency,
     conversionDate,
     useBlockie,
+    theme: getPreferences(state).theme,
   }
 }
 
@@ -29,6 +32,7 @@ const mapDispatchToProps = (dispatch) => {
     setCurrentCurrency: (currency) => dispatch(setCurrentCurrency(currency)),
     setUseBlockie: (value) => dispatch(setUseBlockie(value)),
     updateCurrentLocale: (key) => dispatch(updateCurrentLocale(key)),
+    setThemePreference: (value) => dispatch(setThemePreference(value)),
   }
 }
 

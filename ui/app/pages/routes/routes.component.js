@@ -55,6 +55,7 @@ import {
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { getConnectingLabel, getNetworkDisplayName } from '../../helpers/utils/network-display'
+import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme'
 
 export default class Routes extends Component {
   static propTypes = {
@@ -82,6 +83,7 @@ export default class Routes extends Component {
     hasPermissionsRequests: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
+    theme: PropTypes.string,
   }
 
   static contextTypes = {
@@ -100,6 +102,22 @@ export default class Routes extends Component {
         pageChanged(locationObj.pathname)
       }
     })
+  }
+
+  componentDidMount () {
+    applyTheme(this.props.theme)
+    // Follow the operating system when the theme preference is os
+    this.removeSystemThemeListener = onSystemThemeChange(() => applyTheme(this.props.theme))
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.theme !== this.props.theme) {
+      applyTheme(this.props.theme)
+    }
+  }
+
+  componentWillUnmount () {
+    this.removeSystemThemeListener()
   }
 
   renderRoutes () {

@@ -54,7 +54,7 @@
   }
 
   &__primary-balance {
-    color: $black;
+    color: var(--color-text-default);
     font-size: 32px;
     line-height: 45px;
     width: 100%;
@@ -67,7 +67,7 @@
 
   &__cached-balance,
   &__cached-star {
-    color: $web-orange;
+    color: var(--color-warning-default);
   }
 
   &__cached-secondary-balance {
@@ -80,7 +80,7 @@
     font-size: 16px;
     line-height: 23px;
     font-weight: 400;
-    color: $Grey-400;
+    color: var(--color-text-alternative);
   }
 
   .wallet-overview &__button {
@@ -101,7 +101,7 @@
   }
 
   &__primary-balance {
-    color: $black;
+    color: var(--color-text-default);
     font-size: 32px;
     line-height: 45px;
     width: 100%;
@@ -112,7 +112,7 @@
     font-size: 16px;
     line-height: 23px;
     font-weight: 400;
-    color: $Grey-400;
+    color: var(--color-text-alternative);
   }
 
   .wallet-overview &__button {

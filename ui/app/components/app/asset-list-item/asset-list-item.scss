@@ -1,15 +1,16 @@
 .asset-list-item {
   &__chevron-right {
-    color: $Grey-500;
+    color: var(--color-text-alternative);
   }
 
   .list-item__right-content {
     align-self: center;
   }
 
-  .list-item__subheading {
-    margin-top: 6px;
-    font-size: 14px;
+  // Asset rows have no subheading, so center the heading against the icon
+  .list-item__heading {
+    grid-row: 1 / span 2;
+    align-self: center;
   }
 
   &__warning {

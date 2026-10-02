@@ -28,7 +28,7 @@
   a:hover {
     font-size: 14px;
     line-height: 20px;
-    color: $primary-blue;
+    color: var(--color-primary-default);
     cursor: pointer;
   }
 }

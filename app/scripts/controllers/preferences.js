@@ -54,6 +54,7 @@ export default class PreferencesController {
         autoLockTimeLimit: undefined,
         showFiatInTestnets: false,
         useNativeCurrencyAsPrimaryCurrency: true,
+        theme: 'os',
       },
       completedOnboarding: false,
 

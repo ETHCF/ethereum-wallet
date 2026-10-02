@@ -6,7 +6,7 @@
   &__row {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid $geyser;
+    border-bottom: 1px solid var(--color-border-muted);
     padding: 4px 13px 4px 13px;
     flex: 0 0 auto;
     align-items: center;
@@ -23,7 +23,7 @@
   }
 
   &__back-button {
-    color: #2f9ae0;
+    color: var(--color-primary-default);
     font-size: 1rem;
     cursor: pointer;
     font-weight: 400;

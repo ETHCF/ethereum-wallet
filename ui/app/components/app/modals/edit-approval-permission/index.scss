@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    border-bottom: 1px solid #d2d8dd;
+    border-bottom: 1px solid var(--color-border-muted);
   }
 
   &__header {
@@ -37,7 +37,7 @@
     &__balance {
       font-weight: normal;
       font-size: 14px;
-      color: #24292e;
+      color: var(--color-text-default);
     }
 
     &__account {
@@ -51,7 +51,7 @@
     }
 
     &__balance {
-      color: #6a737d;
+      color: var(--color-text-alternative);
     }
   }
 
@@ -62,14 +62,14 @@
       font-weight: bold;
       font-size: 14px;
       line-height: 20px;
-      color: #24292e;
+      color: var(--color-text-default);
     }
 
     &__description {
       font-weight: normal;
       font-size: 12px;
       line-height: 17px;
-      color: #6a737d;
+      color: var(--color-text-alternative);
       margin-top: 8px;
     }
 
@@ -93,18 +93,18 @@
       font-weight: normal;
       font-size: 14px;
       line-height: 20px;
-      color: #474b4d;
+      color: var(--color-text-default);
     }
 
     &__option-label--selected {
-      color: $primary-blue;
+      color: var(--color-primary-default);
     }
 
     &__option-description {
       font-weight: normal;
       font-size: 12px;
       line-height: 17px;
-      color: #6a737d;
+      color: var(--color-text-alternative);
       margin-top: 8px;
       margin-bottom: 6px;
     }
@@ -113,7 +113,7 @@
       font-weight: normal;
       font-size: 18px;
       line-height: 25px;
-      color: #24292e;
+      color: var(--color-text-default);
     }
 
     &__radio-button {
@@ -130,19 +130,19 @@
     &__radio-button-outline--selected {
       width: 18px;
       height: 18px;
-      background: #dadcdd;
+      background: var(--color-background-muted);
       border-radius: 9px;
       position: absolute;
     }
 
     &__radio-button-outline--selected {
-      background: $primary-blue;
+      background: var(--color-primary-default);
     }
 
     &__radio-button-fill {
       width: 14px;
       height: 14px;
-      background: white;
+      background: var(--color-background-default);
       border-radius: 7px;
       position: absolute;
     }
@@ -150,7 +150,7 @@
     &__radio-button-dot {
       width: 8px;
       height: 8px;
-      background: $primary-blue;
+      background: var(--color-primary-default);
       border-radius: 4px;
       position: absolute;
     }

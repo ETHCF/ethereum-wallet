@@ -17,7 +17,7 @@
     font-size: 28px;
     text-align: center;
     margin-top: 65px;
-    color: black;
+    color: var(--color-text-default);
   }
 
   &__select-buttons {
@@ -33,7 +33,7 @@
     justify-content: space-evenly;
     width: 388px;
     height: 278px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid var(--color-border-muted);
     box-sizing: border-box;
     border-radius: 10px;
     margin-left: 22px;
@@ -45,7 +45,7 @@
   }
 
   &__button-symbol {
-    color: #c4c4c4;
+    color: var(--color-text-muted);
     margin-top: 41px;
   }
 
@@ -62,7 +62,7 @@
     font-weight: normal;
     line-height: 28px;
     font-size: 20px;
-    color: #000;
+    color: var(--color-text-default);
     margin-top: 12px;
     text-align: center;
   }
@@ -72,7 +72,7 @@
     font-weight: normal;
     line-height: 20px;
     font-size: 14px;
-    color: #7a7a7b;
+    color: var(--color-text-alternative);
     margin-top: 10px;
     text-align: center;
   }

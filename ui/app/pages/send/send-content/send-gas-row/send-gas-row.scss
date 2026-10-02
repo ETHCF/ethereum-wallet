@@ -1,9 +1,9 @@
 .currency-display {
   height: 54px;
-  border: 1px solid $alto;
+  border: 1px solid var(--color-border-muted);
   border-radius: 4px;
-  background-color: $white;
-  color: $scorpion;
+  background-color: var(--color-background-default);
+  color: var(--color-text-alternative);
   font-size: 16px;
   padding: 8px 10px;
   position: relative;
@@ -13,7 +13,7 @@
   }
 
   &__input {
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 16px;
     line-height: 22px;
     border: none;
@@ -21,7 +21,7 @@
   }
 
   &__primary-currency {
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
@@ -33,7 +33,7 @@
 
   &__converted-value,
   &__converted-currency {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     font-size: 12px;
     line-height: 12px;
   }
@@ -63,7 +63,7 @@
 
   &__currency-symbol {
     margin-top: 1px;
-    color: $scorpion;
+    color: var(--color-text-alternative);
   }
 
   .react-numeric-input {

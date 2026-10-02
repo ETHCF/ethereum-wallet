@@ -2,7 +2,7 @@
   &__container {
     width: 380px;
     border-radius: 8px;
-    background-color: $white;
+    background-color: var(--color-background-default);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
     display: flex;
     flex-flow: column nowrap;
@@ -54,14 +54,14 @@
 
   &__header-background {
     position: absolute;
-    background-color: $athens-grey;
+    background-color: var(--color-background-alternative);
     z-index: 2;
     width: 100%;
     height: 100%;
   }
 
   &__header__text {
-    color: #5b5d67;
+    color: var(--color-text-alternative);
     font-size: 22px;
     line-height: 29px;
     z-index: 3;
@@ -76,7 +76,7 @@
   &__header__tip {
     height: 25px;
     width: 25px;
-    background: $athens-grey;
+    background: var(--color-background-alternative);
     transform: rotate(45deg);
     position: absolute;
     bottom: -8px;
@@ -91,7 +91,7 @@
   }
 
   &__account {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     margin-left: 17px;
   }
 
@@ -101,7 +101,7 @@
 
   &__account-item {
     height: 22px;
-    background-color: $white;
+    background-color: var(--color-background-default);
     line-height: 16px;
     font-size: 12px;
     width: 124px;
@@ -123,7 +123,7 @@
   }
 
   &__balance {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     margin-right: 17px;
     width: 124px;
   }
@@ -159,7 +159,7 @@
   &__headline {
     height: 48px;
     width: 240px;
-    color: $tundora;
+    color: var(--color-text-default);
     font-size: 18px;
     line-height: 24px;
     text-align: center;
@@ -177,18 +177,18 @@
   }
 
   &__notice {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
   }
 
   &__warning {
-    color: $crimson;
+    color: var(--color-error-default);
   }
 
   &__rows {
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    border-top: 1px solid $geyser;
+    border-top: 1px solid var(--color-border-muted);
     display: flex;
     flex-flow: column;
   }
@@ -201,7 +201,7 @@
 
   &__row-title {
     width: 80px;
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     font-size: 16px;
     line-height: 22px;
     margin-top: 12px;
@@ -210,12 +210,12 @@
   }
 
   &__row-value {
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 14px;
     line-height: 19px;
     width: 100%;
     overflow-wrap: break-word;
-    border-bottom: 1px solid #d2d8dd;
+    border-bottom: 1px solid var(--color-border-muted);
     padding: 6px 18px 15px;
     white-space: pre-line;
   }
@@ -223,7 +223,7 @@
   &__help-link {
     cursor: pointer;
     text-decoration: underline;
-    color: $primary-blue;
+    color: var(--color-primary-default);
   }
 
   &__footer {
@@ -234,7 +234,7 @@
     font-size: 22px;
     position: relative;
     flex: 0 0 auto;
-    border-top: 1px solid $geyser;
+    border-top: 1px solid var(--color-border-muted);
     padding: 1.6rem;
 
     button {

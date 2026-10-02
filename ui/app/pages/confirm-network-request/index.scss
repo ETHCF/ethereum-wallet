@@ -18,7 +18,7 @@
     font-size: 13px;
 
     dt {
-      color: $Grey-500;
+      color: var(--color-text-alternative);
     }
 
     dd {
@@ -38,17 +38,17 @@
   }
 
   &__notice {
-    background: $Grey-000;
+    background: var(--color-background-alternative);
   }
 
   &__warning {
-    border: 1px solid $Yellow-500;
-    background: $Yellow-100;
+    border: 1px solid var(--color-warning-default);
+    background: var(--color-warning-muted);
   }
 
   &__error {
-    border: 1px solid $Red-500;
-    background: $Red-000;
-    color: $Red-600;
+    border: 1px solid var(--color-error-default);
+    background: var(--color-error-muted);
+    color: var(--color-error-default);
   }
 }

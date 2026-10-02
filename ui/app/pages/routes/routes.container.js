@@ -26,7 +26,7 @@ function mapStateToProps (state) {
     isLoading,
     loadingMessage,
   } = appState
-  const { autoLockTimeLimit = 0 } = getPreferences(state)
+  const { autoLockTimeLimit = 0, theme } = getPreferences(state)
 
   return {
     sidebar,
@@ -44,6 +44,7 @@ function mapStateToProps (state) {
     isMouseUser: state.appState.isMouseUser,
     providerId: getNetworkIdentifier(state),
     autoLockTimeLimit,
+    theme,
     hasPermissionsRequests: hasPermissionRequests(state),
   }
 }

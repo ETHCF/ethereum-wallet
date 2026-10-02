@@ -32,7 +32,7 @@
 
     &__header-close-text {
       font-size: 14px;
-      color: #4eade7;
+      color: var(--color-primary-default);
       position: absolute;
       top: 4px;
       right: 16px;
@@ -42,7 +42,7 @@
     }
 
     &__title {
-      color: $black;
+      color: var(--color-text-default);
       font-size: 16px;
       font-weight: 500;
       line-height: 16px;
@@ -69,8 +69,8 @@
       }
 
       &--selected {
-        color: $primary-blue;
-        border-bottom: 2px solid $primary-blue;
+        color: var(--color-primary-default);
+        border-bottom: 2px solid var(--color-primary-default);
       }
     }
   }
@@ -89,11 +89,11 @@
   &__info-row,
   &__info-row--fade {
     width: 100%;
-    background: $polar;
+    background: var(--color-background-default);
     padding: 15px 21px;
     display: flex;
     flex-flow: column;
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 12px;
 
     @media screen and (max-width: $break-small) {
@@ -145,8 +145,8 @@
   }
 
   &__info-row--fade {
-    background: white;
-    color: $dusty-gray;
-    border-top: 1px solid $mischka;
+    background: var(--color-background-default);
+    color: var(--color-text-alternative);
+    border-top: 1px solid var(--color-border-muted);
   }
 }

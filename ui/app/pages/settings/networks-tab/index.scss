@@ -84,8 +84,8 @@
     }
 
     &--warning {
-      background-color: #fefae8;
-      border: 1px solid #ffd33d;
+      background-color: var(--color-warning-muted);
+      border: 1px solid var(--color-warning-default);
       width: 93%;
       border-radius: 5px;
       box-sizing: border-box;
@@ -100,7 +100,7 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
-    color: #000;
+    color: var(--color-text-default);
   }
 
   &__networks-list {
@@ -123,7 +123,7 @@
       padding-bottom: 23px;
       justify-content: center;
       align-items: center;
-      border-top: 1px solid #d8d8d8;
+      border-top: 1px solid var(--color-border-muted);
 
       .button {
         width: 178px;
@@ -164,7 +164,7 @@
 
     @media screen and (max-width: 575px) {
       padding: 20px 23px 21px 17px;
-      border-bottom: 1px solid #d8d8d8;
+      border-bottom: 1px solid var(--color-border-muted);
     }
   }
 
@@ -180,7 +180,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 23px;
-    color: #6a737d;
+    color: var(--color-text-alternative);
 
     &:hover {
       cursor: pointer;
@@ -217,12 +217,12 @@
 
   &__networks-list-name--selected {
     font-weight: bold;
-    color: #000;
+    color: var(--color-text-default);
   }
 
   &__networks-list-name--disabled {
     font-weight: 300;
-    color: #cdcdcd;
+    color: var(--color-text-muted);
   }
 }
 

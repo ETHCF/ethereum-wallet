@@ -6,7 +6,7 @@
 
 .first-time-flow {
   width: 100%;
-  background-color: $white;
+  background-color: var(--color-background-default);
   display: flex;
   justify-content: center;
 
@@ -40,7 +40,7 @@
   &__header {
     font-size: 2.5rem;
     margin-bottom: 24px;
-    color: black;
+    color: var(--color-text-default);
   }
 
   &__subheader {
@@ -63,7 +63,7 @@
 
   &__textarea-label {
     margin-bottom: 9px;
-    color: #1b344d;
+    color: var(--color-primary-alternative);
     font-size: 18px;
   }
 
@@ -71,9 +71,9 @@
     /*rtl:ignore*/
     direction: ltr;
     font-size: 1rem;
-    border: 1px solid #cdcdcd;
+    border: 1px solid var(--color-border-muted);
     border-radius: 6px;
-    background-color: #fff;
+    background-color: var(--color-background-default);
     padding: 16px;
     margin-top: 8px;
   }
@@ -91,12 +91,12 @@
   }
 
   &__markdown {
-    border: 1px solid #979797;
+    border: 1px solid var(--color-border-default);
     border-radius: 8px;
-    background-color: $white;
+    background-color: var(--color-background-default);
     height: 200px;
     overflow-y: auto;
-    color: #757575;
+    color: var(--color-text-alternative);
     font-size: 0.75rem;
     line-height: 15px;
     text-align: justify;
@@ -107,7 +107,7 @@
 
   &__text-block {
     margin-bottom: 24px;
-    color: black;
+    color: var(--color-text-default);
 
     @media screen and (max-width: $break-small) {
       margin-bottom: 16px;
@@ -128,8 +128,8 @@
   }
 
   &__checkbox {
-    background: #fff;
-    border: 1px solid #cdcdcd;
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-muted);
     box-sizing: border-box;
     height: 34px;
     width: 34px;
@@ -138,11 +138,11 @@
     align-items: center;
 
     &:hover {
-      border: 1.5px solid #2f9ae0;
+      border: 1.5px solid var(--color-primary-default);
     }
 
     .fa-check {
-      color: #2f9ae0;
+      color: var(--color-primary-default);
     }
   }
 
@@ -151,11 +151,11 @@
     font-weight: normal;
     line-height: normal;
     font-size: 18px;
-    color: #939090;
+    color: var(--color-text-alternative);
     margin-left: 18px;
   }
 
   &__link-text {
-    color: $primary-blue;
+    color: var(--color-primary-default);
   }
 }

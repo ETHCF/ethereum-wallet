@@ -14,7 +14,7 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: 19px;
-    color: $black;
+    color: var(--color-text-default);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -27,7 +27,7 @@
     line-height: 1rem;
     text-align: center;
     word-break: break-all;
-    color: #989a9b;
+    color: var(--color-text-alternative);
   }
 
   &__clickable {
@@ -41,11 +41,11 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $Grey-000;
+      background-color: var(--color-background-alternative);
     }
 
     &:active {
-      background-color: #d9d7da;
+      background-color: var(--color-background-muted);
     }
   }
 }

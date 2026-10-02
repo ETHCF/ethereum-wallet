@@ -6,10 +6,10 @@
   width: 357px;
   padding: 30px;
   font-weight: 400;
-  color: $silver-chalice;
+  color: var(--color-text-alternative);
 
   &__container {
-    background: $white;
+    background: var(--color-background-default);
     display: flex;
     align-self: stretch;
     justify-content: center;
@@ -20,7 +20,7 @@
     margin-top: 5px;
     font-size: 2rem;
     font-weight: 800;
-    color: $tundora;
+    color: var(--color-text-default);
   }
 
   &__form {
@@ -37,7 +37,7 @@
     cursor: pointer;
 
     &--import {
-      color: $ecstasy;
+      color: var(--color-warning-default);
     }
 
     &--use-classic {

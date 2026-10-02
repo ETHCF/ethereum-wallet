@@ -10,7 +10,7 @@
 
   &__description,
   &__progress {
-    color: $Grey-500;
+    color: var(--color-text-alternative);
     font-size: 13px;
   }
 
@@ -25,11 +25,11 @@
   }
 
   &--right &__result-title {
-    color: $Green-600;
+    color: var(--color-success-default);
   }
 
   &--wrong &__result-title {
-    color: $Red-500;
+    color: var(--color-error-default);
   }
 
   &__result-description {

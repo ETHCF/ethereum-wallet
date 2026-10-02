@@ -4,6 +4,7 @@ import availableCurrencies from '../../../helpers/constants/available-conversion
 import SimpleDropdown from '../../../components/app/dropdowns/simple-dropdown'
 import ToggleButton from '../../../components/ui/toggle-button'
 import locales from '../../../../../app/_locales/index.json'
+import { THEME_TYPES } from '../../../helpers/constants/themes'
 
 const sortedCurrencies = availableCurrencies.sort((a, b) => {
   return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
@@ -39,6 +40,8 @@ export default class SettingsTab extends PureComponent {
     useBlockie: PropTypes.bool,
     currentCurrency: PropTypes.string,
     conversionDate: PropTypes.number,
+    theme: PropTypes.string,
+    setThemePreference: PropTypes.func,
   }
 
   renderCurrentConversion () {
@@ -97,6 +100,37 @@ export default class SettingsTab extends PureComponent {
     )
   }
 
+  renderTheme () {
+    const { t } = this.context
+    const { theme, setThemePreference } = this.props
+    const themeOptions = [
+      { displayValue: t('lightTheme'), key: THEME_TYPES.LIGHT, value: THEME_TYPES.LIGHT },
+      { displayValue: t('darkTheme'), key: THEME_TYPES.DARK, value: THEME_TYPES.DARK },
+      { displayValue: t('osTheme'), key: THEME_TYPES.OS, value: THEME_TYPES.OS },
+    ]
+
+    return (
+      <div className="settings-page__content-row">
+        <div className="settings-page__content-item">
+          <span>{ t('theme') }</span>
+          <span className="settings-page__content-description">
+            { t('themeDescription') }
+          </span>
+        </div>
+        <div className="settings-page__content-item">
+          <div className="settings-page__content-item-col">
+            <SimpleDropdown
+              placeholder={t('theme')}
+              options={themeOptions}
+              selectedOption={theme || THEME_TYPES.OS}
+              onSelect={(newTheme) => setThemePreference(newTheme)}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderBlockieOptIn () {
     const { t } = this.context
     const { useBlockie, setUseBlockie } = this.props
@@ -128,6 +162,7 @@ export default class SettingsTab extends PureComponent {
         { warning && <div className="settings-tab__error">{ warning }</div> }
         { this.renderCurrentConversion() }
         { this.renderCurrentLocale() }
+        { this.renderTheme() }
         { this.renderBlockieOptIn() }
       </div>
     )

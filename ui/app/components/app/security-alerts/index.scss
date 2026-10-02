@@ -12,20 +12,20 @@
     word-break: break-word;
 
     &--danger {
-      border: 1px solid $Red-500;
-      background: $Red-000;
-      color: $Red-700;
+      border: 1px solid var(--color-error-default);
+      background: var(--color-error-muted);
+      color: var(--color-error-alternative);
     }
 
     &--warning {
-      border: 1px solid $Yellow-500;
-      background: $Yellow-100;
-      color: $Black-100;
+      border: 1px solid var(--color-warning-default);
+      background: var(--color-warning-muted);
+      color: var(--color-text-default);
     }
 
     &--info {
-      background: $Grey-000;
-      color: $Grey-700;
+      background: var(--color-background-alternative);
+      color: var(--color-text-default);
     }
   }
 

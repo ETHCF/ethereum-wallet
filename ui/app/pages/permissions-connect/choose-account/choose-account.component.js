@@ -108,7 +108,7 @@ export default class ChooseAccount extends Component {
                       className="permissions-connect-choose-account__account__balance"
                       type={PRIMARY}
                       value={balance}
-                      style={{ color: '#6A737D' }}
+                      style={{ color: 'var(--color-text-alternative)' }}
                       suffix={nativeCurrency}
                     />
                   </div>

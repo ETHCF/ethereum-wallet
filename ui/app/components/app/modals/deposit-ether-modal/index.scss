@@ -7,7 +7,7 @@
   &__header {
     width: 100%;
     border-radius: 8px 8px 0 0;
-    background-color: $mid-gray;
+    background-color: var(--color-text-default);
     display: flex;
     position: relative;
     padding: 25px;
@@ -15,13 +15,13 @@
     align-items: flex-start;
 
     &__title {
-      color: $white;
+      color: var(--color-primary-inverse);
       font-size: 24px;
       line-height: 32px;
     }
 
     &__description {
-      color: $white;
+      color: var(--color-primary-inverse);
       font-size: 16px;
       line-height: 22px;
       margin-top: 10px;
@@ -30,7 +30,7 @@
     &__close::after {
       content: '\00D7';
       font-size: 2em;
-      color: $white;
+      color: var(--color-primary-inverse);
       position: absolute;
       top: 20.8px;
       right: 28px;
@@ -63,7 +63,7 @@
   }
 
   &__buy-row {
-    border-bottom: 1px solid $alto;
+    border-bottom: 1px solid var(--color-border-muted);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -105,7 +105,7 @@
     }
 
     &__description {
-      color: $cape-cod;
+      color: var(--color-text-default);
       padding-bottom: 20px;
       align-self: flex-start;
 
@@ -144,11 +144,11 @@
   }
 
   .simple-dropdown {
-    color: #5b5d67;
+    color: var(--color-text-alternative);
     font-size: 16px;
     line-height: 21px;
-    border: 1px solid #d8d8d8;
-    background-color: #fff;
+    border: 1px solid var(--color-border-muted);
+    background-color: var(--color-background-default);
     text-align: center;
     width: 100%;
     height: 45px;

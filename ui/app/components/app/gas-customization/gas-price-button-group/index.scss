@@ -14,7 +14,7 @@
 
   &__time-estimate {
     margin-top: 5.5px;
-    color: $silver-chalice;
+    color: var(--color-text-alternative);
     height: 15.4px;
   }
 
@@ -32,9 +32,9 @@
     display: flex;
     padding-top: 17px;
     border-radius: 4px;
-    border: 2px solid $spindle;
-    background: $white;
-    color: $scorpion;
+    border: 2px solid var(--color-primary-default);
+    background: var(--color-background-default);
+    color: var(--color-text-alternative);
 
     div {
       display: flex;
@@ -50,13 +50,13 @@
   }
 
   .button-group__button--active {
-    border: 2px solid $primary-blue;
-    color: $scorpion;
+    border: 2px solid var(--color-primary-default);
+    color: var(--color-text-alternative);
 
     i {
       &:last-child {
         display: flex;
-        color: $primary-blue;
+        color: var(--color-primary-default);
         margin-top: 8px;
       }
     }
@@ -112,8 +112,8 @@
 
   .button-group__button,
   .button-group__button--active {
-    background: white;
-    color: $scorpion;
+    background: var(--color-background-default);
+    color: var(--color-text-alternative);
     padding: 0 4px;
 
     div {
@@ -131,13 +131,13 @@
   }
 
   .button-group__button--active {
-    color: $white;
-    background: $dodger-blue;
+    color: var(--color-primary-inverse);
+    background: var(--color-primary-default);
 
     i {
       &:last-child {
         display: flex;
-        color: $primary-blue;
+        color: var(--color-primary-default);
         margin-top: 10px;
       }
     }
@@ -180,14 +180,14 @@
     font-size: 14px;
     font-weight: 500;
     margin-top: 4px;
-    color: $black;
+    color: var(--color-text-default);
   }
 
   .button-group__button,
   .button-group__button--active {
     height: 78px;
-    background: white;
-    color: #2a4055;
+    background: var(--color-background-default);
+    color: var(--color-primary-alternative);
     width: 108px;
     height: 97px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.151579);
@@ -216,8 +216,8 @@
   }
 
   .button-group__button--active {
-    background: #f7fcff;
-    border: 2px solid #2c8bdc;
+    background: var(--color-primary-muted);
+    border: 2px solid var(--color-primary-default);
 
     .button-check-wrapper {
       height: 16px;
@@ -226,7 +226,7 @@
       position: absolute;
       top: -11px;
       right: -10px;
-      background: #d5ecfa;
+      background: var(--color-primary-muted);
       display: flex;
       flex-flow: row;
       justify-content: center;
@@ -235,7 +235,7 @@
 
     i {
       display: flex;
-      color: $primary-blue;
+      color: var(--color-primary-default);
       font-size: 12px;
     }
   }

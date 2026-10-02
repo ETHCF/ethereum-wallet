@@ -17,11 +17,11 @@
     border-style: solid;
     border-radius: 50%;
     border-width: 2px;
-    border-color: $primary-blue;
+    border-color: var(--color-primary-default);
   }
 
   &__eth-logo {
-    border: 1px solid $alto;
-    background: $white;
+    border: 1px solid var(--color-border-muted);
+    background: var(--color-background-default);
   }
 }

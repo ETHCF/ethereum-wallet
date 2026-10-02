@@ -1,7 +1,7 @@
 .signature-request-header {
   display: flex;
   padding: 1rem;
-  border-bottom: 1px solid $geyser;
+  border-bottom: 1px solid var(--color-border-muted);
   justify-content: space-between;
   font-size: 0.75rem;
 

@@ -1,6 +1,6 @@
 .asset {
   &__container {
-    background-color: white;
+    background-color: var(--color-background-default);
   }
 
   &__overview {
@@ -18,7 +18,7 @@
 
 .asset-breadcrumb {
   font-size: 14px;
-  color: $Black-100;
+  color: var(--color-text-default);
   background-color: inherit;
 
   &__chevron {
@@ -34,7 +34,7 @@
 .token-options {
   &__button {
     font-size: 20px;
-    color: $Black-100;
+    color: var(--color-text-default);
     background-color: inherit;
     padding: 2px 8px;
   }

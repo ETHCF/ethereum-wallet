@@ -1832,6 +1832,10 @@ export function setDefaultHomeActiveTabName (value) {
   }
 }
 
+export function setThemePreference (value) {
+  return setPreference('theme', value)
+}
+
 export function setShowFiatConversionOnTestnetsPreference (value) {
   return setPreference('showFiatInTestnets', value)
 }

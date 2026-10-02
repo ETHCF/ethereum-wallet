@@ -1,7 +1,7 @@
 .hide-token-confirmation {
   min-height: 250.72px;
   border-radius: 4px;
-  background-color: $white;
+  background-color: var(--color-background-default);
   box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.5);
 
   &__container {
@@ -16,7 +16,7 @@
   }
 
   &__symbol {
-    color: $tundora;
+    color: var(--color-text-default);
     font-size: 16px;
     line-height: 24px;
     text-align: center;
@@ -26,7 +26,7 @@
   &__title {
     height: 30px;
     width: 271.28px;
-    color: $tundora;
+    color: var(--color-text-default);
     font-size: 22px;
     line-height: 30px;
     text-align: center;
@@ -36,7 +36,7 @@
   &__copy {
     height: 41px;
     width: 318px;
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 14px;
     line-height: 18px;
     text-align: center;

@@ -37,21 +37,21 @@
   &__version-number {
     padding-top: 5px;
     font-size: 13px;
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
   }
 
   &__separator {
     margin: 15px 0;
     width: 80px;
-    border-color: $alto;
+    border-color: var(--color-border-muted);
     border: none;
     height: 1px;
-    background-color: $alto;
-    color: $alto;
+    background-color: var(--color-background-muted);
+    color: var(--color-text-muted);
   }
 
   &__about {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     margin-bottom: 15px;
   }
 }

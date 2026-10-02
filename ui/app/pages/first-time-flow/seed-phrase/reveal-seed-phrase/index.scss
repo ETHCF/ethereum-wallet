@@ -11,9 +11,9 @@
     position: relative;
     display: flex;
     justify-content: center;
-    border: 1px solid #cdcdcd;
+    border: 1px solid var(--color-border-muted);
     border-radius: 6px;
-    background-color: $white;
+    background-color: var(--color-background-default);
     padding: 18px;
     margin-top: 36px;
     max-width: 350px;
@@ -54,7 +54,7 @@
   }
 
   &__export-text {
-    color: $primary-blue;
+    color: var(--color-primary-default);
     cursor: pointer;
     font-weight: 500;
   }

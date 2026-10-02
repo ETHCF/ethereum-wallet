@@ -1,8 +1,8 @@
 .error-message {
   min-height: 32px;
-  border: 1px solid $monzo;
-  color: $monzo;
-  background: lighten($monzo, 56%);
+  border: 1px solid var(--color-error-default);
+  color: var(--color-error-default);
+  background: var(--color-error-muted);
   border-radius: 4px;
   font-size: 0.75rem;
   display: flex;

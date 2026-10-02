@@ -11,7 +11,7 @@
   &__transaction-data-summary {
     display: flex;
     flex-flow: column;
-    color: $mid-gray;
+    color: var(--color-text-alternative);
     margin-top: 12px;
     padding-left: 18px;
     padding-right: 18px;
@@ -22,7 +22,7 @@
       flex-flow: row;
       justify-content: space-between;
       font-size: 12px;
-      color: #888ea3;
+      color: var(--color-text-alternative);
     }
 
     &__container {
@@ -32,13 +32,13 @@
 
     &__fee {
       font-size: 16px;
-      color: #313a5e;
+      color: var(--color-primary-alternative);
     }
 
     &__time-remaining {
       /*rtl:ignore*/
       direction: ltr;
-      color: #313a5e;
+      color: var(--color-primary-alternative);
       font-size: 16px;
 
       .minutes-num,
@@ -61,14 +61,14 @@
   &__fee-chart {
     margin-top: 8px;
     height: 265px;
-    background: #f8f9fb;
-    border-bottom: 1px solid #d2d8dd;
-    border-top: 1px solid #d2d8dd;
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-muted);
+    border-top: 1px solid var(--color-border-muted);
     position: relative;
 
     &__title {
       font-size: 12px;
-      color: #313a5e;
+      color: var(--color-primary-alternative);
       margin-left: 22px;
     }
 
@@ -81,7 +81,7 @@
       padding-right: 19px;
       width: 100%;
       font-size: 10px;
-      color: #888ea3;
+      color: var(--color-text-alternative);
     }
 
     .loading-overlay {

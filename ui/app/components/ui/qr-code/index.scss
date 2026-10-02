@@ -7,19 +7,19 @@
   &__message-container > div:first-child {
     margin-top: 18px;
     font-size: 15px;
-    color: #4d4d4d;
+    color: var(--color-text-default);
   }
 
   &__message {
     font-size: 12px;
-    color: #f7861c;
+    color: var(--color-warning-default);
   }
 
   &__error {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #f7861c;
+    color: var(--color-warning-default);
     margin-bottom: 9px;
   }
 }

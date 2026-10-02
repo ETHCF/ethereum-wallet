@@ -8,7 +8,7 @@
   &__label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: $scorpion;
+    color: var(--color-text-alternative);
     text-transform: uppercase;
   }
 
@@ -24,7 +24,7 @@
   }
 
   &__secondary {
-    color: $oslo-gray;
+    color: var(--color-text-alternative);
     justify-content: flex-end;
   }
 
@@ -32,10 +32,10 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     margin-bottom: 6px;
-    color: $scorpion;
+    color: var(--color-text-alternative);
 
     &--edit {
-      color: $primary-blue;
+      color: var(--color-primary-default);
       cursor: pointer;
     }
 

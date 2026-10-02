@@ -3,7 +3,7 @@
   grid-template-columns: 30% minmax(30%, 1fr) 30%;
   column-gap: 5px;
   padding: 0 8px;
-  border-bottom: 1px solid $Grey-100;
+  border-bottom: 1px solid var(--color-border-muted);
 
   // The selected account spans the full width so its address fits on one line.
   // The status indicator and options button sit on the account name's line.
@@ -51,7 +51,7 @@
   }
 
   &__explorer-origin {
-    color: $Grey-500;
+    color: var(--color-text-alternative);
     font-size: 12px;
   }
 }

@@ -7,7 +7,7 @@
   flex: 0 0 auto;
 
   &--default {
-    border-bottom: 1px solid $geyser;
+    border-bottom: 1px solid var(--color-border-muted);
     height: 42px;
 
     .sender-to-recipient {
@@ -34,7 +34,7 @@
 
         &--recipient {
           padding-left: 30px;
-          border-left: 1px solid $geyser;
+          border-left: 1px solid var(--color-border-muted);
 
           &-with-address {
             cursor: pointer;
@@ -55,9 +55,9 @@
       }
 
       &__arrow-circle {
-        background: $white;
+        background: var(--color-background-default);
         padding: 5px;
-        border: 1px solid $geyser;
+        border: 1px solid var(--color-border-muted);
         border-radius: 20px;
         height: 32px;
         width: 32px;
@@ -100,10 +100,10 @@
         border-radius: 4px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
         padding: 6px;
-        background: $white;
+        background: var(--color-background-default);
         cursor: pointer;
         min-width: 0;
-        color: $dusty-gray;
+        color: var(--color-text-alternative);
       }
 
       &__tooltip-wrapper {
@@ -153,7 +153,7 @@
         padding: 6px;
         cursor: pointer;
         min-width: 0;
-        color: $dusty-gray;
+        color: var(--color-text-alternative);
       }
 
       &__tooltip-wrapper {

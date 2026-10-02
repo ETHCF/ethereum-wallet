@@ -1,7 +1,7 @@
 .hw-tutorial {
   width: 375px;
-  border-top: 1px solid #d2d8dd;
-  border-bottom: 1px solid #d2d8dd;
+  border-top: 1px solid var(--color-border-muted);
+  border-bottom: 1px solid var(--color-border-muted);
   overflow: visible;
   display: block;
   padding: 15px 30px;
@@ -19,7 +19,7 @@
 
     &__msg {
       font-size: 14px;
-      color: #9b9b9b;
+      color: var(--color-text-alternative);
       margin-top: 10px;
       margin-bottom: 20px;
     }
@@ -42,8 +42,8 @@
   }
 
   &__btn {
-    background: #fbfbfb;
-    border: 2px solid #e5e5e5;
+    background: var(--color-background-default);
+    border: 2px solid var(--color-border-muted);
     height: 100px;
     width: 150px;
     flex: 1;
@@ -59,7 +59,7 @@
   }
 
   &__btn.selected {
-    border: 2px solid #00a8ee;
+    border: 2px solid var(--color-primary-default);
     width: 149px;
   }
 
@@ -94,7 +94,7 @@
   &__learn-more {
     margin-top: 15px;
     font-size: 14px;
-    color: #5b5d67;
+    color: var(--color-text-alternative);
     line-height: 19px;
     text-align: center;
     cursor: pointer;
@@ -123,13 +123,13 @@
 
   &__msg {
     font-size: 14px;
-    color: #9b9b9b;
+    color: var(--color-text-alternative);
     margin-top: 10px;
     margin-bottom: 15px;
   }
 
   &__link {
-    color: #2f9ae0;
+    color: var(--color-primary-default);
   }
 
   &__footer {
@@ -143,7 +143,7 @@
 
     &__msg {
       font-size: 14px;
-      color: #9b9b9b;
+      color: var(--color-text-alternative);
       margin-top: 12px;
       margin-bottom: 27px;
       width: 100%;
@@ -152,7 +152,7 @@
     }
 
     &__link {
-      color: #2f9ae0;
+      color: var(--color-primary-default);
       margin-left: 5px;
     }
   }
@@ -164,13 +164,13 @@
 
     &__msg {
       font-size: 14px;
-      color: #9b9b9b;
+      color: var(--color-text-alternative);
     }
 
     &__link {
       font-size: 14px;
       text-align: center;
-      color: #2f9ae0;
+      color: var(--color-primary-default);
       cursor: pointer;
     }
   }
@@ -196,7 +196,7 @@
   &__title {
     margin-bottom: 23px;
     align-self: flex-start;
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 16px;
     line-height: 21px;
     font-weight: bold;
@@ -207,7 +207,7 @@
   &__device {
     margin-bottom: 23px;
     align-self: flex-end;
-    color: $scorpion;
+    color: var(--color-text-alternative);
     font-size: 16px;
     line-height: 21px;
     font-weight: normal;
@@ -223,7 +223,7 @@
   }
 
   &__item:nth-of-type(even) {
-    background-color: #fbfbfb;
+    background-color: var(--color-background-default);
   }
 
   &__item:nth-of-type(odd) {
@@ -281,10 +281,10 @@
   margin-top: 10px;
 
   &__button {
-    background: #fff;
+    background: var(--color-background-default);
     height: 19px;
     display: flex;
-    color: #33a4e7;
+    color: var(--color-primary-default);
     font-size: 14px;
     line-height: 19px;
     border: none;
@@ -337,7 +337,7 @@
   padding: 22px;
 
   a {
-    color: #2f9ae0;
+    color: var(--color-primary-default);
     font-size: 14px;
     cursor: pointer;
   }

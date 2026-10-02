@@ -1,6 +1,6 @@
 .actionable-message {
-  background: $Blue-000;
-  border: 1px solid $Blue-200;
+  background: var(--color-primary-muted);
+  border: 1px solid var(--color-primary-default);
   border-radius: 8px;
   padding: 16px;
   margin-top: 18px;
@@ -11,7 +11,7 @@
   @include H7;
 
   &__message {
-    color: $Blue-600;
+    color: var(--color-primary-alternative);
     text-align: center;
   }
 
@@ -21,7 +21,7 @@
     justify-content: space-evenly;
     align-items: center;
     margin-top: 10px;
-    color: $Blue-600;
+    color: var(--color-primary-alternative);
   }
 
   &__action {
@@ -30,13 +30,13 @@
   }
 
   &--warning {
-    background: $Yellow-100;
-    border: 1px solid $Yellow-500;
+    background: var(--color-warning-muted);
+    border: 1px solid var(--color-warning-default);
     justify-content: center;
 
     .actionable-message__message,
     .actionable-message__action {
-      color: $Black-100;
+      color: var(--color-text-default);
     }
 
     .actionable-message__action--secondary {

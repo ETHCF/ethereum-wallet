@@ -14,7 +14,7 @@
     width: 100%;
     height: 1px;
     margin: 19px 0 8px 0;
-    background-color: $alto;
+    background-color: var(--color-background-muted);
   }
 
   & .qr-header {
@@ -29,7 +29,7 @@
   & .ellip-address-wrapper {
     display: flex;
     justify-content: center;
-    border: 1px solid $alto;
+    border: 1px solid var(--color-border-muted);
     padding: 5px 10px;
     margin-top: 7px;
     width: 286px;

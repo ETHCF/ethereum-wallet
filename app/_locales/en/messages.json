@@ -3,6 +3,9 @@
     "message": "I have read and agree to the $1",
     "description": "$1 is the `terms` message"
   },
+  "darkTheme": {
+    "message": "Dark"
+  },
   "eth_accounts": {
     "message": "View the addresses of your permitted accounts (required)",
     "description": "The description for the `eth_accounts` permission"
@@ -30,6 +33,12 @@
   },
   "currentAccountNotConnected": {
     "message": "Your current account is not connected"
+  },
+  "lightTheme": {
+    "message": "Light"
+  },
+  "osTheme": {
+    "message": "System"
   },
   "switchToThisAccount": {
     "message": "Switch to this account"
@@ -1390,6 +1399,12 @@
   },
   "terms": {
     "message": "Terms of Use"
+  },
+  "theme": {
+    "message": "Theme"
+  },
+  "themeDescription": {
+    "message": "Choose a light or dark appearance, or follow your system setting"
   },
   "thisWillCreate": {
     "message": "This will create a new wallet and seed phrase"

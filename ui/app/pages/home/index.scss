@@ -6,7 +6,7 @@
 
   &__main-view {
     flex: 1 1 66.5%;
-    background: $white;
+    background: var(--color-background-default);
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -28,7 +28,7 @@
 
   &__main-view &__tab {
     flex-grow: 1;
-    color: $Grey-500;
+    color: var(--color-text-alternative);
     padding: 16px 8px;
     font-size: 14px;
     font-weight: 500;
@@ -36,7 +36,7 @@
   }
 
   &__main-view &__tab--active {
-    color: $Blue-500;
+    color: var(--color-primary-default);
   }
 
   &__connect-status-text {
@@ -47,7 +47,7 @@
 
     padding-left: 24px;
     padding-right: 24px;
-    color: $Grey-800;
+    color: var(--color-text-default);
 
     div {
       margin-bottom: 20px;
@@ -99,7 +99,7 @@
 
       a,
       a:hover {
-        color: $dodger-blue;
+        color: var(--color-primary-default);
         cursor: pointer;
       }
     }
