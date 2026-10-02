@@ -5,7 +5,6 @@ import {
   displayWarning,
   setFeatureFlag,
   showModal,
-  setShowFiatConversionOnTestnetsPreference,
   setAutoLockTimeLimit,
   setUseNonceField,
   setIpfsGateway,
@@ -24,14 +23,13 @@ export const mapStateToProps = (state) => {
     useNonceField,
     ipfsGateway,
   } = ecfWallet
-  const { showFiatInTestnets, autoLockTimeLimit } = getPreferences(state)
+  const { autoLockTimeLimit } = getPreferences(state)
 
   return {
     warning,
     sendHexData,
     advancedInlineGas,
     transactionTime,
-    showFiatInTestnets,
     autoLockTimeLimit,
     useNonceField,
     ipfsGateway,
@@ -46,9 +44,6 @@ export const mapDispatchToProps = (dispatch) => {
     setAdvancedInlineGasFeatureFlag: (shouldShow) => dispatch(setFeatureFlag('advancedInlineGas', shouldShow)),
     setTransactionTimeFeatureFlag: (shouldShow) => dispatch(setFeatureFlag('transactionTime', shouldShow)),
     setUseNonceField: (value) => dispatch(setUseNonceField(value)),
-    setShowFiatConversionOnTestnetsPreference: (value) => {
-      return dispatch(setShowFiatConversionOnTestnetsPreference(value))
-    },
     setAutoLockTimeLimit: (value) => {
       return dispatch(setAutoLockTimeLimit(value))
     },

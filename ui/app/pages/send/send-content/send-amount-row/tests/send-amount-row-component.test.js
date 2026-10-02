@@ -20,7 +20,6 @@ describe('SendAmountRow Component', function () {
       assert.ok(updateSendAmountError.calledOnceWithExactly({
         amount: 'someAmount',
         balance: 'mockBalance',
-        conversionRate: 7,
         gasTotal: 'mockGasTotal',
         primaryCurrency: 'mockPrimaryCurrency',
         sendToken: { address: 'mockTokenAddress' },
@@ -37,7 +36,6 @@ describe('SendAmountRow Component', function () {
 
       assert.ok(updateGasFeeError.calledOnceWithExactly({
         balance: 'mockBalance',
-        conversionRate: 7,
         gasTotal: 'mockGasTotal',
         primaryCurrency: 'mockPrimaryCurrency',
         sendToken: { address: 'mockTokenAddress' },
@@ -147,7 +145,6 @@ function shallowRenderSendAmountRow () {
     <SendAmountRow
       amount="mockAmount"
       balance="mockBalance"
-      conversionRate={7}
       convertedCurrency="mockConvertedCurrency"
       gasTotal="mockGasTotal"
       inError={false}

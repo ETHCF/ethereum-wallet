@@ -4,7 +4,6 @@ import { compose } from 'redux'
 
 import {
   getBlockGasLimit,
-  getConversionRate,
   getCurrentNetwork,
   getGasLimit,
   getGasPrice,
@@ -57,7 +56,6 @@ function mapStateToProps (state) {
     addressBook: getAddressBook(state),
     amount: getSendAmount(state),
     blockGasLimit: getBlockGasLimit(state),
-    conversionRate: getConversionRate(state),
     editingTransactionId,
     from: getSendFromObject(state),
     gasLimit: getGasLimit(state),

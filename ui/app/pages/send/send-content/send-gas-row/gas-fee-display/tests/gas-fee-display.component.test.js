@@ -17,10 +17,7 @@ describe('GasFeeDisplay Component', function () {
     beforeEach(function () {
       wrapper = shallow((
         <GasFeeDisplay
-          conversionRate={20}
           gasTotal="mockGasTotal"
-          primaryCurrency="mockPrimaryCurrency"
-          convertedCurrency="mockConvertedCurrency"
           showGasButtonGroup={propsMethodSpies.showCustomizeGasModal}
           onReset={propsMethodSpies.onReset}
         />
@@ -32,16 +29,13 @@ describe('GasFeeDisplay Component', function () {
     })
 
     it('should render a CurrencyDisplay component', function () {
-      assert.equal(wrapper.find(UserPreferencedCurrencyDisplay).length, 2)
+      assert.equal(wrapper.find(UserPreferencedCurrencyDisplay).length, 1)
     })
 
     it('should render the CurrencyDisplay with the correct props', function () {
-      const {
-        type,
-        value,
-      } = wrapper.find(UserPreferencedCurrencyDisplay).at(0).props()
-      assert.equal(type, 'PRIMARY')
-      assert.equal(value, 'mockGasTotal')
+      const props = wrapper.find(UserPreferencedCurrencyDisplay).at(0).props()
+      assert.equal(props.value, 'mockGasTotal')
+      assert.equal(props.type, undefined)
     })
 
     it('should render the reset button with the correct props', function () {

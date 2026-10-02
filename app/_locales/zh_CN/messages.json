@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "创建密码"
   },
-  "currencyConversion": {
-    "message": "货币兑换"
-  },
   "currentLanguage": {
     "message": "当前语言"
   },
@@ -657,9 +654,6 @@
   "noAddressForName": {
     "message": "此 ENS 名字还没有指定地址。"
   },
-  "noConversionRateAvailable": {
-    "message": "无可用兑换率"
-  },
   "noTransactions": {
     "message": "没有交易"
   },
@@ -857,9 +851,6 @@
   "seedPhraseReq": {
     "message": "助记词为12个单词"
   },
-  "selectCurrency": {
-    "message": "选择货币"
-  },
   "selectEachPhrase": {
     "message": "请选择每一个片语，以确保片语正确性。"
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "请选择该选项，直接在发送和确认页面显示天然气价格和限制管理。"
-  },
-  "showFiatConversionInTestnets": {
-    "message": "在 Testnets 上显示兑换率"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "请选择该选项，在 Testnets 上显示法定兑换率"
   },
   "showPrivateKeys": {
     "message": "显示私钥"
@@ -1112,9 +1097,6 @@
   },
   "unlockMessage": {
     "message": "分散网络待命中"
-  },
-  "updatedWithDate": {
-    "message": "已更新 $1"
   },
   "usedByClients": {
     "message": "可用于各种不同的客户端"

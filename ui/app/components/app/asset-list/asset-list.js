@@ -6,7 +6,6 @@ import AddTokenButton from '../add-token-button'
 import TokenList from '../token-list'
 import { ADD_TOKEN_ROUTE } from '../../../helpers/constants/routes'
 import AssetListItem from '../asset-list-item'
-import { PRIMARY } from '../../../helpers/constants/common'
 import { useUserPreferencedCurrency } from '../../../hooks/useUserPreferencedCurrency'
 import { getCurrentAccountWithSendEtherInfo, getNativeCurrency } from '../../../selectors'
 import { useCurrencyDisplay } from '../../../hooks/useCurrencyDisplay'
@@ -19,7 +18,7 @@ const AssetList = ({ onClickAsset }) => {
   const {
     currency: primaryCurrency,
     numberOfDecimals: primaryNumberOfDecimals,
-  } = useUserPreferencedCurrency(PRIMARY, { ethNumberOfDecimals: 4 })
+  } = useUserPreferencedCurrency({ ethNumberOfDecimals: 4 })
 
   const [primaryCurrencyDisplay] = useCurrencyDisplay(
     selectedAccountBalance,

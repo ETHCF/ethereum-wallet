@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import UserPreferencedCurrencyDisplay from '../../../../../components/app/user-preferenced-currency-display'
-import { PRIMARY, SECONDARY } from '../../../../../helpers/constants/common'
 
 export default class GasFeeDisplay extends Component {
 
@@ -24,15 +23,7 @@ export default class GasFeeDisplay extends Component {
         {gasTotal
           ? (
             <div className="currency-display">
-              <UserPreferencedCurrencyDisplay
-                value={gasTotal}
-                type={PRIMARY}
-              />
-              <UserPreferencedCurrencyDisplay
-                className="currency-display__converted-value"
-                value={gasTotal}
-                type={SECONDARY}
-              />
+              <UserPreferencedCurrencyDisplay value={gasTotal} />
             </div>
           )
           : gasLoadingError

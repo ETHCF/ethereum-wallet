@@ -23,7 +23,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
     clearConfirmTransaction: PropTypes.func.isRequired,
     cancelEncryptionPublicKey: PropTypes.func.isRequired,
     encryptionPublicKey: PropTypes.func.isRequired,
-    conversionRate: PropTypes.number,
+    nativeCurrency: PropTypes.string,
     history: PropTypes.object.isRequired,
     requesterAddress: PropTypes.string,
     txData: PropTypes.object,
@@ -97,7 +97,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
   }
 
   renderBalance = () => {
-    const { conversionRate } = this.props
+    const { nativeCurrency } = this.props
     const { t } = this.context
     const { fromAccount: { balance } } = this.state
 
@@ -106,7 +106,6 @@ export default class ConfirmEncryptionPublicKey extends Component {
       toNumericBase: 'dec',
       fromDenomination: 'WEI',
       numberOfDecimals: 6,
-      conversionRate,
     })
 
     return (
@@ -115,7 +114,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
           { `${t('balance')}:` }
         </div>
         <div className="request-encryption-public-key__balance-value">
-          { `${balanceInEther} ETH` }
+          { `${balanceInEther} ${nativeCurrency}` }
         </div>
       </div>
     )

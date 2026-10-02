@@ -51,7 +51,6 @@ import EncryptionPublicKeyManager from './lib/encryption-public-key-manager'
 import PersonalMessageManager from './lib/personal-message-manager'
 import TypedMessageManager from './lib/typed-message-manager'
 import TransactionController from './controllers/transactions'
-import CurrencyRateController from './controllers/currency-rate'
 import PhishingController from './controllers/phishing'
 import DetectTokensController from './controllers/detect-tokens'
 import { PermissionsController } from './controllers/permissions'
@@ -115,8 +114,6 @@ export default class EcfWalletController extends EventEmitter {
       showUnlockRequest: opts.showUnlockRequest,
       preferencesStore: this.preferencesController.store,
     })
-
-    this.currencyRateController = new CurrencyRateController(initState.CurrencyController)
 
     this.phishingController = new PhishingController()
 
@@ -248,17 +245,6 @@ export default class EcfWalletController extends EventEmitter {
       }
     })
 
-    this.networkController.on('networkDidChange', () => {
-      this.setCurrentCurrency(
-        this.currencyRateController.state.currentCurrency,
-        (error) => {
-          if (error) {
-            throw error
-          }
-        },
-      )
-    })
-
     this.networkController.lookupNetwork()
     this.personalMessageManager = new PersonalMessageManager({ getChainId: () => this.networkController.getChainId() })
     this.decryptMessageManager = new DecryptMessageManager()
@@ -271,7 +257,6 @@ export default class EcfWalletController extends EventEmitter {
       KeyringController: this.keyringController.store,
       PreferencesController: this.preferencesController.store,
       AddressBookController: this.addressBookStore,
-      CurrencyController: this.currencyRateController.store,
       NetworkController: this.networkController.store,
       CachedBalancesController: this.cachedBalancesController.store,
       AlertController: this.alertController.store,
@@ -294,7 +279,6 @@ export default class EcfWalletController extends EventEmitter {
       KeyringController: this.keyringController.memStore,
       PreferencesController: this.preferencesController.store,
       AddressBookController: this.addressBookStore,
-      CurrencyController: this.currencyRateController.store,
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
       IncomingTransactionsController: this.incomingTransactionsController.store,
@@ -456,7 +440,6 @@ export default class EcfWalletController extends EventEmitter {
     return {
       // etc
       getState: (cb) => cb(null, this.getState()),
-      setCurrentCurrency: this.setCurrentCurrency.bind(this),
       setUseBlockie: this.setUseBlockie.bind(this),
       setUseNonceField: this.setUseNonceField.bind(this),
       setUsePhishDetect: this.setUsePhishDetect.bind(this),
@@ -1796,28 +1779,6 @@ export default class EcfWalletController extends EventEmitter {
   //=============================================================================
 
   // Log blocks
-
-  /**
-   * A method for setting the user's preferred display currency.
-   * @param {string} currencyCode - The code of the preferred currency.
-   * @param {Function} cb - A callback function returning currency info.
-   */
-  setCurrentCurrency (currencyCode, cb) {
-    const { ticker } = this.networkController.getNetworkConfig()
-    try {
-      const currencyState = {
-        nativeCurrency: ticker,
-        currentCurrency: currencyCode,
-      }
-      this.currencyRateController.setCurrency(currencyState)
-      cb(null, this.currencyRateController.state)
-      return
-    } catch (err) {
-      cb(err)
-      // eslint-disable-next-line no-useless-return
-      return
-    }
-  }
 
   // network
   /**

@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Opret adgangskode"
   },
-  "currencyConversion": {
-    "message": "Valutakonvertering"
-  },
   "currentLanguage": {
     "message": "Nuværende sprog"
   },
@@ -663,9 +660,6 @@
   "noAddressForName": {
     "message": "Ingen adresse indstillet for dette navn."
   },
-  "noConversionRateAvailable": {
-    "message": "Ingen tilgængelig omregningskurs"
-  },
   "noTransactions": {
     "message": "Du har ingen transaktioner"
   },
@@ -860,9 +854,6 @@
   "seedPhraseReq": {
     "message": "Backupsætninger er 12 ord lange"
   },
-  "selectCurrency": {
-    "message": "Vælg valuta"
-  },
   "selectEachPhrase": {
     "message": "Vælg venligst hver sætning, for at sikre at de er korrekte."
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Vælg dette for at vise brændstofprisen og begræns styringen direkte på afsendelses- og bekræftelseskærmene."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Vis konvertering på testnet"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Vælg dette for at vise fiat-konvertering på Testnets"
   },
   "showPrivateKeys": {
     "message": "Vis private nøgler"
@@ -1103,9 +1088,6 @@
   },
   "unlockMessage": {
     "message": "Det decentraliserede internet venter"
-  },
-  "updatedWithDate": {
-    "message": "Opdaterede $1"
   },
   "urlErrorMsg": {
     "message": "Links kræver det rette HTTP/HTTPS-præfix."

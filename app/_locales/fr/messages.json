@@ -230,9 +230,6 @@
   "createPassword": {
     "message": "Créer un mot de passe"
   },
-  "currencyConversion": {
-    "message": "Conversion des devises"
-  },
   "currentLanguage": {
     "message": "Langue actuelle"
   },
@@ -657,9 +654,6 @@
   "noAddressForName": {
     "message": "Aucune adresse n'a été définie pour ce nom."
   },
-  "noConversionRateAvailable": {
-    "message": "Aucun taux de conversion disponible"
-  },
   "noTransactions": {
     "message": "Aucune transaction"
   },
@@ -857,9 +851,6 @@
   "seedPhraseReq": {
     "message": "Les phrases Seed sont composées de 12 mots"
   },
-  "selectCurrency": {
-    "message": "Selectionner Devise"
-  },
   "selectEachPhrase": {
     "message": "Veuillez sélectionner chaque phrase afin de vous assurer qu'elle est correcte."
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Sélectionnez cette option pour afficher le prix de l'essence et les contrôles des limites directement sur les écrans d'envoi et de confirmation."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Afficher la conversion sur Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Sélectionnez cette option pour afficher la conversion des monnaies fiduciaires sur Testnets."
   },
   "showPrivateKeys": {
     "message": "Afficher les clés privées"
@@ -1106,9 +1091,6 @@
   },
   "unlockMessage": {
     "message": "Le web décentralisé vous attend"
-  },
-  "updatedWithDate": {
-    "message": "Mis à jour $1"
   },
   "urlErrorMsg": {
     "message": "Les URLs requièrent un préfixe HTTP/HTTPS approprié."

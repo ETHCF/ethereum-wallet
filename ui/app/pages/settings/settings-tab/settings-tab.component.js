@@ -1,22 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import availableCurrencies from '../../../helpers/constants/available-conversions.json'
 import SimpleDropdown from '../../../components/app/dropdowns/simple-dropdown'
 import ToggleButton from '../../../components/ui/toggle-button'
 import locales from '../../../../../app/_locales/index.json'
 import { THEME_TYPES } from '../../../helpers/constants/themes'
-
-const sortedCurrencies = availableCurrencies.sort((a, b) => {
-  return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
-})
-
-const currencyOptions = sortedCurrencies.map(({ code, name }) => {
-  return {
-    displayValue: `${code.toUpperCase()} - ${name}`,
-    key: code,
-    value: code,
-  }
-})
 
 const localeOptions = locales.map((locale) => {
   return {
@@ -33,41 +20,12 @@ export default class SettingsTab extends PureComponent {
 
   static propTypes = {
     setUseBlockie: PropTypes.func,
-    setCurrentCurrency: PropTypes.func,
     warning: PropTypes.string,
     updateCurrentLocale: PropTypes.func,
     currentLocale: PropTypes.string,
     useBlockie: PropTypes.bool,
-    currentCurrency: PropTypes.string,
-    conversionDate: PropTypes.number,
     theme: PropTypes.string,
     setThemePreference: PropTypes.func,
-  }
-
-  renderCurrentConversion () {
-    const { t } = this.context
-    const { currentCurrency, conversionDate, setCurrentCurrency } = this.props
-
-    return (
-      <div className="settings-page__content-row">
-        <div className="settings-page__content-item">
-          <span>{ t('currencyConversion') }</span>
-          <span className="settings-page__content-description">
-            { t('updatedWithDate', [Date(conversionDate)]) }
-          </span>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <SimpleDropdown
-              placeholder={t('selectCurrency')}
-              options={currencyOptions}
-              selectedOption={currentCurrency}
-              onSelect={(newCurrency) => setCurrentCurrency(newCurrency)}
-            />
-          </div>
-        </div>
-      </div>
-    )
   }
 
   renderCurrentLocale () {
@@ -160,7 +118,6 @@ export default class SettingsTab extends PureComponent {
     return (
       <div className="settings-page__body">
         { warning && <div className="settings-tab__error">{ warning }</div> }
-        { this.renderCurrentConversion() }
         { this.renderCurrentLocale() }
         { this.renderTheme() }
         { this.renderBlockieOptIn() }

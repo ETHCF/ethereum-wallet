@@ -6,7 +6,6 @@ import {
 } from '..'
 import {
   getBlockGasLimit,
-  getConversionRate,
   getCurrentNetwork,
   getNativeCurrency,
   getGasLimit,
@@ -97,15 +96,6 @@ describe('send selectors', function () {
     })
   })
 
-  describe('getConversionRate()', function () {
-    it('should return the eth conversion rate', function () {
-      assert.deepEqual(
-        getConversionRate(mockState),
-        1200.88200327,
-      )
-    })
-  })
-
   describe('getCurrentAccountWithSendEtherInfo()', function () {
     it('should return the currently selected account with identity info', function () {
       assert.deepEqual(
@@ -125,6 +115,20 @@ describe('send selectors', function () {
     it('should return the ticker symbol of the selected network', function () {
       assert.equal(
         getNativeCurrency(mockState),
+        'ETH',
+      )
+    })
+
+    it('should return the ticker of a non-ETH provider', function () {
+      assert.equal(
+        getNativeCurrency({ ecfWallet: { provider: { type: 'rpc', ticker: 'ETC' } } }),
+        'ETC',
+      )
+    })
+
+    it('should default to ETH if the provider has no ticker', function () {
+      assert.equal(
+        getNativeCurrency({ ecfWallet: {} }),
         'ETH',
       )
     })

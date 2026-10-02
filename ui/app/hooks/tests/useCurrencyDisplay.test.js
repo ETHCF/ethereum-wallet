@@ -3,30 +3,29 @@ import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
 import sinon from 'sinon'
 import { useCurrencyDisplay } from '../useCurrencyDisplay'
-import { getCurrentCurrency, getNativeCurrency, getConversionRate } from '../../selectors'
+import { getNativeCurrency } from '../../selectors'
 
 const tests = [
   {
     input: {
       value: '0x2386f26fc10000',
       numberOfDecimals: 2,
-      currency: 'usd',
+      currency: 'ETH',
     },
     result: {
-      value: '$2.80',
-      suffix: 'USD',
-      displayValue: '$2.80 USD',
+      value: '0.01',
+      suffix: 'ETH',
+      displayValue: '0.01 ETH',
     },
   },
   {
     input: {
       value: '0x2386f26fc10000',
-      currency: 'usd',
     },
     result: {
-      value: '$2.80',
-      suffix: 'USD',
-      displayValue: '$2.80 USD',
+      value: '0.01',
+      suffix: 'ETH',
+      displayValue: '0.01 ETH',
     },
   },
   {
@@ -100,12 +99,8 @@ describe('useCurrencyDisplay', function () {
     describe(`when input is { value: ${value}, decimals: ${restProps.numberOfDecimals}, denomation: ${restProps.denomination} }`, function () {
       const stub = sinon.stub(reactRedux, 'useSelector')
       stub.callsFake((selector) => {
-        if (selector === getCurrentCurrency) {
-          return 'usd'
-        } else if (selector === getNativeCurrency) {
+        if (selector === getNativeCurrency) {
           return 'ETH'
-        } else if (selector === getConversionRate) {
-          return 280.45
         }
         return undefined
       })

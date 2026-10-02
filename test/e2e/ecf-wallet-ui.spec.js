@@ -376,8 +376,6 @@ describe('ecf-wallet', function () {
       await driver.clickElement(By.xpath(`//div[contains(text(), 'Advanced')]`))
       await driver.delay(regularDelayMs)
 
-      await driver.clickElement(By.css('[data-testid="advanced-setting-show-testnet-conversion"] .settings-page__content-item-col > div > div'))
-
       const advancedGasTitle = await driver.findElement(By.xpath(`//span[contains(text(), 'Advanced gas controls')]`))
       await driver.scrollToElement(advancedGasTitle)
 

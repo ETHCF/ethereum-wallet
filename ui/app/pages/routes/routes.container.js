@@ -10,7 +10,6 @@ import {
 import {
   hideSidebar,
   lockEcfWallet,
-  setCurrentCurrency,
   setLastActiveTime,
   setMouseUserState,
 } from '../../store/actions'
@@ -40,7 +39,6 @@ function mapStateToProps (state) {
     network: state.ecfWallet.network,
     provider: state.ecfWallet.provider,
     frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
-    currentCurrency: state.ecfWallet.currentCurrency,
     isMouseUser: state.appState.isMouseUser,
     providerId: getNetworkIdentifier(state),
     autoLockTimeLimit,
@@ -53,7 +51,6 @@ function mapDispatchToProps (dispatch) {
   return {
     lockEcfWallet: () => dispatch(lockEcfWallet(false)),
     hideSidebar: () => dispatch(hideSidebar()),
-    setCurrentCurrencyToUSD: () => dispatch(setCurrentCurrency('usd')),
     setMouseUserState: (isMouseUser) => dispatch(setMouseUserState(isMouseUser)),
     setLastActiveTime: () => dispatch(setLastActiveTime()),
     pageChanged: (path) => dispatch(pageChanged(path)),

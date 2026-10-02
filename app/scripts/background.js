@@ -183,9 +183,6 @@ function queueConnection (port, handler) {
  * @property {string[]} keyringTypes - An array of unique keyring identifying strings, representing available strategies for creating accounts.
  * @property {Keyring[]} keyrings - An array of keyring descriptions, summarizing the accounts that are available for use, and what keyrings they belong to.
  * @property {string} selectedAddress - A lower case hex string of the currently selected address.
- * @property {string} currentCurrency - A string identifying the user's preferred display currency, for use in showing conversion rates.
- * @property {number} conversionRate - A number representing the current exchange rate from the user's preferred currency to Ether.
- * @property {number} conversionDate - A unix epoch date (ms) for the time the current conversion rate was last retrieved.
  * @property {boolean} forgottenPassword - Returns true if the user has initiated the password recovery screen, is recovering from seed phrase.
  */
 

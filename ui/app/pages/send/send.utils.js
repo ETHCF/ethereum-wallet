@@ -47,7 +47,6 @@ function calcGasTotal (gasLimit = '0', gasPrice = '0') {
 function isBalanceSufficient ({
   amount = '0x0',
   balance = '0x0',
-  conversionRate = 1,
   gasTotal = '0x0',
   primaryCurrency,
 }) {
@@ -62,12 +61,10 @@ function isBalanceSufficient ({
       value: balance,
       fromNumericBase: 'hex',
       fromCurrency: primaryCurrency,
-      conversionRate,
     },
     {
       value: totalAmount,
       fromNumericBase: 'hex',
-      conversionRate,
       fromCurrency: primaryCurrency,
     },
   )
@@ -100,18 +97,16 @@ function isTokenBalanceSufficient ({
 function getAmountErrorObject ({
   amount,
   balance,
-  conversionRate,
   gasTotal,
   primaryCurrency,
   sendToken,
   tokenBalance,
 }) {
   let insufficientFunds = false
-  if (gasTotal && conversionRate && !sendToken) {
+  if (gasTotal && !sendToken) {
     insufficientFunds = !isBalanceSufficient({
       amount,
       balance,
-      conversionRate,
       gasTotal,
       primaryCurrency,
     })
@@ -147,17 +142,15 @@ function getAmountErrorObject ({
 
 function getGasFeeErrorObject ({
   balance,
-  conversionRate,
   gasTotal,
   primaryCurrency,
 }) {
   let gasFeeError = null
 
-  if (gasTotal && conversionRate) {
+  if (gasTotal) {
     const insufficientFunds = !isBalanceSufficient({
       amount: '0x0',
       balance,
-      conversionRate,
       gasTotal,
       primaryCurrency,
     })

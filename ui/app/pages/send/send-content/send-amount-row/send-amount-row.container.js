@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import {
-  getConversionRate,
   getGasTotal,
   getPrimaryCurrency,
   getSendToken,
@@ -26,7 +25,6 @@ function mapStateToProps (state) {
   return {
     amount: getSendAmount(state),
     balance: getSendFromBalance(state),
-    conversionRate: getConversionRate(state),
     gasTotal: getGasTotal(state),
     inError: sendAmountIsInError(state),
     primaryCurrency: getPrimaryCurrency(state),

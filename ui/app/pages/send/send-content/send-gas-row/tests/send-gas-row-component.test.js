@@ -20,7 +20,6 @@ describe('SendGasRow Component', function () {
     beforeEach(function () {
       wrapper = shallow((
         <SendGasRow
-          conversionRate={20}
           convertedCurrency="mockConvertedCurrency"
           gasFeeError
           gasLoadingError={false}

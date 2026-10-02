@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Ustvari geslo"
   },
-  "currencyConversion": {
-    "message": "Pretvorba valute"
-  },
   "currentLanguage": {
     "message": "Trenutni jezik"
   },
@@ -660,9 +657,6 @@
   "noAddressForName": {
     "message": "Za to ime ni naslovov."
   },
-  "noConversionRateAvailable": {
-    "message": "Menjalni tečaj ni na voljo"
-  },
   "noTransactions": {
     "message": "Nimate transakcij"
   },
@@ -857,9 +851,6 @@
   "seedPhraseReq": {
     "message": "Seed phrase mora biti dolg 12 besed"
   },
-  "selectCurrency": {
-    "message": "Izberi valuto"
-  },
   "selectEachPhrase": {
     "message": "Izberite vsako geslo ter se prepričajte, da je pravilno."
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Izberite to možnost, če želite prikazati ceno plina in omejiti nadzor neposredno na zaslonih za pošiljanje in potrditev."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Pokažite pretvorbo na testnih omrežjih"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Izberite to možnost, če želite prikazati pretvorbo klasičnih valut na preskusnih omrežjih"
   },
   "showPrivateKeys": {
     "message": "Pokaži zasebni ključ"
@@ -1112,9 +1097,6 @@
   },
   "unlockMessage": {
     "message": "Decentralizirana spletna denarnica"
-  },
-  "updatedWithDate": {
-    "message": "Posodobljeno $1"
   },
   "urlErrorMsg": {
     "message": "URI zahtevajo ustrezno HTTP/HTTPS predpono."

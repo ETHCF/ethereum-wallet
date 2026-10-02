@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "ایجاد رمز عبور"
   },
-  "currencyConversion": {
-    "message": "تبادل واحد پول"
-  },
   "currentLanguage": {
     "message": "زبان فعلی"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "هیچ آدرسی برای این نام تنظیم نشده است."
   },
-  "noConversionRateAvailable": {
-    "message": "هیچ نرخ تغییر موجود نمیباشد"
-  },
   "noTransactions": {
     "message": "شما هیچ معامله ندارید"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "عبارات بازیاب 12 کلمه اند"
   },
-  "selectCurrency": {
-    "message": "واحد پول را انتخاب کنید"
-  },
   "selectEachPhrase": {
     "message": "لطفًا جهت اطمینان از درستی، هر عبارت را انتخاب کنید."
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "این را انتخاب نمایید تا قیمت گاز را نشان داده و کنترول ها را بصورت مستقیم در صفحات ارسال و تأیید محدود نماید."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "نمایش تغییرات Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "این را جهت تبادل فیات بر تیست نیت ها انتخاب نمایید"
   },
   "showPrivateKeys": {
     "message": "نمایش کلید های شخصی"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "وب غیر متمرکز شده انتظار میکشد"
-  },
-  "updatedWithDate": {
-    "message": "بروزرسانی شد 1$1"
   },
   "urlErrorMsg": {
     "message": "URl ها نیازمند پیشوند مناسب HTTP/HTTPS اند."

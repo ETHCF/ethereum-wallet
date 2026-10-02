@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Sukurti slaptažodį"
   },
-  "currencyConversion": {
-    "message": "Valiutos keitimas"
-  },
   "currentLanguage": {
     "message": "Dabartinė kalba"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "Šiam pavadinimui nenurodytas adresas."
   },
-  "noConversionRateAvailable": {
-    "message": "Nėra keitimo kurso"
-  },
   "noTransactions": {
     "message": "Neturite jokių operacijų"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "Atkūrimo frazės yra 12 žodžių ilgio"
   },
-  "selectCurrency": {
-    "message": "Pasirinkite valiutą"
-  },
   "selectEachPhrase": {
     "message": "Pasirinkite kiekvieną frazę, kad patikrintumėte, ar ji tinkama"
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Pasirinkite tai, kad būtų rodoma dujų kaina, ir ribokite valdymo elementus tiesiogiai siuntimo ir patvirtinimo ekranuose."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Rodyti keitimą „Testnet“"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Pasirinkite tai, kad būtų rodomas standartinės valiutos keitimas „Testnet“ programoje"
   },
   "showPrivateKeys": {
     "message": "Rodyti asmeninius raktus"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "Laukiančios decentralizuotos svetainės"
-  },
-  "updatedWithDate": {
-    "message": "Atnaujinta $1"
   },
   "urlErrorMsg": {
     "message": "URI reikia atitinkamo HTTP/HTTPS priešdėlio."

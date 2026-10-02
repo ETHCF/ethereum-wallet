@@ -73,11 +73,6 @@ describe('gas-modal-page-container container', function () {
             amount: '64',
             maxModeOn: false,
           },
-          currentCurrency: 'abc',
-          conversionRate: 50,
-          preferences: {
-            showFiatInTestnets: false,
-          },
           provider: {
             type: 'mainnet',
           },
@@ -125,7 +120,6 @@ describe('gas-modal-page-container container', function () {
         customGasPrice: 4.294967295,
         customGasLimit: 2863311530,
         currentTimeEstimate: '~1 min 11 sec',
-        newTotalFiat: '637.41',
         blockTime: 12,
         customModalGasLimitInHex: 'aaaaaaaa',
         customModalGasPriceInHex: 'ffffffff',
@@ -146,9 +140,7 @@ describe('gas-modal-page-container container', function () {
         gasEstimatesLoading: false,
         hideBasic: true,
         infoRowProps: {
-          originalTotalFiat: '637.41',
           originalTotalEth: '12.748189 ETH',
-          newTotalFiat: '637.41',
           newTotalEth: '12.748189 ETH',
           sendAmount: '0.45036 ETH',
           transactionFee: '12.297829 ETH',
@@ -184,36 +176,6 @@ describe('gas-modal-page-container container', function () {
             ...baseMockState,
             ecfWallet: {
               ...baseMockState.ecfWallet,
-              preferences: {
-                ...baseMockState.ecfWallet.preferences,
-                showFiatInTestnets: false,
-              },
-              provider: {
-                ...baseMockState.ecfWallet.provider,
-                type: 'sepolia',
-              },
-            },
-          },
-          mockOwnProps: baseMockOwnProps,
-          expectedResult: {
-            ...baseExpectedResult,
-            infoRowProps: {
-              ...baseExpectedResult.infoRowProps,
-              newTotalFiat: '',
-            },
-            isEthereumNetwork: false,
-            isMainnet: false,
-          },
-        },
-        {
-          mockState: {
-            ...baseMockState,
-            ecfWallet: {
-              ...baseMockState.ecfWallet,
-              preferences: {
-                ...baseMockState.ecfWallet.preferences,
-                showFiatInTestnets: true,
-              },
               provider: {
                 ...baseMockState.ecfWallet.provider,
                 type: 'sepolia',
@@ -226,24 +188,6 @@ describe('gas-modal-page-container container', function () {
             isEthereumNetwork: false,
             isMainnet: false,
           },
-        },
-        {
-          mockState: {
-            ...baseMockState,
-            ecfWallet: {
-              ...baseMockState.ecfWallet,
-              preferences: {
-                ...baseMockState.ecfWallet.preferences,
-                showFiatInTestnets: true,
-              },
-              provider: {
-                ...baseMockState.ecfWallet.provider,
-                type: 'mainnet',
-              },
-            },
-          },
-          mockOwnProps: baseMockOwnProps,
-          expectedResult: baseExpectedResult,
         },
       ]
 

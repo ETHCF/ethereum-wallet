@@ -1,5 +1,3 @@
-import currencyFormatter from 'currency-formatter'
-import currencies from 'currency-formatter/currencies'
 import ethUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 import { bumpFee } from '../../../../app/scripts/lib/transaction-fees'
@@ -40,20 +38,10 @@ export function addEth (...args) {
   })
 }
 
-export function addFiat (...args) {
-  return args.reduce((acc, base) => {
-    return addCurrencies(acc, base, {
-      toNumericBase: 'dec',
-      numberOfDecimals: 2,
-    })
-  })
-}
-
 export function getValueFromWeiHex ({
   value,
   fromCurrency = 'ETH',
   toCurrency,
-  conversionRate,
   numberOfDecimals,
   toDenomination,
 }) {
@@ -65,7 +53,6 @@ export function getValueFromWeiHex ({
     numberOfDecimals,
     fromDenomination: 'WEI',
     toDenomination,
-    conversionRate,
   })
 }
 
@@ -73,7 +60,6 @@ export function getTransactionFee ({
   value,
   fromCurrency = 'ETH',
   toCurrency,
-  conversionRate,
   numberOfDecimals,
 }) {
   return conversionUtil(value, {
@@ -83,16 +69,7 @@ export function getTransactionFee ({
     fromCurrency,
     toCurrency,
     numberOfDecimals,
-    conversionRate,
   })
-}
-
-export function formatCurrency (value, currencyCode) {
-  const upperCaseCurrencyCode = currencyCode.toUpperCase()
-
-  return currencies.find((currency) => currency.code === upperCaseCurrencyCode)
-    ? currencyFormatter.format(Number(value), { code: upperCaseCurrencyCode, style: 'currency' })
-    : value
 }
 
 export function hasUnconfirmedTransactions (state) {

@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Loo parool"
   },
-  "currencyConversion": {
-    "message": "Valuuta teisendamine"
-  },
   "currentLanguage": {
     "message": "Praegune keel"
   },
@@ -669,9 +666,6 @@
   "noAddressForName": {
     "message": "Sellele nimele pole registreeritud ühtegi aadressi."
   },
-  "noConversionRateAvailable": {
-    "message": "Ühtegi vahetuskurssi pole saadaval"
-  },
   "noTransactions": {
     "message": "Teil ei ole tehinguid"
   },
@@ -869,9 +863,6 @@
   "seedPhraseReq": {
     "message": "Seemnefraasid on 12 sõna pikad"
   },
-  "selectCurrency": {
-    "message": "Valitud valuuta"
-  },
   "selectEachPhrase": {
     "message": "Valige iga fraas, veendumaks, et see on õige."
   },
@@ -928,12 +919,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Valige see, et kuvada gaasi hinda ja piirangut otse saatmise ning kinnitamise kuval."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Kuva teisendus Testnetsis"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Valige see, et kuvada Testnetsis fiati teisendus"
   },
   "showPrivateKeys": {
     "message": "Kuva privaatvõtmed"
@@ -1124,9 +1109,6 @@
   },
   "unlockMessage": {
     "message": "Detsentraliseeritud veeb ootab"
-  },
-  "updatedWithDate": {
-    "message": "Värskendatud $1"
   },
   "urlErrorMsg": {
     "message": "URI-d nõuavad sobivat HTTP/HTTPS-i prefiksit."

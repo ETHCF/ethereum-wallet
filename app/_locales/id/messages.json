@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Buat Sandi"
   },
-  "currencyConversion": {
-    "message": "Konversi Mata Uang"
-  },
   "currentLanguage": {
     "message": "Bahasa Saat Ini"
   },
@@ -660,9 +657,6 @@
   "noAddressForName": {
     "message": "Belum ada alamat yang dipasang untuk nama ini."
   },
-  "noConversionRateAvailable": {
-    "message": "Kurs Konversi Tidak Tersedia"
-  },
   "noTransactions": {
     "message": "Anda tidak memiliki transaksi"
   },
@@ -860,9 +854,6 @@
   "seedPhraseReq": {
     "message": "Frasa seed terdiri atas 12 kata"
   },
-  "selectCurrency": {
-    "message": "Pilih Mata Uang"
-  },
   "selectEachPhrase": {
     "message": "Silakan pilih setiap frasa untuk memastikan bahwa ini benar."
   },
@@ -919,12 +910,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Pilih ini untuk menampilkan harga gas dan batasi kontrol langsung pada layar pengiriman dan konfirmasi."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Tampilkan Konversi di Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Pilih ini untuk menampilkan konversi fiat di Testnets"
   },
   "showPrivateKeys": {
     "message": "Tampilkan Kunci Pribadi"
@@ -1106,9 +1091,6 @@
   },
   "unlockMessage": {
     "message": "Web terdesentralisasi menanti"
-  },
-  "updatedWithDate": {
-    "message": "Diperbarui $1"
   },
   "urlErrorMsg": {
     "message": "URI memerlukan awalan HTTP/HTTPS yang sesuai."

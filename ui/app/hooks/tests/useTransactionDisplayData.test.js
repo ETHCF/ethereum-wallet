@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks'
 import sinon from 'sinon'
 import transactions from '../../../../test/data/transaction-data.json'
 import { useTransactionDisplayData } from '../useTransactionDisplayData'
-import { getPreferences, getShouldShowFiat, getNativeCurrency, getCurrentCurrency } from '../../selectors'
+import { getNativeCurrency } from '../../selectors'
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import * as i18nhooks from '../useI18nContext'
 import { getMessage } from '../../helpers/utils/i18n-helper'
@@ -20,7 +20,6 @@ const expectedResults = [
     primaryCurrency: '-1 ETH',
     senderAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
     recipientAddress: '0xffe5bc4e8f1f969934d773fa67da095d2e491a97',
-    secondaryCurrency: '-1 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -33,7 +32,6 @@ const expectedResults = [
     primaryCurrency: '-2 ETH',
     senderAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
     recipientAddress: '0x0ccc8aeeaf5ce790f3b448325981a143fdef8848',
-    secondaryCurrency: '-2 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -46,7 +44,6 @@ const expectedResults = [
     primaryCurrency: '-2 ETH',
     senderAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
     recipientAddress: '0xffe5bc4e8f1f969934d773fa67da095d2e491a97',
-    secondaryCurrency: '-2 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -59,7 +56,6 @@ const expectedResults = [
     primaryCurrency: '18.75 ETH',
     senderAddress: '0x31b98d14007bdee637298086988a0bbd31184523',
     recipientAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
-    secondaryCurrency: '18.75 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -72,7 +68,6 @@ const expectedResults = [
     primaryCurrency: '0 ETH',
     senderAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
     recipientAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
-    secondaryCurrency: '0 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -85,7 +80,6 @@ const expectedResults = [
     primaryCurrency: '1 ETH',
     senderAddress: '0xee014609ef9e09776ac5fe00bdbfef57bcdefebb',
     recipientAddress: '0x9eca64466f257793eaa52fcfff5066894b76a149',
-    secondaryCurrency: '1 ETH',
     isPending: false,
     status: 'confirmed',
   },
@@ -104,15 +98,7 @@ describe('useTransactionDisplayData', function () {
     useSelector.callsFake((selector) => {
       if (selector === getTokens) {
         return []
-      } else if (selector === getPreferences) {
-        return {
-          useNativeCurrencyAsPrimaryCurrency: true,
-        }
-      } else if (selector === getShouldShowFiat) {
-        return false
       } else if (selector === getNativeCurrency) {
-        return 'ETH'
-      } else if (selector === getCurrentCurrency) {
         return 'ETH'
       }
       return null
@@ -136,10 +122,6 @@ describe('useTransactionDisplayData', function () {
       it(`should return a primaryCurrency of ${expected.primaryCurrency}`, function () {
         const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
         assert.equal(result.current.primaryCurrency, expected.primaryCurrency)
-      })
-      it(`should return a secondaryCurrency of ${expected.secondaryCurrency}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.secondaryCurrency, expected.secondaryCurrency)
       })
       it(`should return a status of ${expected.status}`, function () {
         const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))

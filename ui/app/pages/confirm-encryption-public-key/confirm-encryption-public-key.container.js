@@ -9,7 +9,7 @@ import {
 } from '../../store/actions'
 
 import {
-  conversionRateSelector,
+  getNativeCurrency,
   getTargetAccountWithSendEtherInfo,
 } from '../../selectors'
 
@@ -37,7 +37,7 @@ function mapStateToProps (state) {
     fromAccount,
     requester: null,
     requesterAddress: null,
-    conversionRate: conversionRateSelector(state),
+    nativeCurrency: getNativeCurrency(state),
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   }
 }

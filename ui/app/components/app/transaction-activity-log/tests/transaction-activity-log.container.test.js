@@ -17,12 +17,13 @@ describe('TransactionActivityLog container', function () {
     it('should return the correct props', function () {
       const mockState = {
         ecfWallet: {
-          conversionRate: 280.45,
-          nativeCurrency: 'ETH',
+          provider: {
+            ticker: 'ETH',
+          },
         },
       }
 
-      assert.deepEqual(mapStateToProps(mockState), { conversionRate: 280.45, nativeCurrency: 'ETH' })
+      assert.deepEqual(mapStateToProps(mockState), { nativeCurrency: 'ETH' })
     })
   })
 })

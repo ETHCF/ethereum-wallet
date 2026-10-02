@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "إنشاء كلمة مرور"
   },
-  "currencyConversion": {
-    "message": "تحويل العملات"
-  },
   "currentLanguage": {
     "message": "اللغة الحالية"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "لم يتم تعيين عنوان لهذا الاسم."
   },
-  "noConversionRateAvailable": {
-    "message": "لا يوجد معدل تحويل متاح"
-  },
   "noTransactions": {
     "message": "لا توجد لديك معاملات"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "طول الجمل البذرية 12 كلمة"
   },
-  "selectCurrency": {
-    "message": "تحديد العملة"
-  },
   "selectEachPhrase": {
     "message": "يُرجى تحديد كل عبارة للتأكد من صحتها."
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "حدد هذا لإظهار سعر عملة جاس والحد من الضوابط مباشرة على شاشات الإرسال والتأكيد."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "عرض التحويل على Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "حدد هذا لإظهار تحويل fiat على Testnets"
   },
   "showPrivateKeys": {
     "message": "عرض المفاتيح الخاصة"
@@ -1127,9 +1112,6 @@
   },
   "unlockMessage": {
     "message": "شبكة الويب اللامركزية بانتظارك"
-  },
-  "updatedWithDate": {
-    "message": "تم تحديث $1"
   },
   "urlErrorMsg": {
     "message": "تتطلب الروابط بادئة HTTP/HTTPS مناسبة."

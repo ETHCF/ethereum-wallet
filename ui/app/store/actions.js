@@ -428,31 +428,6 @@ export function showQrScanner () {
   }
 }
 
-export function setCurrentCurrency (currencyCode) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication())
-    log.debug(`background.setCurrentCurrency`)
-    let data
-    try {
-      data = await promisifiedBackground.setCurrentCurrency(currencyCode)
-    } catch (error) {
-      dispatch(hideLoadingIndication())
-      log.error(error.stack)
-      dispatch(displayWarning(error.message))
-      return
-    }
-    dispatch(hideLoadingIndication())
-    dispatch({
-      type: actionConstants.SET_CURRENT_FIAT,
-      value: {
-        currentCurrency: data.currentCurrency,
-        conversionRate: data.conversionRate,
-        conversionDate: data.conversionDate,
-      },
-    })
-  }
-}
-
 export function signPersonalMsg (msgData) {
   log.debug('action - signPersonalMsg')
   return async (dispatch) => {
@@ -1834,10 +1809,6 @@ export function setDefaultHomeActiveTabName (value) {
 
 export function setThemePreference (value) {
   return setPreference('theme', value)
-}
-
-export function setShowFiatConversionOnTestnetsPreference (value) {
-  return setPreference('showFiatInTestnets', value)
 }
 
 export function setAutoLockTimeLimit (value) {

@@ -4,7 +4,6 @@ import {
   tokenAmountAndToAddressSelector,
   approveTokenAmountAndToAddressSelector,
   sendTokenTokenAmountAndToAddressSelector,
-  conversionRateSelector,
 } from '../confirm-transaction'
 
 describe('Confirm Transaction Selector', function () {
@@ -131,14 +130,5 @@ describe('Confirm Transaction Selector', function () {
         { toAddress: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc', tokenAmount: 0.01 })
     })
 
-  })
-
-  describe('conversionRateSelector', function () {
-    it('returns conversionRate from state', function () {
-      const state = {
-        ecfWallet: { conversionRate: 556.12 },
-      }
-      assert.equal(conversionRateSelector(state), 556.12)
-    })
   })
 })

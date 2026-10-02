@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux'
 import { getKnownMethodData } from '../selectors/selectors'
 import { getTransactionActionKey, getStatusKey } from '../helpers/utils/transactions.util'
 import { camelCaseToCapitalize } from '../helpers/utils/common.util'
-import { PRIMARY, SECONDARY } from '../helpers/constants/common'
 import { getTokenToAddress } from '../helpers/utils/token-util'
 import { formatDateWithYearContext, stripHttpSchemes } from '../helpers/utils/util'
 import {
@@ -35,7 +34,6 @@ import { useTokenData } from './useTokenData'
  * @property {bool}   subtitleContainsOrigin - true if the subtitle includes the origin of the tx
  * @property {string} category               - the transaction category
  * @property {string} primaryCurrency        - the currency string to display in the primary position
- * @property {string} [secondaryCurrency]    - the currency string to display in the secondary position
  * @property {string} status                 - the status of the transaction
  * @property {string} senderAddress          - the Ethereum address of the sender
  * @property {string} recipientAddress       - the Ethereum address of the recipient
@@ -128,19 +126,13 @@ export function useTransactionDisplayData (transactionGroup) {
     subtitle = t('toAddress', [recipientAddress])
   }
 
-  const primaryCurrencyPreferences = useUserPreferencedCurrency(PRIMARY)
-  const secondaryCurrencyPreferences = useUserPreferencedCurrency(SECONDARY)
+  const primaryCurrencyPreferences = useUserPreferencedCurrency()
 
   const [primaryCurrency] = useCurrencyDisplay(primaryValue, {
     prefix,
     displayValue: isTokenCategory ? tokenDisplayValue : undefined,
     suffix: isTokenCategory ? token?.symbol : undefined,
     ...primaryCurrencyPreferences,
-  })
-
-  const [secondaryCurrency] = useCurrencyDisplay(primaryValue, {
-    prefix,
-    ...secondaryCurrencyPreferences,
   })
 
   return {
@@ -152,8 +144,6 @@ export function useTransactionDisplayData (transactionGroup) {
     primaryCurrency,
     senderAddress,
     recipientAddress,
-    // Tokens have no price, so token transfers show no fiat amount.
-    secondaryCurrency: isTokenCategory ? undefined : secondaryCurrency,
     status,
     isPending: status in PENDING_STATUS_HASH,
   }

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import {
-  getConversionRate,
   getGasTotal,
   getGasPrice,
   getGasLimit,
@@ -45,14 +44,12 @@ function mapStateToProps (state) {
   const activeButtonIndex = getDefaultActiveButtonIndex(gasButtonInfo, gasPrice)
 
   const gasTotal = getGasTotal(state)
-  const conversionRate = getConversionRate(state)
   const balance = getCurrentEthBalance(state)
 
   const insufficientBalance = !isBalanceSufficient({
     amount: getSendToken(state) ? '0x0' : getSendAmount(state),
     gasTotal,
     balance,
-    conversionRate,
   })
 
   return {

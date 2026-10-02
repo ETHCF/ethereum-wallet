@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "ಪಾಸ್‌ವರ್ಡ್ ರಚಿಸಿ"
   },
-  "currencyConversion": {
-    "message": "ಕರೆನ್ಸಿ ಪರಿವರ್ತನೆ"
-  },
   "currentLanguage": {
     "message": "ಪ್ರಸ್ತುತ ಭಾಷೆ"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "ಈ ಹೆಸರಿಗೆ ಯಾವುದೇ ವಿಳಾಸವನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ."
   },
-  "noConversionRateAvailable": {
-    "message": "ಯಾವುದೇ ಪರಿವರ್ತನೆ ದರ ಲಭ್ಯವಿಲ್ಲ"
-  },
   "noTransactions": {
     "message": "ನೀವು ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿಲ್ಲ"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "ಸೀಡ್ ಫ್ರೇಸ್‌ಗಳು 12 ಪದಗಳಷ್ಟು ದೀರ್ಘವಾಗಿವೆ"
   },
-  "selectCurrency": {
-    "message": "ಕರೆನ್ಸಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ"
-  },
   "selectEachPhrase": {
     "message": "ಅದು ಸರಿಯಾಗಿದೆಯೆ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಲು ದಯವಿಟ್ಟು ಪ್ರತಿ ಫ್ರೇಸ್ ಅನ್ನು ಆಯ್ಕೆಮಾಡಿ."
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "ಕಳುಹಿಸುವ ಮತ್ತು ಖಚಿತಪಡಿಸುವ ಪರದೆಯ ಮೇಲೆ ನೇರವಾಗಿ ಗ್ಯಾಸ್ ಬೆಲೆ ಮತ್ತು ಮಿತಿಯ ನಿಯಂತ್ರಣಗಳನ್ನು ತೋರಿಸಲು ಇದನ್ನು ಆಯ್ಕೆಮಾಡಿ."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Testnets ನಲ್ಲಿ ಪರಿವರ್ತನೆಯನ್ನು ತೋರಿಸಿ"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Testnets ನಲ್ಲಿ ಫಿಯೆಟ್ ಪರಿವರ್ತನೆಯನ್ನು ತೋರಿಸಲು ಇದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
   "showPrivateKeys": {
     "message": "ಖಾಸಗಿ ಕೀಗಳನ್ನು ತೋರಿಸಿ"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "ವಿಕೇಂದ್ರೀಕೃತ ವೆಬ್ ನಿರೀಕ್ಷಿಸುತ್ತಿದೆ"
-  },
-  "updatedWithDate": {
-    "message": "$1 ನವೀಕರಿಸಲಾಗಿದೆ"
   },
   "urlErrorMsg": {
     "message": "URI ಗಳಿಗೆ ಸೂಕ್ತವಾದ HTTP/HTTPS ಪೂರ್ವಪ್ರತ್ಯಯದ ಅಗತ್ಯವಿದೆ."

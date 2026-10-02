@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Crear Contrasenya"
   },
-  "currencyConversion": {
-    "message": "Conversió de divisa"
-  },
   "currentLanguage": {
     "message": "Llengua Actual"
   },
@@ -663,9 +660,6 @@
   "noAddressForName": {
     "message": "No existeix cap adreça amb aquest nom."
   },
-  "noConversionRateAvailable": {
-    "message": "No hi ha cap tarifa de conversió disponible"
-  },
   "noTransactions": {
     "message": "No tens transaccions"
   },
@@ -857,9 +851,6 @@
   "seedPhraseReq": {
     "message": "Les frases de recuperació tenen 12 paraules"
   },
-  "selectCurrency": {
-    "message": "Selecciona divisa"
-  },
   "selectEachPhrase": {
     "message": "Si us plau selecciona cada frase per a assegurar-te que és correcta."
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Selecciona això per a mostrar el preu del gas i els controls de límit directament a les pantalles d'enviament i confirmació."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Mostra Conversió a Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Selecciona aquest per mostrar conversió Fiat a Testnets"
   },
   "showPrivateKeys": {
     "message": "Mostrar Claus Privades"
@@ -1106,9 +1091,6 @@
   },
   "unlockMessage": {
     "message": "La web descentralitzada està esperant"
-  },
-  "updatedWithDate": {
-    "message": "Actualitzat $1"
   },
   "urlErrorMsg": {
     "message": "Els URIs requereixen el prefix HTTP/HTTPS  apropiat."

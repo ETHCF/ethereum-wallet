@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Utwórz hasło"
   },
-  "currencyConversion": {
-    "message": "Przeliczanie walut"
-  },
   "currentLanguage": {
     "message": "Obecny język"
   },
@@ -669,9 +666,6 @@
   "noAddressForName": {
     "message": "Nie wybrano żadnego adresu dla tej nazwy."
   },
-  "noConversionRateAvailable": {
-    "message": "Brak kursu waluty"
-  },
   "noTransactions": {
     "message": "Nie ma transakcji"
   },
@@ -869,9 +863,6 @@
   "seedPhraseReq": {
     "message": "Frazy seed mają 12 słów"
   },
-  "selectCurrency": {
-    "message": "Wybierz walutę"
-  },
   "selectEachPhrase": {
     "message": "Wybierz każdą frazę, aby upewnić się, że jest poprawna."
   },
@@ -928,12 +919,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Wybierz tę opcję, aby móc zmienić cenę i limit gazu bezpośrednio na ekranach wysyłania i potwierdzania."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Pokaż przeliczanie w sieciach testowych"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Wybierz tę opcję, aby wyświetlać przeliczanie waluty fiat w sieciach testowych"
   },
   "showPrivateKeys": {
     "message": "Pokaż prywatne klucze"
@@ -1118,9 +1103,6 @@
   },
   "unlockMessage": {
     "message": "Zdecentralizowana sieć oczekuje"
-  },
-  "updatedWithDate": {
-    "message": "Zaktualizowano $1"
   },
   "urlErrorMsg": {
     "message": "URI wymaga prawidłowego prefiksu HTTP/HTTPS."

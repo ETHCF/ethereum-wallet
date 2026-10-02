@@ -22,10 +22,8 @@ export default class AdvancedTab extends PureComponent {
     advancedInlineGas: PropTypes.bool,
     setTransactionTimeFeatureFlag: PropTypes.func,
     transactionTime: PropTypes.bool,
-    showFiatInTestnets: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     setAutoLockTimeLimit: PropTypes.func.isRequired,
-    setShowFiatConversionOnTestnetsPreference: PropTypes.func.isRequired,
     setIpfsGateway: PropTypes.func.isRequired,
     ipfsGateway: PropTypes.string.isRequired,
   }
@@ -172,35 +170,6 @@ export default class AdvancedTab extends PureComponent {
             <ToggleButton
               value={transactionTime}
               onToggle={(value) => setTransactionTimeFeatureFlag(!value)}
-              offLabel={t('off')}
-              onLabel={t('on')}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  renderShowConversionInTestnets () {
-    const { t } = this.context
-    const {
-      showFiatInTestnets,
-      setShowFiatConversionOnTestnetsPreference,
-    } = this.props
-
-    return (
-      <div className="settings-page__content-row" data-testid="advanced-setting-show-testnet-conversion">
-        <div className="settings-page__content-item">
-          <span>{ t('showFiatConversionInTestnets') }</span>
-          <div className="settings-page__content-description">
-            { t('showFiatConversionInTestnetsDescription') }
-          </div>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <ToggleButton
-              value={showFiatInTestnets}
-              onToggle={(value) => setShowFiatConversionOnTestnetsPreference(!value)}
               offLabel={t('off')}
               onLabel={t('on')}
             />
@@ -390,7 +359,6 @@ export default class AdvancedTab extends PureComponent {
         { this.renderAdvancedGasInputInline() }
         { this.renderTransactionTimeEstimates() }
         { this.renderHexDataOptIn() }
-        { this.renderShowConversionInTestnets() }
         { this.renderUseNonceOptIn() }
         { this.renderAutoLockTimeLimit() }
         { this.renderIpfsGatewayControl() }

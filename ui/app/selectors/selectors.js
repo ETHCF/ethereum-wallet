@@ -212,10 +212,6 @@ export function getGasIsLoading (state) {
   return state.appState.gasIsLoading
 }
 
-export function getCurrentCurrency (state) {
-  return state.ecfWallet.currentCurrency
-}
-
 export function getTotalUnapprovedCount (state) {
   const {
     unapprovedMsgCount = 0,
@@ -274,12 +270,6 @@ export function getNativeCurrencyImage ({ ecfWallet: { network, provider } }) {
 
 export function getPreferences ({ ecfWallet }) {
   return ecfWallet.preferences
-}
-
-export function getShouldShowFiat (state) {
-  const isMainNet = getIsMainnet(state)
-  const { showFiatInTestnets } = getPreferences(state)
-  return Boolean(isMainNet || showFiatInTestnets)
 }
 
 export function getAdvancedInlineGasShown (state) {

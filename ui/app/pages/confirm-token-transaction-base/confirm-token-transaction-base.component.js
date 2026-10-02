@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ConfirmTransactionBase from '../confirm-transaction-base'
-import { formatCurrency } from '../../helpers/utils/confirm-tx.util'
 
 export default class ConfirmTokenTransactionBase extends Component {
   static contextTypes = {
@@ -13,9 +12,7 @@ export default class ConfirmTokenTransactionBase extends Component {
     toAddress: PropTypes.string,
     tokenAmount: PropTypes.number,
     tokenSymbol: PropTypes.string,
-    fiatTransactionTotal: PropTypes.string,
     ethTransactionTotal: PropTypes.string,
-    currentCurrency: PropTypes.string,
     nativeCurrencyImage: PropTypes.string,
   }
 
@@ -39,12 +36,6 @@ export default class ConfirmTokenTransactionBase extends Component {
     )
   }
 
-  // Tokens have no price, so the fiat total covers the network fee only.
-  getSecondaryTotalTextOverride () {
-    const { fiatTransactionTotal, currentCurrency } = this.props
-    return formatCurrency(fiatTransactionTotal, currentCurrency)
-  }
-
   render () {
     const {
       toAddress,
@@ -62,7 +53,6 @@ export default class ConfirmTokenTransactionBase extends Component {
         identiconAddress={tokenAddress}
         title={tokensText}
         primaryTotalTextOverride={this.renderPrimaryTotalTextOverride()}
-        secondaryTotalTextOverride={this.getSecondaryTotalTextOverride()}
         {...restProps}
       />
     )

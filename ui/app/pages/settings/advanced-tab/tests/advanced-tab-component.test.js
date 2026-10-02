@@ -12,7 +12,6 @@ describe('AdvancedTab Component', function () {
         ipfsGateway=""
         setAutoLockTimeLimit={() => undefined}
         setIpfsGateway={() => undefined}
-        setShowFiatConversionOnTestnetsPreference={() => undefined}
       />,
       {
         context: {
@@ -21,7 +20,7 @@ describe('AdvancedTab Component', function () {
       },
     )
 
-    assert.equal(root.find('.settings-page__content-row').length, 9)
+    assert.equal(root.find('.settings-page__content-row').length, 8)
   })
 
   it('should update autoLockTimeLimit', function () {
@@ -31,7 +30,6 @@ describe('AdvancedTab Component', function () {
         ipfsGateway=""
         setAutoLockTimeLimit={setAutoLockTimeLimitSpy}
         setIpfsGateway={() => undefined}
-        setShowFiatConversionOnTestnetsPreference={() => undefined}
       />,
       {
         context: {
@@ -40,7 +38,7 @@ describe('AdvancedTab Component', function () {
       },
     )
 
-    const autoTimeout = root.find('.settings-page__content-row').at(7)
+    const autoTimeout = root.find('.settings-page__content-row').at(6)
     const textField = autoTimeout.find(TextField)
 
     textField.props().onChange({ target: { value: 1440 } })

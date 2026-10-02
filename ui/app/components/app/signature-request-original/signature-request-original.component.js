@@ -24,7 +24,7 @@ export default class SignatureRequestOriginal extends Component {
     }).isRequired,
     cancel: PropTypes.func.isRequired,
     clearConfirmTransaction: PropTypes.func.isRequired,
-    conversionRate: PropTypes.number,
+    nativeCurrency: PropTypes.string,
     history: PropTypes.object.isRequired,
     mostRecentOverviewPage: PropTypes.string.isRequired,
     requesterAddress: PropTypes.string,
@@ -93,7 +93,7 @@ export default class SignatureRequestOriginal extends Component {
   }
 
   renderBalance = () => {
-    const { conversionRate } = this.props
+    const { nativeCurrency } = this.props
     const { fromAccount: { balance } } = this.state
 
     const balanceInEther = conversionUtil(balance, {
@@ -101,7 +101,6 @@ export default class SignatureRequestOriginal extends Component {
       toNumericBase: 'dec',
       fromDenomination: 'WEI',
       numberOfDecimals: 6,
-      conversionRate,
     })
 
     return (
@@ -110,7 +109,7 @@ export default class SignatureRequestOriginal extends Component {
           { `${this.context.t('balance')}:` }
         </div>
         <div className="request-signature__balance-value">
-          { `${balanceInEther} ETH` }
+          { `${balanceInEther} ${nativeCurrency}` }
         </div>
       </div>
     )

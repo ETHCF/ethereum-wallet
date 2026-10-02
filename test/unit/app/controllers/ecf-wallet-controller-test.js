@@ -507,23 +507,6 @@ describe('EcfWalletController', function () {
     })
   })
 
-  describe('#setCurrentCurrency', function () {
-    let defaultEcfWalletCurrency
-
-    beforeEach(function () {
-      defaultEcfWalletCurrency = ecfWalletController.currencyRateController.state.currentCurrency
-    })
-
-    it('defaults to usd', function () {
-      assert.equal(defaultEcfWalletCurrency, 'usd')
-    })
-
-    it('sets currency to JPY', function () {
-      ecfWalletController.setCurrentCurrency('JPY', noop)
-      assert.equal(ecfWalletController.currencyRateController.state.currentCurrency, 'JPY')
-    })
-  })
-
   describe('#addNewAccount', function () {
     it('errors when an primary keyring is does not exist', async function () {
       const addNewAccount = ecfWalletController.addNewAccount()

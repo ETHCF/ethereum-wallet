@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "የይለፍ ቃል ፍጠር"
   },
-  "currencyConversion": {
-    "message": "የገንዘብ ልወጣ"
-  },
   "currentLanguage": {
     "message": "ወቅታዊ ቋንቋ"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "በዚህ ስም የተሞላ አድራሻ የለም።"
   },
-  "noConversionRateAvailable": {
-    "message": "ምንም የልወጣ ተመን አይገኝም"
-  },
   "noTransactions": {
     "message": "ግብይቶች የሉዎትም"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "የዘር ሐረጋት የ 12 ቃላት ርዝመት አላቸው"
   },
-  "selectCurrency": {
-    "message": "የገንዘብ ዓይነት ይምረጡ"
-  },
   "selectEachPhrase": {
     "message": "እባክዎ እያንዳንዱን ሐረግ በመምረጥ ትክክለኛነቱን ያረጋግጡ።"
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "በላክ እና አረጋግጥ ማያዎች ላይ የነዳጅ ዋጋን ለማሳየትና ቁጥጥሮችን ለመገደብ ይህን ይምረጡ።"
-  },
-  "showFiatConversionInTestnets": {
-    "message": "ልወጣን በ Testnets ላይ አሳይ"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "በ Testnets ላይ ወጥ የሆነ ልወጣን ለማሳየት ይህን ይምረጡ"
   },
   "showPrivateKeys": {
     "message": "የግል ቁልፎችን አሳይ"
@@ -1127,9 +1112,6 @@
   },
   "unlockMessage": {
     "message": "ያልተማከለ ድር ይጠባበቃል"
-  },
-  "updatedWithDate": {
-    "message": "የዘመነ $1"
   },
   "urlErrorMsg": {
     "message": "URIs አግባብነት ያለው የ HTTP/HTTPS ቅድመ ቅጥያ ይፈልጋል።"

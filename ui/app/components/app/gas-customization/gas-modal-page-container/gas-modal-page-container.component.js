@@ -25,9 +25,7 @@ export default class GasModalPageContainer extends Component {
     gasChartProps: PropTypes.object,
     gasEstimatesLoading: PropTypes.bool,
     infoRowProps: PropTypes.shape({
-      originalTotalFiat: PropTypes.string,
       originalTotalEth: PropTypes.string,
-      newTotalFiat: PropTypes.string,
       newTotalEth: PropTypes.string,
       sendAmount: PropTypes.string,
       transactionFee: PropTypes.string,
@@ -110,7 +108,7 @@ export default class GasModalPageContainer extends Component {
     )
   }
 
-  renderInfoRows (newTotalFiat, newTotalEth, sendAmount, transactionFee) {
+  renderInfoRows (newTotalEth, sendAmount, transactionFee) {
     return (
       <div className="gas-modal-content__info-row-wrapper">
         <div className="gas-modal-content__info-row">
@@ -125,9 +123,6 @@ export default class GasModalPageContainer extends Component {
           <div className="gas-modal-content__info-row__total-info">
             <span className="gas-modal-content__info-row__total-info__label">{this.context.t('newTotal')}</span>
             <span className="gas-modal-content__info-row__total-info__value">{newTotalEth}</span>
-          </div>
-          <div className="gas-modal-content__info-row__fiat-total-info">
-            <span className="gas-modal-content__info-row__fiat-total-info__value">{newTotalFiat}</span>
           </div>
         </div>
       </div>
@@ -158,7 +153,6 @@ export default class GasModalPageContainer extends Component {
       gasPriceButtonGroupProps,
       hideBasic,
       infoRowProps: {
-        newTotalFiat,
         newTotalEth,
         sendAmount,
         transactionFee,
@@ -186,7 +180,7 @@ export default class GasModalPageContainer extends Component {
           <Tab name={name} key={`gas-modal-tab-${i}`}>
             <div className="gas-modal-content">
               { content }
-              { this.renderInfoRows(newTotalFiat, newTotalEth, sendAmount, transactionFee) }
+              { this.renderInfoRows(newTotalEth, sendAmount, transactionFee) }
             </div>
           </Tab>
         ))}

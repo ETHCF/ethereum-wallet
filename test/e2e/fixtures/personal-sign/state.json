@@ -11,12 +11,6 @@
         }
       }
     },
-    "CurrencyController": {
-      "conversionDate": 1594348502.519,
-      "conversionRate": 240.09,
-      "currentCurrency": "usd",
-      "nativeCurrency": "ETH"
-    },
     "IncomingTransactionsController": {
       "incomingTransactions": {},
       "incomingTxLastFetchedBlocksByNetwork": {
@@ -120,9 +114,7 @@
       },
       "lostIdentities": {},
       "forgottenPassword": false,
-      "preferences": {
-        "useNativeCurrencyAsPrimaryCurrency": true
-      },
+      "preferences": {},
       "completedOnboarding": true,
       "ipfsGateway": "dweb.link",
       "selectedAddress": "0x5cfe73b6021e818b776b421b1c4db2474086a7e1"

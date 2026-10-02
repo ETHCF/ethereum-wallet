@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Kreirajte lozinku"
   },
-  "currencyConversion": {
-    "message": "Konverzija valuta"
-  },
   "currentLanguage": {
     "message": "Trenutni jezik"
   },
@@ -669,9 +666,6 @@
   "noAddressForName": {
     "message": "Za ovo ime nije podešena adresa."
   },
-  "noConversionRateAvailable": {
-    "message": "Nije dostupan kurs za konverziju"
-  },
   "noTransactions": {
     "message": "Nemate transakcije"
   },
@@ -869,9 +863,6 @@
   "seedPhraseReq": {
     "message": "Šifre za oporavak naloga (seed phrases) imaju 12 reči"
   },
-  "selectCurrency": {
-    "message": "Izaberite valutu"
-  },
   "selectEachPhrase": {
     "message": "Molimo vas izaberite svaki izraz kako biste proverili da je tačan."
   },
@@ -928,12 +919,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Izaberite ovo kako biste prikazali cenu gasa i kontrole limita direktno na ekranima za slanje i potvrđivanje."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Prikažite konverzije na Testnet"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Izaberite ovo za prikaz konverzije dekretnog novca (fiat) na test mrežama."
   },
   "showPrivateKeys": {
     "message": "Prikažite privatne ključeve"
@@ -1121,9 +1106,6 @@
   },
   "unlockMessage": {
     "message": "Decentralizovani veb čeka"
-  },
-  "updatedWithDate": {
-    "message": "Ažuriran $1"
   },
   "urlErrorMsg": {
     "message": "URI-ovi zahtevaju odgovarajući prefiks HTTP / HTTPS."

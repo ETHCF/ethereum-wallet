@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Stvori lozinku"
   },
-  "currencyConversion": {
-    "message": "Konverzija valute"
-  },
   "currentLanguage": {
     "message": "Trenutačni jezik"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "Nijedna adresa nije postavljena za ovaj naziv."
   },
-  "noConversionRateAvailable": {
-    "message": "Nijedan konverzijski tečaj nije dostupan"
-  },
   "noTransactions": {
     "message": "Nemate transkacija"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "Početne rečenice imaju 12 riječi"
   },
-  "selectCurrency": {
-    "message": "Odaberite valutu"
-  },
   "selectEachPhrase": {
     "message": "Odaberite svaku rečenicu kako biste provjerili je li točna."
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Odaberite ovu stavku za prikaz cijene goriva i izravno ograničite kontrole prilikom slanja i potvrđivanja zaslona."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Prikaži konverziju na usluzi Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Odaberite ovu stavku za prikaz ravne konverzije na usluzi Testnets"
   },
   "showPrivateKeys": {
     "message": "Prikaži privatne ključe"
@@ -1124,9 +1109,6 @@
   },
   "unlockMessage": {
     "message": "Decentralizirani internet čeka"
-  },
-  "updatedWithDate": {
-    "message": "Ažurirano $1"
   },
   "urlErrorMsg": {
     "message": "URI-jevima se zahtijeva prikladan prefiks HTTP/HTTPS."

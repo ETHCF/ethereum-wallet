@@ -236,9 +236,6 @@
   "createPassword": {
     "message": "Criar Senha"
   },
-  "currencyConversion": {
-    "message": "Conversão de moeda"
-  },
   "currentLanguage": {
     "message": "Idioma Atual"
   },
@@ -663,9 +660,6 @@
   "noAddressForName": {
     "message": "Nenhum endereço foi definido para este nome."
   },
-  "noConversionRateAvailable": {
-    "message": "Nenhuma Taxa de Conversão Disponível"
-  },
   "noTransactions": {
     "message": "Você não tem transações"
   },
@@ -863,9 +857,6 @@
   "seedPhraseReq": {
     "message": "As frases-semente têm 12 palavras"
   },
-  "selectCurrency": {
-    "message": "Selecione a Moeda"
-  },
   "selectEachPhrase": {
     "message": "Selecione cada frase para se certificar de que esteja correta."
   },
@@ -922,12 +913,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Selecione para exibir o preço do gás e limitar os controles diretamente nas telas de envio e de confirmação."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Mostrar conversão em testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Selecione isso para mostrar a conversão de ordem nas Testnets"
   },
   "showPrivateKeys": {
     "message": "Mostrar Chaves Privadas"
@@ -1112,9 +1097,6 @@
   },
   "unlockMessage": {
     "message": "A rede descentralizada está esperando"
-  },
-  "updatedWithDate": {
-    "message": "$1 atualizado"
   },
   "urlErrorMsg": {
     "message": "URIs exigem o devido prefixo HTTP/HTTPS."

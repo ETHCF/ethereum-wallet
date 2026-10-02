@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Opprett passord "
   },
-  "currencyConversion": {
-    "message": "Valutakonvertering "
-  },
   "currentLanguage": {
     "message": "Nåværende språk "
   },
@@ -669,9 +666,6 @@
   "noAddressForName": {
     "message": "Ingen adresse har blitt angitt for dette navnet. "
   },
-  "noConversionRateAvailable": {
-    "message": "Ingen konverteringsrate tilgjengelig "
-  },
   "noTransactions": {
     "message": "Du har ingen transaksjoner"
   },
@@ -869,9 +863,6 @@
   "seedPhraseReq": {
     "message": "Mnemoniske gjenopprettingsfraser består av 12 ord "
   },
-  "selectCurrency": {
-    "message": "Velg valuta"
-  },
   "selectEachPhrase": {
     "message": "Velg hver frase for å kontrollere at den er riktig."
   },
@@ -922,12 +913,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Velg dette for å vise bensinpris og begrensningskontroller direkte på send- og bekreftskjermbildene."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Vis konvertering på Testnets "
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Velg dette for å vise fiat-konvertering på Testnets"
   },
   "showPrivateKeys": {
     "message": "Vis private nøkler"
@@ -1112,9 +1097,6 @@
   },
   "unlockMessage": {
     "message": "Det desentraliserte internett venter deg"
-  },
-  "updatedWithDate": {
-    "message": "Oppdatert $1"
   },
   "urlErrorMsg": {
     "message": "URI-er krever det aktuelle HTTP/HTTPS-prefikset."

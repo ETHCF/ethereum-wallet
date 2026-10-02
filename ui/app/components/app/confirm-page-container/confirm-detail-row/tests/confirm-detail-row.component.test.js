@@ -18,8 +18,7 @@ describe('Confirm Detail Row Component', function () {
           errorType="mockErrorType"
           label="mockLabel"
           showError={false}
-          primaryText="mockFiatText"
-          secondaryText="mockEthText"
+          primaryText="mockPrimaryText"
           primaryValueTextColor="mockColor"
           onHeaderClick={propsMethodSpies.onHeaderClick}
           headerText="mockHeaderText"
@@ -41,14 +40,14 @@ describe('Confirm Detail Row Component', function () {
     })
 
     it('should render the primaryText as a child of the confirm-detail-row__primary', function () {
-      assert.equal(wrapper.find('.confirm-detail-row__details > .confirm-detail-row__primary').childAt(0).text(), 'mockFiatText')
+      assert.equal(wrapper.find('.confirm-detail-row__details > .confirm-detail-row__primary').childAt(0).text(), 'mockPrimaryText')
     })
 
-    it('should render the ethText as a child of the confirm-detail-row__secondary', function () {
-      assert.equal(wrapper.find('.confirm-detail-row__details > .confirm-detail-row__secondary').childAt(0).text(), 'mockEthText')
+    it('should not render a confirm-detail-row__secondary', function () {
+      assert.equal(wrapper.find('.confirm-detail-row__secondary').length, 0)
     })
 
-    it('should set the fiatTextColor on confirm-detail-row__primary', function () {
+    it('should set the primaryValueTextColor on confirm-detail-row__primary', function () {
       assert.equal(wrapper.find('.confirm-detail-row__primary').props().style.color, 'mockColor')
     })
 

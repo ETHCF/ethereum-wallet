@@ -20,7 +20,6 @@ export default class SendTransactionScreen extends Component {
     addressBook: PropTypes.arrayOf(PropTypes.object),
     amount: PropTypes.string,
     blockGasLimit: PropTypes.string,
-    conversionRate: PropTypes.number,
     editingTransactionId: PropTypes.string,
     fetchBasicGasEstimates: PropTypes.func.isRequired,
     from: PropTypes.object,
@@ -70,7 +69,6 @@ export default class SendTransactionScreen extends Component {
   componentDidUpdate (prevProps) {
     const {
       amount,
-      conversionRate,
       from: { address, balance },
       gasTotal,
       network,
@@ -115,7 +113,6 @@ export default class SendTransactionScreen extends Component {
       const amountErrorObject = getAmountErrorObject({
         amount,
         balance,
-        conversionRate,
         gasTotal,
         primaryCurrency,
         sendToken,
@@ -124,7 +121,6 @@ export default class SendTransactionScreen extends Component {
       const gasFeeErrorObject = sendToken
         ? getGasFeeErrorObject({
           balance,
-          conversionRate,
           gasTotal,
           primaryCurrency,
           sendToken,

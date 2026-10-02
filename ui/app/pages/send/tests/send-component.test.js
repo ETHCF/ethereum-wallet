@@ -46,7 +46,6 @@ describe('Send Component', function () {
       <SendTransactionScreen
         amount="mockAmount"
         blockGasLimit="mockBlockGasLimit"
-        conversionRate={10}
         editingTransactionId="mockEditingTransactionId"
         fetchBasicGasEstimates={propsMethodSpies.fetchBasicGasEstimates}
         fetchGasEstimates={propsMethodSpies.fetchGasEstimates}
@@ -170,7 +169,6 @@ describe('Send Component', function () {
         {
           amount: 'mockAmount',
           balance: 'mockBalance',
-          conversionRate: 10,
           gasTotal: 'mockGasTotal',
           primaryCurrency: 'mockPrimaryCurrency',
           sendToken: { address: 'mockTokenAddress', decimals: 18, symbol: 'TST' },
@@ -191,7 +189,6 @@ describe('Send Component', function () {
         utilsMethodStubs.getGasFeeErrorObject.getCall(0).args[0],
         {
           balance: 'mockBalance',
-          conversionRate: 10,
           gasTotal: 'mockGasTotal',
           primaryCurrency: 'mockPrimaryCurrency',
           sendToken: { address: 'mockTokenAddress', decimals: 18, symbol: 'TST' },

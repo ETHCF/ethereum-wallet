@@ -34,7 +34,6 @@ function mapStateToProps (state) {
     warning: state.appState.warning,
     network: state.ecfWallet.network,
     provider: state.ecfWallet.provider,
-    currentCurrency: state.ecfWallet.currentCurrency,
     blockGasLimit: state.ecfWallet.currentBlockGasLimit,
     unapprovedMsgCount,
     unapprovedPersonalMsgCount,
@@ -63,7 +62,6 @@ class ConfirmTxScreen extends Component {
     }),
 
     currentNetworkTxList: PropTypes.array,
-    currentCurrency: PropTypes.string,
     blockGasLimit: PropTypes.string,
     history: PropTypes.object,
     identities: PropTypes.object,
@@ -206,10 +204,7 @@ class ConfirmTxScreen extends Component {
   }
 
   render () {
-    const {
-      currentCurrency,
-      blockGasLimit,
-    } = this.props
+    const { blockGasLimit } = this.props
 
     const txData = this.getTxData() || {}
     const { msgParams, type, msgParams: { version } } = txData
@@ -227,7 +222,6 @@ class ConfirmTxScreen extends Component {
         txData={txData}
         key={txData.id}
         identities={this.props.identities}
-        currentCurrency={currentCurrency}
         blockGasLimit={blockGasLimit}
         signPersonalMessage={this.signPersonalMessage.bind(this, txData)}
         signTypedMessage={this.signTypedMessage.bind(this, txData)}

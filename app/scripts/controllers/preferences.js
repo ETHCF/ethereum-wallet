@@ -52,19 +52,12 @@ export default class PreferencesController {
       forgottenPassword: false,
       preferences: {
         autoLockTimeLimit: undefined,
-        showFiatInTestnets: false,
-        useNativeCurrencyAsPrimaryCurrency: true,
         theme: 'os',
       },
       completedOnboarding: false,
 
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link', ...opts.initState,
-    }
-    // Values are always displayed in the native currency
-    initState.preferences = {
-      ...initState.preferences,
-      useNativeCurrencyAsPrimaryCurrency: true,
     }
 
     this.network = opts.network

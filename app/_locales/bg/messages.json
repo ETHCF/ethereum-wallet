@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Създаване на парола"
   },
-  "currencyConversion": {
-    "message": "Конвертиране на валута"
-  },
   "currentLanguage": {
     "message": "Настоящ език"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "За това име не е зададен адрес."
   },
-  "noConversionRateAvailable": {
-    "message": "Няма наличен процент на преобръщане"
-  },
   "noTransactions": {
     "message": "Нямате транзакции"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "Фразите зародиш се състоят от 12 думи"
   },
-  "selectCurrency": {
-    "message": "Изберете валута"
-  },
   "selectEachPhrase": {
     "message": "Моля, изберете всяка фраза, за да се уверите, че е правилна."
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Изберете това, за да покажете цените на газа и ограничите контрола директно на екраните за изпращане и потвърждение."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Показване на преобразуването на Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Изберете това, за да покажете фиат  преобразуване на Testnets"
   },
   "showPrivateKeys": {
     "message": "Показване на частни ключове"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "Децентрализираната мрежа очаква"
-  },
-  "updatedWithDate": {
-    "message": "Актуализирано $1 "
   },
   "urlErrorMsg": {
     "message": "URI изискват съответния HTTP / HTTPS префикс."

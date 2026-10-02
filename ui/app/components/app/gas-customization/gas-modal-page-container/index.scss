@@ -102,15 +102,10 @@
 
     &__send-info,
     &__transaction-info,
-    &__total-info,
-    &__fiat-total-info {
+    &__total-info {
       display: flex;
       flex-flow: row;
       justify-content: space-between;
-    }
-
-    &__fiat-total-info {
-      justify-content: flex-end;
     }
 
     &__total-info {

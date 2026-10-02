@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "পাসওয়ার্ড তৈরি করুন"
   },
-  "currencyConversion": {
-    "message": "মুদ্রা বিনিময়"
-  },
   "currentLanguage": {
     "message": "বর্তমান ভাষা"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "এই নামের জন্য কোনো ঠিকানা সেট করা হয় নি।"
   },
-  "noConversionRateAvailable": {
-    "message": "কোনো বিনিময় হার উপলভ্য নয়"
-  },
   "noTransactions": {
     "message": "আপনার কোনো লেনদেন নেই"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "সীড ফ্রেজগুলি 12 শব্দের"
   },
-  "selectCurrency": {
-    "message": "কারেন্সি নির্বাচন করুন"
-  },
   "selectEachPhrase": {
     "message": "ফ্রেজগুলি সঠিক তা নিশ্চিত করতে অনুগ্রহ করে প্রতিটি ফ্রেজ নির্বাচন করুন।"
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "গ্যাসের মূল্য দেখাতে এটি নির্বাচন করুন এবং পাঠানোর এবং নিশ্চিতকরণের স্ক্রিনগুলিতে নিয়ন্ত্রণগুলি সরাসরি সীমিত করুন।"
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Testnets এ রূপান্তর দেখান"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Testnets এ ফিয়াট বাক্যালাপগুলি দেখাতে এটি নির্বাচন করুন"
   },
   "showPrivateKeys": {
     "message": "গোপনীয় কীগুলি দেখান"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "ছড়িয়ে ছিটিয়ে থাকা ওয়েব অপেক্ষা করছে"
-  },
-  "updatedWithDate": {
-    "message": "আপডেট করা $1"
   },
   "urlErrorMsg": {
     "message": "URI গুলির যথাযথ HTTP/HTTPS প্রেফিক্সের প্রয়োজন।"

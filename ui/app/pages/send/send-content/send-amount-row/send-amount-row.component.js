@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
 import SendRowWrapper from '../send-row-wrapper'
-import UserPreferencedCurrencyInput from '../../../../components/app/user-preferenced-currency-input'
+import CurrencyInput from '../../../../components/ui/currency-input'
 import TokenInput from '../../../../components/ui/token-input'
 import AmountMaxButton from './amount-max-button'
 
@@ -11,7 +11,6 @@ export default class SendAmountRow extends Component {
   static propTypes = {
     amount: PropTypes.string,
     balance: PropTypes.string,
-    conversionRate: PropTypes.number,
     gasTotal: PropTypes.string,
     inError: PropTypes.bool,
     primaryCurrency: PropTypes.string,
@@ -47,7 +46,6 @@ export default class SendAmountRow extends Component {
   validateAmount (amount) {
     const {
       balance,
-      conversionRate,
       gasTotal,
       primaryCurrency,
       sendToken,
@@ -59,7 +57,6 @@ export default class SendAmountRow extends Component {
     updateSendAmountError({
       amount,
       balance,
-      conversionRate,
       gasTotal,
       primaryCurrency,
       sendToken,
@@ -69,7 +66,6 @@ export default class SendAmountRow extends Component {
     if (sendToken) {
       updateGasFeeError({
         balance,
-        conversionRate,
         gasTotal,
         primaryCurrency,
         sendToken,
@@ -112,7 +108,7 @@ export default class SendAmountRow extends Component {
         />
       )
       : (
-        <UserPreferencedCurrencyInput
+        <CurrencyInput
           error={inError}
           onChange={this.handleChange}
           value={amount}

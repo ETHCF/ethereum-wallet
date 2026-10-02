@@ -5,12 +5,6 @@ import {
   conversionGreaterThan,
 } from '../helpers/utils/conversion-util'
 import {
-  formatCurrency,
-} from '../helpers/utils/confirm-tx.util'
-import {
-  decEthToConvertedCurrency as ethTotalToConvertedCurrency,
-} from '../helpers/utils/conversions.util'
-import {
   formatETHFee,
 } from '../helpers/utils/formatters'
 import {
@@ -18,9 +12,6 @@ import {
 } from '../pages/send/send.utils'
 
 import { GAS_ESTIMATE_TYPES } from '../helpers/constants/common'
-import {
-  getCurrentCurrency, getIsMainnet, getPreferences,
-} from '.'
 
 const NUMBER_OF_DECIMALS_SM_BTNS = 5
 
@@ -132,13 +123,6 @@ export function getRenderableEthFee (estimate, gasLimit, numberOfDecimals = 9) {
   return formatETHFee(fee)
 }
 
-export function getRenderableConvertedCurrencyFee (estimate, gasLimit, convertedCurrency, conversionRate) {
-  const value = conversionUtil(estimate, { fromNumericBase: 'dec', toNumericBase: 'hex' })
-  const fee = basicPriceEstimateToETHTotal(value, gasLimit)
-  const feeInCurrency = ethTotalToConvertedCurrency(fee, convertedCurrency, conversionRate)
-  return formatCurrency(feeInCurrency, convertedCurrency)
-}
-
 export function getTimeEstimateInSeconds (blockWaitEstimate) {
   return multiplyCurrencies(blockWaitEstimate, 60, {
     toNumericBase: 'dec',
@@ -196,11 +180,6 @@ export function getRenderableBasicEstimateData (state, gasLimit) {
     return []
   }
 
-  const { showFiatInTestnets } = getPreferences(state)
-  const isMainnet = getIsMainnet(state)
-  const showFiat = (isMainnet || Boolean(showFiatInTestnets))
-  const { conversionRate } = state.ecfWallet
-  const currentCurrency = getCurrentCurrency(state)
   const {
     gas: {
       basicEstimates: {
@@ -218,27 +197,18 @@ export function getRenderableBasicEstimateData (state, gasLimit) {
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.SLOW,
       feeInPrimaryCurrency: getRenderableEthFee(safeLow, gasLimit),
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(safeLow, gasLimit, currentCurrency, conversionRate)
-        : '',
       timeEstimate: safeLowWait && getRenderableTimeEstimate(safeLowWait),
       priceInHexWei: getGasPriceInHexWei(safeLow),
     },
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.AVERAGE,
       feeInPrimaryCurrency: getRenderableEthFee(average, gasLimit),
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(average, gasLimit, currentCurrency, conversionRate)
-        : '',
       timeEstimate: avgWait && getRenderableTimeEstimate(avgWait),
       priceInHexWei: getGasPriceInHexWei(average),
     },
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.FAST,
       feeInPrimaryCurrency: getRenderableEthFee(fast, gasLimit),
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(fast, gasLimit, currentCurrency, conversionRate)
-        : '',
       timeEstimate: fastWait && getRenderableTimeEstimate(fastWait),
       priceInHexWei: getGasPriceInHexWei(fast),
     },
@@ -250,12 +220,7 @@ export function getRenderableEstimateDataForSmallButtonsFromGWEI (state) {
     return []
   }
 
-  const { showFiatInTestnets } = getPreferences(state)
-  const isMainnet = getIsMainnet(state)
-  const showFiat = (isMainnet || Boolean(showFiatInTestnets))
   const gasLimit = state.ecfWallet.send.gasLimit || getCustomGasLimit(state) || '0x5208'
-  const { conversionRate } = state.ecfWallet
-  const currentCurrency = getCurrentCurrency(state)
   const {
     gas: {
       basicEstimates: {
@@ -269,25 +234,16 @@ export function getRenderableEstimateDataForSmallButtonsFromGWEI (state) {
   return [
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.SLOW,
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(safeLow, gasLimit, currentCurrency, conversionRate)
-        : '',
       feeInPrimaryCurrency: getRenderableEthFee(safeLow, gasLimit, NUMBER_OF_DECIMALS_SM_BTNS, true),
       priceInHexWei: getGasPriceInHexWei(safeLow, true),
     },
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.AVERAGE,
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(average, gasLimit, currentCurrency, conversionRate)
-        : '',
       feeInPrimaryCurrency: getRenderableEthFee(average, gasLimit, NUMBER_OF_DECIMALS_SM_BTNS, true),
       priceInHexWei: getGasPriceInHexWei(average, true),
     },
     {
       gasEstimateType: GAS_ESTIMATE_TYPES.FAST,
-      feeInSecondaryCurrency: showFiat
-        ? getRenderableConvertedCurrencyFee(fast, gasLimit, currentCurrency, conversionRate)
-        : '',
       feeInPrimaryCurrency: getRenderableEthFee(fast, gasLimit, NUMBER_OF_DECIMALS_SM_BTNS, true),
       priceInHexWei: getGasPriceInHexWei(fast, true),
     },

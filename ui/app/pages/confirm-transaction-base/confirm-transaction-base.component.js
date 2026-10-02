@@ -15,7 +15,6 @@ import {
 } from '../../helpers/constants/error-keys'
 import { CONFIRMED_STATUS, DROPPED_STATUS } from '../../helpers/constants/transactions'
 import UserPreferencedCurrencyDisplay from '../../components/app/user-preferenced-currency-display'
-import { PRIMARY, SECONDARY } from '../../helpers/constants/common'
 import { hexToDecimal } from '../../helpers/utils/conversions.util'
 import AdvancedGasInputs from '../../components/app/gas-customization/advanced-gas-inputs'
 import TextField from '../../components/ui/text-field'
@@ -34,7 +33,6 @@ export default class ConfirmTransactionBase extends Component {
     cancelTransaction: PropTypes.func,
     cancelAllTransactions: PropTypes.func,
     clearConfirmTransaction: PropTypes.func,
-    conversionRate: PropTypes.number,
     fromAddress: PropTypes.string,
     fromName: PropTypes.string,
     hexTransactionAmount: PropTypes.string,
@@ -70,17 +68,13 @@ export default class ConfirmTransactionBase extends Component {
     errorKey: PropTypes.string,
     errorMessage: PropTypes.string,
     primaryTotalTextOverride: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    secondaryTotalTextOverride: PropTypes.string,
     hideData: PropTypes.bool,
     hideDetails: PropTypes.bool,
-    hideSubtitle: PropTypes.bool,
     identiconAddress: PropTypes.string,
     onCancel: PropTypes.func,
     onEdit: PropTypes.func,
     onEditGas: PropTypes.func,
     onSubmit: PropTypes.func,
-    subtitle: PropTypes.string,
-    subtitleComponent: PropTypes.node,
     summaryComponent: PropTypes.node,
     title: PropTypes.string,
     titleComponent: PropTypes.node,
@@ -88,7 +82,6 @@ export default class ConfirmTransactionBase extends Component {
     warning: PropTypes.string,
     advancedInlineGasShown: PropTypes.bool,
     insufficientBalance: PropTypes.bool,
-    hideFiatConversion: PropTypes.bool,
     transactionCategory: PropTypes.string,
     getNextNonce: PropTypes.func,
     nextNonce: PropTypes.number,
@@ -162,7 +155,6 @@ export default class ConfirmTransactionBase extends Component {
     }
     const {
       balance,
-      conversionRate,
       hexTransactionFee,
       txData: {
         simulationFails,
@@ -177,7 +169,6 @@ export default class ConfirmTransactionBase extends Component {
       amount,
       gasTotal: hexTransactionFee || '0x0',
       balance,
-      conversionRate,
     })
 
     if (insufficientBalance) {
@@ -220,7 +211,6 @@ export default class ConfirmTransactionBase extends Component {
     const {
       detailsComponent,
       primaryTotalTextOverride,
-      secondaryTotalTextOverride,
       hexTransactionFee,
       hexTransactionTotal,
       hideDetails,
@@ -231,7 +221,6 @@ export default class ConfirmTransactionBase extends Component {
       customGas,
       insufficientBalance,
       updateGasAndCalculate,
-      hideFiatConversion,
       nextNonce,
       getNextNonce,
       isMainnet,
@@ -255,7 +244,6 @@ export default class ConfirmTransactionBase extends Component {
               headerText={notMainnetOrTest || feeMarket ? '' : 'Edit'}
               headerTextClassName={notMainnetOrTest ? '' : 'confirm-detail-row__header-text--edit'}
               onHeaderClick={notMainnetOrTest || feeMarket ? null : () => this.handleEditGas()}
-              secondaryText={hideFiatConversion ? this.context.t('noConversionRateAvailable') : ''}
             />
             {feeMarket && (
               <FeeMarketInputs
@@ -294,7 +282,6 @@ export default class ConfirmTransactionBase extends Component {
               label="Total"
               value={hexTransactionTotal}
               primaryText={primaryTotalTextOverride}
-              secondaryText={hideFiatConversion ? this.context.t('noConversionRateAvailable') : secondaryTotalTextOverride}
               headerText="Amount + Gas Fee"
               headerTextClassName="confirm-detail-row__header-text--total"
               primaryValueTextColor="#2f9ae0"
@@ -495,27 +482,8 @@ export default class ConfirmTransactionBase extends Component {
     return titleComponent || (
       <UserPreferencedCurrencyDisplay
         value={hexTransactionAmount}
-        type={PRIMARY}
         showEthLogo
         ethLogoHeight="26"
-        hideLabel
-      />
-    )
-  }
-
-  renderSubtitleComponent () {
-    const { subtitle, subtitleComponent, hexTransactionAmount } = this.props
-
-    // Subtitle string passed in by props takes priority
-    if (subtitle) {
-      return null
-    }
-
-    return subtitleComponent || (
-      <UserPreferencedCurrencyDisplay
-        value={hexTransactionAmount}
-        type={SECONDARY}
-        showEthLogo
         hideLabel
       />
     )
@@ -592,8 +560,6 @@ export default class ConfirmTransactionBase extends Component {
       errorMessage,
       errorKey: propsErrorKey,
       title,
-      subtitle,
-      hideSubtitle,
       identiconAddress,
       summaryComponent,
       contentComponent,
@@ -635,9 +601,7 @@ export default class ConfirmTransactionBase extends Component {
         action={functionType}
         title={title}
         titleComponent={this.renderTitleComponent()}
-        subtitle={subtitle}
-        subtitleComponent={this.renderSubtitleComponent()}
-        hideSubtitle={hideSubtitle}
+        hideSubtitle
         summaryComponent={summaryComponent}
         detailsComponent={this.renderDetails()}
         dataComponent={this.renderData(functionType)}

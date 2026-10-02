@@ -415,9 +415,6 @@
   "createPassword": {
     "message": "Create Password"
   },
-  "currencyConversion": {
-    "message": "Currency Conversion"
-  },
   "currentExtension": {
     "message": "Current extension page"
   },
@@ -966,9 +963,6 @@
   "noAddressForName": {
     "message": "No address has been set for this name."
   },
-  "noConversionRateAvailable": {
-    "message": "No Conversion Rate Available"
-  },
   "noTransactions": {
     "message": "You have no transactions"
   },
@@ -1203,9 +1197,6 @@
   "selectAll": {
     "message": "Select all"
   },
-  "selectCurrency": {
-    "message": "Select Currency"
-  },
   "selectEachPhrase": {
     "message": "Please select each phrase in order to make sure it is correct."
   },
@@ -1275,12 +1266,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Select this to show gas price and limit controls directly on the send and confirm screens."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Show Conversion on Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Select this to show fiat conversion on Testnets"
   },
   "showPrivateKeys": {
     "message": "Show Private Keys"
@@ -1528,9 +1513,6 @@
   },
   "unlockMessage": {
     "message": "The decentralized web awaits"
-  },
-  "updatedWithDate": {
-    "message": "Updated $1"
   },
   "urlErrorMsg": {
     "message": "URLs require the appropriate HTTP/HTTPS prefix."

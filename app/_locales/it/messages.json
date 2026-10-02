@@ -399,9 +399,6 @@
   "createPassword": {
     "message": "Crea Password"
   },
-  "currencyConversion": {
-    "message": "Conversione Moneta"
-  },
   "currentExtension": {
     "message": "Pagina estensione corrente"
   },
@@ -938,9 +935,6 @@
   "noAddressForName": {
     "message": "Nessun indirizzo è stato impostato per questo nome."
   },
-  "noConversionRateAvailable": {
-    "message": "Tasso di conversione non disponibile"
-  },
   "noTransactions": {
     "message": "Nessuna Transazione"
   },
@@ -1175,9 +1169,6 @@
   "selectAll": {
     "message": "Seleziona tutti"
   },
-  "selectCurrency": {
-    "message": "Seleziona Moneta"
-  },
   "selectEachPhrase": {
     "message": "Per favore seleziona ogni frase in ordine per assicurarti che sia corretta."
   },
@@ -1247,12 +1238,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Seleziona per visualizzare i controlli su prezzo e limite del gas nelle schermate di invio e conferma."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Mostra conversione nelle reti di test"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Seleziona se vuoi vedere la conversione in valuta fiat nelle reti di test"
   },
   "showPrivateKeys": {
     "message": "Mostra Chiave Privata"
@@ -1494,9 +1479,6 @@
   },
   "unlockMessage": {
     "message": "Il web decentralizzato ti attende"
-  },
-  "updatedWithDate": {
-    "message": "Aggiornata $1"
   },
   "urlErrorMsg": {
     "message": "Gli URI richiedono un prefisso HTTP/HTTPS."

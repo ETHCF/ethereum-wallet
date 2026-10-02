@@ -139,7 +139,6 @@ describe('send utils', function () {
       'should return insufficientFunds error if isBalanceSufficient returns false': {
         amount: 15,
         balance: 1,
-        conversionRate: 3,
         gasTotal: 17,
         primaryCurrency: 'ABC',
         expectedResult: { amount: INSUFFICIENT_FUNDS_ERROR },
@@ -147,7 +146,6 @@ describe('send utils', function () {
       'should not return insufficientFunds error if sendToken is truthy': {
         amount: '0x0',
         balance: 1,
-        conversionRate: 3,
         gasTotal: 17,
         primaryCurrency: 'ABC',
         sendToken: { address: '0x0', symbol: 'DEF', decimals: 0 },
@@ -158,7 +156,6 @@ describe('send utils', function () {
       'should return insufficientTokens error if token is selected and isTokenBalanceSufficient returns false': {
         amount: '0x10',
         balance: 100,
-        conversionRate: 3,
         decimals: 10,
         gasTotal: 17,
         primaryCurrency: 'ABC',
@@ -178,14 +175,12 @@ describe('send utils', function () {
     const config = {
       'should return insufficientFunds error if isBalanceSufficient returns false': {
         balance: 16,
-        conversionRate: 3,
         gasTotal: 17,
         primaryCurrency: 'ABC',
         expectedResult: { gasFee: INSUFFICIENT_FUNDS_ERROR },
       },
       'should return null error if isBalanceSufficient returns true': {
         balance: 16,
-        conversionRate: 3,
         gasTotal: 15,
         primaryCurrency: 'ABC',
         expectedResult: { gasFee: null },
@@ -218,7 +213,6 @@ describe('send utils', function () {
       const result = isBalanceSufficient({
         amount: 15,
         balance: 100,
-        conversionRate: 3,
         gasTotal: 17,
         primaryCurrency: 'ABC',
       })
@@ -239,12 +233,10 @@ describe('send utils', function () {
             value: 100,
             fromNumericBase: 'hex',
             fromCurrency: 'ABC',
-            conversionRate: 3,
           },
           {
             value: 32,
             fromNumericBase: 'hex',
-            conversionRate: 3,
             fromCurrency: 'ABC',
           },
         ],

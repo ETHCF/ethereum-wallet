@@ -3,137 +3,68 @@ import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
 import sinon from 'sinon'
 import { useUserPreferencedCurrency } from '../useUserPreferencedCurrency'
-import { getPreferences, getShouldShowFiat } from '../../selectors'
 
 const tests = [
   {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: true,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
-    params: {
-      type: 'PRIMARY',
-    },
+    ticker: 'ETH',
+    params: {},
     result: {
       currency: 'ETH',
       numberOfDecimals: 6,
     },
   },
   {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: false,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
-    params: {
-      type: 'PRIMARY',
-    },
+    ticker: undefined,
+    params: undefined,
     result: {
-      currency: undefined,
-      numberOfDecimals: 2,
+      currency: 'ETH',
+      numberOfDecimals: 6,
     },
   },
   {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: true,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
+    ticker: 'ETC',
     params: {
-      type: 'SECONDARY',
-      fiatNumberOfDecimals: 4,
-      fiatPrefix: '-',
+      ethNumberOfDecimals: 4,
     },
     result: {
-      currency: undefined,
+      currency: 'ETC',
       numberOfDecimals: 4,
     },
   },
   {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: false,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
+    ticker: 'ETH',
     params: {
-      type: 'SECONDARY',
-      fiatNumberOfDecimals: 4,
+      ethNumberOfDecimals: 4,
       numberOfDecimals: 3,
-      fiatPrefix: 'a',
     },
     result: {
       currency: 'ETH',
       numberOfDecimals: 3,
-    },
-  },
-  {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: false,
-      nativeCurrency: 'ETH',
-      showFiat: false,
-    },
-    params: {
-      type: 'PRIMARY',
-    },
-    result: {
-      currency: 'ETH',
-      numberOfDecimals: 6,
-    },
-  },
-  {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: false,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
-    params: {
-      type: 'PRIMARY',
-    },
-    result: {
-      currency: undefined,
-      numberOfDecimals: 2,
-    },
-  },
-  {
-    state: {
-      useNativeCurrencyAsPrimaryCurrency: false,
-      nativeCurrency: 'ETH',
-      showFiat: true,
-    },
-    params: {
-      type: 'PRIMARY',
-    },
-    result: {
-      currency: undefined,
-      numberOfDecimals: 2,
     },
   },
 ]
 
-function getFakeUseSelector (state) {
-  return (selector) => {
-    if (selector === getPreferences) {
-      return state
-    } else if (selector === getShouldShowFiat) {
-      return state.showFiat
-    }
-    return state.nativeCurrency
+function getFakeUseSelector (ticker) {
+  const state = {
+    ecfWallet: {
+      provider: ticker ? { type: 'mainnet', ticker } : undefined,
+    },
   }
+  return (selector) => selector(state)
 }
 
 describe('useUserPreferencedCurrency', function () {
-  tests.forEach(({ params: { type, ...otherParams }, state, result }) => {
-    describe(`when showFiat is ${state.showFiat}, useNativeCurrencyAsPrimary is ${state.useNativeCurrencyAsPrimaryCurrency} and type is ${type}`, function () {
+  tests.forEach(({ ticker, params, result }) => {
+    describe(`when the provider ticker is ${ticker} and params are ${JSON.stringify(params)}`, function () {
       const stub = sinon.stub(reactRedux, 'useSelector')
-      stub.callsFake(getFakeUseSelector(state))
+      stub.callsFake(getFakeUseSelector(ticker))
 
-      const { result: hookResult } = renderHook(() => useUserPreferencedCurrency(type, otherParams))
+      const { result: hookResult } = renderHook(() => useUserPreferencedCurrency(params))
       stub.restore()
-      it(`should return currency as ${result.currency || 'not modified by user preferences'}`, function () {
+      it(`should return currency as ${result.currency}`, function () {
         assert.equal(hookResult.current.currency, result.currency)
       })
-      it(`should return decimals as ${result.numberOfDecimals || 'not modified by user preferences'}`, function () {
+      it(`should return decimals as ${result.numberOfDecimals}`, function () {
         assert.equal(hookResult.current.numberOfDecimals, result.numberOfDecimals)
       })
     })

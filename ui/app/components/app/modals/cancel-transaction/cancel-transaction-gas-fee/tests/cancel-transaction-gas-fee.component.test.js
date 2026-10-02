@@ -13,14 +13,10 @@ describe('CancelTransactionGasFee Component', function () {
     )
 
     assert.ok(wrapper)
-    assert.equal(wrapper.find(UserPreferencedCurrencyDisplay).length, 2)
+    assert.equal(wrapper.find(UserPreferencedCurrencyDisplay).length, 1)
     const ethDisplay = wrapper.find(UserPreferencedCurrencyDisplay).at(0)
-    const fiatDisplay = wrapper.find(UserPreferencedCurrencyDisplay).at(1)
 
     assert.equal(ethDisplay.props().value, '0x3b9aca00')
     assert.equal(ethDisplay.props().className, 'cancel-transaction-gas-fee__eth')
-
-    assert.equal(fiatDisplay.props().value, '0x3b9aca00')
-    assert.equal(fiatDisplay.props().className, 'cancel-transaction-gas-fee__fiat')
   })
 })

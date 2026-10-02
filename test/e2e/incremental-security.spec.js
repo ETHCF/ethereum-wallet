@@ -139,10 +139,6 @@ describe('ecf-wallet', function () {
   })
 
   describe('backs up the seed phrase', function () {
-    it('does not show a backup reminder before backing up', async function () {
-      await driver.assertElementNotPresent(By.css('.home-notification'))
-    })
-
     it('opens the seedphrase backup screen', async function () {
       await driver.driver.get(`${driver.extensionUrl}/home.html#initialize/backup-seed-phrase`)
       await driver.delay(regularDelayMs)

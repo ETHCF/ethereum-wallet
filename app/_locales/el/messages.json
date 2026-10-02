@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Δημιουργία Κωδικού Πρόσβασης"
   },
-  "currencyConversion": {
-    "message": "Μετατροπή Νομίσματος"
-  },
   "currentLanguage": {
     "message": "Τρέχουσα Γλώσσα"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "Δεν έχει ορισθεί καμιά διεύθυνση γ' αυτό το όνομα."
   },
-  "noConversionRateAvailable": {
-    "message": "Δεν Υπάρχει Διαθέσιμη Ισοτιμία Μετατροπής"
-  },
   "noTransactions": {
     "message": "Δεν έχετε καμιά συναλλαγή"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "Οι φράσεις φύτρου έχουν μήκος 12 λέξεων"
   },
-  "selectCurrency": {
-    "message": "Επιλέξτε Νόμισμα"
-  },
   "selectEachPhrase": {
     "message": "Παρακαλούμε επιλέξτε κάθε φράση, για να βεβαιωθείτε ότι είναι σωστή."
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Επιλέξτε αυτό για να εμφανίσετε τις τιμές αερίου και να περιορίσετε τα στοιχεία ελέγχου απευθείας στις οθόνες αποστολής και επιβεβαίωσης."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Εμφάνιση Μετατροπής σε Δοκιμαστικά Δίκτυα"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Επιλέξτε αυτό για εμφάνιση της μετατροπής παραστατικού χρήματος στο Testnets"
   },
   "showPrivateKeys": {
     "message": "Εμφάνιση Ιδιωτικών Κλειδιών"
@@ -1124,9 +1109,6 @@
   },
   "unlockMessage": {
     "message": "Ο αποκεντρωμένος ιστός περιμένει"
-  },
-  "updatedWithDate": {
-    "message": "Ενημερώθηκε το $1"
   },
   "urlErrorMsg": {
     "message": "Τα URI απαιτούν το κατάλληλο πρόθεμα HTTP/HTTPS."

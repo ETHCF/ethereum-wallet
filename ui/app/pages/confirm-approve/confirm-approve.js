@@ -17,7 +17,8 @@ import {
   transactionFeeSelector,
   txDataSelector,
 } from '../../selectors/confirm-transaction'
-import { getCurrentCurrency, getDomainMetadata } from '../../selectors/selectors'
+import { getDomainMetadata } from '../../selectors/selectors'
+import { getNativeCurrency } from '../../selectors/send'
 import { currentNetworkTxListSelector } from '../../selectors/transactions'
 import { getCustomTxParamsData } from './confirm-approve.util'
 import ConfirmApproveContent from './confirm-approve-content'
@@ -33,7 +34,7 @@ export default function ConfirmApprove () {
     } = {},
   } = useSelector(txDataSelector)
 
-  const currentCurrency = useSelector(getCurrentCurrency)
+  const nativeCurrency = useSelector(getNativeCurrency)
   const currentNetworkTxList = useSelector(currentNetworkTxListSelector)
   const domainMetadata = useSelector(getDomainMetadata)
   const tokens = useSelector(getTokens)
@@ -43,7 +44,6 @@ export default function ConfirmApprove () {
   )
   const {
     ethTransactionTotal,
-    fiatTransactionTotal,
   } = useSelector((state) => transactionFeeSelector(state, transaction))
 
   const currentToken = (tokens && tokens.find(({ address }) => tokenAddress === address)) || { address: tokenAddress }
@@ -131,9 +131,8 @@ export default function ConfirmApprove () {
           }
           data={customData || data}
           toAddress={toAddress}
-          currentCurrency={currentCurrency}
+          nativeCurrency={nativeCurrency}
           ethTransactionTotal={ethTransactionTotal}
-          fiatTransactionTotal={fiatTransactionTotal}
         />
       )}
       hideSenderToRecipient

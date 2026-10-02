@@ -8,15 +8,12 @@ describe('Settings Tab', function () {
   let wrapper
 
   const props = {
-    setCurrentCurrency: sinon.spy(),
     displayWarning: sinon.spy(),
     setUseBlockie: sinon.spy(),
     updateCurrentLocale: sinon.spy(),
     warning: '',
     currentLocale: 'en',
     useBlockie: false,
-    currentCurrency: 'usd',
-    conversionDate: 1,
   }
   beforeEach(function () {
     wrapper = mount(
@@ -26,13 +23,6 @@ describe('Settings Tab', function () {
         },
       },
     )
-  })
-
-  it('selects currency', async function () {
-    const selectCurrency = wrapper.find({ placeholder: 'selectCurrency' })
-
-    selectCurrency.props().onSelect('eur')
-    assert(props.setCurrentCurrency.calledOnce)
   })
 
   it('selects locale', async function () {

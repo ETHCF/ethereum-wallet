@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Creare parolă"
   },
-  "currencyConversion": {
-    "message": "Schimb valutar"
-  },
   "currentLanguage": {
     "message": "Limba actuală"
   },
@@ -666,9 +663,6 @@
   "noAddressForName": {
     "message": "Nu a fost configurată nicio adresă pentru acest nume."
   },
-  "noConversionRateAvailable": {
-    "message": "Nici o rată de conversie disponibilă"
-  },
   "noTransactions": {
     "message": "Nu aveți tranzacții"
   },
@@ -866,9 +860,6 @@
   "seedPhraseReq": {
     "message": "Expresiile seed sunt lungi de 12 cuvinte"
   },
-  "selectCurrency": {
-    "message": "Selectați moneda"
-  },
   "selectEachPhrase": {
     "message": "Vă rugăm să selectați fiecare expresie pentru a vă asigura că este corectă."
   },
@@ -925,12 +916,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Selectați aceasta pentru a arăta prețul gasului și comenzile de limitare direct pe ecranele de trimitere și confirmare."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Afișează conversiile pe rețelele de test (testnets)"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Selectați pentru a afișa conversia fiat pe Testnets"
   },
   "showPrivateKeys": {
     "message": "Afișați cheile private"
@@ -1115,9 +1100,6 @@
   },
   "unlockMessage": {
     "message": "Web-ul descentralizat așteaptă"
-  },
-  "updatedWithDate": {
-    "message": "Actualizat $1"
   },
   "urlErrorMsg": {
     "message": "URL necesită prefixul potrivit HTTP/HTTPS."

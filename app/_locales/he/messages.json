@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "יצירת ססמה"
   },
-  "currencyConversion": {
-    "message": "המרת מטבע"
-  },
   "currentLanguage": {
     "message": "שפה נוכחית"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "לא הוגדרה כתובת עבור שם זה."
   },
-  "noConversionRateAvailable": {
-    "message": "אין שער המרה זמין"
-  },
   "noTransactions": {
     "message": "אין לך עסקאות"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "צירופי גרעין מורכבים מ-12 מילים"
   },
-  "selectCurrency": {
-    "message": "בחר מטבע"
-  },
   "selectEachPhrase": {
     "message": "נא לבחור כל צירוף מילים כדי להבטיח שהוא נכון."
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "בחר/י באפשרות זו כדי להציג אמצעי שליטה במחיר הדלק וההגבלה (limit) ישירות במסכי השליחה והאישור."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "הצג המרה -Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "בחר/י באפשרות זו כדי להציג המרת פיאט ב- Testnets"
   },
   "showPrivateKeys": {
     "message": "הצג מפתחות פרטיים"
@@ -1127,9 +1112,6 @@
   },
   "unlockMessage": {
     "message": "הרשת המבוזרת מחכה"
-  },
-  "updatedWithDate": {
-    "message": "עודכן $1"
   },
   "urlErrorMsg": {
     "message": "כתובות URI דורשות את קידומת HTTP/HTTPS המתאימה."

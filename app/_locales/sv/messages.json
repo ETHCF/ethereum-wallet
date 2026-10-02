@@ -236,9 +236,6 @@
   "createPassword": {
     "message": "Skapa lösenord"
   },
-  "currencyConversion": {
-    "message": "Valutaomvandling"
-  },
   "currentLanguage": {
     "message": "Aktuellt språk"
   },
@@ -663,9 +660,6 @@
   "noAddressForName": {
     "message": "Inga adresser har angetts för detta namn."
   },
-  "noConversionRateAvailable": {
-    "message": "Ingen omräkningskurs tillgänglig"
-  },
   "noTransactions": {
     "message": "Du har inga överföringar"
   },
@@ -863,9 +857,6 @@
   "seedPhraseReq": {
     "message": "Nyckelfraser är 12 ord långa."
   },
-  "selectCurrency": {
-    "message": "Välj valuta"
-  },
   "selectEachPhrase": {
     "message": "Välj varje fras för att säkerställa att den är korrekt."
   },
@@ -922,12 +913,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Välj detta för att visa gas-pris och gränskontroller direkt på skicka och bekräfta-skärmarna."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Visa omvandling på testnätverk"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Välj denna för att visa fiatomvandlingar på Testnätverk"
   },
   "showPrivateKeys": {
     "message": "Visa privata nycklar"
@@ -1109,9 +1094,6 @@
   },
   "unlockMessage": {
     "message": "Den decentraliserade webben väntar"
-  },
-  "updatedWithDate": {
-    "message": "Uppdaterat $1"
   },
   "urlErrorMsg": {
     "message": "URI:er kräver lämpligt HTTP/HTTPS-prefix."

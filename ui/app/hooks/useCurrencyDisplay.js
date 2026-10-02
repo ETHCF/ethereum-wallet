@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { formatCurrency, getValueFromWeiHex } from '../helpers/utils/confirm-tx.util'
-import { getCurrentCurrency, getConversionRate, getNativeCurrency } from '../selectors'
+import { getValueFromWeiHex } from '../helpers/utils/confirm-tx.util'
+import { getNativeCurrency } from '../selectors'
 
 /**
  * Defines the shape of the options parameter for useCurrencyDisplay
@@ -10,7 +10,7 @@ import { getCurrentCurrency, getConversionRate, getNativeCurrency } from '../sel
  * @property {string} [prefix]           - String to prepend to the final result
  * @property {number} [numberOfDecimals] - Number of significant decimals to display
  * @property {string} [denomination]     - Denomination (wei, gwei) to convert to for display
- * @property {string} [currency]         - Currency type to convert to. Will override nativeCurrency
+ * @property {string} [currency]         - Currency label to show. Defaults to nativeCurrency
  */
 
 /**
@@ -32,28 +32,22 @@ import { getCurrentCurrency, getConversionRate, getNativeCurrency } from '../sel
  * @return {[string, CurrencyDisplayParts]}
  */
 export function useCurrencyDisplay (inputValue, { displayValue, prefix, numberOfDecimals, denomination, currency, ...opts }) {
-  const currentCurrency = useSelector(getCurrentCurrency)
   const nativeCurrency = useSelector(getNativeCurrency)
-  const conversionRate = useSelector(getConversionRate)
 
-  const toCurrency = currency || currentCurrency
+  const toCurrency = currency || nativeCurrency
 
   const value = useMemo(() => {
     if (displayValue) {
       return displayValue
     }
-    return formatCurrency(
-      getValueFromWeiHex({
-        value: inputValue,
-        fromCurrency: nativeCurrency,
-        toCurrency,
-        conversionRate,
-        numberOfDecimals: numberOfDecimals || 2,
-        toDenomination: denomination,
-      }),
+    return getValueFromWeiHex({
+      value: inputValue,
+      fromCurrency: toCurrency,
       toCurrency,
-    )
-  }, [inputValue, nativeCurrency, conversionRate, displayValue, numberOfDecimals, denomination, toCurrency])
+      numberOfDecimals: numberOfDecimals || 2,
+      toDenomination: denomination,
+    })
+  }, [inputValue, displayValue, numberOfDecimals, denomination, toCurrency])
 
   let suffix
 

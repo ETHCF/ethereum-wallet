@@ -5,7 +5,6 @@ import Identicon from '../../../components/ui/identicon'
 import Button from '../../../components/ui/button'
 import CheckBox, { CHECKED, INDETERMINATE, UNCHECKED } from '../../../components/ui/check-box'
 import Tooltip from '../../../components/ui/tooltip'
-import { PRIMARY } from '../../../helpers/constants/common'
 import UserPreferencedCurrencyDisplay from '../../../components/app/user-preferenced-currency-display'
 import PermissionsConnectHeader from '../../../components/app/permissions-connect-header'
 import PermissionsConnectFooter from '../../../components/app/permissions-connect-footer'
@@ -106,7 +105,6 @@ export default class ChooseAccount extends Component {
                     <div className="permissions-connect-choose-account__account__label">{ addressLabel }</div>
                     <UserPreferencedCurrencyDisplay
                       className="permissions-connect-choose-account__account__balance"
-                      type={PRIMARY}
                       value={balance}
                       style={{ color: 'var(--color-text-alternative)' }}
                       suffix={nativeCurrency}

@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Jelszó létrehozása"
   },
-  "currencyConversion": {
-    "message": "Valutaváltás"
-  },
   "currentLanguage": {
     "message": "Aktuális nyelv"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "Nem lett cím beállítva ehhez a névhez."
   },
-  "noConversionRateAvailable": {
-    "message": "Nincs elérhető átváltási díj"
-  },
   "noTransactions": {
     "message": "Nincsenek tranzakciói"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "A seed mondat 12 szóból áll"
   },
-  "selectCurrency": {
-    "message": "Válasszon valutát"
-  },
   "selectEachPhrase": {
     "message": "Kérjük, válassza ki az egyes mondatokat, hogy meggyőződjön azok helyességéről. "
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Jelöld meg ezt a gázárak és korlátozásellenőrzés mutatásához közvetlenül a küldési és megerősítési képernyőkön."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Konverzió mutatása Testnetsen"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Válassza ezt, ha a Testnetsen szeretné megnézni a törvényes fizetőeszközre való átváltást"
   },
   "showPrivateKeys": {
     "message": "Mutassa a privát kulcsokat"
@@ -1124,9 +1109,6 @@
   },
   "unlockMessage": {
     "message": "A decentralizált hálózat csak önre vár"
-  },
-  "updatedWithDate": {
-    "message": "$1 frissítve"
   },
   "urlErrorMsg": {
     "message": "Az URI-hez szükség van a megfelelő HTTP/HTTPS előtagra."

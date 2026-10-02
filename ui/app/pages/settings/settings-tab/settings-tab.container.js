@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import {
-  setCurrentCurrency,
   setUseBlockie,
   updateCurrentLocale,
   setThemePreference,
@@ -11,8 +10,6 @@ import SettingsTab from './settings-tab.component'
 const mapStateToProps = (state) => {
   const { appState: { warning }, ecfWallet } = state
   const {
-    currentCurrency,
-    conversionDate,
     useBlockie,
     currentLocale,
   } = ecfWallet
@@ -20,8 +17,6 @@ const mapStateToProps = (state) => {
   return {
     warning,
     currentLocale,
-    currentCurrency,
-    conversionDate,
     useBlockie,
     theme: getPreferences(state).theme,
   }
@@ -29,7 +24,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCurrentCurrency: (currency) => dispatch(setCurrentCurrency(currency)),
     setUseBlockie: (value) => dispatch(setUseBlockie(value)),
     updateCurrentLocale: (key) => dispatch(updateCurrentLocale(key)),
     setThemePreference: (value) => dispatch(setThemePreference(value)),

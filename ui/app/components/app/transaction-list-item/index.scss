@@ -3,12 +3,6 @@
     color: var(--color-text-default);
   }
 
-  &__secondary-currency {
-    font-size: 12px;
-    margin-top: 4px;
-    color: var(--color-text-alternative);
-  }
-
   & &--unconfirmed {
     color: var(--color-text-alternative);
   }

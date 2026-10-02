@@ -33,7 +33,6 @@ import {
   getKnownMethodData,
   getEcfWalletAccounts,
   getUseNonceField,
-  getPreferences,
   transactionFeeSelector,
 } from '../../selectors'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
@@ -55,12 +54,10 @@ const customNonceMerge = (txData) => (customNonceValue ? ({
 const mapStateToProps = (state, ownProps) => {
   const { toAddress: propsToAddress, customTxParamsData, match: { params = {} } } = ownProps
   const { id: paramsTransactionId } = params
-  const { showFiatInTestnets } = getPreferences(state)
   const isMainnet = getIsMainnet(state)
   const { confirmTransaction, ecfWallet } = state
   const {
     ensResolutionsByAddress,
-    conversionRate,
     identities,
     addressBook,
     assetImages,
@@ -123,7 +120,6 @@ const mapStateToProps = (state, ownProps) => {
     amount,
     gasTotal: calcGasTotal(gasLimit, gasPrice),
     balance,
-    conversionRate,
   })
 
   const methodData = getKnownMethodData(state, data) || {}
@@ -155,7 +151,6 @@ const mapStateToProps = (state, ownProps) => {
     methodData,
     tokenProps,
     isTxReprice,
-    conversionRate,
     transactionStatus,
     nonce,
     assetImage,
@@ -170,8 +165,6 @@ const mapStateToProps = (state, ownProps) => {
     useNonceField: getUseNonceField(state),
     customNonceValue: getCustomNonceValue(state),
     insufficientBalance,
-    hideSubtitle: (!isMainnet && !showFiatInTestnets),
-    hideFiatConversion: (!isMainnet && !showFiatInTestnets),
     transactionCategory,
     nextNonce,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
@@ -208,7 +201,7 @@ export const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const getValidateEditGas = ({ balance, conversionRate, txData }) => {
+const getValidateEditGas = ({ balance, txData }) => {
   const { txParams: { value: amount } = {} } = txData
 
   return ({ gasLimit, gasPrice }) => {
@@ -217,7 +210,6 @@ const getValidateEditGas = ({ balance, conversionRate, txData }) => {
       amount,
       gasTotal,
       balance,
-      conversionRate,
     })
 
     if (!hasSufficientBalance) {
@@ -231,7 +223,6 @@ const getValidateEditGas = ({ balance, conversionRate, txData }) => {
       {
         value: MIN_GAS_LIMIT_DEC,
         fromNumericBase: 'dec',
-        conversionRate,
       },
       {
         value: gasLimit,
@@ -253,7 +244,7 @@ const getValidateEditGas = ({ balance, conversionRate, txData }) => {
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { balance, conversionRate, txData, unapprovedTxs } = stateProps
+  const { balance, txData, unapprovedTxs } = stateProps
   const {
     cancelAllTransactions: dispatchCancelAllTransactions,
     showCustomizeGasModal: dispatchShowCustomizeGasModal,
@@ -261,7 +252,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...otherDispatchProps
   } = dispatchProps
 
-  const validateEditGas = getValidateEditGas({ balance, conversionRate, txData })
+  const validateEditGas = getValidateEditGas({ balance, txData })
 
   return {
     ...stateProps,

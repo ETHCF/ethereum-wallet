@@ -525,38 +525,6 @@ describe('Actions', function () {
     })
   })
 
-  describe('#setCurrentCurrency', function () {
-
-    let setCurrentCurrencySpy
-
-    afterEach(function () {
-      setCurrentCurrencySpy.restore()
-    })
-
-    it('calls setCurrentCurrency', async function () {
-      setCurrentCurrencySpy = sinon.stub(background, 'setCurrentCurrency')
-        .callsArgWith(1, null, {})
-      const store = mockStore()
-
-      await store.dispatch(actions.setCurrentCurrency('jpy'))
-      assert(setCurrentCurrencySpy.calledOnce)
-    })
-
-    it('throws if setCurrentCurrency throws', async function () {
-      setCurrentCurrencySpy = sinon.stub(background, 'setCurrentCurrency')
-        .callsArgWith(1, new Error('error'))
-      const store = mockStore()
-      const expectedActions = [
-        { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'DISPLAY_WARNING', value: 'error' },
-      ]
-
-      await store.dispatch(actions.setCurrentCurrency())
-      assert.deepEqual(store.getActions(), expectedActions)
-    })
-  })
-
   describe('#signPersonalMsg', function () {
 
     let signPersonalMessageSpy, ecfWalletMsgs, msgId, personalMessages

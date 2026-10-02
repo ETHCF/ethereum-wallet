@@ -233,9 +233,6 @@
   "createPassword": {
     "message": "Vytvoriť heslo"
   },
-  "currencyConversion": {
-    "message": "Prepočet meny"
-  },
   "currentLanguage": {
     "message": "Aktuálny jazyk"
   },
@@ -647,9 +644,6 @@
   "noAddressForName": {
     "message": "Pro toto jméno nebyla nastavena žádná adresa."
   },
-  "noConversionRateAvailable": {
-    "message": "Nie je k dispozícii žiadna sadzba konverzie"
-  },
   "noTransactions": {
     "message": "Žádné transakce"
   },
@@ -844,9 +838,6 @@
   "seedPhraseReq": {
     "message": "klíčové fráze mají 12 slov"
   },
-  "selectCurrency": {
-    "message": "Vybrat měnu"
-  },
   "selectEachPhrase": {
     "message": "Vyberte každú frázu, aby ste sa uistili, že je správna."
   },
@@ -903,12 +894,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Vyberte túto možnosť vtedy, keď chcete priamo na obrazovke odosielania a potvrdenia zobraziť ceny za GAS a ovládacie prvky limitov."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Zobraziť konverziu na Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Vyberte túto voľbu, ak chcete zobraziť konverziu fiat na Testnets"
   },
   "showPrivateKeys": {
     "message": "Zobrazit privátní klíče"
@@ -1093,9 +1078,6 @@
   },
   "unlockMessage": {
     "message": "Decentralizovaný web čaká"
-  },
-  "updatedWithDate": {
-    "message": "Aktualizované $1"
   },
   "urlErrorMsg": {
     "message": "URI vyžadují korektní HTTP/HTTPS prefix."

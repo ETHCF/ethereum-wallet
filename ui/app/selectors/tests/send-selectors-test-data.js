@@ -23,10 +23,6 @@ const state = {
     },
     'cachedBalances': {},
     'currentBlockGasLimit': '0x4c1878',
-    'currentCurrency': 'USD',
-    'conversionRate': 1200.88200327,
-    'conversionDate': 1489013762,
-    'nativeCurrency': 'ETH',
     'frequentRpcList': [],
     'network': '3',
     'accounts': {
@@ -151,6 +147,7 @@ const state = {
     'selectedAddress': '0xd85a4b6a394794842887b8284293d69163007bbb',
     'provider': {
       'type': 'testnet',
+      'ticker': 'ETH',
     },
     'send': {
       'gasLimit': '0xFFFF',

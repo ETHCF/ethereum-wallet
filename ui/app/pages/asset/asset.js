@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import { Redirect, useParams } from 'react-router-dom'
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
+import { getNativeCurrency } from '../../selectors'
 
 import NativeAsset from './components/native-asset'
 import TokenAsset from './components/token-asset'
 
 const Asset = () => {
-  const nativeCurrency = useSelector((state) => state.ecfWallet.nativeCurrency)
+  const nativeCurrency = useSelector(getNativeCurrency)
   const tokens = useSelector(getTokens)
   const { asset } = useParams()
 

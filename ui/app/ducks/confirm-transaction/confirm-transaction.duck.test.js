@@ -13,9 +13,6 @@ const initialState = {
     tokenDecimals: '',
     tokenSymbol: '',
   },
-  fiatTransactionAmount: '',
-  fiatTransactionFee: '',
-  fiatTransactionTotal: '',
   ethTransactionAmount: '',
   ethTransactionFee: '',
   ethTransactionTotal: '',
@@ -59,9 +56,6 @@ describe('Confirm Transaction Duck', function () {
         tokenDecimals: '3',
         tokenSymbol: 'ABC',
       },
-      fiatTransactionAmount: '469.26',
-      fiatTransactionFee: '0.01',
-      fiatTransactionTotal: '1.000021',
       ethTransactionAmount: '1',
       ethTransactionFee: '0.000021',
       ethTransactionTotal: '469.27',
@@ -182,14 +176,12 @@ describe('Confirm Transaction Duck', function () {
         ConfirmTransactionReducer(mockState, {
           type: UPDATE_TRANSACTION_AMOUNTS,
           payload: {
-            fiatTransactionAmount: '123.45',
             ethTransactionAmount: '.5',
             hexTransactionAmount: '0x1',
           },
         }),
         {
           ...mockState,
-          fiatTransactionAmount: '123.45',
           ethTransactionAmount: '.5',
           hexTransactionAmount: '0x1',
         },
@@ -201,14 +193,12 @@ describe('Confirm Transaction Duck', function () {
         ConfirmTransactionReducer(mockState, {
           type: UPDATE_TRANSACTION_FEES,
           payload: {
-            fiatTransactionFee: '123.45',
             ethTransactionFee: '.5',
             hexTransactionFee: '0x1',
           },
         }),
         {
           ...mockState,
-          fiatTransactionFee: '123.45',
           ethTransactionFee: '.5',
           hexTransactionFee: '0x1',
         },
@@ -220,14 +210,12 @@ describe('Confirm Transaction Duck', function () {
         ConfirmTransactionReducer(mockState, {
           type: UPDATE_TRANSACTION_TOTALS,
           payload: {
-            fiatTransactionTotal: '123.45',
             ethTransactionTotal: '.5',
             hexTransactionTotal: '0x1',
           },
         }),
         {
           ...mockState,
-          fiatTransactionTotal: '123.45',
           ethTransactionTotal: '.5',
           hexTransactionTotal: '0x1',
         },
@@ -494,17 +482,13 @@ describe('Confirm Transaction Duck', function () {
     it('updates txData and gas on an existing transaction in confirmTransaction', function () {
       const mockState = {
         ecfWallet: {
-          conversionRate: 468.58,
-          currentCurrency: 'usd',
+          provider: { ticker: 'ETH' },
         },
         confirmTransaction: {
           ethTransactionAmount: '1',
           ethTransactionFee: '0.000021',
           ethTransactionTotal: '1.000021',
           fetchingData: false,
-          fiatTransactionAmount: '469.26',
-          fiatTransactionFee: '0.01',
-          fiatTransactionTotal: '469.27',
           hexGasTotal: '0x1319718a5000',
           methodData: {},
           nonce: '',
@@ -561,17 +545,13 @@ describe('Confirm Transaction Duck', function () {
       }
       const mockState = {
         ecfWallet: {
-          conversionRate: 468.58,
-          currentCurrency: 'usd',
+          provider: { ticker: 'ETH' },
         },
         confirmTransaction: {
           ethTransactionAmount: '1',
           ethTransactionFee: '0.000021',
           ethTransactionTotal: '1.000021',
           fetchingData: false,
-          fiatTransactionAmount: '469.26',
-          fiatTransactionFee: '0.01',
-          fiatTransactionTotal: '469.27',
           hexGasTotal: '0x1319718a5000',
           methodData: {},
           nonce: '',
@@ -609,8 +589,7 @@ describe('Confirm Transaction Duck', function () {
     it('updates confirmTransaction transaction', function () {
       const mockState = {
         ecfWallet: {
-          conversionRate: 468.58,
-          currentCurrency: 'usd',
+          provider: { ticker: 'ETH' },
           network: '3',
           unapprovedTxs: {
             2603411941761054: {

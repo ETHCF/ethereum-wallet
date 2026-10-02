@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "建立密碼"
   },
-  "currencyConversion": {
-    "message": "轉換匯率"
-  },
   "currentLanguage": {
     "message": "當前語言"
   },
@@ -669,9 +666,6 @@
   "noAddressForName": {
     "message": "此 ENS 尚未指定位址。"
   },
-  "noConversionRateAvailable": {
-    "message": "尚未有匯率比較值"
-  },
   "noTransactions": {
     "message": "尚未有交易"
   },
@@ -860,9 +854,6 @@
   "seedPhraseReq": {
     "message": "助憶詞為 12 個詞語"
   },
-  "selectCurrency": {
-    "message": "選擇幣別"
-  },
   "selectEachPhrase": {
     "message": "請依照正確順序點選助憶詞"
   },
@@ -913,12 +904,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "在交易時顯示可微調 Gas 價格以及 Gas 上限的功能"
-  },
-  "showFiatConversionInTestnets": {
-    "message": "在測試網上顯示匯率"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "選擇此來在測試網上顯示法定貨幣匯率"
   },
   "showPrivateKeys": {
     "message": "顯示私鑰"
@@ -1109,9 +1094,6 @@
   },
   "unlockMessage": {
     "message": "去中心化網路世界等待著您"
-  },
-  "updatedWithDate": {
-    "message": "更新時間 $1"
   },
   "urlErrorMsg": {
     "message": "URIs 需要加入適當的 HTTP/HTTPS 前綴字"

@@ -86,7 +86,6 @@ describe('custom-gas selectors', function () {
         expectedResult: [
           {
             gasEstimateType: 'SLOW',
-            feeInSecondaryCurrency: '$0.01',
             feeInPrimaryCurrency: '0.0000525 ETH',
             timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x9502f900',
@@ -94,13 +93,11 @@ describe('custom-gas selectors', function () {
           {
             gasEstimateType: 'AVERAGE',
             feeInPrimaryCurrency: '0.000084 ETH',
-            feeInSecondaryCurrency: '$0.02',
             priceInHexWei: '0xee6b2800',
             timeEstimate: '~5 min 18 sec',
           },
           {
             gasEstimateType: 'FAST',
-            feeInSecondaryCurrency: '$0.03',
             feeInPrimaryCurrency: '0.000105 ETH',
             timeEstimate: '~3 min 18 sec',
             priceInHexWei: '0x12a05f200',
@@ -108,11 +105,6 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 255.71,
-            currentCurrency: 'usd',
-            preferences: {
-              showFiatInTestnets: false,
-            },
             provider: {
               type: 'mainnet',
             },
@@ -136,21 +128,18 @@ describe('custom-gas selectors', function () {
         expectedResult: [
           {
             gasEstimateType: 'SLOW',
-            feeInSecondaryCurrency: '$0.27',
             feeInPrimaryCurrency: '0.000105 ETH',
             timeEstimate: '~13 min 12 sec',
             priceInHexWei: '0x12a05f200',
           },
           {
             feeInPrimaryCurrency: '0.000147 ETH',
-            feeInSecondaryCurrency: '$0.38',
             gasEstimateType: 'AVERAGE',
             priceInHexWei: '0x1a13b8600',
             timeEstimate: '~10 min 6 sec',
           },
           {
             gasEstimateType: 'FAST',
-            feeInSecondaryCurrency: '$0.54',
             feeInPrimaryCurrency: '0.00021 ETH',
             timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x2540be400',
@@ -158,13 +147,8 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
             send: {
               gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: false,
             },
             provider: {
               type: 'mainnet',
@@ -189,7 +173,6 @@ describe('custom-gas selectors', function () {
         expectedResult: [
           {
             gasEstimateType: 'SLOW',
-            feeInSecondaryCurrency: '',
             feeInPrimaryCurrency: '0.000105 ETH',
             timeEstimate: '~13 min 12 sec',
             priceInHexWei: '0x12a05f200',
@@ -197,13 +180,11 @@ describe('custom-gas selectors', function () {
           {
             gasEstimateType: 'AVERAGE',
             feeInPrimaryCurrency: '0.000147 ETH',
-            feeInSecondaryCurrency: '',
             timeEstimate: '~10 min 6 sec',
             priceInHexWei: '0x1a13b8600',
           },
           {
             gasEstimateType: 'FAST',
-            feeInSecondaryCurrency: '',
             feeInPrimaryCurrency: '0.00021 ETH',
             timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x2540be400',
@@ -211,122 +192,11 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
             send: {
               gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: false,
             },
             provider: {
               type: 'rinkeby',
-            },
-          },
-          gas: {
-            basicEstimates: {
-              blockTime: 14.16326530612245,
-              safeLow: 5,
-              safeLowWait: 13.2,
-              average: 7,
-              avgWait: 10.1,
-              fast: 10,
-              fastWait: 6.6,
-              fastest: 20,
-              fastestWait: 1.0,
-            },
-          },
-        },
-      },
-      {
-        expectedResult: [
-          {
-            gasEstimateType: 'SLOW',
-            feeInSecondaryCurrency: '$0.27',
-            feeInPrimaryCurrency: '0.000105 ETH',
-            timeEstimate: '~13 min 12 sec',
-            priceInHexWei: '0x12a05f200',
-          },
-          {
-            gasEstimateType: 'AVERAGE',
-            feeInPrimaryCurrency: '0.000147 ETH',
-            feeInSecondaryCurrency: '$0.38',
-            priceInHexWei: '0x1a13b8600',
-            timeEstimate: '~10 min 6 sec',
-          },
-          {
-            gasEstimateType: 'FAST',
-            feeInSecondaryCurrency: '$0.54',
-            feeInPrimaryCurrency: '0.00021 ETH',
-            timeEstimate: '~6 min 36 sec',
-            priceInHexWei: '0x2540be400',
-          },
-        ],
-        mockState: {
-          ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
-            send: {
-              gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: true,
-            },
-            provider: {
-              type: 'rinkeby',
-            },
-          },
-          gas: {
-            basicEstimates: {
-              blockTime: 14.16326530612245,
-              safeLow: 5,
-              safeLowWait: 13.2,
-              average: 7,
-              avgWait: 10.1,
-              fast: 10,
-              fastWait: 6.6,
-              fastest: 20,
-              fastestWait: 1.0,
-            },
-          },
-        },
-      },
-      {
-        expectedResult: [
-          {
-            gasEstimateType: 'SLOW',
-            feeInSecondaryCurrency: '$0.27',
-            feeInPrimaryCurrency: '0.000105 ETH',
-            timeEstimate: '~13 min 12 sec',
-            priceInHexWei: '0x12a05f200',
-          },
-          {
-            gasEstimateType: 'AVERAGE',
-            feeInPrimaryCurrency: '0.000147 ETH',
-            feeInSecondaryCurrency: '$0.38',
-            priceInHexWei: '0x1a13b8600',
-            timeEstimate: '~10 min 6 sec',
-          },
-          {
-            gasEstimateType: 'FAST',
-            feeInSecondaryCurrency: '$0.54',
-            feeInPrimaryCurrency: '0.00021 ETH',
-            timeEstimate: '~6 min 36 sec',
-            priceInHexWei: '0x2540be400',
-          },
-        ],
-        mockState: {
-          ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
-            send: {
-              gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: true,
-            },
-            provider: {
-              type: 'mainnet',
             },
           },
           gas: {
@@ -361,19 +231,16 @@ describe('custom-gas selectors', function () {
       {
         expectedResult: [
           {
-            feeInSecondaryCurrency: '$0.13',
             feeInPrimaryCurrency: '0.00052 ETH',
             gasEstimateType: 'SLOW',
             priceInHexWei: '0x5d21dba00',
           },
           {
-            feeInSecondaryCurrency: '$0.16',
             feeInPrimaryCurrency: '0.00063 ETH',
             gasEstimateType: 'AVERAGE',
             priceInHexWei: '0x6fc23ac00',
           },
           {
-            feeInSecondaryCurrency: '$0.27',
             feeInPrimaryCurrency: '0.00105 ETH',
             gasEstimateType: 'FAST',
             priceInHexWei: '0xba43b7400',
@@ -381,13 +248,8 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 255.71,
-            currentCurrency: 'usd',
             send: {
               gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: false,
             },
             provider: {
               type: 'mainnet',
@@ -411,19 +273,16 @@ describe('custom-gas selectors', function () {
       {
         expectedResult: [
           {
-            feeInSecondaryCurrency: '$2.68',
             feeInPrimaryCurrency: '0.00105 ETH',
             gasEstimateType: 'SLOW',
             priceInHexWei: '0xba43b7400',
           },
           {
-            feeInSecondaryCurrency: '$4.03',
             feeInPrimaryCurrency: '0.00157 ETH',
             gasEstimateType: 'AVERAGE',
             priceInHexWei: '0x1176592e00',
           },
           {
-            feeInSecondaryCurrency: '$5.37',
             feeInPrimaryCurrency: '0.0021 ETH',
             gasEstimateType: 'FAST',
             priceInHexWei: '0x174876e800',
@@ -431,13 +290,8 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
             send: {
               gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: false,
             },
             provider: {
               type: 'mainnet',
@@ -461,19 +315,16 @@ describe('custom-gas selectors', function () {
       {
         expectedResult: [
           {
-            feeInSecondaryCurrency: '',
             feeInPrimaryCurrency: '0.00105 ETH',
             gasEstimateType: 'SLOW',
             priceInHexWei: '0xba43b7400',
           },
           {
-            feeInSecondaryCurrency: '',
             feeInPrimaryCurrency: '0.00157 ETH',
             gasEstimateType: 'AVERAGE',
             priceInHexWei: '0x1176592e00',
           },
           {
-            feeInSecondaryCurrency: '',
             feeInPrimaryCurrency: '0.0021 ETH',
             gasEstimateType: 'FAST',
             priceInHexWei: '0x174876e800',
@@ -481,116 +332,11 @@ describe('custom-gas selectors', function () {
         ],
         mockState: {
           ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
             send: {
               gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: false,
             },
             provider: {
               type: 'rinkeby',
-            },
-          },
-          gas: {
-            basicEstimates: {
-              blockTime: 14.16326530612245,
-              safeLow: 50,
-              safeLowWait: 13.2,
-              average: 75,
-              avgWait: 9.6,
-              fast: 100,
-              fastWait: 6.6,
-              fastest: 200,
-              fastestWait: 1.0,
-            },
-          },
-        },
-      },
-      {
-        expectedResult: [
-          {
-            feeInSecondaryCurrency: '$2.68',
-            feeInPrimaryCurrency: '0.00105 ETH',
-            gasEstimateType: 'SLOW',
-            priceInHexWei: '0xba43b7400',
-          },
-          {
-            feeInSecondaryCurrency: '$4.03',
-            feeInPrimaryCurrency: '0.00157 ETH',
-            gasEstimateType: 'AVERAGE',
-            priceInHexWei: '0x1176592e00',
-          },
-          {
-            feeInSecondaryCurrency: '$5.37',
-            feeInPrimaryCurrency: '0.0021 ETH',
-            gasEstimateType: 'FAST',
-            priceInHexWei: '0x174876e800',
-          },
-        ],
-        mockState: {
-          ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
-            send: {
-              gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: true,
-            },
-            provider: {
-              type: 'rinkeby',
-            },
-          },
-          gas: {
-            basicEstimates: {
-              blockTime: 14.16326530612245,
-              safeLow: 50,
-              safeLowWait: 13.2,
-              average: 75,
-              avgWait: 9.6,
-              fast: 100,
-              fastWait: 6.6,
-              fastest: 200,
-              fastestWait: 1.0,
-            },
-          },
-        },
-      },
-      {
-        expectedResult: [
-          {
-            feeInSecondaryCurrency: '$2.68',
-            feeInPrimaryCurrency: '0.00105 ETH',
-            gasEstimateType: 'SLOW',
-            priceInHexWei: '0xba43b7400',
-          },
-          {
-            feeInSecondaryCurrency: '$4.03',
-            feeInPrimaryCurrency: '0.00157 ETH',
-            gasEstimateType: 'AVERAGE',
-            priceInHexWei: '0x1176592e00',
-          },
-          {
-            feeInSecondaryCurrency: '$5.37',
-            feeInPrimaryCurrency: '0.0021 ETH',
-            gasEstimateType: 'FAST',
-            priceInHexWei: '0x174876e800',
-          },
-        ],
-        mockState: {
-          ecfWallet: {
-            conversionRate: 2557.1,
-            currentCurrency: 'usd',
-            send: {
-              gasLimit: '0x5208',
-            },
-            preferences: {
-              showFiatInTestnets: true,
-            },
-            provider: {
-              type: 'mainnet',
             },
           },
           gas: {

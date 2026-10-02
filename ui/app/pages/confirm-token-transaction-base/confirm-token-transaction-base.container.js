@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   const { id: paramsTransactionId } = params
   const {
     confirmTransaction,
-    ecfWallet: { currentCurrency, currentNetworkTxList },
+    ecfWallet: { currentNetworkTxList },
   } = state
 
   const {
@@ -33,10 +33,7 @@ const mapStateToProps = (state, ownProps) => {
     transactionId)) || {}
   )
 
-  const {
-    ethTransactionTotal,
-    fiatTransactionTotal,
-  } = transactionFeeSelector(state, transaction)
+  const { ethTransactionTotal } = transactionFeeSelector(state, transaction)
   const tokens = getTokens(state)
   const currentToken = tokens && tokens.find(({ address }) => tokenAddress === address)
   const { decimals, symbol: tokenSymbol } = currentToken || {}
@@ -51,8 +48,6 @@ const mapStateToProps = (state, ownProps) => {
     tokenAddress,
     tokenAmount,
     tokenSymbol,
-    currentCurrency,
-    fiatTransactionTotal,
     ethTransactionTotal,
     nativeCurrencyImage: getNativeCurrencyImage(state),
   }

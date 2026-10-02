@@ -383,9 +383,6 @@
   "noAddressForName": {
     "message": "Pa gen adrès ki etabli pou non sa a."
   },
-  "noConversionRateAvailable": {
-    "message": "Pa gen okenn Konvèsyon Disponib"
-  },
   "noTransactions": {
     "message": "Pa gen tranzaksyon"
   },
@@ -534,9 +531,6 @@
   },
   "seedPhraseReq": {
     "message": "Seed fraz yo se 12 long mo"
-  },
-  "selectCurrency": {
-    "message": "Chwazi Lajan"
   },
   "selectLocale": {
     "message": "Chwazi Lokasyon"
@@ -706,9 +700,6 @@
   },
   "unlockMessage": {
     "message": "Entènèt desantralize a ap tann"
-  },
-  "updatedWithDate": {
-    "message": "Mete ajou $1"
   },
   "urlErrorMsg": {
     "message": "URIs mande pou apwopriye prefiks HTTP / HTTPS a."

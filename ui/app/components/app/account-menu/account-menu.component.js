@@ -9,7 +9,6 @@ import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
 import Identicon from '../../ui/identicon'
 import SiteIcon from '../../ui/site-icon'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
-import { PRIMARY } from '../../../helpers/constants/common'
 import {
   SETTINGS_ROUTE,
   ABOUT_US_ROUTE,
@@ -198,7 +197,6 @@ export default class AccountMenu extends Component {
             <UserPreferencedCurrencyDisplay
               className="account-menu__balance"
               value={identity.balance}
-              type={PRIMARY}
             />
           </div>
           { this.renderKeyringType(keyring) }

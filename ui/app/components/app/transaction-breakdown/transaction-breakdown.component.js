@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import CurrencyDisplay from '../../ui/currency-display'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
 import HexToDecimal from '../../ui/hex-to-decimal'
-import { GWEI, PRIMARY, SECONDARY } from '../../../helpers/constants/common'
+import { GWEI } from '../../../helpers/constants/common'
 import TransactionBreakdownRow from './transaction-breakdown-row'
 
 export default class TransactionBreakdown extends PureComponent {
@@ -15,7 +15,6 @@ export default class TransactionBreakdown extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     nativeCurrency: PropTypes.string,
-    showFiat: PropTypes.bool,
     nonce: PropTypes.string,
     gas: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     gasPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -24,13 +23,9 @@ export default class TransactionBreakdown extends PureComponent {
     totalInHex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
 
-  static defaultProps = {
-    showFiat: true,
-  }
-
   render () {
     const { t } = this.context
-    const { gas, gasPrice, value, className, nonce, nativeCurrency, showFiat, totalInHex, gasUsed } = this.props
+    const { gas, gasPrice, value, className, nonce, nativeCurrency, totalInHex, gasUsed } = this.props
     return (
       <div className={classnames('transaction-breakdown', className)}>
         <div className="transaction-breakdown__title">
@@ -50,7 +45,6 @@ export default class TransactionBreakdown extends PureComponent {
         <TransactionBreakdownRow title={t('amount')}>
           <UserPreferencedCurrencyDisplay
             className="transaction-breakdown__value"
-            type={PRIMARY}
             value={value}
           />
         </TransactionBreakdownRow>
@@ -97,22 +91,10 @@ export default class TransactionBreakdown extends PureComponent {
           }
         </TransactionBreakdownRow>
         <TransactionBreakdownRow title={t('total')}>
-          <div>
-            <UserPreferencedCurrencyDisplay
-              className="transaction-breakdown__value transaction-breakdown__value--eth-total"
-              type={PRIMARY}
-              value={totalInHex}
-            />
-            {
-              showFiat && (
-                <UserPreferencedCurrencyDisplay
-                  className="transaction-breakdown__value"
-                  type={SECONDARY}
-                  value={totalInHex}
-                />
-              )
-            }
-          </div>
+          <UserPreferencedCurrencyDisplay
+            className="transaction-breakdown__value transaction-breakdown__value--eth-total"
+            value={totalInHex}
+          />
         </TransactionBreakdownRow>
       </div>
     )

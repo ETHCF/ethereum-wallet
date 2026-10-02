@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Crear contraseña"
   },
-  "currencyConversion": {
-    "message": "Conversión de moneda"
-  },
   "currentLanguage": {
     "message": "Idioma actual"
   },
@@ -660,9 +657,6 @@
   "noAddressForName": {
     "message": "No se ha establecido ninguna dirección para este nombre."
   },
-  "noConversionRateAvailable": {
-    "message": "No hay ninguna tasa de conversión disponible"
-  },
   "noTransactions": {
     "message": "No tienes transacciones"
   },
@@ -860,9 +854,6 @@
   "seedPhraseReq": {
     "message": "Las frases de inicialización tienen una longitud de 12 palabras"
   },
-  "selectCurrency": {
-    "message": "Seleccionar moneda"
-  },
   "selectEachPhrase": {
     "message": "Selecciona todas las frases para asegurarte de que son correctas."
   },
@@ -919,12 +910,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Selecciona esto para mostrar el precio del gas y limitar los controles directamente en las pantallas de envío y confirmación."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Mostrar conversión en redes Testnet"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Selecciona esto para mostrar la conversión de dinero fiduciario en redes Testnet"
   },
   "showPrivateKeys": {
     "message": "Mostrar claves privadas"
@@ -1109,9 +1094,6 @@
   },
   "unlockMessage": {
     "message": "La web descentralizada está a la espera"
-  },
-  "updatedWithDate": {
-    "message": "Actualización: $1"
   },
   "urlErrorMsg": {
     "message": "Los URI deben tener el prefijo HTTP/HTTPS apropiado."

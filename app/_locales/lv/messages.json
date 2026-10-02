@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Izveidot paroli"
   },
-  "currencyConversion": {
-    "message": "Valūtas konvertācija"
-  },
   "currentLanguage": {
     "message": "Pašreizējā valodā"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "Šim vārdam nav iestatīta adrese."
   },
-  "noConversionRateAvailable": {
-    "message": "Konversijas kurss nav pieejams"
-  },
   "noTransactions": {
     "message": "Jums nav neviena darījuma."
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "Atkopšanas frāzes ir 12 vārdus garas"
   },
-  "selectCurrency": {
-    "message": "Atlasiet valūtu"
-  },
   "selectEachPhrase": {
     "message": "Lūdzu, atlasiet katru frāzi, lai pārliecinātos par tās pareizību."
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Atlasiet šo, lai parādītu Gas cenu un ierobežotu kontroles iespējas tieši sūtīšanas un apstiprināšanas ekrānos."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Rādīt konversiju testa tīklos"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Atlasiet šo, lai testa tīklos uzrādītu fiat konversiju"
   },
   "showPrivateKeys": {
     "message": "Rādīt privātās atslēgas"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "Decentralizētais tīkls jau gaida"
-  },
-  "updatedWithDate": {
-    "message": "Atjaunināts $1"
   },
   "urlErrorMsg": {
     "message": "URI jāsākas ar atbilstošo HTTP/HTTPS priedēkli."

@@ -12,12 +12,8 @@ export function getBlockGasLimit (state) {
   return state.ecfWallet.currentBlockGasLimit
 }
 
-export function getConversionRate (state) {
-  return state.ecfWallet.conversionRate
-}
-
 export function getNativeCurrency (state) {
-  return state.ecfWallet.nativeCurrency
+  return state.ecfWallet.provider?.ticker || 'ETH'
 }
 
 export function getCurrentNetwork (state) {

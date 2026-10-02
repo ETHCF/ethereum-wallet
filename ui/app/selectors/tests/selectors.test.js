@@ -69,11 +69,6 @@ describe('Selectors', function () {
     assert.equal(gasIsLoading, false)
   })
 
-  it('#getCurrentCurrency', function () {
-    const currentCurrency = selectors.getCurrentCurrency(mockState)
-    assert.equal(currentCurrency, 'usd')
-  })
-
   it('#getTotalUnapprovedCount', function () {
     const totalUnapprovedCount = selectors.getTotalUnapprovedCount(mockState)
     assert.equal(totalUnapprovedCount, 1)

@@ -379,9 +379,6 @@
   "searchResults": {
     "message": "検索結果"
   },
-  "selectCurrency": {
-    "message": "通貨を選択"
-  },
   "selectType": {
     "message": "キーの種類"
   },

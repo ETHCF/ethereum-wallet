@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "Створити пароль"
   },
-  "currencyConversion": {
-    "message": "Обмін валют"
-  },
   "currentLanguage": {
     "message": "Поточна мова"
   },
@@ -675,9 +672,6 @@
   "noAddressForName": {
     "message": "На це ім'я не встановлено адреси."
   },
-  "noConversionRateAvailable": {
-    "message": "Немає доступного обмінного курсу"
-  },
   "noTransactions": {
     "message": "У вас немає транзакцій"
   },
@@ -875,9 +869,6 @@
   "seedPhraseReq": {
     "message": "Початкові фрази мають 12 слів"
   },
-  "selectCurrency": {
-    "message": "Виберіть валюту"
-  },
   "selectEachPhrase": {
     "message": "Виберіть кожну фразу, щоб переконатися, що вона правильна."
   },
@@ -934,12 +925,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Виберіть цей параметр, щоб відображати регулятори ціни й ліміту газу на екранах надсилання й підтвердження."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Показати бесіду у Testnet"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Оберіть це, щоб показати конверсію фіатних валют на Testnets"
   },
   "showPrivateKeys": {
     "message": "Показати приватні ключі"
@@ -1130,9 +1115,6 @@
   },
   "unlockMessage": {
     "message": "Децентралізована мережа очікує"
-  },
-  "updatedWithDate": {
-    "message": "Оновлено $1"
   },
   "urlErrorMsg": {
     "message": "URIs вимагають відповідного префікса HTTP/HTTPS."

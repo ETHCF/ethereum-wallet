@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Luo salasana"
   },
-  "currencyConversion": {
-    "message": "Valuuttamuunnin"
-  },
   "currentLanguage": {
     "message": "Nykyinen kieli"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "Tälle nimelle ei ole määritetty osoitetta."
   },
-  "noConversionRateAvailable": {
-    "message": "Vaihtokurssi ei saatavilla"
-  },
   "noTransactions": {
     "message": "Sinulla ei ole tapahtumia"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "Juurilauseet ovat 12 sanan pituisia"
   },
-  "selectCurrency": {
-    "message": "Valitse valuutta"
-  },
   "selectEachPhrase": {
     "message": "Ole hyvä ja valitse jokainen teksti järjestyksessä varmistaaksesi, että se on oikein."
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Valitse tämä näyttääksesi gas-hinta ja rajoittaaksesi  säätimiä suoraan lähetä- ja vahvista-ruuduissa."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Näytä vaihtokurssi koeverkoissa"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Valitse tämä näyttääksesi fiat-vaihtokurssin koeverkoissa"
   },
   "showPrivateKeys": {
     "message": "Näytä yksityiset avaimet"
@@ -1127,9 +1112,6 @@
   },
   "unlockMessage": {
     "message": "Hajautettu verkko odottaa"
-  },
-  "updatedWithDate": {
-    "message": "$1 päivitetty"
   },
   "urlErrorMsg": {
     "message": "URI:t vaativat asianmukaisen HTTP/HTTPS-etuliitteen."

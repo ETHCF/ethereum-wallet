@@ -24,13 +24,10 @@ import {
   updateSendErrors,
 } from '../../../../ducks/send/send.duck'
 import {
-  conversionRateSelector as getConversionRate,
-  getCurrentCurrency,
   getCurrentEthBalance,
   getIsMainnet,
   getSendToken,
   isEthereumNetwork,
-  getPreferences,
   getBasicGasEstimateLoadingStatus,
   getGasEstimatesLoadingStatus,
   getCustomGasLimit,
@@ -47,12 +44,8 @@ import {
 } from '../../../../selectors'
 
 import {
-  formatCurrency,
-} from '../../../../helpers/utils/confirm-tx.util'
-import {
   addHexWEIsToDec,
   subtractHexWEIsToDec,
-  decEthToConvertedCurrency as ethTotalToConvertedCurrency,
   hexWEIToDecGWEI,
 } from '../../../../helpers/utils/conversions.util'
 import { getRenderableTimeEstimate } from '../../../../helpers/utils/gas-time-estimates.util'
@@ -94,11 +87,6 @@ const mapStateToProps = (state, ownProps) => {
 
   const gasButtonInfo = getRenderableBasicEstimateData(state, customModalGasLimitInHex)
 
-  const currentCurrency = getCurrentCurrency(state)
-  const conversionRate = getConversionRate(state)
-
-  const newTotalFiat = addHexWEIsToRenderableFiat(value, customGasTotal, currentCurrency, conversionRate)
-
   const { hideBasic } = state.appState.modal.modalState.props
 
   const customGasPrice = calcCustomGasPrice(customModalGasPriceInHex)
@@ -109,9 +97,7 @@ const mapStateToProps = (state, ownProps) => {
   const estimatedTimes = getEstimatedGasTimes(state)
   const balance = getCurrentEthBalance(state)
 
-  const { showFiatInTestnets } = getPreferences(state)
   const isMainnet = getIsMainnet(state)
-  const showFiat = Boolean(isMainnet || showFiatInTestnets)
 
   const isSendTokenSet = Boolean(sendToken)
 
@@ -123,7 +109,6 @@ const mapStateToProps = (state, ownProps) => {
     amount: value,
     gasTotal: customGasTotal,
     balance,
-    conversionRate,
   })
 
   let currentTimeEstimate = ''
@@ -146,7 +131,6 @@ const mapStateToProps = (state, ownProps) => {
     customGasPrice,
     customGasLimit: calcCustomGasLimit(customModalGasLimitInHex),
     customGasTotal,
-    newTotalFiat,
     currentTimeEstimate,
     blockTime: getBasicGasEstimateBlockTime(state),
     customPriceIsSafe: isCustomPriceSafe(state),
@@ -164,9 +148,7 @@ const mapStateToProps = (state, ownProps) => {
       estimatedTimesMax: estimatedTimes[0],
     },
     infoRowProps: {
-      originalTotalFiat: addHexWEIsToRenderableFiat(value, customGasTotal, currentCurrency, conversionRate),
       originalTotalEth: addHexWEIsToRenderableEth(value, customGasTotal),
-      newTotalFiat: showFiat ? newTotalFiat : '',
       newTotalEth,
       transactionFee: addHexWEIsToRenderableEth('0x0', customGasTotal),
       sendAmount,
@@ -322,13 +304,4 @@ function addHexWEIsToRenderableEth (aHexWEI, bHexWEI) {
 
 function subtractHexWEIsFromRenderableEth (aHexWEI, bHexWEI) {
   return formatETHFee(subtractHexWEIsToDec(aHexWEI, bHexWEI))
-}
-
-function addHexWEIsToRenderableFiat (aHexWEI, bHexWEI, convertedCurrency, conversionRate) {
-  const ethTotal = ethTotalToConvertedCurrency(
-    addHexWEIsToDec(aHexWEI, bHexWEI),
-    convertedCurrency,
-    conversionRate,
-  )
-  return formatCurrency(ethTotal, convertedCurrency)
 }

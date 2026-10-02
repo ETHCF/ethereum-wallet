@@ -211,9 +211,6 @@
   "createPassword": {
     "message": "Crear Contraseña"
   },
-  "currencyConversion": {
-    "message": "Cambio de Monedas"
-  },
   "currentLanguage": {
     "message": "Idioma Actual"
   },
@@ -536,9 +533,6 @@
   "noAddressForName": {
     "message": "No se ha establecido ninguna dirección para este nombre"
   },
-  "noConversionRateAvailable": {
-    "message": "No hay tasa de conversión"
-  },
   "noTransactions": {
     "message": "Sin transacciones"
   },
@@ -702,9 +696,6 @@
   },
   "seedPhraseReq": {
     "message": "las frases semilla tienen doce (12) palabras de largo"
-  },
-  "selectCurrency": {
-    "message": "Seleccionar moneda"
   },
   "selectLocale": {
     "message": "Seleccionar local"
@@ -919,9 +910,6 @@
   },
   "unlockMessage": {
     "message": "Te espera toda la red descentralizada"
-  },
-  "updatedWithDate": {
-    "message": "Actualizado $1"
   },
   "urlErrorMsg": {
     "message": "URI necesita el prefijo HTTP/HTTPS apropiado"

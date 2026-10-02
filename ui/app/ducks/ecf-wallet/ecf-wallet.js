@@ -35,8 +35,6 @@ export default function reduceEcfWallet (state = {}, action) {
     currentLocale: '',
     preferences: {
       autoLockTimeLimit: undefined,
-      showFiatInTestnets: false,
-      useNativeCurrencyAsPrimaryCurrency: true,
       theme: 'os',
     },
     firstTimeFlowType: null,
@@ -90,13 +88,6 @@ export default function reduceEcfWallet (state = {}, action) {
       const identities = { ...ecfWalletState.identities, ...id }
       return Object.assign(ecfWalletState, { identities })
     }
-
-    case actionConstants.SET_CURRENT_FIAT:
-      return Object.assign(ecfWalletState, {
-        currentCurrency: action.value.currentCurrency,
-        conversionRate: action.value.conversionRate,
-        conversionDate: action.value.conversionDate,
-      })
 
     case actionConstants.UPDATE_TOKENS:
       return {

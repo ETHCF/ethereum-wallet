@@ -239,9 +239,6 @@
   "createPassword": {
     "message": "Cipta Kata Laluan"
   },
-  "currencyConversion": {
-    "message": "Penukaran Mata Wang"
-  },
   "currentLanguage": {
     "message": "Bahasa Semasa"
   },
@@ -653,9 +650,6 @@
   "noAddressForName": {
     "message": "Tiada alamat yang ditetapkan untuk nama ini."
   },
-  "noConversionRateAvailable": {
-    "message": "Tiada Kadar Penukaran yang Tersedia"
-  },
   "noTransactions": {
     "message": "Anda tiada transaksi"
   },
@@ -853,9 +847,6 @@
   "seedPhraseReq": {
     "message": "Frasa benih panjangnya 12 patah perkataan"
   },
-  "selectCurrency": {
-    "message": "Pilih Mata Wang"
-  },
   "selectEachPhrase": {
     "message": "Sila pilih setiap ungkapan untuk memastikan ia betul."
   },
@@ -912,12 +903,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Pilih ini untuk menunjukkan harga gas dan kawalan had terus di skrin hantar dan sahkan."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Tunjukkan Penukaran di Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Pilih ini untuk menunjukkan penukaran fiat di Testnets"
   },
   "showPrivateKeys": {
     "message": "Tunjukkan Kunci Persendirian"
@@ -1105,9 +1090,6 @@
   },
   "unlockMessage": {
     "message": "Web ternyahpusat menanti"
-  },
-  "updatedWithDate": {
-    "message": "Dikemaskini $1"
   },
   "urlErrorMsg": {
     "message": "URI memerlukan awalan HTTP/HTTPS yang sesuai."

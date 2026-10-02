@@ -45,7 +45,6 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
     category,
     primaryCurrency,
     recipientAddress,
-    secondaryCurrency,
     status,
     isPending,
     senderAddress,
@@ -140,10 +139,7 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
           </h3>
         )}
         rightContent={!isSignatureReq && !isApproval && (
-          <>
-            <h2 className="transaction-list-item__primary-currency">{primaryCurrency}</h2>
-            <h3 className="transaction-list-item__secondary-currency">{secondaryCurrency}</h3>
-          </>
+          <h2 className="transaction-list-item__primary-currency">{primaryCurrency}</h2>
         )}
       >
         <div className="transaction-list-item__pending-actions">

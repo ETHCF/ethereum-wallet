@@ -97,9 +97,6 @@
   "createAWallet": {
     "message": "สร้าง Wallet"
   },
-  "currencyConversion": {
-    "message": "การแปลงสกุลเงิน"
-  },
   "customGas": {
     "message": "กำหนดค่าแก็สเอง"
   },
@@ -403,9 +400,6 @@
   "seedPhraseReq": {
     "message": "กลุ่มคำชีดมีความยาว 12 คำ"
   },
-  "selectCurrency": {
-    "message": "เลือกสกุลเงิน"
-  },
   "selectType": {
     "message": "เลือกประเภท"
   },
@@ -517,9 +511,6 @@
   },
   "unlock": {
     "message": "ปลดล็อก"
-  },
-  "updatedWithDate": {
-    "message": "อัปเดต $1 แล้ว"
   },
   "urlErrorMsg": {
     "message": "URI ต้องมีคำนำหน้าเป็น HTTP หรือ HTTPS"

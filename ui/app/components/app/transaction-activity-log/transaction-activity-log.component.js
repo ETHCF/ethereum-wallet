@@ -16,7 +16,6 @@ export default class TransactionActivityLog extends PureComponent {
   static propTypes = {
     activities: PropTypes.array,
     className: PropTypes.string,
-    conversionRate: PropTypes.number,
     inlineRetryIndex: PropTypes.number,
     inlineCancelIndex: PropTypes.number,
     nativeCurrency: PropTypes.string,
@@ -69,20 +68,18 @@ export default class TransactionActivityLog extends PureComponent {
   }
 
   renderActivity (activity, index) {
-    const { conversionRate, nativeCurrency } = this.props
+    const { nativeCurrency } = this.props
     const { eventKey, value, timestamp, hash } = activity
     const ethValue = index === 0
       ? `${getValueFromWeiHex({
         value,
         fromCurrency: 'ETH',
         toCurrency: 'ETH',
-        conversionRate,
         numberOfDecimals: 6,
       })} ${nativeCurrency}`
       : getEthConversionFromWeiHex({
         value,
         fromCurrency: 'ETH',
-        conversionRate,
         numberOfDecimals: 3,
       })
     const formattedTimestamp = formatDate(timestamp, 'T \'on\' M/d/y')

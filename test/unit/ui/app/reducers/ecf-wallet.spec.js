@@ -63,23 +63,6 @@ describe('ecf-wallet Reducers', function () {
     assert.deepEqual(state.identities, { 'test account': { name: 'test label' } })
   })
 
-  it('sets current fiat', function () {
-    const value = {
-      currentCurrency: 'yen',
-      conversionRate: 3.14,
-      conversionDate: new Date(2018, 9),
-    }
-
-    const state = reduceEcfWallet({}, {
-      type: actionConstants.SET_CURRENT_FIAT,
-      value,
-    })
-
-    assert.equal(state.currentCurrency, value.currentCurrency)
-    assert.equal(state.conversionRate, value.conversionRate)
-    assert.equal(state.conversionDate, value.conversionDate)
-  })
-
   it('updates tokens', function () {
     const newTokens = {
       'address': '0x617b3f8050a0bd94b6b1da02b4384ee5b4df13f4',

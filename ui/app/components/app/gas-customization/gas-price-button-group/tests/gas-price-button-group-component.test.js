@@ -17,20 +17,17 @@ describe('GasPriceButtonGroup Component', function () {
       className: 'gas-price-button-group',
       gasButtonInfo: [
         {
-          feeInPrimaryCurrency: '$0.52',
-          feeInSecondaryCurrency: '0.0048 ETH',
+          feeInPrimaryCurrency: '0.0048 ETH',
           timeEstimate: '~ 1 min 0 sec',
           priceInHexWei: '0xa1b2c3f',
         },
         {
-          feeInPrimaryCurrency: '$0.39',
-          feeInSecondaryCurrency: '0.004 ETH',
+          feeInPrimaryCurrency: '0.004 ETH',
           timeEstimate: '~ 1 min 30 sec',
           priceInHexWei: '0xa1b2c39',
         },
         {
-          feeInPrimaryCurrency: '$0.30',
-          feeInSecondaryCurrency: '0.00354 ETH',
+          feeInPrimaryCurrency: '0.00354 ETH',
           timeEstimate: '~ 2 min 1 sec',
           priceInHexWei: '0xa1b2c30',
         },
@@ -133,7 +130,6 @@ describe('GasPriceButtonGroup Component', function () {
       assert.equal(GasPriceButtonGroup.prototype.renderButtonContent.callCount, 1)
       const {
         feeInPrimaryCurrency,
-        feeInSecondaryCurrency,
         timeEstimate,
       } = mockGasPriceButtonGroupProps.gasButtonInfo[0]
       const {
@@ -145,7 +141,6 @@ describe('GasPriceButtonGroup Component', function () {
         [
           {
             feeInPrimaryCurrency,
-            feeInSecondaryCurrency,
             timeEstimate,
           },
           {
@@ -180,17 +175,6 @@ describe('GasPriceButtonGroup Component', function () {
       assert.equal(wrappedRenderButtonContentResult.find('.someClass__primary-currency').text(), 'mockFeeInPrimaryCurrency')
     })
 
-    it('should render a feeInSecondaryCurrency if passed a feeInSecondaryCurrency', function () {
-      const renderButtonContentResult = GasPriceButtonGroup.prototype.renderButtonContent({
-        feeInSecondaryCurrency: 'mockFeeInSecondaryCurrency',
-      }, {
-        className: 'someClass',
-      })
-      const wrappedRenderButtonContentResult = shallow(renderButtonContentResult)
-      assert.equal(wrappedRenderButtonContentResult.childAt(0).children().length, 1)
-      assert.equal(wrappedRenderButtonContentResult.find('.someClass__secondary-currency').text(), 'mockFeeInSecondaryCurrency')
-    })
-
     it('should render a timeEstimate if passed a timeEstimate', function () {
       const renderButtonContentResult = GasPriceButtonGroup.prototype.renderButtonContent({
         timeEstimate: 'mockTimeEstimate',
@@ -215,14 +199,13 @@ describe('GasPriceButtonGroup Component', function () {
       const renderButtonContentResult = wrapper.instance().renderButtonContent({
         gasEstimateType: 'SLOW',
         feeInPrimaryCurrency: 'mockFeeInPrimaryCurrency',
-        feeInSecondaryCurrency: 'mockFeeInSecondaryCurrency',
         timeEstimate: 'mockTimeEstimate',
       }, {
         className: 'someClass',
         showCheck: true,
       })
       const wrappedRenderButtonContentResult = shallow(renderButtonContentResult)
-      assert.equal(wrappedRenderButtonContentResult.children().length, 5)
+      assert.equal(wrappedRenderButtonContentResult.children().length, 4)
     })
 
     it('should render no elements if all args passed', function () {

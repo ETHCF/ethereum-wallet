@@ -236,9 +236,6 @@
   "createPassword": {
     "message": "Unda Nenosiri"
   },
-  "currencyConversion": {
-    "message": "Ubadilishaji Fedha"
-  },
   "currentLanguage": {
     "message": "Lugha ya Sasa"
   },
@@ -657,9 +654,6 @@
   "noAddressForName": {
     "message": "Hakuna anwani iliyoundwa kwa jina hili."
   },
-  "noConversionRateAvailable": {
-    "message": "Hakuna Kiwango cha Ubadilishaji"
-  },
   "noTransactions": {
     "message": "Huna miamala."
   },
@@ -857,9 +851,6 @@
   "seedPhraseReq": {
     "message": "Virai vianzio vina urefu wa maneno 12"
   },
-  "selectCurrency": {
-    "message": "Chagua Sarafu"
-  },
   "selectEachPhrase": {
     "message": "Tafadhali chagua kila kirai ili kuhakikisha kuwa hii ni sahihi."
   },
@@ -916,12 +907,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Chagua hii ili uonyeshe bei ya gesi na punguza vidhibiti moja kwa moja kwenye skrini za tuma na thibitisha."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Onyesha Ubadilishaji kwenye Testnets"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Chagua hii ili uonyeshe ubadilishaji wa fiat kwenye Testnets"
   },
   "showPrivateKeys": {
     "message": "Onyesha Fungo Binafsi"
@@ -1112,9 +1097,6 @@
   },
   "unlockMessage": {
     "message": "Wavuti uliotenganishwa unasubiri"
-  },
-  "updatedWithDate": {
-    "message": "Imesasishwa $1"
   },
   "urlErrorMsg": {
     "message": "URI huhitaji kiambishi sahihi cha  HTTP/HTTPS."

@@ -230,9 +230,6 @@
   "createPassword": {
     "message": "Passwort erstellen"
   },
-  "currencyConversion": {
-    "message": "Währungsumrechnung"
-  },
   "currentLanguage": {
     "message": "Aktuelle Sprache"
   },
@@ -645,9 +642,6 @@
   "noAddressForName": {
     "message": "Für den angegebene Namen wurde keine Adresse eingegeben."
   },
-  "noConversionRateAvailable": {
-    "message": "Kein Umrechnungskurs verfügbar"
-  },
   "noTransactions": {
     "message": "Keine Transaktionen"
   },
@@ -841,9 +835,6 @@
   "seedPhraseReq": {
     "message": "Seed-Wörterfolgen bestehen aus 12 Wörtern"
   },
-  "selectCurrency": {
-    "message": "Währung auswählen"
-  },
   "selectEachPhrase": {
     "message": "Bitte wählen Sie jede Phrase aus, um sicherzustellen, dass sie korrekt ist."
   },
@@ -900,12 +891,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Wählen Sie dies aus, um den Gaspreis und die Limitkontrollen direkt auf den Senden- und Bestätigen-Bildschirmen anzuzeigen."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Umwandlung auf Testnets anzeigen"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Wählen Sie dies aus, um die Fiat-Konversion auf Testnets anzuzeigen"
   },
   "showPrivateKeys": {
     "message": "Private Keys anzeigen"
@@ -1087,9 +1072,6 @@
   },
   "unlockMessage": {
     "message": "Das dezentrale Web erwartet Sie"
-  },
-  "updatedWithDate": {
-    "message": "$1 aktualisiert"
   },
   "urlErrorMsg": {
     "message": "URIs benötigen die korrekten HTTP/HTTPS Präfixe."

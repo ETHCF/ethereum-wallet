@@ -25,20 +25,17 @@ const mockGasPriceButtonGroupProps = {
   className: 'gas-price-button-group',
   gasButtonInfo: [
     {
-      feeInPrimaryCurrency: '$0.52',
-      feeInSecondaryCurrency: '0.0048 ETH',
+      feeInPrimaryCurrency: '0.0048 ETH',
       timeEstimate: '~ 1 min 0 sec',
       priceInHexWei: '0xa1b2c3f',
     },
     {
-      feeInPrimaryCurrency: '$0.39',
-      feeInSecondaryCurrency: '0.004 ETH',
+      feeInPrimaryCurrency: '0.004 ETH',
       timeEstimate: '~ 1 min 30 sec',
       priceInHexWei: '0xa1b2c39',
     },
     {
-      feeInPrimaryCurrency: '$0.30',
-      feeInSecondaryCurrency: '0.00354 ETH',
+      feeInPrimaryCurrency: '0.00354 ETH',
       timeEstimate: '~ 2 min 1 sec',
       priceInHexWei: '0xa1b2c30',
     },
@@ -46,13 +43,10 @@ const mockGasPriceButtonGroupProps = {
   handleGasPriceSelection: 'mockSelectionFunction',
   noButtonActiveByDefault: true,
   showCheck: true,
-  newTotalFiat: 'mockNewTotalFiat',
   newTotalEth: 'mockNewTotalEth',
 }
 const mockInfoRowProps = {
-  originalTotalFiat: 'mockOriginalTotalFiat',
   originalTotalEth: 'mockOriginalTotalEth',
-  newTotalFiat: 'mockNewTotalFiat',
   newTotalEth: 'mockNewTotalEth',
   sendAmount: 'mockSendAmount',
   transactionFee: 'mockTransactionFee',
@@ -183,8 +177,8 @@ describe('GasModalPageContainer Component', function () {
 
       assert.equal(GP.renderInfoRows.callCount, 2)
 
-      assert.deepEqual(GP.renderInfoRows.getCall(0).args, ['mockNewTotalFiat', 'mockNewTotalEth', 'mockSendAmount', 'mockTransactionFee'])
-      assert.deepEqual(GP.renderInfoRows.getCall(1).args, ['mockNewTotalFiat', 'mockNewTotalEth', 'mockSendAmount', 'mockTransactionFee'])
+      assert.deepEqual(GP.renderInfoRows.getCall(0).args, ['mockNewTotalEth', 'mockSendAmount', 'mockTransactionFee'])
+      assert.deepEqual(GP.renderInfoRows.getCall(1).args, ['mockNewTotalEth', 'mockSendAmount', 'mockTransactionFee'])
     })
 
     it('should not render the basic tab if hideBasic is true', function () {
@@ -232,7 +226,6 @@ describe('GasModalPageContainer Component', function () {
     it('should render the info rows with the passed data', function () {
       const baseClassName = 'gas-modal-content__info-row'
       const renderedInfoRowsContainer = shallow(wrapper.instance().renderInfoRows(
-        'mockNewTotalFiat',
         ' mockNewTotalEth',
         ' mockSendAmount',
         ' mockTransactionFee',
@@ -241,16 +234,14 @@ describe('GasModalPageContainer Component', function () {
       assert(renderedInfoRowsContainer.childAt(0).hasClass(baseClassName))
 
       const renderedInfoRows = renderedInfoRowsContainer.childAt(0).children()
-      assert.equal(renderedInfoRows.length, 4)
+      assert.equal(renderedInfoRows.length, 3)
       assert(renderedInfoRows.at(0).hasClass(`${baseClassName}__send-info`))
       assert(renderedInfoRows.at(1).hasClass(`${baseClassName}__transaction-info`))
       assert(renderedInfoRows.at(2).hasClass(`${baseClassName}__total-info`))
-      assert(renderedInfoRows.at(3).hasClass(`${baseClassName}__fiat-total-info`))
 
       assert.equal(renderedInfoRows.at(0).text(), 'sendAmount mockSendAmount')
       assert.equal(renderedInfoRows.at(1).text(), 'transactionFee mockTransactionFee')
       assert.equal(renderedInfoRows.at(2).text(), 'newTotal mockNewTotalEth')
-      assert.equal(renderedInfoRows.at(3).text(), 'mockNewTotalFiat')
     })
   })
 })

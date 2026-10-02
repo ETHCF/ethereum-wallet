@@ -337,9 +337,6 @@
   "seedPhraseReq": {
     "message": "ключевые фразы имеют длину 12 слов"
   },
-  "selectCurrency": {
-    "message": "Выберите валюту"
-  },
   "selectType": {
     "message": "Выберите тип"
   },
@@ -602,9 +599,6 @@
   "createPassword": {
     "message": "Придумайте пароль"
   },
-  "currencyConversion": {
-    "message": "Конвертация валюты"
-  },
   "currentLanguage": {
     "message": "Текущий язык"
   },
@@ -839,9 +833,6 @@
   "newTransactionFee": {
     "message": "Плата за новую транзакцию"
   },
-  "noConversionRateAvailable": {
-    "message": "Курсы валют недоступны"
-  },
   "notEnoughGas": {
     "message": "Не хватает газа"
   },
@@ -1016,12 +1007,6 @@
   "showAdvancedGasInlineDescription": {
     "message": "Выберите этот параметр, чтобы отобразить параметры контроля цены и лимита газа непосредственно на экранах отправки и подтверждения."
   },
-  "showFiatConversionInTestnets": {
-    "message": "Конвертировать значения в тестовых сетях"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Выберите это, чтобы отобразить конвертацию в фиат в тестовых сетях"
-  },
   "showHexData": {
     "message": "Показать HEX-значение"
   },
@@ -1150,9 +1135,6 @@
   },
   "unlockMessage": {
     "message": "Децентрализованная сеть ждет"
-  },
-  "updatedWithDate": {
-    "message": "Обновлено $1"
   },
   "userName": {
     "message": "Имя пользователя"

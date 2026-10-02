@@ -4,7 +4,7 @@ import { gasPriceForTransaction } from '../../../app/scripts/lib/transaction-fee
 import { showModal } from '../store/actions'
 import { isBalanceSufficient } from '../pages/send/send.utils'
 import { getHexGasTotal, increaseLastGasPrice } from '../helpers/utils/confirm-tx.util'
-import { getConversionRate, getSelectedAccount } from '../selectors'
+import { getSelectedAccount } from '../selectors'
 
 /**
  * Determine whether a transaction can be cancelled and provide a method to
@@ -22,7 +22,6 @@ export function useCancelTransaction (transactionGroup) {
   const { id } = primaryTransaction
   const dispatch = useDispatch()
   const selectedAccount = useSelector(getSelectedAccount)
-  const conversionRate = useSelector(getConversionRate)
   const cancelTransaction = useCallback((event) => {
     event.stopPropagation()
 
@@ -36,7 +35,6 @@ export function useCancelTransaction (transactionGroup) {
       gasLimit: primaryTransaction.txParams.gas,
     }),
     balance: selectedAccount.balance,
-    conversionRate,
   })
 
   return [hasEnoughCancelGas, cancelTransaction]

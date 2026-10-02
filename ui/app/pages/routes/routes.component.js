@@ -61,8 +61,6 @@ import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme'
 
 export default class Routes extends Component {
   static propTypes = {
-    currentCurrency: PropTypes.string,
-    setCurrentCurrencyToUSD: PropTypes.func,
     isLoading: PropTypes.bool,
     loadingMessage: PropTypes.string,
     alertMessage: PropTypes.string,
@@ -93,11 +91,7 @@ export default class Routes extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
-
-    if (!currentCurrency) {
-      setCurrentCurrencyToUSD()
-    }
+    const { pageChanged } = this.props
 
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {

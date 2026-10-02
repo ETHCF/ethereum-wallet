@@ -218,9 +218,6 @@
   "createPassword": {
     "message": "Gumawa ng Password"
   },
-  "currencyConversion": {
-    "message": "Pagpapapalit ng Currency "
-  },
   "currentLanguage": {
     "message": "Kasalukuyang Wika"
   },
@@ -616,9 +613,6 @@
   "noAddressForName": {
     "message": "Walang address na na-set para sa pangalang ito."
   },
-  "noConversionRateAvailable": {
-    "message": "Walang Presyo ng Palitan na Available"
-  },
   "noTransactions": {
     "message": "Wala kang mga transaksyon"
   },
@@ -800,9 +794,6 @@
   "seedPhraseReq": {
     "message": "Ang mga seed phrase ay may habang 12 salita"
   },
-  "selectCurrency": {
-    "message": "Pumili ng Currency"
-  },
   "selectEachPhrase": {
     "message": "Pakipili ang bawat parirala para tiyaking tama ito."
   },
@@ -859,12 +850,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "Piliin ito para ipakita ang presyo ng gas at limitahan ang mga kontrol nang direkta sa screen ng pagpapadala at pagkumpirma."
-  },
-  "showFiatConversionInTestnets": {
-    "message": "Ipakita ang Conversion sa mga Testnet"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Piliin ito para magpakita ng fiat conversion sa mga Testnet"
   },
   "showPrivateKeys": {
     "message": "Ipakita ang mga Private Key"
@@ -1043,9 +1028,6 @@
   },
   "unlockMessage": {
     "message": "Naghihintay ang decentralized web"
-  },
-  "updatedWithDate": {
-    "message": "Na-update ang $1"
   },
   "urlErrorMsg": {
     "message": "Kinakailangan ng mga URI ang naaangkop na HTTP/HTTPS prefix."

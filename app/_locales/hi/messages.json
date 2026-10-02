@@ -242,9 +242,6 @@
   "createPassword": {
     "message": "पासवर्ड बनाएँ"
   },
-  "currencyConversion": {
-    "message": "मुद्रा रूपांतरण"
-  },
   "currentLanguage": {
     "message": "वर्तमान भाषा"
   },
@@ -672,9 +669,6 @@
   "noAddressForName": {
     "message": "इस नाम के लिए कोई पता सेट नहीं किया गया है"
   },
-  "noConversionRateAvailable": {
-    "message": "कोई रूपांतरण दर उपलब्ध नहीं है"
-  },
   "noTransactions": {
     "message": "आपका कोई अंतरण  नहीं है"
   },
@@ -872,9 +866,6 @@
   "seedPhraseReq": {
     "message": "बीज वाक्यांश 12 शब्द लंबे होते हैं"
   },
-  "selectCurrency": {
-    "message": "मुद्रा का चयन करें"
-  },
   "selectEachPhrase": {
     "message": "यह सुनिश्चित करने के लिए कि यह सही है प्रत्येक वाक्यांश का चयन करें।"
   },
@@ -931,12 +922,6 @@
   },
   "showAdvancedGasInlineDescription": {
     "message": "भेजने और पुष्टि करने के स्क्रीन पर गैस की कीमत दिखाने और सीमा को सीधे नियंत्रित करने के लिए इसे चुनें।"
-  },
-  "showFiatConversionInTestnets": {
-    "message": "टेस्टनेट पर रूपांतरण दिखाएं"
-  },
-  "showFiatConversionInTestnetsDescription": {
-    "message": "Testnets पर fiat परिवर्तन दिखाने के लिए इसे चुनें"
   },
   "showHexData": {
     "message": "हेक्स डेटा दिखाएँ"
@@ -1124,9 +1109,6 @@
   },
   "unlockMessage": {
     "message": "विकेंद्रीकृत वेब का इंतजार है"
-  },
-  "updatedWithDate": {
-    "message": "$1 अपडेट किया गया"
   },
   "urlErrorMsg": {
     "message": "URI को उपयुक्त HTTP/HTTPS प्रीफ़िक्स की आवश्यकता होती है।"
