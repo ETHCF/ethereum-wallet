@@ -4,6 +4,7 @@ import Button from '../../../components/ui/button'
 import Snackbar from '../../../components/ui/snackbar'
 import MetaFoxLogo from '../../../components/ui/metafox-logo'
 import { DEFAULT_ROUTE } from '../../../helpers/constants/routes'
+import { getHelpUrl } from '../../../helpers/constants/help'
 import { returnToOnboardingInitiator } from '../onboarding-initiator-util'
 
 export default class EndOfFlowScreen extends PureComponent {
@@ -63,7 +64,7 @@ export default class EndOfFlowScreen extends PureComponent {
         <div className="first-time-flow__text-block end-of-flow__text-4">
           { `*${t('endOfFlowMessage8')}` }&nbsp;
           <a
-            href="https://metamask.zendesk.com/hc/en-us/articles/360015489591-Basic-Safety-Tips"
+            href={getHelpUrl('safety-tips')}
             target="_blank"
             rel="noopener noreferrer"
           >

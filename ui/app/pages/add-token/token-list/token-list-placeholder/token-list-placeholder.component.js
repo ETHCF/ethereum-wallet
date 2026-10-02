@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../../components/ui/button'
+import { getHelpUrl } from '../../../../helpers/constants/help'
 
 export default class TokenListPlaceholder extends Component {
   static contextTypes = {
@@ -17,7 +18,7 @@ export default class TokenListPlaceholder extends Component {
         <Button
           type="link"
           className="token-list-placeholder__link"
-          href="https://metamask.zendesk.com/hc/en-us/articles/360015489031"
+          href={getHelpUrl('add-tokens')}
           target="_blank"
           rel="noopener noreferrer"
         >

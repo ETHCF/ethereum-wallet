@@ -1802,5 +1802,74 @@
   },
   "securityAlertsAcknowledge": {
     "message": "I understand the risk and want to continue."
+  },
+  "helpMoreTopics": {
+    "message": "More help"
+  },
+  "helpImportedAccountsTitle": {
+    "message": "About imported accounts"
+  },
+  "helpImportedAccounts1": {
+    "message": "Accounts you create in ECF Wallet all come from your seed phrase, so the seed phrase alone can restore them. An imported account comes from a private key or a JSON file instead, and is not linked to your seed phrase. Imported accounts are labelled \"Imported\" in the account list."
+  },
+  "helpImportedAccounts2": {
+    "message": "Restoring your wallet from its seed phrase will not bring back imported accounts. Keep a backup of each imported account's private key or JSON file (and its password), stored separately and offline."
+  },
+  "helpImportedAccounts3": {
+    "message": "To back up an imported account, select it, open its account details, and choose Export Private Key."
+  },
+  "helpImportedAccounts4": {
+    "message": "Removing an imported account only removes it from this wallet. The funds stay at its address, and you can add it again with Import Account using the same private key or JSON file. Without one of those, the account cannot be recovered."
+  },
+  "helpImportJsonTitle": {
+    "message": "Importing a JSON file"
+  },
+  "helpImportJson1": {
+    "message": "ECF Wallet can import an account from an encrypted JSON keystore file, the kind saved by clients such as Geth, Mist and MyEtherWallet. Choose the file, then enter the password that was set when the file was created."
+  },
+  "helpImportJson2": {
+    "message": "If the import fails, check that the password is exactly right, including capital letters and spaces, and that you chose the keystore file itself (often named UTC--…) rather than another backup or text file."
+  },
+  "helpImportJson3": {
+    "message": "Ethereum presale wallet files are not supported. Decrypting a keystore file can take a few seconds, so wait for it to finish before trying again."
+  },
+  "helpImportJson4": {
+    "message": "If you have the account's private key, you can import that instead by choosing Private Key as the import type. Like any imported account, it will not be linked to your seed phrase."
+  },
+  "helpAddTokensTitle": {
+    "message": "Adding tokens"
+  },
+  "helpAddTokens1": {
+    "message": "Tokens you receive are held at your address even when ECF Wallet does not show them. Adding a token only tells the wallet to display its balance."
+  },
+  "helpAddTokens2": {
+    "message": "To add a well-known token, open Add Tokens and search for it by name or symbol. To add any other token, choose Custom Token and enter its contract address. ECF Wallet fills in the symbol and decimals when it can; otherwise copy them from the token's page on a block explorer."
+  },
+  "helpAddTokens3": {
+    "message": "Only use a contract address from a source you trust, such as the project's official website. Anyone can create a token with the same name and symbol as a real one, and a token appearing in your wallet does not mean it has value."
+  },
+  "helpAddTokens4": {
+    "message": "Tokens are added for each network separately, so a token added on one network will not appear on another."
+  },
+  "helpSafetyTipsTitle": {
+    "message": "Basic safety tips"
+  },
+  "helpSafetyTips1": {
+    "message": "Your seed phrase gives complete control of your accounts and funds. Anyone who has it can take everything, and ECF Wallet cannot recover a lost seed phrase or reverse a transaction."
+  },
+  "helpSafetyTips2": {
+    "message": "Write your seed phrase down and keep copies in more than one safe place. Avoid screenshots, email, chat and online notes. You can view it again in Settings > Security."
+  },
+  "helpSafetyTips3": {
+    "message": "Never share your seed phrase or private keys, and never type them into a website. ECF Wallet will never ask for them, and nobody offering genuine support will either."
+  },
+  "helpSafetyTips4": {
+    "message": "Use a strong, unique password and lock ECF Wallet when you step away. The password only unlocks the wallet on this device; it cannot restore your accounts without the seed phrase."
+  },
+  "helpSafetyTips5": {
+    "message": "Check a site's address before you connect your wallet or approve anything. Phishing sites copy real ones closely. Read every request before you confirm it, and be wary of requests to spend your tokens."
+  },
+  "helpSafetyTips6": {
+    "message": "For questions or to report suspicious activity, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your seed phrase or private keys there or anywhere else."
   }
 }

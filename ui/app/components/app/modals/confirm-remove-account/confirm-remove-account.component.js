@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '../../modal'
 import { checksumAddress } from '../../../../helpers/utils/util'
+import { getHelpUrl } from '../../../../helpers/constants/help'
 import Identicon from '../../../ui/identicon'
 import getAccountLink from '../../../../../lib/account-link'
 
@@ -80,7 +81,7 @@ export default class ConfirmRemoveAccount extends Component {
               className="confirm-remove-account__link"
               rel="noopener noreferrer"
               target="_blank"
-              href="https://metamask.zendesk.com/hc/en-us/articles/360015289932"
+              href={getHelpUrl('imported-accounts')}
             >
               { t('learnMore') }
             </a>

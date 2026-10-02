@@ -31,6 +31,7 @@ import AppHeader from '../../components/app/app-header'
 import UnlockPage from '../unlock-page'
 import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
+import Help from '../help'
 
 import {
   ADD_TOKEN_ROUTE,
@@ -41,6 +42,7 @@ import {
   CONFIRM_TRANSACTION_ROUTE,
   CONNECT_ROUTE,
   DEFAULT_ROUTE,
+  HELP_ROUTE,
   INITIALIZE_ROUTE,
   INITIALIZE_UNLOCK_ROUTE,
   LOCK_ROUTE,
@@ -127,6 +129,7 @@ export default class Routes extends Component {
       <Switch>
         <Route path={LOCK_ROUTE} component={Lock} exact />
         <Route path={INITIALIZE_ROUTE} component={FirstTimeFlow} />
+        <Route path={`${HELP_ROUTE}/:topic?`} component={Help} exact />
         <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
         <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
         <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />

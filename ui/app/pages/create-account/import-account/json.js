@@ -8,8 +8,9 @@ import * as actions from '../../../store/actions'
 import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
+import { getHelpUrl } from '../../../helpers/constants/help'
 
-const HELP_LINK = 'https://metamask.zendesk.com/hc/en-us/articles/360015489331-Importing-an-Account'
+const HELP_LINK = getHelpUrl('import-json')
 
 class JsonImportSubview extends Component {
   state = {

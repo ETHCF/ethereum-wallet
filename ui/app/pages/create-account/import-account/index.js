@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import { getHelpUrl } from '../../../helpers/constants/help'
 
 // Subviews
 import JsonImportView from './json'
@@ -43,19 +44,17 @@ export default class AccountImportSubview extends Component {
       <div className="new-account-import-form">
         <div className="new-account-import-disclaimer">
           <span>{this.context.t('importAccountMsg')}</span>
-          <span
+          <a
             style={{
-              cursor: 'pointer',
+              color: 'inherit',
               textDecoration: 'underline',
             }}
-            onClick={() => {
-              global.platform.openTab({
-                url: 'https://metamask.zendesk.com/hc/en-us/articles/360015289932',
-              })
-            }}
+            href={getHelpUrl('imported-accounts')}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {this.context.t('here')}
-          </span>
+          </a>
         </div>
         <div className="new-account-import-form__select-section">
           <div className="new-account-import-form__select-label">
