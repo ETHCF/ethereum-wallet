@@ -13,6 +13,10 @@ class ChromeDriver {
     ]
     if (responsive) {
       args.push('--auto-open-devtools-for-tabs')
+    } else {
+      // Without an explicit size the window is whatever Chrome defaults to,
+      // which differs between headless and headed runs and clips tall menus.
+      args.push('--window-size=1280,1024')
     }
     const options = new chrome.Options()
       .addArguments(args)

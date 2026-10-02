@@ -82,7 +82,9 @@ describe('Hardware wallet connection', function () {
       `)
       assert.equal((await connectionTabs()).length, 0, 'a failed connection must close its transport tab')
       // The existing UI logs handled connection errors. Consume only that expected log.
-      const logs = await driver.driver.manage().logs().get('browser')
+      // Newer V8 builds carry intrinsics that SES strips with a warning on load.
+      const logs = (await driver.driver.manage().logs().get('browser'))
+        .filter((entry) => !(/lockdown-install[.]js/u).test(entry.message))
       assert.ok(logs.every((entry) => (/ui[.]js.*Object/u).test(entry.message)), JSON.stringify(logs))
       // A manually opened transport still rejects requests from wallet tabs,
       // and the existing lock cleanup must also remove it.

@@ -5,6 +5,9 @@ const { once } = require('events')
 const { By, Key } = require('selenium-webdriver')
 const { withFixtures } = require('../helpers')
 
+// Select-all is Command+A on macOS and Control+A elsewhere.
+const SELECT_ALL = process.platform === 'darwin' ? Key.COMMAND : Key.CONTROL
+
 async function rpc (method, params = []) {
   const response = await fetch('http://127.0.0.1:8545', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -77,10 +80,10 @@ describe('Typed transactions on a Prague chain', function () {
         await driver.findElement(By.css('.confirm-page-container-content__details'))
         if (type === '0x2') {
           const cap = await driver.findElement(By.css('input[name="maxFeePerGas"]'))
-          await cap.sendKeys(Key.CONTROL, 'a', Key.NULL, '0.5')
+          await cap.sendKeys(SELECT_ALL, 'a', Key.NULL, '0.5')
           const confirm = await driver.findElement(By.css('[data-testid="page-container-footer-next"]'))
           await driver.wait(async () => !await confirm.isEnabled())
-          await cap.sendKeys(Key.CONTROL, 'a', Key.NULL, '3')
+          await cap.sendKeys(SELECT_ALL, 'a', Key.NULL, '3')
           await driver.wait(async () => await confirm.isEnabled())
         }
         await driver.clickElement(By.css('[data-testid="page-container-footer-next"]'))
