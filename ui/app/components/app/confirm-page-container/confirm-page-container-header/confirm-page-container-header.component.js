@@ -7,7 +7,6 @@ import {
 import { getEnvironmentType } from '../../../../../../app/scripts/lib/util'
 import NetworkDisplay from '../../network-display'
 import Identicon from '../../../ui/identicon'
-import { shortenAddress } from '../../../../helpers/utils/util'
 import AccountMismatchWarning from '../../../ui/account-mismatch-warning/account-mismatch-warning.component'
 import { useI18nContext } from '../../../../hooks/useI18nContext'
 
@@ -39,7 +38,7 @@ export default function ConfirmPageContainerHeader ({
                 />
               </div>
               <div className="confirm-page-container-header__address">
-                { shortenAddress(accountAddress) }
+                { accountAddress }
               </div>
               <AccountMismatchWarning address={accountAddress} />
             </div>

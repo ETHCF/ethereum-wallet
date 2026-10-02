@@ -134,12 +134,14 @@
         font-size: 0.875rem;
         line-height: 1.25rem;
         color: $black;
+        word-break: break-all;
       }
 
       &__subtitle {
         @include H8;
 
         color: $Grey-500;
+        word-break: break-all;
       }
     }
 
@@ -241,15 +243,15 @@
 
   &__selected-input {
     &__title {
-      @extend %ellipsify;
-
       font-size: 0.875rem;
+      word-break: break-all;
     }
 
     &__subtitle {
       font-size: 0.75rem;
       color: $Grey-500;
       margin-top: 0.25rem;
+      word-break: break-all;
     }
   }
 }

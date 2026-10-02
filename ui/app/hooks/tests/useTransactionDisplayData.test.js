@@ -15,7 +15,7 @@ const expectedResults = [
   {
     title: 'Send ETH',
     category: 'send',
-    subtitle: 'To: 0xffe5...1a97',
+    subtitle: 'To: 0xffe5bc4e8f1f969934d773fa67da095d2e491a97',
     subtitleContainsOrigin: false,
     date: 'May 12',
     primaryCurrency: '-1 ETH',
@@ -28,7 +28,7 @@ const expectedResults = [
   {
     title: 'Send ETH',
     category: 'send',
-    subtitle: 'To: 0x0ccc...8848',
+    subtitle: 'To: 0x0ccc8aeeaf5ce790f3b448325981a143fdef8848',
     subtitleContainsOrigin: false,
     date: 'May 12',
     primaryCurrency: '-2 ETH',
@@ -41,7 +41,7 @@ const expectedResults = [
   {
     title: 'Send ETH',
     category: 'send',
-    subtitle: 'To: 0xffe5...1a97',
+    subtitle: 'To: 0xffe5bc4e8f1f969934d773fa67da095d2e491a97',
     subtitleContainsOrigin: false,
     date: 'May 12',
     primaryCurrency: '-2 ETH',
@@ -54,7 +54,7 @@ const expectedResults = [
   {
     title: 'Receive',
     category: 'receive',
-    subtitle: 'From: 0x31b9...4523',
+    subtitle: 'From: 0x31b98d14007bdee637298086988a0bbd31184523',
     subtitleContainsOrigin: false,
     date: 'May 12',
     primaryCurrency: '18.75 ETH',
@@ -67,7 +67,7 @@ const expectedResults = [
   {
     title: 'Receive',
     category: 'receive',
-    subtitle: 'From: 0x9eca...a149',
+    subtitle: 'From: 0x9eca64466f257793eaa52fcfff5066894b76a149',
     subtitleContainsOrigin: false,
     date: 'May 8',
     primaryCurrency: '0 ETH',
@@ -80,7 +80,7 @@ const expectedResults = [
   {
     title: 'Receive',
     category: 'receive',
-    subtitle: 'From: 0xee01...febb',
+    subtitle: 'From: 0xee014609ef9e09776ac5fe00bdbfef57bcdefebb',
     subtitleContainsOrigin: false,
     date: 'May 24',
     primaryCurrency: '1 ETH',

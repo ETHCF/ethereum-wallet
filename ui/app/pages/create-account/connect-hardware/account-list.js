@@ -95,7 +95,7 @@ class AccountList extends Component {
                 />
                 <label className="hw-account-list__item__label" htmlFor={`address-${idx}`}>
                   <span className="hw-account-list__item__index">{account.index + 1}</span>
-                  {`${account.address.slice(0, 4)}...${account.address.slice(-4)}`}
+                  {account.address}
                   <span className="hw-account-list__item__balance">{`${account.balance}`}</span>
                 </label>
               </div>

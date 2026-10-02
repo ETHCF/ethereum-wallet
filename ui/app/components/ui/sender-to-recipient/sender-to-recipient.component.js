@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import copyToClipboard from 'copy-to-clipboard'
 import Tooltip from '../tooltip'
 import Identicon from '../identicon'
-import { checksumAddress, shortenAddress } from '../../../helpers/utils/util'
+import { checksumAddress } from '../../../helpers/utils/util'
 import AccountMismatchWarning from '../account-mismatch-warning/account-mismatch-warning.component'
 import { useI18nContext } from '../../../hooks/useI18nContext'
 import { DEFAULT_VARIANT, CARDS_VARIANT, FLAT_VARIANT } from './sender-to-recipient.constants'
@@ -31,7 +31,7 @@ function SenderAddress ({
       ? <p>{t('copyAddress')}</p>
       : (
         <p>
-          {shortenAddress(checksummedSenderAddress)}<br />
+          {checksummedSenderAddress}<br />
           {t('copyAddress')}
         </p>
       )
@@ -103,7 +103,7 @@ function RecipientWithAddress ({
     } else {
       tooltipHtml = (
         <p>
-          {shortenAddress(checksummedRecipientAddress)}<br />
+          {checksummedRecipientAddress}<br />
           {t('copyAddress')}
         </p>
       )

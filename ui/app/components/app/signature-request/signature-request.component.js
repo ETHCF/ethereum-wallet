@@ -67,10 +67,6 @@ export default class SignatureRequest extends PureComponent {
     return this.props.sign(event)
   }
 
-  formatWallet (wallet) {
-    return `${wallet.slice(0, 8)}...${wallet.slice(wallet.length - 8, wallet.length)}`
-  }
-
   render () {
     const {
       fromAccount,
@@ -99,7 +95,7 @@ export default class SignatureRequest extends PureComponent {
           </div>
           <div className="signature-request-content__info--bolded">{domain.name}</div>
           <div className="signature-request-content__info">{origin}</div>
-          <div className="signature-request-content__info">{this.formatWallet(fromAddress)}</div>
+          <div className="signature-request-content__info">{fromAddress}</div>
         </div>
         <section className="signature-request-message" aria-label="Signing domain">
           <h2>Signing domain</h2>

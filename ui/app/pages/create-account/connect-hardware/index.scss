@@ -252,6 +252,7 @@
   &__item__label {
     display: flex;
     flex: 1;
+    word-break: break-all;
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;

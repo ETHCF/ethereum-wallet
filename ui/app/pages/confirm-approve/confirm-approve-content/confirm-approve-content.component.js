@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Identicon from '../../../components/ui/identicon'
-import {
-  addressSummary,
-} from '../../../helpers/utils/util'
+import { checksumAddress } from '../../../helpers/utils/util'
 import { formatCurrency } from '../../../helpers/utils/confirm-tx.util'
 
 export default class ConfirmApproveContent extends Component {
@@ -108,7 +106,7 @@ export default class ConfirmApproveContent extends Component {
         </div>
         <div className="flex-row">
           <div className="confirm-approve-content__label">{ t('toWithColon') }</div>
-          <div className="confirm-approve-content__medium-text">{ addressSummary(toAddress) }</div>
+          <div className="confirm-approve-content__medium-text">{ checksumAddress(toAddress) }</div>
         </div>
       </div>
     )

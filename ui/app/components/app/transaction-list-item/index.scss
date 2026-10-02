@@ -37,7 +37,9 @@
   .list-item__subheading > h3 {
     overflow: visible;
     display: flex;
-    white-space: nowrap;
+    flex-wrap: wrap;
+    white-space: normal;
+    word-break: break-all;
     text-overflow: initial;
   }
 

@@ -25,7 +25,7 @@ import { getHexGasTotal } from '../../helpers/utils/confirm-tx.util'
 import { isBalanceSufficient, calcGasTotal } from '../send/send.utils'
 import { conversionGreaterThan } from '../../helpers/utils/conversion-util'
 import { MIN_GAS_LIMIT_DEC } from '../send/send.constants'
-import { checksumAddress, shortenAddress, valuesFor } from '../../helpers/utils/util'
+import { checksumAddress, valuesFor } from '../../helpers/utils/util'
 import {
   getAdvancedInlineGasShown,
   getCustomNonceValue,
@@ -95,7 +95,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const toName = identities[toAddress]?.name ||
     casedContractMap[toAddress]?.name ||
-    shortenAddress(checksumAddress(toAddress))
+    checksumAddress(toAddress)
 
   const checksummedAddress = checksumAddress(toAddress)
   const addressBookObject = addressBook[checksummedAddress]

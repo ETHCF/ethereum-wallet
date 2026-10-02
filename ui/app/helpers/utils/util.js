@@ -51,17 +51,6 @@ export function valuesFor (obj) {
     })
 }
 
-export function addressSummary (address, firstSegLength = 10, lastSegLength = 4, includeHex = true) {
-  if (!address) {
-    return ''
-  }
-  let checked = checksumAddress(address)
-  if (!includeHex) {
-    checked = ethUtil.stripHexPrefix(checked)
-  }
-  return checked ? `${checked.slice(0, firstSegLength)}...${checked.slice(checked.length - lastSegLength)}` : '...'
-}
-
 export function isValidAddress (address) {
   if (!address || address === '0x0000000000000000000000000000000000000000') {
     return false
@@ -267,25 +256,6 @@ export function exportAsFile (filename, data, type = 'text/csv') {
 export function checksumAddress (address) {
   const checksummed = address ? ethUtil.toChecksumAddress(address) : ''
   return checksummed
-}
-
-/**
- * Shortens an Ethereum address for display, preserving the beginning and end.
- * Returns the given address if it is no longer than 10 characters.
- * Shortened addresses are 13 characters long.
- *
- * Example output: 0xabcd...1234
- *
- * @param {string} address - The address to shorten.
- * @returns {string} The shortened address, or the original if it was no longer
- * than 10 characters.
- */
-export function shortenAddress (address = '') {
-  if (address.length < 11) {
-    return address
-  }
-
-  return `${address.slice(0, 6)}...${address.slice(-4)}`
 }
 
 export function isValidAddressHead (address) {

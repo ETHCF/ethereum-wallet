@@ -4,7 +4,7 @@ import { getTransactionActionKey, getStatusKey } from '../helpers/utils/transact
 import { camelCaseToCapitalize } from '../helpers/utils/common.util'
 import { PRIMARY, SECONDARY } from '../helpers/constants/common'
 import { getTokenToAddress } from '../helpers/utils/token-util'
-import { formatDateWithYearContext, shortenAddress, stripHttpSchemes } from '../helpers/utils/util'
+import { formatDateWithYearContext, stripHttpSchemes } from '../helpers/utils/util'
 import {
   CONTRACT_INTERACTION_KEY,
   DEPLOY_CONTRACT_ACTION_KEY,
@@ -118,16 +118,16 @@ export function useTransactionDisplayData (transactionGroup) {
     category = TRANSACTION_CATEGORY_RECEIVE
     title = t('receive')
     prefix = ''
-    subtitle = t('fromAddress', [shortenAddress(senderAddress)])
+    subtitle = t('fromAddress', [senderAddress])
   } else if (transactionCategory === TOKEN_METHOD_TRANSFER_FROM || transactionCategory === TOKEN_METHOD_TRANSFER) {
     category = TRANSACTION_CATEGORY_SEND
     title = t('sendSpecifiedTokens', [token?.symbol || t('token')])
     recipientAddress = getTokenToAddress(tokenData.params)
-    subtitle = t('toAddress', [shortenAddress(recipientAddress)])
+    subtitle = t('toAddress', [recipientAddress])
   } else if (transactionCategory === SEND_ETHER_ACTION_KEY) {
     category = TRANSACTION_CATEGORY_SEND
     title = t('sendETH')
-    subtitle = t('toAddress', [shortenAddress(recipientAddress)])
+    subtitle = t('toAddress', [recipientAddress])
   }
 
   const primaryCurrencyPreferences = useUserPreferencedCurrency(PRIMARY)

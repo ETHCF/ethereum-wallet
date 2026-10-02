@@ -7,7 +7,6 @@ import copyToClipboard from 'copy-to-clipboard/index'
 import ENS from 'ethjs-ens'
 import networkMap from 'ethereum-ens-network-map'
 import log from 'loglevel'
-import { ellipsify } from '../../send.utils'
 import { isValidDomainName, isValidAddress, isValidAddressHead } from '../../../../helpers/utils/util'
 
 // Local Constants
@@ -199,7 +198,7 @@ export default class EnsInput extends Component {
             onChange={this.onChange}
           >
             <div className="ens-input__selected-input__title">
-              {name || ellipsify(selectedAddress)}
+              {name || selectedAddress}
             </div>
             { name && <div className="ens-input__selected-input__subtitle">{selectedAddress}</div> }
           </div>

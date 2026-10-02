@@ -6,7 +6,6 @@ import { isValidAddress } from '../../../../helpers/utils/util'
 import Dialog from '../../../../components/ui/dialog'
 import ContactList from '../../../../components/app/contact-list'
 import RecipientGroup from '../../../../components/app/contact-list/recipient-group/recipient-group.component'
-import { ellipsify } from '../../send.utils'
 import Button from '../../../../components/ui/button'
 
 export default class AddRecipient extends Component {
@@ -127,12 +126,12 @@ export default class AddRecipient extends Component {
         <Identicon address={address} diameter={28} />
         <div className="send__select-recipient-wrapper__group-item__content">
           <div className="send__select-recipient-wrapper__group-item__title">
-            {name || ellipsify(address)}
+            {name || address}
           </div>
           {
             name && (
               <div className="send__select-recipient-wrapper__group-item__subtitle">
-                {ellipsify(address)}
+                {address}
               </div>
             )
           }

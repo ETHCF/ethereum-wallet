@@ -1182,7 +1182,7 @@ describe('ecf-wallet', function () {
 
       const permissionInfo = await driver.findElements(By.css('.confirm-approve-content__medium-text'))
       const recipientDiv = permissionInfo[1]
-      assert.equal(await recipientDiv.getText(), '0x2f318C33...C970')
+      assert.equal(await recipientDiv.getText(), '0x2f318C334780961FB129D2a6c30D0763d9a5C970')
     })
 
     it('submits the transaction', async function () {

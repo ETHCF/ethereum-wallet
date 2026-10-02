@@ -245,6 +245,10 @@
     color: #24292e;
   }
 
+  &__medium-text {
+    word-break: break-all;
+  }
+
   &__label {
     font-weight: bold;
     margin-right: 4px;

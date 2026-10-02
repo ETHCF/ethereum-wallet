@@ -3,7 +3,6 @@ import { createSelector } from 'reselect'
 import { NETWORK_TYPES } from '../helpers/constants/common'
 import { BUILT_IN_NETWORKS, POLYGON } from '../../../app/scripts/controllers/network/enums'
 import {
-  shortenAddress,
   checksumAddress,
   getAccountByAddress,
 } from '../helpers/utils/util'
@@ -172,7 +171,7 @@ export function getAddressBookEntry (state, address) {
 
 export function getAddressBookEntryName (state, address) {
   const entry = getAddressBookEntry(state, address) || state.ecfWallet.identities[address]
-  return entry && entry.name !== '' ? entry.name : shortenAddress(address)
+  return entry && entry.name !== '' ? entry.name : address
 }
 
 export function accountsWithSendEtherInfoSelector (state) {

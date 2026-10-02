@@ -34,7 +34,6 @@ export {
   isBalanceSufficient,
   isTokenBalanceSufficient,
   removeLeadingZeroes,
-  ellipsify,
 }
 
 function calcGasTotal (gasLimit = '0', gasPrice = '0') {
@@ -314,6 +313,3 @@ function removeLeadingZeroes (str) {
   return str.replace(/^0*(?=\d)/u, '')
 }
 
-function ellipsify (text, first = 6, last = 4) {
-  return `${text.slice(0, first)}...${text.slice(-last)}`
-}

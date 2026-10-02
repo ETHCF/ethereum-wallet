@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from '../../modal'
-import { addressSummary } from '../../../../helpers/utils/util'
+import { checksumAddress } from '../../../../helpers/utils/util'
 import Identicon from '../../../ui/identicon'
 import getAccountLink from '../../../../../lib/account-link'
 
@@ -42,7 +42,7 @@ export default class ConfirmRemoveAccount extends Component {
         </div>
         <div className="confirm-remove-account__account__address">
           <span className="confirm-remove-account__account__label">Public Address</span>
-          <span className="account_value">{ addressSummary(identity.address, 4, 4) }</span>
+          <span className="account_value">{ checksumAddress(identity.address) }</span>
         </div>
         <div className="confirm-remove-account__account__link">
           <a
