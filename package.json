@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn build dev",
     "dist": "yarn build prod",
-    "setup": "yarn install && node development/run-allowed-install-scripts.js",
+    "setup": "yarn install && node development/run-allowed-install-scripts.js && yarn foundryup",
     "build": "node development/build/index.js",
     "start:test": "yarn build testDev",
     "benchmark:chrome": "SELENIUM_BROWSER=chrome node test/e2e/benchmark.js",
@@ -14,7 +14,7 @@
     "build:test": "yarn build test",
     "test": "yarn test:unit && yarn lint",
     "dapp": "node development/static-server.js node_modules/@metamask/test-dapp/dist --port 8080",
-    "dapp-chain": "GANACHE_ARGS='-b 2' concurrently -k -n ganache,dapp -p '[{time}][{name}]' 'yarn ganache:start' 'sleep 5 && yarn dapp'",
+    "dapp-chain": "ANVIL_ARGS='--block-time 2' concurrently -k -n anvil,dapp -p '[{time}][{name}]' 'yarn anvil:start' 'sleep 5 && yarn dapp'",
     "forwarder": "node ./development/static-server.js ./node_modules/@metamask/forwarder/dist/ --port 9010",
     "dapp-forwarder": "concurrently -k -n forwarder,dapp -p '[{time}][{name}]' 'yarn forwarder' 'yarn dapp'",
     "sendwithprivatedapp": "node development/static-server.js test/e2e/send-eth-with-private-key-test --port 8080",
@@ -29,7 +29,7 @@
     "test:coverage": "nyc --silent --check-coverage yarn test:unit:strict && nyc --silent --no-clean yarn test:unit:lax && nyc report --reporter=text --reporter=html",
     "test:coverage:strict": "nyc --check-coverage yarn test:unit:strict",
     "test:coveralls-upload": "if [ \"$COVERALLS_REPO_TOKEN\" ]; then nyc report --reporter=text-lcov | coveralls; fi",
-    "ganache:start": "./development/run-ganache",
+    "anvil:start": "./development/run-anvil",
     "lint": "eslint . --ext js,json && yarn lint:styles",
     "lint:fix": "eslint . --ext js,json --fix",
     "lint:changed": "{ git ls-files --others --exclude-standard ; git diff-index --name-only --diff-filter=d HEAD ; } | grep --regexp='[.]js$' --regexp='[.]json$' | tr '\\n' '\\0' | xargs -0 eslint",
@@ -48,7 +48,9 @@
     "start:dev": "concurrently -k -n build,react,redux yarn:start yarn:devtools:react yarn:devtools:redux",
     "announce": "node development/announcer.js",
     "update-changelog": "./development/auto-changelog.sh",
-    "generate:migration": "./development/generate-migration.sh"
+    "generate:migration": "./development/generate-migration.sh",
+    "foundryup": "mm-foundryup",
+    "anvil": "node_modules/.bin/anvil"
   },
   "resolutions": {
     "**/enzyme/cheerio": "1.0.0-rc.12",
@@ -57,7 +59,6 @@
     "**/knex/minimist": "^1.2.8",
     "**/optimist/minimist": "^1.2.8",
     "**/socketcluster/minimist": "^1.2.8",
-    "ganache-core/lodash": "^4.18.1",
     "**/node-gyp": "^13.0.2",
     "**/@metamask/controllers/ethereumjs-wallet": "0.6.5",
     "**/bcrypto": "^5.5.2",
@@ -172,19 +173,17 @@
     "@babel/core": "^7.29.7",
     "@babel/eslint-parser": "^7.25.9",
     "@babel/eslint-plugin": "^7.25.9",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/plugin-transform-runtime": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
     "@babel/preset-react": "^7.29.7",
     "@babel/register": "^7.29.7",
     "@metamask/eslint-config": "^3.2.0",
     "@metamask/forwarder": "^1.1.0",
+    "@metamask/foundryup": "^1.0.1",
     "@metamask/test-dapp": "^3.2.0",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^3.7.0",
+    "@viem/anvil": "^0.0.10",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "addons-linter": "10.13.0",
     "assert": "^2.1.0",
@@ -210,8 +209,6 @@
     "fancy-log": "^1.3.3",
     "fast-glob": "^3.3.3",
     "fs-extra": "^8.1.0",
-    "ganache-cli": "^6.12.2",
-    "ganache-core": "^2.13.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-livereload": "4.0.2",
@@ -236,7 +233,6 @@
     "rc": "^1.2.8",
     "react-devtools": "^4.28.5",
     "react-test-renderer": "^17.0.2",
-    "read-installed": "^4.0.3",
     "redux-mock-store": "^1.5.5",
     "remote-redux-devtools": "^0.5.16",
     "remotedev-server": "^0.3.1",
@@ -253,7 +249,8 @@
     "ttest": "^2.1.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.11.1"
+    "watchify": "^3.11.1",
+    "yaml": "^2"
   },
   "installScripts": {
     "@fortawesome/fontawesome-free": false,
@@ -284,5 +281,23 @@
   "engines": {
     "node": "^24.21.0",
     "yarn": "^1.22.22"
+  },
+  "foundryup": {
+    "binaries": [
+      "anvil"
+    ],
+    "checksums": {
+      "algorithm": "sha256",
+      "binaries": {
+        "anvil": {
+          "darwin-amd64": "8404e555223fe884557d5e22de494baf8b5f0b82c6f87a4c790c5150e546c9d0",
+          "darwin-arm64": "888500bc210752e71a355ed4d492ad6dcb4c0ef54d283c105a29a5ccc73d0dbd",
+          "linux-amd64": "6104069b183fa0f3cdcb692681da9dbd203a3c1bceb435853bbf7abd991c649e",
+          "linux-arm64": "d66ed8f848e829882ebb65d28aaac72aeab6a101655bb62147186040655928b5",
+          "win32-amd64": "6c71d9a7be39ed32b53c89bdbc83aa748f41587517212ffe2a8b955c3e9c2e9b"
+        }
+      }
+    },
+    "version": "v0.3.0"
   }
 }

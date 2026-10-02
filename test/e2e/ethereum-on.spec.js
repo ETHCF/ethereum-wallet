@@ -3,14 +3,14 @@ const webdriver = require('selenium-webdriver')
 
 const { By, until } = webdriver
 const enLocaleMessages = require('../../app/_locales/en/messages.json')
+const Anvil = require('../anvil')
 const {
   regularDelayMs,
   largeDelayMs,
 } = require('./helpers')
 const { buildWebDriver } = require('./webdriver')
-const Ganache = require('./ganache')
 
-const ganacheServer = new Ganache()
+const chainServer = new Anvil()
 
 describe('ecf-wallet', function () {
   let driver
@@ -20,7 +20,7 @@ describe('ecf-wallet', function () {
   this.bail(true)
 
   before(async function () {
-    await ganacheServer.start({
+    await chainServer.start({
       accounts: [
         {
           secretKey: '0x53CB0AB5226EEBF4D872113D98332C1555DC304443BEE1CF759D15798D3C55A9',
@@ -47,7 +47,7 @@ describe('ecf-wallet', function () {
   })
 
   after(async function () {
-    await ganacheServer.quit()
+    await chainServer.quit()
     await driver.quit()
   })
 
@@ -128,7 +128,7 @@ describe('ecf-wallet', function () {
       await driver.delay(regularDelayMs)
     })
 
-    it('has the ganache network id within the dapp', async function () {
+    it('has the local network id within the dapp', async function () {
       const networkDiv = await driver.findElement(By.css('#network'))
       await driver.delay(regularDelayMs)
       assert.equal(await networkDiv.getText(), '5777')

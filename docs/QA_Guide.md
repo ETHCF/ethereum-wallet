@@ -40,8 +40,8 @@ Steps to mark a full pass of QA complete.
 * Send a transaction and sign a message (https://danfinlay.github.io/js-eth-personal-sign-examples/) for each keyring type
     * hd keyring
     * imported keyring
-* Change network from mainnet → ropsten → rinkeby → localhost (ganache)
-* Ganache set blocktime to simulate retryTx in ecf-wallet
+* Change network from mainnet → ropsten → rinkeby → localhost (Anvil, `yarn anvil:start`)
+* Run Anvil with a block time (`ANVIL_ARGS='--block-time 10' yarn anvil:start`) to simulate retryTx in ecf-wallet
 * Copy public key to clipboard
 * Export private key
 

@@ -1,6 +1,6 @@
 const path = require('path')
 const createStaticServer = require('../../development/create-static-server')
-const Ganache = require('./ganache')
+const Anvil = require('../anvil')
 const FixtureServer = require('./fixture-server')
 const { buildWebDriver } = require('./webdriver')
 
@@ -11,14 +11,14 @@ const largeDelayMs = regularDelayMs * 2
 const dappPort = 8080
 
 async function withFixtures (options, callback) {
-  const { dapp, fixtures, ganacheOptions, driverOptions, title } = options
+  const { dapp, fixtures, chainOptions, driverOptions, title } = options
   const fixtureServer = new FixtureServer()
-  const ganacheServer = options.chainServer || new Ganache()
+  const chainServer = options.chainServer || new Anvil()
   let dappServer
 
   let webDriver
   try {
-    await ganacheServer.start(ganacheOptions)
+    await chainServer.start(chainOptions)
     await fixtureServer.start()
     await fixtureServer.loadState(path.join(__dirname, 'fixtures', fixtures))
     if (dapp) {
@@ -53,7 +53,7 @@ async function withFixtures (options, callback) {
     throw error
   } finally {
     await fixtureServer.stop()
-    await ganacheServer.quit()
+    await chainServer.quit()
     if (webDriver) {
       await webDriver.quit()
     }

@@ -4,7 +4,7 @@ const { withFixtures } = require('../helpers')
 
 describe('Personal sign', function () {
   it('can initiate and confirm a personal sign', async function () {
-    const ganacheOptions = {
+    const chainOptions = {
       accounts: [
         {
           secretKey: '0x7C9529A67102755B7E6102D6D950AC5D5863C98713805CEC576B945B15B71EAC',
@@ -13,7 +13,7 @@ describe('Personal sign', function () {
       ],
     }
     await withFixtures(
-      { dapp: true, fixtures: 'personal-sign', ganacheOptions, title: this.test.title },
+      { dapp: true, fixtures: 'personal-sign', chainOptions, title: this.test.title },
       async ({ driver }) => {
         const passwordField = await driver.findElement(By.css('#password'))
         await passwordField.sendKeys('correct horse battery staple')

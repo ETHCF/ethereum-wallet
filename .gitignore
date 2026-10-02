@@ -46,3 +46,6 @@ notes.txt
 
 .ecf-walletrc
 /.out
+
+# Anvil binary installed by `yarn foundryup`
+.metamask/

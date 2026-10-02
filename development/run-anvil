@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+set -u
+set -o pipefail
+
+# Installed, at a pinned and checksum-verified version, by `yarn foundryup`.
+anvil="$(yarn bin)/anvil"
+seed_phrase="${ANVIL_SEED_PHRASE:-phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent}"
+
+_term () {
+    printf '%s\n' "Received SIGTERM, sending SIGKILL to Anvil"
+    kill -KILL "$child" 2>/dev/null
+    exit 42
+}
+
+_int () {
+    printf '%s\n' "Received SIGINT, sending SIGKILL to Anvil"
+    kill -KILL "$child" 2>/dev/null
+    exit 42
+}
+
+trap _term SIGTERM
+trap _int SIGINT
+
+# Chain ID 5777 is the localhost network; Anvil also reports it as the network ID.
+# shellcheck disable=SC2086
+$anvil --chain-id 5777 --mnemonic "$seed_phrase" ${ANVIL_ARGS:-} &
+
+child=$!
+wait "$child"

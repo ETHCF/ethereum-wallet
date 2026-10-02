@@ -6,3 +6,5 @@ set -x
 set -e
 
 yarn --frozen-lockfile --non-interactive --har
+# Install the pinned Anvil binary the tests run (into .metamask/cache).
+yarn foundryup

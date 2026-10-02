@@ -1,38 +1,30 @@
 // This script lists all dependencies that have package install scripts
+const fs = require('fs')
 const path = require('path')
-const readInstalled = require('read-installed')
 
 const installScripts = ['preinstall', 'install', 'postinstall']
+const nodeModules = path.resolve('node_modules')
 
-readInstalled('./', { dev: true }, function (err, data) {
-  if (err) {
-    throw err
+// Every package installed at the top level of node_modules, including scoped ones.
+function listPackages () {
+  return fs.readdirSync(nodeModules)
+    .filter((name) => !name.startsWith('.'))
+    .flatMap((name) => (name.startsWith('@')
+      ? fs.readdirSync(path.join(nodeModules, name)).map((scoped) => `${name}/${scoped}`)
+      : [name]))
+}
+
+for (const packageName of listPackages()) {
+  const packagePath = path.join(nodeModules, packageName)
+  let packageJson
+  try {
+    packageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'))
+  } catch (_) {
+    continue
   }
-
-  const deps = data.dependencies
-  Object.entries(deps).forEach(([packageName, packageData]) => {
-    const packageScripts = packageData.scripts || {}
-    const scriptKeys = Reflect.ownKeys(packageScripts)
-
-    const hasInstallScript = installScripts.some((installKey) => scriptKeys.includes(installKey))
-    if (!hasInstallScript) {
-      return
-    }
-
-    const matchingScripts = {}
-    if (packageScripts.preinstall) {
-      matchingScripts.preinstall = packageScripts.preinstall
-    }
-    if (packageScripts.install) {
-      matchingScripts.install = packageScripts.install
-    }
-    if (packageScripts.postinstall) {
-      matchingScripts.postinstall = packageScripts.postinstall
-    }
-    const scriptNames = Reflect.ownKeys(matchingScripts)
-
-    const relativePath = path.relative(process.cwd(), packageData.path)
-
-    console.log(`${packageName}: ${relativePath} ${scriptNames}`)
-  })
-})
+  const packageScripts = packageJson.scripts || {}
+  const scriptNames = installScripts.filter((name) => packageScripts[name])
+  if (scriptNames.length > 0) {
+    console.log(`${packageName}: ${path.relative(process.cwd(), packagePath)} ${scriptNames}`)
+  }
+}

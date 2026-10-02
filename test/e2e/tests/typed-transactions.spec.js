@@ -1,6 +1,4 @@
 const { strict: assert } = require('assert')
-const { spawn, spawnSync } = require('child_process')
-const { once } = require('events')
 const { By, Key } = require('selenium-webdriver')
 const { withFixtures } = require('../helpers')
 
@@ -19,39 +17,12 @@ async function rpc (method, params = []) {
   return body.result
 }
 
-// Optional local protocol integration. Anvil executes the signed envelopes;
-// ordinary MV3 tests continue to use the existing Ganache fixture server.
-class PragueChain {
-  async start () {
-    this.process = spawn('anvil', ['--port', '8545', '--chain-id', '1337', '--hardfork', 'prague', '--silent'], { stdio: 'ignore' })
-    for (let attempt = 0; attempt < 50; attempt++) {
-      try {
-        if (await rpc('eth_chainId') === '0x539') {
-          return
-        }
-      } catch (_) {
-        // Wait for the local test RPC to listen.
-      }
-      await new Promise((resolve) => setTimeout(resolve, 100))
-    }
-    throw new Error('Local Prague chain did not start')
-  }
-
-  async quit () {
-    if (this.process && this.process.exitCode === null) {
-      const exited = once(this.process, 'exit')
-      this.process.kill()
-      await exited
-    }
-  }
-}
+// Anvil on the Prague hardfork executes the signed typed-transaction envelopes.
+const PRAGUE_CHAIN = { chainId: 1337, hardfork: 'prague', blockTime: undefined }
 
 describe('Typed transactions on a Prague chain', function () {
   it('confirms and mines EIP-1559 and EIP-2930 transactions with access lists', async function () {
-    if (spawnSync('anvil', ['--version'], { stdio: 'ignore' }).status !== 0) {
-      this.skip()
-    }
-    await withFixtures({ dapp: true, fixtures: 'personal-sign', chainServer: new PragueChain(), title: this.test.title }, async ({ driver }) => {
+    await withFixtures({ dapp: true, fixtures: 'personal-sign', chainOptions: PRAGUE_CHAIN, title: this.test.title }, async ({ driver }) => {
       const password = await driver.findElement(By.id('password'))
       await password.sendKeys('correct horse battery staple', Key.ENTER)
       await driver.findElement(By.css('.selected-account__name'))

@@ -104,6 +104,7 @@ jobs:
           root: .
           paths:
           - node_modules
+          - .metamask
           - build-artifacts
 
   prep-build:

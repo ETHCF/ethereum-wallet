@@ -15,12 +15,10 @@ module.exports = function (api) {
       ],
       '@babel/preset-react',
     ],
+    // Class fields, object rest/spread, optional chaining and nullish
+    // coalescing are standard now; preset-env compiles them for the targets.
     plugins: [
       '@babel/plugin-transform-runtime',
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-proposal-optional-chaining',
-      '@babel/plugin-proposal-nullish-coalescing-operator',
     ],
   }
 }

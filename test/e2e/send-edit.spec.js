@@ -3,15 +3,15 @@ const webdriver = require('selenium-webdriver')
 
 const { By, until } = webdriver
 const enLocaleMessages = require('../../app/_locales/en/messages.json')
+const Anvil = require('../anvil')
 const {
   tinyDelayMs,
   regularDelayMs,
   largeDelayMs,
 } = require('./helpers')
 const { buildWebDriver } = require('./webdriver')
-const Ganache = require('./ganache')
 
-const ganacheServer = new Ganache()
+const chainServer = new Anvil()
 
 describe('Using ecf-wallet with an existing account', function () {
   let driver
@@ -22,7 +22,7 @@ describe('Using ecf-wallet with an existing account', function () {
   this.bail(true)
 
   before(async function () {
-    await ganacheServer.start({
+    await chainServer.start({
       accounts: [
         {
           secretKey: '0x53CB0AB5226EEBF4D872113D98332C1555DC304443BEE1CF759D15798D3C55A9',
@@ -49,7 +49,7 @@ describe('Using ecf-wallet with an existing account', function () {
   })
 
   after(async function () {
-    await ganacheServer.quit()
+    await chainServer.quit()
     await driver.quit()
   })
 

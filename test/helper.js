@@ -1,9 +1,10 @@
-import Ganache from 'ganache-core'
 import nock from 'nock'
 import Enzyme from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import log from 'loglevel'
 import { JSDOM } from 'jsdom'
+import Anvil from './anvil'
+import { getTestSeed } from './stub/provider'
 
 nock.disableNetConnect()
 nock.enableNetConnect('localhost')
@@ -31,12 +32,13 @@ process.on('exit', () => {
 
 Enzyme.configure({ adapter: new Adapter() })
 
-// ganache server
-const server = Ganache.server()
-server.listen(8545)
-
-server.on('error', console.error)
-server.on('clientError', console.error)
+// Local test chain on port 8545, mining each transaction immediately. Mocha
+// loads every test file before running any, so it is listening by then; it
+// is stopped when the test process exits. A zero base fee keeps the low gas
+// prices the tests use valid, as on Ganache, which predated EIP-1559.
+new Anvil()
+  .start({ blockTime: undefined, chainId: 1337, mnemonic: getTestSeed(), blockBaseFeePerGas: 0 })
+  .catch((error) => console.error('Anvil failed to start; run `yarn foundryup`.', error))
 
 log.setDefaultLevel(5)
 global.log = log

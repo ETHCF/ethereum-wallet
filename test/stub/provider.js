@@ -1,5 +1,4 @@
 import { JsonRpcEngine, createAsyncMiddleware, createScaffoldMiddleware } from '@metamask/json-rpc-engine'
-import GanacheCore from 'ganache-core'
 import appProviderFromEngine from '../../app/scripts/controllers/network/provider-from-engine'
 
 export function getTestSeed () {
@@ -22,19 +21,21 @@ export function providerFromEngine (engine) {
   return appProviderFromEngine(engine)
 }
 
-// Ganache's provider only has sendAsync, so forward requests with it.
-function ganacheAsMiddleware (ganache) {
+// Forwards requests to the test chain that test/helper.js starts on port 8545.
+// Tests may only connect to localhost.
+function testChainMiddleware () {
   return createAsyncMiddleware(async (req, res) => {
     const { id, jsonrpc, method, params } = req
-    res.result = await new Promise((resolve, reject) => {
-      ganache.sendAsync({ id, jsonrpc, method, params }, (error, response) => {
-        if (error || response.error) {
-          reject(error || response.error)
-        } else {
-          resolve(response.result)
-        }
-      })
+    const response = await fetch('http://localhost:8545', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, jsonrpc, method, params }),
     })
+    const { result, error } = await response.json()
+    if (error) {
+      throw error
+    }
+    res.result = result
   })
 }
 
@@ -43,9 +44,7 @@ export function createTestProviderTools (opts = {}) {
   // handle provided hooks
   engine.push(createScaffoldMiddleware(opts.scaffold || {}))
   // handle block tracker methods
-  engine.push(ganacheAsMiddleware(GanacheCore.provider({
-    mnemonic: getTestSeed(),
-  })))
+  engine.push(testChainMiddleware())
   // wrap in standard provider interface
   const provider = providerFromEngine(engine)
   return { provider, engine }

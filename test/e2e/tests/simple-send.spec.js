@@ -3,7 +3,7 @@ const { withFixtures } = require('../helpers')
 
 describe('Simple send', function () {
   it('can send a simple transaction from one account to another', async function () {
-    const ganacheOptions = {
+    const chainOptions = {
       accounts: [
         {
           secretKey: '0x7C9529A67102755B7E6102D6D950AC5D5863C98713805CEC576B945B15B71EAC',
@@ -12,7 +12,7 @@ describe('Simple send', function () {
       ],
     }
     await withFixtures(
-      { fixtures: 'imported-account', ganacheOptions, title: this.test.title },
+      { fixtures: 'imported-account', chainOptions, title: this.test.title },
       async ({ driver }) => {
         const passwordField = await driver.findElement(By.css('#password'))
         await passwordField.sendKeys('correct horse battery staple')
