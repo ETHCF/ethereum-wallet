@@ -140,20 +140,20 @@ describe('ecf-wallet', function () {
       await driver.clickElement(By.css('.network-name'))
       await driver.delay(regularDelayMs)
 
-      await driver.clickElement(By.xpath(`//span[contains(text(), 'Ropsten')]`))
+      await driver.clickElement(By.xpath(`//span[contains(text(), 'Ethereum Mainnet')]`))
       await driver.delay(largeDelayMs)
     })
 
     it('sets the network div within the dapp', async function () {
       await driver.switchToWindow(dapp)
       const networkDiv = await driver.findElement(By.css('#network'))
-      assert.equal(await networkDiv.getText(), '3')
+      assert.equal(await networkDiv.getText(), '1')
     })
 
     it('sets the chainId div within the dapp', async function () {
       await driver.switchToWindow(dapp)
       const chainIdDiv = await driver.findElement(By.css('#chainId'))
-      assert.equal(await chainIdDiv.getText(), '0x3')
+      assert.equal(await chainIdDiv.getText(), '0x1')
     })
 
     it('sets the account div within the dapp', async function () {
