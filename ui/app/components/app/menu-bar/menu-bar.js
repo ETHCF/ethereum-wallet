@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import extension from '../../../../../app/scripts/lib/extension-api'
 import SelectedAccount from '../selected-account'
@@ -13,7 +13,7 @@ import AccountOptionsMenu from './account-options-menu'
 
 export default function MenuBar () {
   const t = useI18nContext()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [accountOptionsButtonElement, setAccountOptionsButtonElement] = useState(null)
   const [accountOptionsMenuOpen, setAccountOptionsMenuOpen] = useState(false)
   const origin = useSelector(getOriginOfCurrentTab)
@@ -24,7 +24,7 @@ export default function MenuBar () {
     <div className="menu-bar">
       {
         showStatus
-          ? <ConnectedStatusIndicator onClick={() => history.push(CONNECTED_ACCOUNTS_ROUTE)} />
+          ? <ConnectedStatusIndicator onClick={() => navigate(CONNECTED_ACCOUNTS_ROUTE)} />
           : null
       }
 

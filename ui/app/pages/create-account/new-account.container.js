@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import NewAccountCreateForm from './new-account.component'
 
 const mapStateToProps = (state) => {
@@ -29,4 +30,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewAccountCreateForm)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewAccountCreateForm))

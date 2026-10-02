@@ -1,5 +1,5 @@
 import assert from 'assert'
-import React from 'react'
+import React, { act } from 'react'
 import { Provider } from 'react-redux'
 import createMockStore from 'redux-mock-store'
 import { mountWithRouter } from '../../../../../../test/lib/render-helpers'
@@ -56,7 +56,7 @@ describe('MenuBar', function () {
     wrapper.update()
     assert.ok(wrapper.exists('AccountOptionsMenu'))
     const accountDetailsMenu = wrapper.find('AccountOptionsMenu')
-    accountDetailsMenu.prop('onClose')()
+    act(() => accountDetailsMenu.prop('onClose')())
     wrapper.update()
     assert.ok(!wrapper.exists('AccountOptionsMenu'))
   })

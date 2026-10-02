@@ -24,7 +24,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
     cancelEncryptionPublicKey: PropTypes.func.isRequired,
     encryptionPublicKey: PropTypes.func.isRequired,
     nativeCurrency: PropTypes.string,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     requesterAddress: PropTypes.string,
     txData: PropTypes.object,
     domainMetadata: PropTypes.object,
@@ -183,7 +183,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
       cancelEncryptionPublicKey,
       clearConfirmTransaction,
       encryptionPublicKey,
-      history,
+      navigate,
       mostRecentOverviewPage,
       txData,
     } = this.props
@@ -199,7 +199,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
             this._removeBeforeUnload()
             await cancelEncryptionPublicKey(txData, event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { this.context.t('cancel') }
@@ -212,7 +212,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
             this._removeBeforeUnload()
             await encryptionPublicKey(txData, event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { t('provide') }

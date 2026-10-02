@@ -15,9 +15,7 @@ describe('SendFooter Component', function () {
     sign: sinon.spy(),
     update: sinon.spy(),
   }
-  const historySpies = {
-    push: sinon.spy(),
-  }
+  const navigateSpy = sinon.spy()
   const MOCK_EVENT = { preventDefault: () => undefined }
 
   before(function () {
@@ -38,7 +36,7 @@ describe('SendFooter Component', function () {
         gasLimit="mockGasLimit"
         gasPrice="mockGasPrice"
         gasTotal="mockGasTotal"
-        history={historySpies}
+        navigate={navigateSpy}
         inError={false}
         sendToken={{ mockProp: 'mockSendTokenProp' }}
         sign={propsMethodSpies.sign}
@@ -59,7 +57,7 @@ describe('SendFooter Component', function () {
     propsMethodSpies.clearSend.resetHistory()
     propsMethodSpies.sign.resetHistory()
     propsMethodSpies.update.resetHistory()
-    historySpies.push.resetHistory()
+    navigateSpy.resetHistory()
     SendFooter.prototype.onCancel.resetHistory()
     SendFooter.prototype.onSubmit.resetHistory()
   })
@@ -75,11 +73,11 @@ describe('SendFooter Component', function () {
       assert.equal(propsMethodSpies.clearSend.callCount, 1)
     })
 
-    it('should call history.push', function () {
-      assert.equal(historySpies.push.callCount, 0)
+    it('should call navigate', function () {
+      assert.equal(navigateSpy.callCount, 0)
       wrapper.instance().onCancel()
-      assert.equal(historySpies.push.callCount, 1)
-      assert.equal(historySpies.push.getCall(0).args[0], 'mostRecentOverviewPage')
+      assert.equal(navigateSpy.callCount, 1)
+      assert.equal(navigateSpy.getCall(0).args[0], 'mostRecentOverviewPage')
     })
   })
 
@@ -190,10 +188,10 @@ describe('SendFooter Component', function () {
       assert.equal(propsMethodSpies.update.callCount, 0)
     })
 
-    it('should call history.push', async function () {
+    it('should call navigate', async function () {
       await wrapper.instance().onSubmit(MOCK_EVENT)
-      assert.equal(historySpies.push.callCount, 1)
-      assert.equal(historySpies.push.getCall(0).args[0], CONFIRM_TRANSACTION_ROUTE)
+      assert.equal(navigateSpy.callCount, 1)
+      assert.equal(navigateSpy.getCall(0).args[0], CONFIRM_TRANSACTION_ROUTE)
     })
   })
 
@@ -212,7 +210,7 @@ describe('SendFooter Component', function () {
           gasLimit="mockGasLimit"
           gasPrice="mockGasPrice"
           gasTotal="mockGasTotal"
-          history={historySpies}
+          navigate={navigateSpy}
           inError={false}
           sendToken={{ mockProp: 'mockSendTokenProp' }}
           sign={propsMethodSpies.sign}

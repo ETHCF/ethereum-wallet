@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import {
   setTransactionToConfirm,
   clearConfirmTransaction,
@@ -27,7 +27,7 @@ const mapStateToProps = (state, ownProps) => {
       unapprovedTxs,
     },
   } = state
-  const { match: { params = {} } } = ownProps
+  const { params = {} } = ownProps
   const { id } = params
 
   const unconfirmedTransactions = unconfirmedTransactionsListSelector(state)

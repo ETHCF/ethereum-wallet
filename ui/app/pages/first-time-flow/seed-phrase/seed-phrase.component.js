@@ -1,21 +1,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContextProvider } from 'react-dnd'
+import { Route, Routes } from 'react-router-dom'
 import {
   INITIALIZE_SEED_PHRASE_ROUTE,
   INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE,
-  INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
   DEFAULT_ROUTE,
 } from '../../../helpers/constants/routes'
 import MetaFoxLogo from '../../../components/ui/metafox-logo'
+import { toRelativeRoutePath } from '../../../helpers/utils/routes.util'
 import ConfirmSeedPhrase from './confirm-seed-phrase'
 import RevealSeedPhrase from './reveal-seed-phrase'
 
 export default class SeedPhrase extends PureComponent {
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     seedPhrase: PropTypes.string,
     verifySeedPhrase: PropTypes.func,
   }
@@ -25,7 +23,7 @@ export default class SeedPhrase extends PureComponent {
   }
 
   componentDidMount () {
-    const { seedPhrase, history, verifySeedPhrase } = this.props
+    const { seedPhrase, navigate, verifySeedPhrase } = this.props
 
     if (!seedPhrase) {
       verifySeedPhrase()
@@ -33,7 +31,7 @@ export default class SeedPhrase extends PureComponent {
           if (verifiedSeedPhrase) {
             this.setState({ verifiedSeedPhrase })
           } else {
-            history.push(DEFAULT_ROUTE)
+            navigate(DEFAULT_ROUTE)
           }
         })
     }
@@ -44,43 +42,27 @@ export default class SeedPhrase extends PureComponent {
     const { verifiedSeedPhrase } = this.state
 
     return (
-      <DragDropContextProvider backend={HTML5Backend}>
-        <div className="first-time-flow__wrapper">
-          <MetaFoxLogo />
-          <Switch>
-            <Route
-              exact
-              path={INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE}
-              render={(routeProps) => (
-                <ConfirmSeedPhrase
-                  { ...routeProps }
-                  seedPhrase={seedPhrase || verifiedSeedPhrase}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={INITIALIZE_SEED_PHRASE_ROUTE}
-              render={(routeProps) => (
-                <RevealSeedPhrase
-                  { ...routeProps }
-                  seedPhrase={seedPhrase || verifiedSeedPhrase}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={INITIALIZE_BACKUP_SEED_PHRASE_ROUTE}
-              render={(routeProps) => (
-                <RevealSeedPhrase
-                  { ...routeProps }
-                  seedPhrase={seedPhrase || verifiedSeedPhrase}
-                />
-              )}
-            />
-          </Switch>
-        </div>
-      </DragDropContextProvider>
+      <div className="first-time-flow__wrapper">
+        <MetaFoxLogo />
+        <Routes>
+          <Route
+            path={toRelativeRoutePath(INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE, INITIALIZE_SEED_PHRASE_ROUTE)}
+            element={(
+              <ConfirmSeedPhrase
+                seedPhrase={seedPhrase || verifiedSeedPhrase}
+              />
+            )}
+          />
+          <Route
+            path={toRelativeRoutePath(INITIALIZE_SEED_PHRASE_ROUTE, INITIALIZE_SEED_PHRASE_ROUTE)}
+            element={(
+              <RevealSeedPhrase
+                seedPhrase={seedPhrase || verifiedSeedPhrase}
+              />
+            )}
+          />
+        </Routes>
+      </div>
     )
   }
 }

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import React from 'react'
+import React, { act } from 'react'
 import { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import UnitInput from '../unit-input.component'
@@ -69,7 +69,7 @@ describe('UnitInput Component', function () {
 
       assert.ok(wrapper)
       const handleFocusSpy = sinon.spy(wrapper.instance(), 'handleFocus')
-      wrapper.instance().forceUpdate()
+      act(() => wrapper.instance().forceUpdate())
       wrapper.update()
       assert.equal(handleFocusSpy.callCount, 0)
       wrapper.find('.unit-input').simulate('click')

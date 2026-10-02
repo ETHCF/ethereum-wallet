@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import log from 'loglevel'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import * as actions from '../../store/actions'
 import txHelper from '../../../lib/tx-helper'
 import SignatureRequest from '../../components/app/signature-request'
@@ -55,15 +55,13 @@ class ConfirmTxScreen extends Component {
     unapprovedMsgs: PropTypes.object,
     unapprovedPersonalMsgs: PropTypes.object,
     unapprovedTypedMessages: PropTypes.object,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
+    params: PropTypes.shape({
+      id: PropTypes.string,
     }),
 
     currentNetworkTxList: PropTypes.array,
     blockGasLimit: PropTypes.string,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     identities: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     send: PropTypes.shape({
@@ -89,7 +87,7 @@ class ConfirmTxScreen extends Component {
       unapprovedMsgs,
       unapprovedPersonalMsgs,
       unapprovedTypedMessages,
-      match: { params: { id: transactionId } = {} },
+      params: { id: transactionId } = {},
     } = this.props
 
     const unconfTxList = txHelper(
@@ -153,7 +151,7 @@ class ConfirmTxScreen extends Component {
   componentDidMount () {
     const {
       unapprovedTxs = {},
-      history,
+      navigate,
       mostRecentOverviewPage,
       network,
       send,
@@ -161,7 +159,7 @@ class ConfirmTxScreen extends Component {
     const unconfTxList = txHelper(unapprovedTxs, {}, {}, {}, network)
 
     if (unconfTxList.length === 0 && !send.to && this.getUnapprovedMessagesTotal() === 0) {
-      history.push(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage)
     }
   }
 
@@ -171,8 +169,8 @@ class ConfirmTxScreen extends Component {
       network,
       currentNetworkTxList,
       send,
-      history,
-      match: { params: { id: transactionId } = {} },
+      navigate,
+      params: { id: transactionId } = {},
       mostRecentOverviewPage,
     } = this.props
 
@@ -192,14 +190,14 @@ class ConfirmTxScreen extends Component {
     if (prevTx && prevTx.status === 'dropped') {
       this.props.dispatch(actions.showModal({
         name: 'TRANSACTION_CONFIRMED',
-        onSubmit: () => history.push(mostRecentOverviewPage),
+        onSubmit: () => navigate(mostRecentOverviewPage),
       }))
 
       return
     }
 
     if (unconfTxList.length === 0 && !send.to && this.getUnapprovedMessagesTotal() === 0) {
-      this.props.history.push(mostRecentOverviewPage)
+      this.props.navigate(mostRecentOverviewPage)
     }
   }
 

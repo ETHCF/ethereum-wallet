@@ -5,18 +5,18 @@ import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 
 export default class Lock extends PureComponent {
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     isUnlocked: PropTypes.bool,
     lockEcfWallet: PropTypes.func,
   }
 
   componentDidMount () {
-    const { lockEcfWallet, isUnlocked, history } = this.props
+    const { lockEcfWallet, isUnlocked, navigate } = this.props
 
     if (isUnlocked) {
-      lockEcfWallet().then(() => history.push(DEFAULT_ROUTE))
+      lockEcfWallet().then(() => navigate(DEFAULT_ROUTE))
     } else {
-      history.replace(DEFAULT_ROUTE)
+      navigate(DEFAULT_ROUTE, { replace: true })
     }
   }
 

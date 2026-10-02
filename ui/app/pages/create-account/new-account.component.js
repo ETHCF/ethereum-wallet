@@ -16,11 +16,11 @@ export default class NewAccountCreateForm extends Component {
 
   render () {
     const { newAccountName, defaultAccountName } = this.state
-    const { history, createAccount, mostRecentOverviewPage } = this.props
+    const { navigate, createAccount, mostRecentOverviewPage } = this.props
     const createClick = (_) => {
       createAccount(newAccountName || defaultAccountName)
         .then(() => {
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
         })
         .catch(console.error)
     }
@@ -42,7 +42,7 @@ export default class NewAccountCreateForm extends Component {
               type="default"
               large
               className="new-account-create-form__button"
-              onClick={() => history.push(mostRecentOverviewPage)}
+              onClick={() => navigate(mostRecentOverviewPage)}
             >
               {this.context.t('cancel')}
             </Button>
@@ -64,7 +64,7 @@ export default class NewAccountCreateForm extends Component {
 NewAccountCreateForm.propTypes = {
   createAccount: PropTypes.func,
   newAccountNumber: PropTypes.number,
-  history: PropTypes.object,
+  navigate: PropTypes.func,
   mostRecentOverviewPage: PropTypes.string.isRequired,
 }
 

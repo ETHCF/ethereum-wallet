@@ -14,7 +14,7 @@ export default class NewAccount extends PureComponent {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
   }
 
   state = {
@@ -94,12 +94,12 @@ export default class NewAccount extends PureComponent {
     }
 
     const { password } = this.state
-    const { onSubmit, history } = this.props
+    const { onSubmit, navigate } = this.props
 
     try {
       await onSubmit(password)
 
-      history.push(INITIALIZE_SEED_PHRASE_ROUTE)
+      navigate(INITIALIZE_SEED_PHRASE_ROUTE)
     } catch (error) {
       this.setState({ passwordError: error.message })
     }
@@ -128,7 +128,7 @@ export default class NewAccount extends PureComponent {
           <a
             onClick={(e) => {
               e.preventDefault()
-              this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE)
+              this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE)
             }}
             href="#"
           >

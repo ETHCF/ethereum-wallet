@@ -23,9 +23,9 @@ _int () {
 trap _term SIGTERM
 trap _int SIGINT
 
-# Chain ID 5777 is the localhost network; Anvil also reports it as the network ID.
+# Ganache's chain ID 1337; Anvil also reports it as the network ID.
 # shellcheck disable=SC2086
-$anvil --chain-id 5777 --mnemonic "$seed_phrase" ${ANVIL_ARGS:-} &
+$anvil --chain-id 1337 --mnemonic "$seed_phrase" ${ANVIL_ARGS:-} &
 
 child=$!
 wait "$child"

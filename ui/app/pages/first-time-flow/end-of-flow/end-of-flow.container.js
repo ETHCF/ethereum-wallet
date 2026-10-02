@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { getOnboardingInitiator } from '../../../selectors'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 import EndOfFlow from './end-of-flow.component'
 
 const mapStateToProps = (state) => {
@@ -9,4 +10,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(EndOfFlow)
+export default withRouter(connect(mapStateToProps)(EndOfFlow))

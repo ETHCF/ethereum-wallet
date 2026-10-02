@@ -11,9 +11,7 @@ describe('SendHeader Component', function () {
   const propsMethodSpies = {
     clearSend: sinon.spy(),
   }
-  const historySpies = {
-    push: sinon.spy(),
-  }
+  const navigateSpy = sinon.spy()
 
   before(function () {
     sinon.spy(SendHeader.prototype, 'onClose')
@@ -23,7 +21,7 @@ describe('SendHeader Component', function () {
     wrapper = shallow((
       <SendHeader
         clearSend={propsMethodSpies.clearSend}
-        history={historySpies}
+        navigate={navigateSpy}
         mostRecentOverviewPage="mostRecentOverviewPage"
         titleKey="mockTitleKey"
       />
@@ -32,7 +30,7 @@ describe('SendHeader Component', function () {
 
   afterEach(function () {
     propsMethodSpies.clearSend.resetHistory()
-    historySpies.push.resetHistory()
+    navigateSpy.resetHistory()
     SendHeader.prototype.onClose.resetHistory()
   })
 
@@ -47,11 +45,11 @@ describe('SendHeader Component', function () {
       assert.equal(propsMethodSpies.clearSend.callCount, 1)
     })
 
-    it('should call history.push', function () {
-      assert.equal(historySpies.push.callCount, 0)
+    it('should call navigate', function () {
+      assert.equal(navigateSpy.callCount, 0)
       wrapper.instance().onClose()
-      assert.equal(historySpies.push.callCount, 1)
-      assert.equal(historySpies.push.getCall(0).args[0], 'mostRecentOverviewPage')
+      assert.equal(navigateSpy.callCount, 1)
+      assert.equal(navigateSpy.getCall(0).args[0], 'mostRecentOverviewPage')
     })
   })
 

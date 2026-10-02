@@ -1,6 +1,6 @@
 import assert from 'assert'
 import * as reactRedux from 'react-redux'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import sinon from 'sinon'
 import transactions from '../../../../test/data/transaction-data.json'
 import { useTransactionDisplayData } from '../useTransactionDisplayData'

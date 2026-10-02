@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { showModal } from '../../../store/actions'
@@ -15,7 +15,7 @@ import { ENVIRONMENT_TYPE_FULLSCREEN } from '../../../../../app/scripts/lib/enum
 export default function AccountOptionsMenu ({ anchorElement, onClose }) {
   const t = useI18nContext()
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const keyring = useSelector(getCurrentKeyring)
   const network = useSelector(getCurrentNetwork)
@@ -81,7 +81,7 @@ export default function AccountOptionsMenu ({ anchorElement, onClose }) {
       <MenuItem
         data-testid="account-options-menu__connected-sites"
         onClick={() => {
-          history.push(CONNECTED_ROUTE)
+          navigate(CONNECTED_ROUTE)
           onClose()
         }}
         iconClassName="account-options-menu__connected-sites"

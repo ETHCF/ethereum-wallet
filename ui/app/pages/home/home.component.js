@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect, Route } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import AssetList from '../../components/app/asset-list'
 import TransactionList from '../../components/app/transaction-list'
 import MenuBar from '../../components/app/menu-bar'
@@ -21,6 +21,7 @@ import {
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
 } from '../../helpers/constants/routes'
+import { toRelativeRoutePath } from '../../helpers/utils/routes.util'
 
 const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme'
 
@@ -30,7 +31,7 @@ export default class Home extends PureComponent {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     forgottenPassword: PropTypes.bool,
     suggestedTokens: PropTypes.object,
     unconfirmedTransactionsCount: PropTypes.number,
@@ -53,7 +54,7 @@ export default class Home extends PureComponent {
     const {
       firstPermissionsRequestId,
       hasNetworkRequests,
-      history,
+      navigate,
       isNotification,
       suggestedTokens = {},
       totalUnapprovedCount,
@@ -64,13 +65,13 @@ export default class Home extends PureComponent {
     if (isNotification && totalUnapprovedCount === 0) {
       global.platform.closeCurrentWindow()
     } else if (firstPermissionsRequestId) {
-      history.push(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
+      navigate(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
     } else if (unconfirmedTransactionsCount > 0) {
-      history.push(CONFIRM_TRANSACTION_ROUTE)
+      navigate(CONFIRM_TRANSACTION_ROUTE)
     } else if (Object.keys(suggestedTokens).length > 0) {
-      history.push(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
+      navigate(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
     } else if (hasNetworkRequests) {
-      history.push(CONFIRM_NETWORK_REQUEST_ROUTE)
+      navigate(CONFIRM_NETWORK_REQUEST_ROUTE)
     }
   }
 
@@ -153,21 +154,24 @@ export default class Home extends PureComponent {
       defaultHomeActiveTabName,
       onTabClick,
       forgottenPassword,
-      history,
+      navigate,
       connectedStatusPopoverHasBeenShown,
       isPopup,
     } = this.props
 
     if (forgottenPassword) {
-      return <Redirect to={{ pathname: RESTORE_VAULT_ROUTE }} />
+      return <Navigate to={RESTORE_VAULT_ROUTE} replace />
     } else if (this.state.closing || this.state.redirecting) {
       return null
     }
 
     return (
       <div className="main-container">
-        <Route path={CONNECTED_ROUTE} component={ConnectedSites} exact />
-        <Route path={CONNECTED_ACCOUNTS_ROUTE} component={ConnectedAccounts} exact />
+        <Routes>
+          <Route path={toRelativeRoutePath(CONNECTED_ROUTE)} element={<ConnectedSites />} />
+          <Route path={toRelativeRoutePath(CONNECTED_ACCOUNTS_ROUTE)} element={<ConnectedAccounts />} />
+          <Route path="*" element={null} />
+        </Routes>
         <div className="home__container">
           { isPopup && !connectedStatusPopoverHasBeenShown ? this.renderPopover() : null }
           <div className="home__main-view">
@@ -183,7 +187,7 @@ export default class Home extends PureComponent {
                 name={t('assets')}
               >
                 <AssetList
-                  onClickAsset={(asset) => history.push(`${ASSET_ROUTE}/${asset}`)}
+                  onClickAsset={(asset) => navigate(`${ASSET_ROUTE}/${asset}`)}
                 />
               </Tab>
               <Tab

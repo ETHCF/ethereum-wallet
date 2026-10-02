@@ -13,7 +13,7 @@ export default class EndOfFlowScreen extends PureComponent {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     onboardingInitiator: PropTypes.exact({
       location: PropTypes.string,
       tabId: PropTypes.number,
@@ -21,12 +21,12 @@ export default class EndOfFlowScreen extends PureComponent {
   }
 
   onComplete = async () => {
-    const { history, onboardingInitiator } = this.props
+    const { navigate, onboardingInitiator } = this.props
 
     if (onboardingInitiator) {
       await returnToOnboardingInitiator(onboardingInitiator)
     }
-    history.push(DEFAULT_ROUTE)
+    navigate(DEFAULT_ROUTE)
   }
 
   render () {

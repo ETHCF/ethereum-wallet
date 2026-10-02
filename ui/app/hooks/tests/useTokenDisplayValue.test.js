@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import sinon from 'sinon'
 import * as tokenUtil from '../../helpers/utils/token-util'
 import * as txUtil from '../../helpers/utils/transactions.util'

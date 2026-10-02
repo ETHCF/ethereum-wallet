@@ -14,7 +14,7 @@ export default class RevealSeedPhrase extends PureComponent {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     seedPhrase: PropTypes.string,
     setSeedPhraseBackedUp: PropTypes.func,
     setCompletedOnboarding: PropTypes.func,
@@ -34,24 +34,24 @@ export default class RevealSeedPhrase extends PureComponent {
 
   handleNext = () => {
     const { isShowingSeedPhrase } = this.state
-    const { history } = this.props
+    const { navigate } = this.props
 
     if (!isShowingSeedPhrase) {
       return
     }
 
-    history.push(INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE)
+    navigate(INITIALIZE_CONFIRM_SEED_PHRASE_ROUTE)
   }
 
   handleSkip = async () => {
-    const { history, setSeedPhraseBackedUp, setCompletedOnboarding, onboardingInitiator } = this.props
+    const { navigate, setSeedPhraseBackedUp, setCompletedOnboarding, onboardingInitiator } = this.props
 
     await Promise.all([setCompletedOnboarding(), setSeedPhraseBackedUp(false)])
 
     if (onboardingInitiator) {
       await returnToOnboardingInitiator(onboardingInitiator)
     }
-    history.push(DEFAULT_ROUTE)
+    navigate(DEFAULT_ROUTE)
   }
 
   renderSecretWordsContainer () {

@@ -1,17 +1,20 @@
 import assert from 'assert'
 import React from 'react'
 import { mount } from 'enzyme'
-import { MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import en from '../../../../../app/_locales/en/messages.json'
 import { HELP_TOPICS, getHelpUrl } from '../../../helpers/constants/help'
 import { HELP_ROUTE } from '../../../helpers/constants/routes'
 import Help from '..'
+import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router'
 
 describe('Help page', function () {
   function mountAt (pathname) {
     return mount(
-      <MemoryRouter initialEntries={[pathname]}>
-        <Route path={`${HELP_ROUTE}/:topic?`} component={Help} />
+      <MemoryRouter initialEntries={[pathname]} future={ROUTER_FUTURE_FLAGS}>
+        <Routes>
+          <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
+        </Routes>
       </MemoryRouter>,
     )
   }

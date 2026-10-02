@@ -10,7 +10,7 @@ enforces itself.
 */
 
 import { cloneDeep } from 'lodash'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 
 const version = 2
 

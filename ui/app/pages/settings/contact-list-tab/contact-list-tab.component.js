@@ -18,7 +18,7 @@ export default class ContactListTab extends Component {
 
   static propTypes = {
     addressBook: PropTypes.array,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     selectedAddress: PropTypes.string,
     viewingContact: PropTypes.bool,
     editingContact: PropTypes.bool,
@@ -29,7 +29,7 @@ export default class ContactListTab extends Component {
   }
 
   renderAddresses () {
-    const { addressBook, history, selectedAddress } = this.props
+    const { addressBook, navigate, selectedAddress } = this.props
     const contacts = addressBook.filter(({ name }) => Boolean(name))
     const nonContacts = addressBook.filter(({ name }) => !name)
 
@@ -39,7 +39,7 @@ export default class ContactListTab extends Component {
           searchForContacts={() => contacts}
           searchForRecents={() => nonContacts}
           selectRecipient={(address) => {
-            history.push(`${CONTACT_VIEW_ROUTE}/${address}`)
+            navigate(`${CONTACT_VIEW_ROUTE}/${address}`)
           }}
           selectedAddress={selectedAddress}
         />
@@ -48,12 +48,12 @@ export default class ContactListTab extends Component {
   }
 
   renderAddButton () {
-    const { history } = this.props
+    const { navigate } = this.props
     return (
       <div
         className="address-book-add-button__button"
         onClick={() => {
-          history.push(CONTACT_ADD_ROUTE)
+          navigate(CONTACT_ADD_ROUTE)
         }}
       >
         <img
@@ -65,13 +65,13 @@ export default class ContactListTab extends Component {
   }
 
   renderMyAccountsButton () {
-    const { history } = this.props
+    const { navigate } = this.props
     const { t } = this.context
     return (
       <div
         className="address-book__my-accounts-button"
         onClick={() => {
-          history.push(CONTACT_MY_ACCOUNTS_ROUTE)
+          navigate(CONTACT_MY_ACCOUNTS_ROUTE)
         }}
       >
         <div className="address-book__my-accounts-button__header">{t('myWalletAccounts')}</div>

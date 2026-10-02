@@ -1,12 +1,12 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useI18nContext } from '../../../hooks/useI18nContext'
 import { ADD_TOKEN_ROUTE } from '../../../helpers/constants/routes'
 import Button from '../../ui/button'
 
 export default function AddTokenButton () {
   const t = useI18nContext()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <div className="add-token-button">
@@ -15,7 +15,7 @@ export default function AddTokenButton () {
         type="secondary"
         rounded
         onClick={() => {
-          history.push(ADD_TOKEN_ROUTE)
+          navigate(ADD_TOKEN_ROUTE)
         }}
       >
         {t('addToken')}

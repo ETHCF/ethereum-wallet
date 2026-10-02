@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 import * as actions from '../../../store/actions'
 import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
@@ -15,7 +15,7 @@ class PrivateKeyImportView extends Component {
 
   static propTypes = {
     importNewAccount: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     displayWarning: PropTypes.func.isRequired,
     setSelectedAddress: PropTypes.func.isRequired,
     firstAddress: PropTypes.string.isRequired,
@@ -29,12 +29,12 @@ class PrivateKeyImportView extends Component {
 
   createNewKeychain () {
     const privateKey = this.inputRef.current.value
-    const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
+    const { importNewAccount, navigate, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
 
     importNewAccount('Private Key', [privateKey])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
           displayWarning(null)
         } else {
           displayWarning('Error importing account.')
@@ -84,9 +84,9 @@ class PrivateKeyImportView extends Component {
             large
             className="new-account-create-form__button"
             onClick={() => {
-              const { history, mostRecentOverviewPage } = this.props
+              const { navigate, mostRecentOverviewPage } = this.props
               displayWarning(null)
-              history.push(mostRecentOverviewPage)
+              navigate(mostRecentOverviewPage)
             }}
           >
             {this.context.t('cancel')}

@@ -57,9 +57,7 @@ describe('Account Menu', function () {
     showAccountDetail: sinon.spy(),
     showRemoveAccountConfirmationModal: sinon.spy(),
     toggleAccountMenu: sinon.spy(),
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
 
   }
 
@@ -73,7 +71,7 @@ describe('Account Menu', function () {
 
   afterEach(function () {
     props.toggleAccountMenu.resetHistory()
-    props.history.push.resetHistory()
+    props.navigate.resetHistory()
   })
 
   describe('Render Content', function () {
@@ -112,7 +110,7 @@ describe('Account Menu', function () {
     it('simulate click', function () {
       logout.simulate('click')
       assert(props.lockEcfWallet.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/')
+      assert.equal(props.navigate.getCall(0).args[0], '/')
     })
   })
 
@@ -127,7 +125,7 @@ describe('Account Menu', function () {
     it('calls toggle menu and push new-account route to history', function () {
       createAccount.simulate('click')
       assert(props.toggleAccountMenu.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/new-account')
+      assert.equal(props.navigate.getCall(0).args[0], '/new-account')
     })
   })
 
@@ -142,7 +140,7 @@ describe('Account Menu', function () {
     it('calls toggle menu and push /new-account/import route to history', function () {
       importAccount.simulate('click')
       assert(props.toggleAccountMenu.calledOnce)
-      assert(props.history.push.getCall(0).args[0], '/new-account/import')
+      assert(props.navigate.getCall(0).args[0], '/new-account/import')
     })
   })
 
@@ -158,7 +156,7 @@ describe('Account Menu', function () {
     it('calls toggle menu and push /new-account/connect route to history', function () {
       connectHardwareWallet.simulate('click')
       assert(props.toggleAccountMenu.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/new-account/connect')
+      assert.equal(props.navigate.getCall(0).args[0], '/new-account/connect')
     })
   })
 
@@ -174,7 +172,7 @@ describe('Account Menu', function () {
     it('calls toggle menu and push /new-account/connect route to history', function () {
       infoHelp.simulate('click')
       assert(props.toggleAccountMenu.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/settings/about-us')
+      assert.equal(props.navigate.getCall(0).args[0], '/settings/about-us')
     })
   })
 
@@ -190,7 +188,7 @@ describe('Account Menu', function () {
     it('calls toggle menu and push /new-account/connect route to history', function () {
       settings.simulate('click')
       assert(props.toggleAccountMenu.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/settings')
+      assert.equal(props.navigate.getCall(0).args[0], '/settings')
     })
   })
 })

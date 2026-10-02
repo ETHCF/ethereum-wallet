@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import TransactionList from '../../../components/app/transaction-list'
 import { EthOverview } from '../../../components/app/wallet-overview'
@@ -12,14 +12,14 @@ import AssetNavigation from './asset-navigation'
 
 export default function NativeAsset ({ nativeCurrency }) {
   const selectedAccountName = useSelector((state) => getSelectedIdentity(state).name)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <>
       <AssetNavigation
         accountName={selectedAccountName}
         assetName={nativeCurrency}
-        onBack={() => history.push(DEFAULT_ROUTE)}
+        onBack={() => navigate(DEFAULT_ROUTE)}
       />
       <EthOverview className="asset__overview" />
       <TransactionList hideTokenTransactions />

@@ -34,6 +34,9 @@ describe('Simple send', function () {
         const amountField = await driver.findElement(By.css('.unit-input__input'))
         await amountField.sendKeys('1')
         await driver.clickElement(By.css('[data-testid="page-container-footer-next"]'))
+        // The confirmation page has a Next button too; wait for it to replace
+        // the send page before clicking.
+        await driver.findElement(By.css('.confirm-page-container-content__details'))
         await driver.clickElement(By.css('[data-testid="page-container-footer-next"]'))
         await driver.clickElement(By.css('[data-testid="home__activity-tab"]'))
         await driver.findElement(By.css('.transaction-list-item'))

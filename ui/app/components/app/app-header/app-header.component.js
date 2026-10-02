@@ -8,7 +8,7 @@ import NetworkIndicator from '../network'
 
 export default class AppHeader extends PureComponent {
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     network: PropTypes.string,
     provider: PropTypes.object,
     networkDropdownOpen: PropTypes.bool,
@@ -63,7 +63,7 @@ export default class AppHeader extends PureComponent {
 
   render () {
     const {
-      history,
+      navigate,
       network,
       provider,
       isUnlocked,
@@ -78,7 +78,7 @@ export default class AppHeader extends PureComponent {
         <div className="app-header__contents">
           <MetaFoxLogo
             unsetIconHeight
-            onClick={() => history.push(DEFAULT_ROUTE)}
+            onClick={() => navigate(DEFAULT_ROUTE)}
           />
           <div className="app-header__account-menu-container">
             {

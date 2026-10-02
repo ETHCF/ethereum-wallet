@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import {
   getNativeCurrencyImage,
   transactionFeeSelector,
@@ -17,7 +17,7 @@ import {
 import ConfirmTokenTransactionBase from './confirm-token-transaction-base.component'
 
 const mapStateToProps = (state, ownProps) => {
-  const { match: { params = {} } } = ownProps
+  const { params = {} } = ownProps
   const { id: paramsTransactionId } = params
   const {
     confirmTransaction,

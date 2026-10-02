@@ -19,9 +19,7 @@ describe('Welcome', function () {
   it('routes to select action for a new user', function () {
 
     const props = {
-      history: {
-        push: sinon.spy(),
-      },
+      navigate: sinon.spy(),
     }
 
     const wrapper = mountWithRouter(
@@ -30,7 +28,7 @@ describe('Welcome', function () {
 
     const getStartedButton = wrapper.find('.btn-primary.first-time-flow__button')
     getStartedButton.simulate('click')
-    assert.equal(props.history.push.getCall(0).args[0], '/initialize/select-action')
+    assert.equal(props.navigate.getCall(0).args[0], '/initialize/select-action')
 
   })
 
@@ -38,9 +36,7 @@ describe('Welcome', function () {
 
     const props = {
       welcomeScreenSeen: true,
-      history: {
-        push: sinon.spy(),
-      },
+      navigate: sinon.spy(),
     }
 
     const wrapper = mountWithRouter(
@@ -49,6 +45,6 @@ describe('Welcome', function () {
 
     const getStartedButton = wrapper.find('.btn-primary.first-time-flow__button')
     getStartedButton.simulate('click')
-    assert.equal(props.history.push.getCall(0).args[0], '/initialize/create-password')
+    assert.equal(props.navigate.getCall(0).args[0], '/initialize/create-password')
   })
 })

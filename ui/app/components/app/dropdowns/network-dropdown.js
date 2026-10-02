@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 import * as actions from '../../../store/actions'
 import { NETWORKS_ROUTE } from '../../../helpers/constants/routes'
 import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from '../../../../../app/scripts/controllers/network/enums'
@@ -70,7 +70,7 @@ class NetworkDropdown extends Component {
     setNetworksTabAddMode: PropTypes.func.isRequired,
     frequentRpcListDetail: PropTypes.array.isRequired,
     networkDropdownOpen: PropTypes.bool.isRequired,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     delRpcTarget: PropTypes.func.isRequired,
   }
 
@@ -276,7 +276,7 @@ class NetworkDropdown extends Component {
           closeMenu={() => this.props.hideNetworkDropdown()}
           onClick={() => {
             setNetworksTabAddMode(true)
-            this.props.history.push(NETWORKS_ROUTE)
+            this.props.navigate(NETWORKS_ROUTE)
           }}
           style={dropdownMenuItemStyle}
         >

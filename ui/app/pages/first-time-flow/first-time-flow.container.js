@@ -9,6 +9,7 @@ import {
 import {
   INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
 } from '../../helpers/constants/routes'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import FirstTimeFlow from './first-time-flow.component'
 
 const mapStateToProps = (state, ownProps) => {
@@ -36,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstTimeFlow)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FirstTimeFlow))

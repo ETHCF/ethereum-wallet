@@ -53,7 +53,7 @@ describe('Send Component', function () {
         gasLimit="mockGasLimit"
         gasPrice="mockGasPrice"
         gasTotal="mockGasTotal"
-        history={{ mockProp: 'history-abc' }}
+        navigate={{ mockProp: 'history-abc' }}
         network="3"
         primaryCurrency="mockPrimaryCurrency"
         selectedAddress="mockSelectedAddress"
@@ -363,7 +363,7 @@ describe('Send Component', function () {
       assert.equal(wrapper.find(AddRecipient).length, 1)
     })
 
-    it('should pass the history prop to SendHeader and SendFooter', function () {
+    it('should pass the navigate prop to SendHeader and SendFooter', function () {
       wrapper.setProps({
         to: '0x80F061544cC398520615B5d3e7A3BedD70cd4510',
       })
@@ -373,7 +373,7 @@ describe('Send Component', function () {
       assert.deepEqual(
         wrapper.find(SendFooter).props(),
         {
-          history: { mockProp: 'history-abc' },
+          navigate: { mockProp: 'history-abc' },
         },
       )
     })

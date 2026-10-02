@@ -11,7 +11,7 @@ export default class ConfirmAddToken extends Component {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     clearPendingTokens: PropTypes.func,
     addTokens: PropTypes.func,
     mostRecentOverviewPage: PropTypes.string.isRequired,
@@ -19,10 +19,10 @@ export default class ConfirmAddToken extends Component {
   }
 
   componentDidMount () {
-    const { mostRecentOverviewPage, pendingTokens = {}, history } = this.props
+    const { mostRecentOverviewPage, pendingTokens = {}, navigate } = this.props
 
     if (Object.keys(pendingTokens).length === 0) {
-      history.push(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage)
     }
   }
 
@@ -33,7 +33,7 @@ export default class ConfirmAddToken extends Component {
   }
 
   render () {
-    const { history, addTokens, clearPendingTokens, mostRecentOverviewPage, pendingTokens } = this.props
+    const { navigate, addTokens, clearPendingTokens, mostRecentOverviewPage, pendingTokens } = this.props
 
     return (
       <div className="page-container">
@@ -92,7 +92,7 @@ export default class ConfirmAddToken extends Component {
               type="default"
               large
               className="page-container__footer-button"
-              onClick={() => history.push(ADD_TOKEN_ROUTE)}
+              onClick={() => navigate(ADD_TOKEN_ROUTE)}
             >
               { this.context.t('back') }
             </Button>
@@ -106,9 +106,9 @@ export default class ConfirmAddToken extends Component {
                     clearPendingTokens()
                     const firstTokenAddress = Object.values(pendingTokens)?.[0].address?.toLowerCase()
                     if (firstTokenAddress) {
-                      history.push(`${ASSET_ROUTE}/${firstTokenAddress}`)
+                      navigate(`${ASSET_ROUTE}/${firstTokenAddress}`)
                     } else {
-                      history.push(mostRecentOverviewPage)
+                      navigate(mostRecentOverviewPage)
                     }
                   })
               }}

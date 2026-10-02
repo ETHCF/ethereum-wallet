@@ -5,7 +5,7 @@ import { INITIALIZE_CREATE_PASSWORD_ROUTE, INITIALIZE_SELECT_ACTION_ROUTE } from
 
 export default class Welcome extends PureComponent {
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     welcomeScreenSeen: PropTypes.bool,
   }
 
@@ -14,15 +14,15 @@ export default class Welcome extends PureComponent {
   }
 
   componentDidMount () {
-    const { history, welcomeScreenSeen } = this.props
+    const { navigate, welcomeScreenSeen } = this.props
 
     if (welcomeScreenSeen) {
-      history.push(INITIALIZE_CREATE_PASSWORD_ROUTE)
+      navigate(INITIALIZE_CREATE_PASSWORD_ROUTE)
     }
   }
 
   handleContinue = () => {
-    this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE)
+    this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE)
   }
 
   render () {

@@ -6,31 +6,27 @@ import Lock from '..'
 
 describe('Lock', function () {
 
-  it('replaces history with default route when isUnlocked false', function () {
+  it('navigates to the default route when isUnlocked false', function () {
 
     const props = {
       isUnlocked: false,
-      history: {
-        replace: sinon.spy(),
-      },
+      navigate: sinon.spy(),
     }
 
     mountWithRouter(
       <Lock.WrappedComponent {...props} />,
     )
 
-    assert.equal(props.history.replace.getCall(0).args[0], '/')
+    assert.equal(props.navigate.getCall(0).args[0], '/')
 
   })
 
-  it('locks and pushes history with default route when isUnlocked true', function (done) {
+  it('locks and navigates to the default route when isUnlocked true', function (done) {
 
     const props = {
       isUnlocked: true,
       lockEcfWallet: sinon.stub(),
-      history: {
-        push: sinon.spy(),
-      },
+      navigate: sinon.spy(),
     }
 
     props.lockEcfWallet.resolves()
@@ -41,7 +37,7 @@ describe('Lock', function () {
 
     assert(props.lockEcfWallet.calledOnce)
     setImmediate(() => {
-      assert.equal(props.history.push.getCall(0).args[0], '/')
+      assert.equal(props.navigate.getCall(0).args[0], '/')
       done()
     })
   })

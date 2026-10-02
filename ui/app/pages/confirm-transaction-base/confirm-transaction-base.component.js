@@ -27,7 +27,7 @@ export default class ConfirmTransactionBase extends Component {
 
   static propTypes = {
     // react-router props
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     // Redux props
     balance: PropTypes.string,
     cancelTransaction: PropTypes.func,
@@ -110,7 +110,7 @@ export default class ConfirmTransactionBase extends Component {
     const {
       transactionStatus,
       showTransactionConfirmedModal,
-      history,
+      navigate,
       clearConfirmTransaction,
       mostRecentOverviewPage,
       nextNonce,
@@ -139,7 +139,7 @@ export default class ConfirmTransactionBase extends Component {
       showTransactionConfirmedModal({
         onSubmit: () => {
           clearConfirmTransaction()
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
         },
       })
     }
@@ -378,7 +378,7 @@ export default class ConfirmTransactionBase extends Component {
     const {
       cancelAllTransactions,
       clearConfirmTransaction,
-      history,
+      navigate,
       mostRecentOverviewPage,
       showRejectTransactionsConfirmationModal,
       unapprovedTxCount,
@@ -390,7 +390,7 @@ export default class ConfirmTransactionBase extends Component {
         this._removeBeforeUnload()
         await cancelAllTransactions()
         clearConfirmTransaction()
-        history.push(mostRecentOverviewPage)
+        navigate(mostRecentOverviewPage)
       },
     })
   }
@@ -400,7 +400,7 @@ export default class ConfirmTransactionBase extends Component {
       onCancel,
       txData,
       cancelTransaction,
-      history,
+      navigate,
       mostRecentOverviewPage,
       clearConfirmTransaction,
       updateCustomNonce,
@@ -414,7 +414,7 @@ export default class ConfirmTransactionBase extends Component {
       cancelTransaction(txData)
         .then(() => {
           clearConfirmTransaction()
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
         })
     }
   }
@@ -424,7 +424,7 @@ export default class ConfirmTransactionBase extends Component {
       sendTransaction,
       clearConfirmTransaction,
       txData,
-      history,
+      navigate,
       onSubmit,
       mostRecentOverviewPage,
       updateCustomNonce,
@@ -456,7 +456,7 @@ export default class ConfirmTransactionBase extends Component {
             this.setState({
               submitting: false,
             }, () => {
-              history.push(mostRecentOverviewPage)
+              navigate(mostRecentOverviewPage)
               updateCustomNonce('')
             })
           })
@@ -490,11 +490,11 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   handleNextTx (txId) {
-    const { history, clearConfirmTransaction } = this.props
+    const { navigate, clearConfirmTransaction } = this.props
 
     if (txId) {
       clearConfirmTransaction()
-      history.push(`${CONFIRM_TRANSACTION_ROUTE}/${txId}`)
+      navigate(`${CONFIRM_TRANSACTION_ROUTE}/${txId}`)
     }
   }
 

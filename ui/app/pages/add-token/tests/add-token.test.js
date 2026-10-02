@@ -18,9 +18,7 @@ describe('Add Token', function () {
   const store = configureMockStore()(state)
 
   const props = {
-    history: {
-      push: sinon.stub().callsFake(() => undefined),
-    },
+    navigate: sinon.stub().callsFake(() => undefined),
     setPendingTokens: sinon.spy(),
     clearPendingTokens: sinon.spy(),
     tokens: [],
@@ -40,7 +38,7 @@ describe('Add Token', function () {
     })
 
     afterEach(function () {
-      props.history.push.reset()
+      props.navigate.reset()
     })
 
     it('next button is disabled when no fields are populated', function () {
@@ -81,8 +79,8 @@ describe('Add Token', function () {
       nextButton.simulate('click')
 
       assert(props.setPendingTokens.calledOnce)
-      assert(props.history.push.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/confirm-add-token')
+      assert(props.navigate.calledOnce)
+      assert.equal(props.navigate.getCall(0).args[0], '/confirm-add-token')
     })
 
     it('cancels', function () {
@@ -90,7 +88,7 @@ describe('Add Token', function () {
       cancelButton.simulate('click')
 
       assert(props.clearPendingTokens.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/')
+      assert.equal(props.navigate.getCall(0).args[0], '/')
     })
   })
 })

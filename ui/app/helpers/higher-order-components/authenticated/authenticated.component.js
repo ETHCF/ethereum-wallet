@@ -1,22 +1,22 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect, Route } from 'react-router-dom'
+import React from 'react'
+import { Navigate } from 'react-router-dom'
 import { UNLOCK_ROUTE, INITIALIZE_ROUTE } from '../../constants/routes'
 
-export default function Authenticated (props) {
-  const { isUnlocked, completedOnboarding } = props
-
+// Renders its children once onboarding is complete and the wallet is unlocked.
+export default function Authenticated ({ isUnlocked, completedOnboarding, children }) {
   switch (true) {
     case isUnlocked && completedOnboarding:
-      return <Route { ...props } />
+      return children
     case !completedOnboarding:
-      return <Redirect to={{ pathname: INITIALIZE_ROUTE }} />
+      return <Navigate to={INITIALIZE_ROUTE} replace />
     default:
-      return <Redirect to={{ pathname: UNLOCK_ROUTE }} />
+      return <Navigate to={UNLOCK_ROUTE} replace />
   }
 }
 
 Authenticated.propTypes = {
   isUnlocked: PropTypes.bool,
   completedOnboarding: PropTypes.bool,
+  children: PropTypes.node,
 }

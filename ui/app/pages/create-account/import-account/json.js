@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 import * as actions from '../../../store/actions'
 import { getEcfWalletAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
@@ -20,7 +20,7 @@ class JsonImportSubview extends Component {
   inputRef = React.createRef()
 
   render () {
-    const { error, history, mostRecentOverviewPage } = this.props
+    const { error, navigate, mostRecentOverviewPage } = this.props
     const enabled = !this.state.isEmpty && this.state.fileContents !== ''
 
     return (
@@ -52,7 +52,7 @@ class JsonImportSubview extends Component {
             type="default"
             large
             className="new-account-create-form__button"
-            onClick={() => history.push(mostRecentOverviewPage)}
+            onClick={() => navigate(mostRecentOverviewPage)}
           >
             {this.context.t('cancel')}
           </Button>
@@ -91,7 +91,7 @@ class JsonImportSubview extends Component {
     const {
       firstAddress,
       displayWarning,
-      history,
+      navigate,
       importNewJsonAccount,
       mostRecentOverviewPage,
       setSelectedAddress,
@@ -109,7 +109,7 @@ class JsonImportSubview extends Component {
     importNewJsonAccount([fileContents, password])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
           displayWarning(null)
         } else {
           displayWarning('Error importing account.')
@@ -134,7 +134,7 @@ JsonImportSubview.propTypes = {
   displayWarning: PropTypes.func,
   firstAddress: PropTypes.string,
   importNewJsonAccount: PropTypes.func,
-  history: PropTypes.object,
+  navigate: PropTypes.func,
   setSelectedAddress: PropTypes.func,
   mostRecentOverviewPage: PropTypes.string.isRequired,
 }

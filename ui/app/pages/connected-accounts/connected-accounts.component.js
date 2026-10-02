@@ -25,7 +25,7 @@ export default class ConnectedAccounts extends PureComponent {
     selectedAddress: PropTypes.string.isRequired,
     removePermittedAccount: PropTypes.func.isRequired,
     setSelectedAddress: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
   }
 
   render () {
@@ -35,7 +35,7 @@ export default class ConnectedAccounts extends PureComponent {
       isActiveTabExtension,
       connectAccount,
       connectedAccounts,
-      history,
+      navigate,
       mostRecentOverviewPage,
       permissions,
       selectedAddress,
@@ -52,7 +52,7 @@ export default class ConnectedAccounts extends PureComponent {
       <Popover
         title={isActiveTabExtension ? t('currentExtension') : new URL(activeTabOrigin).host}
         subtitle={connectedAccounts.length ? connectedAccountsDescription : t('connectedAccountsEmptyDescription')}
-        onClose={() => history.push(mostRecentOverviewPage)}
+        onClose={() => navigate(mostRecentOverviewPage)}
         footerClassName="connected-accounts__footer"
         footer={<ConnectedAccountsPermissions permissions={permissions} />}
       >

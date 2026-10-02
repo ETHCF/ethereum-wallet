@@ -3,6 +3,7 @@ import {
   setSeedPhraseBackedUp,
   setCompletedOnboarding,
 } from '../../../../store/actions'
+import withRouter from '../../../../helpers/higher-order-components/with-router'
 import ConfirmSeedPhrase from './confirm-seed-phrase.component'
 
 const mapDispatchToProps = (dispatch) => {
@@ -12,4 +13,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ConfirmSeedPhrase)
+export default withRouter(connect(null, mapDispatchToProps)(ConfirmSeedPhrase))

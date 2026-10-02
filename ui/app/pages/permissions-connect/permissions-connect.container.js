@@ -21,11 +21,12 @@ import {
   CONNECT_ROUTE,
   CONNECT_CONFIRM_PERMISSIONS_ROUTE,
 } from '../../helpers/constants/routes'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import PermissionApproval from './permissions-connect.component'
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    match: { params: { id: permissionsRequestId } },
+    params: { id: permissionsRequestId },
     location: { pathname },
   } = ownProps
   const permissionsRequests = getPermissionsRequests(state)
@@ -111,12 +112,10 @@ const mapDispatchToProps = (dispatch) => {
 const PermissionApprovalContainer = connect(mapStateToProps, mapDispatchToProps)(PermissionApproval)
 
 PermissionApprovalContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
+  navigate: PropTypes.func.isRequired,
+  params: PropTypes.shape({
+    id: PropTypes.string,
   }).isRequired,
 }
 
-export default PermissionApprovalContainer
+export default withRouter(PermissionApprovalContainer)

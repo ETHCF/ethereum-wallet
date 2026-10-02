@@ -18,7 +18,7 @@ class AddToken extends Component {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     setPendingTokens: PropTypes.func,
     pendingTokens: PropTypes.object,
     clearPendingTokens: PropTypes.func,
@@ -114,7 +114,7 @@ class AddToken extends Component {
       return
     }
 
-    const { setPendingTokens, history } = this.props
+    const { setPendingTokens, navigate } = this.props
     const {
       customAddress: address,
       customSymbol: symbol,
@@ -129,7 +129,7 @@ class AddToken extends Component {
     }
 
     setPendingTokens({ customToken, selectedTokens })
-    history.push(CONFIRM_ADD_TOKEN_ROUTE)
+    navigate(CONFIRM_ADD_TOKEN_ROUTE)
   }
 
   async attemptToAutoFillTokenParams (address) {
@@ -308,7 +308,7 @@ class AddToken extends Component {
   }
 
   render () {
-    const { history, clearPendingTokens, mostRecentOverviewPage } = this.props
+    const { navigate, clearPendingTokens, mostRecentOverviewPage } = this.props
 
     return (
       <PageContainer
@@ -318,7 +318,7 @@ class AddToken extends Component {
         disabled={Boolean(this.hasError()) || !this.hasSelected()}
         onCancel={() => {
           clearPendingTokens()
-          history.push(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage)
         }}
       />
     )

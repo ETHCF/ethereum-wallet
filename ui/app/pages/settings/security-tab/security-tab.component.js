@@ -11,7 +11,7 @@ export default class SecurityTab extends PureComponent {
 
   static propTypes = {
     warning: PropTypes.string,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     showIncomingTransactions: PropTypes.bool.isRequired,
     setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ export default class SecurityTab extends PureComponent {
 
   renderSeedWords () {
     const { t } = this.context
-    const { history } = this.props
+    const { navigate } = this.props
 
     return (
       <div className="settings-page__content-row">
@@ -34,7 +34,7 @@ export default class SecurityTab extends PureComponent {
               large
               onClick={(event) => {
                 event.preventDefault()
-                history.push(REVEAL_SEED_ROUTE)
+                navigate(REVEAL_SEED_ROUTE)
               }}
             >
               { t('revealSeedWords') }

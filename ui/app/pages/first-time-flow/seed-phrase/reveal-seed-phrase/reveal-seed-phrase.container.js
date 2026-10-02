@@ -4,6 +4,7 @@ import {
   setSeedPhraseBackedUp,
 } from '../../../../store/actions'
 import { getOnboardingInitiator } from '../../../../selectors'
+import withRouter from '../../../../helpers/higher-order-components/with-router'
 import RevealSeedPhrase from './reveal-seed-phrase.component'
 
 const mapStateToProps = (state) => {
@@ -19,4 +20,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RevealSeedPhrase)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RevealSeedPhrase))

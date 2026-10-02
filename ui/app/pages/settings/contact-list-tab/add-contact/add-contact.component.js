@@ -16,7 +16,7 @@ export default class AddContact extends PureComponent {
 
   static propTypes = {
     addToAddressBook: PropTypes.func,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     scanQrCode: PropTypes.func,
     qrCodeData: PropTypes.object, /* eslint-disable-line react/no-unused-prop-types */
     qrCodeDetected: PropTypes.func,
@@ -79,7 +79,7 @@ export default class AddContact extends PureComponent {
 
   render () {
     const { t } = this.context
-    const { history, addToAddressBook } = this.props
+    const { navigate, addToAddressBook } = this.props
 
     const errorToRender = this.state.ensError || this.state.error
 
@@ -121,10 +121,10 @@ export default class AddContact extends PureComponent {
           disabled={Boolean(this.state.error)}
           onSubmit={async () => {
             await addToAddressBook(this.state.ensAddress || this.state.ethAddress, this.state.newName)
-            history.push(CONTACT_LIST_ROUTE)
+            navigate(CONTACT_LIST_ROUTE)
           }}
           onCancel={() => {
-            history.push(CONTACT_LIST_ROUTE)
+            navigate(CONTACT_LIST_ROUTE)
           }}
           submitText={this.context.t('save')}
           submitButtonType="confirm"

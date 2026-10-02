@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import classnames from 'classnames'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../../ui/button'
 import Identicon from '../../ui/identicon'
@@ -18,7 +18,7 @@ import WalletOverview from './wallet-overview'
 const EthOverview = ({ className }) => {
   const dispatch = useDispatch()
   const t = useContext(I18nContext)
-  const history = useHistory()
+  const navigate = useNavigate()
   const balanceIsCached = useSelector(isBalanceCached)
   const selectedAccount = useSelector(getSelectedAccount)
   const { balance } = selectedAccount
@@ -63,7 +63,7 @@ const EthOverview = ({ className }) => {
             rounded
             icon={<PaperAirplane color="#037DD6" size={20} />}
             onClick={() => {
-              history.push(SEND_ROUTE)
+              navigate(SEND_ROUTE)
             }}
             data-testid="eth-overview-send"
           >

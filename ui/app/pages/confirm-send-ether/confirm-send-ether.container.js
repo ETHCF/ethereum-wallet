@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import { updateSend } from '../../store/actions'
 import { clearConfirmTransaction } from '../../ducks/confirm-transaction/confirm-transaction.duck'
 import ConfirmSendEther from './confirm-send-ether.component'

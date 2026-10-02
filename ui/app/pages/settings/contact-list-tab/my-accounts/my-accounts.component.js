@@ -11,18 +11,18 @@ export default class ViewContact extends PureComponent {
 
   static propTypes = {
     myAccounts: PropTypes.array,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
   }
 
   renderMyAccounts () {
-    const { myAccounts, history } = this.props
+    const { myAccounts, navigate } = this.props
 
     return (
       <div>
         <ContactList
           searchForMyAccounts={() => myAccounts}
           selectRecipient={(address) => {
-            history.push(`${CONTACT_MY_ACCOUNTS_VIEW_ROUTE}/${address}`)
+            navigate(`${CONTACT_MY_ACCOUNTS_VIEW_ROUTE}/${address}`)
           }}
         />
       </div>

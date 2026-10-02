@@ -1,5 +1,5 @@
 /* global globalThis */
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
 import { ObservableStore } from '@metamask/obs-store'
 import log from 'loglevel'

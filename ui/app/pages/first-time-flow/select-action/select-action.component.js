@@ -9,7 +9,7 @@ import {
 
 export default class SelectAction extends PureComponent {
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     isInitialized: PropTypes.bool,
     setFirstTimeFlowType: PropTypes.func,
     nextRoute: PropTypes.string,
@@ -20,21 +20,21 @@ export default class SelectAction extends PureComponent {
   }
 
   componentDidMount () {
-    const { history, isInitialized, nextRoute } = this.props
+    const { navigate, isInitialized, nextRoute } = this.props
 
     if (isInitialized) {
-      history.push(nextRoute)
+      navigate(nextRoute)
     }
   }
 
   handleCreate = () => {
     this.props.setFirstTimeFlowType('create')
-    this.props.history.push(INITIALIZE_CREATE_PASSWORD_ROUTE)
+    this.props.navigate(INITIALIZE_CREATE_PASSWORD_ROUTE)
   }
 
   handleImport = () => {
     this.props.setFirstTimeFlowType('import')
-    this.props.history.push(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE)
+    this.props.navigate(INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE)
   }
 
   render () {

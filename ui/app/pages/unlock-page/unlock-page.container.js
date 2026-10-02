@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { DEFAULT_ROUTE, RESTORE_VAULT_ROUTE } from '../../helpers/constants/routes'
@@ -31,11 +31,11 @@ const mapDispatchToProps = (dispatch) => {
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   // eslint-disable-next-line no-shadow
   const { markPasswordForgotten, tryUnlockEcfWallet, ...restDispatchProps } = dispatchProps
-  const { history, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps
+  const { navigate, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps
 
   const onImport = async () => {
     await markPasswordForgotten()
-    history.push(RESTORE_VAULT_ROUTE)
+    navigate(RESTORE_VAULT_ROUTE)
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_POPUP) {
       global.platform.openExtensionInBrowser(RESTORE_VAULT_ROUTE)
@@ -44,7 +44,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const onSubmit = async (password) => {
     await tryUnlockEcfWallet(password)
-    history.push(DEFAULT_ROUTE)
+    navigate(DEFAULT_ROUTE)
   }
 
   return {
@@ -54,7 +54,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onImport,
     onRestore: onImport,
     onSubmit: ownPropsSubmit || onSubmit,
-    history,
+    navigate,
   }
 }
 

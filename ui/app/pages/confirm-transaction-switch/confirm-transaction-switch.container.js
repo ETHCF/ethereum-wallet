@@ -4,8 +4,8 @@ import ConfirmTransactionSwitch from './confirm-transaction-switch.component'
 
 const mapStateToProps = (state, ownProps) => {
   const { ecfWallet: { unapprovedTxs } } = state
-  const { match: { params = {}, url } } = ownProps
-  const urlId = url && url.match(/\d+/u) && url.match(/\d+/u)[0]
+  const { params = {}, location: { pathname } = {} } = ownProps
+  const urlId = pathname && pathname.match(/\d+/u) && pathname.match(/\d+/u)[0]
   const { id: paramsId } = params
   const transactionId = paramsId || urlId
 

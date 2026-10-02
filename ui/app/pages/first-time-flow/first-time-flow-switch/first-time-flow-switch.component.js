@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import {
   DEFAULT_ROUTE,
   LOCK_ROUTE,
@@ -23,21 +23,21 @@ export default class FirstTimeFlowSwitch extends PureComponent {
     } = this.props
 
     if (completedOnboarding) {
-      return <Redirect to={{ pathname: DEFAULT_ROUTE }} />
+      return <Navigate to={DEFAULT_ROUTE} replace />
     }
 
     if (isUnlocked) {
-      return <Redirect to={{ pathname: LOCK_ROUTE }} />
+      return <Navigate to={LOCK_ROUTE} replace />
     }
 
     if (!isInitialized) {
-      return <Redirect to={{ pathname: INITIALIZE_WELCOME_ROUTE }} />
+      return <Navigate to={INITIALIZE_WELCOME_ROUTE} replace />
     }
 
     if (!isUnlocked) {
-      return <Redirect to={{ pathname: INITIALIZE_UNLOCK_ROUTE }} />
+      return <Navigate to={INITIALIZE_UNLOCK_ROUTE} replace />
     }
 
-    return <Redirect to={{ pathname: INITIALIZE_WELCOME_ROUTE }} />
+    return <Navigate to={INITIALIZE_WELCOME_ROUTE} replace />
   }
 }

@@ -10,9 +10,7 @@ describe('Selection Action', function () {
   const props = {
     isInitialized: false,
     setFirstTimeFlowType: sinon.spy(),
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
   }
 
   beforeEach(function () {
@@ -23,7 +21,7 @@ describe('Selection Action', function () {
 
   afterEach(function () {
     props.setFirstTimeFlowType.resetHistory()
-    props.history.push.resetHistory()
+    props.navigate.resetHistory()
   })
 
   it('clicks import wallet to route to import FTF', function () {
@@ -32,7 +30,7 @@ describe('Selection Action', function () {
 
     assert(props.setFirstTimeFlowType.calledOnce)
     assert.equal(props.setFirstTimeFlowType.getCall(0).args[0], 'import')
-    assert(props.history.push.calledOnce)
+    assert(props.navigate.calledOnce)
   })
 
   it('clicks create wallet to route to create FTF ', function () {
@@ -41,6 +39,6 @@ describe('Selection Action', function () {
 
     assert(props.setFirstTimeFlowType.calledOnce)
     assert.equal(props.setFirstTimeFlowType.getCall(0).args[0], 'create')
-    assert(props.history.push.calledOnce)
+    assert(props.navigate.calledOnce)
   })
 })

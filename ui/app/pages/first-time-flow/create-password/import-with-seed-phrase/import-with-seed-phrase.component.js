@@ -15,7 +15,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     setSeedPhraseBackedUp: PropTypes.func,
     completeOnboarding: PropTypes.func,
@@ -100,14 +100,14 @@ export default class ImportWithSeedPhrase extends PureComponent {
     }
 
     const { password, seedPhrase } = this.state
-    const { history, onSubmit, setSeedPhraseBackedUp, completeOnboarding } = this.props
+    const { navigate, onSubmit, setSeedPhraseBackedUp, completeOnboarding } = this.props
 
     try {
       await onSubmit(password, this.parseSeedPhrase(seedPhrase))
 
       setSeedPhraseBackedUp(true).then(async () => {
         await completeOnboarding()
-        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+        navigate(INITIALIZE_END_OF_FLOW_ROUTE)
       })
     } catch (error) {
       this.setState({ seedPhraseError: error.message })
@@ -166,7 +166,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
           <a
             onClick={(e) => {
               e.preventDefault()
-              this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE)
+              this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE)
             }}
             href="#"
           >

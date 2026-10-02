@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import TransactionList from '../../../components/app/transaction-list'
 import { TokenOverview } from '../../../components/app/wallet-overview'
@@ -18,14 +18,14 @@ export default function TokenAsset ({ token }) {
   const network = useSelector(getCurrentNetworkId)
   const rpcPrefs = useSelector(getRpcPrefsForCurrentProvider)
   const selectedAccountName = useSelector((state) => getSelectedIdentity(state).name)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <>
       <AssetNavigation
         accountName={selectedAccountName}
         assetName={token.symbol}
-        onBack={() => history.push(DEFAULT_ROUTE)}
+        onBack={() => navigate(DEFAULT_ROUTE)}
         optionsButton={(
           <TokenOptions
             onRemove={() => dispatch(showModal({ name: 'HIDE_TOKEN_CONFIRMATION', token }))}

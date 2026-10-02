@@ -9,6 +9,7 @@ import SrpQuiz from '../../components/app/srp-quiz'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
 import Button from '../../components/ui/button'
+import withRouter from '../../helpers/higher-order-components/with-router'
 
 const QUIZ_SCREEN = 'QUIZ_SCREEN'
 const PASSWORD_PROMPT_SCREEN = 'PASSWORD_PROMPT_SCREEN'
@@ -128,7 +129,7 @@ class RevealSeedPage extends Component {
             type="default"
             large
             className="page-container__footer-button"
-            onClick={() => this.props.history.push(this.props.mostRecentOverviewPage)}
+            onClick={() => this.props.navigate(this.props.mostRecentOverviewPage)}
           >
             {this.context.t('cancel')}
           </Button>
@@ -154,7 +155,7 @@ class RevealSeedPage extends Component {
           type="default"
           large
           className="page-container__footer-button"
-          onClick={() => this.props.history.push(this.props.mostRecentOverviewPage)}
+          onClick={() => this.props.navigate(this.props.mostRecentOverviewPage)}
         >
           {t(this.state.screen === QUIZ_SCREEN ? 'cancel' : 'close')}
         </Button>
@@ -187,7 +188,7 @@ class RevealSeedPage extends Component {
 
 RevealSeedPage.propTypes = {
   requestRevealSeedWords: PropTypes.func,
-  history: PropTypes.object,
+  navigate: PropTypes.func,
   mostRecentOverviewPage: PropTypes.string.isRequired,
 }
 
@@ -207,4 +208,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RevealSeedPage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RevealSeedPage))

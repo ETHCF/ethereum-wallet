@@ -32,14 +32,9 @@ const CheckBox = ({ className, disabled, id, onClick, checked, title }) => {
       })}
       disabled={disabled}
       id={id}
-      onClick={
-        onClick
-          ? (event) => {
-            event.preventDefault()
-            onClick()
-          }
-          : null
-      }
+      // React resets a controlled checkbox to `checked` after the click, so the
+      // box only toggles when the parent updates it.
+      onClick={onClick ? () => onClick() : null}
       readOnly
       ref={ref}
       title={title}

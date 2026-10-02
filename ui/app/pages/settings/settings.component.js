@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, matchPath } from 'react-router-dom'
+import { Route, Routes, matchPath } from 'react-router-dom'
 import classnames from 'classnames'
 import TabBar from '../../components/app/tab-bar'
 import {
@@ -19,6 +19,7 @@ import {
   CONTACT_MY_ACCOUNTS_VIEW_ROUTE,
   CONTACT_MY_ACCOUNTS_EDIT_ROUTE,
 } from '../../helpers/constants/routes'
+import { toRelativeRoutePath } from '../../helpers/utils/routes.util'
 import SettingsTab from './settings-tab'
 import AlertsTab from './alerts-tab'
 import NetworksTab from './networks-tab'
@@ -32,7 +33,7 @@ class SettingsPage extends PureComponent {
     addressName: PropTypes.string,
     backRoute: PropTypes.string,
     currentPath: PropTypes.string,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     isAddressEntryPage: PropTypes.bool,
     isPopupView: PropTypes.bool,
     pathnameI18nKey: PropTypes.string,
@@ -47,7 +48,7 @@ class SettingsPage extends PureComponent {
   }
 
   render () {
-    const { history, backRoute, currentPath, mostRecentOverviewPage } = this.props
+    const { navigate, backRoute, currentPath, mostRecentOverviewPage } = this.props
 
     return (
       <div
@@ -60,14 +61,14 @@ class SettingsPage extends PureComponent {
             currentPath !== SETTINGS_ROUTE && currentPath !== NETWORKS_ROUTE && (
               <div
                 className="settings-page__back-button"
-                onClick={() => history.push(backRoute)}
+                onClick={() => navigate(backRoute)}
               />
             )
           }
           { this.renderTitle() }
           <div
             className="settings-page__close-button"
-            onClick={() => history.push(mostRecentOverviewPage)}
+            onClick={() => navigate(mostRecentOverviewPage)}
           />
         </div>
         <div className="settings-page__content">
@@ -114,7 +115,7 @@ class SettingsPage extends PureComponent {
       addressName,
       initialBreadCrumbRoute,
       breadCrumbTextKey,
-      history,
+      navigate,
       initialBreadCrumbKey,
     } = this.props
 
@@ -132,7 +133,7 @@ class SettingsPage extends PureComponent {
       <div className="settings-page__subheader">
         <div
           className={classnames({ 'settings-page__subheader--link': initialBreadCrumbRoute })}
-          onClick={() => initialBreadCrumbRoute && history.push(initialBreadCrumbRoute)}
+          onClick={() => initialBreadCrumbRoute && navigate(initialBreadCrumbRoute)}
         >
           {subheaderText}
         </div>
@@ -151,7 +152,7 @@ class SettingsPage extends PureComponent {
   }
 
   renderTabs () {
-    const { history, currentPath } = this.props
+    const { navigate, currentPath } = this.props
     const { t } = this.context
 
     return (
@@ -169,85 +170,31 @@ class SettingsPage extends PureComponent {
           if (key === GENERAL_ROUTE && currentPath === SETTINGS_ROUTE) {
             return true
           }
-          return matchPath(currentPath, { path: key, exact: true })
+          return matchPath(key, currentPath)
         }}
-        onSelect={(key) => history.push(key)}
+        onSelect={(key) => navigate(key)}
       />
     )
   }
 
   renderContent () {
     return (
-      <Switch>
-        <Route
-          exact
-          path={GENERAL_ROUTE}
-          component={SettingsTab}
-        />
-        <Route
-          exact
-          path={ABOUT_US_ROUTE}
-          component={InfoTab}
-        />
-        <Route
-          exact
-          path={ADVANCED_ROUTE}
-          component={AdvancedTab}
-        />
-        <Route
-          exact
-          path={ALERTS_ROUTE}
-          component={AlertsTab}
-        />
-        <Route
-          exact
-          path={NETWORKS_ROUTE}
-          component={NetworksTab}
-        />
-        <Route
-          exact
-          path={SECURITY_ROUTE}
-          component={SecurityTab}
-        />
-        <Route
-          exact
-          path={CONTACT_LIST_ROUTE}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={CONTACT_ADD_ROUTE}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={CONTACT_MY_ACCOUNTS_ROUTE}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={`${CONTACT_EDIT_ROUTE}/:id`}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={`${CONTACT_VIEW_ROUTE}/:id`}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={`${CONTACT_MY_ACCOUNTS_VIEW_ROUTE}/:id`}
-          component={ContactListTab}
-        />
-        <Route
-          exact
-          path={`${CONTACT_MY_ACCOUNTS_EDIT_ROUTE}/:id`}
-          component={ContactListTab}
-        />
-        <Route
-          component={SettingsTab}
-        />
-      </Switch>
+      <Routes>
+        <Route path={toRelativeRoutePath(GENERAL_ROUTE, SETTINGS_ROUTE)} element={<SettingsTab />} />
+        <Route path={toRelativeRoutePath(ABOUT_US_ROUTE, SETTINGS_ROUTE)} element={<InfoTab />} />
+        <Route path={toRelativeRoutePath(ADVANCED_ROUTE, SETTINGS_ROUTE)} element={<AdvancedTab />} />
+        <Route path={toRelativeRoutePath(ALERTS_ROUTE, SETTINGS_ROUTE)} element={<AlertsTab />} />
+        <Route path={toRelativeRoutePath(NETWORKS_ROUTE, SETTINGS_ROUTE)} element={<NetworksTab />} />
+        <Route path={toRelativeRoutePath(SECURITY_ROUTE, SETTINGS_ROUTE)} element={<SecurityTab />} />
+        <Route path={toRelativeRoutePath(CONTACT_LIST_ROUTE, SETTINGS_ROUTE)} element={<ContactListTab />} />
+        <Route path={toRelativeRoutePath(CONTACT_ADD_ROUTE, SETTINGS_ROUTE)} element={<ContactListTab />} />
+        <Route path={toRelativeRoutePath(CONTACT_MY_ACCOUNTS_ROUTE, SETTINGS_ROUTE)} element={<ContactListTab />} />
+        <Route path={`${toRelativeRoutePath(CONTACT_EDIT_ROUTE, SETTINGS_ROUTE)}/:id`} element={<ContactListTab />} />
+        <Route path={`${toRelativeRoutePath(CONTACT_VIEW_ROUTE, SETTINGS_ROUTE)}/:id`} element={<ContactListTab />} />
+        <Route path={`${toRelativeRoutePath(CONTACT_MY_ACCOUNTS_VIEW_ROUTE, SETTINGS_ROUTE)}/:id`} element={<ContactListTab />} />
+        <Route path={`${toRelativeRoutePath(CONTACT_MY_ACCOUNTS_EDIT_ROUTE, SETTINGS_ROUTE)}/:id`} element={<ContactListTab />} />
+        <Route path="*" element={<SettingsTab />} />
+      </Routes>
     )
   }
 }

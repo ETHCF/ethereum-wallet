@@ -10,7 +10,7 @@ export default class UnlockPage extends Component {
   }
 
   static propTypes = {
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     isUnlocked: PropTypes.bool,
     onImport: PropTypes.func,
     onRestore: PropTypes.func,
@@ -26,10 +26,10 @@ export default class UnlockPage extends Component {
   submitting = false
 
   UNSAFE_componentWillMount () {
-    const { isUnlocked, history } = this.props
+    const { isUnlocked, navigate } = this.props
 
     if (isUnlocked) {
-      history.push(DEFAULT_ROUTE)
+      navigate(DEFAULT_ROUTE)
     }
   }
 

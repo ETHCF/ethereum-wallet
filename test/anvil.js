@@ -7,9 +7,14 @@ const { privateToAddress, toBuffer, bufferToHex } = require('ethereumjs-util')
 const ANVIL_BINARY = path.resolve(__dirname, '../node_modules/.bin/anvil')
 
 const defaultOptions = {
+  // Ganache's default: 100 ETH in each of the mnemonic's accounts.
+  balance: 100,
   blockTime: 2,
-  // Anvil reports the chain ID as net_version too; 5777 is the localhost network.
-  chainId: 5777,
+  // Ganache's chain ID. Anvil also reports it as the network ID (net_version).
+  chainId: 1337,
+  // Ganache's hardfork, from before EIP-1559 fees; tests of typed transactions
+  // ask for a later one.
+  hardfork: 'muirglacier',
   mnemonic: 'phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent',
   port: 8545,
 }

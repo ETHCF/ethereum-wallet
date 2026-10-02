@@ -1,6 +1,6 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import { getAddressBookEntryName } from '../../selectors'
 import { isValidAddress } from '../../helpers/utils/util'
 import { ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'

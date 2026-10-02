@@ -16,7 +16,7 @@ export default class NetworksTab extends PureComponent {
 
   static propTypes = {
     editRpc: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     networkIsSelected: PropTypes.bool,
     networksTabIsInAddMode: PropTypes.bool,
@@ -57,7 +57,7 @@ export default class NetworksTab extends PureComponent {
               setNetworksTabAddMode(false)
               setSelectedSettingsRpcUrl(null)
             }
-            : () => this.props.history.push(SETTINGS_ROUTE)
+            : () => this.props.navigate(SETTINGS_ROUTE)
           }
         />
         <span className="settings-page__sub-header-text">{ this.context.t('networks') }</span>

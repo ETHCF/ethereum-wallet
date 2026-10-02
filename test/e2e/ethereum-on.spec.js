@@ -131,7 +131,7 @@ describe('ecf-wallet', function () {
     it('has the local network id within the dapp', async function () {
       const networkDiv = await driver.findElement(By.css('#network'))
       await driver.delay(regularDelayMs)
-      assert.equal(await networkDiv.getText(), '5777')
+      assert.equal(await networkDiv.getText(), '1337')
     })
 
     it('changes the network', async function () {

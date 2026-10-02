@@ -8,6 +8,7 @@ import {
 import { isExtensionUrl } from '../../helpers/utils/util'
 import { addPermittedAccount, removePermittedAccount, setSelectedAddress } from '../../store/actions'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import ConnectedAccounts from './connected-accounts.component'
 
 const mapStateToProps = (state) => {
@@ -49,4 +50,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedAccounts)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedAccounts))

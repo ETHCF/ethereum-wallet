@@ -5,6 +5,7 @@ import * as actions from '../../../store/actions'
 import { getEcfWalletAccounts } from '../../../selectors'
 import { formatBalance } from '../../../helpers/utils/util'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 import SelectHardware from './select-hardware'
 import AccountList from './account-list'
 
@@ -150,7 +151,7 @@ class ConnectHardwareForm extends Component {
   }
 
   onUnlockAccount = (device) => {
-    const { history, mostRecentOverviewPage, unlockHardwareWalletAccount } = this.props
+    const { navigate, mostRecentOverviewPage, unlockHardwareWalletAccount } = this.props
 
     if (this.state.selectedAccount === null) {
       this.setState({ error: this.context.t('accountSelectionRequired') })
@@ -158,15 +159,15 @@ class ConnectHardwareForm extends Component {
 
     unlockHardwareWalletAccount(this.state.selectedAccount, device)
       .then((_) => {
-        history.push(mostRecentOverviewPage)
+        navigate(mostRecentOverviewPage)
       }).catch((e) => {
         this.setState({ error: e.message })
       })
   }
 
   onCancel = () => {
-    const { history, mostRecentOverviewPage } = this.props
-    history.push(mostRecentOverviewPage)
+    const { navigate, mostRecentOverviewPage } = this.props
+    navigate(mostRecentOverviewPage)
   }
 
   renderError () {
@@ -228,7 +229,7 @@ ConnectHardwareForm.propTypes = {
   hideAlert: PropTypes.func,
   unlockHardwareWalletAccount: PropTypes.func,
   setHardwareWalletDefaultHdPath: PropTypes.func,
-  history: PropTypes.object,
+  navigate: PropTypes.func,
   network: PropTypes.string,
   accounts: PropTypes.object,
   address: PropTypes.string,
@@ -280,6 +281,6 @@ ConnectHardwareForm.contextTypes = {
   t: PropTypes.func,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
   ConnectHardwareForm,
-)
+))

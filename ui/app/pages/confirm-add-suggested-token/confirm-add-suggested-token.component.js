@@ -12,7 +12,7 @@ export default class ConfirmAddSuggestedToken extends Component {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     addToken: PropTypes.func,
     mostRecentOverviewPage: PropTypes.string.isRequired,
     pendingTokens: PropTypes.object,
@@ -29,7 +29,7 @@ export default class ConfirmAddSuggestedToken extends Component {
   }
 
   _checkPendingTokens () {
-    const { mostRecentOverviewPage, pendingTokens = {}, history } = this.props
+    const { mostRecentOverviewPage, pendingTokens = {}, navigate } = this.props
 
     if (Object.keys(pendingTokens).length > 0) {
       return
@@ -38,7 +38,7 @@ export default class ConfirmAddSuggestedToken extends Component {
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
       global.platform.closeCurrentWindow()
     } else {
-      history.push(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage)
     }
   }
 
@@ -49,7 +49,7 @@ export default class ConfirmAddSuggestedToken extends Component {
   }
 
   render () {
-    const { addToken, pendingTokens, tokens, removeSuggestedTokens, history, mostRecentOverviewPage } = this.props
+    const { addToken, pendingTokens, tokens, removeSuggestedTokens, navigate, mostRecentOverviewPage } = this.props
     const pendingTokenKey = Object.keys(pendingTokens)[0]
     const pendingToken = pendingTokens[pendingTokenKey]
     const hasTokenDuplicates = this.checkTokenDuplicates(pendingTokens, tokens)
@@ -129,7 +129,7 @@ export default class ConfirmAddSuggestedToken extends Component {
               className="page-container__footer-button"
               onClick={() => {
                 removeSuggestedTokens()
-                  .then(() => history.push(mostRecentOverviewPage))
+                  .then(() => navigate(mostRecentOverviewPage))
               }}
             >
               { this.context.t('cancel') }
@@ -142,7 +142,7 @@ export default class ConfirmAddSuggestedToken extends Component {
               onClick={() => {
                 addToken(pendingToken)
                   .then(() => removeSuggestedTokens())
-                  .then(() => history.push(mostRecentOverviewPage))
+                  .then(() => navigate(mostRecentOverviewPage))
               }}
             >
               { this.context.t('addToken') }

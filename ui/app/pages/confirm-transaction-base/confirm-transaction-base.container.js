@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
 import contractMap from '@metamask/contract-metadata'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import { gasPriceForTransaction, editedGasParams } from '../../../../app/scripts/lib/transaction-fees'
 import {
   clearConfirmTransaction,
@@ -52,7 +52,7 @@ const customNonceMerge = (txData) => (customNonceValue ? ({
 }) : txData)
 
 const mapStateToProps = (state, ownProps) => {
-  const { toAddress: propsToAddress, customTxParamsData, match: { params = {} } } = ownProps
+  const { toAddress: propsToAddress, customTxParamsData, params = {} } = ownProps
   const { id: paramsTransactionId } = params
   const isMainnet = getIsMainnet(state)
   const { confirmTransaction, ecfWallet } = state

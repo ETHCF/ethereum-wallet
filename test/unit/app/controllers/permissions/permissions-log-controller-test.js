@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import { ObservableStore } from '@metamask/obs-store'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import { useFakeTimers } from 'sinon'
 
 import PermissionsLogController from '../../../../../app/scripts/controllers/permissions/permissionsLog'

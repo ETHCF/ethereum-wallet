@@ -29,7 +29,7 @@ export default class ConfirmDecryptMessage extends Component {
     decryptMessage: PropTypes.func.isRequired,
     decryptMessageInline: PropTypes.func.isRequired,
     nativeCurrency: PropTypes.string,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     mostRecentOverviewPage: PropTypes.string.isRequired,
     requesterAddress: PropTypes.string,
     txData: PropTypes.object,
@@ -273,7 +273,7 @@ export default class ConfirmDecryptMessage extends Component {
       cancelDecryptMessage,
       clearConfirmTransaction,
       decryptMessage,
-      history,
+      navigate,
       mostRecentOverviewPage,
       txData,
     } = this.props
@@ -289,7 +289,7 @@ export default class ConfirmDecryptMessage extends Component {
             this._removeBeforeUnload()
             await cancelDecryptMessage(txData, event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { t('cancel') }
@@ -302,7 +302,7 @@ export default class ConfirmDecryptMessage extends Component {
             this._removeBeforeUnload()
             await decryptMessage(txData, event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { t('decrypt') }

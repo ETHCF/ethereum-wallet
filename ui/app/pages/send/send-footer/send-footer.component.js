@@ -15,7 +15,7 @@ export default class SendFooter extends Component {
     gasLimit: PropTypes.string,
     gasPrice: PropTypes.string,
     gasTotal: PropTypes.string,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     inError: PropTypes.bool,
     sendToken: PropTypes.object,
     sign: PropTypes.func,
@@ -33,9 +33,9 @@ export default class SendFooter extends Component {
   }
 
   onCancel () {
-    const { clearSend, history, mostRecentOverviewPage } = this.props
+    const { clearSend, navigate, mostRecentOverviewPage } = this.props
     clearSend()
-    history.push(mostRecentOverviewPage)
+    navigate(mostRecentOverviewPage)
   }
 
   async onSubmit (event) {
@@ -55,7 +55,7 @@ export default class SendFooter extends Component {
       // updateTx,
       update,
       toAccounts,
-      history,
+      navigate,
     } = this.props
 
     // Should not be needed because submit should be disabled if there are errors.
@@ -83,7 +83,7 @@ export default class SendFooter extends Component {
 
     Promise.resolve(promise)
       .then(() => {
-        history.push(CONFIRM_TRANSACTION_ROUTE)
+        navigate(CONFIRM_TRANSACTION_ROUTE)
       })
   }
 

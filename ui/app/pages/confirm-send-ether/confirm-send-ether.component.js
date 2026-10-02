@@ -10,14 +10,14 @@ export default class ConfirmSendEther extends Component {
 
   static propTypes = {
     editTransaction: PropTypes.func,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     txParams: PropTypes.object,
   }
 
   handleEdit ({ txData }) {
-    const { editTransaction, history } = this.props
+    const { editTransaction, navigate } = this.props
     editTransaction(txData)
-    history.push(SEND_ROUTE)
+    navigate(SEND_ROUTE)
   }
 
   shouldHideData () {

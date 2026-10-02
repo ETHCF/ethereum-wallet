@@ -1,8 +1,9 @@
 import nock from 'nock'
 import Enzyme from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Adapter from '@cfaester/enzyme-adapter-react-18'
 import log from 'loglevel'
 import { JSDOM } from 'jsdom'
+import 'react-redux'
 import Anvil from './anvil'
 import { getTestSeed } from './stub/provider'
 
@@ -31,6 +32,13 @@ process.on('exit', () => {
 })
 
 Enzyme.configure({ adapter: new Adapter() })
+
+// React Redux exports read-only getters, which sinon cannot stub. Tests stub
+// its hooks (`sinon.stub(reactRedux, 'useSelector')`), so give every module a
+// plain, writable copy of the exports instead.
+const reactReduxModule = require.cache[require.resolve('react-redux')]
+
+reactReduxModule.exports = { ...reactReduxModule.exports }
 
 // Local test chain on port 8545, mining each transaction immediately. Mocha
 // loads every test file before running any, so it is listening by then; it

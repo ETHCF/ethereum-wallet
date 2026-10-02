@@ -1,4 +1,4 @@
-import jsonDiffer from 'fast-json-patch'
+import { applyPatch, compare } from 'fast-json-patch'
 import { cloneDeep } from 'lodash'
 
 /**
@@ -14,7 +14,7 @@ import { cloneDeep } from 'lodash'
   @returns {array}
 */
 export function generateHistoryEntry (previousState, newState, note) {
-  const entry = jsonDiffer.compare(previousState, newState)
+  const entry = compare(previousState, newState)
   // Add a note to the first op, since it breaks if we append it to the entry
   if (entry[0]) {
     if (note) {
@@ -32,7 +32,7 @@ export function generateHistoryEntry (previousState, newState, note) {
 */
 export function replayHistory (_shortHistory) {
   const shortHistory = cloneDeep(_shortHistory)
-  return shortHistory.reduce((val, entry) => jsonDiffer.applyPatch(val, entry).newDocument)
+  return shortHistory.reduce((val, entry) => applyPatch(val, entry).newDocument)
 }
 
 /**

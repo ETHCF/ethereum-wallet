@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Loading from '../../components/ui/loading-screen'
 import {
   CONFIRM_TRANSACTION_ROUTE,
@@ -36,37 +36,37 @@ export default class ConfirmTransactionSwitch extends Component {
 
     if (transactionCategory === DEPLOY_CONTRACT_ACTION_KEY) {
       const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_DEPLOY_CONTRACT_PATH}`
-      return <Redirect to={{ pathname }} />
+      return <Navigate to={pathname} replace />
     }
 
     if (transactionCategory === SEND_ETHER_ACTION_KEY) {
       const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_SEND_ETHER_PATH}`
-      return <Redirect to={{ pathname }} />
+      return <Navigate to={pathname} replace />
     }
 
     if (data) {
       switch (transactionCategory) {
         case TOKEN_METHOD_TRANSFER: {
           const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_SEND_TOKEN_PATH}`
-          return <Redirect to={{ pathname }} />
+          return <Navigate to={pathname} replace />
         }
         case TOKEN_METHOD_APPROVE: {
           const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_APPROVE_PATH}`
-          return <Redirect to={{ pathname }} />
+          return <Navigate to={pathname} replace />
         }
         case TOKEN_METHOD_TRANSFER_FROM: {
           const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_TRANSFER_FROM_PATH}`
-          return <Redirect to={{ pathname }} />
+          return <Navigate to={pathname} replace />
         }
         default: {
           const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_TOKEN_METHOD_PATH}`
-          return <Redirect to={{ pathname }} />
+          return <Navigate to={pathname} replace />
         }
       }
     }
 
     const pathname = `${CONFIRM_TRANSACTION_ROUTE}/${id}${CONFIRM_SEND_ETHER_PATH}`
-    return <Redirect to={{ pathname }} />
+    return <Navigate to={pathname} replace />
   }
 
   render () {
@@ -80,7 +80,7 @@ export default class ConfirmTransactionSwitch extends Component {
       } else if (txData.type === MESSAGE_TYPE.ETH_GET_ENCRYPTION_PUBLIC_KEY) {
         pathname = `${CONFIRM_TRANSACTION_ROUTE}/${txData.id}${ENCRYPTION_PUBLIC_KEY_REQUEST_PATH}`
       }
-      return <Redirect to={{ pathname }} />
+      return <Navigate to={pathname} replace />
     }
 
     return <Loading />

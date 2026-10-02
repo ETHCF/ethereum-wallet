@@ -34,7 +34,7 @@ describe('ConfirmSeedPhrase Component', function () {
     const root = shallowRender(
       {
         seedPhrase: '鼠 牛 虎 兔 龍 蛇 馬 羊 猴 雞 狗 豬',
-        history: { push: pushSpy },
+        navigate: pushSpy,
       },
       {
       },
@@ -70,7 +70,7 @@ describe('ConfirmSeedPhrase Component', function () {
     const root = shallowRender(
       {
         seedPhrase: '鼠 牛 虎 兔 龍 蛇 馬 羊 猴 雞 狗 豬',
-        history: { push: pushSpy },
+        navigate: pushSpy,
       },
       {
       },
@@ -101,7 +101,7 @@ describe('ConfirmSeedPhrase Component', function () {
     const root = shallowRender(
       {
         seedPhrase: '鼠 牛 虎 兔 龍 蛇 馬 羊 猴 雞 狗 豬',
-        history: { push: pushSpy },
+        navigate: pushSpy,
       },
       {
       },
@@ -131,7 +131,7 @@ describe('ConfirmSeedPhrase Component', function () {
     const root = shallowRender(
       {
         seedPhrase: '鼠 牛 虎 兔 龍 蛇 馬 羊 猴 雞 狗 豬',
-        history: { push: pushSpy },
+        navigate: pushSpy,
         setSeedPhraseBackedUp: () => Promise.resolve(),
         completeOnboarding: sinon.spy(),
       },

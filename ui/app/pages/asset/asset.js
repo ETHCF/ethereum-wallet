@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 import { getNativeCurrency } from '../../selectors'
@@ -21,7 +21,7 @@ const Asset = () => {
   } else if (asset === nativeCurrency) {
     content = <NativeAsset nativeCurrency={nativeCurrency} />
   } else {
-    content = <Redirect to={{ pathname: DEFAULT_ROUTE }} />
+    content = <Navigate to={DEFAULT_ROUTE} replace />
   }
   return (
     <div className="main-container asset__container">

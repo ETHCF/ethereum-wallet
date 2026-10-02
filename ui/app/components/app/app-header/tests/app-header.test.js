@@ -12,9 +12,7 @@ describe('App Header', function () {
     hideNetworkDropdown: sinon.spy(),
     showNetworkDropdown: sinon.spy(),
     toggleAccountMenu: sinon.spy(),
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
     network: 'test',
     provider: {},
     selectedAddress: '0xAddress',
@@ -43,8 +41,8 @@ describe('App Header', function () {
     it('routes to default route when logo is clicked', function () {
       const appLogo = wrapper.find(MetaFoxLogo)
       appLogo.simulate('click')
-      assert(props.history.push.calledOnce)
-      assert.equal(props.history.push.getCall(0).args[0], '/')
+      assert(props.navigate.calledOnce)
+      assert.equal(props.navigate.getCall(0).args[0], '/')
     })
   })
 

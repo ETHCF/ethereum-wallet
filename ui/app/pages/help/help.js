@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Redirect, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { useI18nContext } from '../../hooks/useI18nContext'
 import { HELP_TOPICS } from '../../helpers/constants/help'
 import { HELP_ROUTE } from '../../helpers/constants/routes'
@@ -13,7 +13,7 @@ const Help = () => {
   const content = HELP_TOPICS[topic]
 
   if (!content) {
-    return <Redirect to={`${HELP_ROUTE}/${DEFAULT_TOPIC}`} />
+    return <Navigate to={`${HELP_ROUTE}/${DEFAULT_TOPIC}`} replace />
   }
   return (
     <div className="main-container help">

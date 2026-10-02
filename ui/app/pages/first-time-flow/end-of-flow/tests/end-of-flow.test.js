@@ -9,9 +9,7 @@ describe('End of Flow Screen', function () {
   let wrapper
 
   const props = {
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
   }
 
   beforeEach(function () {
@@ -29,7 +27,7 @@ describe('End of Flow Screen', function () {
     endOfFlowButton.simulate('click')
 
     setImmediate(() => {
-      assert(props.history.push.calledOnceWithExactly(DEFAULT_ROUTE))
+      assert(props.navigate.calledOnceWithExactly(DEFAULT_ROUTE))
       done()
     })
   })

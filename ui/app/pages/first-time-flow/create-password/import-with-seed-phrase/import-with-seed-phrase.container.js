@@ -3,6 +3,7 @@ import {
   setSeedPhraseBackedUp,
   setCompletedOnboarding,
 } from '../../../../store/actions'
+import withRouter from '../../../../helpers/higher-order-components/with-router'
 import ImportWithSeedPhrase from './import-with-seed-phrase.component'
 
 const mapDispatchToProps = (dispatch) => {
@@ -12,4 +13,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ImportWithSeedPhrase)
+export default withRouter(connect(null, mapDispatchToProps)(ImportWithSeedPhrase))

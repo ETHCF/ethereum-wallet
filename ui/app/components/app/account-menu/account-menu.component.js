@@ -64,7 +64,7 @@ export default class AccountMenu extends Component {
   static propTypes = {
     shouldShowAccountsSearch: PropTypes.bool,
     accounts: PropTypes.array,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     isAccountMenuOpen: PropTypes.bool,
     keyrings: PropTypes.array,
     lockEcfWallet: PropTypes.func,
@@ -299,7 +299,7 @@ export default class AccountMenu extends Component {
       isAccountMenuOpen,
       toggleAccountMenu,
       lockEcfWallet,
-      history,
+      navigate,
     } = this.props
 
     if (!isAccountMenuOpen) {
@@ -317,7 +317,7 @@ export default class AccountMenu extends Component {
             className="account-menu__lock-button"
             onClick={() => {
               lockEcfWallet()
-              history.push(DEFAULT_ROUTE)
+              navigate(DEFAULT_ROUTE)
             }}
           >
             { t('lock') }
@@ -341,7 +341,7 @@ export default class AccountMenu extends Component {
         <AccountMenuItem
           onClick={() => {
             toggleAccountMenu()
-            history.push(NEW_ACCOUNT_ROUTE)
+            navigate(NEW_ACCOUNT_ROUTE)
           }}
           icon={(
             <img
@@ -354,7 +354,7 @@ export default class AccountMenu extends Component {
         <AccountMenuItem
           onClick={() => {
             toggleAccountMenu()
-            history.push(IMPORT_ACCOUNT_ROUTE)
+            navigate(IMPORT_ACCOUNT_ROUTE)
           }}
           icon={(
             <img
@@ -370,7 +370,7 @@ export default class AccountMenu extends Component {
             if (getEnvironmentType() === ENVIRONMENT_TYPE_POPUP) {
               global.platform.openExtensionInBrowser(CONNECT_HARDWARE_ROUTE)
             } else {
-              history.push(CONNECT_HARDWARE_ROUTE)
+              navigate(CONNECT_HARDWARE_ROUTE)
             }
           }}
           icon={(
@@ -385,7 +385,7 @@ export default class AccountMenu extends Component {
         <AccountMenuItem
           onClick={() => {
             toggleAccountMenu()
-            history.push(ABOUT_US_ROUTE)
+            navigate(ABOUT_US_ROUTE)
           }}
           icon={
             <img src="images/mm-info-icon.svg" />
@@ -395,7 +395,7 @@ export default class AccountMenu extends Component {
         <AccountMenuItem
           onClick={() => {
             toggleAccountMenu()
-            history.push(SETTINGS_ROUTE)
+            navigate(SETTINGS_ROUTE)
           }}
           icon={(
             <img

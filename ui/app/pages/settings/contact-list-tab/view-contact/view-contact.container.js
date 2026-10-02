@@ -1,6 +1,6 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../../../helpers/higher-order-components/with-router'
 import { getAddressBookEntry } from '../../../../selectors'
 import { checksumAddress } from '../../../../helpers/utils/util'
 import {
@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   const { pathname } = location
   const pathNameTail = pathname.match(/[^/]+$/u)[0]
   const pathNameTailIsAddress = pathNameTail.includes('0x')
-  const address = pathNameTailIsAddress ? pathNameTail.toLowerCase() : ownProps.match.params.id
+  const address = pathNameTailIsAddress ? pathNameTail.toLowerCase() : ownProps.params.id
 
   const contact = getAddressBookEntry(state, address) || state.ecfWallet.identities[address]
   const { memo, name } = contact || {}

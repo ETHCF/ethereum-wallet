@@ -11,7 +11,11 @@ class ChromeDriver {
     const args = [
       '--enable-unsafe-extension-debugging',
     ]
-    if (responsive) {
+    if (responsive && process.env.SELENIUM_HEADLESS === 'true') {
+      // Headless Chrome shows no DevTools panel to narrow the page, so use a
+      // phone-sized window instead.
+      args.push('--window-size=400,900')
+    } else if (responsive) {
       args.push('--auto-open-devtools-for-tabs')
     } else {
       // Without an explicit size the window is whatever Chrome defaults to,

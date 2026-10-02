@@ -8,9 +8,7 @@ describe('Unlock Page', function () {
   let wrapper
 
   const props = {
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
     isUnlocked: false,
     onImport: sinon.spy(),
     onRestore: sinon.spy(),

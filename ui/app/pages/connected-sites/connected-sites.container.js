@@ -16,6 +16,7 @@ import {
 } from '../../selectors'
 import { CONNECT_ROUTE } from '../../helpers/constants/routes'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import ConnectedSites from './connected-sites.component'
 
 const mapStateToProps = (state) => {
@@ -79,9 +80,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     // eslint-disable-next-line no-shadow
     requestAccountsPermissionWithId,
   } = dispatchProps
-  const { history } = ownProps
+  const { navigate } = ownProps
 
-  const closePopover = () => history.push(mostRecentOverviewPage)
+  const closePopover = () => navigate(mostRecentOverviewPage)
 
   return {
     ...ownProps,
@@ -102,9 +103,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
     requestAccountsPermission: async () => {
       const id = await requestAccountsPermissionWithId(tabToConnect.origin)
-      history.push(`${CONNECT_ROUTE}/${id}`)
+      navigate(`${CONNECT_ROUTE}/${id}`)
     },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedSites)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedSites))

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import AddTokenButton from '../add-token-button'
 import TokenList from '../token-list'
 import { ADD_TOKEN_ROUTE } from '../../../helpers/constants/routes'
@@ -11,7 +11,7 @@ import { getCurrentAccountWithSendEtherInfo, getNativeCurrency } from '../../../
 import { useCurrencyDisplay } from '../../../hooks/useCurrencyDisplay'
 
 const AssetList = ({ onClickAsset }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const selectedAccountBalance = useSelector((state) => getCurrentAccountWithSendEtherInfo(state).balance)
   const nativeCurrency = useSelector(getNativeCurrency)
 
@@ -39,7 +39,7 @@ const AssetList = ({ onClickAsset }) => {
       />
       <AddTokenButton
         onClick={() => {
-          history.push(ADD_TOKEN_ROUTE)
+          navigate(ADD_TOKEN_ROUTE)
         }}
       />
     </>

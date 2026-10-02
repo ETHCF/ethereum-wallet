@@ -6,7 +6,7 @@ export default class SendHeader extends Component {
 
   static propTypes = {
     clearSend: PropTypes.func,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     mostRecentOverviewPage: PropTypes.string,
     titleKey: PropTypes.string,
   }
@@ -16,9 +16,9 @@ export default class SendHeader extends Component {
   }
 
   onClose () {
-    const { clearSend, history, mostRecentOverviewPage } = this.props
+    const { clearSend, navigate, mostRecentOverviewPage } = this.props
     clearSend()
-    history.push(mostRecentOverviewPage)
+    navigate(mostRecentOverviewPage)
   }
 
   render () {

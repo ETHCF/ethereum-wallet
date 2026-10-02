@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { matchPath, Route, Switch } from 'react-router-dom'
+import { matchPath, Route, Routes as RouterRoutes } from 'react-router-dom'
 import IdleTimer from 'react-idle-timer'
 
 import FirstTimeFlow from '../first-time-flow'
@@ -73,8 +73,8 @@ export default class Routes extends Component {
     hideSidebar: PropTypes.func,
     isUnlocked: PropTypes.bool,
     setLastActiveTime: PropTypes.func,
-    history: PropTypes.object,
     location: PropTypes.object,
+    navigationType: PropTypes.string,
     lockEcfWallet: PropTypes.func,
     submittedPendingTransactions: PropTypes.array,
     isMouseUser: PropTypes.bool,
@@ -90,16 +90,6 @@ export default class Routes extends Component {
     t: PropTypes.func,
   }
 
-  UNSAFE_componentWillMount () {
-    const { pageChanged } = this.props
-
-    this.props.history.listen((locationObj, action) => {
-      if (action === 'PUSH') {
-        pageChanged(locationObj.pathname)
-      }
-    })
-  }
-
   componentDidMount () {
     applyTheme(this.props.theme)
     // Follow the operating system when the theme preference is os
@@ -107,8 +97,13 @@ export default class Routes extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.theme !== this.props.theme) {
-      applyTheme(this.props.theme)
+    const { location, navigationType, pageChanged, theme } = this.props
+    if (prevProps.theme !== theme) {
+      applyTheme(theme)
+    }
+    // Record the pages the user navigated to (not back or forward to).
+    if (location.key !== prevProps.location.key && navigationType === 'PUSH') {
+      pageChanged(location.pathname)
     }
   }
 
@@ -120,25 +115,25 @@ export default class Routes extends Component {
     const { autoLockTimeLimit, setLastActiveTime } = this.props
 
     const routes = (
-      <Switch>
-        <Route path={LOCK_ROUTE} component={Lock} exact />
-        <Route path={INITIALIZE_ROUTE} component={FirstTimeFlow} />
-        <Route path={`${HELP_ROUTE}/:topic?`} component={Help} exact />
-        <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
-        <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
-        <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />
-        <Authenticated path={SETTINGS_ROUTE} component={Settings} />
-        <Authenticated path={`${CONFIRM_TRANSACTION_ROUTE}/:id?`} component={ConfirmTransaction} />
-        <Authenticated path={SEND_ROUTE} component={SendTransactionScreen} exact />
-        <Authenticated path={ADD_TOKEN_ROUTE} component={AddTokenPage} exact />
-        <Authenticated path={CONFIRM_ADD_TOKEN_ROUTE} component={ConfirmAddTokenPage} exact />
-        <Authenticated path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE} component={ConfirmAddSuggestedTokenPage} exact />
-        <Authenticated path={CONFIRM_NETWORK_REQUEST_ROUTE} component={ConfirmNetworkRequest} exact />
-        <Authenticated path={NEW_ACCOUNT_ROUTE} component={CreateAccountPage} />
-        <Authenticated path={`${CONNECT_ROUTE}/:id`} component={PermissionsConnect} />
-        <Authenticated path={`${ASSET_ROUTE}/:asset`} component={Asset} />
-        <Authenticated path={DEFAULT_ROUTE} component={Home} />
-      </Switch>
+      <RouterRoutes>
+        <Route path={LOCK_ROUTE} element={<Lock />} />
+        <Route path={`${INITIALIZE_ROUTE}/*`} element={<FirstTimeFlow />} />
+        <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
+        <Route path={UNLOCK_ROUTE} element={<Initialized><UnlockPage /></Initialized>} />
+        <Route path={RESTORE_VAULT_ROUTE} element={<Initialized><RestoreVaultPage /></Initialized>} />
+        <Route path={REVEAL_SEED_ROUTE} element={<Authenticated><RevealSeedConfirmation /></Authenticated>} />
+        <Route path={`${SETTINGS_ROUTE}/*`} element={<Authenticated><Settings /></Authenticated>} />
+        <Route path={`${CONFIRM_TRANSACTION_ROUTE}/:id?/*`} element={<Authenticated><ConfirmTransaction /></Authenticated>} />
+        <Route path={SEND_ROUTE} element={<Authenticated><SendTransactionScreen /></Authenticated>} />
+        <Route path={ADD_TOKEN_ROUTE} element={<Authenticated><AddTokenPage /></Authenticated>} />
+        <Route path={CONFIRM_ADD_TOKEN_ROUTE} element={<Authenticated><ConfirmAddTokenPage /></Authenticated>} />
+        <Route path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE} element={<Authenticated><ConfirmAddSuggestedTokenPage /></Authenticated>} />
+        <Route path={CONFIRM_NETWORK_REQUEST_ROUTE} element={<Authenticated><ConfirmNetworkRequest /></Authenticated>} />
+        <Route path={`${NEW_ACCOUNT_ROUTE}/*`} element={<Authenticated><CreateAccountPage /></Authenticated>} />
+        <Route path={`${CONNECT_ROUTE}/:id/*`} element={<Authenticated><PermissionsConnect /></Authenticated>} />
+        <Route path={`${ASSET_ROUTE}/:asset`} element={<Authenticated><Asset /></Authenticated>} />
+        <Route path={`${DEFAULT_ROUTE}*`} element={<Authenticated><Home /></Authenticated>} />
+      </RouterRoutes>
     )
 
     if (autoLockTimeLimit > 0) {
@@ -154,20 +149,18 @@ export default class Routes extends Component {
 
   onInitializationUnlockPage () {
     const { location } = this.props
-    return Boolean(matchPath(location.pathname, { path: INITIALIZE_UNLOCK_ROUTE, exact: true }))
+    return Boolean(matchPath(INITIALIZE_UNLOCK_ROUTE, location.pathname))
   }
 
   onConfirmPage () {
     const { location } = this.props
-    return Boolean(matchPath(location.pathname, { path: CONFIRM_TRANSACTION_ROUTE, exact: false }))
+    return Boolean(matchPath({ path: CONFIRM_TRANSACTION_ROUTE, end: false }, location.pathname))
   }
 
   hideAppHeader () {
     const { location, hasPermissionsRequests } = this.props
 
-    const isInitializing = Boolean(matchPath(location.pathname, {
-      path: INITIALIZE_ROUTE, exact: false,
-    }))
+    const isInitializing = Boolean(matchPath({ path: INITIALIZE_ROUTE, end: false }, location.pathname))
 
     if (isInitializing && !this.onInitializationUnlockPage()) {
       return true
@@ -183,9 +176,7 @@ export default class Routes extends Component {
       return true
     }
 
-    const isHandlingPermissionsRequest = Boolean(matchPath(location.pathname, {
-      path: CONNECT_ROUTE, exact: false,
-    })) || hasPermissionsRequests
+    const isHandlingPermissionsRequest = Boolean(matchPath({ path: CONNECT_ROUTE, end: false }, location.pathname)) || hasPermissionsRequests
 
     return isHandlingPermissionsRequest
   }

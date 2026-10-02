@@ -32,9 +32,7 @@ describe('Signature Request', function () {
     fromAccount: {
       address: '0xd8f6a2ffb0fc5952d16c9768b71cfd35b6399aa5',
     },
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
     clearConfirmTransaction: sinon.spy(),
     cancelMessage: sinon.spy(),
     cancel: sinon.stub().resolves(),

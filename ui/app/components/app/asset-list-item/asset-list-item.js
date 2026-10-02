@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Identicon from '../../ui/identicon'
 import ListItem from '../../ui/list-item'
 import Tooltip from '../../ui/tooltip'
@@ -26,7 +26,7 @@ const AssetListItem = ({
 }) => {
   const t = useI18nContext()
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
   const titleIcon = warning
     ? (
       <Tooltip
@@ -64,7 +64,7 @@ const AssetListItem = ({
             decimals: tokenDecimals,
             symbol: tokenSymbol,
           }))
-          history.push(SEND_ROUTE)
+          navigate(SEND_ROUTE)
         }}
       >
         {t('sendSpecifiedTokens', [tokenSymbol])}
@@ -74,7 +74,7 @@ const AssetListItem = ({
     tokenSymbol,
     tokenAddress,
     tokenDecimals,
-    history,
+    navigate,
     t,
     dispatch,
   ])

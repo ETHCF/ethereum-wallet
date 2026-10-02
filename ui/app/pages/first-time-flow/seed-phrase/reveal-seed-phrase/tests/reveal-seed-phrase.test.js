@@ -10,9 +10,7 @@ describe('Reveal Seed Phrase', function () {
   const TEST_SEED = 'debris dizzy just program just float decrease vacant alarm reduce speak stadium'
 
   const props = {
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
     seedPhrase: TEST_SEED,
     setSeedPhraseBackedUp: sinon.spy(),
     setCompletedOnboarding: sinon.spy(),

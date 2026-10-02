@@ -1,5 +1,5 @@
 import assert from 'assert'
-import React from 'react'
+import React, { act } from 'react'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
@@ -18,7 +18,7 @@ describe('Reveal Seed Page', function () {
   beforeEach(function () {
     clock = sinon.useFakeTimers()
     props = {
-      history: { push: sinon.spy() },
+      navigate: sinon.spy(),
       mostRecentOverviewPage: '/',
       requestRevealSeedWords: sinon.stub().resolves(SEED),
     }
@@ -46,9 +46,11 @@ describe('Reveal Seed Page', function () {
     answer('srp-quiz-continue')
     answer('srp-quiz-right-answer')
     answer('srp-quiz-continue')
-    wrapper.find('form').simulate('submit')
-    await Promise.resolve()
-    await Promise.resolve()
+    // The fake timers stop React's scheduler, so flush updates with act().
+    await act(async () => {
+      wrapper.find('form').simulate('submit')
+      await Promise.resolve()
+    })
     wrapper.update()
   }
 
@@ -78,10 +80,10 @@ describe('Reveal Seed Page', function () {
     assert.equal(seedShown(), false)
 
     holdButton().simulate('pointerdown', { button: 0, isTrusted: true })
-    clock.tick(HOLD_DURATION_MS - 1)
+    act(() => clock.tick(HOLD_DURATION_MS - 1))
     wrapper.update()
     assert.equal(seedShown(), false)
-    clock.tick(1)
+    act(() => clock.tick(1))
     wrapper.update()
     assert.equal(seedShown(), true)
   })
@@ -90,13 +92,13 @@ describe('Reveal Seed Page', function () {
     await passQuizAndUnlock()
 
     holdButton().simulate('pointerdown', { button: 0, isTrusted: true })
-    clock.tick(HOLD_DURATION_MS / 2)
+    act(() => clock.tick(HOLD_DURATION_MS / 2))
     holdButton().simulate('pointerup')
-    clock.tick(HOLD_DURATION_MS * 2)
+    act(() => clock.tick(HOLD_DURATION_MS * 2))
 
     holdButton().simulate('click')
     holdButton().simulate('pointerdown', { button: 0, isTrusted: false })
-    clock.tick(HOLD_DURATION_MS * 2)
+    act(() => clock.tick(HOLD_DURATION_MS * 2))
     wrapper.update()
     assert.equal(seedShown(), false)
   })

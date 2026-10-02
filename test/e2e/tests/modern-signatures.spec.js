@@ -21,7 +21,7 @@ describe('Modern signature confirmations', function () {
         const done = arguments[arguments.length - 1];
         ethereum.request({ method: 'eth_accounts' }).then(([account]) => {
           const text = arguments[0] + ' wants you to sign in with your Ethereum account:\\n' + account +
-            '\\n\\nSign in to Example.\\n\\nURI: http://127.0.0.1:8080/login\\nVersion: 1\\nChain ID: 5777\\nNonce: abcdef12\\nIssued At: 2026-09-30T00:00:00Z\\nExpiration Time: 2099-01-01T00:00:00Z';
+            '\\n\\nSign in to Example.\\n\\nURI: http://127.0.0.1:8080/login\\nVersion: 1\\nChain ID: 1337\\nNonce: abcdef12\\nIssued At: 2026-09-30T00:00:00Z\\nExpiration Time: 2099-01-01T00:00:00Z';
           const hex = '0x' + Array.from(new TextEncoder().encode(text), byte => byte.toString(16).padStart(2, '0')).join('');
           window.signingResult = null;
           ethereum.request({ method: 'personal_sign', params: [hex, account] }).then(

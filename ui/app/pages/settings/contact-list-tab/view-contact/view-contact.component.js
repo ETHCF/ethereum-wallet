@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import Identicon from '../../../../components/ui/identicon'
 import Copy from '../../../../components/ui/icon/copy-icon.component'
@@ -21,7 +21,7 @@ function quadSplit (address) {
 }
 
 function ViewContact ({
-  history,
+  navigate,
   name,
   address,
   checkSummedAddress,
@@ -33,7 +33,7 @@ function ViewContact ({
   const [copied, handleCopy] = useCopyToClipboard()
 
   if (!address) {
-    return <Redirect to={{ pathname: listRoute }} />
+    return <Navigate to={listRoute} replace />
   }
 
   return (
@@ -47,7 +47,7 @@ function ViewContact ({
           <Button
             type="secondary"
             onClick={() => {
-              history.push(`${editRoute}/${address}`)
+              navigate(`${editRoute}/${address}`)
             }}
           >
             {t('edit')}
@@ -92,7 +92,7 @@ function ViewContact ({
 ViewContact.propTypes = {
   name: PropTypes.string,
   address: PropTypes.string,
-  history: PropTypes.object,
+  navigate: PropTypes.func,
   checkSummedAddress: PropTypes.string,
   memo: PropTypes.string,
   editRoute: PropTypes.string,

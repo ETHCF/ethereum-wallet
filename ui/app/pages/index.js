@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
+import { ROUTER_FUTURE_FLAGS } from '../helpers/constants/router'
 import { I18nProvider, LegacyI18nProvider } from '../contexts/i18n'
 import ErrorPage from './error'
 import Routes from './routes'
@@ -38,7 +39,7 @@ class Index extends PureComponent {
 
     return (
       <Provider store={store}>
-        <HashRouter hashType="noslash">
+        <HashRouter future={ROUTER_FUTURE_FLAGS}>
 
           <I18nProvider>
             <LegacyI18nProvider>

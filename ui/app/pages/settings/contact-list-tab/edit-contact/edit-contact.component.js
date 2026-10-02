@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Identicon from '../../../../components/ui/identicon'
 import Button from '../../../../components/ui/button/button.component'
 import TextField from '../../../../components/ui/text-field'
@@ -16,7 +16,7 @@ export default class EditContact extends PureComponent {
   static propTypes = {
     addToAddressBook: PropTypes.func,
     removeFromAddressBook: PropTypes.func,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     name: PropTypes.string,
     address: PropTypes.string,
     chainId: PropTypes.string,
@@ -45,7 +45,7 @@ export default class EditContact extends PureComponent {
       address,
       addToAddressBook,
       chainId,
-      history,
+      navigate,
       listRoute,
       memo,
       name,
@@ -56,7 +56,7 @@ export default class EditContact extends PureComponent {
     } = this.props
 
     if (!address) {
-      return <Redirect to={{ pathname: listRoute }} />
+      return <Navigate to={listRoute} replace />
     }
 
     return (
@@ -141,7 +141,7 @@ export default class EditContact extends PureComponent {
                 if (showingMyAccounts) {
                   setAccountLabel(this.state.newAddress, this.state.newName || name)
                 }
-                history.push(listRoute)
+                navigate(listRoute)
               } else {
                 this.setState({ error: this.context.t('invalidAddress') })
               }
@@ -151,11 +151,11 @@ export default class EditContact extends PureComponent {
               if (showingMyAccounts) {
                 setAccountLabel(address, this.state.newName || name)
               }
-              history.push(listRoute)
+              navigate(listRoute)
             }
           }}
           onCancel={() => {
-            history.push(`${viewRoute}/${address}`)
+            navigate(`${viewRoute}/${address}`)
           }}
           submitText={this.context.t('save')}
           submitButtonType="confirm"

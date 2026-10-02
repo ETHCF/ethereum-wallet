@@ -25,7 +25,7 @@ export default class SignatureRequestOriginal extends Component {
     cancel: PropTypes.func.isRequired,
     clearConfirmTransaction: PropTypes.func.isRequired,
     nativeCurrency: PropTypes.string,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     mostRecentOverviewPage: PropTypes.string.isRequired,
     requesterAddress: PropTypes.string,
     sign: PropTypes.func.isRequired,
@@ -236,7 +236,7 @@ export default class SignatureRequestOriginal extends Component {
   }
 
   renderFooter = () => {
-    const { cancel, clearConfirmTransaction, history, mostRecentOverviewPage, sign } = this.props
+    const { cancel, clearConfirmTransaction, navigate, mostRecentOverviewPage, sign } = this.props
 
     return (
       <div className="request-signature__footer">
@@ -248,7 +248,7 @@ export default class SignatureRequestOriginal extends Component {
             this._removeBeforeUnload()
             await cancel(event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { this.context.t('cancel') }
@@ -263,7 +263,7 @@ export default class SignatureRequestOriginal extends Component {
             this._removeBeforeUnload()
             await sign(event)
             clearConfirmTransaction()
-            history.push(mostRecentOverviewPage)
+            navigate(mostRecentOverviewPage)
           }}
         >
           { this.context.t('sign') }

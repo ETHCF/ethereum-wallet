@@ -12,9 +12,7 @@ describe('Security Tab', function () {
     showClearApprovalModal: sinon.spy(),
     displayWarning: sinon.spy(),
     setShowIncomingTransactionsFeatureFlag: sinon.spy(),
-    history: {
-      push: sinon.spy(),
-    },
+    navigate: sinon.spy(),
     privacyMode: true,
     warning: '',
     setUsePhishDetect: sinon.spy(),
@@ -35,8 +33,8 @@ describe('Security Tab', function () {
     const seedWords = wrapper.find('.button.btn-danger.btn--large')
 
     seedWords.simulate('click')
-    assert(props.history.push.calledOnce)
-    assert.equal(props.history.push.getCall(0).args[0], '/seed')
+    assert(props.navigate.calledOnce)
+    assert.equal(props.navigate.getCall(0).args[0], '/seed')
   })
 
   it('toggles incoming txs', function () {

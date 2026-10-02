@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../helpers/higher-order-components/with-router'
 import { addToken, removeSuggestedTokens } from '../../store/actions'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
 import ConfirmAddSuggestedToken from './confirm-add-suggested-token.component'

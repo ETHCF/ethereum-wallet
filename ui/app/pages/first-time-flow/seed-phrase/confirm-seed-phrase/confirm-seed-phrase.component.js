@@ -21,7 +21,7 @@ export default class ConfirmSeedPhrase extends PureComponent {
   }
 
   static propTypes = {
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     seedPhrase: PropTypes.string,
     setSeedPhraseBackedUp: PropTypes.func,
     completeOnboarding: PropTypes.func,
@@ -71,7 +71,7 @@ export default class ConfirmSeedPhrase extends PureComponent {
 
   handleSubmit = async () => {
     const {
-      history,
+      navigate,
       setSeedPhraseBackedUp,
     } = this.props
 
@@ -83,7 +83,7 @@ export default class ConfirmSeedPhrase extends PureComponent {
 
       setSeedPhraseBackedUp(true).then(async () => {
         this.setOnboardingCompleted()
-        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+        navigate(INITIALIZE_END_OF_FLOW_ROUTE)
       })
     } catch (error) {
       console.error(error.message)
@@ -113,7 +113,7 @@ export default class ConfirmSeedPhrase extends PureComponent {
 
   render () {
     const { t } = this.context
-    const { history } = this.props
+    const { navigate } = this.props
     const {
       selectedSeedIndices,
       sortedSeedWords,
@@ -126,7 +126,7 @@ export default class ConfirmSeedPhrase extends PureComponent {
           <a
             onClick={(e) => {
               e.preventDefault()
-              history.push(INITIALIZE_SEED_PHRASE_ROUTE)
+              navigate(INITIALIZE_SEED_PHRASE_ROUTE)
             }}
             href="#"
           >

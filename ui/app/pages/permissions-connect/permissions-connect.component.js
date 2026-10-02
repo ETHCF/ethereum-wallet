@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 import PermissionPageContainer from '../../components/app/permission-page-container'
+import { toRelativeRoutePath } from '../../helpers/utils/routes.util'
 import ChooseAccount from './choose-account'
 import PermissionsRedirect from './redirect'
 
@@ -26,7 +27,7 @@ export default class PermissionConnect extends Component {
     addressLastConnectedMap: PropTypes.object.isRequired,
     lastConnectedInfo: PropTypes.object.isRequired,
     permissionsRequestId: PropTypes.string,
-    history: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     connectPath: PropTypes.string.isRequired,
     confirmPermissionPath: PropTypes.string.isRequired,
     page: PropTypes.string.isRequired,
@@ -79,13 +80,13 @@ export default class PermissionConnect extends Component {
       getCurrentWindowTab,
       getRequestAccountTabIds,
       permissionsRequest,
-      history,
+      navigate,
     } = this.props
     getCurrentWindowTab()
     getRequestAccountTabIds()
 
     if (!permissionsRequest) {
-      history.push(DEFAULT_ROUTE)
+      navigate(DEFAULT_ROUTE)
       return
     }
 
@@ -125,11 +126,11 @@ export default class PermissionConnect extends Component {
   selectAccounts = (addresses) => {
     this.setState({
       selectedAccountAddresses: addresses,
-    }, () => this.props.history.push(this.props.confirmPermissionPath))
+    }, () => this.props.navigate(this.props.confirmPermissionPath))
   }
 
   redirect (approved) {
-    const { history } = this.props
+    const { navigate } = this.props
     this.setState({
       redirecting: true,
       permissionsApproved: approved,
@@ -137,9 +138,9 @@ export default class PermissionConnect extends Component {
     this.removeBeforeUnload()
 
     if (approved) {
-      setTimeout(() => history.push(DEFAULT_ROUTE), APPROVE_TIMEOUT)
+      setTimeout(() => navigate(DEFAULT_ROUTE), APPROVE_TIMEOUT)
     } else {
-      history.push(DEFAULT_ROUTE)
+      navigate(DEFAULT_ROUTE)
     }
   }
 
@@ -154,8 +155,8 @@ export default class PermissionConnect extends Component {
   }
 
   goBack () {
-    const { history, connectPath } = this.props
-    history.push(connectPath)
+    const { navigate, connectPath } = this.props
+    navigate(connectPath)
   }
 
   renderTopBar () {
@@ -213,11 +214,10 @@ export default class PermissionConnect extends Component {
               />
             )
             : (
-              <Switch>
+              <Routes>
                 <Route
-                  path={connectPath}
-                  exact
-                  render={() => (
+                  path={toRelativeRoutePath(connectPath, connectPath)}
+                  element={(
                     <ChooseAccount
                       accounts={accounts}
                       nativeCurrency={nativeCurrency}
@@ -237,9 +237,8 @@ export default class PermissionConnect extends Component {
                   )}
                 />
                 <Route
-                  path={confirmPermissionPath}
-                  exact
-                  render={() => (
+                  path={toRelativeRoutePath(confirmPermissionPath, connectPath)}
+                  element={(
                     <PermissionPageContainer
                       request={permissionsRequest || {}}
                       approvePermissionsRequest={(...args) => {
@@ -252,7 +251,7 @@ export default class PermissionConnect extends Component {
                     />
                   )}
                 />
-              </Switch>
+              </Routes>
             )
         }
       </div>

@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ListItem from '../../ui/list-item'
 import { useTransactionDisplayData } from '../../../hooks/useTransactionDisplayData'
 import Preloader from '../../ui/icon/preloader'
@@ -28,7 +28,7 @@ import IconWithLabel from '../../ui/icon-with-label'
 
 export default function TransactionListItem ({ transactionGroup, isEarliestNonce = false }) {
   const t = useI18nContext()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { hasCancelled } = transactionGroup
   const [showDetails, setShowDetails] = useState(false)
 
@@ -62,11 +62,11 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
 
   const toggleShowDetails = useCallback(() => {
     if (isUnapproved) {
-      history.push(`${CONFIRM_TRANSACTION_ROUTE}/${id}`)
+      navigate(`${CONFIRM_TRANSACTION_ROUTE}/${id}`)
       return
     }
     setShowDetails((prev) => !prev)
-  }, [isUnapproved, history, id])
+  }, [isUnapproved, navigate, id])
 
   const cancelButton = useMemo(() => {
     const btn = (

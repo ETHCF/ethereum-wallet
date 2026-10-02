@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Button from '../../components/ui/button'
 import { useI18nContext } from '../../hooks/useI18nContext'
 import { getNetworkRequests } from '../../selectors/selectors'
@@ -19,7 +19,7 @@ function hostOf (origin) {
 export default function ConfirmNetworkRequest () {
   const t = useI18nContext()
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [request] = useSelector(getNetworkRequests)
   const provider = useSelector((state) => state.ecfWallet.provider)
   const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage)
@@ -28,9 +28,9 @@ export default function ConfirmNetworkRequest () {
 
   useEffect(() => {
     if (!request) {
-      history.push(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage)
     }
-  }, [request, history, mostRecentOverviewPage])
+  }, [request, navigate, mostRecentOverviewPage])
 
   useEffect(() => {
     setError(null)

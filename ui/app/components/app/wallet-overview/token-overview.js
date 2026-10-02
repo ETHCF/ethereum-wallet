@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../../ui/button'
 import Identicon from '../../ui/identicon'
@@ -17,7 +17,7 @@ import WalletOverview from './wallet-overview'
 const TokenOverview = ({ className, token }) => {
   const dispatch = useDispatch()
   const t = useContext(I18nContext)
-  const history = useHistory()
+  const navigate = useNavigate()
   const assetImages = useSelector(getAssetImages)
   const { tokensWithBalances } = useTokenTracker([token])
   const balance = tokensWithBalances[0]?.string
@@ -41,7 +41,7 @@ const TokenOverview = ({ className, token }) => {
           icon={<PaperAirplane color="#037DD6" size={20} />}
           onClick={() => {
             dispatch(updateSendToken(token))
-            history.push(SEND_ROUTE)
+            navigate(SEND_ROUTE)
           }}
         >
           { t('send') }

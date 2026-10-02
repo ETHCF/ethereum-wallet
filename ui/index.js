@@ -2,7 +2,7 @@ import copyToClipboard from 'copy-to-clipboard'
 import log from 'loglevel'
 import { clone } from 'lodash'
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { getEnvironmentType } from '../app/scripts/lib/util'
 import { ALERT_TYPES } from '../app/scripts/controllers/alert'
 import { ENVIRONMENT_TYPE_POPUP } from '../app/scripts/lib/enums'
@@ -131,11 +131,10 @@ async function startApp (ecfWalletState, backgroundConnection, opts) {
   }
 
   // start app
-  render(
+  createRoot(opts.container).render(
     <Root
       store={store}
     />,
-    opts.container,
   )
 
   return store

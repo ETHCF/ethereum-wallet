@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../../helpers/higher-order-components/with-router'
 
 import { MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums'
 import { goHome } from '../../../store/actions'

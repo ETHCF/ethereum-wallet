@@ -27,7 +27,7 @@ export default class SendTransactionScreen extends Component {
     gasPrice: PropTypes.string,
     gasTotal: PropTypes.string,
     hasHexData: PropTypes.bool,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     network: PropTypes.string,
     primaryCurrency: PropTypes.string,
     resetSendState: PropTypes.func.isRequired,
@@ -274,7 +274,7 @@ export default class SendTransactionScreen extends Component {
   }
 
   render () {
-    const { history, to } = this.props
+    const { navigate, to } = this.props
     let content
 
     if (to) {
@@ -285,7 +285,7 @@ export default class SendTransactionScreen extends Component {
 
     return (
       <div className="page-container">
-        <SendHeader history={history} />
+        <SendHeader navigate={navigate} />
         { this.renderInput() }
         { content }
       </div>
@@ -325,7 +325,7 @@ export default class SendTransactionScreen extends Component {
   }
 
   renderSendContent () {
-    const { history, showHexData } = this.props
+    const { navigate, showHexData } = this.props
 
     return [
       <SendContent
@@ -333,7 +333,7 @@ export default class SendTransactionScreen extends Component {
         updateGas={({ to, amount, data } = {}) => this.updateGas({ to, amount, data })}
         showHexData={showHexData}
       />,
-      <SendFooter key="send-footer" history={history} />,
+      <SendFooter key="send-footer" navigate={navigate} />,
     ]
   }
 

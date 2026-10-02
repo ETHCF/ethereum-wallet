@@ -8,6 +8,7 @@ import {
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
 import TextField from '../../components/ui/text-field'
 import Button from '../../components/ui/button'
+import withRouter from '../../helpers/higher-order-components/with-router'
 
 class RestoreVaultPage extends Component {
   static contextTypes = {
@@ -17,7 +18,7 @@ class RestoreVaultPage extends Component {
   static propTypes = {
     createNewVaultAndRestore: PropTypes.func.isRequired,
     leaveImportSeedScreenState: PropTypes.func,
-    history: PropTypes.object,
+    navigate: PropTypes.func,
     isLoading: PropTypes.bool,
   }
 
@@ -76,13 +77,13 @@ class RestoreVaultPage extends Component {
       // eslint-disable-next-line no-shadow
       createNewVaultAndRestore,
       leaveImportSeedScreenState,
-      history,
+      navigate,
     } = this.props
 
     leaveImportSeedScreenState()
     createNewVaultAndRestore(password, this.parseSeedPhrase(seedPhrase))
       .then(() => {
-        history.push(DEFAULT_ROUTE)
+        navigate(DEFAULT_ROUTE)
       })
   }
 
@@ -113,7 +114,7 @@ class RestoreVaultPage extends Component {
               onClick={(e) => {
                 e.preventDefault()
                 this.props.leaveImportSeedScreenState()
-                this.props.history.goBack()
+                this.props.navigate(-1)
               }}
               href="#"
             >
@@ -176,7 +177,7 @@ class RestoreVaultPage extends Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   ({ appState: { isLoading } }) => ({ isLoading }),
   (dispatch) => ({
     leaveImportSeedScreenState: () => {
@@ -184,4 +185,4 @@ export default connect(
     },
     createNewVaultAndRestore: (pw, seed) => dispatch(createNewVaultAndRestore(pw, seed)),
   }),
-)(RestoreVaultPage)
+)(RestoreVaultPage))
