@@ -352,9 +352,6 @@
   "stateLogsDescription": {
     "message": "Registo de estado podem conter o seu endereço e transações enviadas da sua conta pública."
   },
-  "supportCenter": {
-    "message": "Visitar o nosso Centro de Suporte"
-  },
   "symbolBetweenZeroTwelve": {
     "message": "O símbolo deve ter 11 caracteres ou menos."
   },

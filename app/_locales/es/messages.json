@@ -820,9 +820,6 @@
   "submitted": {
     "message": "Enviado"
   },
-  "supportCenter": {
-    "message": "Visita nuestro centro de atención"
-  },
   "symbolBetweenZeroTwelve": {
     "message": "El símbolo debe tener 11 caracteres o menos."
   },

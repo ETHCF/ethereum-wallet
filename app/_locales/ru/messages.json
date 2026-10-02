@@ -385,9 +385,6 @@
   "submitted": {
     "message": "Отправлена"
   },
-  "supportCenter": {
-    "message": "Перейти в наш Центр поддержки"
-  },
   "symbolBetweenZeroTwelve": {
     "message": "Символ должен быть не более 11 символов."
   },

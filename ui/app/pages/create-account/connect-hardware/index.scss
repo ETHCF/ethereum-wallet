@@ -91,23 +91,6 @@
     }
   }
 
-  &__learn-more {
-    margin-top: 15px;
-    font-size: 14px;
-    color: var(--color-text-alternative);
-    line-height: 19px;
-    text-align: center;
-    cursor: pointer;
-
-    &__arrow {
-      transform: rotate(90deg);
-      display: block;
-      text-align: center;
-      height: 30px;
-      margin: 0 auto 10px;
-    }
-  }
-
   &__title {
     padding-top: 10px;
     font-weight: 400;
@@ -173,11 +156,6 @@
       color: var(--color-primary-default);
       cursor: pointer;
     }
-  }
-
-  &__step-asset {
-    margin: 0 auto 20px;
-    display: flex;
   }
 }
 

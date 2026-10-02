@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import EcfWalletLogo from '../logo/ecf-wallet-logo'
 
 export default class MetaFoxLogo extends PureComponent {
   static propTypes = {
@@ -23,10 +24,8 @@ export default class MetaFoxLogo extends PureComponent {
           'app-header__logo-container--clickable': Boolean(onClick),
         })}
       >
-        <img
+        <EcfWalletLogo
           height={30}
-          src="/images/logo/ecf-wallet-horizontal.svg"
-          alt="ECF Wallet"
           className={classnames('app-header__metafox-logo', 'app-header__metafox-logo--horizontal')}
         />
         <img

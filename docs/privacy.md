@@ -16,8 +16,6 @@ RPC endpoints, prices, ENS gateways, and optional hardware-wallet services.
 The built-in Ethereum mainnet connection uses [PublicNode](https://ethereum.publicnode.com/);
 you can select your own RPC endpoint in Settings > Networks.
 
-3Box cloud backup and restore of preferences and address books have been removed.
-
 To verify the removal and wallet flows:
 
 ```sh

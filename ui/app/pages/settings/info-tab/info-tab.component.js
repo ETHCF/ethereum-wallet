@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
+import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo'
 
 export default class InfoTab extends PureComponent {
   state = {
@@ -56,17 +57,6 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://github.com/ETHCF/ethereum-wallet/issues"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="info-tab__link-text"
-          >
-            { t('supportCenter') }
-          </Button>
-        </div>
-        <div className="info-tab__link-item">
-          <Button
-            type="link"
             href="https://ethcf.org/"
             target="_blank"
             rel="noopener noreferrer"
@@ -98,11 +88,7 @@ export default class InfoTab extends PureComponent {
         <div className="settings-page__content-row">
           <div className="settings-page__content-item settings-page__content-item--without-height">
             <div className="info-tab__logo-wrapper">
-              <img
-                src="images/logo/ecf-wallet-horizontal.svg"
-                alt="ECF Wallet"
-                className="info-tab__logo"
-              />
+              <EcfWalletLogo className="info-tab__logo" />
             </div>
             <div className="info-tab__item">
               <div className="info-tab__version-header">

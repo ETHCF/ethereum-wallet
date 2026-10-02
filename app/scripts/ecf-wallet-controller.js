@@ -87,10 +87,7 @@ export default class EcfWalletController extends EventEmitter {
     this.getOpenEcfWalletTabsIds = opts.getOpenEcfWalletTabsIds
 
     // observable state store
-    const persistedState = { ...initState }
-    // Discard the removed cloud-sync state when opening an existing wallet.
-    delete persistedState.ThreeBoxController
-    this.store = new ComposableObservableStore(persistedState)
+    this.store = new ComposableObservableStore(initState)
 
     // external connections by origin
     // Do not modify directly. Use the associated methods.

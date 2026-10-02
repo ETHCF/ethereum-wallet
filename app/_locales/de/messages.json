@@ -976,9 +976,6 @@
   "submitted": {
     "message": "Abgeschickt"
   },
-  "supportCenter": {
-    "message": "Gehe zu unserem Support Center"
-  },
   "symbolBetweenZeroTwelve": {
     "message": "Das Symbol darf maximal 11 Zeichen lang sein."
   },

@@ -90,7 +90,7 @@ describe('EcfWalletController', function () {
           return Promise.resolve(this.object)
         },
       },
-      initState: { ...cloneDeep(firstTimeState), ThreeBoxController: { threeBoxSyncingAllowed: true } },
+      initState: cloneDeep(firstTimeState),
       platform: { showTransactionNotification: () => undefined, getVersion: () => 'foo' },
     })
     // add sinon method spies
@@ -101,15 +101,6 @@ describe('EcfWalletController', function () {
   afterEach(function () {
     nock.cleanAll()
     sandbox.restore()
-  })
-
-  it('discards obsolete cloud-sync state while retaining local wallet state', function () {
-    const state = ecfWalletController.store.getState()
-    assert.equal(Object.prototype.hasOwnProperty.call(state, 'ThreeBoxController'), false)
-    for (const key of Object.keys(firstTimeState)) {
-      assert.deepEqual(state[key], firstTimeState[key])
-    }
-    assert.equal(ecfWalletController.getApi().initializeThreeBox, undefined)
   })
 
   describe('#getAccounts', function () {

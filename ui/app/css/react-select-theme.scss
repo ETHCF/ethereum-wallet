@@ -1,0 +1,69 @@
+/*
+  react-select 1 hard-codes light colors. Use the theme's colors instead, so its
+  dropdowns follow dark mode. Each selector matches the library's own, and this
+  file is imported after the library's stylesheet so it wins.
+*/
+.Select-control,
+.Select.is-open > .Select-control,
+.Select.is-focused > .Select-control,
+.Select.is-focused:not(.is-open) > .Select-control,
+.Select-control .Select-input:focus {
+  background: var(--color-background-default);
+  color: var(--color-text-default);
+  border-color: var(--color-border-default);
+}
+
+.Select.is-disabled > .Select-control {
+  background-color: var(--color-background-alternative);
+}
+
+.Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
+  color: var(--color-text-default);
+}
+
+.Select--single > .Select-control .Select-value,
+.Select-placeholder {
+  color: var(--color-text-alternative);
+}
+
+.Select-arrow {
+  border-top-color: var(--color-icon-alternative);
+}
+
+.Select.is-open > .Select-control .Select-arrow {
+  border-bottom-color: var(--color-icon-alternative);
+}
+
+.Select .Select-arrow-zone:hover > .Select-arrow {
+  border-top-color: var(--color-icon-default);
+}
+
+.Select-menu-outer {
+  background-color: var(--color-background-default);
+  border-color: var(--color-border-default);
+  border-top-color: var(--color-border-muted);
+}
+
+.Select-option {
+  background-color: var(--color-background-default);
+  color: var(--color-text-alternative);
+
+  &.is-selected {
+    background-color: var(--color-primary-muted);
+    color: var(--color-text-default);
+  }
+
+  &.is-focused {
+    background-color: var(--color-background-default-hover);
+    color: var(--color-text-default);
+  }
+
+  &.is-disabled {
+    color: var(--color-text-muted);
+  }
+}
+
+.Select-noresults {
+  color: var(--color-text-muted);
+}

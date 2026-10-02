@@ -2,6 +2,8 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Button from '../../../components/ui/button'
+import LogoLedger from '../../../components/ui/logo/logo-ledger'
+import LogoTrezor from '../../../components/ui/logo/logo-trezor'
 
 export default class SelectHardware extends Component {
   static contextTypes = {
@@ -32,11 +34,7 @@ export default class SelectHardware extends Component {
         })}
         onClick={(_) => this.setState({ selectedDevice: 'trezor' })}
       >
-        <img
-          className="hw-connect__btn__img"
-          src="images/trezor-logo.svg"
-          alt=""
-        />
+        <LogoTrezor className="hw-connect__btn__img" ariaLabel="Trezor" />
       </button>
     )
   }
@@ -49,11 +47,7 @@ export default class SelectHardware extends Component {
         })}
         onClick={(_) => this.setState({ selectedDevice: 'ledger' })}
       >
-        <img
-          className="hw-connect__btn__img"
-          src="images/ledger-logo.svg"
-          alt=""
-        />
+        <LogoLedger className="hw-connect__btn__img" ariaLabel="Ledger" />
       </button>
     )
   }
@@ -133,55 +127,28 @@ export default class SelectHardware extends Component {
     )
   }
 
-  scrollToTutorial = () => {
-    if (this.referenceNode) {
-      this.referenceNode.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
-  renderLearnMore () {
-    return (
-      <p className="hw-connect__learn-more" onClick={this.scrollToTutorial}>
-        {this.context.t('learnMore')}
-        <img className="hw-connect__learn-more__arrow" src="images/caret-right.svg" alt="" />
-      </p>
-    )
-  }
-
   renderTutorialSteps () {
     const steps = [
       {
-        asset: 'hardware-wallet-step-1',
-        dimensions: { width: '225px', height: '75px' },
         title: this.context.t('step1HardwareWallet'),
         message: this.context.t('step1HardwareWalletMsg'),
       },
       {
-        asset: 'hardware-wallet-step-2',
-        dimensions: { width: '300px', height: '100px' },
         title: this.context.t('step2HardwareWallet'),
         message: this.context.t('step2HardwareWalletMsg'),
       },
       {
-        asset: 'hardware-wallet-step-3',
-        dimensions: { width: '120px', height: '90px' },
         title: this.context.t('step3HardwareWallet'),
         message: this.context.t('step3HardwareWalletMsg'),
       },
     ]
 
     return (
-      <div
-        className="hw-tutorial"
-        ref={(node) => {
-          this.referenceNode = node
-        }}
-      >
+      <div className="hw-tutorial">
         {steps.map((step, index) => (
           <div className="hw-connect" key={index}>
             <h3 className="hw-connect__title">{step.title}</h3>
             <p className="hw-connect__msg">{step.message}</p>
-            <img className="hw-connect__step-asset" src={`images/${step.asset}.svg`} {...step.dimensions} alt="" />
           </div>
         ))}
       </div>
@@ -209,7 +176,6 @@ export default class SelectHardware extends Component {
         {this.renderHeader()}
         {this.renderButtons()}
         {this.renderTrezorAffiliateLink()}
-        {this.renderLearnMore()}
         {this.renderTutorialSteps()}
         {this.renderFooter()}
       </div>

@@ -164,6 +164,7 @@
     flex-flow: row nowrap;
     padding: 16px 14px;
     flex: 0 0 auto;
+    cursor: pointer;
 
     @media screen and (max-width: 575px) {
       padding: 12px 14px;
