@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Grafiks pieejams vienīgi Ethereum tīklos."
-  },
   "contractInteraction": {
     "message": "Līguma mijiedarbības"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Ātrs"
   },
-  "faster": {
-    "message": "Ātrāk"
-  },
   "fileImportFail": {
     "message": "Vai faila importēšanas iespēja nedarbojas? Klikšķiniet šeit!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "Saites"
-  },
-  "liveGasPricePredictions": {
-    "message": "Reāllaika Gas cenu prognozes"
   },
   "loading": {
     "message": "Notiek ielāde..."
@@ -827,9 +818,6 @@
   "slow": {
     "message": "Lēns"
   },
-  "slower": {
-    "message": "Lēnāk"
-  },
   "saveAsCsvFile": {
     "message": "Saglabāt kā CSV failu"
   },
@@ -1066,9 +1054,6 @@
   },
   "transactionFee": {
     "message": "Darījuma nodeva"
-  },
-  "transactionTime": {
-    "message": "Darījuma ilgums"
   },
   "transfer": {
     "message": "Pārsūtīt"

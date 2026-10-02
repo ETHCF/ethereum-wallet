@@ -17,8 +17,7 @@ import {
   setCustomGasPrice,
   setCustomGasLimit,
   resetCustomData,
-  fetchGasEstimates,
-  fetchBasicGasAndTimeEstimates,
+  fetchBasicGasEstimates,
 } from '../../../../ducks/gas/gas.duck'
 import {
   hideGasButtonGroup,
@@ -28,16 +27,11 @@ import {
   getCurrentEthBalance,
   getIsMainnet,
   getSendToken,
-  isEthereumNetwork,
   getBasicGasEstimateLoadingStatus,
-  getGasEstimatesLoadingStatus,
   getCustomGasLimit,
   getCustomGasPrice,
   getDefaultActiveButtonIndex,
-  getEstimatedGasPrices,
-  getEstimatedGasTimes,
   getRenderableBasicEstimateData,
-  getBasicGasEstimateBlockTime,
   isCustomPriceSafe,
   getTokenBalance,
   getSendMaxModeState,
@@ -49,7 +43,6 @@ import {
   subtractHexWEIsToDec,
   hexWEIToDecGWEI,
 } from '../../../../helpers/utils/conversions.util'
-import { getRenderableTimeEstimate } from '../../../../helpers/utils/gas-time-estimates.util'
 import {
   formatETHFee,
 } from '../../../../helpers/utils/formatters'
@@ -68,7 +61,6 @@ const mapStateToProps = (state, ownProps) => {
   const selectedTransaction = currentNetworkTxList.find(({ id }) => id === (transaction.id || txData.id))
 
   const buttonDataLoading = getBasicGasEstimateLoadingStatus(state)
-  const gasEstimatesLoading = getGasEstimatesLoadingStatus(state)
   const sendToken = getSendToken(state)
 
   // a "default" txParams is used during the send flow, since the transaction doesn't exist yet in that case
@@ -94,8 +86,6 @@ const mapStateToProps = (state, ownProps) => {
 
   const maxModeOn = getSendMaxModeState(state)
 
-  const gasPrices = getEstimatedGasPrices(state)
-  const estimatedTimes = getEstimatedGasTimes(state)
   const balance = getCurrentEthBalance(state)
 
   const isMainnet = getIsMainnet(state)
@@ -112,13 +102,6 @@ const mapStateToProps = (state, ownProps) => {
     balance,
   })
 
-  let currentTimeEstimate = ''
-  try {
-    currentTimeEstimate = getRenderableTimeEstimate(customGasPrice, gasPrices, estimatedTimes)
-  } catch (error) {
-    console.error(error)
-  }
-
   return {
     hideBasic,
     feeMarketParams: isFeeMarketTransaction(txParams) ? {
@@ -132,21 +115,12 @@ const mapStateToProps = (state, ownProps) => {
     customGasPrice,
     customGasLimit: calcCustomGasLimit(customModalGasLimitInHex),
     customGasTotal,
-    currentTimeEstimate,
-    blockTime: getBasicGasEstimateBlockTime(state),
     customPriceIsSafe: isCustomPriceSafe(state),
     maxModeOn,
     gasPriceButtonGroupProps: {
       buttonDataLoading,
       defaultActiveButtonIndex: getDefaultActiveButtonIndex(gasButtonInfo, customModalGasPriceInHex),
       gasButtonInfo,
-    },
-    gasChartProps: {
-      currentPrice: customGasPrice,
-      gasPrices,
-      estimatedTimes,
-      gasPricesMax: gasPrices[gasPrices.length - 1],
-      estimatedTimesMax: estimatedTimes[0],
     },
     infoRowProps: {
       originalTotalEth: addHexWEIsToRenderableEth(value, customGasTotal),
@@ -159,9 +133,7 @@ const mapStateToProps = (state, ownProps) => {
     isRetry: transaction.status === 'failed',
     txId: transaction.id,
     insufficientBalance,
-    gasEstimatesLoading,
     isMainnet,
-    isEthereumNetwork: isEthereumNetwork(state),
     sendToken,
     balance,
     tokenBalance: getTokenBalance(state),
@@ -197,8 +169,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideGasButtonGroup: () => dispatch(hideGasButtonGroup()),
     hideSidebar: () => dispatch(hideSidebar()),
-    fetchGasEstimates: (blockTime) => dispatch(fetchGasEstimates(blockTime)),
-    fetchBasicGasAndTimeEstimates: () => dispatch(fetchBasicGasAndTimeEstimates()),
+    fetchBasicGasEstimates: () => dispatch(fetchBasicGasEstimates()),
     setGasTotal: (total) => dispatch(setGasTotal(total)),
     setAmountToMax: (maxAmountDataObject) => {
       dispatch(updateSendErrors({ amount: null }))

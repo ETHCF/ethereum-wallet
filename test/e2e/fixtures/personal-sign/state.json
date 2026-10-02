@@ -100,8 +100,7 @@
       "useNonceField": false,
       "usePhishDetect": true,
       "featureFlags": {
-        "showIncomingTransactions": true,
-        "transactionTime": false
+        "showIncomingTransactions": true
       },
       "knownMethodData": {},
       "firstTimeFlowType": "create",

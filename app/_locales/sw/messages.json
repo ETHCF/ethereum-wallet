@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Zogoa inapatikana kwenye mitandao ya Ethereum pekee."
-  },
   "contractInteraction": {
     "message": "Mwingiliono wa Mkataba"
   },
@@ -368,9 +365,6 @@
   "fast": {
     "message": "Haraka"
   },
-  "faster": {
-    "message": "Ingiza"
-  },
   "fileImportFail": {
     "message": "Kuhamisha faili hakufanyi kazi? Bofya hapa!",
     "description": "Helps user import their account from a JSON file"
@@ -534,9 +528,6 @@
   },
   "links": {
     "message": "Viungo"
-  },
-  "liveGasPricePredictions": {
-    "message": "Utabiri wa moja kwa moja wa Bei ya Gesi"
   },
   "loading": {
     "message": "Inapakia..."
@@ -809,9 +800,6 @@
   "slow": {
     "message": "Polepole"
   },
-  "slower": {
-    "message": "Taratibu"
-  },
   "saveAsCsvFile": {
     "message": "Hifadhi kama Faili la CSV"
   },
@@ -1048,9 +1036,6 @@
   },
   "transactionFee": {
     "message": "Ada ya Muamala"
-  },
-  "transactionTime": {
-    "message": "Muda wa Muamala"
   },
   "transfer": {
     "message": "Kutuma"

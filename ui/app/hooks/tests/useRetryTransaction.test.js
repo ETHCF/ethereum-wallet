@@ -8,7 +8,7 @@ import { useRetryTransaction } from '../useRetryTransaction'
 
 describe('useRetryTransaction', function () {
   describe('when transaction meets retry enabled criteria', function () {
-    const dispatch = sinon.spy(() => Promise.resolve({ blockTime: 0 }))
+    const dispatch = sinon.spy(() => Promise.resolve({}))
     const event = { preventDefault: () => undefined, stopPropagation: () => undefined }
 
     const retryEnabledTransaction = {
@@ -28,7 +28,7 @@ describe('useRetryTransaction', function () {
         const retry = result.current
         await retry(event)
         const calls = dispatch.getCalls()
-        assert.equal(calls.length, 5)
+        assert.equal(calls.length, 4)
         assert.equal(
           dispatch.calledWith(
             showSidebar({

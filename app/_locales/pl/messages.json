@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Wykres dostępny tylko w sieciach Ethereum"
-  },
   "contractInteraction": {
     "message": "Interakcja z kontraktem"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "Szybko"
   },
-  "faster": {
-    "message": "Szybciej"
-  },
   "fileImportFail": {
     "message": "Importowanie pliku nie działa? Kliknij tutaj!",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "links": {
     "message": "Łącza"
-  },
-  "liveGasPricePredictions": {
-    "message": "Przewidywanie ceny gazu na żywo"
   },
   "loading": {
     "message": "Ładowanie..."
@@ -821,9 +812,6 @@
   "slow": {
     "message": "Powoli"
   },
-  "slower": {
-    "message": "Wolniej"
-  },
   "saveAsCsvFile": {
     "message": "Zapisz jako plik CSV"
   },
@@ -1054,9 +1042,6 @@
   },
   "transactionFee": {
     "message": "Opłata transakcyjna"
-  },
-  "transactionTime": {
-    "message": "Czas transakcji"
   },
   "transfer": {
     "message": "Przelew"

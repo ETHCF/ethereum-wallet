@@ -3,21 +3,15 @@ import React from 'react'
 import sinon from 'sinon'
 import shallow from '../../../../../../lib/shallow-with-context'
 import GasModalPageContainer from '../gas-modal-page-container.component'
-import timeout from '../../../../../../lib/test-timeout'
 
 import PageContainer from '../../../../ui/page-container'
 
 import { Tab } from '../../../../ui/tabs'
 
-const mockBasicGasEstimates = {
-  blockTime: 'mockBlockTime',
-}
-
 const propsMethodSpies = {
   cancelAndClose: sinon.spy(),
   onSubmit: sinon.spy(),
-  fetchBasicGasAndTimeEstimates: sinon.stub().returns(Promise.resolve(mockBasicGasEstimates)),
-  fetchGasEstimates: sinon.spy(),
+  fetchBasicGasEstimates: sinon.spy(),
 }
 
 const mockGasPriceButtonGroupProps = {
@@ -26,17 +20,14 @@ const mockGasPriceButtonGroupProps = {
   gasButtonInfo: [
     {
       feeInPrimaryCurrency: '0.0048 ETH',
-      timeEstimate: '~ 1 min 0 sec',
       priceInHexWei: '0xa1b2c3f',
     },
     {
       feeInPrimaryCurrency: '0.004 ETH',
-      timeEstimate: '~ 1 min 30 sec',
       priceInHexWei: '0xa1b2c39',
     },
     {
       feeInPrimaryCurrency: '0.00354 ETH',
-      timeEstimate: '~ 2 min 1 sec',
       priceInHexWei: '0xa1b2c30',
     },
   ],
@@ -61,15 +52,13 @@ describe('GasModalPageContainer Component', function () {
       <GasModalPageContainer
         cancelAndClose={propsMethodSpies.cancelAndClose}
         onSubmit={propsMethodSpies.onSubmit}
-        fetchBasicGasAndTimeEstimates={propsMethodSpies.fetchBasicGasAndTimeEstimates}
-        fetchGasEstimates={propsMethodSpies.fetchGasEstimates}
+        fetchBasicGasEstimates={propsMethodSpies.fetchBasicGasEstimates}
         updateCustomGasPrice={() => 'mockupdateCustomGasPrice'}
         updateCustomGasLimit={() => 'mockupdateCustomGasLimit'}
         customGasPrice={21}
         customGasLimit={54321}
         gasPriceButtonGroupProps={mockGasPriceButtonGroupProps}
         infoRowProps={mockInfoRowProps}
-        currentTimeEstimate="1 min 31 sec"
         customGasPriceInHex="mockCustomGasPriceInHex"
         customGasLimitInHex="mockCustomGasLimitInHex"
         insufficientBalance={false}
@@ -83,20 +72,17 @@ describe('GasModalPageContainer Component', function () {
   })
 
   describe('componentDidMount', function () {
-    it('should call props.fetchBasicGasAndTimeEstimates', function () {
-      propsMethodSpies.fetchBasicGasAndTimeEstimates.resetHistory()
-      assert.equal(propsMethodSpies.fetchBasicGasAndTimeEstimates.callCount, 0)
+    it('should call props.fetchBasicGasEstimates', function () {
+      propsMethodSpies.fetchBasicGasEstimates.resetHistory()
       wrapper.instance().componentDidMount()
-      assert.equal(propsMethodSpies.fetchBasicGasAndTimeEstimates.callCount, 1)
+      assert.equal(propsMethodSpies.fetchBasicGasEstimates.callCount, 1)
     })
 
-    it('should call props.fetchGasEstimates with the block time returned by fetchBasicGasAndTimeEstimates', async function () {
-      propsMethodSpies.fetchGasEstimates.resetHistory()
-      assert.equal(propsMethodSpies.fetchGasEstimates.callCount, 0)
+    it('should not fetch estimates for a transaction with EIP-1559 fees', function () {
+      propsMethodSpies.fetchBasicGasEstimates.resetHistory()
+      wrapper.setProps({ feeMarketParams: { maxFeePerGas: '0x1' } })
       wrapper.instance().componentDidMount()
-      await timeout(250)
-      assert.equal(propsMethodSpies.fetchGasEstimates.callCount, 1)
-      assert.equal(propsMethodSpies.fetchGasEstimates.getCall(0).args[0], 'mockBlockTime')
+      assert.equal(propsMethodSpies.fetchBasicGasEstimates.callCount, 0)
     })
   })
 
@@ -132,8 +118,7 @@ describe('GasModalPageContainer Component', function () {
       sinon.stub(GP, 'renderTabs').returns('mockTabs')
       const renderTabsWrapperTester = shallow((
         <GasModalPageContainer
-          fetchBasicGasAndTimeEstimates={propsMethodSpies.fetchBasicGasAndTimeEstimates}
-          fetchGasEstimates={propsMethodSpies.fetchGasEstimates}
+          fetchBasicGasEstimates={propsMethodSpies.fetchBasicGasEstimates}
         />
       ), { context: { t: (str1, str2) => (str2 ? str1 + str2 : str1) } })
       const { tabsComponent } = renderTabsWrapperTester.find(PageContainer).props()
@@ -186,15 +171,13 @@ describe('GasModalPageContainer Component', function () {
         <GasModalPageContainer
           cancelAndClose={propsMethodSpies.cancelAndClose}
           onSubmit={propsMethodSpies.onSubmit}
-          fetchBasicGasAndTimeEstimates={propsMethodSpies.fetchBasicGasAndTimeEstimates}
-          fetchGasEstimates={propsMethodSpies.fetchGasEstimates}
+          fetchBasicGasEstimates={propsMethodSpies.fetchBasicGasEstimates}
           updateCustomGasPrice={() => 'mockupdateCustomGasPrice'}
           updateCustomGasLimit={() => 'mockupdateCustomGasLimit'}
           customGasPrice={21}
           customGasLimit={54321}
           gasPriceButtonGroupProps={mockGasPriceButtonGroupProps}
           infoRowProps={mockInfoRowProps}
-          currentTimeEstimate="1 min 31 sec"
           customGasPriceInHex="mockCustomGasPriceInHex"
           customGasLimitInHex="mockCustomGasLimitInHex"
           insufficientBalance={false}

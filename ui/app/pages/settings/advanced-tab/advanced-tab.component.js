@@ -20,8 +20,6 @@ export default class AdvancedTab extends PureComponent {
     sendHexData: PropTypes.bool,
     setAdvancedInlineGasFeatureFlag: PropTypes.func,
     advancedInlineGas: PropTypes.bool,
-    setTransactionTimeFeatureFlag: PropTypes.func,
-    transactionTime: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     setAutoLockTimeLimit: PropTypes.func.isRequired,
     setIpfsGateway: PropTypes.func.isRequired,
@@ -144,32 +142,6 @@ export default class AdvancedTab extends PureComponent {
             <ToggleButton
               value={advancedInlineGas}
               onToggle={(value) => setAdvancedInlineGasFeatureFlag(!value)}
-              offLabel={t('off')}
-              onLabel={t('on')}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  renderTransactionTimeEstimates () {
-    const { t } = this.context
-    const { transactionTime, setTransactionTimeFeatureFlag } = this.props
-
-    return (
-      <div className="settings-page__content-row" data-testid="advanced-setting-transaction-time-inline">
-        <div className="settings-page__content-item">
-          <span>{ t('transactionTime') }</span>
-          <div className="settings-page__content-description">
-            { t('showTransactionTimeDescription') }
-          </div>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <ToggleButton
-              value={transactionTime}
-              onToggle={(value) => setTransactionTimeFeatureFlag(!value)}
               offLabel={t('off')}
               onLabel={t('on')}
             />
@@ -357,7 +329,6 @@ export default class AdvancedTab extends PureComponent {
         { this.renderStateLogs() }
         { this.renderResetAccount() }
         { this.renderAdvancedGasInputInline() }
-        { this.renderTransactionTimeEstimates() }
         { this.renderHexDataOptIn() }
         { this.renderUseNonceOptIn() }
         { this.renderAutoLockTimeLimit() }

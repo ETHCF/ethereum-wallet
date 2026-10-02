@@ -1,5 +1,5 @@
-import ethUtil from 'ethereumjs-util'
-import MethodRegistry from 'eth-method-registry'
+import * as ethUtil from 'ethereumjs-util'
+import { MethodRegistry } from 'eth-method-registry'
 import abi from 'human-standard-token-abi'
 import log from 'loglevel'
 import {

@@ -1,7 +1,8 @@
 import punycode from 'punycode'
 import abi from 'human-standard-token-abi'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import { DateTime } from 'luxon'
+import { toChecksumHexAddress } from '../../../../app/scripts/lib/checksum-address'
 
 // formatData :: ( date: <Unix Timestamp> ) -> String
 export function formatDate (date, format = 'M/d/y \'at\' T') {
@@ -36,7 +37,8 @@ export function isValidAddress (address) {
   if (!address || address === '0x0000000000000000000000000000000000000000') {
     return false
   }
-  const prefixed = address.startsWith('0X') ? address : ethUtil.addHexPrefix(address)
+  // ethereumjs-util only accepts a lower case 0x prefix.
+  const prefixed = ethUtil.addHexPrefix(address.startsWith('0X') ? address.slice(2) : address)
   return (isAllOneCase(prefixed.slice(2)) && ethUtil.isValidAddress(prefixed)) || ethUtil.isValidChecksumAddress(prefixed)
 }
 
@@ -159,7 +161,7 @@ export function exportAsFile (filename, data, type = 'text/csv') {
  *
  */
 export function checksumAddress (address) {
-  const checksummed = address ? ethUtil.toChecksumAddress(address) : ''
+  const checksummed = address ? toChecksumHexAddress(address) : ''
   return checksummed
 }
 

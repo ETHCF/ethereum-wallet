@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "チャートはEthereumネットワークでのみ利用可能です。"
-  },
   "contractInteraction": {
     "message": "コントラクトへのアクセス"
   },

@@ -3,7 +3,7 @@ import vm from 'vm'
 import path from 'path'
 import { build } from 'esbuild'
 import { hdkey } from '@ethereumjs/wallet'
-import { publicToAddress, toChecksumAddress } from 'ethereumjs-util'
+import { bufferToHex, publicToAddress, toChecksumAddress } from 'ethereumjs-util'
 import browserOptions from '../../../development/build/browser-options'
 
 describe('Browser hardware key derivation', function () {
@@ -48,7 +48,7 @@ describe('Browser hardware key derivation', function () {
     assert.equal(accounts.length, 10)
     accounts.forEach((account, index) => {
       assert.equal(account.index, index)
-      assert.equal(account.address, toChecksumAddress(publicToAddress(Buffer.from(parent.deriveChild(index).publicKey), true).toString('hex')))
+      assert.equal(account.address, toChecksumAddress(bufferToHex(publicToAddress(Buffer.from(parent.deriveChild(index).publicKey), true))))
     })
   })
 })

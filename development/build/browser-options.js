@@ -5,26 +5,34 @@ const path = require('path')
 const { polyfillNode } = require('esbuild-plugin-polyfill-node')
 
 /**
- * Yarn nests a copy of readable-stream 3 under each @metamask package, because
- * the hoisted copy is version 2. Bundle one copy for all of them.
- *
- * @returns {Object} An esbuild plugin
+ * @returns {string} The browser entry of the readable-stream 3 copy that Yarn
+ * nests under the @metamask packages
  */
-function dedupeReadableStream () {
+function readableStreamBrowserEntry () {
   const fromPackage = path.dirname(require.resolve('@metamask/post-message-stream'))
   const { version } = JSON.parse(fs.readFileSync(require.resolve('readable-stream/package.json', { paths: [fromPackage] }), 'utf8'))
   if (!version.startsWith('3.')) {
     throw new Error(`Expected readable-stream 3 for @metamask packages, found ${version}`)
   }
-  const browserEntry = require.resolve('readable-stream/readable-browser.js', { paths: [fromPackage] })
+  return require.resolve('readable-stream/readable-browser.js', { paths: [fromPackage] })
+}
+
+/**
+ * The @metamask packages in page scripts use readable-stream 3, nested under
+ * each of them, while the wallet's own code uses the hoisted version 4. Bundle
+ * a single copy of version 3 for all of them, since page scripts are injected
+ * into every page; the wallet's streams work the same on either version.
+ *
+ * @returns {Object} An esbuild plugin
+ */
+function dedupeReadableStream () {
+  const browserEntry = readableStreamBrowserEntry()
   return {
     name: 'dedupe-readable-stream',
     setup (build) {
       // esbuild filters are Go regular expressions, which reject the u flag.
       // eslint-disable-next-line require-unicode-regexp
-      build.onResolve({ filter: /^readable-stream$/ }, ({ importer }) => {
-        return (/[\\/]node_modules[\\/]@metamask[\\/]/u).test(importer) ? { path: browserEntry } : undefined
-      })
+      build.onResolve({ filter: /^readable-stream$/ }, () => ({ path: browserEntry }))
     },
   }
 }
@@ -68,7 +76,7 @@ module.exports = function browserOptions ({ pageScript = false } = {}) {
       plugins: [dedupeReadableStream(), rebrandProviderMessages(), polyfillNode({ polyfills: { assert: false, crypto: false, stream: false } })],
       // readable-stream is bundled already; the Node stream polyfill would add a
       // second, larger copy.
-      alias: { stream: require.resolve('readable-stream') },
+      alias: { stream: readableStreamBrowserEntry() },
       loader: { '.svg': 'text' },
     }
   }

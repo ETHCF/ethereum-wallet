@@ -1,6 +1,7 @@
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import { decodeArguments } from './abi-method-decoder'
+import { toChecksumHexAddress } from './checksum-address'
 
 // Every check here runs on this device, using data the wallet already has and
 // the user's own RPC node. Nothing is sent to an outside analysis service.
@@ -43,7 +44,7 @@ function alert (id, severity, args = []) {
 }
 
 const lower = (address) => (typeof address === 'string' ? address.toLowerCase() : undefined)
-const checksum = (address) => ethUtil.toChecksumAddress(address)
+const checksum = (address) => toChecksumHexAddress(address)
 
 /**
  * Decodes a call this module understands.

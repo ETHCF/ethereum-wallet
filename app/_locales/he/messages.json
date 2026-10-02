@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "טבלה זמינה רק ברשתות אתריום."
-  },
   "contractInteraction": {
     "message": "אינטראקציית חוזה"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "מהיר"
   },
-  "faster": {
-    "message": "מהר יותר"
-  },
   "fileImportFail": {
     "message": "ייבוא הקובץ לא עובד? לחצ/י כאן!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "קישורים"
-  },
-  "liveGasPricePredictions": {
-    "message": "תחזיות מחירי גז בשידור חי"
   },
   "loading": {
     "message": "טוען..."
@@ -824,9 +815,6 @@
   "slow": {
     "message": "אטי"
   },
-  "slower": {
-    "message": "לאט יותר"
-  },
   "saveAsCsvFile": {
     "message": "שמירה כקובץ CSV"
   },
@@ -1063,9 +1051,6 @@
   },
   "transactionFee": {
     "message": "עמלת עסקה"
-  },
-  "transactionTime": {
-    "message": "זמן העסקה"
   },
   "transfer": {
     "message": "העברה"

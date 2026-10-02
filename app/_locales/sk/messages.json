@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Graf je k dispozícii iba v sieťach Ethereum."
-  },
   "contractInteraction": {
     "message": "Zmluvná interakcia"
   },
@@ -365,9 +362,6 @@
   "fast": {
     "message": "Rýchle"
   },
-  "faster": {
-    "message": "Rýchlejšie"
-  },
   "fileImportFail": {
     "message": "Import souboru nefunguje? Klikněte sem!",
     "description": "Helps user import their account from a JSON file"
@@ -527,9 +521,6 @@
   },
   "links": {
     "message": "Odkazy"
-  },
-  "liveGasPricePredictions": {
-    "message": "Predpoveď cien GAS naživo"
   },
   "loading": {
     "message": "Načítám..."
@@ -796,9 +787,6 @@
   "slow": {
     "message": "Pomalé"
   },
-  "slower": {
-    "message": "Pomalší"
-  },
   "saveAsCsvFile": {
     "message": "Uložiť ako súbor CSV"
   },
@@ -1029,9 +1017,6 @@
   },
   "transactionFee": {
     "message": "Poplatok za transakciu"
-  },
-  "transactionTime": {
-    "message": "Čas transakcie"
   },
   "transfer": {
     "message": "Prevod"

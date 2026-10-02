@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { ObservableStore } from '@metamask/obs-store'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import { providerErrors } from '@metamask/rpc-errors'
 import log from 'loglevel'
 import createId from './random-id'

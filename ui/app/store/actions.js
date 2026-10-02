@@ -1,6 +1,6 @@
 import abi from 'human-standard-token-abi'
 import pify from 'pify'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
 import { checksumAddress } from '../helpers/utils/util'
 import { calcTokenBalance, estimateGas } from '../pages/send/send.utils'

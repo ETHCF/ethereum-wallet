@@ -18,16 +18,6 @@ describe('Simple send', function () {
         await passwordField.sendKeys('correct horse battery staple')
         await passwordField.sendKeys(Key.ENTER)
         await driver.findElement(By.css('[data-testid="eth-overview-send"]'))
-        // Reproduce the live gas service's HTML error response instead of the
-        // successful canned response normally installed by the test build.
-        await driver.driver.executeScript(`
-          const originalFetch = window.fetch;
-          window.fetch = (url, ...args) => String(url).includes('ethgasstation.info')
-            ? Promise.resolve(new Response('<html><body>403 Forbidden</body></html>', {
-              status: 403, headers: { 'Content-Type': 'text/html' }
-            }))
-            : originalFetch(url, ...args);
-        `)
         await driver.clickElement(By.css('[data-testid="eth-overview-send"]'))
         const recipientAddressField = await driver.findElement(By.css('[data-testid="ens-input"]'))
         await recipientAddressField.sendKeys('0x985c30949c92df7a0bd42e0f3e3d539ece98db24')

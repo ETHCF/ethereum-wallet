@@ -44,11 +44,10 @@ const dependencies = Object.keys((packageJSON && packageJSON.dependencies) || {}
 // The exact paths the UI imports, so they are shared from ui-libs rather than bundled twice.
 const materialUIDependencies = ['@mui/material/TextField', '@mui/material/InputAdornment']
 const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
-const d3Dependencies = ['c3', 'd3']
 
 const externalDependenciesMap = {
   ui: [
-    ...materialUIDependencies, ...reactDepenendencies, ...d3Dependencies,
+    ...materialUIDependencies, ...reactDepenendencies,
   ],
 }
 
@@ -337,7 +336,6 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
       ECF_WALLET_ENVIRONMENT: environment,
       NODE_ENV: opts.devMode ? 'development' : 'production',
       IN_TEST: opts.testing ? 'true' : false,
-      ETH_GAS_STATION_API_KEY: process.env.ETH_GAS_STATION_API_KEY || '',
       CONF: opts.devMode ? conf : ({}),
     }), {
       global: true,

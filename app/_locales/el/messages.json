@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Το διάγραμμα είναι διαθέσιμο μόνο σε δίκτυα Ethereum."
-  },
   "contractInteraction": {
     "message": "Αλληλεπίδραση Σύμβασης"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "Γρήγορα"
   },
-  "faster": {
-    "message": "Πιο γρήγορα"
-  },
   "fileImportFail": {
     "message": "Η εισαγωγή αρχείων δεν λειτουργεί; Κάντε κλικ εδώ!",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "links": {
     "message": "Σύνδεσμοι"
-  },
-  "liveGasPricePredictions": {
-    "message": "Ζωντανές Προβλέψεις Τιμής Καυσίμου"
   },
   "loading": {
     "message": "Φόρτωση..."
@@ -824,9 +815,6 @@
   "slow": {
     "message": "Αργά"
   },
-  "slower": {
-    "message": "Πιο αργά"
-  },
   "saveAsCsvFile": {
     "message": "Αποθηκεύστε ως Αρχείο CSV"
   },
@@ -1060,9 +1048,6 @@
   },
   "transactionFee": {
     "message": "Χρέωση Συναλλαγής"
-  },
-  "transactionTime": {
-    "message": "Χρόνος Συναλλαγής"
   },
   "transfer": {
     "message": "Μεταφορά"

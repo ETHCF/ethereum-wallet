@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Grafik hanya tersedia pada jaringan Ethereum."
-  },
   "contractInteraction": {
     "message": "Interaksi Kontrak"
   },
@@ -365,9 +362,6 @@
   "fast": {
     "message": "Cepat"
   },
-  "faster": {
-    "message": "Lebih Cepat"
-  },
   "fileImportFail": {
     "message": "Impor berkas tidak tersedia? Klik di sini!",
     "description": "Helps user import their account from a JSON file"
@@ -537,9 +531,6 @@
   },
   "links": {
     "message": "Tautan"
-  },
-  "liveGasPricePredictions": {
-    "message": "Prediksi Harga Gas Langsung"
   },
   "loading": {
     "message": "Memuat..."
@@ -812,9 +803,6 @@
   "slow": {
     "message": "Lambat"
   },
-  "slower": {
-    "message": "Lebih Lambat"
-  },
   "saveAsCsvFile": {
     "message": "Simpan sebagai Berkas CSV"
   },
@@ -1045,9 +1033,6 @@
   },
   "transactionFee": {
     "message": "Biaya Transaksi"
-  },
-  "transactionTime": {
-    "message": "Waktu Transaksi"
   },
   "transferBetweenAccounts": {
     "message": "Transfer antar akun saya"

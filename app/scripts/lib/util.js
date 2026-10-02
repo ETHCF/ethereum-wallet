@@ -1,5 +1,5 @@
 import assert from 'assert'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import { memoize } from 'lodash'
 import browserGlobal from './browser-global'
@@ -113,7 +113,7 @@ function bnToHex (inputBn) {
  *
  */
 function hexToBn (inputHex) {
-  return new BN(ethUtil.stripHexPrefix(inputHex), 16)
+  return new BN(typeof inputHex === 'string' ? ethUtil.stripHexPrefix(inputHex) : inputHex, 16)
 }
 
 /**

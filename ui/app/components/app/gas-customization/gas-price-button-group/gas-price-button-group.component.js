@@ -7,7 +7,6 @@ import { GAS_ESTIMATE_TYPES } from '../../../../helpers/constants/common'
 const GAS_OBJECT_PROPTYPES_SHAPE = {
   gasEstimateType: PropTypes.oneOf(Object.values(GAS_ESTIMATE_TYPES)).isRequired,
   feeInPrimaryCurrency: PropTypes.string,
-  timeEstimate: PropTypes.string,
   priceInHexWei: PropTypes.string,
 }
 
@@ -41,7 +40,6 @@ export default class GasPriceButtonGroup extends Component {
   renderButtonContent ({
     gasEstimateType,
     feeInPrimaryCurrency,
-    timeEstimate,
   }, {
     className,
     showCheck,
@@ -49,7 +47,6 @@ export default class GasPriceButtonGroup extends Component {
     return (
       <div>
         { gasEstimateType && <div className={`${className}__label`}>{ this.gasEstimateTypeLabel(gasEstimateType) }</div> }
-        { timeEstimate && <div className={`${className}__time-estimate`}>{ timeEstimate }</div> }
         { feeInPrimaryCurrency && <div className={`${className}__primary-currency`}>{ feeInPrimaryCurrency }</div> }
         { showCheck && <div className="button-check-wrapper"><i className="fa fa-check fa-sm" /></div> }
       </div>

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import accountImporter from '../../../app/scripts/account-import-strategies'
 
 describe('Account Import Strategies', function () {
@@ -32,6 +32,12 @@ describe('Account Import Strategies', function () {
       await assert.rejects(async () => {
         await accountImporter.importAccount('Private Key', ['popcorn'])
       })
+    })
+
+    it('rejects a key that is not 32 bytes of hex', async function () {
+      for (const key of ['0x1234', `0x${'zz'.repeat(32)}`, `0x${'11'.repeat(33)}`]) {
+        await assert.rejects(accountImporter.importAccount('Private Key', [key]), { message: 'Cannot import invalid private key.' })
+      }
     })
   })
 

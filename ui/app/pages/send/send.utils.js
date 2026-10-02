@@ -1,5 +1,5 @@
 import { encode } from '@metamask/abi-utils'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import {
   addCurrencies,
   conversionUtil,

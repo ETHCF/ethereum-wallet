@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Mostra només els disponibles a les xarxes Ethereum."
-  },
   "contractInteraction": {
     "message": "Contractar Interacció"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "Ràpid"
   },
-  "faster": {
-    "message": "Més ràpid"
-  },
   "fileImportFail": {
     "message": "La importació no funciona? Fes clic aquí!",
     "description": "Helps user import their account from a JSON file"
@@ -534,9 +528,6 @@
   },
   "links": {
     "message": "Enllaços"
-  },
-  "liveGasPricePredictions": {
-    "message": "Prediccions del preu del gas en directe"
   },
   "loading": {
     "message": "S'està carregant..."
@@ -809,9 +800,6 @@
   "slow": {
     "message": "Lent"
   },
-  "slower": {
-    "message": "Més lent"
-  },
   "saveAsCsvFile": {
     "message": "Guarda com a Arxiu CSV"
   },
@@ -1042,9 +1030,6 @@
   },
   "transactionFee": {
     "message": "Preu de la transacció"
-  },
-  "transactionTime": {
-    "message": "Temps de transacció"
   },
   "transfer": {
     "message": "Transferència"

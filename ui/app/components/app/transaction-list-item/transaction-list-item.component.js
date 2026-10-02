@@ -23,7 +23,6 @@ import {
 import { useShouldShowSpeedUp } from '../../../hooks/useShouldShowSpeedUp'
 import TransactionStatus from '../transaction-status/transaction-status.component'
 import TransactionIcon from '../transaction-icon'
-import { useTransactionTimeRemaining } from '../../../hooks/useTransactionTimeRemaining'
 import IconWithLabel from '../../ui/icon-with-label'
 
 export default function TransactionListItem ({ transactionGroup, isEarliestNonce = false }) {
@@ -32,7 +31,7 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
   const { hasCancelled } = transactionGroup
   const [showDetails, setShowDetails] = useState(false)
 
-  const { initialTransaction: { id }, primaryTransaction: { err, submittedTime, gasPrice } } = transactionGroup
+  const { initialTransaction: { id }, primaryTransaction: { err } } = transactionGroup
   const [cancelEnabled, cancelTransaction] = useCancelTransaction(transactionGroup)
   const retryTransaction = useRetryTransaction(transactionGroup)
   const shouldShowSpeedUp = useShouldShowSpeedUp(transactionGroup, isEarliestNonce)
@@ -49,8 +48,6 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
     isPending,
     senderAddress,
   } = useTransactionDisplayData(transactionGroup)
-
-  const timeRemaining = useTransactionTimeRemaining(isPending, isEarliestNonce, submittedTime, gasPrice)
 
   const isSignatureReq = category === TRANSACTION_CATEGORY_SIGNATURE_REQUEST
   const isApproval = category === TRANSACTION_CATEGORY_APPROVAL
@@ -120,7 +117,6 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
         titleIcon={!isUnapproved && isPending && isEarliestNonce && (
           <IconWithLabel
             icon={<Preloader size={16} color="#D73A49" />}
-            label={timeRemaining}
           />
         )}
         icon={<TransactionIcon category={category} status={status} />}

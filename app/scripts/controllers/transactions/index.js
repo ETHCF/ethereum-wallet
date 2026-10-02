@@ -1,11 +1,11 @@
 import EventEmitter from '@metamask/safe-event-emitter'
 import { ObservableStore } from '@metamask/obs-store'
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import EthQuery from 'ethjs-query'
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
 import abi from 'human-standard-token-abi'
-import NonceTracker from 'nonce-tracker'
+import { NonceTracker } from 'nonce-tracker'
 import log from 'loglevel'
 import { isFeeMarketTransaction, replacementFees } from '../../lib/transaction-fees'
 import { createTransaction } from '../../lib/transaction-codec'
@@ -91,12 +91,7 @@ export default class TransactionController extends EventEmitter {
     this._onBootCleanUp()
 
     this.store = this.txStateManager.store
-    this.nonceTracker = new NonceTracker({
-      provider: this.provider,
-      blockTracker: this.blockTracker,
-      getPendingTransactions: this.txStateManager.getPendingTransactions.bind(this.txStateManager),
-      getConfirmedTransactions: this.txStateManager.getConfirmedTransactions.bind(this.txStateManager),
-    })
+    this.nonceTracker = this._createNonceTracker()
 
     this.pendingTxTracker = new PendingTransactionTracker({
       provider: this.provider,
@@ -118,6 +113,10 @@ export default class TransactionController extends EventEmitter {
     this.txStateManager.store.subscribe(() => this._updateMemstore())
     this.networkStore.subscribe(() => {
       this.networkGeneration += 1
+      // The nonce tracker reads nonces through ethers, which fails once the
+      // provider's chain changes, so use a new one for each network.
+      this.nonceTracker = this._createNonceTracker()
+      this.pendingTxTracker.nonceTracker = this.nonceTracker
       this._onBootCleanUp()
       this._updateMemstore()
     })
@@ -352,6 +351,15 @@ export default class TransactionController extends EventEmitter {
       maxPriorityFeePerGas: priority,
       maxFeePerGas: params.maxFeePerGas || `0x${baseFee.muln(2).add(new BN(priority.slice(2), 16)).toString(16)}`,
     }
+  }
+
+  _createNonceTracker () {
+    return new NonceTracker({
+      provider: this.provider,
+      blockTracker: this.blockTracker,
+      getPendingTransactions: this.txStateManager.getPendingTransactions.bind(this.txStateManager),
+      getConfirmedTransactions: this.txStateManager.getConfirmedTransactions.bind(this.txStateManager),
+    })
   }
 
   /**
@@ -658,7 +666,7 @@ export default class TransactionController extends EventEmitter {
       txHash = await this.query.sendRawTransaction(rawTx)
     } catch (error) {
       if (error.message.toLowerCase().includes('known transaction')) {
-        txHash = ethUtil.sha3(ethUtil.addHexPrefix(rawTx)).toString('hex')
+        txHash = ethUtil.keccak256(ethUtil.toBuffer(ethUtil.addHexPrefix(rawTx))).toString('hex')
         txHash = ethUtil.addHexPrefix(txHash)
       } else {
         throw error

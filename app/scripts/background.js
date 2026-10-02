@@ -16,7 +16,7 @@ import endOfStream from 'end-of-stream'
 import pump from 'pump'
 import log from 'loglevel'
 import { storeAsStream, storeTransformStream } from '@metamask/obs-store'
-import PortStream from 'extension-port-stream'
+import { ExtensionPortStream } from 'extension-port-stream'
 import { closeHardwareConnections } from './lib/hardware-keyrings'
 import extension from './lib/extension-api'
 import migrations from './migrations'
@@ -41,10 +41,6 @@ import {
 } from './lib/enums'
 /* eslint-enable import/first */
 
-if (process.env.IN_TEST === 'true') {
-  // eslint-disable-next-line global-require
-  require('../../development/mock-fetch')()
-}
 if (process.env.ECF_WALLET_DEBUG) {
   connectLiveReload()
 }
@@ -75,7 +71,7 @@ if (inTest || process.env.ECF_WALLET_DEBUG) {
   global.ecfWalletGetState = localStore.get.bind(localStore)
 }
 
-// Register wake-up events before loading persisted state. PortStream buffers
+// Register wake-up events before loading persisted state. ExtensionPortStream buffers
 // messages arriving while the controller is being restored.
 const initialized = initialize()
 initialized.catch(log.error)
@@ -113,7 +109,7 @@ function queueConnection (port, handler) {
   if (port.name === 'trezor-connect') {
     return
   }
-  const stream = new PortStream(port)
+  const stream = new ExtensionPortStream(port)
   let disconnected = false
   port.onDisconnect.addListener(() => {
     disconnected = true

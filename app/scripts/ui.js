@@ -7,13 +7,15 @@ import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import '@formatjs/intl-relativetimeformat/polyfill'
 
 import { EventEmitter } from 'events'
-import PortStream from 'extension-port-stream'
+import { ExtensionPortStream } from 'extension-port-stream'
 
 import Dnode from 'dnode'
 import Eth from 'ethjs'
 import EthQuery from 'eth-query'
 import StreamProvider from 'web3-stream-provider'
 import log from 'loglevel'
+import { getUniqueId } from '@metamask/json-rpc-engine'
+import { JsonRpcError } from '@metamask/rpc-errors'
 import launchEcfWalletUi from '../../ui'
 import extension from './lib/extension-api'
 import { setupMultiplex } from './lib/stream-utils'
@@ -23,11 +25,6 @@ import {
   ENVIRONMENT_TYPE_POPUP,
 } from './lib/enums'
 import { getEnvironmentType } from './lib/util'
-
-if (process.env.IN_TEST === 'true') {
-  // eslint-disable-next-line global-require
-  require('../../development/mock-fetch')()
-}
 
 start().catch(log.error)
 
@@ -41,7 +38,7 @@ async function start () {
 
   // setup stream to background
   const extensionPort = extension.runtime.connect({ name: windowType })
-  const connectionStream = new PortStream(extensionPort)
+  const connectionStream = new ExtensionPortStream(extensionPort)
   // An open wallet UI is an active session. Messages keep its controller alive
   // while the user reviews an approval or edits a form.
   const heartbeat = setInterval(() => {
@@ -136,6 +133,20 @@ function setupWeb3Connection (connectionStream) {
   providerStream.pipe(connectionStream).pipe(providerStream)
   connectionStream.on('error', console.error.bind(console))
   providerStream.on('error', console.error.bind(console))
+  // Libraries such as the token tracker use the EIP-1193 request method,
+  // which this provider predates.
+  providerStream.request = ({ method, params }) => new Promise((resolve, reject) => {
+    providerStream.sendAsync({ id: getUniqueId(), jsonrpc: '2.0', method, params }, (error, response) => {
+      const rpcError = error || response?.error
+      if (rpcError) {
+        reject(Number.isInteger(rpcError.code) && rpcError.message
+          ? new JsonRpcError(rpcError.code, rpcError.message, rpcError.data)
+          : rpcError)
+      } else {
+        resolve(response.result)
+      }
+    })
+  })
   global.ethereumProvider = providerStream
   global.ethQuery = new EthQuery(providerStream)
   global.eth = new Eth(providerStream)

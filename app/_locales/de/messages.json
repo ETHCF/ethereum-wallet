@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Die Grafik ist nur in Ethereum-Netzwerken verfügbar."
-  },
   "contractInteraction": {
     "message": "Vertragsinteraktion"
   },
@@ -359,9 +356,6 @@
   "fast": {
     "message": "Schnell"
   },
-  "faster": {
-    "message": "Schneller"
-  },
   "fileImportFail": {
     "message": "Dateiimport fehlgeschlagen? Bitte hier klicken!",
     "description": "Helps user import their account from a JSON file"
@@ -525,9 +519,6 @@
   },
   "likeToAddTokens": {
     "message": "Möchtest du diese Token hinzufügen?"
-  },
-  "liveGasPricePredictions": {
-    "message": "Live-Gaspreisprognosen"
   },
   "loading": {
     "message": "Laden..."
@@ -793,9 +784,6 @@
   "slow": {
     "message": "Langsam"
   },
-  "slower": {
-    "message": "Langsamer"
-  },
   "saveAsCsvFile": {
     "message": "Als CSV-Datei speichern"
   },
@@ -1026,9 +1014,6 @@
   },
   "transactionFee": {
     "message": "Transaktionsgebühr"
-  },
-  "transactionTime": {
-    "message": "Transaktionszeit"
   },
   "transferBetweenAccounts": {
     "message": "Zwischen meinen Konten transferieren"

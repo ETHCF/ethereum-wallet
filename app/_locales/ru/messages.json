@@ -440,9 +440,6 @@
   "youSign": {
     "message": "Вы подписываете"
   },
-  "chartOnlyAvailableEth": {
-    "message": "Диаграмма доступна только в сетях Ethereum."
-  },
   "contractInteraction": {
     "message": "Взаимодействие с контрактом"
   },
@@ -674,9 +671,6 @@
   "fast": {
     "message": "Быстро"
   },
-  "faster": {
-    "message": "Быстрее"
-  },
   "forgetDevice": {
     "message": "Забыть устройство"
   },
@@ -766,9 +760,6 @@
   },
   "letsGoSetUp": {
     "message": "Да, давайте приступим!"
-  },
-  "liveGasPricePredictions": {
-    "message": "Прогноз цены газа в режиме реального времени"
   },
   "loadMore": {
     "message": "Загрузить еще"
@@ -935,9 +926,6 @@
   "slow": {
     "message": "Медленно"
   },
-  "slower": {
-    "message": "Медленнее"
-  },
   "saveAsCsvFile": {
     "message": "Сохранить как файл CSV"
   },
@@ -1102,9 +1090,6 @@
   },
   "transactionFee": {
     "message": "Комиссия на перевод"
-  },
-  "transactionTime": {
-    "message": "Время транзакции"
   },
   "transfer": {
     "message": "Перевести"

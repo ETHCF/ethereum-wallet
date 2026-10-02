@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Grafikon na voljo le v glavnih omrežjih."
-  },
   "contractInteraction": {
     "message": "Interakcija s pogodbo"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Hiter"
   },
-  "faster": {
-    "message": "Hitrejši"
-  },
   "fileImportFail": {
     "message": "Uvoz z datoteko ne deluje? Kliknite tukaj!",
     "description": "Helps user import their account from a JSON file"
@@ -534,9 +528,6 @@
   },
   "links": {
     "message": "Povezave"
-  },
-  "liveGasPricePredictions": {
-    "message": "Napovedi o gas price"
   },
   "loading": {
     "message": "Nalaganje ..."
@@ -809,9 +800,6 @@
   "slow": {
     "message": "Počasen"
   },
-  "slower": {
-    "message": "Počasnejši"
-  },
   "saveAsCsvFile": {
     "message": "Shrani kot CSV datoteko"
   },
@@ -1048,9 +1036,6 @@
   },
   "transactionFee": {
     "message": "Transakcijska provizija"
-  },
-  "transactionTime": {
-    "message": "Transakcijski čas"
   },
   "transfer": {
     "message": "Prenesi"

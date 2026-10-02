@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Grafic disponibil numai pe rețelele Ethereum."
-  },
   "contractInteraction": {
     "message": "Interacțiune contract"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Rapid"
   },
-  "faster": {
-    "message": "Mai repede"
-  },
   "fileImportFail": {
     "message": "Importarea fișierului nu funcționează? Dați clic aici!",
     "description": "Helps user import their account from a JSON file"
@@ -540,9 +534,6 @@
   },
   "links": {
     "message": "Link-uri"
-  },
-  "liveGasPricePredictions": {
-    "message": "Predicții live de preț în gas"
   },
   "loading": {
     "message": "Se încarcă…"
@@ -818,9 +809,6 @@
   "slow": {
     "message": "Lent"
   },
-  "slower": {
-    "message": "Mai încet"
-  },
   "saveAsCsvFile": {
     "message": "Salvați ca fișier CSV "
   },
@@ -1054,9 +1042,6 @@
   },
   "transactionFee": {
     "message": "Taxa tranzacției"
-  },
-  "transactionTime": {
-    "message": "Ora tranzacției"
   },
   "transferBetweenAccounts": {
     "message": "Transferă între conturile mele"

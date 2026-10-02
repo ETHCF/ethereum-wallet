@@ -1,4 +1,4 @@
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-fees'

@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Diagram kun tilgjengelig på Ethereum-nettverk."
-  },
   "contractInteraction": {
     "message": "Kontraktssamhandling"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "Høy"
   },
-  "faster": {
-    "message": "Raskere "
-  },
   "fileImportFail": {
     "message": "Virker ikke filimporteringen? Trykk her!",
     "description": "Helps user import their account from a JSON file"
@@ -540,9 +534,6 @@
   },
   "links": {
     "message": "Lenker "
-  },
-  "liveGasPricePredictions": {
-    "message": "Prisforutsigelse av datakraft i sanntid"
   },
   "loading": {
     "message": "Laster inn ..."
@@ -821,9 +812,6 @@
   "slow": {
     "message": "Lav"
   },
-  "slower": {
-    "message": "Saktere"
-  },
   "saveAsCsvFile": {
     "message": "Lagre som CSV-fil "
   },
@@ -1048,9 +1036,6 @@
   },
   "transactionFee": {
     "message": "Transaksjonsavgift"
-  },
-  "transactionTime": {
-    "message": "Transaksjonstid"
   },
   "transfer": {
     "message": "Overfør"

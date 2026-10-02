@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Diagramos yra tik „Ethereum“ tinkluose."
-  },
   "contractInteraction": {
     "message": "Sutartinė sąveika"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Greitas"
   },
-  "faster": {
-    "message": "Greičiau"
-  },
   "fileImportFail": {
     "message": "Failo importavimas neveikia? Spustelėkite čia!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "Nuorodos"
-  },
-  "liveGasPricePredictions": {
-    "message": "Tiesioginiai dujų kainos spėjimai"
   },
   "loading": {
     "message": "Įkeliama..."
@@ -827,9 +818,6 @@
   "slow": {
     "message": "Lėtas"
   },
-  "slower": {
-    "message": "Lėčiau"
-  },
   "saveAsCsvFile": {
     "message": "Įrašyti kaip CSV failą"
   },
@@ -1066,9 +1054,6 @@
   },
   "transactionFee": {
     "message": "Operacijos mokestis"
-  },
-  "transactionTime": {
-    "message": "Operacijos laikas"
   },
   "transfer": {
     "message": "Pervesti"

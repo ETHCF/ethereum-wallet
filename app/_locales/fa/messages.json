@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "تنها قابل دسترس را در شبکه های ایتریوم جدول بندی نمایید"
-  },
   "contractInteraction": {
     "message": "تعامل قرارداد"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "سریع"
   },
-  "faster": {
-    "message": "سریع تر"
-  },
   "fileImportFail": {
     "message": "وارد کردن فایل کار نمیکند؟ اینجا کلیک نمایید!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "لینک ها"
-  },
-  "liveGasPricePredictions": {
-    "message": "پیش بینی های قیمت گاز"
   },
   "loading": {
     "message": "در حال بارکردن…"
@@ -827,9 +818,6 @@
   "slow": {
     "message": "آهسته"
   },
-  "slower": {
-    "message": "آهسته تر"
-  },
   "saveAsCsvFile": {
     "message": "ذخیره منحیث فایل CSV"
   },
@@ -1066,9 +1054,6 @@
   },
   "transactionFee": {
     "message": "فیس معامله"
-  },
-  "transactionTime": {
-    "message": "زمان معامله"
   },
   "transfer": {
     "message": "انتقال"

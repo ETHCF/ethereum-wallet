@@ -4,9 +4,6 @@ import proxyquire from 'proxyquire'
 const {
   getCustomGasLimit,
   getCustomGasPrice,
-  getEstimatedGasPrices,
-  getEstimatedGasTimes,
-  getPriceAndTimeEstimates,
   getRenderableBasicEstimateData,
   getRenderableEstimateDataForSmallButtonsFromGWEI,
 } = proxyquire('../custom-gas', {})
@@ -27,43 +24,6 @@ describe('custom-gas selectors', function () {
     })
   })
 
-  describe('getPriceAndTimeEstimates', function () {
-    it('should return price and time estimates', function () {
-      const mockState = { gas: { priceAndTimeEstimates: 'mockPriceAndTimeEstimates' } }
-      assert.equal(getPriceAndTimeEstimates(mockState), 'mockPriceAndTimeEstimates')
-    })
-  })
-
-  describe('getEstimatedGasPrices', function () {
-    it('should return price and time estimates', function () {
-      const mockState = {
-        gas: {
-          priceAndTimeEstimates: [
-            { gasprice: 12, somethingElse: 20 },
-            { gasprice: 22, expectedTime: 30 },
-            { gasprice: 32, somethingElse: 40 },
-          ],
-        },
-      }
-      assert.deepEqual(getEstimatedGasPrices(mockState), [12, 22, 32])
-    })
-  })
-
-  describe('getEstimatedGasTimes', function () {
-    it('should return price and time estimates', function () {
-      const mockState = {
-        gas: {
-          priceAndTimeEstimates: [
-            { somethingElse: 12, expectedTime: 20 },
-            { gasPrice: 22, expectedTime: 30 },
-            { somethingElse: 32, expectedTime: 40 },
-          ],
-        },
-      }
-      assert.deepEqual(getEstimatedGasTimes(mockState), [20, 30, 40])
-    })
-  })
-
   describe('getRenderableBasicEstimateData()', function () {
     const tests = [
       {
@@ -71,19 +31,16 @@ describe('custom-gas selectors', function () {
           {
             gasEstimateType: 'SLOW',
             feeInPrimaryCurrency: '0.0000525 ETH',
-            timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x9502f900',
           },
           {
             gasEstimateType: 'AVERAGE',
             feeInPrimaryCurrency: '0.000084 ETH',
             priceInHexWei: '0xee6b2800',
-            timeEstimate: '~5 min 18 sec',
           },
           {
             gasEstimateType: 'FAST',
             feeInPrimaryCurrency: '0.000105 ETH',
-            timeEstimate: '~3 min 18 sec',
             priceInHexWei: '0x12a05f200',
           },
         ],
@@ -95,15 +52,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 2.5,
-              safeLowWait: 6.6,
               average: 4,
-              avgWait: 5.3,
               fast: 5,
-              fastWait: 3.3,
               fastest: 10,
-              fastestWait: 0.5,
             },
           },
         },
@@ -113,19 +65,16 @@ describe('custom-gas selectors', function () {
           {
             gasEstimateType: 'SLOW',
             feeInPrimaryCurrency: '0.000105 ETH',
-            timeEstimate: '~13 min 12 sec',
             priceInHexWei: '0x12a05f200',
           },
           {
             feeInPrimaryCurrency: '0.000147 ETH',
             gasEstimateType: 'AVERAGE',
             priceInHexWei: '0x1a13b8600',
-            timeEstimate: '~10 min 6 sec',
           },
           {
             gasEstimateType: 'FAST',
             feeInPrimaryCurrency: '0.00021 ETH',
-            timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x2540be400',
           },
         ],
@@ -140,15 +89,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 5,
-              safeLowWait: 13.2,
               average: 7,
-              avgWait: 10.1,
               fast: 10,
-              fastWait: 6.6,
               fastest: 20,
-              fastestWait: 1.0,
             },
           },
         },
@@ -158,19 +102,16 @@ describe('custom-gas selectors', function () {
           {
             gasEstimateType: 'SLOW',
             feeInPrimaryCurrency: '0.000105 ETH',
-            timeEstimate: '~13 min 12 sec',
             priceInHexWei: '0x12a05f200',
           },
           {
             gasEstimateType: 'AVERAGE',
             feeInPrimaryCurrency: '0.000147 ETH',
-            timeEstimate: '~10 min 6 sec',
             priceInHexWei: '0x1a13b8600',
           },
           {
             gasEstimateType: 'FAST',
             feeInPrimaryCurrency: '0.00021 ETH',
-            timeEstimate: '~6 min 36 sec',
             priceInHexWei: '0x2540be400',
           },
         ],
@@ -185,15 +126,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 5,
-              safeLowWait: 13.2,
               average: 7,
-              avgWait: 10.1,
               fast: 10,
-              fastWait: 6.6,
               fastest: 20,
-              fastestWait: 1.0,
             },
           },
         },
@@ -241,15 +177,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 25,
-              safeLowWait: 6.6,
               average: 30,
-              avgWait: 5.5,
               fast: 50,
-              fastWait: 3.3,
               fastest: 100,
-              fastestWait: 0.5,
             },
           },
         },
@@ -283,15 +214,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 50,
-              safeLowWait: 13.2,
               average: 75,
-              avgWait: 9.6,
               fast: 100,
-              fastWait: 6.6,
               fastest: 200,
-              fastestWait: 1.0,
             },
           },
         },
@@ -325,15 +251,10 @@ describe('custom-gas selectors', function () {
           },
           gas: {
             basicEstimates: {
-              blockTime: 14.16326530612245,
               safeLow: 50,
-              safeLowWait: 13.2,
               average: 75,
-              avgWait: 9.6,
               fast: 100,
-              fastWait: 6.6,
               fastest: 200,
-              fastestWait: 1.0,
             },
           },
         },

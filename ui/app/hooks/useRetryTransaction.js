@@ -3,8 +3,7 @@ import { useCallback } from 'react'
 import { gasPriceForTransaction, isFeeMarketTransaction } from '../../../app/scripts/lib/transaction-fees'
 import { showSidebar } from '../store/actions'
 import {
-  fetchBasicGasAndTimeEstimates,
-  fetchGasEstimates,
+  fetchBasicGasEstimates,
   setCustomGasPriceForRetry,
   setCustomGasLimit,
 } from '../ducks/gas/gas.duck'
@@ -26,8 +25,7 @@ export function useRetryTransaction (transactionGroup) {
     event.stopPropagation()
 
     if (!isFeeMarketTransaction(primaryTransaction.txParams)) {
-      const basicEstimates = await dispatch(fetchBasicGasAndTimeEstimates)
-      await dispatch(fetchGasEstimates(basicEstimates.blockTime))
+      await dispatch(fetchBasicGasEstimates())
     }
     const transaction = primaryTransaction
     const increasedGasPrice = increaseLastGasPrice(gasPrice)

@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Таблиця доступна тільки в мережах Ethereum."
-  },
   "contractInteraction": {
     "message": "Контрактна взаємодія"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Швидка"
   },
-  "faster": {
-    "message": "Швидше"
-  },
   "fileImportFail": {
     "message": "Не працює імпорт файлу? Натисніть тут!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "Посилання"
-  },
-  "liveGasPricePredictions": {
-    "message": "Прогнози ціни на пальне наживо"
   },
   "loading": {
     "message": "Завантаження..."
@@ -827,9 +818,6 @@
   "slow": {
     "message": "Повільна"
   },
-  "slower": {
-    "message": "Повільніше"
-  },
   "saveAsCsvFile": {
     "message": "Зберегти як файл CSV"
   },
@@ -1066,9 +1054,6 @@
   },
   "transactionFee": {
     "message": "Комісія за транзакцію"
-  },
-  "transactionTime": {
-    "message": "Час транзакції"
   },
   "transfer": {
     "message": "Передати"

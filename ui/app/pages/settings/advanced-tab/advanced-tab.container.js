@@ -17,7 +17,6 @@ export const mapStateToProps = (state) => {
   const {
     featureFlags: {
       sendHexData,
-      transactionTime,
       advancedInlineGas,
     } = {},
     useNonceField,
@@ -29,7 +28,6 @@ export const mapStateToProps = (state) => {
     warning,
     sendHexData,
     advancedInlineGas,
-    transactionTime,
     autoLockTimeLimit,
     useNonceField,
     ipfsGateway,
@@ -42,7 +40,6 @@ export const mapDispatchToProps = (dispatch) => {
     displayWarning: (warning) => dispatch(displayWarning(warning)),
     showResetAccountConfirmationModal: () => dispatch(showModal({ name: 'CONFIRM_RESET_ACCOUNT' })),
     setAdvancedInlineGasFeatureFlag: (shouldShow) => dispatch(setFeatureFlag('advancedInlineGas', shouldShow)),
-    setTransactionTimeFeatureFlag: (shouldShow) => dispatch(setFeatureFlag('transactionTime', shouldShow)),
     setUseNonceField: (value) => dispatch(setUseNonceField(value)),
     setAutoLockTimeLimit: (value) => {
       return dispatch(setAutoLockTimeLimit(value))

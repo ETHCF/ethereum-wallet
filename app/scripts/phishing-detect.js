@@ -1,7 +1,7 @@
 import querystring from 'querystring'
 import { EventEmitter } from 'events'
 import dnode from 'dnode'
-import PortStream from 'extension-port-stream'
+import { ExtensionPortStream } from 'extension-port-stream'
 import extension from './lib/extension-api'
 import { setupMultiplex } from './lib/stream-utils'
 import { getEnvironmentType } from './lib/util'
@@ -18,7 +18,7 @@ function start () {
   global.platform = new ExtensionPlatform()
 
   const extensionPort = extension.runtime.connect({ name: getEnvironmentType() })
-  const connectionStream = new PortStream(extensionPort)
+  const connectionStream = new ExtensionPortStream(extensionPort)
   const mx = setupMultiplex(connectionStream)
   setupControllerConnection(mx.createStream('controller'), (err, ecfWalletController) => {
     if (err) {

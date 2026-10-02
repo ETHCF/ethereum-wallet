@@ -9,7 +9,7 @@ import {
   isTokenMethodAction,
 } from '../../helpers/utils/transactions.util'
 import {
-  fetchBasicGasAndTimeEstimates,
+  fetchBasicGasEstimates,
 } from '../../ducks/gas/gas.duck'
 
 import {
@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setTransactionToConfirm(transactionId))
     },
     clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
-    fetchBasicGasAndTimeEstimates: () => dispatch(fetchBasicGasAndTimeEstimates()),
+    fetchBasicGasEstimates: () => dispatch(fetchBasicGasEstimates()),
     getContractMethodData: (data) => dispatch(getContractMethodData(data)),
     getTokenParams: (tokenAddress) => dispatch(getTokenParams(tokenAddress)),
   }

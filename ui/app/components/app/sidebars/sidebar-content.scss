@@ -23,14 +23,6 @@
       }
     }
 
-    .gas-price-chart {
-      margin-left: 10px;
-
-      &__root {
-        max-height: 160px !important;
-      }
-    }
-
     .page-container__bottom {
       display: flex;
       flex-direction: column;
@@ -55,10 +47,6 @@
       .gas-price-button-group--alt {
         @media screen and (max-width: $break-small) {
           max-width: 318px;
-
-          &__time-estimate {
-            font-size: 12px;
-          }
         }
       }
     }

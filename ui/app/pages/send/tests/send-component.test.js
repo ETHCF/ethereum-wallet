@@ -14,7 +14,6 @@ describe('Send Component', function () {
   let wrapper
 
   const mockBasicGasEstimates = {
-    blockTime: 'mockBlockTime',
   }
 
   const propsMethodSpies = {
@@ -23,7 +22,6 @@ describe('Send Component', function () {
     updateSendTokenBalance: sinon.spy(),
     resetSendState: sinon.spy(),
     fetchBasicGasEstimates: sinon.stub().returns(Promise.resolve(mockBasicGasEstimates)),
-    fetchGasEstimates: sinon.spy(),
     updateToNicknameIfNecessary: sinon.spy(),
   }
   const utilsMethodStubs = {
@@ -48,7 +46,6 @@ describe('Send Component', function () {
         blockGasLimit="mockBlockGasLimit"
         editingTransactionId="mockEditingTransactionId"
         fetchBasicGasEstimates={propsMethodSpies.fetchBasicGasEstimates}
-        fetchGasEstimates={propsMethodSpies.fetchGasEstimates}
         from={ { address: 'mockAddress', balance: 'mockBalance' } }
         gasLimit="mockGasLimit"
         gasPrice="mockGasPrice"
@@ -96,7 +93,7 @@ describe('Send Component', function () {
   })
 
   describe('componentDidMount', function () {
-    it('should call props.fetchBasicGasAndTimeEstimates', function () {
+    it('should call props.fetchBasicGasEstimates', function () {
       propsMethodSpies.fetchBasicGasEstimates.resetHistory()
       assert.equal(propsMethodSpies.fetchBasicGasEstimates.callCount, 0)
       wrapper.instance().componentDidMount()

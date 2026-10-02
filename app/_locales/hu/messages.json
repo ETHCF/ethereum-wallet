@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "A diagram csak Ethereum hálózatokon érhető el"
-  },
   "contractInteraction": {
     "message": "Szerződéses interakció"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Gyors"
   },
-  "faster": {
-    "message": "Gyorsabban"
-  },
   "fileImportFail": {
     "message": "Nem működik a fájl importálása? Kattintson ide!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "Linkek"
-  },
-  "liveGasPricePredictions": {
-    "message": "Élő előrejelzések gázárak alakulására"
   },
   "loading": {
     "message": "Betöltés..."
@@ -824,9 +815,6 @@
   "slow": {
     "message": "Lassú"
   },
-  "slower": {
-    "message": "Lassabban"
-  },
   "saveAsCsvFile": {
     "message": "Mentés CSV-fájlként"
   },
@@ -1060,9 +1048,6 @@
   },
   "transactionFee": {
     "message": "Tranzakciós költség"
-  },
-  "transactionTime": {
-    "message": "Tranzakció ideje"
   },
   "transfer": {
     "message": "Átutalás"

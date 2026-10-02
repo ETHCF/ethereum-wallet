@@ -1,4 +1,4 @@
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 import { bumpFee } from '../../../../app/scripts/lib/transaction-fees'
 

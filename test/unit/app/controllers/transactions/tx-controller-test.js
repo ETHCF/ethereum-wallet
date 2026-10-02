@@ -58,6 +58,15 @@ describe('Transaction Controller', function () {
     })
   })
 
+  describe('nonce tracker', function () {
+    it('uses a new nonce tracker after the network changes', function () {
+      const { nonceTracker } = txController
+      txController.networkStore.putState('5')
+      assert.notEqual(txController.nonceTracker, nonceTracker)
+      assert.equal(txController.pendingTxTracker.nonceTracker, txController.nonceTracker)
+    })
+  })
+
   describe('#getUnapprovedTxCount', function () {
     it('should return the number of unapproved txs', function () {
       txController.txStateManager._saveTxList([

@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "圖表僅適用於以太坊網路。"
-  },
   "contractInteraction": {
     "message": "合約互動"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "快"
   },
-  "faster": {
-    "message": "更快"
-  },
   "fileImportFail": {
     "message": "檔案匯入失敗？點擊這裡！",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "links": {
     "message": "連結"
-  },
-  "liveGasPricePredictions": {
-    "message": "即時 Gas 價格預估"
   },
   "loading": {
     "message": "載入..."
@@ -812,9 +803,6 @@
   "slow": {
     "message": "慢"
   },
-  "slower": {
-    "message": "更慢"
-  },
   "saveAsCsvFile": {
     "message": "儲存為CSV格式檔案"
   },
@@ -1045,9 +1033,6 @@
   },
   "transactionFee": {
     "message": "交易費"
-  },
-  "transactionTime": {
-    "message": "交易時間"
   },
   "transfer": {
     "message": "交易"

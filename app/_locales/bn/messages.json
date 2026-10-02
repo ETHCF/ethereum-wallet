@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "শুধুমাত্র Ethereum নেটওয়ার্কগুলিতে চার্ট উপলভ্য। "
-  },
   "contractInteraction": {
     "message": "কন্ট্র্যাক্ট বাক্যালাপ"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "দ্রুত"
   },
-  "faster": {
-    "message": "দ্রুততর"
-  },
   "fileImportFail": {
     "message": "ফাইল আমদানি কাজ করছে না? এখানে ক্লিক করুন!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "লিঙ্কসমূহ"
-  },
-  "liveGasPricePredictions": {
-    "message": "সরাসরি গ্যাসের মূল্যের অনুমান"
   },
   "loading": {
     "message": "লোড হচ্ছে..."
@@ -827,9 +818,6 @@
   "slow": {
     "message": "মন্থর"
   },
-  "slower": {
-    "message": "ধীর গতির"
-  },
   "saveAsCsvFile": {
     "message": "CSV ফাইল হিসাবে সংরক্ষণ করুন"
   },
@@ -1066,9 +1054,6 @@
   },
   "transactionFee": {
     "message": "লেনদেন ফী"
-  },
-  "transactionTime": {
-    "message": "লেনদেনের সময়"
   },
   "transfer": {
     "message": "ট্রান্সফার করুন"

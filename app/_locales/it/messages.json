@@ -70,9 +70,6 @@
   "showIncomingTransactionsDescription": {
     "message": "Usa Etherscan per visualizzare le transazioni in ingresso nella lista delle transazioni"
   },
-  "chartOnlyAvailableEth": {
-    "message": "Grafico disponibile solo per le reti Ethereum."
-  },
   "connecting": {
     "message": "Connessione..."
   },
@@ -580,9 +577,6 @@
   "fast": {
     "message": "Veloce"
   },
-  "faster": {
-    "message": "Più veloce"
-  },
   "feeAssociatedRequest": {
     "message": "Una tassa è associata a questa richiesta."
   },
@@ -787,9 +781,6 @@
   },
   "links": {
     "message": "Collegamenti"
-  },
-  "liveGasPricePredictions": {
-    "message": "Previsione del prezzo del gas in tempo reale"
   },
   "loading": {
     "message": "Caricamento..."
@@ -1112,9 +1103,6 @@
   "slow": {
     "message": "Lenta"
   },
-  "slower": {
-    "message": "Più lenta"
-  },
   "saveAsCsvFile": {
     "message": "Salva Come File CSV"
   },
@@ -1417,12 +1405,6 @@
   },
   "transactionFee": {
     "message": "Costo Transazione"
-  },
-  "transactionTime": {
-    "message": "Tempo Conferma Transazione"
-  },
-  "showTransactionTimeDescription": {
-    "message": "Seleziona per mostrare nella scheda attività una stima dei tempi di transazione per le transazioni in corso sulla rete Ethereum principale. Nota: la stima è approssimativa basata sulle condizioni della rete."
   },
   "transfer": {
     "message": "Trasferisci"

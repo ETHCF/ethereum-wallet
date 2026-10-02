@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Grafikon dostupan jedino na mrežama Ethereum."
-  },
   "contractInteraction": {
     "message": "Ugovorna interakcija"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "Брзо"
   },
-  "faster": {
-    "message": "Brže"
-  },
   "fileImportFail": {
     "message": "Uvoz datoteke ne radi? Kliknite ovde!",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "links": {
     "message": "Veze"
-  },
-  "liveGasPricePredictions": {
-    "message": "Predviđanja cene gasa uživo"
   },
   "loading": {
     "message": "Учитава се..."
@@ -821,9 +812,6 @@
   "slow": {
     "message": "Споро"
   },
-  "slower": {
-    "message": "Sporije"
-  },
   "saveAsCsvFile": {
     "message": "Sačuvajte u formi CSV datoteke"
   },
@@ -1057,9 +1045,6 @@
   },
   "transactionFee": {
     "message": "Provizija"
-  },
-  "transactionTime": {
-    "message": "Vreme transakcije"
   },
   "transfer": {
     "message": "Prenos"

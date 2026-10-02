@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "केवल ईथरअम नेटवर्क पर उपलब्ध चार्ट।"
-  },
   "contractInteraction": {
     "message": "कॉन्ट्रैक्ट की बातचीत"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "तेज़"
   },
-  "faster": {
-    "message": "तीव्र"
-  },
   "fileImportFail": {
     "message": "फ़ाइल आयात काम नहीं कर रहा है? यहां क्लिक करे!",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "likeToAddTokens": {
     "message": "क्या आप इन टोकन को जोड़ना चाहेंगे?"
-  },
-  "liveGasPricePredictions": {
-    "message": "लाइव गैस की कीमत की भविष्यवाणी"
   },
   "loading": {
     "message": "लोड हो रही हैं..."
@@ -824,9 +815,6 @@
   "slow": {
     "message": "धीमा"
   },
-  "slower": {
-    "message": "धीमा"
-  },
   "saveAsCsvFile": {
     "message": " सीवीएस फ़ाइल के रूप में सहेजें"
   },
@@ -1060,9 +1048,6 @@
   },
   "transactionFee": {
     "message": "ट्रांज़ैक्शन शुल्क"
-  },
-  "transactionTime": {
-    "message": "ट्रांज़ैक्शन का समय"
   },
   "transfer": {
     "message": "स्थानांतरण"

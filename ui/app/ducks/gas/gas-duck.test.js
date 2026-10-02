@@ -1,722 +1,127 @@
 import assert from 'assert'
 import sinon from 'sinon'
-import proxyquire from 'proxyquire'
-
-const fakeLocalStorage = {}
-
-const GasDuck = proxyquire('./gas.duck.js', {
-  '../../../lib/local-storage-helpers': fakeLocalStorage,
-})
-
-const {
+import GasReducer, {
   basicGasEstimatesLoadingStarted,
   basicGasEstimatesLoadingFinished,
-  setBasicGasEstimateData,
-  setCustomGasPrice,
-  setCustomGasLimit,
-  fetchBasicGasAndTimeEstimates,
   fetchBasicGasEstimates,
-  gasEstimatesLoadingStarted,
-  gasEstimatesLoadingFinished,
-  setPricesAndTimeEstimates,
-  fetchGasEstimates,
-  setApiEstimatesLastRetrieved,
-} = GasDuck
-const GasReducer = GasDuck.default
+  resetCustomData,
+  setBasicGasEstimateData,
+  setCustomGasLimit,
+  setCustomGasPrice,
+  setCustomGasPriceForRetry,
+} from './gas.duck'
 
 describe('Gas Duck', function () {
-  let tempFetch
-  let tempDateNow
-  const mockEthGasApiResponse = {
-    average: 20,
-    avgWait: 'mockAvgWait',
-    block_time: 'mockBlock_time',
-    blockNum: 'mockBlockNum',
-    fast: 30,
-    fastest: 40,
-    fastestWait: 'mockFastestWait',
-    fastWait: 'mockFastWait',
-    safeLow: 10,
-    safeLowWait: 'mockSafeLowWait',
-    speed: 'mockSpeed',
-    standard: 20,
+  const initState = GasReducer(undefined, {})
+  let originalEthQuery
+
+  // Answers eth_gasPrice and eth_getBlockByNumber like ethjs-query does.
+  function stubNetwork ({ gasPrice, baseFeePerGas, gasPriceError } = {}) {
+    global.ethQuery = {
+      gasPrice: sinon.spy((callback) => callback(gasPriceError || null, gasPrice)),
+      getBlockByNumber: sinon.spy((_block, _full, callback) => callback(null, baseFeePerGas ? { baseFeePerGas } : {})),
+    }
   }
-  const mockPredictTableResponse = [
-    { expectedTime: 400, expectedWait: 40, gasprice: 0.25, somethingElse: 'foobar' },
-    { expectedTime: 200, expectedWait: 20, gasprice: 0.5, somethingElse: 'foobar' },
-    { expectedTime: 100, expectedWait: 10, gasprice: 1, somethingElse: 'foobar' },
-    { expectedTime: 75, expectedWait: 7.5, gasprice: 1.5, somethingElse: 'foobar' },
-    { expectedTime: 50, expectedWait: 5, gasprice: 2, somethingElse: 'foobar' },
-    { expectedTime: 35, expectedWait: 4.5, gasprice: 3, somethingElse: 'foobar' },
-    { expectedTime: 34, expectedWait: 4.4, gasprice: 3.1, somethingElse: 'foobar' },
-    { expectedTime: 25, expectedWait: 4.2, gasprice: 3.5, somethingElse: 'foobar' },
-    { expectedTime: 20, expectedWait: 4, gasprice: 4, somethingElse: 'foobar' },
-    { expectedTime: 19, expectedWait: 3.9, gasprice: 4.1, somethingElse: 'foobar' },
-    { expectedTime: 15, expectedWait: 3, gasprice: 7, somethingElse: 'foobar' },
-    { expectedTime: 14, expectedWait: 2.9, gasprice: 7.1, somethingElse: 'foobar' },
-    { expectedTime: 12, expectedWait: 2.5, gasprice: 8, somethingElse: 'foobar' },
-    { expectedTime: 10, expectedWait: 2, gasprice: 10, somethingElse: 'foobar' },
-    { expectedTime: 9, expectedWait: 1.9, gasprice: 10.1, somethingElse: 'foobar' },
-    { expectedTime: 5, expectedWait: 1, gasprice: 15, somethingElse: 'foobar' },
-    { expectedTime: 4, expectedWait: 0.9, gasprice: 15.1, somethingElse: 'foobar' },
-    { expectedTime: 2, expectedWait: 0.8, gasprice: 17, somethingElse: 'foobar' },
-    { expectedTime: 1.1, expectedWait: 0.6, gasprice: 19.9, somethingElse: 'foobar' },
-    { expectedTime: 1, expectedWait: 0.5, gasprice: 20, somethingElse: 'foobar' },
-  ]
-  const fakeFetch = (url) => new Promise((resolve) => {
-    const dataToResolve = url.match(/ethgasAPI/u)
-      ? mockEthGasApiResponse
-      : mockPredictTableResponse
-    resolve({
-      ok: true,
-      json: () => Promise.resolve(dataToResolve),
-    })
-  })
 
   beforeEach(function () {
-    tempFetch = window.fetch
-    tempDateNow = global.Date.now
-
-    fakeLocalStorage.loadLocalStorageData = sinon.stub()
-    fakeLocalStorage.saveLocalStorageData = sinon.spy()
-    window.fetch = sinon.stub().callsFake(fakeFetch)
-    global.Date.now = () => 2000000
+    originalEthQuery = global.ethQuery
   })
 
   afterEach(function () {
-    sinon.restore()
-
-    window.fetch = tempFetch
-    global.Date.now = tempDateNow
+    global.ethQuery = originalEthQuery
   })
-
-  describe('unavailable gas estimate service', function () {
-    let originalEthQuery
-
-    beforeEach(function () {
-      originalEthQuery = global.ethQuery
-      global.ethQuery = { gasPrice: sinon.stub().yields(null, '0x77359400') }
-    })
-
-    afterEach(function () {
-      global.ethQuery = originalEthQuery
-    })
-
-    it('uses the current network gas price when the service returns HTML with a 403', async function () {
-      const json = sinon.stub().rejects(new SyntaxError('Unexpected token <'))
-      window.fetch.resolves({ ok: false, status: 403, json })
-      const dispatch = sinon.spy()
-      const result = await fetchBasicGasAndTimeEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))
-      assert.equal(result.average, 2)
-      assert.equal(result.fast, 2)
-      assert.equal(result.safeLow, 2)
-      assert.equal(result.avgWait, null, 'RPC gas prices do not predict confirmation times')
-      assert.ok(json.notCalled)
-      assert.ok(global.ethQuery.gasPrice.calledOnce)
-      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
-    })
-
-    it('also handles malformed JSON and network failures in the send screen', async function () {
-      window.fetch.resolves({ ok: true, json: sinon.stub().rejects(new SyntaxError('Unexpected token <')) })
-      const dispatch = sinon.spy()
-      assert.equal((await fetchBasicGasEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))).fast, 2)
-      window.fetch.rejects(new Error('Failed to fetch'))
-      assert.equal((await fetchBasicGasEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))).fast, 2)
-      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
-    })
-
-    it('finishes loading and reports unavailable estimates when both sources fail', async function () {
-      window.fetch.rejects(new Error('Failed to fetch'))
-      global.ethQuery.gasPrice.yields(new Error('RPC unavailable'))
-      const dispatch = sinon.spy()
-      const result = await fetchBasicGasAndTimeEstimates()(dispatch, () => ({ gas: GasReducer(undefined, {}) }))
-      assert.equal(result.fast, null)
-      assert.ok(dispatch.calledWith(basicGasEstimatesLoadingFinished()))
-      assert.ok(dispatch.getCalls().some(({ args: [action] }) => action.type === 'DISPLAY_WARNING'))
-    })
-
-    it('does not invent confirmation predictions when the service is unavailable', async function () {
-      window.fetch.resolves({ ok: false, status: 403, json: sinon.stub().rejects(new SyntaxError('Unexpected token <')) })
-      const dispatch = sinon.spy()
-      await fetchGasEstimates(12)(dispatch, () => ({ gas: GasReducer(undefined, {}), ecfWallet: { provider: { type: 'mainnet' } } }))
-      assert.ok(dispatch.calledWith(setPricesAndTimeEstimates([])))
-      assert.ok(dispatch.calledWith(gasEstimatesLoadingFinished()))
-    })
-  })
-
-  const mockState = {
-    mockProp: 123,
-  }
-  const initState = {
-    customData: {
-      price: null,
-      limit: null,
-    },
-    basicEstimates: {
-      average: null,
-      fastestWait: null,
-      fastWait: null,
-      fast: null,
-      safeLowWait: null,
-      blockNum: null,
-      avgWait: null,
-      blockTime: null,
-      speed: null,
-      fastest: null,
-      safeLow: null,
-    },
-    basicEstimateIsLoading: true,
-    gasEstimatesLoading: true,
-    priceAndTimeEstimates: [],
-    priceAndTimeEstimatesLastRetrieved: 0,
-    basicPriceAndTimeEstimatesLastRetrieved: 0,
-    basicPriceEstimatesLastRetrieved: 0,
-  }
-  const BASIC_GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_FINISHED'
-  const BASIC_GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/BASIC_GAS_ESTIMATE_LOADING_STARTED'
-  const GAS_ESTIMATE_LOADING_FINISHED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_FINISHED'
-  const GAS_ESTIMATE_LOADING_STARTED = 'ecf-wallet/gas/GAS_ESTIMATE_LOADING_STARTED'
-  const SET_BASIC_GAS_ESTIMATE_DATA = 'ecf-wallet/gas/SET_BASIC_GAS_ESTIMATE_DATA'
-  const SET_CUSTOM_GAS_LIMIT = 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT'
-  const SET_CUSTOM_GAS_PRICE = 'ecf-wallet/gas/SET_CUSTOM_GAS_PRICE'
-  const SET_PRICE_AND_TIME_ESTIMATES = 'ecf-wallet/gas/SET_PRICE_AND_TIME_ESTIMATES'
-  const SET_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_API_ESTIMATES_LAST_RETRIEVED'
-  const SET_BASIC_API_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_API_ESTIMATES_LAST_RETRIEVED'
-  const SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED = 'ecf-wallet/gas/SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED'
 
   describe('GasReducer()', function () {
+    it('should initialize state', function () {
+      assert.deepEqual(initState, {
+        customData: { price: null, limit: null },
+        basicEstimates: { safeLow: null, average: null, fast: null, fastest: null },
+        basicEstimateIsLoading: true,
+      })
+    })
+
     it('should return state unchanged if it does not match a dispatched actions type', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: 'someOtherAction',
-          value: 'someValue',
-        }),
-        mockState,
-      )
+      assert.deepEqual(GasReducer({ mockProp: 123 }, { type: 'someOtherAction' }), { mockProp: 123 })
     })
 
-    it('should set basicEstimateIsLoading to true when receiving a BASIC_GAS_ESTIMATE_LOADING_STARTED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, { type: BASIC_GAS_ESTIMATE_LOADING_STARTED }),
-        { basicEstimateIsLoading: true, ...mockState },
-      )
+    it('should track whether basic estimates are loading', function () {
+      assert.equal(GasReducer(initState, basicGasEstimatesLoadingStarted()).basicEstimateIsLoading, true)
+      assert.equal(GasReducer(initState, basicGasEstimatesLoadingFinished()).basicEstimateIsLoading, false)
     })
 
-    it('should set basicEstimateIsLoading to false when receiving a BASIC_GAS_ESTIMATE_LOADING_FINISHED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, { type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }),
-        { basicEstimateIsLoading: false, ...mockState },
-      )
+    it('should set basic estimates', function () {
+      const basicEstimates = { safeLow: 1, average: 2, fast: 3, fastest: 4 }
+      assert.deepEqual(GasReducer(initState, setBasicGasEstimateData(basicEstimates)).basicEstimates, basicEstimates)
     })
 
-    it('should set gasEstimatesLoading to true when receiving a GAS_ESTIMATE_LOADING_STARTED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, { type: GAS_ESTIMATE_LOADING_STARTED }),
-        { gasEstimatesLoading: true, ...mockState },
-      )
-    })
-
-    it('should set gasEstimatesLoading to false when receiving a GAS_ESTIMATE_LOADING_FINISHED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, { type: GAS_ESTIMATE_LOADING_FINISHED }),
-        { gasEstimatesLoading: false, ...mockState },
-      )
-    })
-
-    it('should set basicEstimates when receiving a SET_BASIC_GAS_ESTIMATE_DATA action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: { someProp: 'someData123' },
-        }),
-        { basicEstimates: { someProp: 'someData123' }, ...mockState },
-      )
-    })
-
-    it('should set priceAndTimeEstimates when receiving a SET_PRICE_AND_TIME_ESTIMATES action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_PRICE_AND_TIME_ESTIMATES,
-          value: { someProp: 'someData123' },
-        }),
-        { priceAndTimeEstimates: { someProp: 'someData123' }, ...mockState },
-      )
-    })
-
-    it('should set customData.price when receiving a SET_CUSTOM_GAS_PRICE action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_CUSTOM_GAS_PRICE,
-          value: 4321,
-        }),
-        { customData: { price: 4321 }, ...mockState },
-      )
-    })
-
-    it('should set customData.limit when receiving a SET_CUSTOM_GAS_LIMIT action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_CUSTOM_GAS_LIMIT,
-          value: 9876,
-        }),
-        { customData: { limit: 9876 }, ...mockState },
-      )
-    })
-
-    it('should set priceAndTimeEstimatesLastRetrieved when receiving a SET_API_ESTIMATES_LAST_RETRIEVED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_API_ESTIMATES_LAST_RETRIEVED,
-          value: 1500000000000,
-        }),
-        { priceAndTimeEstimatesLastRetrieved: 1500000000000, ...mockState },
-      )
-    })
-
-    it('should set priceAndTimeEstimatesLastRetrieved when receiving a SET_BASIC_API_ESTIMATES_LAST_RETRIEVED action', function () {
-      assert.deepEqual(
-        GasReducer(mockState, {
-          type: SET_BASIC_API_ESTIMATES_LAST_RETRIEVED,
-          value: 1700000000000,
-        }),
-        { basicPriceAndTimeEstimatesLastRetrieved: 1700000000000, ...mockState },
-      )
-    })
-  })
-
-  describe('basicGasEstimatesLoadingStarted', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(basicGasEstimatesLoadingStarted(), { type: BASIC_GAS_ESTIMATE_LOADING_STARTED })
-    })
-  })
-
-  describe('basicGasEstimatesLoadingFinished', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(basicGasEstimatesLoadingFinished(), { type: BASIC_GAS_ESTIMATE_LOADING_FINISHED })
+    it('should set and reset custom gas data', function () {
+      let state = GasReducer(initState, setCustomGasPrice('0x10'))
+      state = GasReducer(state, setCustomGasLimit('0x5208'))
+      assert.deepEqual(state.customData, { price: '0x10', limit: '0x5208' })
+      assert.deepEqual(GasReducer(state, resetCustomData()).customData, { price: null, limit: null })
     })
   })
 
   describe('fetchBasicGasEstimates', function () {
-    it('should call fetch with the expected params', async function () {
-      const mockDistpatch = sinon.spy()
+    it('derives slow, average and fast prices from eth_gasPrice', async function () {
+      // 20 GWEI
+      stubNetwork({ gasPrice: '0x4a817c800' })
+      const dispatch = sinon.spy()
 
-      await fetchBasicGasEstimates()(mockDistpatch, () => ({
-        gas: { ...initState, basicPriceAEstimatesLastRetrieved: 1000000 },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(
-        window.fetch.getCall(0).args[0].startsWith('https://ethgasstation.info/json/ethgasAPI.json'),
-        'should fetch ETH Gas Station',
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{ type: SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED, value: 2000000 }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 2,
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 3,
-            fastest: 4,
-            safeLow: 1,
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(3).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
+      const estimates = await fetchBasicGasEstimates()(dispatch)
+
+      assert.deepEqual(estimates, { safeLow: 18, average: 20, fast: 25, fastest: 30 })
+      assert.deepEqual(dispatch.getCall(0).args[0], basicGasEstimatesLoadingStarted())
+      assert.deepEqual(dispatch.getCall(1).args[0], setBasicGasEstimateData(estimates))
+      assert.deepEqual(dispatch.getCall(2).args[0], basicGasEstimatesLoadingFinished())
     })
 
-    it('should fetch recently retrieved estimates from local storage', async function () {
-      const mockDistpatch = sinon.spy()
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_PRICE_ESTIMATES_LAST_RETRIEVED')
-        .returns(2000000 - 1) // one second ago from "now"
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_PRICE_ESTIMATES')
-        .returns({
-          average: 25,
-          blockTime: 'mockBlock_time',
-          blockNum: 'mockBlockNum',
-          fast: 35,
-          fastest: 45,
-          safeLow: 15,
-        })
-
-      await fetchBasicGasEstimates()(mockDistpatch, () => ({ gas: { ...initState } }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(window.fetch.notCalled)
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 25,
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 35,
-            fastest: 45,
-            safeLow: 15,
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
+    it('never suggests a slow price below the latest base fee', async function () {
+      // eth_gasPrice 20 GWEI, base fee 19.5 GWEI
+      stubNetwork({ gasPrice: '0x4a817c800', baseFeePerGas: '0x48a4a6300' })
+      const estimates = await fetchBasicGasEstimates()(sinon.spy())
+      assert.equal(estimates.safeLow, 19.5)
+      assert.equal(estimates.average, 20)
     })
 
-    it('should fallback to network if retrieving estimates from local storage fails', async function () {
-      const mockDistpatch = sinon.spy()
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_PRICE_ESTIMATES_LAST_RETRIEVED')
-        .returns(2000000 - 1) // one second ago from "now"
+    it('keeps fractions of a GWEI', async function () {
+      // 1.5 GWEI
+      stubNetwork({ gasPrice: '0x59682f00' })
+      const estimates = await fetchBasicGasEstimates()(sinon.spy())
+      assert.deepEqual(estimates, { safeLow: 1.35, average: 1.5, fast: 1.875, fastest: 2.25 })
+    })
 
-      await fetchBasicGasEstimates()(mockDistpatch, () => ({ gas: { ...initState } }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(
-        window.fetch.getCall(0).args[0].startsWith('https://ethgasstation.info/json/ethgasAPI.json'),
-        'should fetch ETH Gas Station',
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{ type: SET_BASIC_PRICE_ESTIMATES_LAST_RETRIEVED, value: 2000000 }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 2,
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 3,
-            fastest: 4,
-            safeLow: 1,
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(3).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
+    it('warns and finishes loading without estimates when the network fails', async function () {
+      stubNetwork({ gasPriceError: new Error('offline') })
+      const dispatch = sinon.spy()
+
+      const estimates = await fetchBasicGasEstimates()(dispatch)
+
+      assert.deepEqual(estimates, initState.basicEstimates)
+      const actions = dispatch.getCalls().map((call) => call.args[0])
+      assert.ok(actions.some((action) => action.value === 'Unable to fetch gas estimates. Check your network connection.'))
+      assert.deepEqual(actions[actions.length - 1], basicGasEstimatesLoadingFinished())
+    })
+
+    it('rejects a malformed gas price', async function () {
+      stubNetwork({ gasPrice: '<html>' })
+      const estimates = await fetchBasicGasEstimates()(sinon.spy())
+      assert.deepEqual(estimates, initState.basicEstimates)
     })
   })
 
-  describe('fetchBasicGasAndTimeEstimates', function () {
-    it('should call fetch with the expected params', async function () {
-      const mockDistpatch = sinon.spy()
-
-      await fetchBasicGasAndTimeEstimates()(mockDistpatch, () => ({
-        gas: {
-          ...initState,
-          basicPriceAndTimeEstimatesLastRetrieved: 1000000,
-        },
-        ecfWallet: { provider: { type: 'mainnet' } },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(
-        window.fetch.getCall(0).args[0].startsWith('https://ethgasstation.info/json/ethgasAPI.json'),
-        'should fetch ETH Gas Station',
-      )
-
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{ type: SET_BASIC_API_ESTIMATES_LAST_RETRIEVED, value: 2000000 }],
-      )
-
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 2,
-            avgWait: 'mockAvgWait',
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 3,
-            fastest: 4,
-            fastestWait: 'mockFastestWait',
-            fastWait: 'mockFastWait',
-            safeLow: 1,
-            safeLowWait: 'mockSafeLowWait',
-            speed: 'mockSpeed',
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(3).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
+  describe('setCustomGasPriceForRetry', function () {
+    it('uses the fast estimate when the transaction had no gas price', function () {
+      const dispatch = sinon.spy()
+      const getState = () => ({ gas: { basicEstimates: { fast: 25 } } })
+      setCustomGasPriceForRetry('0x0')(dispatch, getState)
+      assert.deepEqual(dispatch.getCall(0).args[0], setCustomGasPrice('5d21dba00'))
     })
 
-    it('should fetch recently retrieved estimates from local storage', async function () {
-      const mockDistpatch = sinon.spy()
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_GAS_AND_TIME_API_ESTIMATES_LAST_RETRIEVED')
-        .returns(2000000 - 1) // one second ago from "now"
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_GAS_AND_TIME_API_ESTIMATES')
-        .returns({
-          average: 5,
-          avgWait: 'mockAvgWait',
-          blockTime: 'mockBlock_time',
-          blockNum: 'mockBlockNum',
-          fast: 6,
-          fastest: 7,
-          fastestWait: 'mockFastestWait',
-          fastWait: 'mockFastWait',
-          safeLow: 1,
-          safeLowWait: 'mockSafeLowWait',
-          speed: 'mockSpeed',
-        })
-
-      await fetchBasicGasAndTimeEstimates()(mockDistpatch, () => ({
-        gas: {
-          ...initState,
-        },
-        ecfWallet: { provider: { type: 'mainnet' } },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(window.fetch.notCalled)
-
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 5,
-            avgWait: 'mockAvgWait',
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 6,
-            fastest: 7,
-            fastestWait: 'mockFastestWait',
-            fastWait: 'mockFastWait',
-            safeLow: 1,
-            safeLowWait: 'mockSafeLowWait',
-            speed: 'mockSpeed',
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
-    })
-
-    it('should fallback to network if retrieving estimates from local storage fails', async function () {
-      const mockDistpatch = sinon.spy()
-      fakeLocalStorage.loadLocalStorageData
-        .withArgs('BASIC_GAS_AND_TIME_API_ESTIMATES_LAST_RETRIEVED')
-        .returns(2000000 - 1) // one second ago from "now"
-
-      await fetchBasicGasAndTimeEstimates()(mockDistpatch, () => ({
-        gas: {
-          ...initState,
-        },
-        ecfWallet: { provider: { type: 'mainnet' } },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(
-        window.fetch.getCall(0).args[0].startsWith('https://ethgasstation.info/json/ethgasAPI.json'),
-        'should fetch ETH Gas Station',
-      )
-
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{ type: SET_BASIC_API_ESTIMATES_LAST_RETRIEVED, value: 2000000 }],
-      )
-
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{
-          type: SET_BASIC_GAS_ESTIMATE_DATA,
-          value: {
-            average: 2,
-            avgWait: 'mockAvgWait',
-            blockTime: 'mockBlock_time',
-            blockNum: 'mockBlockNum',
-            fast: 3,
-            fastest: 4,
-            fastestWait: 'mockFastestWait',
-            fastWait: 'mockFastWait',
-            safeLow: 1,
-            safeLowWait: 'mockSafeLowWait',
-            speed: 'mockSpeed',
-          },
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(3).args,
-        [{ type: BASIC_GAS_ESTIMATE_LOADING_FINISHED }],
-      )
-    })
-  })
-
-  describe('fetchGasEstimates', function () {
-    it('should call fetch with the expected params', async function () {
-      const mockDistpatch = sinon.spy()
-
-      await fetchGasEstimates(5)(mockDistpatch, () => ({
-        gas: {
-          ...initState,
-          priceAndTimeEstimatesLastRetrieved: 1000000,
-        },
-        ecfWallet: { provider: { type: 'mainnet' } },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.ok(
-        window.fetch.getCall(0).args[0].startsWith('https://ethgasstation.info/json/predictTable.json'),
-        'should fetch ETH Gas Station',
-      )
-
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{ type: SET_API_ESTIMATES_LAST_RETRIEVED, value: 2000000 }],
-      )
-
-      const { type: thirdDispatchCallType, value: priceAndTimeEstimateResult } = mockDistpatch.getCall(2).args[0]
-      assert.equal(thirdDispatchCallType, SET_PRICE_AND_TIME_ESTIMATES)
-      assert(priceAndTimeEstimateResult.length < ((mockPredictTableResponse.length * 3) - 2))
-      assert(!priceAndTimeEstimateResult.find((d) => d.expectedTime > 100))
-      assert(!priceAndTimeEstimateResult.find((d, _, a) => a[a + 1] && d.expectedTime > a[a + 1].expectedTime))
-      assert(!priceAndTimeEstimateResult.find((d, _, a) => a[a + 1] && d.gasprice > a[a + 1].gasprice))
-
-      assert.deepEqual(
-        mockDistpatch.getCall(3).args,
-        [{ type: GAS_ESTIMATE_LOADING_FINISHED }],
-      )
-    })
-
-    it('should not call fetch if the estimates were retrieved < 75000 ms ago', async function () {
-      const mockDistpatch = sinon.spy()
-
-      await fetchGasEstimates(5)(mockDistpatch, () => ({
-        gas: {
-          ...initState,
-          priceAndTimeEstimatesLastRetrieved: Date.now(),
-          priceAndTimeEstimates: [{
-            expectedTime: '10',
-            expectedWait: 2,
-            gasprice: 50,
-          }],
-        },
-        ecfWallet: { provider: { type: 'mainnet' } },
-      }))
-      assert.deepEqual(
-        mockDistpatch.getCall(0).args,
-        [{ type: GAS_ESTIMATE_LOADING_STARTED }],
-      )
-      assert.equal(window.fetch.callCount, 0)
-
-      assert.deepEqual(
-        mockDistpatch.getCall(1).args,
-        [{
-          type: SET_PRICE_AND_TIME_ESTIMATES,
-          value: [
-            {
-              expectedTime: '10',
-              expectedWait: 2,
-              gasprice: 50,
-            },
-          ],
-
-        }],
-      )
-      assert.deepEqual(
-        mockDistpatch.getCall(2).args,
-        [{ type: GAS_ESTIMATE_LOADING_FINISHED }],
-      )
-    })
-  })
-
-  describe('gasEstimatesLoadingStarted', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        gasEstimatesLoadingStarted(),
-        { type: GAS_ESTIMATE_LOADING_STARTED },
-      )
-    })
-  })
-
-  describe('gasEstimatesLoadingFinished', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        gasEstimatesLoadingFinished(),
-        { type: GAS_ESTIMATE_LOADING_FINISHED },
-      )
-    })
-  })
-
-  describe('setPricesAndTimeEstimates', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setPricesAndTimeEstimates('mockPricesAndTimeEstimates'),
-        { type: SET_PRICE_AND_TIME_ESTIMATES, value: 'mockPricesAndTimeEstimates' },
-      )
-    })
-  })
-
-  describe('setBasicGasEstimateData', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setBasicGasEstimateData('mockBasicEstimatData'),
-        { type: SET_BASIC_GAS_ESTIMATE_DATA, value: 'mockBasicEstimatData' },
-      )
-    })
-  })
-
-  describe('setCustomGasPrice', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setCustomGasPrice('mockCustomGasPrice'),
-        { type: SET_CUSTOM_GAS_PRICE, value: 'mockCustomGasPrice' },
-      )
-    })
-  })
-
-  describe('setCustomGasLimit', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setCustomGasLimit('mockCustomGasLimit'),
-        { type: SET_CUSTOM_GAS_LIMIT, value: 'mockCustomGasLimit' },
-      )
-    })
-  })
-
-  describe('setApiEstimatesLastRetrieved', function () {
-    it('should create the correct action', function () {
-      assert.deepEqual(
-        setApiEstimatesLastRetrieved(1234),
-        { type: SET_API_ESTIMATES_LAST_RETRIEVED, value: 1234 },
-      )
+    it('uses the given price otherwise', function () {
+      const dispatch = sinon.spy()
+      setCustomGasPriceForRetry('0x10')(dispatch, () => ({}))
+      assert.deepEqual(dispatch.getCall(0).args[0], setCustomGasPrice('0x10'))
     })
   })
 })

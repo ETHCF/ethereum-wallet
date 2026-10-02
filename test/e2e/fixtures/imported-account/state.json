@@ -79,8 +79,7 @@
       "completedOnboarding": true,
       "currentLocale": "en",
       "featureFlags": {
-        "showIncomingTransactions": true,
-        "transactionTime": false
+        "showIncomingTransactions": true
       },
       "firstTimeFlowType": "create",
       "forgottenPassword": false,

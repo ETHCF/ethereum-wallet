@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "聊天功能仅对以太坊网络开放。"
-  },
   "contractInteraction": {
     "message": "合约交互"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "快"
   },
-  "faster": {
-    "message": "快捷操作"
-  },
   "fileImportFail": {
     "message": "文件导入失败？ 点击这里！",
     "description": "Helps user import their account from a JSON file"
@@ -537,9 +531,6 @@
   },
   "links": {
     "message": "链接"
-  },
-  "liveGasPricePredictions": {
-    "message": "实时天然气价格预测"
   },
   "loading": {
     "message": "加载中..."
@@ -809,9 +800,6 @@
   "slow": {
     "message": "慢"
   },
-  "slower": {
-    "message": "降速"
-  },
   "saveAsCsvFile": {
     "message": "另存为CSV文件"
   },
@@ -1048,9 +1036,6 @@
   },
   "transactionFee": {
     "message": "交易费"
-  },
-  "transactionTime": {
-    "message": "交易时间"
   },
   "transfer": {
     "message": "转账"

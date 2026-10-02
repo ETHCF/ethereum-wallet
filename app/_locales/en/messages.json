@@ -79,9 +79,6 @@
   "showIncomingTransactionsDescription": {
     "message": "Select this to use Etherscan to show incoming transactions in the transactions list"
   },
-  "chartOnlyAvailableEth": {
-    "message": "Chart only available on Ethereum networks."
-  },
   "connecting": {
     "message": "Connecting..."
   },
@@ -537,7 +534,7 @@
     "message": "Error in ENS name registration"
   },
   "ensNotFoundOnCurrentNetwork": {
-    "message": "ENS name not found on the current network. Try switching to Main Ethereum Network."
+    "message": "ENS name not found on the current network. Try switching to Ethereum Mainnet."
   },
   "enterAnAlias": {
     "message": "Enter an alias"
@@ -604,9 +601,6 @@
   },
   "fast": {
     "message": "Fast"
-  },
-  "faster": {
-    "message": "Faster"
   },
   "feeAssociatedRequest": {
     "message": "A fee is associated with this request."
@@ -813,9 +807,6 @@
   "links": {
     "message": "Links"
   },
-  "liveGasPricePredictions": {
-    "message": "Live Gas Price Predictions"
-  },
   "loading": {
     "message": "Loading..."
   },
@@ -835,7 +826,7 @@
     "message": "Lock time is too great"
   },
   "mainnet": {
-    "message": "Main Ethereum Network"
+    "message": "Ethereum Mainnet"
   },
   "memorizePhrase": {
     "message": "Memorize this phrase."
@@ -1139,9 +1130,6 @@
   },
   "slow": {
     "message": "Slow"
-  },
-  "slower": {
-    "message": "Slower"
   },
   "saveAsCsvFile": {
     "message": "Save as CSV File"
@@ -1451,12 +1439,6 @@
   },
   "transactionFee": {
     "message": "Transaction Fee"
-  },
-  "transactionTime": {
-    "message": "Transaction Time"
-  },
-  "showTransactionTimeDescription": {
-    "message": "Select this to display pending transaction time estimates in the activity tab while on the Main Ethereum Network. Note: estimates are approximations based on network conditions."
   },
   "transfer": {
     "message": "Transfer"

@@ -88,20 +88,12 @@ describe('gas-modal-page-container container', function () {
         },
         gas: {
           basicEstimates: {
-            blockTime: 12,
             safeLow: 2,
           },
           customData: {
             limit: 'aaaaaaaa',
             price: 'ffffffff',
           },
-          gasEstimatesLoading: false,
-          priceAndTimeEstimates: [
-            { gasprice: 3, expectedTime: 31 },
-            { gasprice: 4, expectedTime: 62 },
-            { gasprice: 5, expectedTime: 93 },
-            { gasprice: 6, expectedTime: 124 },
-          ],
         },
         confirmTransaction: {
           txData: {
@@ -120,25 +112,15 @@ describe('gas-modal-page-container container', function () {
         isConfirm: true,
         customGasPrice: 4.294967295,
         customGasLimit: 2863311530,
-        currentTimeEstimate: '~1 min 11 sec',
-        blockTime: 12,
         customModalGasLimitInHex: 'aaaaaaaa',
         customModalGasPriceInHex: 'ffffffff',
         customGasTotal: 'aaaaaaa955555556',
         customPriceIsSafe: true,
-        gasChartProps: {
-          'currentPrice': 4.294967295,
-          estimatedTimes: [31, 62, 93, 124],
-          estimatedTimesMax: 31,
-          gasPrices: [3, 4, 5, 6],
-          gasPricesMax: 6,
-        },
         gasPriceButtonGroupProps: {
           buttonDataLoading: 'mockBasicGasEstimateLoadingStatus:4',
           defaultActiveButtonIndex: 'mockRenderableBasicEstimateData:4ffffffff',
           gasButtonInfo: 'mockRenderableBasicEstimateData:4',
         },
-        gasEstimatesLoading: false,
         hideBasic: true,
         infoRowProps: {
           originalTotalEth: '12.748189 ETH',
@@ -150,7 +132,6 @@ describe('gas-modal-page-container container', function () {
         isSpeedUp: false,
         isRetry: false,
         txId: 34,
-        isEthereumNetwork: true,
         isMainnet: true,
         maxModeOn: false,
         sendToken: null,
@@ -186,7 +167,6 @@ describe('gas-modal-page-container container', function () {
           mockOwnProps: baseMockOwnProps,
           expectedResult: {
             ...baseExpectedResult,
-            isEthereumNetwork: false,
             isMainnet: false,
           },
         },

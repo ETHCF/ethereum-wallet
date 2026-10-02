@@ -1,5 +1,5 @@
 /* global globalThis */
-import ethUtil from 'ethereumjs-util'
+import * as ethUtil from 'ethereumjs-util'
 
 const accountImporter = {
 
@@ -15,9 +15,8 @@ const accountImporter = {
       }
 
       const prefixed = ethUtil.addHexPrefix(privateKey)
-      const buffer = ethUtil.toBuffer(prefixed)
-
-      if (!ethUtil.isValidPrivate(buffer)) {
+      // A private key is 32 bytes; isValidPrivate throws for other input.
+      if (!(/^0x[0-9a-f]{64}$/iu).test(prefixed) || !ethUtil.isValidPrivate(ethUtil.toBuffer(prefixed))) {
         throw new Error('Cannot import invalid private key.')
       }
 

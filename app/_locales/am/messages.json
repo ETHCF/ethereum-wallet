@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "ቻርት የሚገኘው በ Ethereum አውታረ መረቦች ላይ ብቻ ነው።"
-  },
   "contractInteraction": {
     "message": "የግንኙነት ተግባቦት"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "ፈጣን"
   },
-  "faster": {
-    "message": "በፍጥነት"
-  },
   "fileImportFail": {
     "message": "ፋይል ማስመጣት እየሰራ አይደለም? እዚህ ላይ ጠቅ ያድርጉ!",
     "description": "Helps user import their account from a JSON file"
@@ -546,9 +540,6 @@
   },
   "links": {
     "message": "ማስፈንጠሪያዎች"
-  },
-  "liveGasPricePredictions": {
-    "message": "ቀጥታ የነዳጅ ዋጋ ትንበያዎች"
   },
   "loading": {
     "message": "በመጫን ላይ…"
@@ -824,9 +815,6 @@
   "slow": {
     "message": "ቀስ"
   },
-  "slower": {
-    "message": "ዘገምተኛ"
-  },
   "saveAsCsvFile": {
     "message": "እንደ CSV ፋይል አስቀምጥ"
   },
@@ -1063,9 +1051,6 @@
   },
   "transactionFee": {
     "message": " የግብይት ክፍያ"
-  },
-  "transactionTime": {
-    "message": "የግብይት ጊዜ"
   },
   "transfer": {
     "message": "ያስተላልፉ"

@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "이더리움 네트워크에서만 사용 가능한 차트."
-  },
   "contractInteraction": {
     "message": "계약 상호 작용"
   },
@@ -371,9 +368,6 @@
   "fast": {
     "message": "빠름"
   },
-  "faster": {
-    "message": "빨라짐"
-  },
   "fileImportFail": {
     "message": "파일을 가져올 수 없나요? 이곳을 클릭해주세요!",
     "description": "Helps user import their account from a JSON file"
@@ -540,9 +534,6 @@
   },
   "links": {
     "message": "링크"
-  },
-  "liveGasPricePredictions": {
-    "message": "실시간 가스 가격 예측"
   },
   "loading": {
     "message": "로딩 중..."
@@ -818,9 +809,6 @@
   "slow": {
     "message": "느림"
   },
-  "slower": {
-    "message": "느려짐"
-  },
   "saveAsCsvFile": {
     "message": "CSV 파일로 저장"
   },
@@ -1057,9 +1045,6 @@
   },
   "transactionFee": {
     "message": "수수료"
-  },
-  "transactionTime": {
-    "message": "트랜잭션 시간"
   },
   "transfer": {
     "message": "전송"

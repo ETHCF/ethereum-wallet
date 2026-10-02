@@ -1,7 +1,4 @@
 {
-  "chartOnlyAvailableEth": {
-    "message": "Tabel on saadaval vaid Ethereumi võrkudes."
-  },
   "contractInteraction": {
     "message": "Lepingu suhtlus"
   },
@@ -374,9 +371,6 @@
   "fast": {
     "message": "Kiire"
   },
-  "faster": {
-    "message": "Kiiremini"
-  },
   "fileImportFail": {
     "message": "Faili importimine ei toimi? Klõpsake siia!",
     "description": "Helps user import their account from a JSON file"
@@ -543,9 +537,6 @@
   },
   "links": {
     "message": "Lingid"
-  },
-  "liveGasPricePredictions": {
-    "message": "Gaasihinna prognoosid reaalajas"
   },
   "loading": {
     "message": "Laadimine..."
@@ -821,9 +812,6 @@
   "slow": {
     "message": "Aeglane"
   },
-  "slower": {
-    "message": "Aeglasem"
-  },
   "saveAsCsvFile": {
     "message": "Salvesta CSV-failina"
   },
@@ -1060,9 +1048,6 @@
   },
   "transactionFee": {
     "message": "Tehingutasu"
-  },
-  "transactionTime": {
-    "message": "Tehingu aeg"
   },
   "transfer": {
     "message": "Ülekandmine"
