@@ -386,10 +386,6 @@
   "faster": {
     "message": "Más rápido"
   },
-  "fiat": {
-    "message": "Dinero fiduciario",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "¿No puedes importar archivos? ¡Haz clic aquí!",
     "description": "Helps user import their account from a JSON file"
@@ -721,12 +717,6 @@
   },
   "prev": {
     "message": "Ant"
-  },
-  "primaryCurrencySetting": {
-    "message": "Moneda principal"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Selecciona \"moneda nativa\" para que se muestren primero los valores en la moneda nativa de la cadena (p. ej., ETH). Selecciona \"dinero fiduciario\" para que se muestren primero los valores en la moneda fiduciaria que seleccionaste."
   },
   "privacyMsg": {
     "message": "Política de privacidad"

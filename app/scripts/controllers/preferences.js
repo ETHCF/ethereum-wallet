@@ -60,6 +60,11 @@ export default class PreferencesController {
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link', ...opts.initState,
     }
+    // Values are always displayed in the native currency
+    initState.preferences = {
+      ...initState.preferences,
+      useNativeCurrencyAsPrimaryCurrency: true,
+    }
 
     this.network = opts.network
     this.store = new ObservableStore(initState)

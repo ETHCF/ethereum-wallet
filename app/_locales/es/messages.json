@@ -316,10 +316,6 @@
   "faster": {
     "message": "Más Rápido"
   },
-  "fiat": {
-    "message": "FIAT",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "¿La importación no funcionó? ¡Haz click aquí!",
     "description": "Helps user import their account from a JSON file"
@@ -585,12 +581,6 @@
   },
   "personalAddressDetected": {
     "message": "Dirección personal detectada. Ingresa la dirección del contrato del token"
-  },
-  "primaryCurrencySetting": {
-    "message": "Moneda principal"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Seleccionar nativa para prioritizar el que se muestren los valores en la moneda nativa de la cadena (p.ej. ETH). Seleccionar Fíat para prioritzar el que se muestren los valores en la moneda fíat seleccionada."
   },
   "privacyMsg": {
     "message": "Política de privacidad"

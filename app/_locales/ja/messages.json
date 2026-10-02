@@ -199,10 +199,6 @@
   "failed": {
     "message": "失敗"
   },
-  "fiat": {
-    "message": "法定通貨",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "ファイルがインポートされなければ、ここをクリック!",
     "description": "Helps user import their account from a JSON file"

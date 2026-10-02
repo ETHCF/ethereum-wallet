@@ -347,6 +347,8 @@ export function checkHardwareStatus (deviceName, hdPath) {
     try {
       unlocked = await promisifiedBackground.checkHardwareStatus(deviceName, hdPath)
     } catch (error) {
+      // Leaving the loading overlay up would block every click on the page.
+      dispatch(hideLoadingIndication())
       log.error(error)
       dispatch(displayWarning(error.message))
       throw error
@@ -365,6 +367,8 @@ export function forgetDevice (deviceName) {
     try {
       await promisifiedBackground.forgetDevice(deviceName)
     } catch (error) {
+      // Leaving the loading overlay up would block every click on the page.
+      dispatch(hideLoadingIndication())
       log.error(error)
       dispatch(displayWarning(error.message))
       throw error
@@ -1826,10 +1830,6 @@ export function setDefaultHomeActiveTabName (value) {
   return async () => {
     await promisifiedBackground.setDefaultHomeActiveTabName(value)
   }
-}
-
-export function setUseNativeCurrencyAsPrimaryCurrencyPreference (value) {
-  return setPreference('useNativeCurrencyAsPrimaryCurrency', value)
 }
 
 export function setShowFiatConversionOnTestnetsPreference (value) {

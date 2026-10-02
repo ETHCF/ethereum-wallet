@@ -72,10 +72,6 @@ describe('Token Cell', function () {
     assert.equal(wrapper.find('.list-item__heading').text(), '5.000 TEST')
   })
 
-  it('renders converted fiat amount', function () {
-    assert.equal(wrapper.find('.list-item__subheading').text(), '$0.52 USD')
-  })
-
   it('calls onClick when clicked', function () {
     assert.ok(!onClick.called)
     wrapper.simulate('click')

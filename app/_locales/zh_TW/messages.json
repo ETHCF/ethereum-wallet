@@ -386,10 +386,6 @@
   "faster": {
     "message": "更快"
   },
-  "fiat": {
-    "message": "法定貨幣",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "檔案匯入失敗？點擊這裡！",
     "description": "Helps user import their account from a JSON file"
@@ -724,12 +720,6 @@
   },
   "personalAddressDetected": {
     "message": "偵測為個人位址，請輸入代幣合約位址"
-  },
-  "primaryCurrencySetting": {
-    "message": "主要顯示"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "選擇使用乙太幣(ETH)或是法定貨幣(例如：美金)為主要錢幣顯示單位"
   },
   "privacyMsg": {
     "message": "隱私政策"

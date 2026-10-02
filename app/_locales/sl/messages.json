@@ -389,10 +389,6 @@
   "faster": {
     "message": "Hitrejši"
   },
-  "fiat": {
-    "message": "Klasične",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Uvoz z datoteko ne deluje? Kliknite tukaj!",
     "description": "Helps user import their account from a JSON file"
@@ -721,12 +717,6 @@
   },
   "prev": {
     "message": "Prej"
-  },
-  "primaryCurrencySetting": {
-    "message": "Glavna valuta"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Izberite Native za prikaz vrednosti v privzeti valuti verige (npr. ETH). Izberite Klasične za prikaz vrednosti v izbrani klasični valuti."
   },
   "privacyMsg": {
     "message": "Zasebnost"

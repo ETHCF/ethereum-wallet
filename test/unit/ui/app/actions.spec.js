@@ -398,6 +398,7 @@ describe('Actions', function () {
 
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 
@@ -435,6 +436,7 @@ describe('Actions', function () {
 
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 

@@ -386,10 +386,6 @@
   "faster": {
     "message": "Πιο γρήγορα"
   },
-  "fiat": {
-    "message": "Εντολή",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Η εισαγωγή αρχείων δεν λειτουργεί; Κάντε κλικ εδώ!",
     "description": "Helps user import their account from a JSON file"
@@ -733,12 +729,6 @@
   },
   "prev": {
     "message": "Προηγούμενο"
-  },
-  "primaryCurrencySetting": {
-    "message": "Κύριο Νόμισμα"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Επιλέξτε ενδογενές για να δώσετε προτεραιότητα στην προβολή τιμών στο φυσικό νόμισμα της αλυσίδας (π.χ. ETH). Επιλέξτε Παραστατικό για να δώσετε προτεραιότητα στην προβολή τιμών στο επιλεγμένο παραστατικό νόμισμα."
   },
   "privacyMsg": {
     "message": "Πολιτική Απορρήτου"

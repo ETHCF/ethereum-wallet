@@ -377,10 +377,6 @@
   "faster": {
     "message": "Plus rapide"
   },
-  "fiat": {
-    "message": "FIAT",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "L'importation de fichier ne fonctionne pas? Cliquez ici!",
     "description": "Helps user import their account from a JSON file"
@@ -718,12 +714,6 @@
   },
   "prev": {
     "message": "Préc."
-  },
-  "primaryCurrencySetting": {
-    "message": "Devise principale"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Sélectionnez « natif » pour donner la priorité à l'affichage des valeurs dans la devise native de la chaîne (par ex. ETH). Sélectionnez « fiduciaire » pour donner la priorité à l'affichage des valeurs dans la devise de votre choix."
   },
   "privacyMsg": {
     "message": "Politique de Confidentialité"

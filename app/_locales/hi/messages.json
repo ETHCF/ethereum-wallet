@@ -389,10 +389,6 @@
   "faster": {
     "message": "तीव्र"
   },
-  "fiat": {
-    "message": "फ़्लैट",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "फ़ाइल आयात काम नहीं कर रहा है? यहां क्लिक करे!",
     "description": "Helps user import their account from a JSON file"
@@ -733,12 +729,6 @@
   },
   "prev": {
     "message": "पिछला"
-  },
-  "primaryCurrencySetting": {
-    "message": "मुख्य मुद्रा"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "श्रृंखला की नेटिव मुद्रा (जैसे ETH) में प्रदर्शित मूल्यों को प्राथमिकता देने के लिए नेटिव का चयन करें। अपने चयनित Fiat मुद्रा में प्रदर्शित मूल्यों को प्राथमिकता देने के लिए Fiat का चयन करें।"
   },
   "privacyMsg": {
     "message": "गोपनीयता नीति"

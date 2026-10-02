@@ -187,10 +187,6 @@
   "faster": {
     "message": "เร็วขึ้น"
   },
-  "fiat": {
-    "message": "เงินตรา",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "นำเข้าไฟล์ไม่สำเหร็จ กดที่นี่!",
     "description": "Helps user import their account from a JSON file"

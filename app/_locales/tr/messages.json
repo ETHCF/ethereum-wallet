@@ -139,10 +139,6 @@
   "failed": {
     "message": "Başarısız oldu"
   },
-  "fiat": {
-    "message": "Para",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Dosya alma çalışmıyor mu? Buraya tıklayın!",
     "description": "Helps user import their account from a JSON file"

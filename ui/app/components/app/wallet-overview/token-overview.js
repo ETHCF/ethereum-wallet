@@ -9,7 +9,6 @@ import CurrencyDisplay from '../../ui/currency-display'
 import { I18nContext } from '../../../contexts/i18n'
 import { SEND_ROUTE } from '../../../helpers/constants/routes'
 import { useTokenTracker } from '../../../hooks/useTokenTracker'
-import { useTokenFiatAmount } from '../../../hooks/useTokenFiatAmount'
 import { getAssetImages } from '../../../selectors/selectors'
 import { updateSendToken } from '../../../store/actions'
 import PaperAirplane from '../../ui/icon/paper-airplane-icon'
@@ -22,7 +21,6 @@ const TokenOverview = ({ className, token }) => {
   const assetImages = useSelector(getAssetImages)
   const { tokensWithBalances } = useTokenTracker([token])
   const balance = tokensWithBalances[0]?.string
-  const formattedFiatBalance = useTokenFiatAmount(token.address, balance, token.symbol)
 
   return (
     <WalletOverview
@@ -33,17 +31,6 @@ const TokenOverview = ({ className, token }) => {
             displayValue={balance}
             suffix={token.symbol}
           />
-          {
-            formattedFiatBalance
-              ? (
-                <CurrencyDisplay
-                  className="token-overview__secondary-balance"
-                  displayValue={formattedFiatBalance}
-                  hideLabel
-                />
-              )
-              : null
-          }
         </div>
       )}
       buttons={(

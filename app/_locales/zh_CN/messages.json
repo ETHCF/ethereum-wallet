@@ -389,10 +389,6 @@
   "faster": {
     "message": "快捷操作"
   },
-  "fiat": {
-    "message": "FIAT",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "文件导入失败？ 点击这里！",
     "description": "Helps user import their account from a JSON file"
@@ -718,12 +714,6 @@
   },
   "prev": {
     "message": "上一个"
-  },
-  "primaryCurrencySetting": {
-    "message": "主要货币"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "请选择“本地”，优先显示当地货币链价值（如 ETH ）。请选择“法定”，优先显示选定法定货币价值。"
   },
   "privacyMsg": {
     "message": "隐私政策"

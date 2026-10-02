@@ -386,10 +386,6 @@
   "faster": {
     "message": "Brže"
   },
-  "fiat": {
-    "message": "Dekret",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Uvoz datoteke ne radi? Kliknite ovde!",
     "description": "Helps user import their account from a JSON file"
@@ -730,12 +726,6 @@
   },
   "prev": {
     "message": "Prethodno"
-  },
-  "primaryCurrencySetting": {
-    "message": "Primarna valuta"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Izaberite primarnu da biste postavili prioritete u prikazivanju vrednosti u primarnoj valuti lanca (npr. ETH). Izaberite Fiat da biste postavili prioritete u prikazivanju vrednosti u vašoj izabranoj fiat valuti."
   },
   "privacyMsg": {
     "message": "Smernice za privatnost"

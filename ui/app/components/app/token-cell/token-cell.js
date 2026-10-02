@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import AssetListItem from '../asset-list-item'
 import { getSelectedAddress } from '../../../selectors'
 import { useI18nContext } from '../../../hooks/useI18nContext'
-import { useTokenFiatAmount } from '../../../hooks/useTokenFiatAmount'
 
 export default function TokenCell ({
   address,
@@ -18,8 +17,6 @@ export default function TokenCell ({
 }) {
   const userAddress = useSelector(getSelectedAddress)
   const t = useI18nContext()
-
-  const formattedFiat = useTokenFiatAmount(address, string, symbol)
 
   const warning = outdatedBalance
     ? (
@@ -48,7 +45,6 @@ export default function TokenCell ({
       tokenDecimals={decimals}
       warning={warning}
       primary={`${string || 0} ${symbol}`}
-      secondary={formattedFiat}
     />
 
   )

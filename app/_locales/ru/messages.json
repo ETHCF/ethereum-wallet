@@ -139,10 +139,6 @@
   "failed": {
     "message": "Неудачна"
   },
-  "fiat": {
-    "message": "Валюта",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Не работает импорт файла? Нажмите тут!",
     "description": "Helps user import their account from a JSON file"
@@ -893,12 +889,6 @@
   },
   "prev": {
     "message": "Предыдущая"
-  },
-  "primaryCurrencySetting": {
-    "message": "Основная валюта"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Выберите «Собственный», чтобы установить приоритет отображения сумм в валюте сети(например, ETH).выберите Фиат, чтобы установить приоритет отображения значений в выбранной вами фиатной валюте."
   },
   "queue": {
     "message": "Очередь"

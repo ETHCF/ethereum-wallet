@@ -718,12 +718,6 @@
   "prev": {
     "message": "Sebelumnya"
   },
-  "primaryCurrencySetting": {
-    "message": "Mata Uang Utama"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Pilih asli untuk memprioritaskan menampilkan nilai dalam mata uang asli dari rantai (cth: ETH). Pilih Fiat untuk memprioritaskan menampilkan nilai dalam mata uang fiat pilihan Anda."
-  },
   "privacyMsg": {
     "message": "Kebijakan Privasi"
   },

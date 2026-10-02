@@ -100,10 +100,6 @@
   "failed": {
     "message": "Nabigo"
   },
-  "fiat": {
-    "message": "FIAT",
-    "description": "Type ng exchange"
-  },
   "fileImportFail": {
     "message": "Hindi gumagana ang file import? I-click ito!",
     "description": "Tinutulungan ang user na i-import ang kanilang account mula sa JSON file"

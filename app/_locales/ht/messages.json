@@ -199,10 +199,6 @@
   "failed": {
     "message": "Tonbe"
   },
-  "fiat": {
-    "message": "FIAT",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "Enpòte dosye ki pa travay? Klike la a!",
     "description": "Helps user import their account from a JSON file"
@@ -429,12 +425,6 @@
   },
   "prev": {
     "message": "Avan"
-  },
-  "primaryCurrencySetting": {
-    "message": "Lajan ou itilize pi plis la"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Chwazi ETH pou bay priyorite montre valè nan ETH. Chwazi Fiat priyorite montre valè nan lajan ou chwazi a."
   },
   "privacyMsg": {
     "message": "Règleman sou enfòmasyon prive"

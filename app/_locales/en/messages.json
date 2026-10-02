@@ -614,10 +614,6 @@
   "feeAssociatedRequest": {
     "message": "A fee is associated with this request."
   },
-  "fiat": {
-    "message": "Fiat",
-    "description": "Exchange type"
-  },
   "fileImportFail": {
     "message": "File import not working? Click here!",
     "description": "Helps user import their account from a JSON file"
@@ -1031,12 +1027,6 @@
   },
   "prev": {
     "message": "Prev"
-  },
-  "primaryCurrencySetting": {
-    "message": "Primary Currency"
-  },
-  "primaryCurrencySettingDescription": {
-    "message": "Select native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency."
   },
   "privacyMsg": {
     "message": "Privacy Policy"

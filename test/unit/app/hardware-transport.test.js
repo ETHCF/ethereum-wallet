@@ -8,6 +8,7 @@ import { LedgerKeyring } from '@metamask/eth-ledger-bridge-keyring'
 import { createTransaction, decodeTransaction } from '../../../app/scripts/lib/transaction-codec'
 import { createRemoteKeyring } from '../../../app/scripts/lib/hardware-keyrings'
 import { createHardwareRequestHandler } from '../../../app/scripts/lib/hardware-transport'
+import KeyringController from '../../../app/scripts/lib/modern-keyring-controller'
 
 const root = hdkey.EthereumHDKey.fromMasterSeed(Buffer.alloc(32, 1))
 const ledgerPath = "m/44'/60'/0'"
@@ -249,5 +250,27 @@ describe('Current hardware keyring compatibility', function () {
     assert.equal(bridge.deviceSignTransaction.callCount, 1)
     assert.deepEqual(await keyring.getAccounts(), [address])
     await keyring.getFirstPage()
+  })
+})
+
+describe('Hardware accounts through the keyring controller', function () {
+  it('adds another account from the same device after the vault is locked and unlocked', async function () {
+    const Remote = setupHardware('trezor', { hdPath: trezorPath }).keyring.constructor
+    const controller = new KeyringController({ keyringTypes: [Remote] })
+    await controller.createNewVaultAndRestore('password', 'debris dizzy just program just float decrease vacant alarm reduce speak stadium')
+    const added = await controller.addNewKeyring(Remote.type)
+    await added.getFirstPage()
+    added.setAccountToUnlock(3)
+    await controller.addNewAccount(added)
+
+    await controller.setLocked()
+    await controller.submitPassword('password')
+    const [restored] = controller.getKeyringsByType(Remote.type)
+    await restored.getFirstPage()
+    restored.setAccountToUnlock(0)
+    await controller.addNewAccount(restored)
+
+    assert.deepEqual(await restored.getAccounts(), [3, 0].map((index) => toChecksumAddress(publicKey(`${trezorPath}/${index}`).address)))
+    assert.equal((await controller.getAccounts()).length, 3)
   })
 })

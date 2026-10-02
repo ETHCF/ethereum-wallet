@@ -10,9 +10,9 @@ import { I18nContext } from '../../../contexts/i18n'
 import { SEND_ROUTE } from '../../../helpers/constants/routes'
 import Tooltip from '../../ui/tooltip'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
-import { PRIMARY, SECONDARY } from '../../../helpers/constants/common'
+import { PRIMARY } from '../../../helpers/constants/common'
 import { showModal } from '../../../store/actions'
-import { isBalanceCached, getSelectedAccount, getShouldShowFiat } from '../../../selectors/selectors'
+import { isBalanceCached, getSelectedAccount } from '../../../selectors/selectors'
 import PaperAirplane from '../../ui/icon/paper-airplane-icon'
 import WalletOverview from './wallet-overview'
 
@@ -21,7 +21,6 @@ const EthOverview = ({ className }) => {
   const t = useContext(I18nContext)
   const history = useHistory()
   const balanceIsCached = useSelector(isBalanceCached)
-  const showFiat = useSelector(getShouldShowFiat)
   const selectedAccount = useSelector(getSelectedAccount)
   const { balance } = selectedAccount
 
@@ -45,21 +44,6 @@ const EthOverview = ({ className }) => {
                 balanceIsCached ? <span className="eth-overview__cached-star">*</span> : null
               }
             </div>
-            {
-              showFiat && (
-                <UserPreferencedCurrencyDisplay
-                  className={classnames({
-                    'eth-overview__cached-secondary-balance': balanceIsCached,
-                    'eth-overview__secondary-balance': !balanceIsCached,
-                  })}
-                  data-testid="eth-overview__secondary-currency"
-                  value={balance}
-                  type={SECONDARY}
-                  ethNumberOfDecimals={4}
-                  hideTitle
-                />
-              )
-            }
           </div>
         </Tooltip>
       )}
