@@ -1,9 +1,9 @@
 import EventEmitter from '@metamask/safe-event-emitter'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import ethUtil from 'ethereumjs-util'
 import BN from 'bn.js'
 import EthQuery from 'ethjs-query'
-import { ethErrors } from 'eth-rpc-errors'
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
 import abi from 'human-standard-token-abi'
 import NonceTracker from 'nonce-tracker'
 import log from 'loglevel'
@@ -123,7 +123,9 @@ export default class TransactionController extends EventEmitter {
     })
 
     // request state update to finalize initialization
-    this._updatePendingTxsAfterFirstBlock()
+    // Pending transactions are checked again on every new block, so a skipped
+    // first check (block tracking stopped before a block arrived) is harmless.
+    this._updatePendingTxsAfterFirstBlock().catch((error) => log.warn('TransactionController - first pending check skipped', error))
   }
 
   /**
@@ -179,11 +181,11 @@ export default class TransactionController extends EventEmitter {
           case 'submitted':
             return resolve(finishedTxMeta.hash)
           case 'rejected':
-            return reject(cleanErrorStack(ethErrors.provider.userRejectedRequest('ecf-wallet Tx Signature: User denied transaction signature.')))
+            return reject(cleanErrorStack(providerErrors.userRejectedRequest('ecf-wallet Tx Signature: User denied transaction signature.')))
           case 'failed':
-            return reject(cleanErrorStack(ethErrors.rpc.internal(finishedTxMeta.err.message)))
+            return reject(cleanErrorStack(rpcErrors.internal(finishedTxMeta.err.message)))
           default:
-            return reject(cleanErrorStack(ethErrors.rpc.internal(`ecf-wallet Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)))
+            return reject(cleanErrorStack(rpcErrors.internal(`ecf-wallet Tx Signature: Unknown problem: ${JSON.stringify(finishedTxMeta.txParams)}`)))
         }
       })
     })
@@ -223,7 +225,7 @@ export default class TransactionController extends EventEmitter {
     if (origin === 'ecf-wallet') {
       // Assert the from address is the selected address
       if (normalizedTxParams.from !== this.getSelectedAddress()) {
-        throw ethErrors.rpc.internal({
+        throw rpcErrors.internal({
           message: `Internally initiated transaction is using invalid account.`,
           data: {
             origin,
@@ -237,7 +239,7 @@ export default class TransactionController extends EventEmitter {
       // the specified address
       const permittedAddresses = await this.getPermittedAccounts(origin)
       if (!permittedAddresses.includes(normalizedTxParams.from)) {
-        throw ethErrors.provider.unauthorized({ data: { origin } })
+        throw providerErrors.unauthorized({ data: { origin } })
       }
     }
 

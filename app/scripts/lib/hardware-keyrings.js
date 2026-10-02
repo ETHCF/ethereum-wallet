@@ -11,16 +11,7 @@ let connectionGeneration = 0
 const completedMethods = new Set(['addAccounts', 'signTransaction', 'signMessage', 'signPersonalMessage', 'signTypedData', 'exportAccount', 'forgetDevice'])
 
 function tabsCall (method, ...args) {
-  return new Promise((resolve, reject) => {
-    extension.tabs[method](...args, (result) => {
-      const error = extension.runtime.lastError
-      if (error) {
-        reject(new Error(error.message))
-      } else {
-        resolve(result)
-      }
-    })
-  })
+  return extension.tabs[method](...args)
 }
 
 async function openTransportTab () {

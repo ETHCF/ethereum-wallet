@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors'
+import { providerErrors } from '@metamask/rpc-errors'
 import deepFreeze from 'deep-freeze-strict'
 
 import {
@@ -333,7 +333,7 @@ export const getters = deepFreeze({
       rejection: () => {
         return {
           code: 4001,
-          message: ethErrors.provider.userRejectedRequest().message,
+          message: providerErrors.userRejectedRequest().message,
         }
       },
     },

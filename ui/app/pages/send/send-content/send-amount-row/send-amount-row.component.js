@@ -41,7 +41,7 @@ export default class SendAmountRow extends Component {
     }
   }
 
-  updateGas = debounce(this.updateGas.bind(this), 500)
+  updateGas = debounce(this._updateGas.bind(this), 500)
 
   validateAmount (amount) {
     const {
@@ -81,7 +81,7 @@ export default class SendAmountRow extends Component {
     updateSendAmount(amount)
   }
 
-  updateGas (amount) {
+  _updateGas (amount) {
     const { sendToken, updateGas } = this.props
 
     if (sendToken) {

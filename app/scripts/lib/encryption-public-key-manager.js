@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
-import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-rpc-errors'
+import { ObservableStore } from '@metamask/obs-store'
+import { providerErrors } from '@metamask/rpc-errors'
 import log from 'loglevel'
 import createId from './random-id'
 import { MESSAGE_TYPE } from './enums'
@@ -91,7 +91,7 @@ export default class EncryptionPublicKeyManager extends EventEmitter {
             resolve(data.rawData)
             return
           case 'rejected':
-            reject(ethErrors.provider.userRejectedRequest('ecf-wallet EncryptionPublicKey: User denied message EncryptionPublicKey.'))
+            reject(providerErrors.userRejectedRequest('ecf-wallet EncryptionPublicKey: User denied message EncryptionPublicKey.'))
             return
           default:
             reject(new Error(`ecf-wallet EncryptionPublicKey: Unknown problem: ${JSON.stringify(address)}`))

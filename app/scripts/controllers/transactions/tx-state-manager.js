@@ -1,5 +1,5 @@
 import EventEmitter from '@metamask/safe-event-emitter'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import log from 'loglevel'
 import createId from '../../lib/random-id'
 import { generateHistoryEntry, replayHistory, snapshotFromTxMeta } from './lib/tx-state-history-helpers'

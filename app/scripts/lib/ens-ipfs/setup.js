@@ -1,5 +1,5 @@
 import urlUtil from 'url'
-import extension from 'extensionizer'
+import extension from '../extension-api'
 import browserGlobal from '../browser-global'
 import resolveEnsToIpfsContentId from './resolver'
 
@@ -35,7 +35,7 @@ export default function setupEnsIpfsResolver ({ provider, getCurrentNetwork, get
 
   async function attemptResolve ({ tabId, name, path, search, fragment }) {
     const ipfsGateway = getIpfsGateway()
-    extension.tabs.update(tabId, { url: `loading.html` })
+    extension.tabs.update(tabId, { url: `loading.html` }).catch(() => undefined)
     let url = `https://app.ens.domains/name/${name}`
     try {
       const { type, hash } = await resolveEnsToIpfsContentId({ provider, name })
@@ -60,7 +60,7 @@ export default function setupEnsIpfsResolver ({ provider, getCurrentNetwork, get
     } catch (err) {
       console.warn(err)
     } finally {
-      extension.tabs.update(tabId, { url })
+      extension.tabs.update(tabId, { url }).catch(() => undefined)
     }
   }
 }

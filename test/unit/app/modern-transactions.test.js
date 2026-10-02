@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import { privateToAddress } from 'ethereumjs-util'
 import { createTransaction, decodeTransaction } from '../../../app/scripts/lib/transaction-codec'
 import { gasPriceForTransaction, replacementFees } from '../../../app/scripts/lib/transaction-fees'

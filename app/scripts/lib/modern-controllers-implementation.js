@@ -1,4 +1,4 @@
-// These packages use exports without a main field, which ESLint 6 cannot resolve.
+// These packages use exports without a main field, which the eslint-plugin-import resolver cannot resolve.
 // eslint-disable-next-line import/no-unresolved
 import { Messenger } from '@metamask/messenger'
 // eslint-disable-next-line import/no-unresolved

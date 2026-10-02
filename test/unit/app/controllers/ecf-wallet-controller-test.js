@@ -8,7 +8,7 @@ import proxyquire from 'proxyquire'
 import firstTimeState from '../../localhostState'
 import createTxMeta from '../../../lib/createTxMeta'
 
-const ExtensionizerMock = {
+const ExtensionApiMock = {
   runtime: {
     id: 'fake-extension-id',
   },
@@ -38,7 +38,7 @@ const createLoggerMiddlewareMock = () => (req, res, next) => {
 }
 
 const EcfWalletController = proxyquire('../../../../app/scripts/ecf-wallet-controller', {
-  'extensionizer': ExtensionizerMock,
+  './lib/extension-api': { default: ExtensionApiMock },
   './lib/createLoggerMiddleware': { default: createLoggerMiddlewareMock },
 }).default
 

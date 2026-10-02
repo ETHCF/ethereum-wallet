@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
-import JsonRpcEngine from 'json-rpc-engine'
-import { ethErrors } from 'eth-rpc-errors'
+import { JsonRpcEngine } from '@metamask/json-rpc-engine'
+import { providerErrors } from '@metamask/rpc-errors'
 import OriginThrottler, { BLOCK_DURATION_MS, REJECTION_WINDOW_MS } from '../../../app/scripts/lib/origin-throttler'
 import createDupeReqFilterStream, { SEEN_ID_LIFETIME_MS } from '../../../app/scripts/lib/createDupeReqFilterStream'
 
@@ -15,7 +15,7 @@ describe('Request spam limits', function () {
       engine.push(throttler.createMiddleware({ origin }))
       engine.push((_req, res, _next, end) => {
         if (rejectNext) {
-          end(ethErrors.provider.userRejectedRequest())
+          end(providerErrors.userRejectedRequest())
           return
         }
         res.result = true

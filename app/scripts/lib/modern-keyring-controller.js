@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
-import ObservableStore from 'obs-store'
-import { validateMnemonic } from 'bip39'
+import { ObservableStore } from '@metamask/obs-store'
+import { validateMnemonic } from '@metamask/scure-bip39'
+import { wordlist } from '@metamask/scure-bip39/dist/wordlists/english'
 import log from 'loglevel'
 import { signTypedData } from './signing-utils'
 import SessionEncryptor from './session-encryptor'
@@ -314,7 +315,7 @@ export default class ModernKeyringController extends EventEmitter {
   }
 
   async createNewVaultAndRestore (password, mnemonic) {
-    if (!validateMnemonic(mnemonic)) {
+    if (!validateMnemonic(mnemonic, wordlist)) {
       throw new Error('Seed phrase is invalid.')
     }
     return this.createVault(password, mnemonic)

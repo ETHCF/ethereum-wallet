@@ -31,7 +31,7 @@ async function unlock (vault, encryptor = new SessionEncryptor(memoryStorage()))
 }
 
 describe('Vaults written by the previous keyring stack', function () {
-  // eslint-disable-next-line babel/no-invalid-this
+  // eslint-disable-next-line @babel/no-invalid-this
   this.timeout(20000)
 
   for (const name of ['legacy10k', 'session600k']) {

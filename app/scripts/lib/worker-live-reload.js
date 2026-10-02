@@ -1,4 +1,4 @@
-import extension from 'extensionizer'
+import extension from './extension-api'
 import browserGlobal from './browser-global'
 
 export default function connectLiveReload () {

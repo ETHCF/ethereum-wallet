@@ -117,7 +117,8 @@ export default class QrScanner extends Component {
       const result = this.parseContent(content.text)
       if (!this.mounted) {
         return
-      } else if (result.type === 'unknown') {
+      }
+      if (result.type === 'unknown') {
         this.setState({ error: new Error(this.context.t('unknownQrCode')) })
       } else {
         this.props.qrCodeDetected(result)

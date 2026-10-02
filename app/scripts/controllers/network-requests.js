@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
-import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-rpc-errors'
-import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
+import { ObservableStore } from '@metamask/obs-store'
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
+import { createAsyncMiddleware } from '@metamask/json-rpc-engine'
 import fetchWithTimeout from '../lib/fetch-with-timeout'
 import createId from '../lib/random-id'
 import {
@@ -21,7 +21,7 @@ export const UNRECOGNIZED_CHAIN_ERROR_CODE = 4902
 // json-rpc-engine replaces error codes it does not know, such as 4902, with
 // an internal error unless the error is an instance of its own error class.
 function unrecognizedChainError (message) {
-  return ethErrors.provider.custom({ code: UNRECOGNIZED_CHAIN_ERROR_CODE, message })
+  return providerErrors.custom({ code: UNRECOGNIZED_CHAIN_ERROR_CODE, message })
 }
 
 const fetchRpc = fetchWithTimeout({ timeout: 10000 })
@@ -104,10 +104,10 @@ export default class NetworkRequestController extends EventEmitter {
     try {
       rpcChainId = await this.getRpcChainId(network.rpcUrl)
     } catch (_) {
-      throw ethErrors.rpc.invalidParams({ message: `Could not fetch the chain ID from ${network.rpcUrl}. Is the RPC URL correct?` })
+      throw rpcErrors.invalidParams({ message: `Could not fetch the chain ID from ${network.rpcUrl}. Is the RPC URL correct?` })
     }
     if (rpcChainId !== network.chainId) {
-      throw ethErrors.rpc.invalidParams({
+      throw rpcErrors.invalidParams({
         message: `The RPC endpoint returned a different chain ID (${rpcChainId}) than the one requested (${network.chainId}).`,
       })
     }
@@ -164,7 +164,7 @@ export default class NetworkRequestController extends EventEmitter {
   assertNoPendingRequest (origin) {
     for (const { request } of this.pending.values()) {
       if (request.origin === origin) {
-        throw ethErrors.rpc.resourceUnavailable(`A network request from ${origin} is already pending. Please wait.`)
+        throw rpcErrors.resourceUnavailable(`A network request from ${origin} is already pending. Please wait.`)
       }
     }
   }
@@ -200,7 +200,7 @@ export default class NetworkRequestController extends EventEmitter {
   }
 
   reject (id) {
-    this.take(id).reject(ethErrors.provider.userRejectedRequest())
+    this.take(id).reject(providerErrors.userRejectedRequest())
   }
 
   take (id) {

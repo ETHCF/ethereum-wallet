@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import extension from 'extensionizer'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import extension from '../../../../../app/scripts/lib/extension-api'
 import SelectedAccount from '../selected-account'
 import ConnectedStatusIndicator from '../connected-status-indicator'
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util'

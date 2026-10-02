@@ -1,21 +1,14 @@
-import extension from 'extensionizer'
 import log from 'loglevel'
+import extension from '../../../../app/scripts/lib/extension-api'
+
+// Resolves with no tab if the tab is gone, logging the reason.
+const withoutTab = (error) => {
+  log.debug(error)
+  return undefined
+}
 
 const returnToOnboardingInitiatorTab = async (onboardingInitiator) => {
-  const tab = await (new Promise((resolve) => {
-    // eslint-disable-next-line no-shadow
-    extension.tabs.update(onboardingInitiator.tabId, { active: true }, (tab) => {
-      if (tab) {
-        resolve(tab)
-      } else {
-        // silence console message about unchecked error
-        if (extension.runtime.lastError) {
-          log.debug(extension.runtime.lastError)
-        }
-        resolve()
-      }
-    })
-  }))
+  const tab = await extension.tabs.update(onboardingInitiator.tabId, { active: true }).catch(withoutTab)
 
   if (tab) {
     window.close()
@@ -27,20 +20,7 @@ const returnToOnboardingInitiatorTab = async (onboardingInitiator) => {
 }
 
 export const returnToOnboardingInitiator = async (onboardingInitiator) => {
-  const tab = await (new Promise((resolve) => {
-    // eslint-disable-next-line no-shadow
-    extension.tabs.get(onboardingInitiator.tabId, (tab) => {
-      if (tab) {
-        resolve(tab)
-      } else {
-        // silence console message about unchecked error
-        if (extension.runtime.lastError) {
-          log.debug(extension.runtime.lastError)
-        }
-        resolve()
-      }
-    })
-  }))
+  const tab = await extension.tabs.get(onboardingInitiator.tabId).catch(withoutTab)
 
   if (tab) {
     await returnToOnboardingInitiatorTab(onboardingInitiator)

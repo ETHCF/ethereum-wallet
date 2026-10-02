@@ -1,5 +1,5 @@
-import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-rpc-errors'
+import { ObservableStore } from '@metamask/obs-store'
+import { rpcErrors } from '@metamask/rpc-errors'
 
 /**
  * Provides the ApprovalController actions that PermissionController uses, and
@@ -20,14 +20,14 @@ export default class PermissionApprovals {
 
   addRequest ({ id, origin, requestData, type }, shouldShowRequest) {
     if (type !== 'wallet_requestPermissions') {
-      throw ethErrors.rpc.internal(`Unsupported approval type: ${type}`)
+      throw rpcErrors.internal(`Unsupported approval type: ${type}`)
     }
     // One request per site at a time, so a site cannot queue up prompts.
     if (Array.from(this._pending.values()).some((pending) => pending.origin === origin)) {
-      throw ethErrors.rpc.resourceUnavailable('Permissions request already pending; please wait.')
+      throw rpcErrors.resourceUnavailable('Permissions request already pending; please wait.')
     }
     if (this._pending.has(id)) {
-      throw ethErrors.rpc.internal(`Permissions request with id '${id}' already exists.`)
+      throw rpcErrors.internal(`Permissions request with id '${id}' already exists.`)
     }
     return new Promise((resolve, reject) => {
       this._pending.set(id, { origin, request: { metadata: requestData.metadata, permissions: requestData.permissions }, resolve, reject })
@@ -65,7 +65,7 @@ export default class PermissionApprovals {
   _take (id) {
     const pending = this._pending.get(id)
     if (!pending) {
-      throw ethErrors.rpc.internal(`Permissions request with id '${id}' not found.`)
+      throw rpcErrors.internal(`Permissions request with id '${id}' not found.`)
     }
     this._pending.delete(id)
     this._updateStore()

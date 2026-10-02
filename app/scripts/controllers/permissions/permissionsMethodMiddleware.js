@@ -1,5 +1,5 @@
-import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
-import { ethErrors } from 'eth-rpc-errors'
+import { createAsyncMiddleware } from '@metamask/json-rpc-engine'
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
 
 /**
  * Create middleware for handling certain methods and preprocessing permissions requests.
@@ -26,11 +26,11 @@ export default function createPermissionsMethodMiddleware ({
         if (!Array.isArray(params) || params.length < 1 || params.length > 2 ||
             typeof params[0] !== 'string' || !(/^0x[0-9a-f]{40}$/iu).test(params[0]) ||
             (params[1] !== undefined && (!Array.isArray(params[1]) || params[1].some((chainId) => typeof chainId !== 'string' || !(/^0x(?:0|[1-9a-f][0-9a-f]*)$/iu).test(chainId))))) {
-          throw ethErrors.rpc.invalidParams('Expected an account address and an optional array of hexadecimal chain IDs.')
+          throw rpcErrors.invalidParams('Expected an account address and an optional array of hexadecimal chain IDs.')
         }
         const accounts = await getAccounts()
         if (!accounts.some((account) => account.toLowerCase() === params[0].toLowerCase())) {
-          throw ethErrors.provider.unauthorized()
+          throw providerErrors.unauthorized()
         }
         // EIP-5792: omitting atomic means batching is not supported. Do not
         // advertise wallet_sendCalls or smart-account features we cannot execute.
@@ -49,7 +49,7 @@ export default function createPermissionsMethodMiddleware ({
       case 'eth_requestAccounts': {
 
         if (isProcessingRequestAccounts) {
-          res.error = ethErrors.rpc.resourceUnavailable(
+          res.error = rpcErrors.resourceUnavailable(
             'Already processing eth_requestAccounts. Please wait.',
           )
           return
@@ -84,7 +84,7 @@ export default function createPermissionsMethodMiddleware ({
         } else {
           // this should never happen, because it should be caught in the
           // above catch clause
-          res.error = ethErrors.rpc.internal(
+          res.error = rpcErrors.internal(
             'Accounts unexpectedly unavailable. Please report this bug.',
           )
         }
@@ -107,7 +107,7 @@ export default function createPermissionsMethodMiddleware ({
       case 'wallet_requestPermissions': {
         const [requested] = Array.isArray(req.params) ? req.params : []
         if (!requested || typeof requested !== 'object' || Array.isArray(requested)) {
-          throw ethErrors.rpc.invalidParams({ message: 'Expected an object of requested permissions.', data: req.params })
+          throw rpcErrors.invalidParams({ message: 'Expected an object of requested permissions.', data: req.params })
         }
         res.result = await requestPermissions(requested)
         notifyAccountsChanged(await getAccounts())

@@ -1,4 +1,5 @@
-import { validateMnemonic } from 'bip39'
+import { validateMnemonic } from '@metamask/scure-bip39'
+import { wordlist } from '@metamask/scure-bip39/dist/wordlists/english'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import TextField from '../../../../components/ui/text-field'
@@ -41,7 +42,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
       const wordCount = parsedSeedPhrase.split(/\s/u).length
       if (wordCount % 3 !== 0 || wordCount > 24 || wordCount < 12) {
         seedPhraseError = this.context.t('seedPhraseReq')
-      } else if (!validateMnemonic(parsedSeedPhrase)) {
+      } else if (!validateMnemonic(parsedSeedPhrase, wordlist)) {
         seedPhraseError = this.context.t('invalidSeedPhrase')
       }
     }

@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     'sourceType': 'module',
     'ecmaVersion': 2017,
@@ -27,7 +27,7 @@ module.exports = {
   ],
 
   plugins: [
-    'babel',
+    '@babel',
     'react',
     'json',
     'import',
@@ -42,6 +42,8 @@ module.exports = {
 
   rules: {
     'default-param-last': 'off',
+    // ESLint 7 started requiring getters for class setters; ours are write-only.
+    'accessor-pairs': ['error', { enforceForClassMembers: false }],
     'require-atomic-updates': 'off',
     'import/no-unassigned-import': 'off',
     'prefer-destructuring': ['error', {
@@ -85,9 +87,9 @@ module.exports = {
     }],
 
     'no-invalid-this': 'off',
-    'babel/no-invalid-this': 'error',
+    '@babel/no-invalid-this': 'error',
 
-    'babel/semi': ['error', 'never'],
+    '@babel/semi': ['error', 'never'],
     'mocha/no-setup-in-describe': 'off',
   },
 
@@ -129,7 +131,7 @@ module.exports = {
     ],
     rules: {
       // Mocha will re-assign `this` in a test context
-      'babel/no-invalid-this': 'off',
+      '@babel/no-invalid-this': 'off',
     },
   }, {
     files: [

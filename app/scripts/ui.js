@@ -9,14 +9,13 @@ import '@formatjs/intl-relativetimeformat/polyfill'
 import { EventEmitter } from 'events'
 import PortStream from 'extension-port-stream'
 
-import extension from 'extensionizer'
-
 import Dnode from 'dnode'
 import Eth from 'ethjs'
 import EthQuery from 'eth-query'
 import StreamProvider from 'web3-stream-provider'
 import log from 'loglevel'
 import launchEcfWalletUi from '../../ui'
+import extension from './lib/extension-api'
 import { setupMultiplex } from './lib/stream-utils'
 import ExtensionPlatform from './platforms/extension'
 import {
@@ -46,12 +45,8 @@ async function start () {
   // An open wallet UI is an active session. Messages keep its controller alive
   // while the user reviews an approval or edits a form.
   const heartbeat = setInterval(() => {
-    extension.runtime.sendMessage({ type: 'ecf-wallet-ui-active' }, () => {
-      // Read lastError when the extension is reloaded or updated.
-      if (extension.runtime.lastError) {
-        clearInterval(heartbeat)
-      }
-    })
+    // Fails when the extension is reloaded or updated.
+    extension.runtime.sendMessage({ type: 'ecf-wallet-ui-active' }).catch(() => clearInterval(heartbeat))
   }, 20000)
   extensionPort.onDisconnect.addListener(() => {
     clearInterval(heartbeat)
@@ -87,27 +82,21 @@ async function start () {
 }
 
 async function queryCurrentActiveTab (windowType) {
-  return new Promise((resolve) => {
-    // At the time of writing we only have the `activeTab` permission which means
-    // that this query will only succeed in the popup context (i.e. after a "browserAction")
-    if (windowType !== ENVIRONMENT_TYPE_POPUP) {
-      resolve({})
-      return
-    }
+  // At the time of writing we only have the `activeTab` permission which means
+  // that this query will only succeed in the popup context (i.e. after a "browserAction")
+  if (windowType !== ENVIRONMENT_TYPE_POPUP) {
+    return {}
+  }
 
-    extension.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const [activeTab] = tabs
-      const { id, title, url } = activeTab
-      const { origin, protocol } = url ? new URL(url) : {}
+  const [activeTab] = await extension.tabs.query({ active: true, currentWindow: true })
+  const { id, title, url } = activeTab
+  const { origin, protocol } = url ? new URL(url) : {}
 
-      if (!origin || origin === 'null') {
-        resolve({})
-        return
-      }
+  if (!origin || origin === 'null') {
+    return {}
+  }
 
-      resolve({ id, title, origin, protocol, url })
-    })
-  })
+  return { id, title, origin, protocol, url }
 }
 
 function initializeUi (activeTab, container, connectionStream, cb) {

@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 import assert from 'assert'
-import ObservableStore from 'obs-store'
-import { ethErrors } from 'eth-rpc-errors'
+import { ObservableStore } from '@metamask/obs-store'
+import { providerErrors } from '@metamask/rpc-errors'
 import { isValidAddress } from 'ethereumjs-util'
 import BN from 'bn.js'
 import log from 'loglevel'
@@ -86,7 +86,7 @@ export default class TypedMessageManager extends EventEmitter {
           case 'signed':
             return resolve(data.rawSig)
           case 'rejected':
-            return reject(ethErrors.provider.userRejectedRequest('ecf-wallet Message Signature: User denied message signature.'))
+            return reject(providerErrors.userRejectedRequest('ecf-wallet Message Signature: User denied message signature.'))
           case 'errored':
             return reject(new Error(`ecf-wallet Message Signature: ${data.error}`))
           default:

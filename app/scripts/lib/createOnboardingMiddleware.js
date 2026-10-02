@@ -1,5 +1,5 @@
 import log from 'loglevel'
-import extension from 'extensionizer'
+import extension from './extension-api'
 
 /**
  * Returns a middleware that intercepts `wallet_registerOnboarding` messages

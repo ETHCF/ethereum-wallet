@@ -1,5 +1,5 @@
-import extension from 'extensionizer'
 import ExtensionPlatform from '../platforms/extension'
+import extension from './extension-api'
 
 const NOTIFICATION_HEIGHT = 620
 const NOTIFICATION_WIDTH = 360

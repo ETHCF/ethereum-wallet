@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors'
+import { providerErrors } from '@metamask/rpc-errors'
 
 // Requests that open a prompt. A site that keeps sending them after being
 // rejected is flooding the user, often to wear them down into approving.
@@ -69,7 +69,7 @@ export default class OriginThrottler {
         return
       }
       if (this.isBlocked(origin)) {
-        end(ethErrors.provider.unauthorized('Request blocked: you rejected several requests from this site in a row. Try again in a minute.'))
+        end(providerErrors.unauthorized('Request blocked: you rejected several requests from this site in a row. Try again in a minute.'))
         return
       }
       next((done) => {

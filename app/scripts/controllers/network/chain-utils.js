@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors'
+import { rpcErrors } from '@metamask/rpc-errors'
 import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from './enums'
 
 // Chain IDs larger than this cannot be represented in all Ethereum tooling.
@@ -88,7 +88,7 @@ export function parseSafeUrl (value, allowLocalHttp) {
 const UNSAFE_TEXT = /[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/u
 
 function invalid (message) {
-  return ethErrors.rpc.invalidParams({ message })
+  return rpcErrors.invalidParams({ message })
 }
 
 function readSingleParam (params, method) {

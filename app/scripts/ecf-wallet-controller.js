@@ -9,19 +9,18 @@ import EventEmitter from 'events'
 
 import pump from 'pump'
 import Dnode from 'dnode'
-import extension from 'extensionizer'
-import RpcEngine from 'json-rpc-engine'
-import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
+import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
 import { debounce } from 'lodash'
-import createEngineStream from 'json-rpc-middleware-stream/engineStream'
-import createFilterMiddleware from 'eth-json-rpc-filters'
-import createSubscriptionManager from 'eth-json-rpc-filters/subscriptionManager'
-import providerAsMiddleware from 'eth-json-rpc-middleware/providerAsMiddleware'
+import { createEngineStream } from '@metamask/json-rpc-middleware-stream'
+import createFilterMiddleware from '@metamask/eth-json-rpc-filters'
+import createSubscriptionManager from '@metamask/eth-json-rpc-filters/subscriptionManager'
+import { providerAsMiddleware } from '@metamask/eth-json-rpc-middleware'
 import { Mutex } from 'await-semaphore'
 import ethUtil from 'ethereumjs-util'
 import log from 'loglevel'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
+import extension from './lib/extension-api'
 import KeyringController from './lib/modern-keyring-controller'
 import { mnemonicToString } from './lib/software-keyrings'
 import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
@@ -1463,11 +1462,7 @@ export default class EcfWalletController extends EventEmitter {
       outStream,
       (err) => {
         // handle any middleware cleanup
-        engine._middleware.forEach((mid) => {
-          if (mid.destroy && typeof mid.destroy === 'function') {
-            mid.destroy()
-          }
-        })
+        engine.destroy()
         connectionId && this.removeConnection(origin, connectionId)
         if (err) {
           log.error(err)
@@ -1514,7 +1509,7 @@ export default class EcfWalletController extends EventEmitter {
    **/
   setupProviderEngine ({ origin, location, extensionId, tabId, isInternal = false }) {
     // setup json rpc engine stack
-    const engine = new RpcEngine()
+    const engine = new JsonRpcEngine()
     const { provider, blockTracker } = this
 
     // create filter polyfill middleware
@@ -1834,6 +1829,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       this.preferencesController.setUseBlockie(val)
       cb(null)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)
@@ -1851,6 +1847,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       this.preferencesController.setUseNonceField(val)
       cb(null)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)
@@ -1868,6 +1865,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       this.preferencesController.setUsePhishDetect(val)
       cb(null)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)
@@ -1885,6 +1883,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       this.preferencesController.setIpfsGateway(val)
       cb(null)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)
@@ -1902,6 +1901,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       this.preferencesController.setFirstTimeFlowType(type)
       cb(null)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)
@@ -1919,6 +1919,7 @@ export default class EcfWalletController extends EventEmitter {
     try {
       const direction = this.preferencesController.setCurrentLocale(key)
       cb(null, direction)
+      // eslint-disable-next-line no-useless-return
       return
     } catch (err) {
       cb(err)

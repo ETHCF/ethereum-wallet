@@ -1,11 +1,7 @@
-import extension from 'extensionizer'
-import promisify from 'pify'
 import allLocales from '../../_locales/index.json'
+import extension from './extension-api'
 
-const getPreferredLocales = extension.i18n ? promisify(
-  extension.i18n.getAcceptLanguages,
-  { errorFirst: false },
-) : async () => []
+const getPreferredLocales = async () => (extension.i18n ? extension.i18n.getAcceptLanguages() : [])
 
 // mapping some browsers return hyphen instead underscore in locale codes (e.g. zh_TW -> zh-tw)
 const existingLocaleCodes = {}

@@ -1,13 +1,15 @@
-import mergeMiddleware from 'json-rpc-engine/src/mergeMiddleware'
-import createScaffoldMiddleware from 'json-rpc-engine/src/createScaffoldMiddleware'
-import createBlockReRefMiddleware from 'eth-json-rpc-middleware/block-ref'
-import createRetryOnEmptyMiddleware from 'eth-json-rpc-middleware/retryOnEmpty'
-import createBlockCacheMiddleware from 'eth-json-rpc-middleware/block-cache'
-import createInflightMiddleware from 'eth-json-rpc-middleware/inflight-cache'
-import createBlockTrackerInspectorMiddleware from 'eth-json-rpc-middleware/block-tracker-inspector'
-import providerFromMiddleware from 'eth-json-rpc-middleware/providerFromMiddleware'
-import createFetchMiddleware from 'eth-json-rpc-middleware/fetch'
-import BlockTracker from 'eth-block-tracker'
+import { asLegacyMiddleware, createScaffoldMiddleware } from '@metamask/json-rpc-engine/v2'
+import {
+  createBlockCacheMiddleware,
+  createBlockRefMiddleware,
+  createBlockTrackerInspectorMiddleware,
+  createFetchMiddleware,
+  createInflightCacheMiddleware,
+  createRetryOnEmptyMiddleware,
+} from '@metamask/eth-json-rpc-middleware'
+import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider'
+import { PollingBlockTracker } from '@metamask/eth-block-tracker'
+import createRpcService from './rpc-service'
 import { BUILT_IN_NETWORKS } from './enums'
 
 /**
@@ -20,21 +22,22 @@ export default function createBuiltInClient ({ network }) {
   if (!config) {
     throw new Error(`createBuiltInClient - unknown network "${network}"`)
   }
-  const fetchMiddleware = createFetchMiddleware({ rpcUrl: config.rpcUrl })
-  const fetchProvider = providerFromMiddleware(fetchMiddleware)
-  const blockTracker = new BlockTracker({ provider: fetchProvider })
+  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrl: config.rpcUrl }) })
+  const fetchProvider = providerFromMiddlewareV2(fetchMiddleware)
+  const blockTracker = new PollingBlockTracker({ provider: fetchProvider })
 
-  const networkMiddleware = mergeMiddleware([
+  // One engine for the whole chain, so the caches see the fetched results.
+  const networkMiddleware = asLegacyMiddleware(
     createScaffoldMiddleware({
       eth_chainId: config.chainId,
       net_version: config.networkId,
     }),
     createBlockCacheMiddleware({ blockTracker }),
-    createInflightMiddleware(),
-    createBlockReRefMiddleware({ blockTracker, provider: fetchProvider }),
+    createInflightCacheMiddleware(),
+    createBlockRefMiddleware({ blockTracker, provider: fetchProvider }),
     createRetryOnEmptyMiddleware({ blockTracker, provider: fetchProvider }),
     createBlockTrackerInspectorMiddleware({ blockTracker }),
     fetchMiddleware,
-  ])
+  )
   return { networkMiddleware, blockTracker }
 }

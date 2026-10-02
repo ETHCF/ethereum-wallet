@@ -1,11 +1,9 @@
 /* global globalThis */
 import nanoid from 'nanoid'
-import JsonRpcEngine from 'json-rpc-engine'
-import asMiddleware from 'json-rpc-engine/src/asMiddleware'
-import createAsyncMiddleware from 'json-rpc-engine/src/createAsyncMiddleware'
-import ObservableStore from 'obs-store'
+import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
+import { ObservableStore } from '@metamask/obs-store'
 import log from 'loglevel'
-import { ethErrors } from 'eth-rpc-errors'
+import { rpcErrors } from '@metamask/rpc-errors'
 
 import createPermissionsMethodMiddleware from './permissionsMethodMiddleware'
 import PermissionsLogController from './permissionsLog'
@@ -117,7 +115,7 @@ export class PermissionsController {
       res.result = await this.permissions.executeRestrictedMethod(origin, req.method, req.params)
     }))
 
-    return asMiddleware(engine)
+    return engine.asMiddleware()
   }
 
   /**
@@ -186,7 +184,7 @@ export class PermissionsController {
   async _requestPermissions ({ origin }, permissions, id = nanoid()) {
     const names = Object.keys(permissions || {})
     if (names.length !== 1 || names[0] !== 'eth_accounts') {
-      throw ethErrors.rpc.invalidParams({ message: 'Only eth_accounts can be requested.', data: permissions })
+      throw rpcErrors.invalidParams({ message: 'Only eth_accounts can be requested.', data: permissions })
     }
     const [granted] = await this.permissions.requestPermissions({ origin }, { eth_accounts: {} }, { id })
     return Object.values(granted)
@@ -225,7 +223,7 @@ export class PermissionsController {
       })
     } catch (err) {
       if (this.approvals.hasRequest({ id })) {
-        this.approvals.rejectRequest(id, ethErrors.rpc.invalidRequest({ message: err.message, data: err }))
+        this.approvals.rejectRequest(id, rpcErrors.invalidRequest({ message: err.message, data: err }))
       }
     }
   }

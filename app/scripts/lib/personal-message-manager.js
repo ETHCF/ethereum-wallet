@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import ethUtil from 'ethereumjs-util'
-import { ethErrors } from 'eth-rpc-errors'
+import { providerErrors } from '@metamask/rpc-errors'
 import log from 'loglevel'
 import { detectSIWE } from './signing-utils'
 import createId from './random-id'
@@ -99,7 +99,7 @@ export default class PersonalMessageManager extends EventEmitter {
             resolve(data.rawSig)
             return
           case 'rejected':
-            reject(ethErrors.provider.userRejectedRequest('ecf-wallet Message Signature: User denied message signature.'))
+            reject(providerErrors.userRejectedRequest('ecf-wallet Message Signature: User denied message signature.'))
             return
           default:
             reject(new Error(`ecf-wallet Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))

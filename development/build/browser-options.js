@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-// This package uses exports without a main field, which ESLint 6 cannot resolve.
+// This package uses exports without a main field, which the eslint-plugin-import resolver cannot resolve.
 // eslint-disable-next-line import/no-unresolved
 const { polyfillNode } = require('esbuild-plugin-polyfill-node')
 

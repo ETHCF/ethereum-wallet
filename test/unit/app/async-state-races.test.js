@@ -2,7 +2,7 @@ import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
 import { BN } from 'ethereumjs-util'
 import { encode as abiEncode } from '@metamask/abi-utils'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import AccountTracker from '../../../app/scripts/lib/account-tracker'
 import CachedBalancesController from '../../../app/scripts/controllers/cached-balances'
 import IncomingTransactionsController from '../../../app/scripts/controllers/incoming-transactions'
@@ -143,6 +143,7 @@ describe('Asynchronous state races', function () {
     network.getNetworkState = () => network.id
     const blockTracker = new EventEmitter()
     blockTracker.getCurrentBlock = () => null
+    blockTracker.getLatestBlock = () => new Promise(() => undefined)
     const tracker = new AccountTracker({ network, blockTracker, provider: { sendAsync: () => undefined } })
     tracker.addAccounts([address])
     const cache = new CachedBalancesController({ accountTracker: tracker, getNetwork: () => network.id })

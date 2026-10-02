@@ -1,6 +1,6 @@
-import extension from 'extensionizer'
+import extension from '../lib/extension-api'
 import { getTxExplorerUrl } from '../lib/block-explorer'
-import { getEnvironmentType, checkForError } from '../lib/util'
+import { getEnvironmentType } from '../lib/util'
 import { ENVIRONMENT_TYPE_BACKGROUND } from '../lib/enums'
 
 export default class ExtensionPlatform {
@@ -13,69 +13,28 @@ export default class ExtensionPlatform {
   }
 
   openTab (options) {
-    return new Promise((resolve, reject) => {
-      extension.tabs.create(options, (newTab) => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve(newTab)
-      })
-    })
+    return extension.tabs.create(options)
   }
 
   openWindow (options) {
-    return new Promise((resolve, reject) => {
-      extension.windows.create(options, (newWindow) => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve(newWindow)
-      })
-    })
+    return extension.windows.create(options)
   }
 
-  focusWindow (windowId) {
-    return new Promise((resolve, reject) => {
-      extension.windows.update(windowId, { focused: true }, () => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve()
-      })
-    })
+  async focusWindow (windowId) {
+    await extension.windows.update(windowId, { focused: true })
   }
 
-  updateWindowPosition (windowId, left, top) {
-    return new Promise((resolve, reject) => {
-      extension.windows.update(windowId, { left, top }, () => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve()
-      })
-    })
+  async updateWindowPosition (windowId, left, top) {
+    await extension.windows.update(windowId, { left, top })
   }
 
   getLastFocusedWindow () {
-    return new Promise((resolve, reject) => {
-      extension.windows.getLastFocused((windowObject) => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve(windowObject)
-      })
-    })
+    return extension.windows.getLastFocused()
   }
 
-  closeCurrentWindow () {
-    return extension.windows.getCurrent((windowDetails) => {
-      return extension.windows.remove(windowDetails.id)
-    })
+  async closeCurrentWindow () {
+    const windowDetails = await extension.windows.getCurrent()
+    await extension.windows.remove(windowDetails.id)
   }
 
   getVersion () {
@@ -99,15 +58,7 @@ export default class ExtensionPlatform {
   }
 
   getPlatformInfo (cb) {
-    try {
-      extension.runtime.getPlatformInfo((platform) => {
-        cb(null, platform)
-      })
-    } catch (e) {
-      cb(e)
-      // eslint-disable-next-line no-useless-return
-      return
-    }
+    extension.runtime.getPlatformInfo().then((platform) => cb(null, platform), cb)
   }
 
   showTransactionNotification (txMeta) {
@@ -124,66 +75,23 @@ export default class ExtensionPlatform {
   }
 
   getAllWindows () {
-    return new Promise((resolve, reject) => {
-      extension.windows.getAll({ populate: true }, (windows) => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve(windows)
-      })
-    })
+    return extension.windows.getAll({ populate: true })
   }
 
   getActiveTabsInLastFocusedWindow () {
-    return new Promise((resolve, reject) => {
-      extension.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        const error = checkForError()
-        if (error) {
-          return reject(error)
-        }
-        return resolve(tabs)
-      })
-    })
+    return extension.tabs.query({ active: true, lastFocusedWindow: true })
   }
 
   currentTab () {
-    return new Promise((resolve, reject) => {
-      extension.tabs.getCurrent((tab) => {
-        const err = checkForError()
-        if (err) {
-          reject(err)
-        } else {
-          resolve(tab)
-        }
-      })
-    })
+    return extension.tabs.getCurrent()
   }
 
   switchToTab (tabId) {
-    return new Promise((resolve, reject) => {
-      extension.tabs.update(tabId, { highlighted: true }, (tab) => {
-        const err = checkForError()
-        if (err) {
-          reject(err)
-        } else {
-          resolve(tab)
-        }
-      })
-    })
+    return extension.tabs.update(tabId, { highlighted: true })
   }
 
-  closeTab (tabId) {
-    return new Promise((resolve, reject) => {
-      extension.tabs.remove(tabId, () => {
-        const err = checkForError()
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      })
-    })
+  async closeTab (tabId) {
+    await extension.tabs.remove(tabId)
   }
 
   _showConfirmedTransaction (txMeta) {
@@ -228,7 +136,7 @@ export default class ExtensionPlatform {
 
   _viewOnEtherscan (txId) {
     if (txId.startsWith('https://')) {
-      extension.tabs.create({ url: txId })
+      extension.tabs.create({ url: txId }).catch(() => undefined)
     }
   }
 }

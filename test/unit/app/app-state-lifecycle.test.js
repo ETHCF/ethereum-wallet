@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import sinon from 'sinon'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import AppStateController from '../../../app/scripts/controllers/app-state'
 
 describe('Manifest V3 auto-lock deadlines', function () {

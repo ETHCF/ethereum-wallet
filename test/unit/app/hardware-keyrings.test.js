@@ -26,20 +26,19 @@ describe('Manifest V3 hardware transport', function () {
         sendMessage: sandbox.stub().callsFake(async ({ state }) => ({ result: 'signed', state, unlocked: true })),
       }
       tabs = {
-        create: sandbox.stub().callsFake((options, done) => {
+        create: sandbox.stub().callsFake(async (options) => {
           nextTabId += 1
           const tab = { ...options, id: nextTabId, status: 'complete' }
           openTabs.set(tab.id, tab)
-          done(tab)
+          return tab
         }),
-        get: sandbox.stub().callsFake((id, done) => done(openTabs.get(id))),
-        remove: sandbox.stub().callsFake((id, done) => {
+        get: sandbox.stub().callsFake(async (id) => openTabs.get(id)),
+        remove: sandbox.stub().callsFake(async (id) => {
           openTabs.delete(id)
-          done()
         }),
       }
-      sandbox.stub(extension, 'runtime').value(runtime)
-      sandbox.stub(extension, 'tabs').value(tabs)
+      // Outside an extension the API is an empty object, so add the fakes.
+      Object.assign(extension, { runtime, tabs })
     })
 
     afterEach(async function () {
@@ -47,6 +46,8 @@ describe('Manifest V3 hardware transport', function () {
         await closeHardwareConnections()
       } finally {
         sandbox.restore()
+        delete extension.runtime
+        delete extension.tabs
       }
     })
 
@@ -107,11 +108,9 @@ describe('Manifest V3 hardware transport', function () {
 
     it('waits for closing to finish before opening a new transport', async function () {
       const finishClosing = deferred()
-      tabs.remove.callsFake((id, done) => {
-        finishClosing.promise.then(() => {
-          openTabs.delete(id)
-          done()
-        })
+      tabs.remove.callsFake(async (id) => {
+        await finishClosing.promise
+        openTabs.delete(id)
       })
       const Keyring = createRemoteKeyring('Trezor Hardware')
       const first = new Keyring().signPersonalMessage('address', '0x01')
@@ -146,11 +145,7 @@ describe('Manifest V3 hardware transport', function () {
 
     it('preserves a successful signature even if closing the tab fails', async function () {
       const Keyring = createRemoteKeyring('Trezor Hardware')
-      tabs.remove.onFirstCall().callsFake((_, done) => {
-        runtime.lastError = { message: 'No tab with this ID' }
-        done()
-        delete runtime.lastError
-      })
+      tabs.remove.onFirstCall().rejects(new Error('No tab with this ID'))
       assert.equal(await new Keyring().signPersonalMessage('address', '0x01'), 'signed')
       assert.equal(tabs.remove.callCount, 1)
       assert.equal(runtime.sendMessage.callCount, 1)
@@ -217,7 +212,7 @@ describe('Manifest V3 hardware transport', function () {
     assert.equal(keyring.isUnlocked(), false)
   })
   it('cancels queued and in-flight requests when the wallet locks', async function () {
-    const runtime = sinon.stub(extension, 'runtime').value({ getContexts: async () => [], getURL: (path) => path })
+    extension.runtime = { getContexts: async () => [], getURL: (path) => path }
     let finish
     let calls = 0
     const Keyring = createRemoteKeyring('Ledger Hardware', async ({ state }) => {
@@ -240,7 +235,7 @@ describe('Manifest V3 hardware transport', function () {
       assert.equal(calls, 1)
       assert.equal(keyring.isUnlocked(), false)
     } finally {
-      runtime.restore()
+      delete extension.runtime
     }
   })
 

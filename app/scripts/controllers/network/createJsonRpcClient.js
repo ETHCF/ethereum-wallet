@@ -1,23 +1,27 @@
-import mergeMiddleware from 'json-rpc-engine/src/mergeMiddleware'
-import createFetchMiddleware from 'eth-json-rpc-middleware/fetch'
-import createBlockRefRewriteMiddleware from 'eth-json-rpc-middleware/block-ref-rewrite'
-import createBlockCacheMiddleware from 'eth-json-rpc-middleware/block-cache'
-import createInflightMiddleware from 'eth-json-rpc-middleware/inflight-cache'
-import createBlockTrackerInspectorMiddleware from 'eth-json-rpc-middleware/block-tracker-inspector'
-import providerFromMiddleware from 'eth-json-rpc-middleware/providerFromMiddleware'
-import BlockTracker from 'eth-block-tracker'
+import { asLegacyMiddleware } from '@metamask/json-rpc-engine/v2'
+import {
+  createBlockCacheMiddleware,
+  createBlockRefRewriteMiddleware,
+  createBlockTrackerInspectorMiddleware,
+  createFetchMiddleware,
+  createInflightCacheMiddleware,
+} from '@metamask/eth-json-rpc-middleware'
+import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider'
+import { PollingBlockTracker } from '@metamask/eth-block-tracker'
+import createRpcService from './rpc-service'
 
 export default function createJsonRpcClient ({ rpcUrl }) {
-  const fetchMiddleware = createFetchMiddleware({ rpcUrl })
-  const blockProvider = providerFromMiddleware(fetchMiddleware)
-  const blockTracker = new BlockTracker({ provider: blockProvider })
+  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrl }) })
+  const blockProvider = providerFromMiddlewareV2(fetchMiddleware)
+  const blockTracker = new PollingBlockTracker({ provider: blockProvider })
 
-  const networkMiddleware = mergeMiddleware([
+  // One engine for the whole chain, so the caches see the fetched results.
+  const networkMiddleware = asLegacyMiddleware(
     createBlockRefRewriteMiddleware({ blockTracker }),
     createBlockCacheMiddleware({ blockTracker }),
-    createInflightMiddleware(),
+    createInflightCacheMiddleware(),
     createBlockTrackerInspectorMiddleware({ blockTracker }),
     fetchMiddleware,
-  ])
+  )
   return { networkMiddleware, blockTracker }
 }

@@ -1271,8 +1271,8 @@ describe('permissions controller', function () {
       )
 
       assert.equal(
-        middleware.name, 'engineAsMiddleware',
-        'function name should be "engineAsMiddleware"',
+        middleware.length, 4,
+        'should be a (req, res, next, end) middleware',
       )
     })
 
@@ -1297,8 +1297,8 @@ describe('permissions controller', function () {
       )
 
       assert.equal(
-        middleware.name, 'engineAsMiddleware',
-        'function name should be "engineAsMiddleware"',
+        middleware.length, 4,
+        'should be a (req, res, next, end) middleware',
       )
 
       const metadataStore = permController.store.getState()[METADATA_STORE_KEY]

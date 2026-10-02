@@ -1,4 +1,3 @@
-/* global fetch */
 const { strict: assert } = require('assert')
 const { spawn, spawnSync } = require('child_process')
 const { once } = require('events')

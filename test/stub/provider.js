@@ -1,7 +1,6 @@
-import JsonRpcEngine from 'json-rpc-engine'
-import scaffoldMiddleware from 'eth-json-rpc-middleware/scaffold'
-import providerAsMiddleware from 'eth-json-rpc-middleware/providerAsMiddleware'
+import { JsonRpcEngine, createAsyncMiddleware, createScaffoldMiddleware } from '@metamask/json-rpc-engine'
 import GanacheCore from 'ganache-core'
+import appProviderFromEngine from '../../app/scripts/controllers/network/provider-from-engine'
 
 export function getTestSeed () {
   return 'people carpet cluster attract ankle motor ozone mass dove original primary mask'
@@ -20,16 +19,31 @@ export function createEngineForTestData () {
 }
 
 export function providerFromEngine (engine) {
-  const provider = { sendAsync: engine.handle.bind(engine) }
-  return provider
+  return appProviderFromEngine(engine)
+}
+
+// Ganache's provider only has sendAsync, so forward requests with it.
+function ganacheAsMiddleware (ganache) {
+  return createAsyncMiddleware(async (req, res) => {
+    const { id, jsonrpc, method, params } = req
+    res.result = await new Promise((resolve, reject) => {
+      ganache.sendAsync({ id, jsonrpc, method, params }, (error, response) => {
+        if (error || response.error) {
+          reject(error || response.error)
+        } else {
+          resolve(response.result)
+        }
+      })
+    })
+  })
 }
 
 export function createTestProviderTools (opts = {}) {
   const engine = createEngineForTestData()
   // handle provided hooks
-  engine.push(scaffoldMiddleware(opts.scaffold || {}))
+  engine.push(createScaffoldMiddleware(opts.scaffold || {}))
   // handle block tracker methods
-  engine.push(providerAsMiddleware(GanacheCore.provider({
+  engine.push(ganacheAsMiddleware(GanacheCore.provider({
     mnemonic: getTestSeed(),
   })))
   // wrap in standard provider interface

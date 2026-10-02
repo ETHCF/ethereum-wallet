@@ -9,7 +9,7 @@
 
 import EthQuery from 'eth-query'
 
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import log from 'loglevel'
 import pify from 'pify'
 import { MAINNET_NETWORK_ID } from '../controllers/network/enums'
@@ -50,9 +50,11 @@ export default class AccountTracker {
     this._blockTracker = opts.blockTracker
     // blockTracker.currentBlock may be null
     this._currentBlockNumber = this._blockTracker.getCurrentBlock()
-    this._blockTracker.once('latest', (blockNumber) => {
+    // Not a one-off 'latest' listener: removing the block tracker's last
+    // listener stops it and rejects any getLatestBlock call in progress.
+    this._blockTracker.getLatestBlock().then((blockNumber) => {
       this._currentBlockNumber = blockNumber
-    })
+    }).catch(() => undefined)
     // bind function for easier listener syntax
     this._updateForBlock = this._updateForBlock.bind(this)
     this.network = opts.network

@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import EventEmitter from 'events'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import sinon from 'sinon'
 import { decodeTransaction } from '../../../../../app/scripts/lib/transaction-codec'
 import TransactionController from '../../../../../app/scripts/controllers/transactions'

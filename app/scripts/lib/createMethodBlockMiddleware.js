@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors'
+import { rpcErrors } from '@metamask/rpc-errors'
 
 /**
  * RPC methods the wallet refuses outright, mapped to the reason given to the site.
@@ -12,7 +12,7 @@ export const BLOCKED_METHODS = {
 export default function createMethodBlockMiddleware () {
   return (req, _res, next, end) => {
     if (Object.prototype.hasOwnProperty.call(BLOCKED_METHODS, req.method)) {
-      end(ethErrors.rpc.methodNotFound(BLOCKED_METHODS[req.method]))
+      end(rpcErrors.methodNotFound(BLOCKED_METHODS[req.method]))
       return
     }
     next()

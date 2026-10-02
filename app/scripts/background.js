@@ -15,8 +15,7 @@ import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import endOfStream from 'end-of-stream'
 import pump from 'pump'
 import log from 'loglevel'
-import storeTransform from 'obs-store/lib/transform'
-import asStream from 'obs-store/lib/asStream'
+import { storeAsStream, storeTransformStream } from '@metamask/obs-store'
 import PortStream from 'extension-port-stream'
 import { closeHardwareConnections } from './lib/hardware-keyrings'
 import extension from './lib/extension-api'
@@ -355,8 +354,8 @@ async function setupController (initState, initLangCode) {
 
   // setup state persistence
   pump(
-    asStream(controller.store),
-    storeTransform(versionifyData),
+    storeAsStream(controller.store),
+    storeTransformStream(versionifyData),
     createStreamSink(persistData),
     (error) => {
       log.error('ecf-wallet - Persistence pipeline failed', error)

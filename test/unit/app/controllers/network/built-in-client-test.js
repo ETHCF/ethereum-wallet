@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import nock from 'nock'
-import JsonRpcEngine from 'json-rpc-engine'
+import { JsonRpcEngine } from '@metamask/json-rpc-engine'
 import createBuiltInClient from '../../../../../app/scripts/controllers/network/createBuiltInClient'
 import { BUILT_IN_NETWORKS } from '../../../../../app/scripts/controllers/network/enums'
 

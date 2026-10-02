@@ -1,4 +1,4 @@
-import extension from 'extensionizer'
+import extension from './lib/extension-api'
 import { createHardwareRequestHandler } from './lib/hardware-transport'
 
 const performRequest = createHardwareRequestHandler()

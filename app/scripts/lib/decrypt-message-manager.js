@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
-import ObservableStore from 'obs-store'
+import { ObservableStore } from '@metamask/obs-store'
 import ethUtil from 'ethereumjs-util'
-import { ethErrors } from 'eth-rpc-errors'
+import { providerErrors } from '@metamask/rpc-errors'
 import log from 'loglevel'
 import createId from './random-id'
 import { MESSAGE_TYPE } from './enums'
@@ -94,7 +94,7 @@ export default class DecryptMessageManager extends EventEmitter {
             resolve(data.rawData)
             return
           case 'rejected':
-            reject(ethErrors.provider.userRejectedRequest('ecf-wallet Decryption: User denied message decryption.'))
+            reject(providerErrors.userRejectedRequest('ecf-wallet Decryption: User denied message decryption.'))
             return
           case 'errored':
             reject(new Error('This message cannot be decrypted'))
