@@ -30,6 +30,30 @@ function dedupeReadableStream () {
 }
 
 /**
+ * @metamask/providers logs and throws messages that name MetaMask, and does not
+ * export them for us to replace. Rename the wallet in them as they are bundled.
+ * In these files, MetaMask as a whole word appears only in strings and comments.
+ *
+ * @returns {Object} An esbuild plugin
+ */
+function rebrandProviderMessages () {
+  return {
+    name: 'rebrand-provider-messages',
+    setup (build) {
+      // eslint-disable-next-line require-unicode-regexp
+      build.onLoad({ filter: /[\\/]@metamask[\\/]providers[\\/]dist[\\/](messages|BaseProvider|StreamProvider|utils)\.(c|m)js$/ }, async ({ path: file }) => {
+        const source = await fs.promises.readFile(file, 'utf8')
+        if (!source.includes('MetaMask:') && !source.includes('MetaMask -')) {
+          throw new Error(`Expected MetaMask messages in ${file}; update rebrandProviderMessages`)
+        }
+        // Leave links such as github.com/MetaMask/... intact.
+        return { contents: source.replace(/\bMetaMask\b(?!\/)/gu, 'ECF Wallet'), loader: 'js' }
+      })
+    },
+  }
+}
+
+/**
  * @param {Object} [opts]
  * @param {boolean} [opts.pageScript] - For scripts injected into every page,
  * which need no crypto and should stay small.
@@ -41,7 +65,7 @@ module.exports = function browserOptions ({ pageScript = false } = {}) {
       bundle: true,
       platform: 'browser',
       target: ['chrome120', 'firefox128'],
-      plugins: [dedupeReadableStream(), polyfillNode({ polyfills: { assert: false, crypto: false, stream: false } })],
+      plugins: [dedupeReadableStream(), rebrandProviderMessages(), polyfillNode({ polyfills: { assert: false, crypto: false, stream: false } })],
       // readable-stream is bundled already; the Node stream polyfill would add a
       // second, larger copy.
       alias: { stream: require.resolve('readable-stream') },
