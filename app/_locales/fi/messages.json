@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Takaisin kaikkiin"
   },
-  "backupApprovalNotice": {
-    "message": "Varmuuskopioi salainen palautuskoodisi pitääksesi kukkarosi ja varasi turvassa."
-  },
-  "backupApprovalInfo": {
-    "message": "Tämä salainen koodi vaaditaan kukkarosi palauttamiseen siinä tapauksessa, että kadotat laitteesi, unohdat salasanasi, joudut asentamaan EcfWalletin uudestaan tai haluat käyttää lompakkoasi jollakin toisella laitteella."
-  },
-  "backupNow": {
-    "message": "Tee varmuuskopio nyt"
-  },
   "balance": {
     "message": "Saldo"
   },

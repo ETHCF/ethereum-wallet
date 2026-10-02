@@ -118,9 +118,6 @@
   "backToAll": {
     "message": "Volver a Todo"
   },
-  "backupApprovalNotice": {
-    "message": "Haz un respaldo de tu código de Recuperación Secreta para mantener tu Wallet y tus fondos seguros."
-  },
   "balance": {
     "message": "Saldo"
   },

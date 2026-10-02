@@ -109,15 +109,6 @@
   "backToAll": {
     "message": "Bumalik sa Lahat"
   },
-  "backupApprovalNotice": {
-    "message": "I-back up ang iyong Secret Recovery code para panatilihing secure ang iyong wallet at pondo."
-  },
-  "backupApprovalInfo": {
-    "message": "Ang secret code na ito ay kinakailangan para ma-recover ang iyong wallet kung sakaling mawawala mo ang iyong device, nakalimutan mo ang iyong password, kailangan mong i-install ulit ang ECF Wallet, o gusto mong i-access ang iyong wallet sa ibang device."
-  },
-  "backupNow": {
-    "message": "I-back up ngayon"
-  },
   "balance": {
     "message": "Balanse"
   },

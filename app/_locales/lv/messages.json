@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Atgriezties pie visiem"
   },
-  "backupApprovalNotice": {
-    "message": "Dublējiet savu slepeno atgūšanas kodu, lai maks un līdzekļi atrastos drošībā."
-  },
-  "backupApprovalInfo": {
-    "message": "Šis slepenais kods ir nepieciešams, lai atjaunotu jūsu maku, ja pazaudējat ierīci, aizmirstat paroli, jāpārinstalē ECF Wallet vai vēlaties piekļūt makam no citas ierīces."
-  },
-  "backupNow": {
-    "message": "Dublēt tagad"
-  },
   "balance": {
     "message": "Bilance"
   },

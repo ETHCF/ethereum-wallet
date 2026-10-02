@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Rudi kwenye Zote"
   },
-  "backupApprovalNotice": {
-    "message": "Hifadhi msimbo wa Siri wa Kurejesha data ili kuweka salama waleti yako na fedha."
-  },
-  "backupApprovalInfo": {
-    "message": "Msimbo huu wa siri unahitajika ili kurejesha waleti yako ikitokea umepoteza kifaa chako, umesahau nenosiri lako, umelazimika kusakinisha ECF Wallet, au unataka kufikia waleti yako kwenye kifaa kingine."
-  },
-  "backupNow": {
-    "message": "Hifadhi sasa"
-  },
   "balance": {
     "message": "Salio"
   },

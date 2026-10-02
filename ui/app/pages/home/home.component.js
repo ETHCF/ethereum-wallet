@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route } from 'react-router-dom'
 import AssetList from '../../components/app/asset-list'
-import HomeNotification from '../../components/app/home-notification'
-import MultipleNotifications from '../../components/app/multiple-notifications'
 import TransactionList from '../../components/app/transaction-list'
 import MenuBar from '../../components/app/menu-bar'
 import Popover from '../../components/ui/popover'
@@ -19,7 +17,6 @@ import {
   CONFIRM_TRANSACTION_ROUTE,
   CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE,
   CONFIRM_NETWORK_REQUEST_ROUTE,
-  INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
   CONNECT_ROUTE,
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
@@ -37,7 +34,6 @@ export default class Home extends PureComponent {
     forgottenPassword: PropTypes.bool,
     suggestedTokens: PropTypes.object,
     unconfirmedTransactionsCount: PropTypes.number,
-    shouldShowSeedPhraseReminder: PropTypes.bool,
     isPopup: PropTypes.bool,
     isNotification: PropTypes.bool.isRequired,
     firstPermissionsRequestId: PropTypes.string,
@@ -103,39 +99,6 @@ export default class Home extends PureComponent {
     if (!prevState.closing && this.state.closing) {
       global.platform.closeCurrentWindow()
     }
-  }
-
-  renderNotifications () {
-    const { t } = this.context
-    const {
-      history,
-      shouldShowSeedPhraseReminder,
-      isPopup,
-    } = this.props
-
-    return (
-      <MultipleNotifications>
-        {
-          shouldShowSeedPhraseReminder
-            ? (
-              <HomeNotification
-                descriptionText={t('backupApprovalNotice')}
-                acceptText={t('backupNow')}
-                onAccept={() => {
-                  if (isPopup) {
-                    global.platform.openExtensionInBrowser(INITIALIZE_BACKUP_SEED_PHRASE_ROUTE)
-                  } else {
-                    history.push(INITIALIZE_BACKUP_SEED_PHRASE_ROUTE)
-                  }
-                }}
-                infoText={t('backupApprovalInfo')}
-                key="home-backupApprovalNotice"
-              />
-            )
-            : null
-        }
-      </MultipleNotifications>
-    )
   }
 
   renderPopover = () => {
@@ -233,7 +196,6 @@ export default class Home extends PureComponent {
               </Tab>
             </Tabs>
           </div>
-          { this.renderNotifications() }
         </div>
       </div>
     )

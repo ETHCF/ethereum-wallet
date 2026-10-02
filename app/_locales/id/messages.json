@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Kembali ke Semua"
   },
-  "backupApprovalNotice": {
-    "message": "Cadangkan kode Pemulihan Rahasia guna mengamankan dompet dan dana Anda."
-  },
-  "backupApprovalInfo": {
-    "message": "Kode rahasia Anda diperlukan untuk memulihkan dompet jika perangkat hilang, lupa sandi, harus menginstal ulang ECF Wallet, atau ingin mengakses dompet Anda di perangkat lain."
-  },
-  "backupNow": {
-    "message": "Cadangkan sekarang"
-  },
   "balance": {
     "message": "Saldo"
   },

@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Vissza az összeshez"
   },
-  "backupApprovalNotice": {
-    "message": "Készíts biztonsági másolatot titkos helyreállítási kódodról, hogy pénztárcád és pénzalapod biztosítva legyen."
-  },
-  "backupApprovalInfo": {
-    "message": "Ez a titkos kód a tárca helyreállításához szükséges, ha elveszíti eszközét, elfelejti jelszavát, újra kell telepítenie a ECF Wallet alkalmazást, vagy ha a tárcájához egy másik eszközről szeretne hozzáférni."
-  },
-  "backupNow": {
-    "message": "Készíts biztonsági mentést most"
-  },
   "balance": {
     "message": "Egyenleg"
   },

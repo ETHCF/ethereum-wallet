@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Tillbaka till Alla"
   },
-  "backupApprovalNotice": {
-    "message": "Säkerhetskopiera din hemliga återställningskod för att se till att din plånbok och dina tillgångar är säkra."
-  },
-  "backupApprovalInfo": {
-    "message": "Den hemliga koden krävs för att komma åt din plånbok ifall du tappar bort din enhet, glömmer ditt lösenord, behöver installera om ECF Wallet eller om du vill komma åt din plånbok på en annan enhet."
-  },
-  "backupNow": {
-    "message": "Säkerhetskopiera nu"
-  },
   "balance": {
     "message": "Saldo"
   },

@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Natrag na sve"
   },
-  "backupApprovalNotice": {
-    "message": "Sigurnosno kopirajte svoj sigurnosni kôd za obnavljanje kako biste zaštitili svoj novčanik i sredstva."
-  },
-  "backupApprovalInfo": {
-    "message": "Ovaj je sigurnosni kôd potreban za obnavljanje novčanika ako izgubite svoj uređaj, zaboravite svoju lozinku, morate ponovno instalirati ECF Wallet ili želite pristupiti svojem novčaniku na drugom uređaju."
-  },
-  "backupNow": {
-    "message": "Sigurnosno kopiraj sada"
-  },
   "balance": {
     "message": "Stanje"
   },

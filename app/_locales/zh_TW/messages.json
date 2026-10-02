@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "回到所有"
   },
-  "backupApprovalNotice": {
-    "message": "備份你的秘密還原代碼，安全防護錢包與資金。"
-  },
-  "backupApprovalInfo": {
-    "message": "在裝置遺失、忘記密碼、需要重新安裝 ECF Wallet、或是想在另一裝置開啟錢包的情形下，你需要此秘密代碼來復原錢包。"
-  },
-  "backupNow": {
-    "message": "現在備份"
-  },
   "balance": {
     "message": "餘額："
   },

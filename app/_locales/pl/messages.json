@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Wróć do wszystkich"
   },
-  "backupApprovalNotice": {
-    "message": "Utwórz kopię zapasową tajnego kodu odzyskiwania, aby zapewnić bezpieczeństwo swojego portfela i środków."
-  },
-  "backupApprovalInfo": {
-    "message": "Ten tajny kod jest wymagany do odzyskania portfela w przypadku zgubienia urządzenia, zapomnienia hasła, ponownego zainstalowania ECF Wallet lub potrzeby uzyskania dostępu do portfela na innym urządzeniu."
-  },
-  "backupNow": {
-    "message": "Utwórz kopię zapasową"
-  },
   "balance": {
     "message": "Ilość środków"
   },

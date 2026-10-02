@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Kembali kepada Semua"
   },
-  "backupApprovalNotice": {
-    "message": "Sandarkan kod Pemulihan Rahsia anda untuk memastikan dompet dan dana anda sentiasa selamat."
-  },
-  "backupApprovalInfo": {
-    "message": "Kod rahsia ini diperlukan untuk memulihkan dompet anda sekiranya anda kehilangan peranti anda, terlupa kata laluan anda, perlu memasang semua ECF Wallet, atau mahu mengakses dompet anda menggunakan peranti lain."
-  },
-  "backupNow": {
-    "message": "Buat sandaran sekarang"
-  },
   "balance": {
     "message": "Baki"
   },

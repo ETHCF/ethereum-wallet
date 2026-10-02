@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Nazaj na vse"
   },
-  "backupApprovalNotice": {
-    "message": "Varnostno kopirajte kodo Secret Recovery, da ohranite denarnico in sredstva varna."
-  },
-  "backupApprovalInfo": {
-    "message": "Ta skrivna koda je potrebna za obnovitev denarnice, če izgubite napravo, pozabite geslo, ponovno namestite ECF Wallet ali želite dostopati do denarnice v drugi napravi."
-  },
-  "backupNow": {
-    "message": "Varnostno kopiraj zdaj"
-  },
   "balance": {
     "message": "Znesek"
   },

@@ -43,9 +43,6 @@
   "back": {
     "message": "กลับ"
   },
-  "backupApprovalNotice": {
-    "message": "แบ็คอัพโค้ดกู้คืนลับของคุณเพื่อรักษา Wallet และเงินให้ปลอดภัย"
-  },
   "balance": {
     "message": "ยอดคงเหลือ:"
   },

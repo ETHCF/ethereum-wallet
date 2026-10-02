@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "ወደ ሁሉም ተመለስ"
   },
-  "backupApprovalNotice": {
-    "message": "የቋትዎንና የገነዘብዎን ደህንነት ለማስጠበቅ ሚስጥራዊ የማስመለሻ ኮድዎን መጠባበቂያ ይያዙ።"
-  },
-  "backupApprovalInfo": {
-    "message": "መሳሪያዎ ቢጠፋ፣ የይለፍ ቃልዎን ቢረሱ፣ ECF Wallet እንደገና መጫን ቢያስፈልግዎ ወይም በሌላ መሳሪያ ወደ ቋትዎ ለመድረስ ቢፈልጉ ይህ ሚስጥራዊ ኮድ ቋትዎን መልሶ ለማግኘት ያስፈልጋል።"
-  },
-  "backupNow": {
-    "message": "አሁን መጠባበቂያ ያዝ"
-  },
   "balance": {
     "message": "ቀሪ ሂሳብ"
   },

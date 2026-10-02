@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "전체로 돌아가기"
   },
-  "backupApprovalNotice": {
-    "message": "비밀 복구 코드를 백업하여 월렛과 자금을 안전하게 유지하세요."
-  },
-  "backupApprovalInfo": {
-    "message": "이 비밀 코드는 기기를 분실해서 월렛을 복구해야 하거나, 비밀번호를 잊어버리거나, ECF Wallet를 재설치해야 하거나, 다른 기기에서 월렛에 접속하고 싶은 경우에  필요합니다."
-  },
-  "backupNow": {
-    "message": "지금 백업하기"
-  },
   "balance": {
     "message": "잔액"
   },

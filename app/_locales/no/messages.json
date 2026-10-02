@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Tilbake til alt"
   },
-  "backupApprovalNotice": {
-    "message": "Sikkerhetskopier den hemmelige gjenopprettingskoden for å sikre lommeboken og midlene."
-  },
-  "backupApprovalInfo": {
-    "message": "Denne hemmelige koden behøves for å gjenopprette lommeboken din i tilfelle du mister enheten din, glemmer passordet ditt, trenger å re-installere ECF Wallet, eller ønsker å få tilgang til lommeboken din på en annen enhet."
-  },
-  "backupNow": {
-    "message": "Sikkerhetskopier nå"
-  },
   "balance": {
     "message": "Saldo "
   },

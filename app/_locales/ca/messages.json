@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Torna a Tot"
   },
-  "backupApprovalNotice": {
-    "message": "Fes una còpia de seguretat del teu codi Secret de Recuperació per mantenir el teu moneder i els teus fons segurs."
-  },
-  "backupApprovalInfo": {
-    "message": "Aquest codi secret es requereix per recuperar el teu moneder en cas que perdis el dispositiu, oblidis la teva contrasenya, hagis de reinstal·lar ECF Wallet, o vulguis accedir al teu moneder des d'un altre dispositiu."
-  },
-  "backupNow": {
-    "message": "Fer còpia de seguretat ara"
-  },
   "balance": {
     "message": "Balanç"
   },

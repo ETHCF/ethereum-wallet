@@ -44,6 +44,33 @@ restoreContextAfterImports()
 
 log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn')
 
+/**
+ * The upstream provider, identified as ECF Wallet: isECFWallet and _ecfwallet
+ * replace isMetaMask and _metamask, so dapps do not mistake it for MetaMask.
+ */
+class ECFWalletInpageProvider extends MetaMaskInpageProvider {
+  constructor (connectionStream, options) {
+    super(connectionStream, options)
+    delete this.isMetaMask
+    this.isECFWallet = true
+
+    // The upstream namespace warns under MetaMask's name, so warn under ours instead.
+    const experimentalApi = this._metamask
+    delete this._metamask
+    this._sentWarnings.experimentalMethods = true
+    let warned = false
+    this._ecfwallet = new Proxy(experimentalApi, {
+      get: (target, property) => {
+        if (!warned) {
+          log.warn(`ECF Wallet: 'ethereum._ecfwallet' exposes non-standard, experimental methods. They may be removed or changed without warning.`)
+          warned = true
+        }
+        return Reflect.get(target, property)
+      },
+    })
+  }
+}
+
 //
 // setup plugin communication
 //
@@ -60,7 +87,7 @@ if (shouldInjectProvider()) {
     log.warn('ecf-wallet - lost connection to the content script', error)
   })
 
-  const inpageProvider = new MetaMaskInpageProvider(mux.createStream('provider'), {
+  const inpageProvider = new ECFWalletInpageProvider(mux.createStream('provider'), {
     logger: log,
     // The site's name and icon are shown when it asks to connect.
     shouldSendMetadata: true,

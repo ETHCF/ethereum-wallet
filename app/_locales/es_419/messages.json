@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Volver a Todos"
   },
-  "backupApprovalNotice": {
-    "message": "Haz una copia de seguridad de tu código de recuperación secreto para mantener la seguridad de la billetera y los fondos."
-  },
-  "backupApprovalInfo": {
-    "message": "Este código secreto es necesario para recuperar tu billetera en caso de que pierdas tu dispositivo, olvides la contraseña, tengas que reinstalar ECF Wallet o quieras acceder a tu billetera desde otro dispositivo."
-  },
-  "backupNow": {
-    "message": "Hacer copia de seguridad ahora"
-  },
   "balance": {
     "message": "Saldo"
   },

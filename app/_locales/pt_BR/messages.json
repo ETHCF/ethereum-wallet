@@ -121,15 +121,6 @@
   "backToAll": {
     "message": "Voltar para Todos"
   },
-  "backupApprovalNotice": {
-    "message": "Faça backup de seu Código Secreto de Recuperação para manter sua carteira e seus fundos em segurança."
-  },
-  "backupApprovalInfo": {
-    "message": "Esse código secreto é necessário para recuperar sua carteira, caso você perca seu dispositivo, esqueça sua senha, precise reinstalar o ECF Wallet ou queira acessar sua carteira em outro dispositivo."
-  },
-  "backupNow": {
-    "message": "Fazer backup agora"
-  },
   "balance": {
     "message": "Saldo"
   },

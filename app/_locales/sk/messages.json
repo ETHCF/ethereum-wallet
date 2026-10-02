@@ -118,15 +118,6 @@
   "backToAll": {
     "message": "Späť na všetko"
   },
-  "backupApprovalNotice": {
-    "message": "Zálohujte si svoj tajný kód na obnovenie, aby bola vaša peňaženka a prostriedky bezpečné."
-  },
-  "backupApprovalInfo": {
-    "message": "Tento tajný kód je potrebný na obnovenie peňaženky v prípade straty zariadenia, zabudnutia hesla, preinštalovania ECF Wallet alebo prístupu k peňaženke na inom zariadení."
-  },
-  "backupNow": {
-    "message": "Zálohovať teraz"
-  },
   "balance": {
     "message": "Zůstatek:"
   },

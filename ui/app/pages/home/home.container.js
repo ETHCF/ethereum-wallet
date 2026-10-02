@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import {
   unconfirmedTransactionsCountSelector,
-  getCurrentEthBalance,
   getFirstPermissionRequest,
   getTotalUnapprovedCount,
   getNetworkRequests,
@@ -24,12 +23,9 @@ const mapStateToProps = (state) => {
   const { ecfWallet, appState } = state
   const {
     suggestedTokens,
-    seedPhraseBackedUp,
-    tokens,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
   } = ecfWallet
-  const accountBalance = getCurrentEthBalance(state)
   const { forgottenPassword } = appState
   const totalUnapprovedCount = getTotalUnapprovedCount(state)
 
@@ -46,7 +42,6 @@ const mapStateToProps = (state) => {
     forgottenPassword,
     suggestedTokens,
     unconfirmedTransactionsCount: unconfirmedTransactionsCountSelector(state),
-    shouldShowSeedPhraseReminder: !seedPhraseBackedUp && (parseInt(accountBalance, 16) > 0 || tokens.length > 0),
     isPopup,
     isNotification,
     firstPermissionsRequestId,

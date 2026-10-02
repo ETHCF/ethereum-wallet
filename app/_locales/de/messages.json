@@ -118,15 +118,6 @@
   "backToAll": {
     "message": "Zurück zur Übersicht"
   },
-  "backupApprovalNotice": {
-    "message": "Sichern Sie Ihren geheimen Wiederherstellungscode, um Ihr Wallet und Ihr Geld geschützt zu halten."
-  },
-  "backupApprovalInfo": {
-    "message": "Dieser geheime Code ist zum Wiedererlangen Ihres Wallets erforderlich, falls Sie Ihr Gerät verlieren, Ihr Passwort vergessen, ECF Wallet neu installieren müssen oder auf einem anderen Gerät auf Ihr Wallet zugreifen möchten."
-  },
-  "backupNow": {
-    "message": "Jetzt sichern"
-  },
   "balance": {
     "message": "Guthaben:"
   },
