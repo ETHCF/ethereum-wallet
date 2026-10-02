@@ -53,6 +53,7 @@ function mapStateToProps (state) {
     from: getSendFromObject(state),
     gasLimit: getGasLimit(state),
     gasPrice: getGasPrice(state),
+    gasPriceIsCustom: state.ecfWallet.send.gasPriceIsCustom,
     gasTotal: getGasTotal(state),
     inError: isSendFormInError(state),
     sendToken: getSendToken(state),
@@ -70,13 +71,14 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     clearSend: () => dispatch(clearSend()),
-    sign: ({ sendToken, to, amount, from, gas, gasPrice, data }) => {
+    sign: ({ sendToken, to, amount, from, gas, gasPrice, gasPriceIsCustom, data }) => {
       const txParams = constructTxParams({
         amount,
         data,
         from,
         gas,
         gasPrice,
+        gasPriceIsCustom,
         sendToken,
         to,
       })
@@ -92,6 +94,7 @@ function mapDispatchToProps (dispatch) {
       from,
       gas,
       gasPrice,
+      gasPriceIsCustom,
       sendToken,
       to,
       unapprovedTxs,
@@ -103,6 +106,7 @@ function mapDispatchToProps (dispatch) {
         from,
         gas,
         gasPrice,
+        gasPriceIsCustom,
         sendToken,
         to,
         unapprovedTxs,

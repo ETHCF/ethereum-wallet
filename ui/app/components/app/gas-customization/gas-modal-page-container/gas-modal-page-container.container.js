@@ -8,6 +8,7 @@ import {
   createRetryTransaction,
   createSpeedUpTransaction,
   hideSidebar,
+  updateSend,
   updateSendAmount,
   setGasTotal,
   updateTransaction,
@@ -181,6 +182,7 @@ const mapDispatchToProps = (dispatch) => {
     setGasData: (newLimit, newPrice) => {
       dispatch(setGasLimit(newLimit))
       dispatch(setGasPrice(newPrice))
+      dispatch(updateSend({ gasPriceIsCustom: true }))
     },
     updateConfirmTxGasAndCalculate: (gasLimit, gasPrice, updatedTx) => {
       updateCustomGasPrice(gasPrice)

@@ -127,6 +127,43 @@ describe('send-footer utils', function () {
     })
   })
 
+  describe('custom gas prices and EIP-1559 fees', function () {
+    const feeMarketTx = {
+      id: 1,
+      txParams: {
+        from: '0xfrom', to: '0xto', value: '0x1', gas: '0x5208',
+        type: '0x2', maxFeePerGas: '0x77359400', maxPriorityFeePerGas: '0x3b9aca00',
+      },
+    }
+    const edit = (gasPriceIsCustom) => constructUpdatedTx({
+      amount: '0x1', editingTransactionId: 1, from: '0xfrom', gas: '0x5208', gasPrice: '0x2540be400',
+      gasPriceIsCustom, to: '0xto', unapprovedTxs: { 1: { ...feeMarketTx, txParams: { ...feeMarketTx.txParams } } },
+    }).txParams
+
+    it('sends a chosen gas price as a legacy transaction', function () {
+      assert.equal(constructTxParams({ from: '0xfrom', to: '0xto', amount: '0x1', gas: '0x5208', gasPrice: '0x2540be400', gasPriceIsCustom: true }).type, '0x0')
+    })
+
+    it('lets the wallet choose the fee type for an estimated gas price', function () {
+      assert.equal(constructTxParams({ from: '0xfrom', to: '0xto', amount: '0x1', gas: '0x5208', gasPrice: '0x2540be400' }).type, undefined)
+    })
+
+    it('replaces an edited transaction\'s EIP-1559 fees with a chosen gas price', function () {
+      const txParams = edit(true)
+      assert.equal(txParams.type, '0x0')
+      assert.equal(txParams.gasPrice, '0x2540be400')
+      assert.equal(txParams.maxFeePerGas, undefined)
+      assert.equal(txParams.maxPriorityFeePerGas, undefined)
+    })
+
+    it('keeps an edited transaction\'s EIP-1559 fees when the gas price is an estimate', function () {
+      const txParams = edit(false)
+      assert.equal(txParams.type, '0x2')
+      assert.equal(txParams.maxFeePerGas, '0x77359400')
+      assert.equal(txParams.gasPrice, undefined)
+    })
+  })
+
   describe('constructUpdatedTx()', function () {
     it('should return a new object with an updated txParams', function () {
       const result = constructUpdatedTx({

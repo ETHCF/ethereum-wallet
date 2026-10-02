@@ -16,6 +16,8 @@ export default function reduceEcfWallet (state = {}, action) {
     send: {
       gasLimit: null,
       gasPrice: null,
+      // Whether the user chose gasPrice, rather than it being an estimate.
+      gasPriceIsCustom: false,
       gasTotal: null,
       tokenBalance: '0x0',
       from: '',
@@ -243,6 +245,7 @@ export default function reduceEcfWallet (state = {}, action) {
         send: {
           gasLimit: null,
           gasPrice: null,
+          gasPriceIsCustom: false,
           gasTotal: null,
           tokenBalance: null,
           from: '',

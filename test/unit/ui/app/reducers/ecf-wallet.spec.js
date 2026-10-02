@@ -167,6 +167,7 @@ describe('ecf-wallet Reducers', function () {
     const value = {
       gasLimit: '0xGasLimit',
       gasPrice: '0xGasPrice',
+      gasPriceIsCustom: false,
       gasTotal: '0xGasTotal',
       tokenBalance: '0xBalance',
       from: '0xAddress',
@@ -195,6 +196,7 @@ describe('ecf-wallet Reducers', function () {
       {
         gasLimit: null,
         gasPrice: null,
+        gasPriceIsCustom: false,
         gasTotal: null,
         tokenBalance: null,
         from: '',

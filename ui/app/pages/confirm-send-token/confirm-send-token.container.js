@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
         from,
         gasLimit,
         gasPrice,
+        gasPriceIsCustom: false,
         gasTotal: null,
         to,
         amount: tokenAmountInHex,

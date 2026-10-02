@@ -10,6 +10,7 @@ const actionSpies = {
   setGasPrice: sinon.spy(),
   setGasTotal: sinon.spy(),
   setGasLimit: sinon.spy(),
+  updateSend: sinon.spy(),
 }
 
 const sendDuckSpies = {
@@ -72,7 +73,8 @@ describe('send-gas-row container', function () {
     describe('setGasPrice()', function () {
       it('should dispatch an action', function () {
         mapDispatchToPropsObject.setGasPrice('mockNewPrice', 'mockLimit')
-        assert(dispatchSpy.calledThrice)
+        assert.equal(dispatchSpy.callCount, 4)
+        assert.deepEqual(actionSpies.updateSend.getCall(0).args[0], { gasPriceIsCustom: true })
         assert(actionSpies.setGasPrice.calledOnce)
         assert.equal(actionSpies.setGasPrice.getCall(0).args[0], 'mockNewPrice')
         assert.equal(gasDuckSpies.setCustomGasPrice.getCall(0).args[0], 'mockNewPrice')

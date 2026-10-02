@@ -79,6 +79,7 @@ describe('send-footer container', function () {
           from: 'mockFrom',
           gas: 'mockGas',
           gasPrice: 'mockGasPrice',
+          gasPriceIsCustom: true,
         })
         assert(dispatchSpy.calledOnce)
         assert.deepEqual(
@@ -93,6 +94,7 @@ describe('send-footer container', function () {
             from: 'mockFrom',
             gas: 'mockGas',
             gasPrice: 'mockGasPrice',
+            gasPriceIsCustom: true,
           },
         )
         assert.deepEqual(
@@ -109,6 +111,7 @@ describe('send-footer container', function () {
           from: 'mockFrom',
           gas: 'mockGas',
           gasPrice: 'mockGasPrice',
+          gasPriceIsCustom: true,
         })
         assert(dispatchSpy.calledOnce)
         assert.deepEqual(
@@ -121,6 +124,7 @@ describe('send-footer container', function () {
             from: 'mockFrom',
             gas: 'mockGas',
             gasPrice: 'mockGasPrice',
+            gasPriceIsCustom: true,
           },
         )
         assert.deepEqual(
@@ -138,6 +142,7 @@ describe('send-footer container', function () {
           from: 'mockFrom',
           gas: 'mockGas',
           gasPrice: 'mockGasPrice',
+          gasPriceIsCustom: true,
           editingTransactionId: 'mockEditingTransactionId',
           sendToken: { address: 'mockAddress' },
           unapprovedTxs: 'mockUnapprovedTxs',
@@ -152,6 +157,7 @@ describe('send-footer container', function () {
             from: 'mockFrom',
             gas: 'mockGas',
             gasPrice: 'mockGasPrice',
+            gasPriceIsCustom: true,
             editingTransactionId: 'mockEditingTransactionId',
             sendToken: { address: 'mockAddress' },
             unapprovedTxs: 'mockUnapprovedTxs',

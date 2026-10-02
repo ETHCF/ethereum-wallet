@@ -10,6 +10,7 @@ const actionSpies = {
   hideModal: sinon.spy(),
   setGasLimit: sinon.spy(),
   setGasPrice: sinon.spy(),
+  updateSend: sinon.spy(),
 }
 
 const gasActionSpies = {
@@ -260,7 +261,9 @@ describe('gas-modal-page-container container', function () {
     describe('setGasData()', function () {
       it('should dispatch a setGasPrice and setGasLimit action with the correct props', function () {
         mapDispatchToPropsObject.setGasData('ffff', 'aaaa')
-        assert(dispatchSpy.calledTwice)
+        assert(dispatchSpy.calledThrice)
+        // The user chose this price.
+        assert.deepEqual(actionSpies.updateSend.getCall(0).args[0], { gasPriceIsCustom: true })
         assert(actionSpies.setGasPrice.calledOnce)
         assert(actionSpies.setGasLimit.calledOnce)
         assert.equal(actionSpies.setGasLimit.getCall(0).args[0], 'ffff')

@@ -14,6 +14,7 @@ export default class SendFooter extends Component {
     from: PropTypes.object,
     gasLimit: PropTypes.string,
     gasPrice: PropTypes.string,
+    gasPriceIsCustom: PropTypes.bool,
     gasTotal: PropTypes.string,
     navigate: PropTypes.func,
     inError: PropTypes.bool,
@@ -48,6 +49,7 @@ export default class SendFooter extends Component {
       from: { address: from },
       gasLimit: gas,
       gasPrice,
+      gasPriceIsCustom,
       sendToken,
       sign,
       to,
@@ -75,11 +77,12 @@ export default class SendFooter extends Component {
         from,
         gas,
         gasPrice,
+        gasPriceIsCustom,
         sendToken,
         to,
         unapprovedTxs,
       })
-      : sign({ data, sendToken, to, amount, from, gas, gasPrice })
+      : sign({ data, sendToken, to, amount, from, gas, gasPrice, gasPriceIsCustom })
 
     Promise.resolve(promise)
       .then(() => {

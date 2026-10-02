@@ -36,6 +36,7 @@ async function withFixtures (options, callback) {
     // eslint-disable-next-line callback-return
     await callback({
       driver,
+      chainServer,
     })
 
     if (process.env.SELENIUM_BROWSER === 'chrome') {

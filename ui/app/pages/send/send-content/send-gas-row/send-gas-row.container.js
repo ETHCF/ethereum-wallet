@@ -32,7 +32,7 @@ import {
   setCustomGasPrice,
   setCustomGasLimit,
 } from '../../../../ducks/gas/gas.duck'
-import { showModal, setGasPrice, setGasLimit, setGasTotal, updateSendAmount } from '../../../../store/actions'
+import { showModal, setGasPrice, setGasLimit, setGasTotal, updateSend, updateSendAmount } from '../../../../store/actions'
 import SendGasRow from './send-gas-row.component'
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SendGasRow)
@@ -78,8 +78,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     showCustomizeGasModal: () => dispatch(showModal({ name: 'CUSTOMIZE_GAS', hideBasic: true })),
-    setGasPrice: (newPrice, gasLimit) => {
+    setGasPrice: (newPrice, gasLimit, { isCustom = true } = {}) => {
       dispatch(setGasPrice(newPrice))
+      dispatch(updateSend({ gasPriceIsCustom: isCustom }))
       dispatch(setCustomGasPrice(newPrice))
       if (gasLimit) {
         dispatch(setGasTotal(calcGasTotal(gasLimit, newPrice)))
@@ -121,7 +122,7 @@ function mergeProps (stateProps, dispatchProps, ownProps) {
     },
     resetGasButtons: () => {
       dispatchResetCustomData()
-      dispatchSetGasPrice(gasButtonInfo[1].priceInHexWei)
+      dispatchSetGasPrice(gasButtonInfo[1].priceInHexWei, undefined, { isCustom: false })
       dispatchShowGasButtonGroup()
     },
     setGasPrice: dispatchSetGasPrice,

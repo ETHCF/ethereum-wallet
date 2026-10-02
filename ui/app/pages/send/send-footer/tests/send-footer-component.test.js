@@ -35,6 +35,7 @@ describe('SendFooter Component', function () {
         from={ { address: 'mockAddress', balance: 'mockBalance' } }
         gasLimit="mockGasLimit"
         gasPrice="mockGasPrice"
+        gasPriceIsCustom
         gasTotal="mockGasTotal"
         navigate={navigateSpy}
         inError={false}
@@ -155,6 +156,7 @@ describe('SendFooter Component', function () {
           from: 'mockAddress',
           gas: 'mockGasLimit',
           gasPrice: 'mockGasPrice',
+          gasPriceIsCustom: true,
           sendToken: { mockProp: 'mockSendTokenProp' },
           to: 'mockTo',
           unapprovedTxs: {},
@@ -178,6 +180,7 @@ describe('SendFooter Component', function () {
           from: 'mockAddress',
           gas: 'mockGasLimit',
           gasPrice: 'mockGasPrice',
+          gasPriceIsCustom: true,
           sendToken: { mockProp: 'mockSendTokenProp' },
           to: 'mockTo',
         },
