@@ -46,9 +46,6 @@
   "balance": {
     "message": "Баланс:"
   },
-  "blockiesIdenticon": {
-    "message": "Использовать Blockies Identicon"
-  },
   "ok": {
     "message": "ОК"
   },
@@ -103,23 +100,11 @@
   "deposit": {
     "message": "Пополнить"
   },
-  "depositEther": {
-    "message": "Пополнить Ether"
-  },
   "details": {
     "message": "Детали"
   },
-  "directDepositEther": {
-    "message": "Прямое пополнение Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Если у вас уже есть Ether, то самый быстрый способ получить Ether в ваш новый кошелек – это прямое пополнение."
-  },
   "done": {
     "message": "Готово"
-  },
-  "downloadStateLogs": {
-    "message": "Скачать журнал состояния"
   },
   "dropped": {
     "message": "Отброшена"
@@ -242,9 +227,6 @@
   },
   "mustSelectOne": {
     "message": "Необходимо выбрать как минимум 1 токен."
-  },
-  "needEtherInWallet": {
-    "message": "Для взаимодействия с децентрализованными приложениями с помощью ECF Wallet нужен Ether в вашем кошельке."
   },
   "needImportFile": {
     "message": "Вы должны выбрать файл для импорта.",
@@ -370,15 +352,6 @@
   "sigRequest": {
     "message": "Запрос подписи"
   },
-  "stateLogs": {
-    "message": "Журнал состояния"
-  },
-  "stateLogsDescription": {
-    "message": "Журнал состояния содержит ваши публичные адреса счетов и совершенные транзакции."
-  },
-  "stateLogError": {
-    "message": "Ошибка при получении журнала состояния."
-  },
   "submitted": {
     "message": "Отправлена"
   },
@@ -421,9 +394,6 @@
   },
   "usedByClients": {
     "message": "Используется различными клиентами"
-  },
-  "viewAccount": {
-    "message": "Посмотреть счет"
   },
   "visitWebSite": {
     "message": "Перейти на наш сайт"
@@ -473,9 +443,6 @@
   "advanced": {
     "message": "Продвинутый"
   },
-  "advancedSettingsDescription": {
-    "message": "Получите доступ к функциям разработчика, журналу событий, сбросу учетной записи, настройке тестовых сетей и пользовательский RPC."
-  },
   "advancedOptions": {
     "message": "Расширенные настройки"
   },
@@ -484,9 +451,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "например, Джон Д."
-  },
-  "addAlias": {
-    "message": "Добавить псевдоним"
   },
   "addSuggestedTokens": {
     "message": "Добавить предложенные токены"
@@ -605,9 +569,6 @@
   "delete": {
     "message": "Удалить"
   },
-  "deleteAccount": {
-    "message": "Удалить аккаунт"
-  },
   "downloadGoogleChrome": {
     "message": "Скачать Google Chrome"
   },
@@ -616,9 +577,6 @@
   },
   "dontHaveAHardwareWallet": {
     "message": "Нет аппаратного кошелька?"
-  },
-  "editContact": {
-    "message": "Изменить контакт"
   },
   "endOfFlowMessage1": {
     "message": "Вы прошли тестирование - сохраняйте свою исходную фразу в безопасности, это ваша ответственность!"
@@ -658,9 +616,6 @@
   },
   "enterPasswordContinue": {
     "message": "Введите пароль для продолжения"
-  },
-  "ethereumPublicAddress": {
-    "message": "Публичный адрес Ethereum"
   },
   "estimatedProcessingTimes": {
     "message": "Ожидаемое время обработки"
@@ -773,12 +728,6 @@
   "ecfWalletVersion": {
     "message": "Версия ECF Wallet"
   },
-  "myWalletAccounts": {
-    "message": "Мои кошельки"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Все ваши учетные записи, созданные в ECF Wallet, будут автоматически добавлены в этот раздел."
-  },
   "networkName": {
     "message": "Имя сети"
   },
@@ -791,9 +740,6 @@
   "newAccountDetectedDialogMessage": {
     "message": "Обнаружен новый адрес. Нажмите здесь, чтобы добавить в вашу адресную книгу."
   },
-  "newContact": {
-    "message": "Новый контакт"
-  },
   "newNetwork": {
     "message": "Новая сеть"
   },
@@ -802,12 +748,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Нет, у меня уже есть начальная фраза"
-  },
-  "protectYourKeys": {
-    "message": "Защитите свои ключи!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Будьте осторожны с исходной фразой - были сообщения о сайтах, которые пытаются подражать ECF Wallet. ECF Wallet никогда не запрашивает секретную фразу (сид)!"
   },
   "rpcUrl": {
     "message": "Новый RPC URL"
@@ -989,18 +929,6 @@
   "selectPathHelp": {
     "message": "Если вы не видите свои существующие учетные записи Ledger ниже, попробуйте sw"
   },
-  "showAdvancedGasInline": {
-    "message": "Продвинутый контроль газа"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Выберите этот параметр, чтобы отобразить параметры контроля цены и лимита газа непосредственно на экранах отправки и подтверждения."
-  },
-  "showHexData": {
-    "message": "Показать HEX-значение"
-  },
-  "showHexDataDescription": {
-    "message": "Выберите это, чтобы показать шестнадцатеричное поле данных на экране отправки"
-  },
   "somethingWentWrong": {
     "message": "Опс! Что-то пошло не так."
   },
@@ -1121,14 +1049,8 @@
   "unlockMessage": {
     "message": "Децентрализованная сеть ждет"
   },
-  "userName": {
-    "message": "Имя пользователя"
-  },
   "viewinExplorer": {
     "message": "Просмотреть в блок-экплорере"
-  },
-  "viewContact": {
-    "message": "Просмотреть контракт"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Посмотреть на $1"

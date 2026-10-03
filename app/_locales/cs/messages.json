@@ -46,9 +46,6 @@
   "balance": {
     "message": "Zůstatek:"
   },
-  "blockiesIdenticon": {
-    "message": "Použít Blockies Identicon"
-  },
   "cancel": {
     "message": "Zrušit"
   },
@@ -100,23 +97,11 @@
   "deposit": {
     "message": "Vklad"
   },
-  "depositEther": {
-    "message": "Vložit Ether"
-  },
   "details": {
     "message": "Podrobnosti"
   },
-  "directDepositEther": {
-    "message": "Vložit Ether přímo"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Pokud už vlastníte nějaký Ether, nejrychleji ho dostanete do peněženky přímým vkladem."
-  },
   "done": {
     "message": "Hotovo"
-  },
-  "downloadStateLogs": {
-    "message": "Stáhnout stavové protokoly"
   },
   "dropped": {
     "message": "Zrušeno"
@@ -232,9 +217,6 @@
   },
   "mustSelectOne": {
     "message": "Musíte zvolit aspoň 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí EcfWalletu interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",
@@ -363,15 +345,6 @@
   "sigRequest": {
     "message": "Požadavek podpisu"
   },
-  "stateLogs": {
-    "message": "Stavové protokoly"
-  },
-  "stateLogsDescription": {
-    "message": "Stavové protokoly obsahují vaše veřejné adresy účtů a odeslané transakce."
-  },
-  "stateLogError": {
-    "message": "Chyba během získávání stavových protokolů."
-  },
   "submitted": {
     "message": "Odesláno"
   },
@@ -417,9 +390,6 @@
   },
   "usedByClients": {
     "message": "Používána různými klienty"
-  },
-  "viewAccount": {
-    "message": "Zobrazit účet"
   },
   "visitWebSite": {
     "message": "Navštivte naši stránku"

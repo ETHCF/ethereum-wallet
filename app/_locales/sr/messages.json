@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Напредне опције"
   },
-  "advancedSettingsDescription": {
-    "message": "Pristupite funkcijama za programere, preuzmite državne evidencije, resetujte nalog, postavite testne mreže i prilagođeni RPC"
-  },
   "advancedOptions": {
     "message": "Dodatne opcije"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "npr. John D."
-  },
-  "addAlias": {
-    "message": "Dodaj pseudonim"
   },
   "addToken": {
     "message": "Dodaj token"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Pogledajte nalog za $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Koristite „Blockies Identicon”"
   },
   "browserNotSupported": {
     "message": "Vaš pregledač nije podržan..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "Избриши"
   },
-  "deleteAccount": {
-    "message": "Obriši nalog"
-  },
   "deposit": {
     "message": "Depozit"
   },
-  "depositEther": {
-    "message": "Dajte depozit Ether-u"
-  },
   "details": {
     "message": "Детаљи"
-  },
-  "directDepositEther": {
-    "message": "Direktno deponujte Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Ako već imate neki Ether, najbrži način da preuzmete Ether u svoj novi novčanik jeste direktnim deponovanjem."
   },
   "done": {
     "message": "Gotovo"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "Preuzmi ovu tajnu rezervnu kopiju fraze i čuvaj je bezbedno skladištenu na eksternom šifrovanom čvrstom disku ili skladištu."
   },
-  "downloadStateLogs": {
-    "message": "Preuzmite dnevnike stanja"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nemate hardverski novčanik?"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "Измени"
-  },
-  "editContact": {
-    "message": "Izmeni kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Prošli ste test - čuvajte svoju frazu početnih vrednosti, to je vaša odgovornost!"
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "Unesite lozinku kako biste nastavili"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum javna adresa"
   },
   "etherscanView": {
     "message": "Pogledajte račun na Etherscan-u"
@@ -568,17 +538,8 @@
   "myAccounts": {
     "message": "Moji nalozi"
   },
-  "myWalletAccounts": {
-    "message": "Moji nalozi novčanika"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Svi vaši nalozi kreirani u aplikaciji ECF Wallet biće automatski dodati u ovaj deo."
-  },
   "mustSelectOne": {
     "message": "Morate izabrati najmanje 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Da biste stupili u interakciju sa decentralizovanim aplikacijama koristeći ECF Wallet, biće vam potreban Ether u vašem novčaniku."
   },
   "needImportFile": {
     "message": "Morate izabrati fajl koji ćete uvesti.",
@@ -609,9 +570,6 @@
     "message": "Nalog $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Novi kontakt"
-  },
   "newContract": {
     "message": "Novi ugovor"
   },
@@ -626,15 +584,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, već imam frazu početnih vrednosti"
-  },
-  "protectYourKeys": {
-    "message": "Zaštitite svoje ključeve!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Budite pažljivi sa vašom seed frazom - bilo je izveštaja o veb lokacijama koje pokušavaju da imitiraju ECF Wallet. ECF Wallet nikada neće tražiti vašu seed frazu!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Čuvajte svoju frazu. Ako primetite nešto sumnjivo, ili niste sigurni u vezi veb lokacije, pošaljite e-poruku na upport@metamask.io"
   },
   "rpcUrl": {
     "message": "Novi RPC URL"
@@ -902,20 +851,8 @@
   "settings": {
     "message": "Podešavanja"
   },
-  "showAdvancedGasInline": {
-    "message": "Napredne kontrole gasa"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Izaberite ovo kako biste prikazali cenu gasa i kontrole limita direktno na ekranima za slanje i potvrđivanje."
-  },
   "showPrivateKeys": {
     "message": "Prikažite privatne ključeve"
-  },
-  "showHexData": {
-    "message": "Prikaži Hex podatke"
-  },
-  "showHexDataDescription": {
-    "message": "Izaberite ovo da bi se pokazalo polje sa hex podacima na „Pošalji” ekranu "
   },
   "sign": {
     "message": "Potpišite"
@@ -943,15 +880,6 @@
   },
   "switchNetworks": {
     "message": "Prebacivanje mreže"
-  },
-  "stateLogs": {
-    "message": "Državne evidencije"
-  },
-  "stateLogsDescription": {
-    "message": "Dnevnici stanja sadrže adrese vaših javnih naloga i poslatih transakcija."
-  },
-  "stateLogError": {
-    "message": "Greška u preuzimanju evidencija stanja"
   },
   "step1HardwareWallet": {
     "message": "1. Poveži hardverski novčanik"
@@ -1098,17 +1026,8 @@
   "usedByClients": {
     "message": "Koristi ga veliki broj različitih klijenata"
   },
-  "userName": {
-    "message": "Корисничко име"
-  },
-  "viewAccount": {
-    "message": "Прикажи налог"
-  },
   "viewinExplorer": {
     "message": "Pogledati u Explorer-u"
-  },
-  "viewContact": {
-    "message": "Pogledaj kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Pogledaj na $1"

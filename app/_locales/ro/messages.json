@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Avansate"
   },
-  "advancedSettingsDescription": {
-    "message": "Accesați funcții pentru dezvoltatori, descărcați Jurnale de stare, resetați contul, configurați rețele de test și RPC personalizat"
-  },
   "advancedOptions": {
     "message": "Opțiuni avansate"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "de ex. John D."
-  },
-  "addAlias": {
-    "message": "Adăugare alias"
   },
   "addToken": {
     "message": "Adăugare simbol"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Vizualizare cont la $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Folosește Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Browserul dvs. nu este compatibil..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Șterge"
   },
-  "deleteAccount": {
-    "message": "Ștergeți cont"
-  },
   "deposit": {
     "message": "Depunere"
   },
-  "depositEther": {
-    "message": "Depuneți Ether"
-  },
   "details": {
     "message": "Detalii"
-  },
-  "directDepositEther": {
-    "message": "Depuneți direct Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Dacă deja aveți Ether, cel mai rapid mod de a avea Ether în portofelul nou prin depunere directă."
   },
   "done": {
     "message": "Efectuat"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Descărcați această expresie secretă de rezervă și păstrați-o în siguranță pe o unitate de disc sau un mediu de stocare criptat."
   },
-  "downloadStateLogs": {
-    "message": "Descărcați jurnalele de stare"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nu aveți portofel hardware?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Editează"
-  },
-  "editContact": {
-    "message": "Editați contact"
   },
   "endOfFlowMessage1": {
     "message": "Ați trecut testul – păstrați expresia sursă în siguranță, este răspunderea dvs.!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Introduceți parola pentru a continua"
-  },
-  "ethereumPublicAddress": {
-    "message": "Adresa publică Ethereum"
   },
   "etherscanView": {
     "message": "Vizualizare cont pe Etherscan"
@@ -568,17 +538,8 @@
   "myAccounts": {
     "message": "Conturile mele"
   },
-  "myWalletAccounts": {
-    "message": "Conturi My Wallet"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Toate conturile dvs. create pe ECF Wallet vor fi adăugate automat la această secțiune."
-  },
   "mustSelectOne": {
     "message": "Trebuie să selectați cel puțin 1 simbol."
-  },
-  "needEtherInWallet": {
-    "message": "Pentru a interacționa cu aplicațiile descentralizate prin intermediul ECF Wallet, trebuie să aveți Ether în portofel."
   },
   "needImportFile": {
     "message": "Trebuie să selectați un fișier pentru importare.",
@@ -609,9 +570,6 @@
     "message": "Cont $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Contact nou"
-  },
   "newContract": {
     "message": "Contract nou"
   },
@@ -626,12 +584,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nu, am deja o expresie sursă"
-  },
-  "protectYourKeys": {
-    "message": "Protejați-vă cheile!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Aveți grijă cu expresia dvs. sursă – au existat raportări despre site-uri web care încearcă să imite ECF Wallet. ECF Wallet nu vă va cere niciodată expresia sursă!"
   },
   "rpcUrl": {
     "message": "URL RPC nou"
@@ -899,20 +851,8 @@
   "settings": {
     "message": "Setări"
   },
-  "showAdvancedGasInline": {
-    "message": "Controale avansate pentru gas"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Selectați aceasta pentru a arăta prețul gasului și comenzile de limitare direct pe ecranele de trimitere și confirmare."
-  },
   "showPrivateKeys": {
     "message": "Afișați cheile private"
-  },
-  "showHexData": {
-    "message": "Arată datele hex"
-  },
-  "showHexDataDescription": {
-    "message": "Selectați această opțiune pentru a arăta câmpul de date hexazecimale în ecranul de trimitere."
   },
   "sign": {
     "message": "Semnați"
@@ -940,15 +880,6 @@
   },
   "switchNetworks": {
     "message": "Schimbați rețelele"
-  },
-  "stateLogs": {
-    "message": "Jurnale de stare"
-  },
-  "stateLogsDescription": {
-    "message": "Jurnalele de stare conțin adresele contului dvs. public și tranzacțiile trimise."
-  },
-  "stateLogError": {
-    "message": "Eroare la recuperarea înregistrărilor de stare."
   },
   "step1HardwareWallet": {
     "message": "1. Conectați portofel hardware"
@@ -1092,17 +1023,8 @@
   "usedByClients": {
     "message": "Folosit de diverși clienți"
   },
-  "userName": {
-    "message": "Nume utilizator"
-  },
-  "viewAccount": {
-    "message": "Afișați contul"
-  },
   "viewinExplorer": {
     "message": "Vizualizare în Explorator"
-  },
-  "viewContact": {
-    "message": "Vizualizare contact"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Vizualizați la $1"

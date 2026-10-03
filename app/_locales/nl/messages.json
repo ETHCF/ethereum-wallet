@@ -40,9 +40,6 @@
   "balance": {
     "message": "Balans:"
   },
-  "blockiesIdenticon": {
-    "message": "Gebruik Blockies Identicon"
-  },
   "cancel": {
     "message": "Annuleer"
   },
@@ -88,20 +85,8 @@
   "deposit": {
     "message": "Storting"
   },
-  "depositEther": {
-    "message": "Stort Ether"
-  },
-  "directDepositEther": {
-    "message": "Directe Ether storten"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Als je al wat Ether hebt, de snelste manier om Ether in je nieuwe portemonnee te krijgen door een directe storting."
-  },
   "done": {
     "message": "Gedaan"
-  },
-  "downloadStateLogs": {
-    "message": "Staatslogboeken downloaden"
   },
   "edit": {
     "message": "Bewerk"
@@ -215,9 +200,6 @@
   },
   "mustSelectOne": {
     "message": "Moet ten minste één token selecteren."
-  },
-  "needEtherInWallet": {
-    "message": "Om te communiceren met gedecentraliseerde applicaties met ECF Wallet, heb je Ether nodig in je portemonnee."
   },
   "needImportFile": {
     "message": "U moet een bestand selecteren om te importeren.",
@@ -333,12 +315,6 @@
   "sigRequest": {
     "message": "Ondertekeningsverzoek"
   },
-  "stateLogs": {
-    "message": "Staatslogboeken"
-  },
-  "stateLogsDescription": {
-    "message": "Staatslogboeken bevatten uw openbare accountadressen en verzonden transacties."
-  },
   "symbolBetweenZeroTwelve": {
     "message": "Symbool moet 11 tekens of minder zijn."
   },
@@ -372,9 +348,6 @@
   },
   "usedByClients": {
     "message": "Gebruikt door verschillende klanten"
-  },
-  "viewAccount": {
-    "message": "Bekijk account"
   },
   "visitWebSite": {
     "message": "Bezoek onze website"

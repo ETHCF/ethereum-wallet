@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Σύνθετες"
   },
-  "advancedSettingsDescription": {
-    "message": "Αποκτήστε πρόσβαση στις λειτουργίες του προγραμματιστή, κατεβάστε Αρχεία Καταγραφών Καταστάσεων, Επαναφέρετε τον Λογαριασμό, εγκαταστήστε δοκιμαστικά δίκτυα και προσαρμοσμένα RPC"
-  },
   "advancedOptions": {
     "message": "Σύνθετες Επιλογές"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "π.χ. John D."
-  },
-  "addAlias": {
-    "message": "Προσθήκη ψευδωνύμου"
   },
   "addToken": {
     "message": "Προσθήκη Token"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Προβολή λογαριασμού με $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Χρήση Αναπαράστασης Μπλοκ"
   },
   "browserNotSupported": {
     "message": "Το Πρόγραμμα Περιήγησής σας δεν υποστηρίζεται..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "Διαγραφή"
   },
-  "deleteAccount": {
-    "message": "Διαγραφή Λογαριασμού"
-  },
   "deposit": {
     "message": "Κατάθεση"
   },
-  "depositEther": {
-    "message": "Κατάθεση Ether"
-  },
   "details": {
     "message": "Λεπτομέρειες"
-  },
-  "directDepositEther": {
-    "message": "Απευθείας Κατάθεση Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Αν έχετε ήδη κάποια Ether, ο πιο γρήγορος τρόπος για να πάρετε τα Ether στο νέο σας πορτοφόλι με άμεση κατάθεση."
   },
   "done": {
     "message": "Τέλος"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "Κατεβάστε αυτήν τη Μυστική Φράση Αντιγράφου Ασφαλείας και κρατήστε την αποθηκευμένη με ασφάλεια σε έναν εξωτερικό κρυπτογραφημένο σκληρό δίσκο ή μέσο αποθήκευσης."
   },
-  "downloadStateLogs": {
-    "message": "Λήψη Αρχείων Καταγραφής Κατάστασης"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Δεν έχετε πορτοφόλι υλικού;"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "Επεξεργασία"
-  },
-  "editContact": {
-    "message": "Επεξεργασία Επαφής"
   },
   "endOfFlowMessage1": {
     "message": "Περάσατε τη δοκιμή - κρατήστε τη φράση φύτρου σας ασφαλή, είναι δική σας ευθύνη!"
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "Πληκτρολογήστε τον κωδικό πρόσβασης για να συνεχίσετε"
-  },
-  "ethereumPublicAddress": {
-    "message": "Δημόσια Διεύθυνση Ethereum"
   },
   "etherscanView": {
     "message": "Προβολή λογαριασμού στο Etherscan"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "Οι Λογαριασμοί μου"
   },
-  "myWalletAccounts": {
-    "message": "Λογαριασμοί Πορτοφολιού"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Όλοι οι λογαριασμοί σας που έχετε δημιουργήσει στο ECF Wallet θα προστεθούν αυτόματα σε αυτήν την ενότητα."
-  },
   "mustSelectOne": {
     "message": "Πρέπει να επιλέξετε 1 τουλάχιστον διακριτικό."
-  },
-  "needEtherInWallet": {
-    "message": "Για να αλληλεπιδράσετε με αποκεντρωμένες εφαρμογές χρησιμοποιώντας το ECF Wallet, θα χρειαστείτε Ether στο πορτοφόλι σας."
   },
   "needImportFile": {
     "message": "Πρέπει να επιλέξετε ένα αρχείο για εισαγωγή.",
@@ -615,9 +576,6 @@
     "message": "Λογαριασμός $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Νέα Επαφή"
-  },
   "newContract": {
     "message": "Νέα Σύμβαση"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Όχι, έχω ήδη μια φράση φύτρου"
-  },
-  "protectYourKeys": {
-    "message": "Προστατεύστε τα Κλειδιά Σας!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Να προσέχετε με τη φάση σπόρου. Υπάρχουν αναφορές για ιστότοπους που προσπαθούν να προσποιηθούν ότι είναι το MetaTask. Το MetaTask δεν θα σας ρωτήσει ποτέ για τη φάση σπόρου!"
   },
   "rpcUrl": {
     "message": "Νέο RPC URL"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "Ρυθμίσεις"
   },
-  "showAdvancedGasInline": {
-    "message": "Προωθημένος έλεγχος gas"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Επιλέξτε αυτό για να εμφανίσετε τις τιμές αερίου και να περιορίσετε τα στοιχεία ελέγχου απευθείας στις οθόνες αποστολής και επιβεβαίωσης."
-  },
   "showPrivateKeys": {
     "message": "Εμφάνιση Ιδιωτικών Κλειδιών"
-  },
-  "showHexData": {
-    "message": "Εμφάνιση Δεκαεξαδικών Δεδομένων"
-  },
-  "showHexDataDescription": {
-    "message": "Επιλέξτε αυτό για να εμφανίσετε το πεδίο hex δεδομένων στην οθόνη αποστολής"
   },
   "sign": {
     "message": "Υπογραφή"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "Αλλαγή Δικτύων"
-  },
-  "stateLogs": {
-    "message": "Αρχεία Καταγραφής Κατάστασης"
-  },
-  "stateLogsDescription": {
-    "message": "Τα αρχεία καταγραφής κατάστασης περιέχουν τις διευθύνσεις του δημόσιου λογαριασμού σας και τις συναλλαγές οι οποίες έχουν αποσταλεί."
-  },
-  "stateLogError": {
-    "message": "Σφάλμα κατά την ανάκτηση αρχείων καταγραφής κατάστασης."
   },
   "step1HardwareWallet": {
     "message": "1. Συνδέστε το Πορτοφόλι Εξοπλισμού"
@@ -1101,17 +1032,8 @@
   "usedByClients": {
     "message": "Χρησιμοποιείται από μια ποικιλία διαφορετικών πελατών"
   },
-  "userName": {
-    "message": "Όνομα χρήστη"
-  },
-  "viewAccount": {
-    "message": "Προβολή λογαριασμού"
-  },
   "viewinExplorer": {
     "message": "Προβολή στον Εξερευνητή"
-  },
-  "viewContact": {
-    "message": "Εμφάνιση Επαφής"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Προβολή σε $1"

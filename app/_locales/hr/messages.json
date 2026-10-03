@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Napredno"
   },
-  "advancedSettingsDescription": {
-    "message": "Pristup značajkama razvojnog inženjera, preuzimanje zapisnika stanja, poništavanje računa, postavljanje testnih mreža i prilagođeni RPC"
-  },
   "advancedOptions": {
     "message": "Napredne mogućnosti"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "npr. Ivan M."
-  },
-  "addAlias": {
-    "message": "Dodaj pseudonim"
   },
   "addToken": {
     "message": "Dodaj token"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Prikaži račun u $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Upotrijebi identifikaciju blokovima"
   },
   "browserNotSupported": {
     "message": "Vaš se preglednik ne podržava..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Izbriši"
   },
-  "deleteAccount": {
-    "message": "Izbriši račun"
-  },
   "deposit": {
     "message": "Polog"
   },
-  "depositEther": {
-    "message": "Položi Ether"
-  },
   "details": {
     "message": "Detalji"
-  },
-  "directDepositEther": {
-    "message": "Izravan polog Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Ako imate nešto Ethera, najbrži je način prebacivanja Ethera u vaš novi novčanik izravan polog."
   },
   "done": {
     "message": "Gotovo"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Preuzmite alternativnu sigurnosnu rečenicu i pohranite je na sigurnom mjestu na vanjskom šifriranom tvrdom disku ili mediju za pohranu."
   },
-  "downloadStateLogs": {
-    "message": "Preuzmi zapisnike stanja"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nemate hardverski novčanik?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Uredi"
-  },
-  "editContact": {
-    "message": "Uredi kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Prošli ste test – čuvajte svoju početnu rečenicu jer ste vi odgovorni za nju!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Upišite lozinku za nastavak"
-  },
-  "ethereumPublicAddress": {
-    "message": "Javna adresa Ethereum"
   },
   "etherscanView": {
     "message": "Prikaži račun na Etherscanu"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "Moji računi"
   },
-  "myWalletAccounts": {
-    "message": "Moji računi za novčanik"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Svi se vaši računi za ECF Wallet automatski dodaju u ovaj odjeljak."
-  },
   "mustSelectOne": {
     "message": "Mora se odabrati barem jedan token."
-  },
-  "needEtherInWallet": {
-    "message": "Trebate Ether u svojem novčaniku kako biste ostvarili interakciju s decentraliziranim aplikacijama uporabom usluge ECF Wallet. "
   },
   "needImportFile": {
     "message": "Morate odabrati datoteku za uvoz.",
@@ -615,9 +576,6 @@
     "message": "Račun $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Novi kontakt"
-  },
   "newContract": {
     "message": "Novi ugovor"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, već imam početnu fazu"
-  },
-  "protectYourKeys": {
-    "message": "Zaštitite svoje ključeve!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Pazite na svoju početnu rečenicu jer smo zaprimili prijave o postojanju mrežnih mjesta koja oponašaju mrežno mjesto usluge ECF Wallet. Na mrežnom se mjestu ECF Wallet nikada ne traži vaša početna rečenica!"
   },
   "rpcUrl": {
     "message": "Novi URL RPC-a"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "Postavke"
   },
-  "showAdvancedGasInline": {
-    "message": "Napredno upravljanje gorivom"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Odaberite ovu stavku za prikaz cijene goriva i izravno ograničite kontrole prilikom slanja i potvrđivanja zaslona."
-  },
   "showPrivateKeys": {
     "message": "Prikaži privatne ključe"
-  },
-  "showHexData": {
-    "message": "Prikaži podatke Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Odaberite ovu stavku za prikaz polja namijenjenog za podatke hex na zaslonu za slanje"
   },
   "sign": {
     "message": "Potpis"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "Promijeni mreže"
-  },
-  "stateLogs": {
-    "message": "Zapisnici stanja"
-  },
-  "stateLogsDescription": {
-    "message": "U zapisnicima se stanja nalaze javne adrese računa i poslane transakcije."
-  },
-  "stateLogError": {
-    "message": "Greška u dohvaćanju zapisnika stanja."
   },
   "step1HardwareWallet": {
     "message": "1. Povežite se na svoj hardverski novčanik"
@@ -1101,17 +1032,8 @@
   "usedByClients": {
     "message": "Upotrebljavaju brojni klijenti"
   },
-  "userName": {
-    "message": "Korisničko ime"
-  },
-  "viewAccount": {
-    "message": "Prikaz računa"
-  },
   "viewinExplorer": {
     "message": "Prikaži u Exploreru"
-  },
-  "viewContact": {
-    "message": "Prikaži kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Prikaži u $1"

@@ -73,12 +73,6 @@
   "dismiss": {
     "message": "Dismiss"
   },
-  "showIncomingTransactions": {
-    "message": "Show Incoming Transactions"
-  },
-  "showIncomingTransactionsDescription": {
-    "message": "Select this to use Etherscan to show incoming transactions in the transactions list"
-  },
   "connecting": {
     "message": "Connecting..."
   },
@@ -160,9 +154,6 @@
   "advanced": {
     "message": "Advanced"
   },
-  "advancedSettingsDescription": {
-    "message": "Access developer features, download State Logs, Reset Account, setup testnets and custom RPC"
-  },
   "advancedOptions": {
     "message": "Advanced Options"
   },
@@ -171,9 +162,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "e.g. John D."
-  },
-  "addAlias": {
-    "message": "Add alias"
   },
   "addToken": {
     "message": "Add Token"
@@ -186,18 +174,6 @@
   },
   "addAcquiredTokens": {
     "message": "Add the tokens you've acquired using ECF Wallet"
-  },
-  "alerts": {
-    "message": "Alerts"
-  },
-  "alertsSettingsDescription": {
-    "message": "Enable or disable each alert"
-  },
-  "alertSettingsUnconnectedAccount": {
-    "message": "Browsing a website with an unconnected account selected"
-  },
-  "alertSettingsUnconnectedAccountDescription": {
-    "message": "This alert is shown in the popup when you are browsing a connected Web3 site, but the currently selected account is not connected."
   },
   "allowOriginSpendToken": {
     "message": "Allow $1 to spend your $2?",
@@ -286,17 +262,8 @@
     "message": "View account at $1",
     "description": "$1 replaced by URL for custom block explorer"
   },
-  "blockiesIdenticon": {
-    "message": "Use Blockies Identicon"
-  },
-  "nonceField": {
-    "message": "Customize transaction nonce"
-  },
   "nonceFieldHeading": {
     "message": "Custom Nonce"
-  },
-  "nonceFieldDescription": {
-    "message": "Turn this on to change the nonce (transaction number) on confirmation screens. This is an advanced feature, use cautiously."
   },
   "browserNotSupported": {
     "message": "Your Browser is not supported..."
@@ -370,12 +337,6 @@
   "connectingToLocalhost": {
     "message": "Connecting to Localhost 8545"
   },
-  "contacts": {
-    "message": "Contacts"
-  },
-  "contactsSettingsDescription": {
-    "message": "Add, edit, remove, and manage your contacts"
-  },
   "contactUs": {
     "message": "Contact us!"
   },
@@ -445,23 +406,11 @@
   "delete": {
     "message": "Delete"
   },
-  "deleteAccount": {
-    "message": "Delete Account"
-  },
   "deposit": {
     "message": "Deposit"
   },
-  "depositEther": {
-    "message": "Deposit Ether"
-  },
   "details": {
     "message": "Details"
-  },
-  "directDepositEther": {
-    "message": "Directly Deposit Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "If you already have some Ether, the quickest way to get Ether in your new wallet by direct deposit."
   },
   "done": {
     "message": "Done"
@@ -475,9 +424,6 @@
   "downloadSecretBackup": {
     "message": "Download this Secret Backup Phrase and keep it stored safely on an external encrypted hard drive or storage medium."
   },
-  "downloadStateLogs": {
-    "message": "Download State Logs"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Don’t have a hardware wallet?"
   },
@@ -486,9 +432,6 @@
   },
   "edit": {
     "message": "Edit"
-  },
-  "editContact": {
-    "message": "Edit Contact"
   },
   "editPermission": {
     "message": "Edit Permission"
@@ -577,9 +520,6 @@
   "errorStack": {
     "message": "Stack:",
     "description": "Title for error stack, which is displayed for debugging purposes"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum Public Address"
   },
   "etherscanView": {
     "message": "View account on Etherscan"
@@ -770,18 +710,6 @@
   "invalidSeedPhrase": {
     "message": "Invalid seed phrase"
   },
-  "ipfsGateway": {
-    "message": "IPFS Gateway"
-  },
-  "ipfsGatewayDescription": {
-    "message": "Enter the URL of the IPFS CID gateway to use for ENS content resolution."
-  },
-  "invalidIpfsGateway": {
-    "message": "Invalid IPFS Gateway: The value must be a valid URL"
-  },
-  "forbiddenIpfsGateway": {
-    "message": "Forbidden IPFS Gateway: Please specify a CID gateway"
-  },
   "jsonFile": {
     "message": "JSON File",
     "description": "format for importing an account"
@@ -855,17 +783,8 @@
   "myAccounts": {
     "message": "My Accounts"
   },
-  "myWalletAccounts": {
-    "message": "My Wallet Accounts"
-  },
-  "myWalletAccountsDescription": {
-    "message": "All of your ECF Wallet created accounts will automatically be added to this section."
-  },
   "mustSelectOne": {
     "message": "Must select at least 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "To interact with decentralized applications using ECF Wallet, you’ll need Ether in your wallet."
   },
   "needImportFile": {
     "message": "You must select a file to import.",
@@ -896,9 +815,6 @@
     "message": "Account $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "New Contact"
-  },
   "newContract": {
     "message": "New Contract"
   },
@@ -913,15 +829,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "No, I already have a seed phrase"
-  },
-  "protectYourKeys": {
-    "message": "Protect Your Keys!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Be careful with your seed phrase — there have been reports of websites that attempt to imitate ECF Wallet. ECF Wallet will never ask for your seed phrase!"
-  },
-  "protectYourKeysMessage2": {
-    "message": "Keep your phrase safe. For questions about a suspicious website, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your secret recovery phrase or private keys."
   },
   "rpcUrl": {
     "message": "New RPC URL"
@@ -1194,9 +1101,6 @@
   "selectType": {
     "message": "Select Type"
   },
-  "buy": {
-    "message": "Buy"
-  },
   "send": {
     "message": "Send"
   },
@@ -1249,20 +1153,8 @@
   "settings": {
     "message": "Settings"
   },
-  "showAdvancedGasInline": {
-    "message": "Advanced gas controls"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Select this to show gas price and limit controls directly on the send and confirm screens."
-  },
   "showPrivateKeys": {
     "message": "Show Private Keys"
-  },
-  "showHexData": {
-    "message": "Show Hex Data"
-  },
-  "showHexDataDescription": {
-    "message": "Select this to show the hex data field on the send screen"
   },
   "sign": {
     "message": "Sign"
@@ -1306,18 +1198,6 @@
   },
   "switchNetworks": {
     "message": "Switch Networks"
-  },
-  "stateLogFileName": {
-    "message": "ECF Wallet State Logs"
-  },
-  "stateLogs": {
-    "message": "State Logs"
-  },
-  "stateLogsDescription": {
-    "message": "State logs contain your public account addresses and sent transactions."
-  },
-  "stateLogError": {
-    "message": "Error in retrieving state logs."
   },
   "statusConnected": {
     "message": "Connected"
@@ -1511,17 +1391,8 @@
   "usePhishingDetectionDescription": {
     "message": "Display a warning for phishing domains targeting Ethereum users"
   },
-  "userName": {
-    "message": "Username"
-  },
-  "viewAccount": {
-    "message": "View Account"
-  },
   "viewinExplorer": {
     "message": "View in Explorer"
-  },
-  "viewContact": {
-    "message": "View Contact"
   },
   "viewOnCustomBlockExplorer": {
     "message": "View at $1"

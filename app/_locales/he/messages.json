@@ -44,9 +44,6 @@
   "advanced": {
     "message": "מתקדם"
   },
-  "advancedSettingsDescription": {
-    "message": "קבלת גישה לפיצ'רים למפתחים, הורדת יומני מצב, איפוס חשבון, הגדרת testnets ו-RPC מותאם אישית."
-  },
   "advancedOptions": {
     "message": "אפשרויות מתקדמות"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "למשל ג'ון ד'"
-  },
-  "addAlias": {
-    "message": "הוסף כינוי"
   },
   "addToken": {
     "message": "הוסף/י אסימון"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "הצג חשבון ב- $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "השתמש ב- Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "הדפדפן שלך אינו נתמך..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "מחיקה"
   },
-  "deleteAccount": {
-    "message": "מחק חשבון"
-  },
   "deposit": {
     "message": "הפקדה"
   },
-  "depositEther": {
-    "message": "הפקדת את'ר"
-  },
   "details": {
     "message": "פרטים"
-  },
-  "directDepositEther": {
-    "message": "הפקד את'ר ישירות"
-  },
-  "directDepositEtherExplainer": {
-    "message": "אם כבר יש ברשותך את'ר (Ether) , הדרך המהירה ביותר להכניס את'ר לארנק החדש שלך היא באמצעות הפקדה ישירה."
   },
   "done": {
     "message": "סיום"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "הורד/י את צירוף הגיבוי הסודי הזה ואחסנ/י אותו בצורה מאובטחת בכונן קשיח או מדיום אחסון חיצוני מוצפן."
   },
-  "downloadStateLogs": {
-    "message": "הורדת יומני מצב"
-  },
   "dontHaveAHardwareWallet": {
     "message": "אין לך ארנק חומרה?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "ערוך"
-  },
-  "editContact": {
-    "message": "ערוך איש קשר"
   },
   "endOfFlowMessage1": {
     "message": "עברת את הבחינה - יש לשמור את ה-seedphrase שלך במקום בטוח, זה באחריותך!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "יש להזין ססמה כדי להמשיך"
-  },
-  "ethereumPublicAddress": {
-    "message": "כתובת אתריום ציבורית"
   },
   "etherscanView": {
     "message": "הצג חשבון ב- Etherscan"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "החשבונות שלי"
   },
-  "myWalletAccounts": {
-    "message": "חשבונות הארנק שלי"
-  },
-  "myWalletAccountsDescription": {
-    "message": "כל חשבונותיך שנוצרו ב-ECF Wallet יתווספו אוטומטית לחלק זה."
-  },
   "mustSelectOne": {
     "message": "חובה לבחור לפחות אסימון אחד."
-  },
-  "needEtherInWallet": {
-    "message": "כדי לתקשר עם אפליקציות מבוזרות באמצעות ECF Wallet, צריך להיות לך את'ר בארנק."
   },
   "needImportFile": {
     "message": "יש לבחור קובץ לייצוא.",
@@ -615,9 +576,6 @@
     "message": "חשבון $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "איש קשר חדש"
-  },
   "newContract": {
     "message": "חוזה חדש"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "לא, כבר יש לי צירוף גרעין"
-  },
-  "protectYourKeys": {
-    "message": "הגנ/י על המפתחות שלך!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "יש לנקוט זהירות בנוגע לצירוף הגרעין שלך - היו דיווחים על אתרים שמנסים להתחזות ל-ECF Wallet .ECF Wallet לעולם לא תבקש את צירוף הגרעין שלך!"
   },
   "rpcUrl": {
     "message": "כתובת URL חדשה של RPC"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "הגדרות"
   },
-  "showAdvancedGasInline": {
-    "message": "אמצעי שליטה מתקדמים בדלק"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "בחר/י באפשרות זו כדי להציג אמצעי שליטה במחיר הדלק וההגבלה (limit) ישירות במסכי השליחה והאישור."
-  },
   "showPrivateKeys": {
     "message": "הצג מפתחות פרטיים"
-  },
-  "showHexData": {
-    "message": "הצג מידע הקסדצימלי (Hex)"
-  },
-  "showHexDataDescription": {
-    "message": "בחר/י בזה כדי להציג את שדה הנתונים ההקסדצימאלים על מסך השליחה"
   },
   "sign": {
     "message": "חתימה"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "החלף רשתות"
-  },
-  "stateLogs": {
-    "message": "יומני מצב"
-  },
-  "stateLogsDescription": {
-    "message": "יומני המצב מכילים את כתובות החשבון הציבוריות שלך ועסקאות שנשלחו."
-  },
-  "stateLogError": {
-    "message": "שגיאה באחזור יומני המצב."
   },
   "step1HardwareWallet": {
     "message": "1. חבר/י ארנק חומרה"
@@ -1104,17 +1035,8 @@
   "usedByClients": {
     "message": "בשימוש על ידי מגוון לקוחות שונים"
   },
-  "userName": {
-    "message": "שם משתמש"
-  },
-  "viewAccount": {
-    "message": "הצג חשבון"
-  },
   "viewinExplorer": {
     "message": "הצג באקספלורר"
-  },
-  "viewContact": {
-    "message": "הצג איש קשר"
   },
   "viewOnCustomBlockExplorer": {
     "message": "הצג ב- $1"

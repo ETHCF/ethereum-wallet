@@ -41,9 +41,6 @@
   "advanced": {
     "message": "詳細"
   },
-  "advancedSettingsDescription": {
-    "message": "開発者向け機能では、状態ログのダウンロード、アカウントリセットし、テストネットやカスタムRPCの設定が可能です。"
-  },
   "advancedOptions": {
     "message": "詳細設定"
   },
@@ -52,9 +49,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "例: John D"
-  },
-  "addAlias": {
-    "message": "エイリアスを追加"
   },
   "addToken": {
     "message": "トークンを追加"
@@ -115,9 +109,6 @@
   "balance": {
     "message": "残高:"
   },
-  "blockiesIdenticon": {
-    "message": "Blockies Identicon を使用"
-  },
   "cancel": {
     "message": "キャンセル"
   },
@@ -163,17 +154,8 @@
   "deposit": {
     "message": "振込"
   },
-  "depositEther": {
-    "message": "Etherを振込"
-  },
   "details": {
     "message": "詳細"
-  },
-  "directDepositEther": {
-    "message": "Etherを直接入金"
-  },
-  "directDepositEtherExplainer": {
-    "message": "既にEtherをお持ちなら、ECF Walletの新しいウォレットにEtherを送信することができます。"
   },
   "done": {
     "message": "完了"
@@ -287,9 +269,6 @@
   },
   "mustSelectOne": {
     "message": "一つ以上のトークンを選択してください。"
-  },
-  "needEtherInWallet": {
-    "message": "ECF Walletで分散型アプリケーションを使用するためには、このウォレットにEtherが必要です。"
   },
   "needImportFile": {
     "message": "インポートするファイルを選択してください。",
@@ -436,9 +415,6 @@
   },
   "usedByClients": {
     "message": "様々なクライアントによって使用されています。"
-  },
-  "viewAccount": {
-    "message": "アカウントを見る"
   },
   "viewOnEtherscan": {
     "message": "Etherscan で見る"

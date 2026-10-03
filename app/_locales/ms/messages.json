@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Lanjutan"
   },
-  "advancedSettingsDescription": {
-    "message": "Akses ciri-ciri pembangun, muat turun Log Keadaan, Set Semula Akaun, sediakan jaringan ujian dan RPC tersuai"
-  },
   "advancedOptions": {
     "message": "Pilihan Lanjutan"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "cth. John D."
-  },
-  "addAlias": {
-    "message": "Tambah alias"
   },
   "addToken": {
     "message": "Tambah Token"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Lihat akaun pada $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Gunakan Identicon Blockies"
   },
   "browserNotSupported": {
     "message": "Pelayar anda tidak disokong..."
@@ -263,17 +254,8 @@
   "delete": {
     "message": "Padam"
   },
-  "deleteAccount": {
-    "message": "Hapus Akaun"
-  },
   "details": {
     "message": "Butiran"
-  },
-  "directDepositEther": {
-    "message": "Deposit Ether Secara Terus"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Jika anda sudah mempunyai Ether, cara paling cepat untuk mendapatkan Ether di dompet baru anda ialah dengan deposit langsung."
   },
   "done": {
     "message": "Selesai"
@@ -284,17 +266,11 @@
   "downloadSecretBackup": {
     "message": "Muat turun Frasa Sandaran Rahsia ini dan simpannya secara selamat di dalam medium storan atau cakera keras tersulit luaran."
   },
-  "downloadStateLogs": {
-    "message": "Muat Turun Log Keadaan"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Tiada dompet perkakasan?"
   },
   "dropped": {
     "message": "Jatuh"
-  },
-  "editContact": {
-    "message": "Edit Kenalan"
   },
   "endOfFlowMessage1": {
     "message": "Anda telah lulus ujian - simpan frasa benih anda di tempat yang selamat, itu tanggungjawab anda!"
@@ -337,9 +313,6 @@
   },
   "enterPasswordContinue": {
     "message": "Masukkan kata laluan untuk teruskan"
-  },
-  "ethereumPublicAddress": {
-    "message": "Alamat Awam Ethereum"
   },
   "etherscanView": {
     "message": "Lihat akaun di Etherscan"
@@ -555,17 +528,8 @@
   "myAccounts": {
     "message": "Akaun Saya"
   },
-  "myWalletAccounts": {
-    "message": "Akaun Dompet Saya"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Semua akaun ciptaan ECF Wallet anda akan ditambahkan secara automatik kepada bahagian ini."
-  },
   "mustSelectOne": {
     "message": "Mesti memilih sekurang-kurangnya 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Untuk berinteraksi dengan aplikasi ternyahpusat menggunakan ECF Wallet, anda memerlukan Ether di dalam dompet anda."
   },
   "needImportFile": {
     "message": "Anda mesti pilih fail untuk diimport.",
@@ -596,9 +560,6 @@
     "message": "Akaun $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Kenalan Baru"
-  },
   "newContract": {
     "message": "Kontrak Baru"
   },
@@ -613,12 +574,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Tidak, saya sudah pun memiliki frasa benih"
-  },
-  "protectYourKeys": {
-    "message": "Lindungi Kunci Anda!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Berhati-hati dengan ungkapan benih anda — terdapat laporan ada tapak web yang cuba meniru ECF Wallet. ECF Wallet tidak sekali-kali akan meminta ungkapan benih anda!"
   },
   "rpcUrl": {
     "message": "URL RPC baru"
@@ -886,20 +841,8 @@
   "settings": {
     "message": "Tetapan"
   },
-  "showAdvancedGasInline": {
-    "message": "Kawalan gas lanjutan"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Pilih ini untuk menunjukkan harga gas dan kawalan had terus di skrin hantar dan sahkan."
-  },
   "showPrivateKeys": {
     "message": "Tunjukkan Kunci Persendirian"
-  },
-  "showHexData": {
-    "message": "Tunjukkan Data Heks"
-  },
-  "showHexDataDescription": {
-    "message": "Pilih ini untuk menunjukkan medan data hex pada skrin hantar"
   },
   "sign": {
     "message": "Tandatangan"
@@ -927,15 +870,6 @@
   },
   "switchNetworks": {
     "message": "Tukar Rangkaian"
-  },
-  "stateLogs": {
-    "message": "Log Keadaan"
-  },
-  "stateLogsDescription": {
-    "message": "Log keadaan mengandungi alamat akaun awam anda dan transaksi dihantar."
-  },
-  "stateLogError": {
-    "message": "Ralat mendapatkan semula log keadaan."
   },
   "step1HardwareWallet": {
     "message": "1. Sambungkan Dompet Perkakasan"
@@ -1082,17 +1016,8 @@
   "usedByClients": {
     "message": "Digunakan oleh pelbagai klien berbeza"
   },
-  "userName": {
-    "message": "Nama pengguna"
-  },
-  "viewAccount": {
-    "message": "Paparkan Akaun"
-  },
   "viewinExplorer": {
     "message": "Lihat di Explorer"
-  },
-  "viewContact": {
-    "message": "Lihat Kenalan"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Lihat pada $1"

@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Avancerat"
   },
-  "advancedSettingsDescription": {
-    "message": "Åtkomst till verktyg för utvecklare, ladda ner loggar, återställ konto, upprätta testnätverk och skräddarsy RPC"
-  },
   "advancedOptions": {
     "message": "Avancerade alternativ"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "exempelvis John D."
-  },
-  "addAlias": {
-    "message": "Lägg till alias"
   },
   "addToken": {
     "message": "Lägg till token"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Visa konto på $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Använd Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Din webbläsare stöds inte..."
@@ -260,23 +251,11 @@
   "delete": {
     "message": "Radera"
   },
-  "deleteAccount": {
-    "message": "Radera konto"
-  },
   "deposit": {
     "message": "Deposition"
   },
-  "depositEther": {
-    "message": "Sätt in Ether"
-  },
   "details": {
     "message": "Info"
-  },
-  "directDepositEther": {
-    "message": "Sätt in Ether direkt"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Om du redan har Ether är det snabbaste sättet att få Ether i din nya plånbok att göra en direktinsättning."
   },
   "done": {
     "message": "Klart"
@@ -287,9 +266,6 @@
   "downloadSecretBackup": {
     "message": "Ladda ner den hemliga återställningsfrasen och förvara den säkert på en extern, krypterad hårdskriva eller lagringsmedia."
   },
-  "downloadStateLogs": {
-    "message": "Ladda ner statusloggar"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Har du inte en hårdvaruplånbok?"
   },
@@ -298,9 +274,6 @@
   },
   "edit": {
     "message": "Redigera"
-  },
-  "editContact": {
-    "message": "Redigera kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Du klarade testet. Håll din seed phrase hemlig, den är på ditt ansvar!"
@@ -343,9 +316,6 @@
   },
   "enterPasswordContinue": {
     "message": "Ange lösenord för att fortsätta"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum offentlig adress"
   },
   "etherscanView": {
     "message": "Visa konto på Etherscan"
@@ -565,17 +535,8 @@
   "myAccounts": {
     "message": "Mina konton"
   },
-  "myWalletAccounts": {
-    "message": "Mina plånbokskonton"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Alla dina ECF Wallet-skapade konton läggs automatiskt till i denna avdelning."
-  },
   "mustSelectOne": {
     "message": "Minst 1 token måste väljas."
-  },
-  "needEtherInWallet": {
-    "message": "För att interagera med decentraliserade applikationer med ECF Wallet behöver du Ether i din plånbok."
   },
   "needImportFile": {
     "message": "Du måste välja en fil att importera.",
@@ -606,9 +567,6 @@
     "message": "Konto $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Ny kontakt"
-  },
   "newContract": {
     "message": "Nytt kontrakt"
   },
@@ -623,12 +581,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nej, jag har redan en seed phrase"
-  },
-  "protectYourKeys": {
-    "message": "Skydda dina nycklar!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Var försiktig med din seedfras — det har rapporterats om hemsidor som försöker imitera ECF Wallet. ECF Wallet kommer aldrig fråga efter din seedfras!"
   },
   "rpcUrl": {
     "message": "Ny RPC-URL"
@@ -896,20 +848,8 @@
   "settings": {
     "message": "Inställningar"
   },
-  "showAdvancedGasInline": {
-    "message": "Avancerade gaskontroller"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Välj detta för att visa gas-pris och gränskontroller direkt på skicka och bekräfta-skärmarna."
-  },
   "showPrivateKeys": {
     "message": "Visa privata nycklar"
-  },
-  "showHexData": {
-    "message": "Visa hex-information"
-  },
-  "showHexDataDescription": {
-    "message": "Välj detta för att visa hex-datafältet på sändarskärmen"
   },
   "sign": {
     "message": "Signera"
@@ -937,15 +877,6 @@
   },
   "switchNetworks": {
     "message": "Växla nätverk"
-  },
-  "stateLogs": {
-    "message": "Statushistorik"
-  },
-  "stateLogsDescription": {
-    "message": "Statusloggar innehåller dina publika kontoadresser och skickade transaktioner."
-  },
-  "stateLogError": {
-    "message": "Fel vid inhämtande av statusloggar."
   },
   "step1HardwareWallet": {
     "message": "1. Anslut hårdvaruplånbok"
@@ -1086,17 +1017,8 @@
   "usedByClients": {
     "message": "Används av många olika klienter"
   },
-  "userName": {
-    "message": "Användarnamn"
-  },
-  "viewAccount": {
-    "message": "Visa konto"
-  },
   "viewinExplorer": {
     "message": "Visa i Utforskaren"
-  },
-  "viewContact": {
-    "message": "Visa kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Visa vid $1"

@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Avansert"
   },
-  "advancedSettingsDescription": {
-    "message": "Få tilgang til utviklerfunksjoner, last ned tilstandslogger, tilbakestill konto, installer testnett og tilpasset RPC"
-  },
   "advancedOptions": {
     "message": "Avanserte valg"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "dvs. John D. "
-  },
-  "addAlias": {
-    "message": "Legg til alias "
   },
   "addToken": {
     "message": "Legg til token "
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Se konto på $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Bruk Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Nettleseren din støttes ikke ..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "Slett"
   },
-  "deleteAccount": {
-    "message": "Slett konto "
-  },
   "deposit": {
     "message": "Innskudd"
   },
-  "depositEther": {
-    "message": "Sett inn Ether "
-  },
   "details": {
     "message": "Detaljer"
-  },
-  "directDepositEther": {
-    "message": "Sett Ether direkte inn"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Hvis du allerede har noe Ether, er den raskeste måten å få Ether i den nye lommeboken din på ved hjelp av direkte innskudd."
   },
   "done": {
     "message": "Ferdig"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "Last ned denne hemmelige gjenopprettingsfrasen og lagre den trygt på ekstern, kryptert harddisk eller lagringsmedium."
   },
-  "downloadStateLogs": {
-    "message": "Last ned tilstandslogg"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Har du ikke en hardware-lommebok?"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "Endre"
-  },
-  "editContact": {
-    "message": "Rediger kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Du besto prøven - oppbevar den mnemoniske gjenopprettingsfrasen din på et sikkert sted, det er ditt ansvar! "
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "Skriv inn passord for å fortsette"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum offentlig adresse"
   },
   "etherscanView": {
     "message": "Vis konto på Etherscan "
@@ -571,17 +541,8 @@
   "myAccounts": {
     "message": "Mine kontoer "
   },
-  "myWalletAccounts": {
-    "message": "mine lommebokkontoer"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Alle dine opprettede ECF Wallet-kontoer vil automatisk bli lagt til denne seksjonen.  "
-  },
   "mustSelectOne": {
     "message": "Må velge minst 1 token. "
-  },
-  "needEtherInWallet": {
-    "message": "Du må ha Ether i lommeboken din for å samhandle med desentraliserte applikasjoner gjennom MateMask."
   },
   "needImportFile": {
     "message": "Du må velge en fil å importere.",
@@ -612,9 +573,6 @@
     "message": "Konto $1 ",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Ny kontaktperson"
-  },
   "newContract": {
     "message": "Ny kontaktperson"
   },
@@ -629,12 +587,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nei, jeg har allerede en mnemonisk gjenopprettingsfrase"
-  },
-  "protectYourKeys": {
-    "message": "Beskytt nøklene dine! "
-  },
-  "protectYourKeysMessage1": {
-    "message": "Vær forsiktig med den mnemoniske gjenopprettingsfrasen din - det rapporteres om nettsteder som prøver å etterligne ECF Wallet. ECF Wallet vil aldri be om den mnemoniske gjenopprettingsfrasen din!"
   },
   "rpcUrl": {
     "message": "NY RPC-URL "
@@ -896,20 +848,8 @@
   "settings": {
     "message": "Innstillinger"
   },
-  "showAdvancedGasInline": {
-    "message": "Avanserte datakraftskontroller"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Velg dette for å vise bensinpris og begrensningskontroller direkte på send- og bekreftskjermbildene."
-  },
   "showPrivateKeys": {
     "message": "Vis private nøkler"
-  },
-  "showHexData": {
-    "message": "Vis hex data "
-  },
-  "showHexDataDescription": {
-    "message": "Velg dette for å vise hex-datafeltet på sendskjermen"
   },
   "sign": {
     "message": "Undertegn"
@@ -937,15 +877,6 @@
   },
   "switchNetworks": {
     "message": "Bytt nettverk "
-  },
-  "stateLogs": {
-    "message": "Tilstandslogg"
-  },
-  "stateLogsDescription": {
-    "message": "Tilstandslogger inneholder de offentlige kontoadressene og sendte transaksjoner."
-  },
-  "stateLogError": {
-    "message": "Feil ved henting av tilstandslogger."
   },
   "step1HardwareWallet": {
     "message": "1. Koble til maskinvarelommebok"
@@ -1089,17 +1020,8 @@
   "usedByClients": {
     "message": "Brukt av en rekke forskjellige klienter"
   },
-  "userName": {
-    "message": "Brukernavn"
-  },
-  "viewAccount": {
-    "message": "Se konto"
-  },
   "viewinExplorer": {
     "message": "Se i Explorer"
-  },
-  "viewContact": {
-    "message": "Se kontrakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Vis ved $1 "

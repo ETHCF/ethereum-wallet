@@ -54,12 +54,14 @@ class ECFWalletInpageProvider extends MetaMaskInpageProvider {
     // isMetaMask stays true, as upstream sets it, for dapps that only check for it.
     this.isECFWallet = true
 
-    // The upstream namespace warns under MetaMask's name, so warn under ours instead.
+    // The upstream namespace warns under MetaMask's name, so warn under ours
+    // instead. Both names point at the same object: sites that call
+    // `ethereum._metamask.isUnlocked()` would otherwise throw.
     const experimentalApi = this._metamask
     delete this._metamask
     this._sentWarnings.experimentalMethods = true
     let warned = false
-    this._ecfwallet = new Proxy(experimentalApi, {
+    const namespace = new Proxy(experimentalApi, {
       get: (target, property) => {
         if (!warned) {
           log.warn(`ECF Wallet: 'ethereum._ecfwallet' exposes non-standard, experimental methods. They may be removed or changed without warning.`)
@@ -68,6 +70,8 @@ class ECFWalletInpageProvider extends MetaMaskInpageProvider {
         return Reflect.get(target, property)
       },
     })
+    this._ecfwallet = namespace
+    this._metamask = namespace
   }
 }
 

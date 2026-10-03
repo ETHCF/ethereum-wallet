@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Išplėstiniai"
   },
-  "advancedSettingsDescription": {
-    "message": "Prieigos kūrėjo funkcijos, būsenos žurnalų atsiuntimas, paskyros atstatymas, „testnet“ nustatymas ir pritaikytas RPC"
-  },
   "advancedOptions": {
     "message": "Išplėstinės parinktys"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "pvz., John D."
-  },
-  "addAlias": {
-    "message": "Pridėti alternatyvųjį vardą"
   },
   "addToken": {
     "message": "Pridėti žetoną"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Peržiūrėti paskyrą $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "„Blockies Identicon“ naudojimas"
   },
   "browserNotSupported": {
     "message": "Jūsų naršyklė neatpažįstama..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Ištrinti"
   },
-  "deleteAccount": {
-    "message": "Šalinti paskyrą"
-  },
   "deposit": {
     "message": "Indėlis"
   },
-  "depositEther": {
-    "message": "Įnešti eterių"
-  },
   "details": {
     "message": "Išsami informacija"
-  },
-  "directDepositEther": {
-    "message": "Tiesiogiai įnešti eteriai"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Jeigu jau turite šiek tiek eterių, sparčiausias būdas gauti eterių į naują piniginę yra tiesioginis įnašas."
   },
   "done": {
     "message": "Atlikta"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Atsisiųskite šią saugos atsarginę frazę ir ją saugiai laikykite šifruotame standžiajame diske arba laikmenoje."
   },
-  "downloadStateLogs": {
-    "message": "Atsisiųsti būsenos žurnalus"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nėra aparatinės įrangos slaptažodinės?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Redaguoti"
-  },
-  "editContact": {
-    "message": "Taisyti kontaktą"
   },
   "endOfFlowMessage1": {
     "message": "Jūs perėjote testą – laikykite saugiai savo atkūrimo frazę, tai jūsų atsakomybė!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Norėdami tęsti, įveskite slaptažodį"
-  },
-  "ethereumPublicAddress": {
-    "message": "„Ethereum“ viešasis adresas"
   },
   "etherscanView": {
     "message": "Peržiūrėti paskyrą „Etherscan“ programoje"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "Mano paskyros"
   },
-  "myWalletAccounts": {
-    "message": "Mano piniginės paskyros"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Visos jūsų „ECF Wallet“ sukurtos paskyros bus automatiškai įtrauktos į šį skyrių."
-  },
   "mustSelectOne": {
     "message": "Turite pasirinkti bent 1 žetoną."
-  },
-  "needEtherInWallet": {
-    "message": "Norėdami dirbti su decentralizuotomis programomis „ECF Wallet“, savo piniginėje turite turėti eterių."
   },
   "needImportFile": {
     "message": "Turite pasirinkti failą, kurį pageidaujate importuoti.",
@@ -618,9 +579,6 @@
     "message": "Paskyra $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Naujas kontaktas"
-  },
   "newContract": {
     "message": "Nauja sutartis"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, jau turiu atkūrimo frazę."
-  },
-  "protectYourKeys": {
-    "message": "Apsaugokite savo raktus!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Saugokite savo atkūrimo frazę – gavome pranešimų apie interneto svetaines, kuriomis bandoma imituoti „ECF Wallet“. „ECF Wallet“ niekada neprašys jūsų pateikti savo atkūrimo frazę!"
   },
   "rpcUrl": {
     "message": "Naujas RPC URL"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "Nustatymai"
   },
-  "showAdvancedGasInline": {
-    "message": "Išplėstiniai dujų valdikliai"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Pasirinkite tai, kad būtų rodoma dujų kaina, ir ribokite valdymo elementus tiesiogiai siuntimo ir patvirtinimo ekranuose."
-  },
   "showPrivateKeys": {
     "message": "Rodyti asmeninius raktus"
-  },
-  "showHexData": {
-    "message": "Rodyti šešioliktainius duomenis"
-  },
-  "showHexDataDescription": {
-    "message": "Pasirinkite tai, kad siuntimo ekrane būtų rodomas šešioliktainių duomenų laukas"
   },
   "sign": {
     "message": "Prisijunkite"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "Perjungti tinklus"
-  },
-  "stateLogs": {
-    "message": "Būsenos žurnalai"
-  },
-  "stateLogsDescription": {
-    "message": "Būsenos žurnaluose yra jūsų viešos paskyros adresų ir išsiųstų operacijų."
-  },
-  "stateLogError": {
-    "message": "Klaida gaunant būsenos žurnalus."
   },
   "step1HardwareWallet": {
     "message": "1. Prijunkite aparatinės įrangos slaptažodinę"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "Naudojama daugelio skirtingų klientų"
   },
-  "userName": {
-    "message": "Vartotojo vardas"
-  },
-  "viewAccount": {
-    "message": "Žiūrėti paskyrą"
-  },
   "viewinExplorer": {
     "message": "Peržiūrėti naršyklėje"
-  },
-  "viewContact": {
-    "message": "Peržiūrėti kontaktą"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Peržiūrėti $1"

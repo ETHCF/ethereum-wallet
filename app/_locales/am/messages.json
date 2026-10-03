@@ -44,9 +44,6 @@
   "advanced": {
     "message": "የላቀ"
   },
-  "advancedSettingsDescription": {
-    "message": "አዘጋጅ ባህርያትን መድረስ፣ የስቴት መዛግብትን ማውረድ፣ መለያን ዳግም መሙላት፣ testnets እና ብጁ RPC አዋቅር።"
-  },
   "advancedOptions": {
     "message": "የላቁ አማራጮች"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "ለምሳሌ፡ ጆን ዲ."
-  },
-  "addAlias": {
-    "message": "ተለዋጭ ስም አክል"
   },
   "addToken": {
     "message": "ተለዋጭ ስም አክል"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "መለያን በ$1እይ",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Blockies Identicon ተጠቀም"
   },
   "browserNotSupported": {
     "message": "ማሰሺያዎት አልተደገፈም..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "ሰርዝ"
   },
-  "deleteAccount": {
-    "message": "መለያን ሰርዝ"
-  },
   "deposit": {
     "message": "ማጠራቀም"
   },
-  "depositEther": {
-    "message": "Ether አስቀምጥ"
-  },
   "details": {
     "message": "ዝርዝሮች"
-  },
-  "directDepositEther": {
-    "message": "Ether በቀጥታ ያስቀምጡ"
-  },
-  "directDepositEtherExplainer": {
-    "message": "ቀደም ሲል የተወሰነ Ether ካለዎት፣ በአዲሱ ቋትዎ Ether ለማግኘት ፈጣኑ መንገድ ቀጥተኛ ተቀማጭ ነው።"
   },
   "done": {
     "message": "ተጠናቅቋል"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "ይህን ሚስጥራዊ መጠባበቂያ ሐረግ በማውረድ በተመሰጠረ ውጫዊ ሃርድ ድራይቭ ወይም የማከማቻ መሳሪያ ላይ ያስቀምጡት።"
   },
-  "downloadStateLogs": {
-    "message": "የስቴት መዛግብትን አውርድ"
-  },
   "dontHaveAHardwareWallet": {
     "message": "የሃርድዌር ቋት የለዎትም?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "አርትዕ"
-  },
-  "editContact": {
-    "message": "ዕውቂያን አርትዕ"
   },
   "endOfFlowMessage1": {
     "message": "ፈተናውን አልፈዋል - የዘር ሐረግዎን ደህንነቱ በተጠበቀ መንገድ ያስቀምጡ፣ የእርስዎ ሃላፊነት ነው! "
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "ለመቀጠል የይለፍ ቃል ያስገቡ"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum ሕዝባዊ አድራሻ"
   },
   "etherscanView": {
     "message": "መለያውን በ Etherscan ላይ ይመልከቱ"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "የእኔ መለያዎች"
   },
-  "myWalletAccounts": {
-    "message": "የቋት መለያዎቼ"
-  },
-  "myWalletAccountsDescription": {
-    "message": "በ ECF Wallet የተፈጠሩ መለያዎችዎ በሙሉ በራስ ሰር መንገድ ወደዚህ ክፍል ይታከላሉ።"
-  },
   "mustSelectOne": {
     "message": "ቢያንስ 1 ተለዋጭ ስም መምረጥ አለብዎ።"
-  },
-  "needEtherInWallet": {
-    "message": "ECF Wallet በመጠቀም ያልተማከሉ መተግበሪያዎች ጋር ግንኙነት ለማድረግ፣ በቋትዎ ውስጥ Ether ያስፈልግዎታል።"
   },
   "needImportFile": {
     "message": "የሚያስመጡትን ፋይል መምረጥ አለብዎት።",
@@ -615,9 +576,6 @@
     "message": "መለያ$1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "አዲስ ዕውቂያ"
-  },
   "newContract": {
     "message": "አዲስ ኮንትራት"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "የለም፣ ቀደም ሲል ጀምሮ የዘር ሐረግ አለኝ"
-  },
-  "protectYourKeys": {
-    "message": "ቁልፎችዎን ይጠብቁ!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "ስለ ዘር ሐረግዎ ይጠንቀቁ - ራሳቸውን ከ ECF Wallet ጋር ለማመሳሰል የሚሞከሩ ድረ ገጾች እናሉ ሰምተናል። ECF Wallet በጭራሽ የዘር ሐረግዎን አይጠይቅዎትም!"
   },
   "rpcUrl": {
     "message": "አዲስ የ RPC URL"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "ቅንብሮች"
   },
-  "showAdvancedGasInline": {
-    "message": "የላቁ የነዳጅ ቁጥጥሮች"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "በላክ እና አረጋግጥ ማያዎች ላይ የነዳጅ ዋጋን ለማሳየትና ቁጥጥሮችን ለመገደብ ይህን ይምረጡ።"
-  },
   "showPrivateKeys": {
     "message": "የግል ቁልፎችን አሳይ"
-  },
-  "showHexData": {
-    "message": "Hex ውሂብ አሳይ"
-  },
-  "showHexDataDescription": {
-    "message": "በመላኪያ ማያ ላይ የ hex ውሂብ መስክን ለማሳየት ይህን ይምረጡ"
   },
   "sign": {
     "message": "ፈርም"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "አውታረ መረቦችን ቀያይር"
-  },
-  "stateLogs": {
-    "message": "የስቴት መዛግብት"
-  },
-  "stateLogsDescription": {
-    "message": "ስቴት መዛግብት ይፋዊ የመለያ አድራሻዎትንና የተላኩ ግብይቶችን ይይዛሉ።"
-  },
-  "stateLogError": {
-    "message": "የስቴት መዛግብትን መልሶ በማግኘት ሒደት የተፈጠረ ስህተት።"
   },
   "step1HardwareWallet": {
     "message": "1. ከሃርድዌር ቋት ጋር ይገናኙ"
@@ -1104,17 +1035,8 @@
   "usedByClients": {
     "message": "በተለያዩ ደንበኞች ጥቅም ላይ የዋለ ነው"
   },
-  "userName": {
-    "message": "የተጣቃሚ ስም"
-  },
-  "viewAccount": {
-    "message": "መለያን ይመልከቱ"
-  },
   "viewinExplorer": {
     "message": "በኤክስፕሎረር ተመልከት"
-  },
-  "viewContact": {
-    "message": "ዕውቂያን ይመልከቱ"
   },
   "viewOnCustomBlockExplorer": {
     "message": "በ $1ይመልከቱ"

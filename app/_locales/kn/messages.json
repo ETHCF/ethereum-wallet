@@ -48,9 +48,6 @@
   "advanced": {
     "message": "ಸುಧಾರಿತ"
   },
-  "advancedSettingsDescription": {
-    "message": "ಡೆವಲಪರ್ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ, ರಾಜ್ಯದ ಲಾಗ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ, ಖಾತೆಯನ್ನು ಮರುಹೊಂದಿಸಿ, ಟೆಸ್ಟ್‌ನೆಟ್ಸ್‌ ಹೊಂದಿಸಿ ಮತ್ತು ಕಸ್ಟಮ್ RPC"
-  },
   "advancedOptions": {
     "message": "ಸುಧಾರಿತ ಆಯ್ಕೆಗಳು"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "ಉದಾ. ಜಾನ್ ಡಿ."
-  },
-  "addAlias": {
-    "message": "ಅಲಿಯಾಸ್ ಸೇರಿಸಿ"
   },
   "addToken": {
     "message": "ಟೋಕನ್ ಸೇರಿಸಿ"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": " $1 ನಲ್ಲಿ ಖಾತೆಯನ್ನು ವೀಕ್ಷಿಸಿ",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "ಬ್ಲಾಕೀಸ್ ಐಡೆಂಟಿಕಾನ್ ಬಳಸಿ"
   },
   "browserNotSupported": {
     "message": "ನಿಮ್ಮ ಬ್ರೌಸರ್ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "ಅಳಿಸಿ"
   },
-  "deleteAccount": {
-    "message": "ಖಾತೆಯನ್ನು ಅಳಿಸಿ"
-  },
   "deposit": {
     "message": "ಠೇವಣಿ"
   },
-  "depositEther": {
-    "message": "ಎಥರ್ ಠೇವಣಿ ಮಾಡಿ"
-  },
   "details": {
     "message": "ವಿವರಗಳು"
-  },
-  "directDepositEther": {
-    "message": "ಎಥರ್ ನೇರವಾಗಿ ಠೇವಣಿ ಮಾಡಿ"
-  },
-  "directDepositEtherExplainer": {
-    "message": "ನೀವು ಈಗಾಗಲೇ ಕೆಲವು ಎಥರ್ ಹೊಂದಿದ್ದರೆ, ನೇರ ಠೇವಣಿ ಮೂಲಕ ನಿಮ್ಮ ಹೊಸ ವ್ಯಾಲೆಟ್‌ನಲ್ಲಿ ಎಥರ್ ಅನ್ನು ಪಡೆಯುವ ತ್ವರಿತ ಮಾರ್ಗ."
   },
   "done": {
     "message": "ಮುಗಿದಿದೆ"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "ಈ ರಹಸ್ಯ ಬ್ಯಾಕಪ್ ಫ್ರೇಸ್‌ ಅನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಬಾಹ್ಯ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಿದ ಹಾರ್ಡ್ ಡ್ರೈವ್ ಅಥವಾ ಸಂಗ್ರಹಣೆ ಮಾಧ್ಯಮದಲ್ಲಿ ಅದನ್ನು ಸುರಕ್ಷಿತವಾಗಿ ಸಂಗ್ರಹಿಸಿಡಿ."
   },
-  "downloadStateLogs": {
-    "message": "ರಾಜ್ಯದ ಲಾಗ್‌ಗಳನ್ನು  ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
-  },
   "dontHaveAHardwareWallet": {
     "message": "ಹಾರ್ಡ್‌ವೇರ್ ವ್ಯಾಲೆಟ್‌ ಅನ್ನು ಹೊಂದಿಲ್ಲವೇ?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "ಎಡಿಟ್"
-  },
-  "editContact": {
-    "message": "ಸಂಪರ್ಕವನ್ನು ಸಂಪಾದಿಸಿ"
   },
   "endOfFlowMessage1": {
     "message": "ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ಪಾಸ್ ಮಾಡಿರುವಿರಿ - ನಿಮ್ಮ ಸೀಡ್‌ಫ್ರೇಸ್ ಸುರಕ್ಷಿತವಾಗಿರಿಸಿ, ಅದು ನಿಮ್ಮ ಜವಾಬ್ದಾರಿಯಾಗಿದೆ!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "ಮುಂದುವರೆಯಲು ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ"
-  },
-  "ethereumPublicAddress": {
-    "message": "ಎಥೆರಿಯಮ್ ಸಾರ್ವಜನಿಕ ವಿಳಾಸ"
   },
   "etherscanView": {
     "message": "ಎಥರ್‌ಸ್ಕ್ಯಾನ್‌ನಲ್ಲಿ ಖಾತೆಯನ್ನು ವೀಕ್ಷಿಸಿ"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "ನನ್ನ ಖಾತೆಗಳು"
   },
-  "myWalletAccounts": {
-    "message": "ನನ್ನ ವ್ಯಾಲೆಟ್ ಖಾತೆಗಳು"
-  },
-  "myWalletAccountsDescription": {
-    "message": "ನಿಮ್ಮ ECF Wallet ರಚಿಸಿದ ಎಲ್ಲಾ ಖಾತೆಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಈ ವಿಭಾಗಕ್ಕೆ ಸೇರಿಸಲಾಗುತ್ತದೆ."
-  },
   "mustSelectOne": {
     "message": "ಕನಿಷ್ಟ 1 ಟೋಕನ್ ಅನ್ನು ಆಯ್ಕೆಮಾಡಬೇಕು."
-  },
-  "needEtherInWallet": {
-    "message": "ECF Wallet ಬಳಸಿಕೊಂಡು ವಿಕೇಂದ್ರೀಕೃತ ಖಾತೆಗಳೊಂದಿಗೆ ಸಂವಹನ ನಡೆಸಲು, ನಿಮ್ಮ ವ್ಯಾಲೆಟ್‌ನಲ್ಲಿ ನಿಮಗೆ ಎಥರ್ ಅಗತ್ಯವಿದೆ."
   },
   "needImportFile": {
     "message": "ಆಮದು ಮಾಡಲು ನೀವು ಫೈಲ್ ಅನ್ನು ಆಯ್ಕೆಮಾಡಬೇಕು.",
@@ -618,9 +579,6 @@
     "message": "ಖಾತೆ $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "ಹೊಸ ಸಂಪರ್ಕ"
-  },
   "newContract": {
     "message": "ಹೊಸ ಒಪ್ಪಂದ"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "ಇಲ್ಲ, ನಾನು ಈಗಾಗಲೇ ಸೀಡ್ ಫ್ರೇಸ್ ಅನ್ನು ಹೊಂದಿದ್ದೇನೆ"
-  },
-  "protectYourKeys": {
-    "message": "ನಿಮ್ಮ ಕೀಗಳನ್ನು ರಕ್ಷಿಸಿ!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "ನಿಮ್ಮ ಸೀಡ್ ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಜಾಗರೂಕರಾಗಿರಿ — ECF Wallet ಅನ್ನು ಅನುಕರಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವ ವೆಬ್‌ಸೈಟ್‌ಗಳ ವರದಿಗಳಿವೆ. ECF Wallet ನಿಮ್ಮ ಸೀಡ್ ಫ್ರೇಸ್ ಅನ್ನು ಎಂದಿಗೂ ಕೇಳುವುದಿಲ್ಲ!"
   },
   "rpcUrl": {
     "message": "ಹೊಸ RPC URL"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
   },
-  "showAdvancedGasInline": {
-    "message": "ಸುಧಾರಿತ ಗ್ಯಾಸ್ ನಿಯಂತ್ರಣಗಳು"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "ಕಳುಹಿಸುವ ಮತ್ತು ಖಚಿತಪಡಿಸುವ ಪರದೆಯ ಮೇಲೆ ನೇರವಾಗಿ ಗ್ಯಾಸ್ ಬೆಲೆ ಮತ್ತು ಮಿತಿಯ ನಿಯಂತ್ರಣಗಳನ್ನು ತೋರಿಸಲು ಇದನ್ನು ಆಯ್ಕೆಮಾಡಿ."
-  },
   "showPrivateKeys": {
     "message": "ಖಾಸಗಿ ಕೀಗಳನ್ನು ತೋರಿಸಿ"
-  },
-  "showHexData": {
-    "message": "ಹೆಕ್ಸ್ ಡೇಟಾವನ್ನು ತೋರಿಸಿ"
-  },
-  "showHexDataDescription": {
-    "message": "ಕಳುಹಿಸುವ ಪರದೆಯಲ್ಲಿ ಹೆಕ್ಸ್ ಡೇಟಾ ಕ್ಷೇತ್ರವನ್ನು ತೋರಿಸಲು ಇದನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
   "sign": {
     "message": "ಸಹಿ"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "ನೆಟ್‌ವರ್ಕ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿ"
-  },
-  "stateLogs": {
-    "message": "ರಾಜ್ಯದ ಲಾಗ್‌ಗಳು"
-  },
-  "stateLogsDescription": {
-    "message": "ರಾಜ್ಯದ ಲಾಗ್‌ಗಳು ನಿಮ್ಮ ಸಾರ್ವಜನಿಕ ಖಾತೆಯ ವಿಳಾಸಗಳು ಮತ್ತು ಕಳುಹಿಸಲಾದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿರುತ್ತವೆ."
-  },
-  "stateLogError": {
-    "message": "ರಾಜ್ಯದ ಲಾಗ್‌ಗಳನ್ನು ಹಿಂಪಡೆಯುವಲ್ಲಿ ದೋಷ."
   },
   "step1HardwareWallet": {
     "message": "1. ಹಾರ್ಡ್‌ವೆರ್ ವ್ಯಾಲೆಟ್ ಸಂಪರ್ಕಪಡಿಸಿ"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "ವಿಭಿನ್ನ ಕ್ಲೈಂಟ್‌ಗಳ ಮೂಲಕ ಬಳಸಲಾಗುತ್ತದೆ"
   },
-  "userName": {
-    "message": "ಬಳಕೆದಾರಹೆಸರು"
-  },
-  "viewAccount": {
-    "message": "ಖಾತೆಯನ್ನು ವೀಕ್ಷಿಸಿ"
-  },
   "viewinExplorer": {
     "message": "ಎಕ್ಸ್‌ಪ್ಲೋರರ್‌ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"
-  },
-  "viewContact": {
-    "message": "ಸಂಪರ್ಕವನ್ನು ವೀಕ್ಷಿಸಿ"
   },
   "viewOnCustomBlockExplorer": {
     "message": "$1 ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"

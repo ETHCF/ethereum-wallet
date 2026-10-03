@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Configuració avançada"
   },
-  "advancedSettingsDescription": {
-    "message": "Accedeix a característiques de desenvolupador, descarrega Registres d'Estat, Reinicia el Compte, instal·la testnets i personalitza RPC"
-  },
   "advancedOptions": {
     "message": "Opcions Avançades"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "p. ex. John D."
-  },
-  "addAlias": {
-    "message": "Afegeix un àlies"
   },
   "addToken": {
     "message": "Afegir Fitxa"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Veure compte a $1 ",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Fer servir els Identicon Blockies"
   },
   "browserNotSupported": {
     "message": "El teu navegador no és suportat..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "Suprimeix"
   },
-  "deleteAccount": {
-    "message": "Elimina el compte"
-  },
   "deposit": {
     "message": "Depòsit"
   },
-  "depositEther": {
-    "message": "Diposita Ether"
-  },
   "details": {
     "message": "Detalls"
-  },
-  "directDepositEther": {
-    "message": "Diposita Ether directament"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Si ja tens una mica d'Ether, la manera més ràpida de posar Ether al teu nou moneder és per dipòsit directe."
   },
   "done": {
     "message": "Fet"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "Descarrega aquesta Frase Secreta de Recuperació i guarda-la emmagatzemada de forma segura a un dispositiu d'emmagatzematge o disc dur extern encriptat."
   },
-  "downloadStateLogs": {
-    "message": "Descarregar Registres d'Estat"
-  },
   "dontHaveAHardwareWallet": {
     "message": "No tens una cartera de hardware?"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "Edita"
-  },
-  "editContact": {
-    "message": "Editar Contacte"
   },
   "endOfFlowMessage1": {
     "message": "Has passat el test - mantingues la teva seedphrase segura, és la teva responsabilitat!"
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "Introdueix la contrasenya per continuar"
-  },
-  "ethereumPublicAddress": {
-    "message": "Adreça Pública d'Ethereum"
   },
   "etherscanView": {
     "message": "Veure compte a Etherscan"
@@ -565,17 +535,8 @@
   "myAccounts": {
     "message": "Els meus Comptes"
   },
-  "myWalletAccounts": {
-    "message": "Els meus Comptes de Moneder"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Tots els teus comptes creats a ECF Wallet s'afegiran automàticament a aquesta secció."
-  },
   "mustSelectOne": {
     "message": "Has de seleccionar "
-  },
-  "needEtherInWallet": {
-    "message": "Per a interactuar amb aplicacions descentralitzades fent servir ECF Wallet, necessitaràs Ether al teu moneder."
   },
   "needImportFile": {
     "message": "Has de seleccionar un arxiu per a importar.",
@@ -606,9 +567,6 @@
     "message": "Compte $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Nou Contacte"
-  },
   "newContract": {
     "message": "Nou Contracte"
   },
@@ -623,12 +581,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "No, ja tinc una frase de recuperació."
-  },
-  "protectYourKeys": {
-    "message": "Protegeix les Teves Claus!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Vigila amb la teva frase de recuperació  —s'han documentat casos de llocs web que intenten imitar ECF Wallet. ECF Wallet mai no et demanarà la frase de recuperació!"
   },
   "rpcUrl": {
     "message": "Nova URL de RPC"
@@ -890,20 +842,8 @@
   "settings": {
     "message": "Configuració"
   },
-  "showAdvancedGasInline": {
-    "message": "Controls de gas avançats"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Selecciona això per a mostrar el preu del gas i els controls de límit directament a les pantalles d'enviament i confirmació."
-  },
   "showPrivateKeys": {
     "message": "Mostrar Claus Privades"
-  },
-  "showHexData": {
-    "message": "Mostra les dades Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Selecciona això per a mostrar el camp de dades Hex a la pantalla d'enviament"
   },
   "sign": {
     "message": "Signar"
@@ -931,15 +871,6 @@
   },
   "switchNetworks": {
     "message": "Intercanviar Xarxes"
-  },
-  "stateLogs": {
-    "message": "Registres d'estat"
-  },
-  "stateLogsDescription": {
-    "message": "Els registres d'estat contenen les teves adreces de compte públiques i les transaccions enviades."
-  },
-  "stateLogError": {
-    "message": "Error al recuperar els registres d'estat."
   },
   "step1HardwareWallet": {
     "message": "1. Connectar Moneder Hardware"
@@ -1083,17 +1014,8 @@
   "usedByClients": {
     "message": "Utilitzat per tot tipus de clients"
   },
-  "userName": {
-    "message": "Nom d'usuari"
-  },
-  "viewAccount": {
-    "message": "Mostra el compte"
-  },
   "viewinExplorer": {
     "message": "Mostra a Explorer"
-  },
-  "viewContact": {
-    "message": "Veure Contacte"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Mostra a $1"

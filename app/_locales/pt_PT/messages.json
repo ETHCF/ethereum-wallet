@@ -159,12 +159,6 @@
   "unlock": {
     "message": "Desbloquear"
   },
-  "userName": {
-    "message": "Nome de utilizador"
-  },
-  "viewAccount": {
-    "message": "Ver Conta"
-  },
   "welcomeBack": {
     "message": "Bem-vindo de volta!"
   }

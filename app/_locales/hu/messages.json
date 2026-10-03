@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Speciális"
   },
-  "advancedSettingsDescription": {
-    "message": "Hozzáférés fejlesztői funkciókhoz, állapotnaplók letöltése, fiók újraállítása, testnetek és egyéni RPC-k beállítása"
-  },
   "advancedOptions": {
     "message": "Haladó beállítások"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "pl. John D."
-  },
-  "addAlias": {
-    "message": "Álnév hozzáadása"
   },
   "addToken": {
     "message": "Token hozzáadása"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Tekintse meg a fiókot a(z) $1-en",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Blockies identikon használata"
   },
   "browserNotSupported": {
     "message": "Az ön böngészője nem támogatott..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Törlés"
   },
-  "deleteAccount": {
-    "message": "Fiók törlése"
-  },
   "deposit": {
     "message": "Befizetés"
   },
-  "depositEther": {
-    "message": "Ether befizetése"
-  },
   "details": {
     "message": "Részletek"
-  },
-  "directDepositEther": {
-    "message": "Fizess be ethert közvetlenül"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Amennyiben már rendelkezik némi Ether-rel, a közvetlen letéttel gyorsan elhelyezheti azt új pénztárcájában."
   },
   "done": {
     "message": "Kész"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Töltse le a Secret Backup Phrase-t és tárolja biztonságosan egy titkosított külső merevlemezen vagy tárolón."
   },
-  "downloadStateLogs": {
-    "message": "Állapotnapló letöltése"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nincs hardveres tárcája? "
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Szerkesztés"
-  },
-  "editContact": {
-    "message": "Kapcsolatok szerkesztése"
   },
   "endOfFlowMessage1": {
     "message": "Átment a teszten - tartsa biztonságban a seed mondatot, ez az ön felelőssége!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "A folytatáshoz adja meg a jelszót"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum nyilvános címe"
   },
   "etherscanView": {
     "message": "Fiók megtekintése Etherscanen"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "Fiókjaim"
   },
-  "myWalletAccounts": {
-    "message": "Saját tárca fiókjai"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Az összes ECF Wallet által létrehozott fiókot automatikusan hozzáadja a munkamenethez."
-  },
   "mustSelectOne": {
     "message": "Legalább 1 tokent ki kell választania."
-  },
-  "needEtherInWallet": {
-    "message": "Ha a EcfWalleton keresztül szeretne interakcióba lépni decentralizált alkalmazással, ahhoz a tárcájában Ethernek kell lennie."
   },
   "needImportFile": {
     "message": "Ki kell választania az importálni kívánt fájlt.",
@@ -615,9 +576,6 @@
     "message": "$1 fiók",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Új kapcsolat"
-  },
   "newContract": {
     "message": "Új szerződés"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nem, már rendelkezem gyarapítási fázissal"
-  },
-  "protectYourKeys": {
-    "message": "Védje kulcsait!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Vigyázzod a gyarapítási fázissal - olyan oldalakat jelentettek, amelyek a ECF Wallet-ot utánozzák. A ECF Wallet soha nem kéri el a gyarapítási fázisát."
   },
   "rpcUrl": {
     "message": "Új RPC URL"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "Beállítások"
   },
-  "showAdvancedGasInline": {
-    "message": "Speciális gázszabályzók"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Jelöld meg ezt a gázárak és korlátozásellenőrzés mutatásához közvetlenül a küldési és megerősítési képernyőkön."
-  },
   "showPrivateKeys": {
     "message": "Mutassa a privát kulcsokat"
-  },
-  "showHexData": {
-    "message": "Hex adatok mutatása"
-  },
-  "showHexDataDescription": {
-    "message": "Válassza ezt, ha a hex adatmezőt a küldő képernyőn szeretné megnézni"
   },
   "sign": {
     "message": "Aláír"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "Hálózátváltás"
-  },
-  "stateLogs": {
-    "message": "Állapotnapló"
-  },
-  "stateLogsDescription": {
-    "message": "Az állapotnaplóban megtalálhatók nyilvános fiókcímeid és elküldött tranzakcióid."
-  },
-  "stateLogError": {
-    "message": "Hiba történt az állapotnaplók lekérésekor."
   },
   "step1HardwareWallet": {
     "message": "1. Csatlakoztassa a hardveres pénztárcát"
@@ -1101,17 +1032,8 @@
   "usedByClients": {
     "message": "Számos különböző ügyfél használja"
   },
-  "userName": {
-    "message": "Felhasználónév"
-  },
-  "viewAccount": {
-    "message": "Fiók megtekintése"
-  },
   "viewinExplorer": {
     "message": "Megtekintés Explorerben"
-  },
-  "viewContact": {
-    "message": "Névjegy megtekintése"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Megtekintés $1-kor"

@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Rozšírené"
   },
-  "advancedSettingsDescription": {
-    "message": "Získajte prístup k vývojárskym funkciám, sťahujte si Stavové denníky, resetujte účet, nastavujte testovacie siete a vlastné RPC"
-  },
   "advancedOptions": {
     "message": "Rozšírené nastavenia"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "napr. Ján D."
-  },
-  "addAlias": {
-    "message": "Pridať alias"
   },
   "addToken": {
     "message": "Přidat token"
@@ -127,9 +121,6 @@
   "blockExplorerView": {
     "message": "Zobraziť účet na $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Použít Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Váš prehliadač nie je podporovaný..."
@@ -257,23 +248,11 @@
   "delete": {
     "message": "Odstrániť"
   },
-  "deleteAccount": {
-    "message": "Zmazať účet"
-  },
   "deposit": {
     "message": "Vklad"
   },
-  "depositEther": {
-    "message": "Vložit Ether"
-  },
   "details": {
     "message": "Podrobnosti"
-  },
-  "directDepositEther": {
-    "message": "Vložit Ether přímo"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Pokud už vlastníte nějaký Ether, nejrychleji ho dostanete do peněženky přímým vkladem."
   },
   "done": {
     "message": "Hotovo"
@@ -284,9 +263,6 @@
   "downloadSecretBackup": {
     "message": "Stiahnite si túto tajnú backup frázu a uložte ju bezpečne na externý šifrovaný pevný disk alebo pamäťové médium."
   },
-  "downloadStateLogs": {
-    "message": "Stáhnout stavové protokoly"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nemáte hardvérovú peňaženku?"
   },
@@ -295,9 +271,6 @@
   },
   "edit": {
     "message": "Upravit"
-  },
-  "editContact": {
-    "message": "Upraviť kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Úspešne ste prešli testom – uchovávajte svoju seed frázu v bezpečí.  Je to vaša zodpovednosť!"
@@ -340,9 +313,6 @@
   },
   "enterPasswordContinue": {
     "message": "Pokračujte zadaním hesla"
-  },
-  "ethereumPublicAddress": {
-    "message": "Verejná adresa Ethereum"
   },
   "etherscanView": {
     "message": "Prohlédněte si účet na Etherscan"
@@ -549,17 +519,8 @@
   "myAccounts": {
     "message": "Moje účty"
   },
-  "myWalletAccounts": {
-    "message": "Účty v Mojej peňaženke"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Do tejto sekcie sa automaticky pridajú všetky vaše účty vytvorené pomocou ECF Wallet."
-  },
   "mustSelectOne": {
     "message": "Musíte zvolit aspoň 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Potřebujete Ether v peněžence, abyste mohli pomocí EcfWalletu interagovat s decentralizovanými aplikacemi."
   },
   "needImportFile": {
     "message": "Musíte zvolit soubor k importu.",
@@ -590,9 +551,6 @@
     "message": "Účet $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Nový kontakt"
-  },
   "newContract": {
     "message": "Nový kontrakt"
   },
@@ -607,12 +565,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nie, už mám seed frázu"
-  },
-  "protectYourKeys": {
-    "message": "Chráňte si svoje kľúče!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Pri seed fráze buďte opatrní – vyskytli sa správy o webových stránkach, ktoré sa snažia napodobniť ECF Wallet. ECF Wallet nikdy nebude žiadať vašu seed frázu!"
   },
   "rpcUrl": {
     "message": "Nová RPC URL"
@@ -877,20 +829,8 @@
   "settings": {
     "message": "Nastavení"
   },
-  "showAdvancedGasInline": {
-    "message": "Pokročilé ovládacie prvky GAS"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Vyberte túto možnosť vtedy, keď chcete priamo na obrazovke odosielania a potvrdenia zobraziť ceny za GAS a ovládacie prvky limitov."
-  },
   "showPrivateKeys": {
     "message": "Zobrazit privátní klíče"
-  },
-  "showHexData": {
-    "message": "Zobraziť údaje Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Vyberte toto, ak chcete, aby sa na obrazovke odosielania zobrazilo hex dátové pole"
   },
   "sign": {
     "message": "Podepsat"
@@ -918,15 +858,6 @@
   },
   "switchNetworks": {
     "message": "Prepnúť siete"
-  },
-  "stateLogs": {
-    "message": "Stavové protokoly"
-  },
-  "stateLogsDescription": {
-    "message": "Stavové protokoly obsahují vaše veřejné adresy účtů a odeslané transakce."
-  },
-  "stateLogError": {
-    "message": "Chyba během získávání stavových protokolů."
   },
   "step1HardwareWallet": {
     "message": "1. Pripojiť hardvérovú peňaženku"
@@ -1070,17 +1001,8 @@
   "usedByClients": {
     "message": "Používána různými klienty"
   },
-  "userName": {
-    "message": "Meno používateľa"
-  },
-  "viewAccount": {
-    "message": "Zobrazit účet"
-  },
   "viewinExplorer": {
     "message": "Zobraziť v Exploreri"
-  },
-  "viewContact": {
-    "message": "Zobraziť kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Zobraziť na $1"

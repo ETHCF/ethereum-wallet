@@ -44,9 +44,6 @@
   "advanced": {
     "message": "進階"
   },
-  "advancedSettingsDescription": {
-    "message": "存取開發者功能，下載狀態日誌，重設帳號，設定測試網及自訂 PRC。"
-  },
   "advancedOptions": {
     "message": "進階選項"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "如 John D。"
-  },
-  "addAlias": {
-    "message": "新增化名"
   },
   "addToken": {
     "message": "加入代幣"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "在 $1 觀看帳號 ",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "使用像素風格代表圖案"
   },
   "browserNotSupported": {
     "message": "您的瀏覽器尚未支援..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "刪除"
   },
-  "deleteAccount": {
-    "message": "刪除帳號"
-  },
   "deposit": {
     "message": "存入"
   },
-  "depositEther": {
-    "message": "存入乙太幣"
-  },
   "details": {
     "message": "詳情"
-  },
-  "directDepositEther": {
-    "message": "直接存入乙太幣"
-  },
-  "directDepositEtherExplainer": {
-    "message": "如果您已經擁有乙太幣，直接存入功能是讓新錢包最快取得乙太幣的方式。"
   },
   "done": {
     "message": "完成"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "下載助憶詞文字檔案，並安全的保存在有加密功能的外接硬碟或其他儲存裝置。"
   },
-  "downloadStateLogs": {
-    "message": "下載狀態紀錄"
-  },
   "dontHaveAHardwareWallet": {
     "message": "還沒有硬體錢包？"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "編輯"
-  },
-  "editContact": {
-    "message": "編輯聯絡資訊"
   },
   "endOfFlowMessage1": {
     "message": "你通過測試了—安全存放助記詞，這是你的責任！"
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "請輸入密碼"
-  },
-  "ethereumPublicAddress": {
-    "message": "以太坊公開位址"
   },
   "etherscanView": {
     "message": "在 Etherscan 上查看帳戶"
@@ -571,17 +541,8 @@
   "myAccounts": {
     "message": "我的帳戶"
   },
-  "myWalletAccounts": {
-    "message": "我的錢包帳號"
-  },
-  "myWalletAccountsDescription": {
-    "message": "所有你在 ECF Wallet 創建的帳號將自動新增到此區塊。"
-  },
   "mustSelectOne": {
     "message": "必須選擇至少 1 代幣"
-  },
-  "needEtherInWallet": {
-    "message": "要使用 ECF Wallet 存取去中心化應用服務時，您的錢包中需要有乙太幣。"
   },
   "needImportFile": {
     "message": "您必須選擇一個檔案來匯入",
@@ -612,9 +573,6 @@
     "message": "帳戶 $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "新聯絡資訊"
-  },
   "newContract": {
     "message": "建立新合約"
   },
@@ -629,12 +587,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "不，我已經有助記詞"
-  },
-  "protectYourKeys": {
-    "message": "保護你的鑰匙！"
-  },
-  "protectYourKeysMessage1": {
-    "message": "小心保管你的註記詞—我們接到報告有網站嘗試模仿 ECF Wallet。ECF Wallet 永遠不會詢問你的助記詞！"
   },
   "rpcUrl": {
     "message": "新的 RPC URL"
@@ -887,20 +839,8 @@
   "settings": {
     "message": "設定"
   },
-  "showAdvancedGasInline": {
-    "message": "顯示進階 Gas 控制選項"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "在交易時顯示可微調 Gas 價格以及 Gas 上限的功能"
-  },
   "showPrivateKeys": {
     "message": "顯示私鑰"
-  },
-  "showHexData": {
-    "message": "顯示16進位資料"
-  },
-  "showHexDataDescription": {
-    "message": "在交易時顯示16進位資料"
   },
   "sign": {
     "message": "簽署"
@@ -928,15 +868,6 @@
   },
   "switchNetworks": {
     "message": "切換網路"
-  },
-  "stateLogs": {
-    "message": "狀態紀錄"
-  },
-  "stateLogsDescription": {
-    "message": "狀態紀錄包含您的公開帳戶位址和已傳送的交易資訊"
-  },
-  "stateLogError": {
-    "message": "在取得狀態紀錄時發生錯誤."
   },
   "step1HardwareWallet": {
     "message": "1. 連線硬體錢包"
@@ -1086,17 +1017,8 @@
   "usedByClients": {
     "message": "可用於各種不同的客戶端"
   },
-  "userName": {
-    "message": "使用者名稱"
-  },
-  "viewAccount": {
-    "message": "查看帳戶"
-  },
   "viewinExplorer": {
     "message": "在 Explorer 上瀏覽"
-  },
-  "viewContact": {
-    "message": "觀看聯絡資訊"
   },
   "viewOnCustomBlockExplorer": {
     "message": "在 $1 瀏覽"

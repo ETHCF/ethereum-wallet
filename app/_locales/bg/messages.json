@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Разширени"
   },
-  "advancedSettingsDescription": {
-    "message": "Достъп до функции за разработчици, изтегляйте дневници, нулиране на акаунта, тестови мрежи за настройка и персонализиран RPC"
-  },
   "advancedOptions": {
     "message": "Разширени опции"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "напр. Джон Д."
-  },
-  "addAlias": {
-    "message": "Добавете псевдоним"
   },
   "addToken": {
     "message": "Добавяне на жетон"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Преглед на акаунт на $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Използване на Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Браузърът ви не се поддържа ..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Изтриване"
   },
-  "deleteAccount": {
-    "message": "Изтриване на акаунт"
-  },
   "deposit": {
     "message": "Депозит"
   },
-  "depositEther": {
-    "message": "Депозирайте етер"
-  },
   "details": {
     "message": "Подробности"
-  },
-  "directDepositEther": {
-    "message": "Директно депозиране на етер"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Ако вече имате някакъв етер, най-бързият начин да получите етер в новия си портфейл е чрез директен депозит."
   },
   "done": {
     "message": "Готово"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Изтеглете тази секретна резервна фраза и я съхранявайте безопасно на външен криптиран твърд диск или носител за съхранение."
   },
-  "downloadStateLogs": {
-    "message": "Изтеглете държавни дневници"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Нямате хардуерен портфейл?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Редактиране"
-  },
-  "editContact": {
-    "message": "Редактиране на контакт"
   },
   "endOfFlowMessage1": {
     "message": "Преминахте теста - пазете основната си фраза на сигурно място, това е Ваша отговорност!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Въведете парола, за да продължите"
-  },
-  "ethereumPublicAddress": {
-    "message": "Публичен адрес за етереум"
   },
   "etherscanView": {
     "message": "Преглед на акаунта в Etherscan"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "Моите акаунти"
   },
-  "myWalletAccounts": {
-    "message": "Моите акаунти в портфейла"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Всичките ви създадени от ECF Wallet акаунти ще бъдат автоматично добавени в този раздел."
-  },
   "mustSelectOne": {
     "message": "Трябва да изберете поне 1 жетон."
-  },
-  "needEtherInWallet": {
-    "message": "За да взаимодействате с децентрализираните приложения, използвайки ECF Wallet, ще ви е необходим етер в портфейла ви."
   },
   "needImportFile": {
     "message": "Трябва да изберете файл за импортиране.",
@@ -618,9 +579,6 @@
     "message": "Акаунт $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Нов контакт"
-  },
   "newContract": {
     "message": "Нов договор"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Не, вече имам фраза зародиш"
-  },
-  "protectYourKeys": {
-    "message": "Защитете ключовете си!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Внимавайте с вашата фраза - има съобщения за уебсайтове, които се опитват да имитират ECF Wallet. ECF Wallet никога няма да поиска вашата фраза-зародиш!"
   },
   "rpcUrl": {
     "message": "Нов URL адрес за RPC"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "Настройки"
   },
-  "showAdvancedGasInline": {
-    "message": "Разширено управление на газа"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Изберете това, за да покажете цените на газа и ограничите контрола директно на екраните за изпращане и потвърждение."
-  },
   "showPrivateKeys": {
     "message": "Показване на частни ключове"
-  },
-  "showHexData": {
-    "message": "Показване на шестнадесетични данни"
-  },
-  "showHexDataDescription": {
-    "message": "Изберете това, за да се покаже полето с шестнадесетични данни на екрана за изпращане"
   },
   "sign": {
     "message": "Подпис"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "Превключване на мрежи"
-  },
-  "stateLogs": {
-    "message": "Държавни дневници"
-  },
-  "stateLogsDescription": {
-    "message": "Държавните дневници съдържат адресите на публичните ви акаунти и изпратените транзакции."
-  },
-  "stateLogError": {
-    "message": "Грешка при извличането на дневници на състоянието."
   },
   "step1HardwareWallet": {
     "message": "1. Свържете хардуерния портфейл"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "Използва се от различни клиенти"
   },
-  "userName": {
-    "message": "Потребителско име"
-  },
-  "viewAccount": {
-    "message": "Преглед на профила"
-  },
   "viewinExplorer": {
     "message": "Преглед в Explorer"
-  },
-  "viewContact": {
-    "message": "Преглед на контакта"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Преглед на $1"

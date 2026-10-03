@@ -38,9 +38,6 @@
   "addRecipient": {
     "message": "Magdagdag ng Recipient"
   },
-  "advancedSettingsDescription": {
-    "message": "I-access ang mga feature para sa mga developer, mag-download ng mga State Log, I-reset ang Account, mag-set up ng mga testnet at custom RPC"
-  },
   "advancedOptions": {
     "message": "Mga Advanced na Opsyon"
   },
@@ -49,9 +46,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "hal. Juan D."
-  },
-  "addAlias": {
-    "message": "Magdagdag ng alias"
   },
   "addToken": {
     "message": "Magdagdag ng Token"
@@ -118,9 +112,6 @@
   "blockExplorerView": {
     "message": "Tingnan ang account sa $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Gumamit ng Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Hindi sinusuportahan ang iyong Browser..."
@@ -239,23 +230,11 @@
   "delete": {
     "message": "I-delete"
   },
-  "deleteAccount": {
-    "message": "I-delete ang Account"
-  },
   "deposit": {
     "message": "Deposito"
   },
-  "depositEther": {
-    "message": "Magdeposito ng Ether"
-  },
   "details": {
     "message": "Mga Detalye"
-  },
-  "directDepositEther": {
-    "message": "Direktang Magdeposito ng Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Kung mayroon ka nang Ether, ang pinakamabilis na paraan para magkaroon ng Ether sa iyong bagong wallet ay sa pamamagitan ng direkang deposito."
   },
   "done": {
     "message": "Tapos na"
@@ -266,9 +245,6 @@
   "downloadSecretBackup": {
     "message": "I-download ang Secret Backup Phrase na ito at panatilhing itong nakatago nang ligtas sa isang external na encrypted hard drive o storage medium."
   },
-  "downloadStateLogs": {
-    "message": "I-download ang mga State Log"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Wala ka bang hardware wallet?"
   },
@@ -277,9 +253,6 @@
   },
   "edit": {
     "message": "I-edit"
-  },
-  "editContact": {
-    "message": "I-edit ang Contact"
   },
   "endOfFlowMessage1": {
     "message": "Pumasa ka sa test - panatilihing ligtas ang iyong seedphrase, responsibilidad mo ito!"
@@ -522,17 +495,8 @@
   "myAccounts": {
     "message": "Mga Account Ko"
   },
-  "myWalletAccounts": {
-    "message": "Mga Wallet Account Ko"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Ang lahat ng iyong account na ginawa sa ECF Wallet ay awtomatikong idadagdag sa seksyong ito."
-  },
   "mustSelectOne": {
     "message": "Dapat pumili ng kahit 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Para gumamit ng mga decentralized na application gamit ang ECF Wallet, mangangailangan ka ng Ether sa iyong wallet."
   },
   "needImportFile": {
     "message": "Dapat kang pumili ng file na ii-import.",
@@ -559,9 +523,6 @@
   "newAccountDetectedDialogMessage": {
     "message": "Naka-detect ng bagong address! Mag-click dito para idagdag ang iyong address book."
   },
-  "newContact": {
-    "message": "Bagong Contact"
-  },
   "newContract": {
     "message": "Bagong Contract"
   },
@@ -576,12 +537,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Hindi, may seed phrase na ako"
-  },
-  "protectYourKeys": {
-    "message": "Protektahan Ang Iyong Mga Key!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Mag-ingat sa iyong seed phrase — may mga ulat na may mga website na nagpapanggap bilang ECF Wallet. Hindi kailanman hihilingin ng ECF Wallet ang iyong seed phrase!"
   },
   "rpcUrl": {
     "message": "Bagong RPC URL"
@@ -833,20 +788,8 @@
   "settings": {
     "message": "Mga Setting"
   },
-  "showAdvancedGasInline": {
-    "message": "Mga advanced na kontrol sa gas"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Piliin ito para ipakita ang presyo ng gas at limitahan ang mga kontrol nang direkta sa screen ng pagpapadala at pagkumpirma."
-  },
   "showPrivateKeys": {
     "message": "Ipakita ang mga Private Key"
-  },
-  "showHexData": {
-    "message": "Ipakita ang Hex Data"
-  },
-  "showHexDataDescription": {
-    "message": "Piliin ito para ipakita ang hex data field sa screen ng pagpapadala"
   },
   "sign": {
     "message": "I-sign"
@@ -868,15 +811,6 @@
   },
   "switchNetworks": {
     "message": "Lumipat ng Network"
-  },
-  "stateLogs": {
-    "message": "Mga State Log"
-  },
-  "stateLogsDescription": {
-    "message": "Ang mga state log ay naglalaman ng iyong mga pampublikong account address at mga ipinadalang transaksyon."
-  },
-  "stateLogError": {
-    "message": "May error sa pagkuha sa mga state log."
   },
   "step1HardwareWallet": {
     "message": "1. Magkonekta ng Hardware Wallet"
@@ -1020,14 +954,8 @@
   "usedByClients": {
     "message": "Ginagamit ng iba't ibang client"
   },
-  "viewAccount": {
-    "message": "Tingnan ang Account"
-  },
   "viewinExplorer": {
     "message": "Tingnan sa Explorer"
-  },
-  "viewContact": {
-    "message": "Tingnan ang Contact"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Tingnan sa $1"

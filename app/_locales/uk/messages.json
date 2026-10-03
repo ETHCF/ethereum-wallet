@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Розширені"
   },
-  "advancedSettingsDescription": {
-    "message": "Отримайте доступ до функцій розробника, завантажте Логи станів, перезапустіть обліковий запис, налаштуйте тестові сітки та персоніфіковані RPC"
-  },
   "advancedOptions": {
     "message": "Додаткові параметри"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "Напр.: Джон Д."
-  },
-  "addAlias": {
-    "message": "Додати псевдо"
   },
   "addToken": {
     "message": "Додати токен"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Переглянути обліковий запис на $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Викоритовувати Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Ваш браузер не підтримується..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Видалити"
   },
-  "deleteAccount": {
-    "message": "Видалити обліковий запис"
-  },
   "deposit": {
     "message": "Депозит"
   },
-  "depositEther": {
-    "message": "Депонувати Ether"
-  },
   "details": {
     "message": "Деталі"
-  },
-  "directDepositEther": {
-    "message": "Внести безпосередньо Ефір"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Якщо ви вже маєте ефір, пряме переведення – найшвидший спосіб передати ефір у свій гаманець."
   },
   "done": {
     "message": "Готово"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Завантажте цю Секретну резервну фразу та зберігайте її у безпеці на зовнішньому зашифрованому жорсткому диску або носії інформації."
   },
-  "downloadStateLogs": {
-    "message": "Завантажити журнали стану"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Не маєте апаратного гаманця?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Редагувати"
-  },
-  "editContact": {
-    "message": "Редагувати контракт"
   },
   "endOfFlowMessage1": {
     "message": "Ви пройшли тест, зберігайте вашу початкову фразу в безпеці - це ваша відповідальність!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Введіть пароль, щоб продовжити"
-  },
-  "ethereumPublicAddress": {
-    "message": "Публічна адреса Ethereum"
   },
   "etherscanView": {
     "message": "Переглянути обліковий запис на Etherscan"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "Мої облікові записи"
   },
-  "myWalletAccounts": {
-    "message": "Облікові записи мого гаманця"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Усі ваші створені облікові записи ECF Wallet буде автоматично додано в цей розділ."
-  },
   "mustSelectOne": {
     "message": "Слід вибрати хоча б 1 токен."
-  },
-  "needEtherInWallet": {
-    "message": "Щоб взаємодіяти з децентралізованими застосунками використовуючи ECF Wallet, вам буде потрібен Ether у вашому гаманці."
   },
   "needImportFile": {
     "message": "Потрібно вибрати файл для імпорту.",
@@ -618,9 +579,6 @@
     "message": "Обліковий запис $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Новий контакт"
-  },
   "newContract": {
     "message": "Новий контракт"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ні, я вже маю початкову фразу"
-  },
-  "protectYourKeys": {
-    "message": "Захистіть свої ключі!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Будьте обережними з вашою початковою фразою - надходила інформація про сайти, які намагались імітувати ECF Wallet. ECF Wallet ніколи не запитує вашої початкової фрази!"
   },
   "rpcUrl": {
     "message": "Новий RPC URL"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "Налаштування"
   },
-  "showAdvancedGasInline": {
-    "message": "Розширене керування газом"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Виберіть цей параметр, щоб відображати регулятори ціни й ліміту газу на екранах надсилання й підтвердження."
-  },
   "showPrivateKeys": {
     "message": "Показати приватні ключі"
-  },
-  "showHexData": {
-    "message": "Показати шістнадцятирикові дані"
-  },
-  "showHexDataDescription": {
-    "message": "Оберіть це, щоб показати поле для шістнадцятирикових даних на екрані надсилання"
   },
   "sign": {
     "message": "Підписати"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "Переключити мережі"
-  },
-  "stateLogs": {
-    "message": "Логи стану"
-  },
-  "stateLogsDescription": {
-    "message": "Логи стану містять ваші публічні адреси облікового запису та надіслані транзакції."
-  },
-  "stateLogError": {
-    "message": "При отриманні логів стану сталася помилка."
   },
   "step1HardwareWallet": {
     "message": "1. Приєднайте апаратний гаманець"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "Використовується низкою різних клієнтів"
   },
-  "userName": {
-    "message": "Ім’я користувача"
-  },
-  "viewAccount": {
-    "message": "Переглянути обліковий запис"
-  },
   "viewinExplorer": {
     "message": "Дивитись в Explorer"
-  },
-  "viewContact": {
-    "message": "Переглянути контакт"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Дивитись на $1"

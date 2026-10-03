@@ -43,9 +43,6 @@
   "balance": {
     "message": "उपलब्ध बैलेंस।"
   },
-  "blockiesIdenticon": {
-    "message": "ब्लॉकीज पहचान का उपयोग करें"
-  },
   "cancel": {
     "message": "रद्द करें"
   },
@@ -91,23 +88,11 @@
   "deposit": {
     "message": "जमा"
   },
-  "depositEther": {
-    "message": "जमा - Ether"
-  },
   "details": {
     "message": "संदेश विवरण"
   },
-  "directDepositEther": {
-    "message": "सीधे ईथर जमा करें"
-  },
-  "directDepositEtherExplainer": {
-    "message": "यदि आपके पास पहले से कुछ ईथर है, तो सीधे जमा द्वारा अपने नए बटुए में ईथर प्राप्त करने का तेज़ तरीका है।"
-  },
   "done": {
     "message": "संपन्न"
-  },
-  "downloadStateLogs": {
-    "message": "राज्य लॉग डाउनलोड करें"
   },
   "edit": {
     "message": "संपादित करें"
@@ -225,9 +210,6 @@
   "mustSelectOne": {
     "message": "कम से कम 1 टोकन का चयन करना आवश्यक है।"
   },
-  "needEtherInWallet": {
-    "message": "मेटामास्क का उपयोग करने वाले विकेन्द्रीकृत अनुप्रयोगों के साथ बातचीत करने के लिए, आपको अपने वॉलेट में ईथर की आवश्यकता होगी।"
-  },
   "needImportFile": {
     "message": "आयात करने के लिए आपको एक फ़ाइल का चयन करना होगा।",
     "description": "प्रयोक्ता महत्वपूर्ण खाता है और उसे जारी रखने के लिए एक फ़ाइल जोड़ने की आवश्यकता है"
@@ -343,12 +325,6 @@
   "sigRequest": {
     "message": "हस्ताक्षर अनुरोध"
   },
-  "stateLogs": {
-    "message": "स्थिति संदेश"
-  },
-  "stateLogsDescription": {
-    "message": "स्थिति संदेश में आपका सार्वजनिक खाता, पतों और भेजे गए लेनदेन, होते हैं।"
-  },
   "symbolBetweenZeroTwelve": {
     "message": "प्रतीक 11 वर्ण या उससे कम का होना चाहिए।"
   },
@@ -385,9 +361,6 @@
   },
   "usedByClients": {
     "message": "विभिन्न क्लाइंट्स द्वारा उपयोग किया जाता है"
-  },
-  "viewAccount": {
-    "message": "खाता देखें"
   },
   "visitWebSite": {
     "message": "हमारी वेब साइट पर जाएं"

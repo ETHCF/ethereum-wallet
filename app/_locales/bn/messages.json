@@ -44,9 +44,6 @@
   "advanced": {
     "message": "উন্নত"
   },
-  "advancedSettingsDescription": {
-    "message": "ডেভেলপারের বৈশিষ্ট্যগুলি অ্যাক্সেস করুন, স্টেট লগগুলি ডাউনলোড করুন, অ্যাকাউন্ট রিসেট করুন, টেস্টনেটস এবং কাস্টম RPC সেটআপ করুন।"
-  },
   "advancedOptions": {
     "message": "উন্নত বিকল্পসমূহ"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "যেমন জন.ডি."
-  },
-  "addAlias": {
-    "message": "উপনাম যোগ করুন"
   },
   "addToken": {
     "message": "টোকেন যোগ করুন"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "$1 এ অ্যাকাউন্ট দেখুন",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "ব্লকিজ আইডেন্টিকন ব্যবহার করুন"
   },
   "browserNotSupported": {
     "message": "আপনার ব্রাউজার সমর্থিত নয়..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "মুছুন"
   },
-  "deleteAccount": {
-    "message": "অ্যাকাউন্ট মুছুন"
-  },
   "deposit": {
     "message": "জমা "
   },
-  "depositEther": {
-    "message": "ইথার জমা করুন"
-  },
   "details": {
     "message": "বিশদ বিবরণ"
-  },
-  "directDepositEther": {
-    "message": "সরাসরি ইথার জমা করুন"
-  },
-  "directDepositEtherExplainer": {
-    "message": "আপনার ইতিমধ্যে কিছু ইথার থেকে থাকলে আপনার নতুন ওয়ালেটে ইথার পাওয়ার দ্রুততম উপায় হল সরাসরি জমা করা।"
   },
   "done": {
     "message": "সম্পন্ন "
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "এই গোপন ব্যাকআপ বাক্যাংশটি ডাউনলোড করুন এবং একটি বাইরের এনক্রিপ্ট করা হার্ড ড্রাইভ বা স্টোরেজের বন্দোবস্তে নিরাপদে সংরক্ষণ করুন।"
   },
-  "downloadStateLogs": {
-    "message": "স্টেট লগগুলি ডাউনলোড করুন"
-  },
   "dontHaveAHardwareWallet": {
     "message": "একটি হার্ডওয়্যার ওয়ালেট নেই?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "সম্পাদনা"
-  },
-  "editContact": {
-    "message": "পরিচিতি সম্পাদনা করুন"
   },
   "endOfFlowMessage1": {
     "message": "আপনি টেস্টটি পাস করেছেন - আপনার সীডফ্রেজ নিরাপদে রাখুন, এটি আপনার দায়িত্ব!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "অবিরত রাখতে পাসওয়ার্ড লিখুন"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum পাবলিক অ্যাড্রেস"
   },
   "etherscanView": {
     "message": "Etherscan এ অ্যাকাউন্ট দেখুন"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "আমার অ্যাকাউন্টগুলি"
   },
-  "myWalletAccounts": {
-    "message": "আমার ওয়ালেট অ্যাকাউন্টগুলি"
-  },
-  "myWalletAccountsDescription": {
-    "message": "ECF Wallet এর তৈরি করা আপনার সমস্ত অ্যাকাউন্টগুলি স্বয়ংক্রিয়ভাবে এই বিভাগে যোগ হয়ে যাবে।"
-  },
   "mustSelectOne": {
     "message": "অবশ্যই অন্তত 1টি টোকেন নির্বাচন করতে হবে।"
-  },
-  "needEtherInWallet": {
-    "message": "ECF Wallet ব্যবহার করে ছড়িয়ে ছিটিয়ে থাকা অ্যাপ্লিকেশনগুলির সাথে যোগাযোগ করতে, আপনার ওয়ালেটে ইথার লাগবে।"
   },
   "needImportFile": {
     "message": "আমদানি করার জন্য আপনাকে অবশ্যই একটি ফাইল নির্বাচন করতে হবে।",
@@ -618,9 +579,6 @@
     "message": "অ্যাকাউন্ট $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "নতুন পরিচিতি"
-  },
   "newContract": {
     "message": "নতুন কন্ট্র্যাক্ট"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "না, আমার আগে থেকেই একটি সীড ফ্রেজ আছে"
-  },
-  "protectYourKeys": {
-    "message": "আপনার কীগুলি সুরক্ষিত করুন!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "আপনার সীড ফ্রেজ বিষয়ে সাবধান থাকুন — এমন ওয়েবসাইটগুলির রিপোর্ট পাওয়া গেছে যেগুলি ECF Wallet কে অনুকরণ করার চেষ্টা করে। ECF Wallet কখনও আপনার সীড ফ্রেজ জিজ্ঞাসা করবে না।"
   },
   "rpcUrl": {
     "message": "নতুন RPC URL"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "সেটিংস"
   },
-  "showAdvancedGasInline": {
-    "message": "উন্নত গ্যাস নিয়ন্ত্রণসমূহ"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "গ্যাসের মূল্য দেখাতে এটি নির্বাচন করুন এবং পাঠানোর এবং নিশ্চিতকরণের স্ক্রিনগুলিতে নিয়ন্ত্রণগুলি সরাসরি সীমিত করুন।"
-  },
   "showPrivateKeys": {
     "message": "গোপনীয় কীগুলি দেখান"
-  },
-  "showHexData": {
-    "message": "হেক্স ডেটা দেখান"
-  },
-  "showHexDataDescription": {
-    "message": "পাঠাবার স্ক্রিনে হেক্স ডেটা ফিল্ডটি দেখাবার জন্য এটি নির্বাচন করুন"
   },
   "sign": {
     "message": "স্বাক্ষর করুন"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "নেটওয়ার্কগুলি বদলান"
-  },
-  "stateLogs": {
-    "message": "স্টেট লগসমূহ"
-  },
-  "stateLogsDescription": {
-    "message": "স্টেট লগগুলিতে আপনার পাবলিক অ্যাকাউন্টের ঠিকানা এবং প্রেরণ করার লেনদেনগুলি আছে।"
-  },
-  "stateLogError": {
-    "message": "স্টেট লগগুলি পুনরুদ্ধার করার ত্রুটি।"
   },
   "step1HardwareWallet": {
     "message": "1. হার্ডওয়্যার ওয়ালেট সংযুক্ত করুন"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "বিভিন্ন ধরণের গ্রাহকদের দ্বারা ব্যবহৃত হয়"
   },
-  "userName": {
-    "message": "ইউজারনেম"
-  },
-  "viewAccount": {
-    "message": "আ্যাকাউন্ট দেখুন"
-  },
   "viewinExplorer": {
     "message": "এক্সপ্লোরারে দেখুন"
-  },
-  "viewContact": {
-    "message": "পরিচিতি দেখুন"
   },
   "viewOnCustomBlockExplorer": {
     "message": "$1 এ দেখুন"

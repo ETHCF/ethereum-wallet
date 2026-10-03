@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Täpsemad"
   },
-  "advancedSettingsDescription": {
-    "message": "Juurdepääs arendaja funktsioonidele, olekulogide allalaadimine, konto lähtestamine, testvõrkude ja kohandatud RPC-de seadistamine"
-  },
   "advancedOptions": {
     "message": "Täpsemad suvandid"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "nt John D."
-  },
-  "addAlias": {
-    "message": "Lisage alias"
   },
   "addToken": {
     "message": "Lisage luba"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Vaata kontot $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Kasuta Blockies Identiconi"
   },
   "browserNotSupported": {
     "message": "Teie lehitsejat ei toetata..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Kustuta"
   },
-  "deleteAccount": {
-    "message": "Kustuta konto"
-  },
   "deposit": {
     "message": "Sissemakse"
   },
-  "depositEther": {
-    "message": "Eetri sissemakse"
-  },
   "details": {
     "message": "Üksikasjad"
-  },
-  "directDepositEther": {
-    "message": "Eetri otsene sissemakse"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Kui teil on juba veidi eetrit, on kiirem viis eetri rahakotti saamiseks otsene sissemakse."
   },
   "done": {
     "message": "Valmis"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Laadige see salajane varundusfraas alla ja hoidke seda turvaliselt välisel krüpteeritud kõvakettal või andmekandjal."
   },
-  "downloadStateLogs": {
-    "message": "Olekulogide allalaadimine"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Teil ei ole riistvara rahakotti?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Muuda"
-  },
-  "editContact": {
-    "message": "Muuda kontakti"
   },
   "endOfFlowMessage1": {
     "message": "Läbisite kontrolli – hoidke seemnefraasi turvaliselt, see on teie vastutusel!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Jätkamiseks sisestage parool"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereumi avalik aadress"
   },
   "etherscanView": {
     "message": "Vaadake kontot Etherscanil"
@@ -571,17 +541,8 @@
   "myAccounts": {
     "message": "Minu kontod"
   },
-  "myWalletAccounts": {
-    "message": "Minu rahakotikontod"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Sellesse jaotisesse lisatakse automaatselt kõik teie EcfWalleti kontod."
-  },
   "mustSelectOne": {
     "message": "Peate valima vähemalt 1 loa."
-  },
-  "needEtherInWallet": {
-    "message": "Selleks, et suhelda EcfWalleti abil detsentraliseeritud rakendustega, peab teil rahakotis eetrit olema."
   },
   "needImportFile": {
     "message": "Peate importimiseks faili valima.",
@@ -612,9 +573,6 @@
     "message": "Konto $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Uus kontakt"
-  },
   "newContract": {
     "message": "Uus kontakt"
   },
@@ -629,12 +587,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ei, mul on juba seemnefraas"
-  },
-  "protectYourKeys": {
-    "message": "Kaitske oma võtmeid!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Kaitske oma seemnefraasi. Meid on teavitatud veebilehtedest, mis püüavad EcfWalleti jäljendada. ECF Wallet ei küsi teilt kunagi teie seemnefraasi!"
   },
   "rpcUrl": {
     "message": "Uus RPC URL"
@@ -902,20 +854,8 @@
   "settings": {
     "message": "Seaded"
   },
-  "showAdvancedGasInline": {
-    "message": "Täiustatud gaasijuhikud"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Valige see, et kuvada gaasi hinda ja piirangut otse saatmise ning kinnitamise kuval."
-  },
   "showPrivateKeys": {
     "message": "Kuva privaatvõtmed"
-  },
-  "showHexData": {
-    "message": "Kuva Hex-andmed"
-  },
-  "showHexDataDescription": {
-    "message": "Valige see, et kuvada saatmisekraanil hex-andmete väli"
   },
   "sign": {
     "message": "Allkirjasta"
@@ -943,15 +883,6 @@
   },
   "switchNetworks": {
     "message": "Vaheta võrku"
-  },
-  "stateLogs": {
-    "message": "Olekulogid"
-  },
-  "stateLogsDescription": {
-    "message": "Olekulogid sisaldavad teie avalikke konto aadresse ja saadetud tehinguid."
-  },
-  "stateLogError": {
-    "message": "Olekulogide saamisel ilmnes tõrge."
   },
   "step1HardwareWallet": {
     "message": "1. Ühendage riistvara rahakott"
@@ -1101,17 +1032,8 @@
   "usedByClients": {
     "message": "Kasutavad erinevad kliendid"
   },
-  "userName": {
-    "message": "Kasutajanimi"
-  },
-  "viewAccount": {
-    "message": "Kuva konto"
-  },
   "viewinExplorer": {
     "message": "Kuva Exploreris"
-  },
-  "viewContact": {
-    "message": "Kuva kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Vaata $1"

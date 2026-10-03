@@ -164,7 +164,12 @@ async function verifyLocale (code) {
 
 async function verifyEnglishLocale () {
   const englishLocale = await getLocale('en')
-  const javascriptFiles = await findJavascriptFiles(path.resolve(__dirname, '..', 'ui'))
+  // Message keys are referenced from the background too, for example the
+  // security alert ids in app/scripts/lib/security-checks.js.
+  const javascriptFiles = [
+    ...await findJavascriptFiles(path.resolve(__dirname, '..', 'ui')),
+    ...await findJavascriptFiles(path.resolve(__dirname, '..', 'app', 'scripts')),
+  ]
 
   // match "t(`...`)" because constructing message keys from template strings
   // prevents this script from finding the messages, and then inappropriately

@@ -44,9 +44,6 @@
   "advanced": {
     "message": "پیشرفته"
   },
-  "advancedSettingsDescription": {
-    "message": "مشخصات توسعه دهنده دسترسی، دفترچه ثبت وضعیت دانلود، دوباره سازی حساب، شبکه های آزمایشی تنظیمات و RPC معمول."
-  },
   "advancedOptions": {
     "message": "گزینه های پیشرفته"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "مثلًا. John D."
-  },
-  "addAlias": {
-    "message": "نام مستعار اضافه کنید"
   },
   "addToken": {
     "message": "یک رمز یاب اضافه کنید"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "مشاهده حساب در 1$1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "استفاده شناسا بلوک ها"
   },
   "browserNotSupported": {
     "message": "مرورگر شما پشتیبانی نمیشود"
@@ -266,23 +257,11 @@
   "delete": {
     "message": "حذف"
   },
-  "deleteAccount": {
-    "message": "حذف حساب"
-  },
   "deposit": {
     "message": "سپرده"
   },
-  "depositEther": {
-    "message": "پرداخت ایتر"
-  },
   "details": {
     "message": "جزئیات"
-  },
-  "directDepositEther": {
-    "message": "پرداخت مستقیم ایتر"
-  },
-  "directDepositEtherExplainer": {
-    "message": "در صورتیکه شما کدام ایتر داشته باشید، سریعترین روش برای گرفتن ایتر در کیف جدید تان توسط پرداخت مستقیم."
   },
   "done": {
     "message": "تمام"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "این عبارت مخفی پشتیبان را دانلود نموده و بصورت مصؤن در هارد دیسک خارجی یا وسیله ذخیره دیگر رمز گذاری شده، ذخیره نمایید."
   },
-  "downloadStateLogs": {
-    "message": "دانلود دفترچه وضعیت"
-  },
   "dontHaveAHardwareWallet": {
     "message": "آیا کیف سخت افزار ندارید؟"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "ویرایش"
-  },
-  "editContact": {
-    "message": "ویرایش تماس"
   },
   "endOfFlowMessage1": {
     "message": "شما در امتحان موفق شدید - عبارت بازیابی را مصؤن نگهدارید، این مسؤلیت شماست!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "برای ادامه رمز عبور را وارد کنید"
-  },
-  "ethereumPublicAddress": {
-    "message": "آدرس عمومی ایتریم"
   },
   "etherscanView": {
     "message": "حساب را در Etherscan ببینید"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "حساب های من"
   },
-  "myWalletAccounts": {
-    "message": "حساب های کیف من"
-  },
-  "myWalletAccountsDescription": {
-    "message": "همه حساب های ایجاد شده ECF Wallet شما بصورت خودکار در این بخش اضافه خواهد شد."
-  },
   "mustSelectOne": {
     "message": "باید حداقل 1 رمزیاب را انتخاب کنید."
-  },
-  "needEtherInWallet": {
-    "message": "برای تعامل با اپلیکیشن های غیر متمرکز شده با استفاده از ECF Wallet، شما نیاز به ایتر در کیف تان خواهید داشت."
   },
   "needImportFile": {
     "message": "شما باید یک فایل برای وارد کردن را انتخاب کنید.",
@@ -618,9 +579,6 @@
     "message": "حساب 1$1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "تماس جدید"
-  },
   "newContract": {
     "message": "قرارداد جدید"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "نه خیر، من از قبل یک عبارت بازیاب داشتم"
-  },
-  "protectYourKeys": {
-    "message": "کلید های خود را حفظ کنید!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "مراقب عبارت بازیاب تان باشید - گفته هایی وجود دارد که وبسایت ها تلاش میکنند تا از ECF Wallet نسخه برداری کنند. ECF Wallet هرگز از شما عبارت بازیاب را نمیپرسد!"
   },
   "rpcUrl": {
     "message": "RPC URL جدید"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "تنظیمات"
   },
-  "showAdvancedGasInline": {
-    "message": "کنترول های پیشرفته گاز"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "این را انتخاب نمایید تا قیمت گاز را نشان داده و کنترول ها را بصورت مستقیم در صفحات ارسال و تأیید محدود نماید."
-  },
   "showPrivateKeys": {
     "message": "نمایش کلید های شخصی"
-  },
-  "showHexData": {
-    "message": "نمایش اطلاعات Hex"
-  },
-  "showHexDataDescription": {
-    "message": "برای نمایش بخش اطلاعات hex در صفحه ارسال این را انتخاب نمایید"
   },
   "sign": {
     "message": "علامت"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "تغییر شبکه ها"
-  },
-  "stateLogs": {
-    "message": "دفترچه وضعیت"
-  },
-  "stateLogsDescription": {
-    "message": "دفترچه وضعیت شامل آدرس های حساب عمومی و معاملات فرستاده شده تان میباشد."
-  },
-  "stateLogError": {
-    "message": "خطا در بازیابی دفترچه وضعیت"
   },
   "step1HardwareWallet": {
     "message": "1. اتصال کیف سخت افزار"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "استفاده شده توسط گروهی از مشتریان مختلف"
   },
-  "userName": {
-    "message": "نام کاربری"
-  },
-  "viewAccount": {
-    "message": "مشاهده حساب"
-  },
   "viewinExplorer": {
     "message": "مشاهده در براوزر"
-  },
-  "viewContact": {
-    "message": "مشاهده تماس"
   },
   "viewOnCustomBlockExplorer": {
     "message": "مشاهده در 1$1"

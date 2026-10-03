@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Paramètres avancés"
   },
-  "advancedSettingsDescription": {
-    "message": "Accédez aux fonctionnalités pour les développeurs, téléchargez State Logs, réinitialisez votre compte, configurez testnets et personnalisez RPC"
-  },
   "advancedOptions": {
     "message": "Options avancées"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "p. ex. John D."
-  },
-  "addAlias": {
-    "message": "Ajouter un alias"
   },
   "addToken": {
     "message": "Ajouter un jeton"
@@ -127,9 +121,6 @@
   "blockExplorerView": {
     "message": "Afficher le compte à $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Utiliser les Identicon Blockies"
   },
   "browserNotSupported": {
     "message": "Votre navigateur internet n'est pas supporté..."
@@ -254,23 +245,11 @@
   "delete": {
     "message": "Supprimer"
   },
-  "deleteAccount": {
-    "message": "Supprimer le compte"
-  },
   "deposit": {
     "message": "Déposer"
   },
-  "depositEther": {
-    "message": "Déposer de l'Ether"
-  },
   "details": {
     "message": "Détails"
-  },
-  "directDepositEther": {
-    "message": "Dépôt direct d'Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Si vous avez déjà de l'Ether, le moyen le plus rapide d'obtenir des Ether dans votre nouveau portefeuille est par dépôt direct."
   },
   "done": {
     "message": "Terminé"
@@ -281,9 +260,6 @@
   "downloadSecretBackup": {
     "message": "Téléchargez cette phrase de sauvegarde secrète et conservez-la en lieu sûr sur un disque dur ou un support de stockage externe chiffré."
   },
-  "downloadStateLogs": {
-    "message": "Télécharger les Logs d'état"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Vous n'avez pas de portefeuille hardware ?"
   },
@@ -292,9 +268,6 @@
   },
   "edit": {
     "message": "Modifier"
-  },
-  "editContact": {
-    "message": "Modifier le contact"
   },
   "endOfFlowMessage1": {
     "message": "Vous avez réussi l'essai : gardez votre phrase de départ en sécurité, c'est de votre responsabilité !"
@@ -337,9 +310,6 @@
   },
   "enterPasswordContinue": {
     "message": "Entrez votre mot de passe pour continuer"
-  },
-  "ethereumPublicAddress": {
-    "message": "Adresse publique d'Ethereum"
   },
   "etherscanView": {
     "message": "Afficher le compte sur Etherscan"
@@ -498,18 +468,6 @@
   "invalidSeedPhrase": {
     "message": "Phrase Seed invalide"
   },
-  "ipfsGateway": {
-    "message": "IPFS Gateway"
-  },
-  "ipfsGatewayDescription": {
-    "message": "Entrez l'URL de la gateway CID IPFS à utiliser pour résoudre les contenus ENS."
-  },
-  "invalidIpfsGateway": {
-    "message": "IPFS Gateway Invalide: la valeur doit être une URL valide"
-  },
-  "forbiddenIpfsGateway": {
-    "message": "IPFS Gateway Interdite: veuillez spécifier une gateway CID"
-  },
   "jsonFile": {
     "message": "Fichier JSON",
     "description": "format for importing an account"
@@ -559,17 +517,8 @@
   "myAccounts": {
     "message": "Mes comptes"
   },
-  "myWalletAccounts": {
-    "message": "Mes comptes de portefeuille"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Tous vos comptes ECF Wallet créés seront automatiquement ajoutés à cette section."
-  },
   "mustSelectOne": {
     "message": "Vous devez selectionner au moins 1 jeton."
-  },
-  "needEtherInWallet": {
-    "message": "Pour interagir avec des applications décentralisées à l'aide de ECF Wallet, vous avez besoin d'Ether dans votre portefeuille."
   },
   "needImportFile": {
     "message": "Vous devez sélectionner un fichier à importer.",
@@ -600,9 +549,6 @@
     "message": "Compte $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Nouveau contact"
-  },
   "newContract": {
     "message": "Nouveau contrat"
   },
@@ -617,12 +563,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Non, j'ai déjà une phrase mnémotechnique"
-  },
-  "protectYourKeys": {
-    "message": "Protégez vos clés !"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Soyez prudent avec votre phrase mnémotechnique — on nous a signalé des sites web qui tentaient d'imiter ECF Wallet. ECF Wallet ne vous demandera jamais votre phrase mnémotechnique !"
   },
   "rpcUrl": {
     "message": "Nouvelle URL de RPC"
@@ -890,20 +830,8 @@
   "settings": {
     "message": "Paramètres"
   },
-  "showAdvancedGasInline": {
-    "message": "Contrôles d'essence avancés"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Sélectionnez cette option pour afficher le prix de l'essence et les contrôles des limites directement sur les écrans d'envoi et de confirmation."
-  },
   "showPrivateKeys": {
     "message": "Afficher les clés privées"
-  },
-  "showHexData": {
-    "message": "Afficher les données Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Selectionner ici pour afficher le champs de données hex dans l'écran d'envoi"
   },
   "sign": {
     "message": "Signer"
@@ -931,15 +859,6 @@
   },
   "switchNetworks": {
     "message": "Changer de réseau"
-  },
-  "stateLogs": {
-    "message": "Logs d'Etat"
-  },
-  "stateLogsDescription": {
-    "message": "Les logs d'Etat contiennent les adresses publiques de vos comptes et vos transactions envoyées."
-  },
-  "stateLogError": {
-    "message": "Erreur lors du chargement des logs d'Etat."
   },
   "step1HardwareWallet": {
     "message": "1. Connecter le portefeuille hardware"
@@ -1083,17 +1002,8 @@
   "usedByClients": {
     "message": "Utilisé par une variété de clients différents"
   },
-  "userName": {
-    "message": "Nom d'utilisateur"
-  },
-  "viewAccount": {
-    "message": "Afficher le compte"
-  },
   "viewinExplorer": {
     "message": "Afficher dans Explorer"
-  },
-  "viewContact": {
-    "message": "Voir contact"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Afficher à $1"

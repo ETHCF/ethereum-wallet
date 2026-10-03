@@ -76,17 +76,8 @@
   "deposit": {
     "message": "Ký gửi/nạp tiền"
   },
-  "depositEther": {
-    "message": "Ký gửi Ether"
-  },
   "details": {
     "message": "Chi tiết"
-  },
-  "directDepositEther": {
-    "message": "Ký gửi Ether trực tiếp"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Nếu bạn đã có sẵn vài Ether, cách nhanh nhất để thêm Ether vào ví tiền mới của bạn là bằng ký gửi trực tiếp."
   },
   "done": {
     "message": "Hoàn tất"
@@ -173,9 +164,6 @@
   },
   "myAccounts": {
     "message": "Tài khoản của tôi"
-  },
-  "needEtherInWallet": {
-    "message": "Để tương tác với các ứng dụng phân tán bằng ECF Wallet, bạn sẽ phải cần có Ether trong ví của bạn."
   },
   "needImportFile": {
     "message": "Bạn phải chọn một tập tin để nhập.",
@@ -280,9 +268,6 @@
   },
   "usedByClients": {
     "message": "Được sử dụng bởi nhiều khách hàng khác nhau"
-  },
-  "viewAccount": {
-    "message": "Xem tài khoản"
   },
   "yourSigRequested": {
     "message": "Chữ ký của bạn đang được yêu cầu"

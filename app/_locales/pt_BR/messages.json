@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Avançado"
   },
-  "advancedSettingsDescription": {
-    "message": "Acesse recursos do desenvolvedor, baixe registros de estado, redefina a conta, configure testnets e personalize RPC"
-  },
   "advancedOptions": {
     "message": "Opções avançadas"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "Exemplo: John D."
-  },
-  "addAlias": {
-    "message": "Adicionar pseudônimo"
   },
   "addToken": {
     "message": "Adicionar token"
@@ -130,9 +124,6 @@
   "blockExplorerView": {
     "message": "Ver conta em $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Usar o Identicon de Blocos"
   },
   "browserNotSupported": {
     "message": "Seu navegador não é compatível..."
@@ -260,23 +251,11 @@
   "delete": {
     "message": "Excluir"
   },
-  "deleteAccount": {
-    "message": "Excluir Conta"
-  },
   "deposit": {
     "message": "Depósito"
   },
-  "depositEther": {
-    "message": "Depositar Ether"
-  },
   "details": {
     "message": "Detalhes"
-  },
-  "directDepositEther": {
-    "message": "Depositar Ether Diretamente"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Se você já tem Ether, a forma mais rápida de colocá-lo em sua nova carteira é o depósito direto."
   },
   "done": {
     "message": "Concluído"
@@ -287,9 +266,6 @@
   "downloadSecretBackup": {
     "message": "Baixe esta frase secreta de backup e mantenha-a armazenada com segurança em um HD externo criptografado ou outro meio de armazenamento."
   },
-  "downloadStateLogs": {
-    "message": "Baixar Registros de Estado"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Não tem uma carteira física?"
   },
@@ -298,9 +274,6 @@
   },
   "edit": {
     "message": "Editar"
-  },
-  "editContact": {
-    "message": "Editar Contato"
   },
   "endOfFlowMessage1": {
     "message": "Você passou no teste — mantenha sua frase semente segura, a responsabilidade é sua!"
@@ -343,9 +316,6 @@
   },
   "enterPasswordContinue": {
     "message": "Insira a senha para continuar"
-  },
-  "ethereumPublicAddress": {
-    "message": "Endereço Público do Ethereum"
   },
   "etherscanView": {
     "message": "Ver conta no Etherscan"
@@ -565,17 +535,8 @@
   "myAccounts": {
     "message": "Minhas Contas"
   },
-  "myWalletAccounts": {
-    "message": "Contas da Minha Carteira"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Todas as suas contas criadas no ECF Wallet serão automaticamente adicionadas a esta seção."
-  },
   "mustSelectOne": {
     "message": "É preciso selecionar pelo menos 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Para interagir com aplicações descentralizadas usando o ECF Wallet, você precisará de Ether na sua carteira."
   },
   "needImportFile": {
     "message": "Você deve selecionar um arquivo para importar.",
@@ -606,9 +567,6 @@
     "message": "Conta $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Novo Contato"
-  },
   "newContract": {
     "message": "Novo Contrato"
   },
@@ -623,12 +581,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Não, eu já tenho uma frase semente"
-  },
-  "protectYourKeys": {
-    "message": "Proteja as suas chaves!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Tome cuidado com sua frase semente — houve relatos de sites que tentam imitar o ECF Wallet. O ECF Wallet nunca pedirá sua frase semente!"
   },
   "rpcUrl": {
     "message": "Nova URL RPC"
@@ -896,20 +848,8 @@
   "settings": {
     "message": "Configurações"
   },
-  "showAdvancedGasInline": {
-    "message": "Controles de gás avançados"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Selecione para exibir o preço do gás e limitar os controles diretamente nas telas de envio e de confirmação."
-  },
   "showPrivateKeys": {
     "message": "Mostrar Chaves Privadas"
-  },
-  "showHexData": {
-    "message": "Exibir Dados Hexadecimais"
-  },
-  "showHexDataDescription": {
-    "message": "Selecione isto para mostrar o campo de dados hexadecimais na tela de envio"
   },
   "sign": {
     "message": "Assinar"
@@ -937,15 +877,6 @@
   },
   "switchNetworks": {
     "message": "Alternar Redes"
-  },
-  "stateLogs": {
-    "message": "Registros de Estado"
-  },
-  "stateLogsDescription": {
-    "message": "Os registros de estado contêm seus endereços de conta pública e transações enviadas."
-  },
-  "stateLogError": {
-    "message": "Erro ao recuperar registros de estado."
   },
   "step1HardwareWallet": {
     "message": "1. Conectar Carteira Física"
@@ -1089,17 +1020,8 @@
   "usedByClients": {
     "message": "Usado por uma variedade de clientes"
   },
-  "userName": {
-    "message": "Nome de usuário"
-  },
-  "viewAccount": {
-    "message": "Visualizar conta"
-  },
   "viewinExplorer": {
     "message": "Visualizar no Explorer"
-  },
-  "viewContact": {
-    "message": "Ver Contato"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Ver em $1"

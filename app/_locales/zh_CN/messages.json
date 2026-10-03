@@ -44,9 +44,6 @@
   "advanced": {
     "message": "高级"
   },
-  "advancedSettingsDescription": {
-    "message": "访问开发者功能，下载状态日志，重置账户，安排测试网络和自定义 RPC 。"
-  },
   "advancedOptions": {
     "message": "高级选项"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "如：John D."
-  },
-  "addAlias": {
-    "message": "添加别名"
   },
   "addToken": {
     "message": "添加代币"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "通过 $1 查看账户",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "使用区块Identicon"
   },
   "browserNotSupported": {
     "message": "您的浏览器不支持该功能…"
@@ -266,23 +257,11 @@
   "delete": {
     "message": "删除"
   },
-  "deleteAccount": {
-    "message": "删除账户"
-  },
   "deposit": {
     "message": "存入"
   },
-  "depositEther": {
-    "message": "存入 Ether"
-  },
   "details": {
     "message": "详情"
-  },
-  "directDepositEther": {
-    "message": "直接存入 Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "如果你已经有了一些 Ether，通过直接转入是你的新钱包获取 Ether 的最快捷方式。"
   },
   "done": {
     "message": "完成"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "下载私密备份密语，并使用外部加密硬盘或存储媒介妥善保管。"
   },
-  "downloadStateLogs": {
-    "message": "下载日志"
-  },
   "dontHaveAHardwareWallet": {
     "message": "没有硬件钱包？"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "编辑"
-  },
-  "editContact": {
-    "message": "编辑联系人"
   },
   "endOfFlowMessage1": {
     "message": "您已通过测试 - 请妥善保管你的种子密语。这是您的责任！"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "请输入密码以继续"
-  },
-  "ethereumPublicAddress": {
-    "message": "以太坊公共地址"
   },
   "etherscanView": {
     "message": "在 Etherscan 上查看账户"
@@ -562,17 +532,8 @@
   "ecfWalletVersion": {
     "message": "ECF Wallet 版本"
   },
-  "myWalletAccounts": {
-    "message": "我的钱包账户"
-  },
-  "myWalletAccountsDescription": {
-    "message": "所有已创建的 ECF Wallet 账户将自动添加到该部分。"
-  },
   "mustSelectOne": {
     "message": "至少选择一种代币."
-  },
-  "needEtherInWallet": {
-    "message": "使用 ECF Wallet 与 DAPP 交互，需要你的钱包里有 Ether。"
   },
   "needImportFile": {
     "message": "必须选择导入一个文件。",
@@ -600,9 +561,6 @@
     "message": "账户 $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "新增联系人"
-  },
   "newContract": {
     "message": "新合约"
   },
@@ -617,12 +575,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "不，我已经有一个种子密语了。"
-  },
-  "protectYourKeys": {
-    "message": "妥善保管您的密钥！"
-  },
-  "protectYourKeysMessage1": {
-    "message": "请注意个人种子密语安全。报告显示有多个网站企图伪造 ECF Wallet。ECF Wallet 绝不会要求您提供个人种子密语！"
   },
   "rpcUrl": {
     "message": "新增 RPC URL"
@@ -890,20 +842,8 @@
   "settings": {
     "message": "设置"
   },
-  "showAdvancedGasInline": {
-    "message": "高级天然气控制"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "请选择该选项，直接在发送和确认页面显示天然气价格和限制管理。"
-  },
   "showPrivateKeys": {
     "message": "显示私钥"
-  },
-  "showHexData": {
-    "message": "显示十六进制数据"
-  },
-  "showHexDataDescription": {
-    "message": "请选择该选项，在发送页面显示十六进制数据字域"
   },
   "sign": {
     "message": "签名"
@@ -931,15 +871,6 @@
   },
   "switchNetworks": {
     "message": "切换网络"
-  },
-  "stateLogs": {
-    "message": "状态日志"
-  },
-  "stateLogsDescription": {
-    "message": "状态日志包含您的账户地址和已发送的交易。"
-  },
-  "stateLogError": {
-    "message": "检索状态日志时出错。"
   },
   "step1HardwareWallet": {
     "message": "1. 连接硬件钱包"
@@ -1086,17 +1017,8 @@
   "usedByClients": {
     "message": "可用于各种不同的客户端"
   },
-  "userName": {
-    "message": "用户名"
-  },
-  "viewAccount": {
-    "message": "查看账户"
-  },
   "viewinExplorer": {
     "message": "在管理器中查看"
-  },
-  "viewContact": {
-    "message": "查看联系人"
   },
   "viewOnCustomBlockExplorer": {
     "message": "在 $1 查看"

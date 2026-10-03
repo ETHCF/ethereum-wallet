@@ -41,9 +41,6 @@
   "advanced": {
     "message": "Erweitert"
   },
-  "advancedSettingsDescription": {
-    "message": "Zugriff auf Entwicklerfunktionen, Download von Statusprotokollen, Zurücksetzen des Kontos, Einrichten von Testnetzen und benutzerdefinierten RPCs"
-  },
   "advancedOptions": {
     "message": "Erweiterte Optionen"
   },
@@ -52,9 +49,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "z.B. Max M."
-  },
-  "addAlias": {
-    "message": "Alias hinzufügen"
   },
   "addToken": {
     "message": "Token hinzufügen"
@@ -130,9 +124,6 @@
   "blockExplorerView": {
     "message": "Konto bei $1 anzeigen",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Blockies Identicon verwenden"
   },
   "browserNotSupported": {
     "message": "Ihr Browser wird nicht unterstützt …"
@@ -254,20 +245,8 @@
   "delete": {
     "message": "Löschen"
   },
-  "deleteAccount": {
-    "message": "Konto löschen"
-  },
   "deposit": {
     "message": "Einzahlen"
-  },
-  "depositEther": {
-    "message": "Ether einzahlen"
-  },
-  "directDepositEther": {
-    "message": "Sofort Ether einzahlen"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Wenn du bereits Ether besitzt, ist die sofortige Einzahlung die schnellste Methode Ether in deine neue Wallet zu bekommen."
   },
   "done": {
     "message": "Fertig"
@@ -278,9 +257,6 @@
   "downloadSecretBackup": {
     "message": "Laden Sie diesen geheimen Backup-Schlüssel herunter und bewahren Sie ihn sicher auf einer verschlüsselten externen Festplatte oder einem Speichermedium auf."
   },
-  "downloadStateLogs": {
-    "message": "Statelogs herunterladen"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Sie haben kein Hardware-Wallet?"
   },
@@ -289,9 +265,6 @@
   },
   "edit": {
     "message": "Editieren"
-  },
-  "editContact": {
-    "message": "Kontakt bearbeiten"
   },
   "endOfFlowMessage1": {
     "message": "Sie haben den Test bestanden - bewahren Sie Ihre mnemonische Phrase sicher auf, Sie sind dafür verantwortlich! "
@@ -334,9 +307,6 @@
   },
   "enterPasswordContinue": {
     "message": "Zum Fortfahren Passwort eingeben"
-  },
-  "ethereumPublicAddress": {
-    "message": "Öffentliche Ethereum-Adresse"
   },
   "etherscanView": {
     "message": "Account auf Etherscan anschauen"
@@ -553,17 +523,8 @@
   "myAccounts": {
     "message": "Meine Accounts"
   },
-  "myWalletAccounts": {
-    "message": "Meine Wallet-Konten"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Jedes Ihrer von ECF Wallet erstellten Konten wird automatisch zu diesem Abschnitt hinzugefügt."
-  },
   "mustSelectOne": {
     "message": "Du musst mindestens 1 Token auswählen."
-  },
-  "needEtherInWallet": {
-    "message": "Um dezentralisierte Applikationen mit ECF Wallet verwenden zu können, benötigst du Ether in deiner Wallet."
   },
   "needImportFile": {
     "message": "Für den Import musst du eine Datei auswählen.",
@@ -594,9 +555,6 @@
     "message": "Account $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Neuer Kontakt"
-  },
   "newContract": {
     "message": "Neuer Smart Contract"
   },
@@ -611,12 +569,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nein, ich habe bereits einen Seed-Schlüssel"
-  },
-  "protectYourKeys": {
-    "message": "Schützen Sie Ihre Schlüssel!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Seien Sie mit Ihrer mnemonischen Phrase vorsichtig - es gab Berichte über Websites, die ECF Wallet zu imitieren versuchen. ECF Wallet fragt nie nach Ihrer mnemonischen Phrase!"
   },
   "rpcUrl": {
     "message": "Neue RPC-URL"
@@ -874,20 +826,8 @@
   "settings": {
     "message": "Einstellungen"
   },
-  "showAdvancedGasInline": {
-    "message": "Erweiterte Gaskontrollen"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Wählen Sie dies aus, um den Gaspreis und die Limitkontrollen direkt auf den Senden- und Bestätigen-Bildschirmen anzuzeigen."
-  },
   "showPrivateKeys": {
     "message": "Private Keys anzeigen"
-  },
-  "showHexData": {
-    "message": "Hexdaten anzeigen"
-  },
-  "showHexDataDescription": {
-    "message": "Wählen Sie dies aus, um das Hexdatenfeld auf dem Senden-Bildschirm anzuzeigen"
   },
   "sign": {
     "message": "Unterschreiben"
@@ -915,15 +855,6 @@
   },
   "switchNetworks": {
     "message": "Netzwerk wechseln"
-  },
-  "stateLogs": {
-    "message": "Statelogs"
-  },
-  "stateLogsDescription": {
-    "message": "Statelogs zeigen die Public Adresse und die gesendeten Transaktionen deines Accounts."
-  },
-  "stateLogError": {
-    "message": "Fehler beim Abfragen der Statelogs."
   },
   "step1HardwareWallet": {
     "message": "1. Hardware-Wallet verknüpfen"
@@ -1064,17 +995,8 @@
   "usedByClients": {
     "message": "Verwendet von einer Reihe verschiedenen Kunden"
   },
-  "userName": {
-    "message": "Nutzername"
-  },
-  "viewAccount": {
-    "message": " Account einsehen"
-  },
   "viewinExplorer": {
     "message": "Im Explorer anzeigen"
-  },
-  "viewContact": {
-    "message": "Kontakt anzeigen"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Für $1 ansehen"

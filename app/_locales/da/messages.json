@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Avanceret"
   },
-  "advancedSettingsDescription": {
-    "message": "Få adgang til udviklerfunktioner, hent tilstandslogs, nulstil konto, opsæt testnetværk og brugerdefineret RPC"
-  },
   "advancedOptions": {
     "message": "Avancerede Valgmuligheder"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "f.eks. John D."
-  },
-  "addAlias": {
-    "message": "Tilføj alias"
   },
   "addToken": {
     "message": "Tilføj Polet"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Se konto på $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Brug Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Din browser er ikke understøttet..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Slet"
   },
-  "deleteAccount": {
-    "message": "Slet konto"
-  },
   "deposit": {
     "message": "Indbetal"
   },
-  "depositEther": {
-    "message": "Indbetal Ether"
-  },
   "details": {
     "message": "Detaljer"
-  },
-  "directDepositEther": {
-    "message": "Indskyd Ether direkte"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Hvis du allerede har Ether, er den hurtigste måde at få Ether i din nye tegnebog ved direkte indbetaling."
   },
   "done": {
     "message": "Færdig"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Download denne Hemmelige Backupfrase og opbevar den sikkert på et ekstern, krypteret harddisk eller lagringsenhed."
   },
-  "downloadStateLogs": {
-    "message": "Download tilstandslogs"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Har du ikke en hardware-pung?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Rediger"
-  },
-  "editContact": {
-    "message": "Redigér Kontakt"
   },
   "endOfFlowMessage1": {
     "message": "Du bestod testen - pas godt på din seed-sætning, det er dit ansvar!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Indtast adgangskode for at fortsætte"
-  },
-  "ethereumPublicAddress": {
-    "message": "Offentlig Ethereum-adresse"
   },
   "etherscanView": {
     "message": "Se konto på Etherscan"
@@ -565,17 +535,8 @@
   "myAccounts": {
     "message": "Mine Konti"
   },
-  "myWalletAccounts": {
-    "message": "Mine Pungkonti"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Alle dine ECF Wallet-oprettede konti føjes automatisk til dette afsnit."
-  },
   "mustSelectOne": {
     "message": "Skal vælge mindst 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Du skal have Ether i din tegnebog for at interagere med decentraliserede applikationer, der bruger ECF Wallet."
   },
   "needImportFile": {
     "message": "Du skal vælge en fil, der skal importeres.",
@@ -606,9 +567,6 @@
     "message": "Konto $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Ny kontakt"
-  },
   "newContract": {
     "message": "Ny Kontrakt"
   },
@@ -623,12 +581,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nej, jeg har allerede en seedfrase"
-  },
-  "protectYourKeys": {
-    "message": "Beskyt dine nøgler!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Vær forsigtig med din backupsætning - der har været rapporter om websteder, der forsøger at efterligne ECF Wallet. ECF Wallet vil aldrig bede om din backupsætning!"
   },
   "rpcUrl": {
     "message": "Ny RPC-URL"
@@ -890,20 +842,8 @@
   "settings": {
     "message": "Indstillinger "
   },
-  "showAdvancedGasInline": {
-    "message": "Avanceret Gas-styring"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Vælg dette for at vise brændstofprisen og begræns styringen direkte på afsendelses- og bekræftelseskærmene."
-  },
   "showPrivateKeys": {
     "message": "Vis private nøgler"
-  },
-  "showHexData": {
-    "message": "Vis hex-data"
-  },
-  "showHexDataDescription": {
-    "message": "Vælg dette for at vise hex-datafeltet på send-skærmen"
   },
   "sign": {
     "message": "Underskriv"
@@ -931,15 +871,6 @@
   },
   "switchNetworks": {
     "message": "Skift Netværk"
-  },
-  "stateLogs": {
-    "message": "Tilstandslogs"
-  },
-  "stateLogsDescription": {
-    "message": "Status-logføringer indeholder dine offentlige kontoadresser og afsendte transaktioner."
-  },
-  "stateLogError": {
-    "message": "Fejl ved hentning af tilstandslogfiler."
   },
   "step1HardwareWallet": {
     "message": "1. Tilslut hardware-tegnebog"
@@ -1080,17 +1011,8 @@
   "usedByClients": {
     "message": "Brugt af forskellige kunder"
   },
-  "userName": {
-    "message": "Brugernavn"
-  },
-  "viewAccount": {
-    "message": "Vis konto"
-  },
   "viewinExplorer": {
     "message": "Vis i stifinder"
-  },
-  "viewContact": {
-    "message": "Vis kontakt"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Se på $1"

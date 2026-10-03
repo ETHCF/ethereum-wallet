@@ -43,9 +43,6 @@
   "balance": {
     "message": "Saldo:"
   },
-  "blockiesIdenticon": {
-    "message": "Usar Blockies Identicon"
-  },
   "cancel": {
     "message": "Cancelar"
   },
@@ -91,23 +88,11 @@
   "deposit": {
     "message": "Depósito"
   },
-  "depositEther": {
-    "message": "Depositar Ether"
-  },
   "details": {
     "message": "Detalhes"
   },
-  "directDepositEther": {
-    "message": "Depositar Diretamente Ether"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Se já tem Ether, a forma mais rápida de ficar com Ether na sua carteira é através de depósito direto."
-  },
   "done": {
     "message": "Finalizado"
-  },
-  "downloadStateLogs": {
-    "message": "Descarregar Registos de Estado"
   },
   "edit": {
     "message": "Editar"
@@ -221,9 +206,6 @@
   },
   "mustSelectOne": {
     "message": "Deve escolher no mínimo 1 token."
-  },
-  "needEtherInWallet": {
-    "message": "Para interagir com applicações descentralizadas usando ECF Wallet tem de ter Ether na sua carteira."
   },
   "needImportFile": {
     "message": "Deve selecionar um ficheiro para importar.",
@@ -343,12 +325,6 @@
   "sigRequest": {
     "message": "Pedido de Assinatura"
   },
-  "stateLogs": {
-    "message": "Registos de Estado"
-  },
-  "stateLogsDescription": {
-    "message": "Registo de estado podem conter o seu endereço e transações enviadas da sua conta pública."
-  },
   "symbolBetweenZeroTwelve": {
     "message": "O símbolo deve ter 11 caracteres ou menos."
   },
@@ -382,9 +358,6 @@
   },
   "usedByClients": {
     "message": "Utilizado por vários tipos de clientes"
-  },
-  "viewAccount": {
-    "message": "Ver Conta"
   },
   "visitWebSite": {
     "message": "Visite o nosso site"

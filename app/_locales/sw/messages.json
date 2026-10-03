@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Mipangilio ya kina"
   },
-  "advancedSettingsDescription": {
-    "message": "Vipengele vya idhini ya msanidi, Kumbukumbu za Hali ya kupakua, Kufuta Akaunti, mitando ya majaribio ya kuweka mipangilio na RPC maalumu"
-  },
   "advancedOptions": {
     "message": "Machaguo ya Juu"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "k.m John D."
-  },
-  "addAlias": {
-    "message": "Ongeza jina jingine"
   },
   "addToken": {
     "message": "Ongeza Kianzio"
@@ -130,9 +124,6 @@
   "blockExplorerView": {
     "message": "Tazama akaunti kwenye $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Tumia Blockies Identicon"
   },
   "browserNotSupported": {
     "message": "Kivinjari chaku hakiwezeshwi..."
@@ -260,23 +251,11 @@
   "delete": {
     "message": "Futa"
   },
-  "deleteAccount": {
-    "message": "Futa Akaunti"
-  },
   "deposit": {
     "message": "Fedha zilizopo kwenye akaunti"
   },
-  "depositEther": {
-    "message": "Weka Ether"
-  },
   "details": {
     "message": "Maelezo"
-  },
-  "directDepositEther": {
-    "message": "Weka Ether Moja kwa Moja"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Ikiwa tayari una sarafu kadhaa za Ether, njia rahisi ya kupata Ether kwenye waleti yako mpya kupitia kuweka moja kwa moja."
   },
   "done": {
     "message": "Imekamilika"
@@ -287,9 +266,6 @@
   "downloadSecretBackup": {
     "message": "Pakuwa Kirai hiki cha Hifadhi Mbadala ya Siri na na kitunze kwa usalama kwenye kihifadhi cha nje chenye neneosiri au kifaa cha kuhifadhia."
   },
-  "downloadStateLogs": {
-    "message": "Pakua Kumbukumbu za Hali"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Huna waleti ya programu maunzi?"
   },
@@ -298,9 +274,6 @@
   },
   "edit": {
     "message": "Badilisha"
-  },
-  "editContact": {
-    "message": "Hariri Mawasiliano"
   },
   "endOfFlowMessage1": {
     "message": "Umefaulu jaribio - weka kirai chako cha kuanzia mahali salama, ni wajibu wako!"
@@ -343,9 +316,6 @@
   },
   "enterPasswordContinue": {
     "message": "Ingiza nenosiri ili uendelee"
-  },
-  "ethereumPublicAddress": {
-    "message": "Anwani ya Umma ya Ethereum"
   },
   "etherscanView": {
     "message": "Tazama akaunti kwenye Etherscan"
@@ -559,17 +529,8 @@
   "myAccounts": {
     "message": "Akaunti zangu"
   },
-  "myWalletAccounts": {
-    "message": "Akaunti angu za Waleti"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Akaunti zako zote za ECF Wallet zilizofunguliwa zitaongezwa kiotomatiki kwenye sehemu hii."
-  },
   "mustSelectOne": {
     "message": "Lazima uchague angalau kianzio 1."
-  },
-  "needEtherInWallet": {
-    "message": "Ili kuingiliana na programu zilizosambazwa kwa kutumia ECF Wallet, utahitaji kuwa na Ether kwenye waleti yako."
   },
   "needImportFile": {
     "message": "Unapaswa kuchagua faili la kuhamisha.",
@@ -600,9 +561,6 @@
     "message": "Akaunti $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Mawasiliano Mapya"
-  },
   "newContract": {
     "message": "Mkataba Mpya"
   },
@@ -617,12 +575,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Hapana, tayari nini kirai cha kuanzia"
-  },
-  "protectYourKeys": {
-    "message": "Linda Funguo Zako!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Kuwa mwangalifu na kirai kianzio chako - kumekuwa na taarifa za tovuti ambazo zinajaribu kuiga ECF Wallet. ECF Wallet kamwe haitakuomba kirai kianzio chako!"
   },
   "rpcUrl": {
     "message": "RPC URL mpya"
@@ -890,20 +842,8 @@
   "settings": {
     "message": "Mipangilio"
   },
-  "showAdvancedGasInline": {
-    "message": "Udhibiti wa juu wa gesi"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Chagua hii ili uonyeshe bei ya gesi na punguza vidhibiti moja kwa moja kwenye skrini za tuma na thibitisha."
-  },
   "showPrivateKeys": {
     "message": "Onyesha Fungo Binafsi"
-  },
-  "showHexData": {
-    "message": "Onyesha Data za Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Chagua hii ili uonyeshe sehemu ya data ya hex kwenye skrini ya tuma"
   },
   "sign": {
     "message": "Ingia kwenye akaunti"
@@ -931,15 +871,6 @@
   },
   "switchNetworks": {
     "message": "Badilisha mitandao"
-  },
-  "stateLogs": {
-    "message": "Kumbukumbu za Hali"
-  },
-  "stateLogsDescription": {
-    "message": "Kumbukumbu za hali zinajumusiha anwani zako za akaunti za umma na miamala iliyotumwa."
-  },
-  "stateLogError": {
-    "message": "Hitilafu imetokea kurejesha kumbukumbu za hali."
   },
   "step1HardwareWallet": {
     "message": "1. Unganisha Programu Maunzi ya Waleti"
@@ -1089,17 +1020,8 @@
   "usedByClients": {
     "message": "Hutumiwa na wateja mbalimbali"
   },
-  "userName": {
-    "message": "Jina la mtumiaji"
-  },
-  "viewAccount": {
-    "message": "Angalia Akaunti"
-  },
   "viewinExplorer": {
     "message": "Tazama kwenye Explorer"
-  },
-  "viewContact": {
-    "message": "Tazama Mawasiliano"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Tazama kwenye $1"

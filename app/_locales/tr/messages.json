@@ -46,9 +46,6 @@
   "balance": {
     "message": "Bakiye:"
   },
-  "blockiesIdenticon": {
-    "message": "Blockies Identicon kullan"
-  },
   "ok": {
     "message": "Tamam"
   },
@@ -103,23 +100,11 @@
   "deposit": {
     "message": "Yatır"
   },
-  "depositEther": {
-    "message": "Ether yatır"
-  },
   "details": {
     "message": "Ayrıntılar"
   },
-  "directDepositEther": {
-    "message": "Direk Ether Yatırma"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Eğer çoktan Etheriniz varsa, yeni hesabınıza Ether aktarmanın en kolay yolu direk yatırmadır."
-  },
   "done": {
     "message": "Bitti"
-  },
-  "downloadStateLogs": {
-    "message": "Durum kayıtlarını indir"
   },
   "dropped": {
     "message": "Bırakıldı"
@@ -245,9 +230,6 @@
   },
   "mustSelectOne": {
     "message": "En az bir jeton seçilmeli"
-  },
-  "needEtherInWallet": {
-    "message": "ECF Wallet kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
   },
   "needImportFile": {
     "message": "Almak için bir dosya seçmelisiniz.",
@@ -379,15 +361,6 @@
   "sigRequest": {
     "message": "İmza isteği"
   },
-  "stateLogs": {
-    "message": "Durum Kayıtları"
-  },
-  "stateLogsDescription": {
-    "message": "Durum kayıtları açık hesap adresinizi ve gönderilen işlemleri içerir."
-  },
-  "stateLogError": {
-    "message": "Durum kayıtlarını alma hatası"
-  },
   "submitted": {
     "message": "Gönderildi"
   },
@@ -433,9 +406,6 @@
   },
   "usedByClients": {
     "message": "Farklı istemciler tarafından kullanılmakta"
-  },
-  "viewAccount": {
-    "message": "Hesabı İncele"
   },
   "visitWebSite": {
     "message": "Web sitemizi ziyaret edin"

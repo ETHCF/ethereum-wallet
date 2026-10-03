@@ -53,9 +53,6 @@
   "addToAddressBookModalPlaceholder": {
     "message": "p. ej. John D."
   },
-  "addAlias": {
-    "message": "Añadir alias"
-  },
   "addToken": {
     "message": "Agregar token"
   },
@@ -120,9 +117,6 @@
   },
   "basic": {
     "message": "Básico"
-  },
-  "blockiesIdenticon": {
-    "message": "Usar Blockies Identicon (Iconos)"
   },
   "browserNotSupported": {
     "message": "Tu navegador no está admitido..."
@@ -235,32 +229,17 @@
   "delete": {
     "message": "Eliminar"
   },
-  "deleteAccount": {
-    "message": "Eliminar Cuenta"
-  },
   "deposit": {
     "message": "Depositar"
   },
-  "depositEther": {
-    "message": "Depositar Ether"
-  },
   "details": {
     "message": "Detalles"
-  },
-  "directDepositEther": {
-    "message": "Depositar Ether directamente"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Si posees Ether, la forma más rápida de transferirlo a tu nueva billetera es depositándolo directamente"
   },
   "done": {
     "message": "Completo"
   },
   "downloadGoogleChrome": {
     "message": "Descargar Google Chrome"
-  },
-  "downloadStateLogs": {
-    "message": "Descargar logs de estado"
   },
   "dontHaveAHardwareWallet": {
     "message": "¿No tienes un monedero físico?"
@@ -270,9 +249,6 @@
   },
   "edit": {
     "message": "Editar"
-  },
-  "editContact": {
-    "message": "Editar Contacto"
   },
   "endOfFlowMessage8": {
     "message": "ECF Wallet no puede recuperar tu seedphrase. Saber más."
@@ -471,9 +447,6 @@
   "mustSelectOne": {
     "message": "Debe seleccionar al menos un (1) token"
   },
-  "needEtherInWallet": {
-    "message": "Para interactuar con una aplicación descentralizada usando ECF Wallet, necesitas tener Ether en tu billetera"
-  },
   "needImportFile": {
     "message": "Debes seleccionar un archivo para importar",
     "description": "User is important an account and needs to add a file to continue"
@@ -493,9 +466,6 @@
   "newAccountNumberName": {
     "message": "Cuenta $1",
     "description": "Default name of next account to be created on create account screen"
-  },
-  "newContact": {
-    "message": "Nuevo Contacto"
   },
   "newContract": {
     "message": "Nuevo contrato"
@@ -736,12 +706,6 @@
   "showPrivateKeys": {
     "message": "Mostrar claves privadas"
   },
-  "showHexData": {
-    "message": "Mostrar Datos en formato Hex"
-  },
-  "showHexDataDescription": {
-    "message": "Seleccionar esto para mostrar el campo de los datos en formato hex en la pantalla de mandar"
-  },
   "sign": {
     "message": "Firmar"
   },
@@ -768,15 +732,6 @@
   },
   "switchNetworks": {
     "message": "Cambiar de Red"
-  },
-  "stateLogs": {
-    "message": "Logs de estado"
-  },
-  "stateLogsDescription": {
-    "message": "Los logs de estado contienen tus direcciones de cuentas públicas y transacciones envíadas"
-  },
-  "stateLogError": {
-    "message": "Error en la recogida de logs de estado"
   },
   "step1HardwareWallet": {
     "message": "1. Conectar monedero físico."
@@ -901,9 +856,6 @@
   },
   "usedByClients": {
     "message": "Utilizado por una variedad de clientes diferentes"
-  },
-  "viewAccount": {
-    "message": "Mirar cuenta"
   },
   "viewOnEtherscan": {
     "message": "Ver en Etherscan"

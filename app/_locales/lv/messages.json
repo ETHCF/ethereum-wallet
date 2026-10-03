@@ -48,9 +48,6 @@
   "advanced": {
     "message": "Papildu"
   },
-  "advancedSettingsDescription": {
-    "message": "Piekļūstiet izstrādātāju funkcijām, lejupielādējiet stāvokļu žurnālus, atiestatiet kontu, iestatiet testa tīklus un pielāgotos RPC izsaukumus"
-  },
   "advancedOptions": {
     "message": "Papildu opcijas"
   },
@@ -59,9 +56,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "piemēram, Džons D."
-  },
-  "addAlias": {
-    "message": "Pievienot segvārdu"
   },
   "addToken": {
     "message": "Pievienot žetonu"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Skatīt kontu $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Izmantot blok indentifikatoru"
   },
   "browserNotSupported": {
     "message": "Jūsu pārlūkprogramma netiek atbalstīta..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "Dzēst"
   },
-  "deleteAccount": {
-    "message": "Dzēst kontu"
-  },
   "deposit": {
     "message": "Iemaksa"
   },
-  "depositEther": {
-    "message": "Noguldīt Ether"
-  },
   "details": {
     "message": "Informācija"
-  },
-  "directDepositEther": {
-    "message": "Tiešā Ether iemaksa"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Ja jums jau ir Ether, tad visātrāk Ether savā makā varat saņemt ar tiešo iemaksu."
   },
   "done": {
     "message": "Pabeigts"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "Lejupielādējiet šo slepeno atgūšanas frāzi un glabājiet to drošībā, šifrētā ārējā cietajā diskā vai datu nesējā."
   },
-  "downloadStateLogs": {
-    "message": "Lejupielādēt stāvokļa žurnālus"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Nav aparatūras maka?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "Labot"
-  },
-  "editContact": {
-    "message": "Rediģēt līgumu"
   },
   "endOfFlowMessage1": {
     "message": "Jūs izgājāt pārbaudi — glabājiet atkopšanas frāzi drošībā, tā ir jūsu atbildība!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "Ievadiet paroli, lai turpinātu"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereum publiskā adrese"
   },
   "etherscanView": {
     "message": "Skatīt kontu ar Etherscan"
@@ -577,17 +547,8 @@
   "myAccounts": {
     "message": "Mani konti"
   },
-  "myWalletAccounts": {
-    "message": "Mana maka konti"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Visi jūsu izveidotie ECF Wallet konti tiks automātiski pievienoti šajā sadaļā."
-  },
   "mustSelectOne": {
     "message": "Jāatlasa vismaz 1 marķieris."
-  },
-  "needEtherInWallet": {
-    "message": "Lai izmantotu decentralizētas lietotnes ar ECF Wallet, jūsu makā jābūt Ether."
   },
   "needImportFile": {
     "message": "Jums jāatlasa fails, ko importēt",
@@ -618,9 +579,6 @@
     "message": "Konts $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Jauna kontaktpersona"
-  },
   "newContract": {
     "message": "Jauns līgums"
   },
@@ -635,12 +593,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Nē, man jau ir atkopšanas frāze"
-  },
-  "protectYourKeys": {
-    "message": "Sargājiet savas atslēgas!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Rīkojieties uzmanīgi ar sēklas frāzi — saņemti ziņojumi par tīmekļa vietnēm, kas mēģina imitēt ECF Wallet. ECF Wallet nekad nelūgs norādīt sēklas frāzi."
   },
   "rpcUrl": {
     "message": "Jauns RPC URL"
@@ -908,20 +860,8 @@
   "settings": {
     "message": "Iestatījumi"
   },
-  "showAdvancedGasInline": {
-    "message": "Papildu Gas vadīklas"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Atlasiet šo, lai parādītu Gas cenu un ierobežotu kontroles iespējas tieši sūtīšanas un apstiprināšanas ekrānos."
-  },
   "showPrivateKeys": {
     "message": "Rādīt privātās atslēgas"
-  },
-  "showHexData": {
-    "message": "Rādīt hex datus"
-  },
-  "showHexDataDescription": {
-    "message": "Atlasiet šo, lai atvērtu hex datus sūtīšanas ekrānā"
   },
   "sign": {
     "message": "Parakstīt"
@@ -949,15 +889,6 @@
   },
   "switchNetworks": {
     "message": "Mainīt tīklus"
-  },
-  "stateLogs": {
-    "message": "Statusu žurnāli"
-  },
-  "stateLogsDescription": {
-    "message": "Statusa žurnāli ietver publisko kontu adreses un nosūtītos darījumus."
-  },
-  "stateLogError": {
-    "message": "Iegūstot statusa žurnālus, radās kļūda."
   },
   "step1HardwareWallet": {
     "message": "1. Pieslēgt aparatūras maku"
@@ -1107,17 +1038,8 @@
   "usedByClients": {
     "message": "Izmanto dažādi klienti"
   },
-  "userName": {
-    "message": "Lietotājvārds"
-  },
-  "viewAccount": {
-    "message": "Skatīt kontu"
-  },
   "viewinExplorer": {
     "message": "Skatīt Explorer"
-  },
-  "viewContact": {
-    "message": "Skatīt līgumu"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Skatīt $1"

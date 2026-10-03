@@ -44,9 +44,6 @@
   "advanced": {
     "message": "Lisäasetukset"
   },
-  "advancedSettingsDescription": {
-    "message": "Käytä kehittäjän ominaisuuksia, lataa tilalokeja, palauta tilit, asenna testiverkostoja ja muokattavia RPC:itä"
-  },
   "advancedOptions": {
     "message": "Tarkemmat vaihtoehdot"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "esim. Jukka E."
-  },
-  "addAlias": {
-    "message": "Lisää alias"
   },
   "addToken": {
     "message": "Lisää tietue"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "Näytä tili kohteessa $1",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "Käytä Blockies Identiconia"
   },
   "browserNotSupported": {
     "message": "Selaintasi ei tueta..."
@@ -263,23 +254,11 @@
   "delete": {
     "message": "Poista"
   },
-  "deleteAccount": {
-    "message": "Poista tili"
-  },
   "deposit": {
     "message": "Talleta"
   },
-  "depositEther": {
-    "message": "Talleta Etheriä"
-  },
   "details": {
     "message": "Tiedot"
-  },
-  "directDepositEther": {
-    "message": "Talleta etheriä suoraan"
-  },
-  "directDepositEtherExplainer": {
-    "message": "Jos sinulla on jo etheriä, nopein tapa hankkia etheriä uuteen lompakkoosi on suoratalletus."
   },
   "done": {
     "message": "Valmis"
@@ -290,9 +269,6 @@
   "downloadSecretBackup": {
     "message": "Lataa tämä salainen varmuuskopio lause ja pidä se turvassa ulkoisella, salatulla kovalevyllä tai muussa tallennustilassa."
   },
-  "downloadStateLogs": {
-    "message": "Lataa tilalokit"
-  },
   "dontHaveAHardwareWallet": {
     "message": "Eikö sinulla ole laitteistokukkaroa?"
   },
@@ -301,9 +277,6 @@
   },
   "edit": {
     "message": "Muokkaa"
-  },
-  "editContact": {
-    "message": "Muokkaa yhteystietoa"
   },
   "endOfFlowMessage1": {
     "message": "Läpäisit kokeen – pidä salaustekstisi turvassa. Se on sinun vastuullasi!"
@@ -346,9 +319,6 @@
   },
   "enterPasswordContinue": {
     "message": "Syötä salasana voidaksesi jatkaa"
-  },
-  "ethereumPublicAddress": {
-    "message": "Ethereumin julkinen osoite"
   },
   "etherscanView": {
     "message": "Tarkastele tiliä Etherscanissa"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "Omat tilit"
   },
-  "myWalletAccounts": {
-    "message": "Omat kukkarotilini"
-  },
-  "myWalletAccountsDescription": {
-    "message": "Kaikki EcfWalletilla luodut tilisi lisätään automaattisesti tähän osastoon."
-  },
   "mustSelectOne": {
     "message": "Valittava vähintään 1 poletti."
-  },
-  "needEtherInWallet": {
-    "message": "Ollaksesi vuorovaikutuksessa hajautettujen sovellusten kanssa sinulla on oltava lompakossasi Ether."
   },
   "needImportFile": {
     "message": "Sinun tarvitsee valita tuotava tiedosto.",
@@ -615,9 +576,6 @@
     "message": "Tili $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "Uusi yhteys"
-  },
   "newContract": {
     "message": "Uusi sopimus"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "Ei, minulla on jo siemenlause."
-  },
-  "protectYourKeys": {
-    "message": "Suojele avaimiasi!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "Ole varovainen salausavaimesi kanssa – joidenkin verkkosivustojen kerrotaan yrittäneen matkia EcfWalletia. ECF Wallet ei koskaan kysy salausavaintasi!"
   },
   "rpcUrl": {
     "message": "Uusi RPC:n URL"
@@ -905,20 +857,8 @@
   "settings": {
     "message": "Asetukset"
   },
-  "showAdvancedGasInline": {
-    "message": "Bensan lisävalvonta"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "Valitse tämä näyttääksesi gas-hinta ja rajoittaaksesi  säätimiä suoraan lähetä- ja vahvista-ruuduissa."
-  },
   "showPrivateKeys": {
     "message": "Näytä yksityiset avaimet"
-  },
-  "showHexData": {
-    "message": "Näytä Hex-tiedot"
-  },
-  "showHexDataDescription": {
-    "message": "Näytä hex-tietokenttä lähetysnäytössä valitsemalla tämän"
   },
   "sign": {
     "message": "Allekirjoita"
@@ -946,15 +886,6 @@
   },
   "switchNetworks": {
     "message": "Vaihda verkostoa"
-  },
-  "stateLogs": {
-    "message": "Tilaloki"
-  },
-  "stateLogsDescription": {
-    "message": "Tilalokeista löydät julkiset tiliosoitteesi sekä lähetetyt maksusiirtosi."
-  },
-  "stateLogError": {
-    "message": "Virhe tilalokien noutamisessa."
   },
   "step1HardwareWallet": {
     "message": "1. Yhdistä laitteistokukkaro"
@@ -1104,17 +1035,8 @@
   "usedByClients": {
     "message": "Lukuisien eri asiakkaiden käyttämä"
   },
-  "userName": {
-    "message": "Käyttäjätunnus"
-  },
-  "viewAccount": {
-    "message": "Näytä tili"
-  },
   "viewinExplorer": {
     "message": "Tarkastele Explorerissa"
-  },
-  "viewContact": {
-    "message": "Näytä yhteyshenkilö"
   },
   "viewOnCustomBlockExplorer": {
     "message": "Tarkastele kohdassa $1"

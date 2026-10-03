@@ -44,9 +44,6 @@
   "advanced": {
     "message": "उन्नत"
   },
-  "advancedSettingsDescription": {
-    "message": "डेवलपर की सुविधाओं को एक्सेस करें, स्टेट लॉग डाउनलोड करें,अकाउंट रीसेट करें,टेस्टनेट सेटअप करें और कस्टम RPC।"
-  },
   "advancedOptions": {
     "message": "उन्नत विकल्प"
   },
@@ -55,9 +52,6 @@
   },
   "addToAddressBookModalPlaceholder": {
     "message": "जैसे जॉन डी।"
-  },
-  "addAlias": {
-    "message": "उपनाम जोड़ें"
   },
   "addToken": {
     "message": "टोकन जोड़ें"
@@ -133,9 +127,6 @@
   "blockExplorerView": {
     "message": "$1 पर खाता देखें",
     "description": "$1 replaced by URL for custom block explorer"
-  },
-  "blockiesIdenticon": {
-    "message": "ब्लॉकिज़ आईडिन्टीकॉन का प्रयोग करें।"
   },
   "browserNotSupported": {
     "message": "आपका ब्राउज़र समर्थित नहीं है..."
@@ -266,23 +257,11 @@
   "delete": {
     "message": "हटाएं"
   },
-  "deleteAccount": {
-    "message": "खाता हटाएँ\n"
-  },
   "deposit": {
     "message": "जमा "
   },
-  "depositEther": {
-    "message": "Ether जमा करें"
-  },
   "details": {
     "message": "विवरण"
-  },
-  "directDepositEther": {
-    "message": "Ether को सीधे जमा करें"
-  },
-  "directDepositEtherExplainer": {
-    "message": "यदि आपके पास पहले से ही कुछ Ether हैं, तो अपने नए वॉलेट में Ether पाने का सबसे तेज़ तरीका सीधे जमा करना है।"
   },
   "done": {
     "message": "पूर्ण"
@@ -293,9 +272,6 @@
   "downloadSecretBackup": {
     "message": "इस गुप्त बैकअप वाक्यांश को डाउनलोड करें और इसे बाहरी एन्क्रिप्टेड हार्ड ड्राइव या स्टोरेज माध्यम पर सुरक्षित रूप से संग्रहीत रखें।"
   },
-  "downloadStateLogs": {
-    "message": "स्टेट लॉग को डाउनलोड करें"
-  },
   "dontHaveAHardwareWallet": {
     "message": "हार्डवेयर वॉलेट नहीं है?"
   },
@@ -304,9 +280,6 @@
   },
   "edit": {
     "message": "संपादित करें"
-  },
-  "editContact": {
-    "message": "संपर्क संपादित करें"
   },
   "endOfFlowMessage1": {
     "message": "आपने परीक्षा उत्तीर्ण कर ली - अपने बीज वाक्यांश को सुरक्षित रखें, यह आपकी जिम्मेदारी है!"
@@ -349,9 +322,6 @@
   },
   "enterPasswordContinue": {
     "message": "जारी रखने के लिए पासवर्ड दर्ज करें"
-  },
-  "ethereumPublicAddress": {
-    "message": "ईथरअम पब्लिक एड्रेस"
   },
   "etherscanView": {
     "message": "Etherscan पर खाता दिखाएँ"
@@ -574,17 +544,8 @@
   "myAccounts": {
     "message": "मेरा खाता"
   },
-  "myWalletAccounts": {
-    "message": "माई वॉलेट खाते"
-  },
-  "myWalletAccountsDescription": {
-    "message": "आपके सभी मेटामास्क निर्मित खाते स्वतः ही इस खंड में जुड़ जाएंगे।"
-  },
   "mustSelectOne": {
     "message": "कम से कम 1 टोकन का चयन करना होगा।"
-  },
-  "needEtherInWallet": {
-    "message": "मेटामास्क का उपयोग करके विकेंद्रीकृत अनुप्रयोगों के साथ संवाद करने के लिए, आपको अपने वॉयलेट में ईथर की आवश्यकता होगी।"
   },
   "needImportFile": {
     "message": "आयात करने के लिए आपको एक फ़ाइल का चयन करना होगा।",
@@ -615,9 +576,6 @@
     "message": "खाता $1",
     "description": "Default name of next account to be created on create account screen"
   },
-  "newContact": {
-    "message": "नया संपर्क"
-  },
   "newContract": {
     "message": "नया कॉन्ट्रैक्ट"
   },
@@ -632,12 +590,6 @@
   },
   "noAlreadyHaveSeed": {
     "message": "जी नहीं, मेरे पास पहले से ही एक बीज वाक्यांश है"
-  },
-  "protectYourKeys": {
-    "message": "अपनी कुंजी को सुरक्षित रखें!"
-  },
-  "protectYourKeysMessage1": {
-    "message": "अपने सीड फ़्रेज़ के बारे में सावधान रहें — ऐसी वेबसाइटों की रिपोर्टें आई हैं जो ECF Wallet की नकल करने का प्रयास करती हैं। ECF Wallet आपके सीड फ़्रेज़ के बारे में कभी नहीं पूछेगा!"
   },
   "rpcUrl": {
     "message": "नया RPC URL"
@@ -905,18 +857,6 @@
   "settings": {
     "message": "सेटिंग"
   },
-  "showAdvancedGasInline": {
-    "message": "उन्नत गैस नियंत्रण"
-  },
-  "showAdvancedGasInlineDescription": {
-    "message": "भेजने और पुष्टि करने के स्क्रीन पर गैस की कीमत दिखाने और सीमा को सीधे नियंत्रित करने के लिए इसे चुनें।"
-  },
-  "showHexData": {
-    "message": "हेक्स डेटा दिखाएँ"
-  },
-  "showHexDataDescription": {
-    "message": "भेजे जानें वाले स्क्रीन पर हेक्स डेटा फ़ील्ड दिखाने के लिए इसे चुनें"
-  },
   "sign": {
     "message": "साइन"
   },
@@ -943,15 +883,6 @@
   },
   "switchNetworks": {
     "message": "नेटवर्क स्विच करें"
-  },
-  "stateLogs": {
-    "message": "स्टेट लॉग"
-  },
-  "stateLogsDescription": {
-    "message": "स्टेट लॉग में आपके सार्वजनिक खाते के पते और भेजे गए ट्रांज़ैक्शन होते हैं।"
-  },
-  "stateLogError": {
-    "message": "स्टेट लॉग को पुनर्प्राप्त करने में त्रुटि।"
   },
   "step1HardwareWallet": {
     "message": "1. हार्डवेयर वॉलेट कनेक्ट करें"
@@ -1101,17 +1032,8 @@
   "usedByClients": {
     "message": "विभिन्न प्रकार के ग्राहकों द्वारा उपयोग किया जाता है"
   },
-  "userName": {
-    "message": "उपयोगकर्ता नाम"
-  },
-  "viewAccount": {
-    "message": "खाता देखें"
-  },
   "viewinExplorer": {
     "message": "एक्स्प्लोरर में देखें"
-  },
-  "viewContact": {
-    "message": "संपर्क देखें"
   },
   "viewOnCustomBlockExplorer": {
     "message": "$1 पर देखें"
