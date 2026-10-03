@@ -21,6 +21,8 @@ const stub = () => new Proxy(function () {
 
 globalThis.self = globalThis
 globalThis.chrome = stub()
+// The controllers reach for the `browser` global, not `chrome`.
+globalThis.browser = stub()
 let loaded = 0
 globalThis.importScripts = (...files) => {
   for (const file of files) {
