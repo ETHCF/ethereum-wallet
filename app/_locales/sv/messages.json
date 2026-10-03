@@ -12,9 +12,6 @@
   "about": {
     "message": "Om"
   },
-  "aboutSettingsDescription": {
-    "message": "Version, supportcenter och kontaktinformation"
-  },
   "acceleratingATransaction": {
     "message": "* Att snabba upp en överföring genom att använda ett högre gaspris ökar chanserna för att överföringen ska hanteras snabbare av nätverket, men det är inte en garanti."
   },
@@ -375,9 +372,6 @@
   "general": {
     "message": "Allmänt"
   },
-  "generalSettingsDescription": {
-    "message": "Valutaomvandling, primär valuta, språk"
-  },
   "getHelp": {
     "message": "Få hjälp."
   },
@@ -550,9 +544,6 @@
   },
   "networks": {
     "message": "Nätverk"
-  },
-  "networkSettingsDescription": {
-    "message": "Lägg till och redigera RPC-nätverk"
   },
   "nevermind": {
     "message": "Strunt i det"
@@ -787,9 +778,6 @@
   },
   "securityAndPrivacy": {
     "message": "Säkerhet och integritet"
-  },
-  "securitySettingsDescription": {
-    "message": "Sekretessinställningar och plånbokens seedfras"
   },
   "seedPhrasePlaceholder": {
     "message": "Separera varje ord med ett enda mellanslag."

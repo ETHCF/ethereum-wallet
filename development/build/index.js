@@ -28,7 +28,7 @@ function defineAllTasks () {
   const manifestTasks = createManifestTasks({ browserPlatforms })
   const styleTasks = createStyleTasks({ livereload })
   const scriptTasks = createScriptTasks({ livereload, browserPlatforms })
-  const { clean, reload, zip } = createEtcTasks({ livereload, browserPlatforms })
+  const { clean, reload, zip, buildInfo } = createEtcTasks({ livereload, browserPlatforms })
 
   // build for development (livereload)
   createTask(
@@ -71,6 +71,7 @@ function defineAllTasks () {
         staticTasks.prod,
         manifestTasks.prod,
       ),
+      buildInfo,
       zip,
     ),
   )
@@ -86,6 +87,7 @@ function defineAllTasks () {
         staticTasks.prod,
         manifestTasks.test,
       ),
+      buildInfo,
     ),
   )
 

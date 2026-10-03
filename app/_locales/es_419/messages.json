@@ -8,9 +8,6 @@
   "about": {
     "message": "Acerca de"
   },
-  "aboutSettingsDescription": {
-    "message": "Versión, centro de soporte técnico e información de contacto"
-  },
   "acceleratingATransaction": {
     "message": "* Aumentar una transacción utilizando un precio de gas más alto aumenta sus posibilidades de ser procesada más rápido por la red, pero esto no siempre está garantizado."
   },
@@ -375,9 +372,6 @@
   "gasPriceNoDenom": {
     "message": "Precio del gas"
   },
-  "generalSettingsDescription": {
-    "message": "Conversión de moneda, moneda principal, idioma, blockies identicon"
-  },
   "getHelp": {
     "message": "Obtén ayuda."
   },
@@ -547,9 +541,6 @@
   },
   "networks": {
     "message": "Redes"
-  },
-  "networkSettingsDescription": {
-    "message": "Agregar y editar redes RPC personalizadas"
   },
   "nevermind": {
     "message": "No importa"
@@ -784,9 +775,6 @@
   },
   "securityAndPrivacy": {
     "message": "Seguridad y privacidad"
-  },
-  "securitySettingsDescription": {
-    "message": "Configuración de privacidad y frase de inicialización de la billetera"
   },
   "seedPhrasePlaceholder": {
     "message": "Separa cada palabra con un solo espacio"

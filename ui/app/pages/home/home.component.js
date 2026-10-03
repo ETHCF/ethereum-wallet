@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import AssetList from '../../components/app/asset-list'
 import TransactionList from '../../components/app/transaction-list'
 import MenuBar from '../../components/app/menu-bar'
+import BuildStamp from '../../components/app/build-stamp'
 import Popover from '../../components/ui/popover'
 import Button from '../../components/ui/button'
 import ConnectedSites from '../connected-sites'
@@ -199,6 +200,7 @@ export default class Home extends PureComponent {
                 <TransactionList />
               </Tab>
             </Tabs>
+            <BuildStamp />
           </div>
         </div>
       </div>

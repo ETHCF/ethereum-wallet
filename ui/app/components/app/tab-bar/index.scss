@@ -36,18 +36,6 @@
     &__content {
       flex: 1 1 auto;
       width: 0;
-
-      &__description {
-        display: none;
-
-        @media screen and (max-width: 575px) {
-          display: block;
-          font-size: 14px;
-          font-weight: 300;
-          margin-top: 8px;
-          min-height: 14px;
-        }
-      }
     }
 
     &__caret {

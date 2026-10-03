@@ -1,0 +1,19 @@
+.build-stamp {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-top: 1px solid var(--color-border-muted);
+  background: none;
+  color: var(--color-text-alternative);
+  font-family: $font-family;
+  font-size: 11px;
+  cursor: pointer;
+
+  &__verify {
+    color: var(--color-link-default);
+    text-decoration: underline;
+  }
+}

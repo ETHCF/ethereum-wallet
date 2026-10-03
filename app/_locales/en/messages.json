@@ -108,9 +108,6 @@
   "about": {
     "message": "About"
   },
-  "aboutSettingsDescription": {
-    "message": "Version, support center, and contact info"
-  },
   "acceleratingATransaction": {
     "message": "* Accelerating a transaction by using a higher gas price increases its chances of getting processed by the network faster, but it is not always guaranteed."
   },
@@ -592,9 +589,6 @@
   "general": {
     "message": "General"
   },
-  "generalSettingsDescription": {
-    "message": "Currency conversion, primary currency, language, blockies identicon"
-  },
   "getHelp": {
     "message": "Get Help."
   },
@@ -798,9 +792,6 @@
   },
   "networks": {
     "message": "Networks"
-  },
-  "networkSettingsDescription": {
-    "message": "Add and edit custom RPC networks"
   },
   "nevermind": {
     "message": "Nevermind"
@@ -1067,9 +1058,6 @@
   },
   "securityAndPrivacy": {
     "message": "Security & Privacy"
-  },
-  "securitySettingsDescription": {
-    "message": "Privacy settings and wallet seed phrase"
   },
   "seedPhrasePlaceholder": {
     "message": "Separate each word with a single space"
@@ -1703,5 +1691,26 @@
   },
   "helpSafetyTips6": {
     "message": "For questions or to report suspicious activity, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your seed phrase or private keys there or anywhere else."
+  },
+  "incorrectPassword": {
+    "message": "Incorrect password. Try again."
+  },
+  "unlockNetworkError": {
+    "message": "Unlocked, but can't reach the network. Your funds are safe. Check your connection."
+  },
+  "unlockFailed": {
+    "message": "Couldn't unlock. Try again."
+  },
+  "buildHash": {
+    "message": "Build hash"
+  },
+  "buildCommit": {
+    "message": "Built from commit"
+  },
+  "buildVerifyInstructions": {
+    "message": "Check out this commit, run \"yarn setup && yarn dist\", then \"yarn verify-build\" to confirm this build matches the source."
+  },
+  "verify": {
+    "message": "verify"
   }
 }

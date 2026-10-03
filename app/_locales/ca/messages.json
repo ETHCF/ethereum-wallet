@@ -8,9 +8,6 @@
   "about": {
     "message": "Informació"
   },
-  "aboutSettingsDescription": {
-    "message": "Versió, centre de suport, i informació de contacte"
-  },
   "acceleratingATransaction": {
     "message": "* Accelerar una transacció utilitzant un preu de gas més alt augmenta les possibilitats de ser processat més ràpidament per la xarxa, però no sempre es pot garantir."
   },
@@ -375,9 +372,6 @@
   "gasPriceNoDenom": {
     "message": "Preu del Gas"
   },
-  "generalSettingsDescription": {
-    "message": "Conversió de divises, divisa principal, idioma, icones d'identificació única"
-  },
   "getHelp": {
     "message": "Aconsegueix ajuda."
   },
@@ -550,9 +544,6 @@
   },
   "networks": {
     "message": "Xarxes"
-  },
-  "networkSettingsDescription": {
-    "message": "Afegeix i edita xarxes RPC a mida"
   },
   "nevermind": {
     "message": "No importa"
@@ -781,9 +772,6 @@
   },
   "securityAndPrivacy": {
     "message": "Seguretat i privacitat"
-  },
-  "securitySettingsDescription": {
-    "message": "Configuració de privacitat i frase de recuperació del moneder"
   },
   "seedPhrasePlaceholder": {
     "message": "Separa cada paraula amb un únic espai"

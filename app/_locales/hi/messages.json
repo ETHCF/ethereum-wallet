@@ -8,9 +8,6 @@
   "about": {
     "message": "इसके बारे में"
   },
-  "aboutSettingsDescription": {
-    "message": "संस्करण, सहायता केंद्र और संपर्क जानकारी।"
-  },
   "acceleratingATransaction": {
     "message": "* एक उच्च गैस की कीमत का उपयोग करके अंतरण में तेजी लाने से नेटवर्क द्वारा प्रोसेस होने की संभावना तेजी से बढ़ जाती है, लेकिन इसकी हमेशा गारंटी नहीं होती है।"
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "सामान्य"
   },
-  "generalSettingsDescription": {
-    "message": "मुद्रा रूपांतरण, प्राथमिक मुद्रा, भाषा, ब्लॉकीज़ पहचान"
-  },
   "getHelp": {
     "message": "सहायता प्राप्त करें।"
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "नेटवर्क"
-  },
-  "networkSettingsDescription": {
-    "message": "कस्टम RPC नेटवर्क को जोड़ें और सम्पादित करें"
   },
   "nevermind": {
     "message": "कोई बात नहीं"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "सुरक्षा और गोपनीयता"
-  },
-  "securitySettingsDescription": {
-    "message": "गोपनीयता सेटिंग और वॉलेट सीड फ़्रेज़"
   },
   "seedPhrasePlaceholder": {
     "message": "प्रत्येक शब्द को एक ही स्पेस  से अलग करें"

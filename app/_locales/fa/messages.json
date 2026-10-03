@@ -8,9 +8,6 @@
   "about": {
     "message": "درباره"
   },
-  "aboutSettingsDescription": {
-    "message": "نسخه، مرکز پشتیبانی و معلومات تماس."
-  },
   "acceleratingATransaction": {
     "message": "* تسریع یک معامله با استفاده از قیمت بالاتر گاز، فرصت تسریع پروسس آنرا توسط شبکه افزایش میدهد اما همیشه این تضمین نمیشود."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "عمومی"
   },
-  "generalSettingsDescription": {
-    "message": "تبادل واحد پول، واحد پول اصلی، زبان، شناسا های بلوکی"
-  },
   "getHelp": {
     "message": "دریافت کمک"
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "شبکه ها"
-  },
-  "networkSettingsDescription": {
-    "message": "اضافه سازی و ویرایش شبکه های دلخواه PRC"
   },
   "nevermind": {
     "message": "توجه نکنید"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "امنیت و حریم خصوصی"
-  },
-  "securitySettingsDescription": {
-    "message": "تنظیمات حریم خصوصی و عبارت بازیاب کیف"
   },
   "seedPhrasePlaceholder": {
     "message": "هر کلمه را با یک فاصله واحد جدا سازید"

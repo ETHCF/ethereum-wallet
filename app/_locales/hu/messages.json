@@ -12,9 +12,6 @@
   "about": {
     "message": "Névjegy"
   },
-  "aboutSettingsDescription": {
-    "message": "Verzió, ügyfélszolgálat és elérhetőségek"
-  },
   "acceleratingATransaction": {
     "message": "* Ha szeretné felgyorsítani a tranzakciót azzal, hogy magasabb gázárat használ, az növeli a gyorsabb feldolgozás esélyét, de ez nem mindig garantált."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Általános"
   },
-  "generalSettingsDescription": {
-    "message": "Pénznem átváltása, elsődleges pénznem, nyelv, blockies identikonok"
-  },
   "getHelp": {
     "message": "Segítség kérése"
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "Hálózatok"
-  },
-  "networkSettingsDescription": {
-    "message": "Egyedi RPC-hálózatok hozzáadása és szerkesztése"
   },
   "nevermind": {
     "message": "Nem fontos"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "Biztonság és adatvédelem"
-  },
-  "securitySettingsDescription": {
-    "message": "Biztonsági beállítások és pénztárca kulcsszólánca"
   },
   "seedPhrasePlaceholder": {
     "message": "A szavakat egy-egy szóközzel válassza el"

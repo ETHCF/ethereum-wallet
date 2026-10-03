@@ -8,9 +8,6 @@
   "about": {
     "message": "Apie"
   },
-  "aboutSettingsDescription": {
-    "message": "Versija, palaikymo centras ir kontaktinė informacija"
-  },
   "acceleratingATransaction": {
     "message": "Operacijos paspartinimas naudojantis didesne dujų kaina padidina galimybes, kad ji bus greičiau apdorota tinkle, tačiau tai ne visada garantuojama. "
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Bendra"
   },
-  "generalSettingsDescription": {
-    "message": "Valiutos keitimas, pagrindinė valiuta, kalba, „blockies identicon“"
-  },
   "getHelp": {
     "message": "Gaukite pagalbos."
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "Tinklai"
-  },
-  "networkSettingsDescription": {
-    "message": "Įtraukti ir redaguoti tinkintus RPC tinklus"
   },
   "nevermind": {
     "message": "Nekreipti dėmesio"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "Sauga ir privatumas"
-  },
-  "securitySettingsDescription": {
-    "message": "Privatumo nuostatos ir slaptažodinės atkūrimo frazė"
   },
   "seedPhrasePlaceholder": {
     "message": "Kiekvieną žodį atskirkite viengubu tarpu"

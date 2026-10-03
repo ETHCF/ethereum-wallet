@@ -98,10 +98,10 @@ class SettingsPage extends PureComponent {
     return (
       <TabBar
         tabs={[
-          { content: t('general'), description: t('generalSettingsDescription'), key: GENERAL_ROUTE },
-          { content: t('securityAndPrivacy'), description: t('securitySettingsDescription'), key: SECURITY_ROUTE },
-          { content: t('networks'), description: t('networkSettingsDescription'), key: NETWORKS_ROUTE },
-          { content: t('about'), description: t('aboutSettingsDescription'), key: ABOUT_US_ROUTE },
+          { content: t('general'), key: GENERAL_ROUTE },
+          { content: t('securityAndPrivacy'), key: SECURITY_ROUTE },
+          { content: t('networks'), key: NETWORKS_ROUTE },
+          { content: t('about'), key: ABOUT_US_ROUTE },
         ]}
         isActive={(key) => {
           if (key === GENERAL_ROUTE && currentPath === SETTINGS_ROUTE) {

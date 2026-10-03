@@ -8,9 +8,6 @@
   "about": {
     "message": "关于"
   },
-  "aboutSettingsDescription": {
-    "message": "版本、技术支持中心和联系方式。"
-  },
   "acceleratingATransaction": {
     "message": "* 设定更高天燃气价格，加快交易完成进度，提高网络快速处理机率，但无法保证每次均能够实现提速。"
   },
@@ -375,9 +372,6 @@
   "general": {
     "message": "通用"
   },
-  "generalSettingsDescription": {
-    "message": "货币兑换、主要货币、语言和块状身份头像"
-  },
   "getHelp": {
     "message": "获取帮助。"
   },
@@ -544,9 +538,6 @@
   },
   "networks": {
     "message": "网络"
-  },
-  "networkSettingsDescription": {
-    "message": "添加和编辑自定义 RPC 网络"
   },
   "nevermind": {
     "message": "无所谓"
@@ -781,9 +772,6 @@
   },
   "securityAndPrivacy": {
     "message": "安全与隐私"
-  },
-  "securitySettingsDescription": {
-    "message": "隐私设置和钱包种子密语"
   },
   "seedPhrasePlaceholder": {
     "message": "用空格分隔每个单词"

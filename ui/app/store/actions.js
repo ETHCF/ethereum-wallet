@@ -37,46 +37,36 @@ export function goHome () {
 // async actions
 
 export function tryUnlockEcfWallet (password) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
 
-    return new Promise((resolve, reject) => {
-      background.submitPassword(password, (error) => {
-        if (error) {
-          reject(error)
-          return
-        }
+    try {
+      await new Promise((resolve, reject) => {
+        background.submitPassword(password, (error) => (error ? reject(error) : resolve()))
+      })
+    } catch (error) {
+      dispatch(unlockFailed(error.message))
+      dispatch(hideLoadingIndication())
+      throw error
+    }
 
-        resolve()
-      })
-    })
-      .then(() => {
-        dispatch(unlockSucceeded())
-        return forceUpdateEcfWalletState(dispatch)
-      })
-      .then(() => {
-        return new Promise((resolve, reject) => {
-          background.verifySeedPhrase((err) => {
-            if (err) {
-              dispatch(displayWarning(err.message))
-              reject(err)
-              return
-            }
+    dispatch(unlockSucceeded())
 
-            resolve()
-          })
-        })
+    // The vault is open from here on. Refreshing state and verifying the seed
+    // phrase both reach the network, and failing either does not mean the
+    // unlock failed, so they must not reject.
+    try {
+      await forceUpdateEcfWalletState(dispatch)
+      await new Promise((resolve, reject) => {
+        background.verifySeedPhrase((err) => (err ? reject(err) : resolve()))
       })
-      .then(() => {
-        dispatch(hideLoadingIndication())
-      })
-      .catch((err) => {
-        dispatch(unlockFailed(err.message))
-        dispatch(hideLoadingIndication())
-        return Promise.reject(err)
-      })
+    } catch (error) {
+      log.error('ecf-wallet - unlocked, but could not finish loading', error)
+    }
+
+    dispatch(hideLoadingIndication())
   }
 }
 

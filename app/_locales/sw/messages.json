@@ -12,9 +12,6 @@
   "about": {
     "message": "Kuhusu"
   },
-  "aboutSettingsDescription": {
-    "message": "Toleo, kituo cha msaada, na taarifa za mawasiliano"
-  },
   "acceleratingATransaction": {
     "message": "*Kuwezesha muamala kwa kutumia bei ya juu ya gesi huongeza uwezekano wake wa kushughulikiwa na mtandao haraka, lakini hauhakikishiwi siku zote."
   },
@@ -375,9 +372,6 @@
   "general": {
     "message": "Jumla"
   },
-  "generalSettingsDescription": {
-    "message": "Ubadilishaji wa fedha, sarafu ya msingi, lugha, blockies identicon"
-  },
   "getHelp": {
     "message": "Pata Msaada"
   },
@@ -544,9 +538,6 @@
   },
   "networks": {
     "message": "Mitandao"
-  },
-  "networkSettingsDescription": {
-    "message": "Ongeza na hariri mitandao maalumu ya RPC"
   },
   "nevermind": {
     "message": "Usijali"
@@ -781,9 +772,6 @@
   },
   "securityAndPrivacy": {
     "message": "Ulinzi na Faragha"
-  },
-  "securitySettingsDescription": {
-    "message": "Mipangilio ya Faragha na kirai kianzio cha waleti"
   },
   "seedPhrasePlaceholder": {
     "message": "Tenganisha kila neno kwa nafasi moja"

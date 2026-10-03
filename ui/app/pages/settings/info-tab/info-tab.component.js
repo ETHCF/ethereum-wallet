@@ -6,6 +6,42 @@ import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo'
 export default class InfoTab extends PureComponent {
   state = {
     version: global.platform.getVersion(),
+    buildHash: null,
+    buildCommit: null,
+  }
+
+  componentDidMount () {
+    // Written at build time by development/build/build-info.js. It is packaged
+    // with the extension, so this never touches the network.
+    global.fetch('./build-info.json')
+      .then((response) => response.json())
+      .then(({ hash, commit }) => this.setState({ buildHash: hash, buildCommit: commit }))
+      .catch(() => undefined)
+  }
+
+  renderBuild () {
+    const { t } = this.context
+    const { buildHash, buildCommit } = this.state
+
+    if (!buildHash) {
+      return null
+    }
+
+    return (
+      <div className="info-tab__item">
+        <div className="info-tab__version-header">
+          { t('buildHash') }
+        </div>
+        <div className="info-tab__build-value">{ buildHash }</div>
+        <div className="info-tab__version-header">
+          { t('buildCommit') }
+        </div>
+        <div className="info-tab__build-value">{ buildCommit }</div>
+        <div className="info-tab__about">
+          { t('buildVerifyInstructions') }
+        </div>
+      </div>
+    )
   }
 
   static contextTypes = {
@@ -103,6 +139,7 @@ export default class InfoTab extends PureComponent {
                 { t('ecfWalletDescription') }
               </div>
             </div>
+            { this.renderBuild() }
           </div>
           { this.renderInfoLinks() }
         </div>

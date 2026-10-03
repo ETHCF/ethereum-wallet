@@ -106,26 +106,19 @@ describe('Actions', function () {
       }
     })
 
-    it('displays warning error and unlock failed when verifySeed fails', async function () {
+    it('stays unlocked when verifySeedPhrase fails, since the vault is already open', async function () {
       const store = mockStore()
-      const displayWarningError = [{ type: 'DISPLAY_WARNING', value: 'error' }]
-      const unlockFailedError = [{ type: 'UNLOCK_FAILED', value: 'error' }]
 
       verifySeedPhraseSpy = sinon.stub(background, 'verifySeedPhrase')
       verifySeedPhraseSpy.callsFake((callback) => {
         callback(new Error('error'))
       })
 
-      try {
-        await store.dispatch(actions.tryUnlockEcfWallet('test'))
-        assert.fail('Should have thrown error')
-      } catch (_) {
-        const actions1 = store.getActions()
-        const warning = actions1.filter((action) => action.type === 'DISPLAY_WARNING')
-        const unlockFailed = actions1.filter((action) => action.type === 'UNLOCK_FAILED')
-        assert.deepEqual(warning, displayWarningError)
-        assert.deepEqual(unlockFailed, unlockFailedError)
-      }
+      await store.dispatch(actions.tryUnlockEcfWallet('test'))
+
+      const dispatched = store.getActions()
+      assert.equal(dispatched.filter((action) => action.type === 'UNLOCK_FAILED').length, 0)
+      assert.equal(dispatched.filter((action) => action.type === 'UNLOCK_SUCCEEDED').length, 1)
     })
   })
 

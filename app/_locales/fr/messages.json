@@ -8,9 +8,6 @@
   "about": {
     "message": "À propos"
   },
-  "aboutSettingsDescription": {
-    "message": "Version, centre d'assistance et coordonnées"
-  },
   "acceleratingATransaction": {
     "message": "* Accélérer une transaction en utilisant un prix de l'essence plus élevé augmente ses chances d'être traitée plus rapidement par le réseau, mais ce n'est pas toujours garanti."
   },
@@ -369,9 +366,6 @@
   "general": {
     "message": "Général"
   },
-  "generalSettingsDescription": {
-    "message": "Conversion de devise, devise principale, langue, blockies identicon"
-  },
   "getHelp": {
     "message": "Obtenir de l'aide."
   },
@@ -532,9 +526,6 @@
   },
   "networks": {
     "message": "Réseaux"
-  },
-  "networkSettingsDescription": {
-    "message": "Ajoutez et modifiez des réseaux RPC personnalisés"
   },
   "nevermind": {
     "message": "Abandonner"
@@ -769,9 +760,6 @@
   },
   "securityAndPrivacy": {
     "message": "Sécurité et confidentialité"
-  },
-  "securitySettingsDescription": {
-    "message": "Paramètres de confidentialité et phrase de départ du portefeuille"
   },
   "seedPhrasePlaceholder": {
     "message": "Separez chaque mot avec un espace simple"

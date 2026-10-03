@@ -8,9 +8,6 @@
   "about": {
     "message": "Informácie"
   },
-  "aboutSettingsDescription": {
-    "message": "Verzia, centrum podpory a kontaktné informácie"
-  },
   "acceleratingATransaction": {
     "message": "*Urýchlenie transakcie pomocou vyššej ceny za GAS zvyšuje šance na rýchlejšie spracovanie v sieti, nie je to však vždy zaručené."
   },
@@ -372,9 +369,6 @@
   "general": {
     "message": "Všeobecne"
   },
-  "generalSettingsDescription": {
-    "message": "Prevod mien, primárna mena, jazyk, identifikácia blokov"
-  },
   "getHelp": {
     "message": "Získajte pomoc."
   },
@@ -534,9 +528,6 @@
   },
   "networks": {
     "message": "Sítě"
-  },
-  "networkSettingsDescription": {
-    "message": "Pridať a upraviť vlastné siete RPC"
   },
   "nevermind": {
     "message": "Nevadí"
@@ -768,9 +759,6 @@
   },
   "securityAndPrivacy": {
     "message": "Bezpečnosť a súkromie"
-  },
-  "securitySettingsDescription": {
-    "message": "Nastavenia súkromia a seed fráza peňaženky"
   },
   "seedPhrasePlaceholder": {
     "message": "Každé slovo oddeľte jednou medzerou"

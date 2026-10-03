@@ -12,9 +12,6 @@
   "about": {
     "message": "Tentang"
   },
-  "aboutSettingsDescription": {
-    "message": "Versi, pusat dukungan, dan informasi kontak"
-  },
   "acceleratingATransaction": {
     "message": "* Mempercepat transaksi dengan menggunakan harga gas yang lebih tinggi meningkatkan peluangnya untuk lebih cepat diproses oleh jaringan, tetapi tak selalu terjamin pasti cepat."
   },
@@ -375,9 +372,6 @@
   "general": {
     "message": "Umum"
   },
-  "generalSettingsDescription": {
-    "message": "Konversi mata uang, mata uang utama, bahasa, blockies identicon"
-  },
   "getHelp": {
     "message": "Dapatkan Bantuan."
   },
@@ -550,9 +544,6 @@
   },
   "networks": {
     "message": "Jaringan"
-  },
-  "networkSettingsDescription": {
-    "message": "Tambah dan edit jaringan RPC kustom"
   },
   "nevermind": {
     "message": "Abaikan"
@@ -787,9 +778,6 @@
   },
   "securityAndPrivacy": {
     "message": "Keamanan & Privasi"
-  },
-  "securitySettingsDescription": {
-    "message": "Pengaturan privasi dan frasa seed dompet"
   },
   "seedPhrasePlaceholder": {
     "message": "Pisahkan setiap kata dengan spasi tunggal"

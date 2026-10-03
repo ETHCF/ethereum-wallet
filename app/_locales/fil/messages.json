@@ -8,9 +8,6 @@
   "about": {
     "message": "Tungkol sa"
   },
-  "aboutSettingsDescription": {
-    "message": "Bersyon, support center, at impormasyon sa pakikipag-ugnayan"
-  },
   "acceleratingATransaction": {
     "message": "* Ang pagpapabilis sa isang transaksyon sa pamamagitan ng paggamit ng mas mataas na presyo ng gas ay makakadagdag sa tsansa nitong maproseso ng network nang mas mabilis, pero hindi ito palaging garantisado."
   },
@@ -354,9 +351,6 @@
   "general": {
     "message": "Pangkalahatan"
   },
-  "generalSettingsDescription": {
-    "message": "Pagpapapalit ng currency, pangunahing currency, wika, blockies identicon"
-  },
   "getHelp": {
     "message": "Humingi ng Tulong."
   },
@@ -510,9 +504,6 @@
   },
   "networks": {
     "message": "Mga Network"
-  },
-  "networkSettingsDescription": {
-    "message": "Magdagdag at mag-edit ng mga custom na RPC network"
   },
   "nevermind": {
     "message": "Huwag na lang"
@@ -727,9 +718,6 @@
   },
   "securityAndPrivacy": {
     "message": "Seguridad at Privacy"
-  },
-  "securitySettingsDescription": {
-    "message": "Mga setting ng privacy at seed phrase ng wallet"
   },
   "seedPhrasePlaceholder": {
     "message": "Paghiwa-hiwalayin ang bawat salita gamit ang isang space"

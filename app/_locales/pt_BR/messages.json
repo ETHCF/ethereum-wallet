@@ -12,9 +12,6 @@
   "about": {
     "message": "Sobre"
   },
-  "aboutSettingsDescription": {
-    "message": "Versão, centro de apoio e informações de contato"
-  },
   "acceleratingATransaction": {
     "message": "* Acelerar uma transação usando um preço de gás mais alto aumenta suas chances de a rede processá-la de forma mais rápida, mas isso nem sempre é garantido."
   },
@@ -375,9 +372,6 @@
   "general": {
     "message": "Geral"
   },
-  "generalSettingsDescription": {
-    "message": "Conversão de moeda, moeda primária, idioma, identicon de blocos"
-  },
   "getHelp": {
     "message": "Obtenha Ajuda."
   },
@@ -550,9 +544,6 @@
   },
   "networks": {
     "message": "Redes"
-  },
-  "networkSettingsDescription": {
-    "message": "Adicionar e editar redes de RPC personalizadas"
   },
   "nevermind": {
     "message": "Nem pensar"
@@ -787,9 +778,6 @@
   },
   "securityAndPrivacy": {
     "message": "Segurança & Privacidade"
-  },
-  "securitySettingsDescription": {
-    "message": "Configurações de privacidade e frase-semente da carteira"
   },
   "seedPhrasePlaceholder": {
     "message": "Separe cada palavra com um único espaço"

@@ -274,9 +274,6 @@
   "networks": {
     "message": "เครือข่าย"
   },
-  "networkSettingsDescription": {
-    "message": "เพิ่มและแก้ไขเครือข่าย RPC แบบกำหนดเอง"
-  },
   "newAccount": {
     "message": "บัญชีใหม่"
   },

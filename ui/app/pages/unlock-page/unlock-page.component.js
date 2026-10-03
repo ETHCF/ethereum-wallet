@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import log from 'loglevel'
 import Button from '../../components/ui/button'
 import TextField from '../../components/ui/text-field'
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
@@ -47,17 +48,27 @@ export default class UnlockPage extends Component {
     this.setState({ error: null })
     this.submitting = true
 
+    const { t } = this.context
+
     try {
       await onSubmit(password)
-      await forceUpdateEcfWalletState()
-
     } catch ({ message }) {
-      if (message === 'Incorrect password') {
-        await forceUpdateEcfWalletState()
+      await forceUpdateEcfWalletState()
+      this.setState({
+        error: (/incorrect password/iu).test(message || '') ? t('incorrectPassword') : t('unlockFailed'),
+      })
+      this.submitting = false
+      return
+    }
 
-      }
-
-      this.setState({ error: message })
+    // The vault is open at this point. Refreshing state afterwards can still
+    // fail if the network is unreachable, and that must not read as a failed
+    // unlock or leak a raw fetch error to the user.
+    try {
+      await forceUpdateEcfWalletState()
+    } catch (error) {
+      log.error('ecf-wallet - could not refresh state after unlock', error)
+      this.setState({ error: t('unlockNetworkError') })
       this.submitting = false
     }
   }

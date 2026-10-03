@@ -5,9 +5,6 @@
   "reject": {
     "message": "拒否"
   },
-  "aboutSettingsDescription": {
-    "message": "バージョンやサポート、問合せ先など"
-  },
   "acceleratingATransaction": {
     "message": "*より高いガス価格を使用すると、ネットワークでより速く処理され、トランザクションを高速化できる可能性が高くなりますが、常に保証されるとは限りません。"
   },

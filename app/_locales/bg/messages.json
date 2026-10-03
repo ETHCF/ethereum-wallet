@@ -8,9 +8,6 @@
   "about": {
     "message": "Информация"
   },
-  "aboutSettingsDescription": {
-    "message": "Версия, център за поддръжка и информация за контакт"
-  },
   "acceleratingATransaction": {
     "message": "* Ускоряването на транзакция чрез използване на по-висока цена на газа увеличава шансовете й да се обработва по-бързо от мрежата, но това не винаги е гарантирано."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Общ"
   },
-  "generalSettingsDescription": {
-    "message": "Конвертиране на валута, първична валута, език, блокчейн идентичност"
-  },
   "getHelp": {
     "message": "Получете помощ."
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "Mрежи"
-  },
-  "networkSettingsDescription": {
-    "message": "Добавете и редактирайте персонализирани RPC мрежи"
   },
   "nevermind": {
     "message": "Няма значение"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "Сигурност и поверителност"
-  },
-  "securitySettingsDescription": {
-    "message": "Настройки за поверителност и фраза зародиш за портфейла"
   },
   "seedPhrasePlaceholder": {
     "message": "Отделете всяка дума с един интервал"

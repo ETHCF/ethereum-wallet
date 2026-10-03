@@ -6,6 +6,7 @@ const pify = require('pify')
 const pump = pify(require('pump'))
 const baseManifest = require('../../app/manifest/_base.json')
 const { createTask, composeParallel } = require('./task')
+const { writeBuildInfo } = require('./build-info')
 
 module.exports = createEtcTasks
 
@@ -27,7 +28,12 @@ function createEtcTasks ({ browserPlatforms, livereload }) {
     ...browserPlatforms.map((platform) => createZipTask(platform)),
   ))
 
-  return { clean, reload, zip }
+  // Record what was built, so the wallet can show a hash anyone can recompute.
+  const buildInfo = createTask('buildInfo', async function buildInfo () {
+    await writeBuildInfo({ browserPlatforms })
+  })
+
+  return { clean, reload, zip, buildInfo }
 }
 
 function createZipTask (target) {

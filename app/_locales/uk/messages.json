@@ -8,9 +8,6 @@
   "about": {
     "message": "Про Google Chrome"
   },
-  "aboutSettingsDescription": {
-    "message": "Версія, центр підтримки та контактна інформація"
-  },
   "acceleratingATransaction": {
     "message": "* Прискорення транзакції за допомогою вищих цін на газ підвищує її шанси бути обробленою мережею швидше, але це не завжди гарантовано."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Загальні"
   },
-  "generalSettingsDescription": {
-    "message": "Конверсія валют, первісна валюта, мова, ідентикон блокіз"
-  },
   "getHelp": {
     "message": "Отримати допомогу."
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "Мережі"
-  },
-  "networkSettingsDescription": {
-    "message": "Додавайте та редагуйте мережі RPC, що можна налаштовувати"
   },
   "nevermind": {
     "message": "Не зважати"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "Безпека й конфіденційність"
-  },
-  "securitySettingsDescription": {
-    "message": "Налаштування приватності та початкова фраза гаманця"
   },
   "seedPhrasePlaceholder": {
     "message": "Відділіть кожне слово одним пробілом"

@@ -8,9 +8,6 @@
   "about": {
     "message": "সম্পর্কে"
   },
-  "aboutSettingsDescription": {
-    "message": "সংস্করণ, সহায়তা কেন্দ্র, এবং যোগাযোগের তথ্য।"
-  },
   "acceleratingATransaction": {
     "message": "* একটি উচ্চতর গ্যাসের মূল্য ব্যবহার করে একটি লেনদেনের গতি বৃদ্ধি নেটওয়ার্কের দ্বারা সেটির প্রক্রিয়াকরণ দ্রুততর হওয়ার সম্ভাবনা বৃদ্ধি করে, কিন্তু সবসময় সেটির নিশ্চয়তা দেওয়া যায় না।"
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "সাধারণ"
   },
-  "generalSettingsDescription": {
-    "message": "মুদ্রা বিনিময়, প্রাথমিক মুদ্রা, ভাষা, ব্লকিস আইডেন্টিকন"
-  },
   "getHelp": {
     "message": "সহায়তা পান।"
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "নেটওয়ার্কসমূহ"
-  },
-  "networkSettingsDescription": {
-    "message": "কাস্টম RPC নেটওয়ার্কগুলি যোগ ও সম্পাদনা করুন"
   },
   "nevermind": {
     "message": "কিছু মনে করবেন না"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "নিরাপত্তা এবং গোপনীয়তা"
-  },
-  "securitySettingsDescription": {
-    "message": "গোপনীয়তা সেটিংস এবং ওয়ালেট সীড ফ্রেজ"
   },
   "seedPhrasePlaceholder": {
     "message": "প্রতিটি শব্দকে একটি স্পেস দিয়ে আলাদা করুন"

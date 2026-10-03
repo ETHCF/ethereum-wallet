@@ -8,9 +8,6 @@
   "about": {
     "message": "Über"
   },
-  "aboutSettingsDescription": {
-    "message": "Version, Supportcenter und Kontaktinformationen"
-  },
   "acceleratingATransaction": {
     "message": "* Die Beschleunigung einer Transaktion durch die Verwendung eines höheren Gaspreises erhöht die Chancen einer schnelleren Verarbeitung durch das Netz, wofür es allerdings keine Garantie gibt."
   },
@@ -366,9 +363,6 @@
   "general": {
     "message": "Allgemein"
   },
-  "generalSettingsDescription": {
-    "message": "Währungsumrechnung, Primärwährung, Sprache, Blockies-Identicon"
-  },
   "getHelp": {
     "message": "Erhalten Sie Hilfe."
   },
@@ -538,9 +532,6 @@
   },
   "networks": {
     "message": "Netzwerke"
-  },
-  "networkSettingsDescription": {
-    "message": "Individuelle RPC-Netzwerke hinzufügen und bearbeiten"
   },
   "nevermind": {
     "message": "Schon gut"
@@ -765,9 +756,6 @@
   },
   "securityAndPrivacy": {
     "message": "Sicherheit & Datenschutz"
-  },
-  "securitySettingsDescription": {
-    "message": "Datenschutzeinstellungen und mnemonische Phrase des Wallets"
   },
   "seedPhrasePlaceholder": {
     "message": "Trennen Sie jedes Wort durch ein einzelnes Leerzeichen."

@@ -99,9 +99,6 @@
   "about": {
     "message": "Informazioni"
   },
-  "aboutSettingsDescription": {
-    "message": "Versione, centro di supporto e contatti"
-  },
   "acceleratingATransaction": {
     "message": "* Accelerare una transazione usando un prezzo del gas maggiore aumenta la probabilità che la rete la elabori più velocemente, ma non è garantito."
   },
@@ -567,9 +564,6 @@
   "general": {
     "message": "Generale"
   },
-  "generalSettingsDescription": {
-    "message": "Conversione moneta, moneta primaria, lingua, icone blockie"
-  },
   "getHelp": {
     "message": "Aiuto."
   },
@@ -773,9 +767,6 @@
   },
   "networks": {
     "message": "Reti"
-  },
-  "networkSettingsDescription": {
-    "message": "Aggiungi e modifica reti RPC personalizzate"
   },
   "nevermind": {
     "message": "Non importa"
@@ -1042,9 +1033,6 @@
   },
   "securityAndPrivacy": {
     "message": "Sicurezza & Privacy"
-  },
-  "securitySettingsDescription": {
-    "message": "Impostazioni sulla Privacy e sulla frase seed del portafoglio"
   },
   "seedPhrasePlaceholder": {
     "message": "Separa ogni parola con un singolo spazio"

@@ -12,9 +12,6 @@
   "about": {
     "message": "O opcijama"
   },
-  "aboutSettingsDescription": {
-    "message": "Inačica, centar za podršku i informacije za kontakt"
-  },
   "acceleratingATransaction": {
     "message": "* Ubrzavanjem se transakcije pomoću veće cijene goriva povećava šansa za bržu obradu mrežom, ali se uvijek ne jamči."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Opće"
   },
-  "generalSettingsDescription": {
-    "message": "Konverzija valuta, glavna valuta, jezik, blockies identicon"
-  },
   "getHelp": {
     "message": "Potražite pomoć."
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "Mreže"
-  },
-  "networkSettingsDescription": {
-    "message": "Dodaj i uredi prilagođene mreže RPC"
   },
   "nevermind": {
     "message": "Zanemari"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "Sigurnost i privatnost"
-  },
-  "securitySettingsDescription": {
-    "message": "Postavke privatnosti i početna rečenica novčanika"
   },
   "seedPhrasePlaceholder": {
     "message": "Odvojite pojedinačne riječi jednim razmakom"

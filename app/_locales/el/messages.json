@@ -8,9 +8,6 @@
   "about": {
     "message": "Σχετικά με"
   },
-  "aboutSettingsDescription": {
-    "message": "Έκδοση, κέντρο υποστήριξης και πληροφορίες επικοινωνίας"
-  },
   "acceleratingATransaction": {
     "message": "* Η επιτάχυνση μιας συναλλαγής με τη χρήση υψηλότερης τιμής καυσίμου αυξάνει τις πιθανότητές της για ταχύτερη επεξεργασία από το δίκτυο, αλλά δεν είναι πάντοτε εγγυημένη."
   },
@@ -378,9 +375,6 @@
   "general": {
     "message": "Γενικά"
   },
-  "generalSettingsDescription": {
-    "message": "Μετατροπή νομίσματος, πρωτογενές νόμισμα, γλώσσα, αναπαράσταση μπλοκ"
-  },
   "getHelp": {
     "message": "Πάρτε Βοήθεια."
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "Δίκτυα"
-  },
-  "networkSettingsDescription": {
-    "message": "Προσθήκη και επεξεργασία προσαρμοσμένων δικτύων RPC"
   },
   "nevermind": {
     "message": "Δεν πειράζει"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "Ασφάλεια και Απόρρητο"
-  },
-  "securitySettingsDescription": {
-    "message": "Φάση ρυθμίσεων απορρήτου και σπόρου πορτοφολιού"
   },
   "seedPhrasePlaceholder": {
     "message": "Διαχωρίστε κάθε λέξη μ' ένα κενό"

@@ -8,9 +8,6 @@
   "about": {
     "message": "Informacje"
   },
-  "aboutSettingsDescription": {
-    "message": "Wersja, centrum wsparcia i dane kontaktowe"
-  },
   "acceleratingATransaction": {
     "message": "* Przyspieszenie transakcji poprzez zastosowanie wyższej ceny gazu zwiększa szanse na jej szybsze przetworzenie przez sieć, jednak skuteczność tej operacji nie jest gwarantowana."
   },
@@ -378,9 +375,6 @@
   "general": {
     "message": "Ogólne"
   },
-  "generalSettingsDescription": {
-    "message": "Przeliczanie walut, waluta podstawowa, język, ikona (identicon) Blockies"
-  },
   "getHelp": {
     "message": "Po pomoc."
   },
@@ -556,9 +550,6 @@
   },
   "networks": {
     "message": "Sieci"
-  },
-  "networkSettingsDescription": {
-    "message": "Dodawaj i edytuj niestandardowe sieci RPC"
   },
   "nevermind": {
     "message": "Nie ważne"
@@ -793,9 +784,6 @@
   },
   "securityAndPrivacy": {
     "message": "Bezpieczeństwo i prywatność"
-  },
-  "securitySettingsDescription": {
-    "message": "Ustawienia prywatności i fraza seed portfela"
   },
   "seedPhrasePlaceholder": {
     "message": "Oddziel słowa pojedynczą spacją"

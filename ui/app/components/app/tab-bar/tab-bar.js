@@ -7,7 +7,7 @@ const TabBar = (props) => {
 
   return (
     <div className="tab-bar">
-      {tabs.map(({ key, content, description }) => (
+      {tabs.map(({ key, content }) => (
         <div
           key={key}
           className={classnames('tab-bar__tab pointer', {
@@ -17,7 +17,6 @@ const TabBar = (props) => {
         >
           <div className="tab-bar__tab__content">
             <div className="tab-bar__tab__content__title">{content}</div>
-            <div className="tab-bar__tab__content__description">{description}</div>
           </div>
           <div className="tab-bar__tab__caret" />
         </div>

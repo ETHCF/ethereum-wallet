@@ -8,9 +8,6 @@
   "about": {
     "message": "Despre"
   },
-  "aboutSettingsDescription": {
-    "message": "Versiune, centru de asistență și date de contact"
-  },
   "acceleratingATransaction": {
     "message": "* Accelerarea unei tranzacții folosind un preț în gas mai mare îi crește șansele de a fi procesată mai rapid de rețea, însă acest lucru nu este garantat întotdeauna."
   },
@@ -378,9 +375,6 @@
   "gasPriceNoDenom": {
     "message": "Preț gas"
   },
-  "generalSettingsDescription": {
-    "message": "Schimb valutar, moneda principală, limba, blockies identicon"
-  },
   "getHelp": {
     "message": "Obțineți ajutor."
   },
@@ -553,9 +547,6 @@
   },
   "networks": {
     "message": "Rețele"
-  },
-  "networkSettingsDescription": {
-    "message": "Adăugați și editați rețelele RPC particularizate"
   },
   "nevermind": {
     "message": "Nu mai contează"
@@ -790,9 +781,6 @@
   },
   "securityAndPrivacy": {
     "message": "Securitate și confidențialitate"
-  },
-  "securitySettingsDescription": {
-    "message": "Setările de confidențialitate și fraza seed a portofelului"
   },
   "seedPhrasePlaceholder": {
     "message": "Despărțiți fiecare cuvânt cu un spațiu"

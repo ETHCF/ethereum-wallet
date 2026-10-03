@@ -8,9 +8,6 @@
   "about": {
     "message": "Acerca"
   },
-  "aboutSettingsDescription": {
-    "message": "Versión, centro de soporte e información de contacto"
-  },
   "acceleratingATransaction": {
     "message": "* Agilizar a una transacción al usar un precio de gas más alto aumenta las probabilidades que que la red lo procese más rápidamente, pero eso no siempre está garantizado."
   },
@@ -310,9 +307,6 @@
   },
   "gasPriceNoDenom": {
     "message": "Precio de Gas"
-  },
-  "generalSettingsDescription": {
-    "message": "Conversión de divisas, divisa principal, idioma, blockies identicon"
   },
   "getHelp": {
     "message": "Pedir ayuda."

@@ -12,9 +12,6 @@
   "about": {
     "message": "Par"
   },
-  "aboutSettingsDescription": {
-    "message": "Versija, atbalsta centrs un kontaktinformācija"
-  },
   "acceleratingATransaction": {
     "message": "* Darījuma paātrināšana, izmantojot augstāku Gas cenu, palielina iespēju, ka tīkls to apstrādās ātrāk, taču tas nav garantēts."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "Vispārīgi"
   },
-  "generalSettingsDescription": {
-    "message": "Valūtas konvertēšana, galvenā valūta, valoda, bloku identifikators"
-  },
   "getHelp": {
     "message": "Saņemt palīdzību."
   },
@@ -562,9 +556,6 @@
   },
   "networks": {
     "message": "Tīkli"
-  },
-  "networkSettingsDescription": {
-    "message": "Pievienot un rediģēt pielāgotos RPC tīklus"
   },
   "nevermind": {
     "message": "Nav svarīgi"
@@ -799,9 +790,6 @@
   },
   "securityAndPrivacy": {
     "message": "Drošība un konfidencialitāte"
-  },
-  "securitySettingsDescription": {
-    "message": "Konfidencialitātes iestatījumi un maka atkopšanas frāze"
   },
   "seedPhrasePlaceholder": {
     "message": "Atdaliet katru vārdu ar vienu atstarpi"

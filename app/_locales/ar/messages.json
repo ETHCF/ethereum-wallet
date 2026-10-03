@@ -8,9 +8,6 @@
   "about": {
     "message": "حول"
   },
-  "aboutSettingsDescription": {
-    "message": "نسخة الإصدار ومركز الدعم ومعلومات الاتصال."
-  },
   "acceleratingATransaction": {
     "message": "* تسريع المعاملات باستخدام سعر عملة جاس أعلى يزيد من فرص معالجتها بواسطة الشبكة بشكلٍ أسرع، لكن ذلك غير مضمون دائماً."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "عام"
   },
-  "generalSettingsDescription": {
-    "message": "تحويل العملات، العملة الأساسية، اللغة ، تكتلات blockies identicon"
-  },
   "getHelp": {
     "message": "احصل على الدعم."
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "الشبكات"
-  },
-  "networkSettingsDescription": {
-    "message": "إضافة وتعديل شبكات RPC المخصصة"
   },
   "nevermind": {
     "message": "لا يهم"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "الأمن والخصوصية"
-  },
-  "securitySettingsDescription": {
-    "message": "إعدادات الخصوصية وعبارة أمان المحفظة"
   },
   "seedPhrasePlaceholder": {
     "message": "يرجى فصل كل كلمة بمسافة واحدة"

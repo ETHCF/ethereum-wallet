@@ -8,9 +8,6 @@
   "about": {
     "message": "ስለ"
   },
-  "aboutSettingsDescription": {
-    "message": "ስሪት፣ የድጋፍ መስጫ ማዕከልና የግንኙነት መረጃ "
-  },
   "acceleratingATransaction": {
     "message": "* ከፍተኛ የነዳጅ ዋጋን በመጠቀም ግብይትን ማፋጠን በአውታረ መረቡ በፍጥነት እንዲከወን የማድረግ ዕድልን ይጨምራል፤ ነገር ግን ሁልጊዜም የተረጋገጠ አይደለም።"
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "አጠቃላይ"
   },
-  "generalSettingsDescription": {
-    "message": "የገንዘብ ልወጣ፣ ተቀዳሚ የገንዘብ ዓይነት፣ ቋንቋ፣ blockies identicon"
-  },
   "getHelp": {
     "message": "እገዛ ያግኙ።"
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "አውታረ መረቦች"
-  },
-  "networkSettingsDescription": {
-    "message": "ብጁ የ RPC አውታረ መረቦችን አክልና አርትዕ"
   },
   "nevermind": {
     "message": "ምንም አይደል"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "ደህንነት እና ግላዊነት"
-  },
-  "securitySettingsDescription": {
-    "message": "የግላዊነት ቅንብሮች እና የቋት ዘር ሐረግ"
   },
   "seedPhrasePlaceholder": {
     "message": "እያንዳንዱን ቃል በነጠላ ክፍት ቦታ ይለያዩ"

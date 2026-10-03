@@ -8,9 +8,6 @@
   "about": {
     "message": "Tietoja asetuksista"
   },
-  "aboutSettingsDescription": {
-    "message": "Versio, tukikeskus ja yhteystiedot"
-  },
   "acceleratingATransaction": {
     "message": "* Tapahtuman nopeuttaminen käyttämällä korkeampaa gas-hintaa parantaa mahdollisuutta, että verkko käsittelee sen nopeammin, mutta tämä ei ole aina taattua."
   },
@@ -378,9 +375,6 @@
   "general": {
     "message": "Yleistä"
   },
-  "generalSettingsDescription": {
-    "message": "Valuuttamuunnin, päävaluutta, kieli, blockies identicon"
-  },
   "getHelp": {
     "message": "Pyydä apua."
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "Verkot"
-  },
-  "networkSettingsDescription": {
-    "message": "Lisää ja muokkaa omia RPC-verkostojasi"
   },
   "nevermind": {
     "message": "Antaa olla"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "Turva & yksityisyys"
-  },
-  "securitySettingsDescription": {
-    "message": "Yksityisyysasetukset ja kukkaron salausteksti"
   },
   "seedPhrasePlaceholder": {
     "message": "Erota kukin sana yhdellä välilyönnillä"

@@ -8,9 +8,6 @@
   "about": {
     "message": "מידע כללי"
   },
-  "aboutSettingsDescription": {
-    "message": "גרסה, מרכז תמיכה ופרטי יצירת קשר."
-  },
   "acceleratingATransaction": {
     "message": "* האצת עסקה על ידי שימוש במחיר דלק גבוה יותר מגדילה את סיכוייה לעבור עיבוד מהיר יותר ע\"י הרשת, אך זה לא תמיד מובטח."
   },
@@ -381,9 +378,6 @@
   "general": {
     "message": "כללי"
   },
-  "generalSettingsDescription": {
-    "message": "המרת מטבע, מטבע עיקרי, שפה, blockies identicon"
-  },
   "getHelp": {
     "message": "בקש/י עזרה."
   },
@@ -559,9 +553,6 @@
   },
   "networks": {
     "message": "רשתות"
-  },
-  "networkSettingsDescription": {
-    "message": "הוסף וערוך רשתות RPC מותאמות אישית"
   },
   "nevermind": {
     "message": "לא משנה"
@@ -796,9 +787,6 @@
   },
   "securityAndPrivacy": {
     "message": "אבטחה ופרטיות"
-  },
-  "securitySettingsDescription": {
-    "message": "הגדרות פרטיות וצירוף הגרעין של הארנק"
   },
   "seedPhrasePlaceholder": {
     "message": "הפרד/י בין המילים ברווח אחד"

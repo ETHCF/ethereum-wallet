@@ -416,9 +416,6 @@
   "about": {
     "message": "О нас"
   },
-  "aboutSettingsDescription": {
-    "message": "О выпуске, поддержка и контакты"
-  },
   "acceleratingATransaction": {
     "message": "* Увеличение цены газа повышает шансы на более быструю обработку в сети, но это не гарантируется."
   },
@@ -650,9 +647,6 @@
   "general": {
     "message": "Основное"
   },
-  "generalSettingsDescription": {
-    "message": "Конвертация валюты, основная валюта, язык, идентификаторы блоков"
-  },
   "getHelp": {
     "message": "Получить помощь."
   },
@@ -730,9 +724,6 @@
   },
   "networkName": {
     "message": "Имя сети"
-  },
-  "networkSettingsDescription": {
-    "message": "Добавить и редактировать пользовательские сети RPC"
   },
   "nevermind": {
     "message": "Не берите в голову"
@@ -889,9 +880,6 @@
   },
   "securityAndPrivacy": {
     "message": "Безопасность и конфиденциальность"
-  },
-  "securitySettingsDescription": {
-    "message": "Настройки конфиденциальности и фраза кошелька"
   },
   "seedPhrasePlaceholder": {
     "message": "Разделяйте каждое слово одним пробелом"
