@@ -1,4 +1,3 @@
-/* global globalThis */
 import * as ethUtil from 'ethereumjs-util'
 
 const accountImporter = {

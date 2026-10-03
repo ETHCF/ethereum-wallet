@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2018 MetaMask
  * @license   MIT
  */
-/* global globalThis */
 
 import EventEmitter from 'events'
 

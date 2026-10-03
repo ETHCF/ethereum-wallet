@@ -1,4 +1,3 @@
-/* global globalThis */
 import { toChecksumAddress } from 'ethereumjs-util'
 
 export function validateTypedData (data, version) {

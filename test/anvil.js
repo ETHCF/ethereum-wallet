@@ -1,4 +1,3 @@
-/* global globalThis, BigInt */
 const path = require('path')
 const { createAnvil } = require('@viem/anvil')
 const { privateToAddress, toBuffer, bufferToHex } = require('ethereumjs-util')

@@ -1,4 +1,3 @@
-/* global globalThis */
 import PhishingDetector from 'eth-phishing-detect/src/detector'
 import DEFAULT_CONFIG from 'eth-phishing-detect/src/config.json'
 import log from 'loglevel'

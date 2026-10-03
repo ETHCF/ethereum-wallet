@@ -13,6 +13,7 @@ export default function createPermissionsMethodMiddleware ({
   notifyAccountsChanged,
   requestAccountsPermission,
   requestPermissions,
+  revokePermissions,
 }) {
 
   let isProcessingRequestAccounts = false
@@ -111,6 +112,17 @@ export default function createPermissionsMethodMiddleware ({
         }
         res.result = await requestPermissions(requested)
         notifyAccountsChanged(await getAccounts())
+        return
+      }
+
+      // A site giving up permissions it holds, such as when it disconnects.
+      case 'wallet_revokePermissions': {
+        const [revoked] = Array.isArray(req.params) ? req.params : []
+        if (!revoked || typeof revoked !== 'object' || Array.isArray(revoked) || Object.keys(revoked).length === 0) {
+          throw rpcErrors.invalidParams({ message: 'Expected a non-empty object of permissions to revoke.', data: req.params })
+        }
+        revokePermissions(Object.keys(revoked))
+        res.result = null
         return
       }
 

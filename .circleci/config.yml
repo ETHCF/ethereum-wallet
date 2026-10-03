@@ -70,9 +70,6 @@ workflows:
             - prep-deps
             - prep-build
             - all-tests-pass
-      - coveralls-upload:
-          requires:
-            - test-unit
 
 jobs:
   create_release_pull_request:
@@ -348,13 +345,3 @@ jobs:
           name: All Tests Passed
           command: echo 'weew - everything passed!'
 
-  coveralls-upload:
-    docker:
-      - image: cimg/node:24.21.0-browsers
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Coveralls upload
-          command: yarn test:coveralls-upload

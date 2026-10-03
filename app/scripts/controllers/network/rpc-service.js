@@ -1,4 +1,3 @@
-/* global globalThis */
 import { rpcErrors } from '@metamask/rpc-errors'
 
 const MAX_ATTEMPTS = 5

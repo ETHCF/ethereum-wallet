@@ -1,4 +1,3 @@
-/* global globalThis */
 
 // The HD and imported-key keyrings come from the transaction codec bundle,
 // which keeps modern EthereumJS out of Browserify (see transaction-codec.js).

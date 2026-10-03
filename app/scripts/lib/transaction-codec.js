@@ -1,4 +1,3 @@
-/* global globalThis */
 
 // Loaded before the background bundle. Keep modern EthereumJS dependencies out
 // of Browserify; hardware SDKs use their own compatible EthereumJS version.

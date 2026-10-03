@@ -1,4 +1,4 @@
-/* global Compartment, globalThis */
+/* global Compartment */
 /* eslint-disable import/unambiguous */
 // Lockdown freezes the intrinsics but leaves the global object writable, so
 // `globalThis.Promise = Evil` would still replace them for later code. This

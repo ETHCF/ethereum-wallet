@@ -6,7 +6,7 @@ describe('Promise global is immutable', function () {
 
   it('throws when reassinging promise (syntax 1)', function () {
     try {
-      // eslint-disable-next-line no-global-assign,no-native-reassign
+      // eslint-disable-next-line no-global-assign,no-native-reassign,no-implicit-globals
       Promise = {}
       assert.fail('did not throw error')
     } catch (err) {

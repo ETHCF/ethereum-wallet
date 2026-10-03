@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* global globalThis */
 // Loads a built extension's service worker scripts in order, as Chrome's
 // importScripts does, and fails if any throws while loading. Chrome reports
 // that as "Service worker registration failed. Status code: 15". The e2e tests

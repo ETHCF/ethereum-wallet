@@ -101,7 +101,7 @@ async function validateSourcemapForFile ({ buildName }) {
         console.warn(`   origin in build:`)
         console.warn(`   ${buildLines[position.line - 2]}`)
         console.warn(`-> ${buildLines[position.line - 1]}`)
-        console.warn(`   ${buildLines[position.line - 0]}`)
+        console.warn(`   ${buildLines[position.line]}`)
         return
       }
       const sourceContent = consumer.sourceContentFor(result.source)

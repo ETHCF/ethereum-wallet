@@ -594,6 +594,31 @@ describe('permissions middleware', function () {
     })
   })
 
+  describe('wallet_revokePermissions', function () {
+    it('revokes the site\'s own accounts permission', async function () {
+      const permController = initPermController()
+      grantPermissions(permController, DOMAINS.a.origin, PERMS.grants.eth_accounts(ACCOUNTS.a.permitted))
+      grantPermissions(permController, DOMAINS.b.origin, PERMS.grants.eth_accounts(ACCOUNTS.b.permitted))
+      const aMiddleware = getPermissionsMiddleware(permController, DOMAINS.a.origin)
+      const res = {}
+
+      await aMiddleware(RPC_REQUESTS.custom(DOMAINS.a.origin, 'wallet_revokePermissions', [{ eth_accounts: {} }]), res)
+
+      assert.equal(res.result, null)
+      assert.equal(permController.hasPermission(DOMAINS.a.origin, 'eth_accounts'), false)
+      assert.equal(permController.hasPermission(DOMAINS.b.origin, 'eth_accounts'), true, 'other sites keep theirs')
+    })
+
+    it('rejects an empty request', async function () {
+      const permController = initPermController()
+      const aMiddleware = getPermissionsMiddleware(permController, DOMAINS.a.origin)
+      await assert.rejects(
+        aMiddleware(RPC_REQUESTS.custom(DOMAINS.a.origin, 'wallet_revokePermissions', [{}]), {}),
+        (error) => error.code === -32602,
+      )
+    })
+  })
+
   describe('wallet_getPermissions', function () {
 
     let permController

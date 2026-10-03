@@ -1,4 +1,3 @@
-/* global globalThis */
 import { nanoid } from 'nanoid'
 import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
 import { ObservableStore } from '@metamask/obs-store'
@@ -103,6 +102,7 @@ export class PermissionsController {
         this, { origin }, { eth_accounts: {} },
       ),
       requestPermissions: (permissions) => this._requestPermissions({ origin }, permissions),
+      revokePermissions: (permissionNames) => this.removePermissionsFor({ [origin]: permissionNames }),
     }))
 
     // Every other method either needs no permission or must be permitted.

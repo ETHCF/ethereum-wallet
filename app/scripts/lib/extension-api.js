@@ -4,7 +4,6 @@ import browserGlobal from './browser-global'
 // throws outside an extension, so unit tests get an empty object to stub.
 const nativeApi = browserGlobal.browser || browserGlobal.chrome
 const hasExtensionApi = Boolean(nativeApi?.runtime?.id)
-// eslint-disable-next-line global-require
 const extension = hasExtensionApi ? require('webextension-polyfill') : {}
 
 if (hasExtensionApi) {

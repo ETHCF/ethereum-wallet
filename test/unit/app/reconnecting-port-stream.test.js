@@ -24,6 +24,28 @@ describe('Manifest V3 dapp connections', function () {
     assert.match(message.data.error.message, /refresh/iu)
   }
 
+  it('reads the disconnect error so the browser does not report it as unchecked', function () {
+    const port = createPort()
+    const stream = new ReconnectingPortStream(() => port)
+    const originalChrome = globalThis.chrome
+    let lastErrorRead = false
+    globalThis.chrome = {
+      runtime: {
+        get lastError () {
+          lastErrorRead = true
+          return { message: 'The page keeping the extension port is moved into back/forward cache, so the message channel is closed.' }
+        },
+      },
+    }
+    try {
+      port.onDisconnect.addListener.firstCall.args[0]()
+    } finally {
+      globalThis.chrome = originalChrome
+    }
+    assert.equal(lastErrorRead, true)
+    stream.destroy()
+  })
+
   it('rejects requests after context invalidation during reconnect without breaking the stream', function () {
     const port = createPort()
     const connect = sinon.stub().returns(port)
