@@ -97,7 +97,7 @@ const AssetListItem = ({
       midContent={midContent}
       rightContent={(
         <>
-          <i className="fas fa-chevron-right asset-list-item__chevron-right" />
+          <span className="asset-list-item__chevron-right">&gt;</span>
           {sendTokenButton}
         </>
       )}

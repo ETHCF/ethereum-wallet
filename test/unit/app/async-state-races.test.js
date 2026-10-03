@@ -5,7 +5,6 @@ import { encode as abiEncode } from '@metamask/abi-utils'
 import { ObservableStore } from '@metamask/obs-store'
 import AccountTracker from '../../../app/scripts/lib/account-tracker'
 import CachedBalancesController from '../../../app/scripts/controllers/cached-balances'
-import IncomingTransactionsController from '../../../app/scripts/controllers/incoming-transactions'
 import TypedMessageManager from '../../../app/scripts/lib/typed-message-manager'
 import WalletController from '../../../app/scripts/ecf-wallet-controller'
 import NotificationManager from '../../../app/scripts/lib/notification-manager'
@@ -199,23 +198,6 @@ describe('Asynchronous state races', function () {
     replies[2](null, [new BN(1)])
     await removed
     assert.deepEqual(tracker.store.getState().accounts, {})
-  })
-
-  it('merges out-of-order history without deleting transactions or regressing the block cursor', async function () {
-    const controller = Object.create(IncomingTransactionsController.prototype)
-    controller.store = new ObservableStore({ incomingTransactions: {}, incomingTxLastFetchedBlocksByNetwork: {} })
-    controller.getCurrentNetwork = () => 'mainnet'
-    const older = deferred()
-    const newer = deferred()
-    controller._fetchAll = (_, block) => (block === 100 ? older.promise : newer.promise)
-    const first = controller._update({ address, newBlockNumberDec: 100 })
-    const second = controller._update({ address, newBlockNumberDec: 101 })
-    newer.resolve({ latestIncomingTxBlockNumber: 101, txs: [{ hash: 'newer' }] })
-    await second
-    older.resolve({ latestIncomingTxBlockNumber: 100, txs: [{ hash: 'older' }] })
-    await first
-    assert.deepEqual(Object.keys(controller.store.getState().incomingTransactions).sort(), ['newer', 'older'])
-    assert.equal(controller.store.getState().incomingTxLastFetchedBlocksByNetwork.mainnet, 102)
   })
 
   it('retains both networks when balance cache updates overlap', async function () {

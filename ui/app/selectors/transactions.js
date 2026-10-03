@@ -15,19 +15,7 @@ import {
   getSelectedAddress,
 } from '.'
 
-export const incomingTxListSelector = (state) => {
-  const { showIncomingTransactions } = state.ecfWallet.featureFlags
-  if (!showIncomingTransactions) {
-    return []
-  }
-
-  const { network } = state.ecfWallet
-  const selectedAddress = getSelectedAddress(state)
-  return Object.values(state.ecfWallet.incomingTransactions)
-    .filter(({ ecfWalletNetworkId, txParams }) => (
-      txParams.to === selectedAddress && ecfWalletNetworkId === network
-    ))
-}
+export const incomingTxListSelector = () => []
 export const unapprovedMsgsSelector = (state) => state.ecfWallet.unapprovedMsgs
 export const currentNetworkTxListSelector = (state) => state.ecfWallet.currentNetworkTxList
 export const unapprovedPersonalMsgsSelector = (state) => state.ecfWallet.unapprovedPersonalMsgs

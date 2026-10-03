@@ -7,7 +7,7 @@ const ConnectedAccountsListOptions = ({ children, onShowOptions, onHideOptions, 
 
   return (
     <>
-      <button className="fas fa-ellipsis-v connected-accounts-options__button" onClick={onShowOptions} ref={setOptionsButtonElement} />
+      <button className="connected-accounts-options__button" onClick={onShowOptions} ref={setOptionsButtonElement}>...</button>
       {
         show
           ? (

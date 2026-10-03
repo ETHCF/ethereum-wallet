@@ -19,11 +19,20 @@
   .menu-bar__account-options {
     grid-row: 1;
     grid-column: 3;
-    background: none;
-    font-size: inherit;
-    padding: 0 8px 0 5px;
+    // The same caret the dropdown control uses, masked so it takes the theme
+    // colour rather than the one baked into the asset.
+    background-color: var(--color-icon-default);
+    mask-image: url('/images/icons/caret-down.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    border: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    padding: 0;
     place-self: start end;
-    margin-top: 10px;
+    margin: 16px 12px 0 0;
     position: relative;
     z-index: 1;
   }

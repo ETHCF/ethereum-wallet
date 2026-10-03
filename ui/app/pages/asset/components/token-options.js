@@ -12,7 +12,7 @@ const TokenOptions = ({ onRemove, onViewEtherscan, tokenSymbol }) => {
   return (
     <>
       <button
-        className="fas fa-ellipsis-v token-options__button"
+        className="token-options__button"
         data-testid="token-options__button"
         onClick={() => setTokenOptionsOpen(true)}
         ref={setTokenOptionsButtonElement}

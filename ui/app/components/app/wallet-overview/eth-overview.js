@@ -50,10 +50,10 @@ const EthOverview = ({ className }) => {
             type="primary"
             className="eth-overview__button"
             onClick={() => {
-              dispatch(showModal({ name: 'DEPOSIT_ETHER' }))
+              dispatch(showModal({ name: 'ACCOUNT_DETAILS' }))
             }}
           >
-            { t('buy') }
+            { t('receive') }
           </Button>
           <Button
             type="secondary"

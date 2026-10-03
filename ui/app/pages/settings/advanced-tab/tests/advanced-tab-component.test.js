@@ -6,13 +6,9 @@ import AdvancedTab from '../advanced-tab.component'
 import TextField from '../../../../components/ui/text-field'
 
 describe('AdvancedTab Component', function () {
-  it('should render the available advanced settings', function () {
+  it('should render the auto-lock setting', function () {
     const root = shallow(
-      <AdvancedTab
-        ipfsGateway=""
-        setAutoLockTimeLimit={() => undefined}
-        setIpfsGateway={() => undefined}
-      />,
+      <AdvancedTab setAutoLockTimeLimit={() => undefined} />,
       {
         context: {
           t: (s) => `_${s}`,
@@ -20,17 +16,13 @@ describe('AdvancedTab Component', function () {
       },
     )
 
-    assert.equal(root.find('.settings-page__content-row').length, 7)
+    assert.equal(root.find('.settings-page__content-row').length, 1)
   })
 
   it('should update autoLockTimeLimit', function () {
     const setAutoLockTimeLimitSpy = sinon.spy()
     const root = shallow(
-      <AdvancedTab
-        ipfsGateway=""
-        setAutoLockTimeLimit={setAutoLockTimeLimitSpy}
-        setIpfsGateway={() => undefined}
-      />,
+      <AdvancedTab setAutoLockTimeLimit={setAutoLockTimeLimitSpy} />,
       {
         context: {
           t: (s) => `_${s}`,
@@ -38,13 +30,11 @@ describe('AdvancedTab Component', function () {
       },
     )
 
-    const autoTimeout = root.find('.settings-page__content-row').at(5)
-    const textField = autoTimeout.find(TextField)
-
+    const textField = root.find(TextField)
     textField.props().onChange({ target: { value: 1440 } })
     assert.equal(root.state().autoLockTimeLimit, 1440)
 
-    autoTimeout.find('.settings-tab__rpc-save-button').simulate('click')
+    root.find('.settings-tab__rpc-save-button').simulate('click')
     assert.equal(setAutoLockTimeLimitSpy.args[0][0], 1440)
   })
 })

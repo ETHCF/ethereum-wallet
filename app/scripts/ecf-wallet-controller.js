@@ -43,7 +43,6 @@ import AppStateController from './controllers/app-state'
 import CachedBalancesController from './controllers/cached-balances'
 import AlertController from './controllers/alert'
 import OnboardingController from './controllers/onboarding'
-import IncomingTransactionsController from './controllers/incoming-transactions'
 import DecryptMessageManager from './lib/decrypt-message-manager'
 import EncryptionPublicKeyManager from './lib/encryption-public-key-manager'
 import PersonalMessageManager from './lib/personal-message-manager'
@@ -125,13 +124,6 @@ export default class EcfWalletController extends EventEmitter {
       networkStore: this.networkController.networkStore,
     })
 
-    this.incomingTransactionsController = new IncomingTransactionsController({
-      blockTracker: this.blockTracker,
-      networkController: this.networkController,
-      preferencesController: this.preferencesController,
-      initState: initState.IncomingTransactionsController,
-    })
-
     // account tracker watches balances, nonces, and any code at their address
     this.accountTracker = new AccountTracker({
       provider: this.provider,
@@ -143,10 +135,8 @@ export default class EcfWalletController extends EventEmitter {
     this.on('controllerConnectionChanged', (activeControllerConnections) => {
       if (activeControllerConnections > 0) {
         this.accountTracker.start()
-        this.incomingTransactionsController.start()
       } else {
         this.accountTracker.stop()
-        this.incomingTransactionsController.stop()
       }
     })
 
@@ -259,7 +249,6 @@ export default class EcfWalletController extends EventEmitter {
       CachedBalancesController: this.cachedBalancesController.store,
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
-      IncomingTransactionsController: this.incomingTransactionsController.store,
       PermissionController: this.permissionsController.permissionStore,
       PermissionsMetadata: this.permissionsController.store,
     })
@@ -279,7 +268,6 @@ export default class EcfWalletController extends EventEmitter {
       AddressBookController: this.addressBookStore,
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
-      IncomingTransactionsController: this.incomingTransactionsController.store,
       PermissionController: this.permissionsController.permissionStore,
       PermissionsMetadata: this.permissionsController.store,
       PermissionsRequests: this.permissionsController.approvals.store,

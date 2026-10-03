@@ -4,10 +4,11 @@
   top: 58px;
   width: 320px;
   border-radius: 0;
-  background: rgba($black, 0.8);
+  background: var(--color-background-default);
+  border: 1px solid var(--color-border-default);
   box-shadow: none;
   min-width: 150px;
-  color: $white;
+  color: var(--color-text-default);
 
   @media screen and (max-width: 575px) {
     right: calc(((100vw - 100%) / 2) + 8px);
@@ -41,11 +42,11 @@
       cursor: pointer;
 
       &:hover {
-        background-color: rgba($white, 0.05);
+        background-color: var(--color-background-hover);
       }
 
       &:active {
-        background-color: rgba($white, 0.1);
+        background-color: var(--color-background-pressed);
       }
     }
 
@@ -67,7 +68,7 @@
   }
 
   &__divider {
-    background-color: $scorpion;
+    background-color: var(--color-background-alternative);
     width: 100%;
     height: 1px;
   }
@@ -98,9 +99,9 @@
   }
 
   &__lock-button {
-    border: 1px solid $dusty-gray;
+    border: 1px solid var(--color-border-default);
     background-color: transparent;
-    color: $white;
+    color: var(--color-text-default);
     border-radius: 0;
     font-size: 12px;
     line-height: 23px;
@@ -147,8 +148,8 @@
       height: 15px;
       margin-top: 5px;
       margin-right: 10px;
-      background-color: $dusty-gray;
-      color: $black;
+      background-color: var(--color-background-alternative);
+      color: var(--color-text-default);
       font-weight: normal;
       letter-spacing: 0.5px;
     }
@@ -180,7 +181,7 @@
       .remove-account-icon::after {
         content: '\00D7';
         font-size: 25px;
-        color: $white;
+        color: var(--color-text-default);
         cursor: pointer;
         position: absolute;
         margin-top: -5px;
@@ -216,7 +217,7 @@
   }
 
   &__name {
-    color: $white;
+    color: var(--color-text-default);
     font-size: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -225,7 +226,7 @@
   }
 
   &__balance {
-    color: $dusty-gray;
+    color: var(--color-text-alternative);
     font-size: 14px;
   }
 

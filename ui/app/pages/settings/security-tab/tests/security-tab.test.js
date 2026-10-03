@@ -11,7 +11,6 @@ describe('Security Tab', function () {
     revealSeedConfirmation: sinon.spy(),
     showClearApprovalModal: sinon.spy(),
     displayWarning: sinon.spy(),
-    setShowIncomingTransactionsFeatureFlag: sinon.spy(),
     navigate: sinon.spy(),
     privacyMode: true,
     warning: '',
@@ -37,14 +36,8 @@ describe('Security Tab', function () {
     assert.equal(props.navigate.getCall(0).args[0], '/seed')
   })
 
-  it('toggles incoming txs', function () {
-    const incomingTxs = wrapper.find('[role="switch"]').at(0)
-    incomingTxs.simulate('click')
-    assert(props.setShowIncomingTransactionsFeatureFlag.calledOnce)
-  })
-
   it('toggles phishing detection', function () {
-    const phishDetect = wrapper.find('[role="switch"]').at(1)
+    const phishDetect = wrapper.find('[role="switch"]').at(0)
     phishDetect.simulate('click')
     assert(props.setUsePhishDetect.calledOnce)
   })

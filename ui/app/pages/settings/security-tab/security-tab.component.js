@@ -12,8 +12,6 @@ export default class SecurityTab extends PureComponent {
   static propTypes = {
     warning: PropTypes.string,
     navigate: PropTypes.func,
-    showIncomingTransactions: PropTypes.bool.isRequired,
-    setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
   }
@@ -39,32 +37,6 @@ export default class SecurityTab extends PureComponent {
             >
               { t('revealSeedWords') }
             </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  renderIncomingTransactionsOptIn () {
-    const { t } = this.context
-    const { showIncomingTransactions, setShowIncomingTransactionsFeatureFlag } = this.props
-
-    return (
-      <div className="settings-page__content-row">
-        <div className="settings-page__content-item">
-          <span>{ t('showIncomingTransactions') }</span>
-          <div className="settings-page__content-description">
-            { t('showIncomingTransactionsDescription') }
-          </div>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <ToggleButton
-              value={showIncomingTransactions}
-              onToggle={(value) => setShowIncomingTransactionsFeatureFlag(!value)}
-              offLabel={t('off')}
-              onLabel={t('on')}
-            />
           </div>
         </div>
       </div>
@@ -104,7 +76,6 @@ export default class SecurityTab extends PureComponent {
       <div className="settings-page__body">
         { warning && <div className="settings-tab__error">{ warning }</div> }
         { this.renderSeedWords() }
-        { this.renderIncomingTransactionsOptIn() }
         { this.renderPhishingDetectionToggle() }
       </div>
     )

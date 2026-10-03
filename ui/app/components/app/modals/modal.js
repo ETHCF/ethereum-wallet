@@ -10,7 +10,6 @@ import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums'
 
 // Modal Components
 import ConfirmCustomizeGasModal from '../gas-customization/gas-modal-page-container'
-import DepositEtherModal from './deposit-ether-modal'
 import AccountDetailsModal from './account-details-modal'
 import ExportPrivateKeyModal from './export-private-key-modal'
 import HideTokenConfirmationModal from './hide-token-confirmation-modal'
@@ -78,38 +77,6 @@ const accountModalStyle = {
 }
 
 const MODALS = {
-  DEPOSIT_ETHER: {
-    contents: <DepositEtherModal />,
-    onHide: (props) => props.hideWarning(),
-    mobileModalStyle: {
-      width: '100%',
-      height: '100%',
-      transform: 'none',
-      left: '0',
-      right: '0',
-      margin: '0 auto',
-      boxShadow: '0 0 7px 0 rgba(0,0,0,0.08)',
-      top: '0',
-      display: 'flex',
-    },
-    laptopModalStyle: {
-      width: 'initial',
-      maxWidth: '850px',
-      top: 'calc(10% + 10px)',
-      left: '0',
-      right: '0',
-      margin: '0 auto',
-      boxShadow: '0 0 6px 0 rgba(0,0,0,0.3)',
-      borderRadius: '7px',
-      transform: 'none',
-      height: 'calc(80% - 20px)',
-      overflowY: 'hidden',
-    },
-    contentStyle: {
-      borderRadius: '7px',
-      height: '100%',
-    },
-  },
 
   ADD_TO_ADDRESSBOOK: {
     contents: <AddToAddressBookModal />,

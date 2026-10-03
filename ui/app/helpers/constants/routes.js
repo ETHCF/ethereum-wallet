@@ -5,18 +5,9 @@ const ASSET_ROUTE = '/asset'
 const SETTINGS_ROUTE = '/settings'
 const GENERAL_ROUTE = '/settings/general'
 const CONNECTIONS_ROUTE = '/settings/connections'
-const ADVANCED_ROUTE = '/settings/advanced'
 const SECURITY_ROUTE = '/settings/security'
 const ABOUT_US_ROUTE = '/settings/about-us'
-const ALERTS_ROUTE = '/settings/alerts'
 const NETWORKS_ROUTE = '/settings/networks'
-const CONTACT_LIST_ROUTE = '/settings/contact-list'
-const CONTACT_EDIT_ROUTE = '/settings/contact-list/edit-contact'
-const CONTACT_ADD_ROUTE = '/settings/contact-list/add-contact'
-const CONTACT_VIEW_ROUTE = '/settings/contact-list/view-contact'
-const CONTACT_MY_ACCOUNTS_ROUTE = '/settings/contact-list/my-accounts'
-const CONTACT_MY_ACCOUNTS_VIEW_ROUTE = '/settings/contact-list/my-accounts/view'
-const CONTACT_MY_ACCOUNTS_EDIT_ROUTE = '/settings/contact-list/my-accounts/edit'
 const REVEAL_SEED_ROUTE = '/seed'
 const RESTORE_VAULT_ROUTE = '/restore-vault'
 const ADD_TOKEN_ROUTE = '/add-token'
@@ -57,7 +48,6 @@ const ENCRYPTION_PUBLIC_KEY_REQUEST_PATH = '/encryption-public-key-request'
 
 export {
   DEFAULT_ROUTE,
-  ALERTS_ROUTE,
   ASSET_ROUTE,
   UNLOCK_ROUTE,
   LOCK_ROUTE,
@@ -91,18 +81,10 @@ export {
   SIGNATURE_REQUEST_PATH,
   DECRYPT_MESSAGE_REQUEST_PATH,
   ENCRYPTION_PUBLIC_KEY_REQUEST_PATH,
-  ADVANCED_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
   CONNECTIONS_ROUTE,
   ABOUT_US_ROUTE,
-  CONTACT_LIST_ROUTE,
-  CONTACT_EDIT_ROUTE,
-  CONTACT_ADD_ROUTE,
-  CONTACT_VIEW_ROUTE,
-  CONTACT_MY_ACCOUNTS_ROUTE,
-  CONTACT_MY_ACCOUNTS_VIEW_ROUTE,
-  CONTACT_MY_ACCOUNTS_EDIT_ROUTE,
   NETWORKS_ROUTE,
   INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
   CONNECT_ROUTE,

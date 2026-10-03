@@ -31,7 +31,7 @@ export default function MenuBar () {
       <SelectedAccount />
 
       <button
-        className="fas fa-ellipsis-v menu-bar__account-options"
+        className="menu-bar__account-options"
         data-testid="account-options-menu-button"
         ref={setAccountOptionsButtonElement}
         title={t('accountOptions')}

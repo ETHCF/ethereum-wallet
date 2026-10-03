@@ -39,7 +39,6 @@ export default class PreferencesController {
       // for convenient testing of pre-release features, and should never
       // perform sensitive operations.
       featureFlags: {
-        showIncomingTransactions: true,
       },
       knownMethodData: {},
       firstTimeFlowType: null,

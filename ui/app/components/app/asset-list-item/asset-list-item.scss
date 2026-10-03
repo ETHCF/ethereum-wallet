@@ -1,6 +1,7 @@
 .asset-list-item {
   &__chevron-right {
     color: var(--color-text-alternative);
+    font-family: $font-family;
   }
 
   .list-item__right-content {
