@@ -42,7 +42,7 @@
     line-height: 18px;
 
     &__disabled {
-      background-color: rgb(222, 222, 222);
+      background-color: var(--color-border-muted);
     }
   }
 

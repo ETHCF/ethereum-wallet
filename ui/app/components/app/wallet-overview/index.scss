@@ -71,7 +71,7 @@
   }
 
   &__cached-secondary-balance {
-    color: rgba(220, 153, 18, 0.6901960784313725);
+    color: var(--color-warning-default);
     font-size: 16px;
     line-height: 23px;
   }

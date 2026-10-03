@@ -52,7 +52,9 @@ export default class UnlockPage extends Component {
 
     try {
       await onSubmit(password)
-    } catch ({ message }) {
+    } catch (error) {
+      const { message } = error
+      log.error('ecf-wallet - unlock failed', message, error)
       await forceUpdateEcfWalletState()
       this.setState({
         error: (/incorrect password/iu).test(message || '') ? t('incorrectPassword') : t('unlockFailed'),

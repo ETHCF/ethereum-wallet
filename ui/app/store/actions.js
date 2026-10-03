@@ -47,6 +47,7 @@ export function tryUnlockEcfWallet (password) {
         background.submitPassword(password, (error) => (error ? reject(error) : resolve()))
       })
     } catch (error) {
+      log.error('ecf-wallet - submitPassword failed', error)
       dispatch(unlockFailed(error.message))
       dispatch(hideLoadingIndication())
       throw error

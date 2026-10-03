@@ -705,7 +705,14 @@ export default class EcfWalletController extends EventEmitter {
   async submitPassword (password) {
     await this.keyringController.submitPassword(password)
 
-    await this.blockTracker.checkForLatestBlock()
+    // The vault is open from here. Priming the block tracker reaches the
+    // network, and an unreachable network does not mean the password was
+    // wrong, so it must not fail the unlock.
+    try {
+      await this.blockTracker.checkForLatestBlock()
+    } catch (error) {
+      log.error('ecf-wallet - unlocked, but could not reach the network', error)
+    }
 
     return this.keyringController.fullUpdate()
   }

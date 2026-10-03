@@ -42,7 +42,7 @@
 
 .sidebar-left {
   flex: 1 0 230px;
-  background: rgb(250, 250, 250);
+  background: var(--color-background-alternative);
   z-index: $sidebar-z-index;
   position: fixed;
   left: 15%;
