@@ -6,7 +6,7 @@
 
   &__account {
     border: 1px solid var(--color-border-muted);
-    border-radius: 4px;
+    border-radius: 0;
     padding: 10px;
     display: flex;
     margin-top: 10px;
@@ -53,6 +53,7 @@
   }
 
   &__link {
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
+    text-decoration: underline;
   }
 }

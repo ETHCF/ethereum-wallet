@@ -257,7 +257,7 @@ export default class ConfirmDecryptMessage extends Component {
                 >
                   {t('decryptCopy')}
                 </div>
-                <Copy size={17} color="#3098DC" />
+                <Copy size={17} color="currentColor" />
               </Tooltip>
             </div>
           )

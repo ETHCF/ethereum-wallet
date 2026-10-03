@@ -4,7 +4,7 @@
 .new-account {
   width: 375px;
   background-color: var(--color-background-default);
-  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   z-index: 25;
   height: unset;
   overflow: auto;
@@ -80,7 +80,7 @@
     height: 54px;
     width: 315.84px;
     border: 1px solid var(--color-border-muted);
-    border-radius: 4px;
+    border-radius: 0;
     background-color: var(--color-background-default);
     color: var(--color-text-alternative);
     font-size: 16px;

@@ -23,7 +23,7 @@
   // TODO: fix style import order so this isn't required to override specificity of `tab` class
   &__main-view &__tabs {
     border: none;
-    box-shadow: 0 3px 4px rgba(135, 134, 134, 0.16);
+    box-shadow: none;
   }
 
   &__main-view &__tab {
@@ -93,7 +93,7 @@
       button {
         height: 39px;
         width: 133px;
-        border-radius: 39px;
+        border-radius: 0;
         padding: 0;
       }
 
@@ -108,11 +108,11 @@
   &__connected-status-popover-bg {
     height: 55px;
     width: 120px;
-    border-radius: 34px;
+    border-radius: 0;
     position: absolute;
     top: 73px;
     opacity: 1;
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
     background: none;
   }
 

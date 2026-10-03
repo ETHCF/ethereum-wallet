@@ -28,7 +28,7 @@ const getMaterialThemeInputProps = ({ dir, startAdornment }) => ({
     startAdornment,
     sx: {
       '&:after': {
-        borderBottom: '2px solid #f7861c',
+        borderBottom: '1px solid var(--color-border-default)',
       },
     },
     inputProps: {
@@ -42,18 +42,18 @@ const getMaterialWhitePaddedThemeInputProps = ({ dir, startAdornment }) => ({
   InputProps: {
     startAdornment,
     sx: {
-      color: '#aeaeae',
+      color: 'var(--color-text-alternative)',
       '&.Mui-focused': {
-        color: '#fff',
+        color: 'var(--color-text-default)',
       },
       '& .MuiInputBase-input': {
         padding: '8px',
         '&::placeholder': {
-          color: '#aeaeae',
+          color: 'var(--color-text-alternative)',
         },
       },
       '&:after': {
-        borderBottom: '2px solid #fff',
+        borderBottom: '1px solid var(--color-border-default)',
       },
     },
     inputProps: {
@@ -85,9 +85,9 @@ const getBorderedThemeInputProps = ({ dir, largeLabel, startAdornment, inputRoot
       'label + &': {
         marginTop: '9px',
       },
-      border: '2px solid var(--color-border-default)',
+      border: '1px solid var(--color-border-default)',
       height: '48px',
-      borderRadius: '6px',
+      borderRadius: '0',
       padding: '0 16px',
       display: 'flex',
       alignItems: 'center',

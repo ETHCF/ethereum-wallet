@@ -46,7 +46,8 @@
 
   &__subheader--link:hover {
     cursor: pointer;
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
+    text-decoration: underline;
   }
 
   &__subheader--break {

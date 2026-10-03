@@ -109,9 +109,6 @@ class NetworkDropdown extends Component {
             <i className="fa fa-question-circle fa-med menu-icon-circle" />
             <span
               className="network-name-item"
-              style={{
-                color: '#ffffff',
-              }}
             >
               {nickname || rpcTarget}
             </span>

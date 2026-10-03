@@ -6,7 +6,7 @@
   margin-top: 12px;
   padding: 10px 12px;
   border: 1px solid var(--color-warning-default);
-  border-radius: 4px;
+  border-radius: 0;
   background: var(--color-warning-muted);
   color: var(--color-text-default);
   font-size: 12px;
@@ -21,7 +21,7 @@
     align-self: flex-start;
     padding: 4px 10px;
     border: 1px solid var(--color-primary-default);
-    border-radius: 4px;
+    border-radius: 0;
     background: var(--color-background-default);
     color: var(--color-primary-default);
     font-size: 12px;

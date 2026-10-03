@@ -309,15 +309,6 @@ describe('EcfWalletController', function () {
     })
   })
 
-  describe('preferencesController', function () {
-
-    it('setUseBlockie to true', function () {
-      ecfWalletController.setUseBlockie(true, noop)
-      assert.equal(ecfWalletController.preferencesController.store.getState().useBlockie, true)
-    })
-
-  })
-
   describe('#selectFirstIdentity', function () {
     let identities, address
 

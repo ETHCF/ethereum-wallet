@@ -147,7 +147,7 @@
 
     &__group-item--selected {
       border: 2px solid var(--color-primary-default);
-      border-radius: 8px;
+      border-radius: 0;
     }
   }
 }
@@ -162,7 +162,7 @@
     width: 0;
     align-items: center;
     background: var(--color-background-default);
-    border-radius: 0.5rem;
+    border-radius: 0;
     padding: 0.75rem 0.5rem;
     border: 1px solid var(--color-border-muted);
     transition: border-color 150ms ease-in-out;
@@ -214,7 +214,13 @@
       }
 
       &--qrcode {
-        background-image: url("/images/qr-blue.svg");
+        // Masked rather than drawn, so the icon follows the theme instead of
+        // staying the blue baked into the asset.
+        background-color: var(--color-icon-default);
+        mask-image: url("/images/qr-blue.svg");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
         width: 1.5rem;
         height: 1.5rem;
         margin: 0 0.25rem;

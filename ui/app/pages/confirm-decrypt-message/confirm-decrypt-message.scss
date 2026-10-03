@@ -1,9 +1,9 @@
 .request-decrypt-message {
   &__container {
     width: 380px;
-    border-radius: 8px;
+    border-radius: 0;
     background-color: var(--color-background-default);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+    box-shadow: none;
     display: flex;
     flex-flow: column nowrap;
     z-index: 25;
@@ -167,7 +167,7 @@
     overflow: hidden;
     border: 1px solid var(--color-border-muted);
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 0;
     position: relative;
 
     &-text {
@@ -197,7 +197,7 @@
         left: calc(50% - 24px);
         position: absolute;
         top: calc(50% - 34px);
-        border-radius: 3px;
+        border-radius: 0;
       }
 
       &--pressed {
@@ -214,7 +214,7 @@
       left: calc(50% - 100px);
       background-color: var(--color-background-default);
       line-height: 1em;
-      border-radius: 3px;
+      border-radius: 0;
     }
 
     &-copy {
@@ -279,7 +279,7 @@
         color: var(--color-primary-inverse);
         width: 48px;
         height: 48px;
-        border-radius: 24px;
+        border-radius: 0;
         display: flex;
         align-items: center;
         justify-content: center;

@@ -66,13 +66,15 @@ html {
 }
 /* stylelint-enable */
 
+// Links are blue and underlined, as on swap.ethcf.org.
 a {
-  text-decoration: none;
-  color: inherit;
+  color: var(--color-link-default);
+  text-decoration: underline;
 }
 
 a:hover {
-  color: var(--color-warning-default);
+  color: var(--color-link-default);
+  text-decoration: underline;
 }
 
 input.large-input,
@@ -99,7 +101,7 @@ input.form-control {
   font-size: 14px;
   height: 40px;
   border: 1px solid var(--color-border-muted);
-  border-radius: 3px;
+  border-radius: 0;
   width: 100%;
 
   &::-webkit-input-placeholder {
@@ -135,6 +137,10 @@ input.form-control {
 
 // Material-UI inputs set their own colors; make them follow the theme.
 // Its styles are injected after this stylesheet, so the selectors need extra specificity.
+html [class*='Mui'] {
+  font-family: $font-family;
+}
+
 html .MuiInputBase-root {
   color: var(--color-text-default);
 }

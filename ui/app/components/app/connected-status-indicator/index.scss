@@ -5,7 +5,7 @@
   background: none;
   font-size: inherit;
   padding: 8px;
-  border-radius: 100px;
+  border-radius: 0;
 
   &:hover {
     background-color: var(--color-background-alternative);
@@ -16,7 +16,7 @@
   }
 
   &__inner-circle {
-    border-radius: 4px;
+    border-radius: 0;
     height: 4px;
     width: 4px;
     background-color: transparent;
@@ -25,7 +25,7 @@
   &__green-circle,
   &__yellow-circle,
   &__grey-circle {
-    border-radius: 4px;
+    border-radius: 0;
     height: 8px;
     width: 8px;
     border: 1px solid transparent;

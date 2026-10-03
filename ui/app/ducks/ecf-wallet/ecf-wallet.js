@@ -31,7 +31,6 @@ export default function reduceEcfWallet (state = {}, action) {
       ensResolution: null,
       ensResolutionError: '',
     },
-    useBlockie: false,
     featureFlags: {},
     welcomeScreenSeen: false,
     currentLocale: '',
@@ -276,12 +275,6 @@ export default function reduceEcfWallet (state = {}, action) {
         currentNetworkTxList,
       }
     }
-
-    case actionConstants.SET_USE_BLOCKIE:
-      return {
-        ...ecfWalletState,
-        useBlockie: action.value,
-      }
 
     case actionConstants.UPDATE_FEATURE_FLAGS:
       return {

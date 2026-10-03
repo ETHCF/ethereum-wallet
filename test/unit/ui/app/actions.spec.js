@@ -1185,42 +1185,6 @@ describe('Actions', function () {
     })
   })
 
-  describe('#setUseBlockie', function () {
-    let setUseBlockieSpy
-
-    beforeEach(function () {
-      setUseBlockieSpy = sinon.stub(background, 'setUseBlockie')
-    })
-
-    afterEach(function () {
-      setUseBlockieSpy.restore()
-    })
-
-    it('calls setUseBlockie in background', function () {
-      const store = mockStore()
-
-      store.dispatch(actions.setUseBlockie())
-      assert(setUseBlockieSpy.calledOnce)
-    })
-
-    it('errors when setUseBlockie in background throws', function () {
-      const store = mockStore()
-      const expectedActions = [
-        { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'DISPLAY_WARNING', value: 'error' },
-        { type: 'SET_USE_BLOCKIE', value: undefined },
-      ]
-
-      setUseBlockieSpy.callsFake((_, callback) => {
-        callback(new Error('error'))
-      })
-
-      store.dispatch(actions.setUseBlockie())
-      assert.deepEqual(store.getActions(), expectedActions)
-    })
-  })
-
   describe('#updateCurrentLocale', function () {
     let setCurrentLocaleSpy
 

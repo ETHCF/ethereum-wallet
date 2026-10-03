@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 0;
     padding: 0;
 
     &__img {
@@ -112,7 +112,8 @@
   }
 
   &__link {
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
+    text-decoration: underline;
   }
 
   &__footer {
@@ -135,7 +136,8 @@
     }
 
     &__link {
-      color: var(--color-primary-default);
+      color: var(--color-link-default);
+      text-decoration: underline;
       margin-left: 5px;
     }
   }
@@ -153,7 +155,8 @@
     &__link {
       font-size: 14px;
       text-align: center;
-      color: var(--color-primary-default);
+      color: var(--color-link-default);
+      text-decoration: underline;
       cursor: pointer;
     }
   }

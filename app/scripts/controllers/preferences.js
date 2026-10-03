@@ -14,7 +14,6 @@ export default class PreferencesController {
    * @property {array} store.tokens The tokens the user wants display in their token lists
    * @property {object} store.accountTokens The tokens stored per account and then per network type
    * @property {object} store.assetImages Contains assets objects related to assets added
-   * @property {boolean} store.useBlockie The users preference for blockie identicons within the UI
    * @property {boolean} store.useNonceField The users preference for nonce field within the UI
    * @property {object} store.featureFlags A key-boolean map, where keys refer to features and booleans to whether the
    * user wishes to see that feature.
@@ -32,7 +31,6 @@ export default class PreferencesController {
       assetImages: {},
       tokens: [],
       suggestedTokens: {},
-      useBlockie: false,
       useNonceField: false,
       usePhishDetect: true,
 
@@ -77,16 +75,6 @@ export default class PreferencesController {
    */
   setPasswordForgotten (forgottenPassword) {
     this.store.updateState({ forgottenPassword })
-  }
-
-  /**
-   * Setter for the `useBlockie` property
-   *
-   * @param {boolean} val - Whether or not the user prefers blockie indicators
-   *
-   */
-  setUseBlockie (val) {
-    this.store.updateState({ useBlockie: val })
   }
 
   /**

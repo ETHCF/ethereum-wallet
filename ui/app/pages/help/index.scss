@@ -29,6 +29,7 @@
 
   &__topic-link {
     font-size: 14px;
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
+    text-decoration: underline;
   }
 }

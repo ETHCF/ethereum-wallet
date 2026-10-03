@@ -48,7 +48,7 @@
   }
 
   &__password--warning {
-    border-radius: 8px;
+    border-radius: 0;
     background-color: var(--color-error-muted);
     font-size: 12px;
     font-weight: 500;
@@ -63,7 +63,7 @@
     height: 80px;
     width: 291px;
     border: 1px solid var(--color-border-muted);
-    border-radius: 2px;
+    border-radius: 0;
   }
 
   &__password-display-textarea {

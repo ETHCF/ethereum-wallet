@@ -75,7 +75,8 @@
   &__action-link {
     font-size: 0.75rem;
     cursor: pointer;
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
+    text-decoration: underline;
   }
 
   b {

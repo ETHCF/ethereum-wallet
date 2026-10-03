@@ -1,9 +1,9 @@
 .request-signature {
   &__container {
     width: 380px;
-    border-radius: 8px;
+    border-radius: 0;
     background-color: var(--color-background-default);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+    box-shadow: none;
     display: flex;
     flex-flow: column nowrap;
     z-index: 25;
@@ -223,7 +223,7 @@
   &__help-link {
     cursor: pointer;
     text-decoration: underline;
-    color: var(--color-primary-default);
+    color: var(--color-link-default);
   }
 
   &__footer {

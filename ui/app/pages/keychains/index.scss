@@ -81,7 +81,7 @@
   height: 190px;
   width: 495px;
   border: 1px solid var(--color-border-muted);
-  border-radius: 6px;
+  border-radius: 0;
   background-color: var(--color-background-default);
   padding: 17px;
   font-size: 16px;
@@ -105,7 +105,7 @@
 .import-account__dropdown {
   width: 325px;
   border: 1px solid var(--color-border-muted);
-  border-radius: 4px;
+  border-radius: 0;
   background-color: var(--color-background-default);
   margin-top: 14px;
   color: var(--color-text-alternative);
@@ -168,7 +168,7 @@
   height: 53px;
   width: 148px;
   border: 1px solid var(--color-primary-alternative);
-  border-radius: 4px;
+  border-radius: 0;
   color: var(--color-primary-alternative);
   font-size: 18px;
   display: flex;

@@ -4,14 +4,13 @@ import classnames from 'classnames'
 import contractMap from '@metamask/contract-metadata'
 
 import { checksumAddress } from '../../../helpers/utils/util'
-import Jazzicon from '../jazzicon'
-import BlockieIdenticon from './blockieIdenticon'
+import EcfIdenticon from './ecf-identicon'
 
 const getStyles = (diameter) => (
   {
     height: diameter,
     width: diameter,
-    borderRadius: diameter / 2,
+    borderRadius: 0,
   }
 )
 
@@ -23,7 +22,6 @@ export default class Identicon extends PureComponent {
     diameter: PropTypes.number,
     image: PropTypes.string,
     nativeCurrencyImage: PropTypes.string,
-    useBlockie: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -33,7 +31,6 @@ export default class Identicon extends PureComponent {
     diameter: 46,
     image: undefined,
     nativeCurrencyImage: undefined,
-    useBlockie: false,
   }
 
   renderImage () {
@@ -48,37 +45,32 @@ export default class Identicon extends PureComponent {
     )
   }
 
-  renderJazzicon () {
-    const { address, className, diameter } = this.props
+  renderContractLogo (logo) {
+    const { className, diameter } = this.props
 
     return (
-      <Jazzicon
-        address={address}
-        diameter={diameter}
+      <img
         className={classnames('identicon', className)}
+        src={`./images/contract/${logo}`}
         style={getStyles(diameter)}
       />
     )
   }
 
-  renderBlockie () {
+  renderIdenticon () {
     const { address, className, diameter } = this.props
 
     return (
-      <div
-        className={classnames('identicon', className)}
-        style={getStyles(diameter)}
-      >
-        <BlockieIdenticon
-          address={address}
-          diameter={diameter}
-        />
-      </div>
+      <EcfIdenticon
+        address={address}
+        diameter={diameter}
+        className={className}
+      />
     )
   }
 
   render () {
-    const { className, address, image, diameter, useBlockie, addBorder, nativeCurrencyImage } = this.props
+    const { className, address, image, diameter, addBorder, nativeCurrencyImage } = this.props
 
     if (image) {
       return this.renderImage()
@@ -87,13 +79,15 @@ export default class Identicon extends PureComponent {
     if (address) {
       const checksummedAddress = checksumAddress(address)
 
-      if (contractMap[checksummedAddress] && contractMap[checksummedAddress].logo) {
-        return this.renderJazzicon()
+      // A token we ship metadata for draws its own logo rather than an identicon.
+      const { logo } = contractMap[checksummedAddress] || {}
+      if (logo) {
+        return this.renderContractLogo(logo)
       }
 
       return (
         <div className={classnames({ 'identicon__address-wrapper': addBorder })}>
-          { useBlockie ? this.renderBlockie() : this.renderJazzicon() }
+          { this.renderIdenticon() }
         </div>
       )
     }

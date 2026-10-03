@@ -1,11 +1,11 @@
 .page-container {
   width: 408px;
   background-color: var(--color-background-default);
-  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   z-index: 25;
   display: flex;
   flex-flow: column;
-  border-radius: 8px;
+  border-radius: 0;
   overflow-y: auto;
 
   &__header {

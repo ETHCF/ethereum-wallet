@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import SimpleDropdown from '../../../components/app/dropdowns/simple-dropdown'
-import ToggleButton from '../../../components/ui/toggle-button'
 import locales from '../../../../../app/_locales/index.json'
 import { THEME_TYPES } from '../../../helpers/constants/themes'
 
@@ -19,11 +18,9 @@ export default class SettingsTab extends PureComponent {
   }
 
   static propTypes = {
-    setUseBlockie: PropTypes.func,
     warning: PropTypes.string,
     updateCurrentLocale: PropTypes.func,
     currentLocale: PropTypes.string,
-    useBlockie: PropTypes.bool,
     theme: PropTypes.string,
     setThemePreference: PropTypes.func,
   }
@@ -89,29 +86,6 @@ export default class SettingsTab extends PureComponent {
     )
   }
 
-  renderBlockieOptIn () {
-    const { t } = this.context
-    const { useBlockie, setUseBlockie } = this.props
-
-    return (
-      <div className="settings-page__content-row">
-        <div className="settings-page__content-item">
-          <span>{ this.context.t('blockiesIdenticon') }</span>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <ToggleButton
-              value={useBlockie}
-              onToggle={(value) => setUseBlockie(!value)}
-              offLabel={t('off')}
-              onLabel={t('on')}
-            />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   render () {
     const { warning } = this.props
 
@@ -120,7 +94,6 @@ export default class SettingsTab extends PureComponent {
         { warning && <div className="settings-tab__error">{ warning }</div> }
         { this.renderCurrentLocale() }
         { this.renderTheme() }
-        { this.renderBlockieOptIn() }
       </div>
     )
   }

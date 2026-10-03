@@ -23,9 +23,18 @@
     color: var(--color-text-default);
   }
 
+  &__message {
+    width: 100%;
+    text-align: center;
+  }
+
   &__form {
     width: 100%;
     margin: 56px 0 8px;
+  }
+
+  &__submit {
+    margin-top: 20px;
   }
 
   &__links {
@@ -37,7 +46,8 @@
     cursor: pointer;
 
     &--import {
-      color: var(--color-warning-default);
+      color: var(--color-link-default);
+      text-decoration: underline;
     }
 
     &--use-classic {

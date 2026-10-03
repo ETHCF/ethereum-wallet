@@ -1865,23 +1865,6 @@ export function toggleAccountMenu () {
   }
 }
 
-export function setUseBlockie (val) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication())
-    log.debug(`background.setUseBlockie`)
-    background.setUseBlockie(val, (err) => {
-      dispatch(hideLoadingIndication())
-      if (err) {
-        dispatch(displayWarning(err.message))
-      }
-    })
-    dispatch({
-      type: actionConstants.SET_USE_BLOCKIE,
-      value: val,
-    })
-  }
-}
-
 export function setUseNonceField (val) {
   return (dispatch) => {
     dispatch(showLoadingIndication())

@@ -438,7 +438,6 @@ export default class EcfWalletController extends EventEmitter {
     return {
       // etc
       getState: (cb) => cb(null, this.getState()),
-      setUseBlockie: this.setUseBlockie.bind(this),
       setUseNonceField: this.setUseNonceField.bind(this),
       setUsePhishDetect: this.setUsePhishDetect.bind(this),
       setIpfsGateway: this.setIpfsGateway.bind(this),
@@ -1817,24 +1816,6 @@ export default class EcfWalletController extends EventEmitter {
    */
   async delCustomRpc (rpcTarget) {
     await this.preferencesController.removeFromFrequentRpcList(rpcTarget)
-  }
-
-  /**
-   * Sets whether or not to use the blockie identicon format.
-   * @param {boolean} val - True for bockie, false for jazzicon.
-   * @param {Function} cb - A callback function called when complete.
-   */
-  setUseBlockie (val, cb) {
-    try {
-      this.preferencesController.setUseBlockie(val)
-      cb(null)
-      // eslint-disable-next-line no-useless-return
-      return
-    } catch (err) {
-      cb(err)
-      // eslint-disable-next-line no-useless-return
-      return
-    }
   }
 
   /**

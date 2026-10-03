@@ -116,7 +116,7 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
         title={title}
         titleIcon={!isUnapproved && isPending && isEarliestNonce && (
           <IconWithLabel
-            icon={<Preloader size={16} color="#D73A49" />}
+            icon={<Preloader size={16} color="currentColor" />}
           />
         )}
         icon={<TransactionIcon category={category} status={status} />}

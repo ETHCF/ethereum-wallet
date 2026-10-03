@@ -8,7 +8,6 @@ import Identicon from '../identicon.component'
 describe('Identicon', function () {
   const state = {
     ecfWallet: {
-      useBlockie: false,
     },
   }
 
@@ -37,7 +36,7 @@ describe('Identicon', function () {
     assert.equal(wrapper.find('img.test-image').prop('src'), 'test-image')
   })
 
-  it('renders div with address prop', function () {
+  it('renders a monochrome identicon with address prop', function () {
     const wrapper = mount(
       <Identicon
         store={store}
@@ -46,6 +45,6 @@ describe('Identicon', function () {
       />,
     )
 
-    assert.equal(wrapper.find('div.test-address').prop('className'), 'identicon test-address')
+    assert.equal(wrapper.find('svg.test-address').prop('className'), 'identicon test-address')
   })
 })

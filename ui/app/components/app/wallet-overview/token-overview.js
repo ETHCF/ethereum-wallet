@@ -11,7 +11,6 @@ import { SEND_ROUTE } from '../../../helpers/constants/routes'
 import { useTokenTracker } from '../../../hooks/useTokenTracker'
 import { getAssetImages } from '../../../selectors/selectors'
 import { updateSendToken } from '../../../store/actions'
-import PaperAirplane from '../../ui/icon/paper-airplane-icon'
 import WalletOverview from './wallet-overview'
 
 const TokenOverview = ({ className, token }) => {
@@ -37,8 +36,6 @@ const TokenOverview = ({ className, token }) => {
         <Button
           type="secondary"
           className="token-overview__button"
-          rounded
-          icon={<PaperAirplane color="#037DD6" size={20} />}
           onClick={() => {
             dispatch(updateSendToken(token))
             navigate(SEND_ROUTE)

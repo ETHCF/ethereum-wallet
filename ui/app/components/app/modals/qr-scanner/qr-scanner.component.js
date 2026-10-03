@@ -247,7 +247,7 @@ export default class QrScanner extends Component {
                 display: ready === READY_STATE.READY ? 'block' : 'none',
               }}
             />
-            {ready === READY_STATE.READY ? null : <Spinner color="#F7C06C" />}
+            {ready === READY_STATE.READY ? null : <Spinner color="currentColor" />}
           </div>
         </div>
         <div className="qr-scanner__status">

@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0 10px;
-    border-radius: 4px;
+    border-radius: 0;
     height: 25px;
 
     &--colored {
@@ -20,6 +20,6 @@
   &__icon {
     height: 10px;
     width: 10px;
-    border-radius: 10px;
+    border-radius: 0;
   }
 }

@@ -253,15 +253,6 @@ describe('ecf-wallet Reducers', function () {
     assert.equal(state.currentNetworkTxList[0].txParams, 'bar')
   })
 
-  it('sets blockies', function () {
-    const state = reduceEcfWallet({}, {
-      type: actionConstants.SET_USE_BLOCKIE,
-      value: true,
-    })
-
-    assert.equal(state.useBlockie, true)
-  })
-
   it('updates an arbitrary feature flag', function () {
     const state = reduceEcfWallet({}, {
       type: actionConstants.UPDATE_FEATURE_FLAGS,

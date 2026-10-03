@@ -166,7 +166,7 @@ export default class TransactionListItemDetails extends PureComponent {
                   className="transaction-list-item-details__header-button"
                   disabled={!hash}
                 >
-                  <Copy size={10} color="#3098DC" />
+                  <Copy size={10} color="currentColor" />
                 </Button>
               </Tooltip>
               <Tooltip title={blockExplorerUrl ? t('viewOnCustomBlockExplorer', [blockExplorerUrl]) : t('viewOnEtherscan')}>

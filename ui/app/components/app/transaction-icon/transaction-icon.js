@@ -28,9 +28,9 @@ const ICON_MAP = {
   [TRANSACTION_CATEGORY_RECEIVE]: Receive,
 }
 
-const FAIL_COLOR = '#D73A49'
-const PENDING_COLOR = '#6A737D'
-const OK_COLOR = '#2F80ED'
+const FAIL_COLOR = 'var(--color-error-default)'
+const PENDING_COLOR = 'var(--color-text-alternative)'
+const OK_COLOR = 'var(--color-text-default)'
 
 const COLOR_MAP = {
   [SUBMITTED_STATUS]: PENDING_COLOR,

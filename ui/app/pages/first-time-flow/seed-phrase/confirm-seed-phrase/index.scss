@@ -17,7 +17,7 @@
     height: 41px;
     margin: 4px;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: move;
 
     &--sorted {
@@ -43,7 +43,7 @@
         background-color: transparent;
         border-color: transparent;
         cursor: default;
-        box-shadow: none !important;
+        box-shadow: none;
       }
     }
 
@@ -71,7 +71,7 @@
     min-height: 161px;
     max-width: 575px;
     border: 1px solid var(--color-border-muted);
-    border-radius: 6px;
+    border-radius: 0;
     background-color: var(--color-background-default);
     margin: 24px 0 36px;
     padding: 12px;
@@ -84,7 +84,7 @@
       display: inline-flex;
 
       &:hover {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: none;
       }
     }
 

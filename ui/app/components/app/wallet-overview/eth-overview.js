@@ -12,7 +12,6 @@ import Tooltip from '../../ui/tooltip'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
 import { showModal } from '../../../store/actions'
 import { isBalanceCached, getSelectedAccount } from '../../../selectors/selectors'
-import PaperAirplane from '../../ui/icon/paper-airplane-icon'
 import WalletOverview from './wallet-overview'
 
 const EthOverview = ({ className }) => {
@@ -50,7 +49,6 @@ const EthOverview = ({ className }) => {
           <Button
             type="primary"
             className="eth-overview__button"
-            rounded
             onClick={() => {
               dispatch(showModal({ name: 'DEPOSIT_ETHER' }))
             }}
@@ -60,8 +58,6 @@ const EthOverview = ({ className }) => {
           <Button
             type="secondary"
             className="eth-overview__button"
-            rounded
-            icon={<PaperAirplane color="#037DD6" size={20} />}
             onClick={() => {
               navigate(SEND_ROUTE)
             }}
