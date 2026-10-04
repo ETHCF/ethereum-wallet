@@ -359,35 +359,14 @@ describe('ecf-wallet', function () {
     })
   })
 
-  describe('Send ETH from dapp using advanced gas controls', function () {
+  // The inline gas inputs needed a settings toggle that no longer exists. Gas
+  // on a dapp transaction is edited through the Edit link and the gas modal,
+  // which is the only path a user has, so that is what this covers.
+  describe('Send ETH from dapp with an edited gas price', function () {
     let windowHandles
     let extension
     let popup
     let dapp
-
-    it('goes to the settings screen', async function () {
-      await driver.clickElement(By.css('.account-menu__icon'))
-      await driver.delay(regularDelayMs)
-
-      await driver.clickElement(By.xpath(`//div[contains(text(), 'Settings')]`))
-
-      // await driver.findElement(By.css('.tab-bar'))
-
-      await driver.clickElement(By.xpath(`//div[contains(text(), 'Advanced')]`))
-      await driver.delay(regularDelayMs)
-
-      const advancedGasTitle = await driver.findElement(By.xpath(`//span[contains(text(), 'Advanced gas controls')]`))
-      await driver.scrollToElement(advancedGasTitle)
-
-      await driver.clickElement(By.css('[data-testid="advanced-setting-advanced-gas-inline"] .settings-page__content-item-col > div > div'))
-      windowHandles = await driver.getAllWindowHandles()
-      extension = windowHandles[0]
-      await driver.closeAllWindowHandlesExcept([extension])
-
-      await driver.clickElement(By.css('.app-header__logo-container'))
-
-      await driver.delay(largeDelayMs)
-    })
 
     it('connects the dapp', async function () {
       await driver.openNewPage('http://127.0.0.1:8080/')
@@ -426,20 +405,34 @@ describe('ecf-wallet', function () {
 
       await driver.assertElementNotPresent(By.xpath(`//li[contains(text(), 'Data')]`))
 
+      await driver.clickElement(By.css('.confirm-detail-row__header-text--edit'))
+      const gasModal = await driver.findElement(By.css('span .modal'))
+      await driver.delay(regularDelayMs)
+
+      // The modal hides the basic tab for some transactions, so only click
+      // through when it is actually there.
+      const advancedTabs = await driver.findElements(By.xpath(`//li[contains(@class, 'tab')][contains(text(), 'Advanced')]`))
+      if (advancedTabs.length) {
+        await advancedTabs[0].click()
+        await driver.delay(regularDelayMs)
+      }
+
       const [gasPriceInput, gasLimitInput] = await driver.findElements(By.css('.advanced-gas-inputs__gas-edit-row__input'))
 
       await gasPriceInput.clear()
       await driver.delay(50)
       await gasPriceInput.sendKeys('10')
-      await driver.delay(50)
       await driver.delay(tinyDelayMs)
-      await driver.delay(50)
 
       await gasLimitInput.clear()
       await driver.delay(50)
       await gasLimitInput.sendKeys('25000')
 
       await driver.delay(1000)
+
+      await driver.clickElement(By.xpath(`//button[contains(text(), 'Save')]`))
+      await driver.wait(until.stalenessOf(gasModal))
+      await driver.delay(regularDelayMs)
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Confirm')]`), 10000)
       await driver.delay(regularDelayMs)
@@ -503,9 +496,18 @@ describe('ecf-wallet', function () {
 
     it('navigates the transactions', async function () {
       // Route changes render as transitions, so wait for the page to update.
+      // The navigation re-renders mid-transition, which can make a handle go
+      // stale between finding it and reading it, so treat that as not ready.
       const waitForNavigation = (isExpected, message) => driver.wait(async () => {
-        const text = await (await driver.findElement(By.css('.confirm-page-container-navigation'))).getText()
-        return isExpected(text)
+        try {
+          const text = await (await driver.findElement(By.css('.confirm-page-container-navigation'))).getText()
+          return isExpected(text)
+        } catch (error) {
+          if (error.name === 'StaleElementReferenceError') {
+            return false
+          }
+          throw error
+        }
       }, 10000, message)
       await driver.clickElement(By.css('[data-testid="next-page"]'))
       await waitForNavigation((text) => text.includes('2') === true, 'changed transaction right')
