@@ -143,11 +143,6 @@ export function getAddressBookEntry (state, address) {
   return entry
 }
 
-export function getAddressBookEntryName (state, address) {
-  const entry = getAddressBookEntry(state, address) || state.ecfWallet.identities[address]
-  return entry && entry.name !== '' ? entry.name : address
-}
-
 export function accountsWithSendEtherInfoSelector (state) {
   const accounts = getEcfWalletAccounts(state)
   const identities = getEcfWalletIdentities(state)
@@ -226,11 +221,6 @@ export function getIsMainnet (state) {
   return networkType === NETWORK_TYPES.MAINNET
 }
 
-// Whether mainnet gas price data applies. Other networks use the node's estimates.
-export function isEthereumNetwork (state) {
-  return getIsMainnet(state)
-}
-
 // Network state is the chain ID for built-in networks and net_version for custom RPCs
 const POLYGON_NETWORK_IDS = [BUILT_IN_NETWORKS[POLYGON].chainId, '137']
 
@@ -280,10 +270,6 @@ export function getKnownMethodData (state, data) {
   const { knownMethodData } = state.ecfWallet
 
   return knownMethodData && knownMethodData[fourBytePrefix]
-}
-
-export function getFeatureFlags (state) {
-  return state.ecfWallet.featureFlags
 }
 
 export function getOriginOfCurrentTab (state) {
