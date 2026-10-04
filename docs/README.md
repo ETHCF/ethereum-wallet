@@ -1,20 +1,19 @@
 # Documentation
 
-These docs relate to how to contribute to the ecf-wallet project itself.
+These docs relate to how to contribute to the ECF Wallet project itself.
 
-You can find the latest version of ecf-wallet on [our official website](https://metamask.io/).
+The project is maintained by the [Ethereum Community Foundation](https://ethcf.org).
+Source, issues and releases are on [GitHub](https://github.com/ETHCF/ethereum-wallet).
 
-For help using ecf-wallet, visit our [User Support Site](https://metamask.zendesk.com/hc/en-us).
-
-For up to the minute news, follow our [Twitter](https://twitter.com/metamask_io) or [Medium](https://medium.com/metamask) pages.
-
-To learn how to develop ecf-wallet-compatible applications, visit our [Developer Docs](https://metamask.github.io/metamask-docs/).
-
-- [How to add custom build to Chrome](./add-to-chrome.md)
-- [How to add custom build to Firefox](./add-to-firefox.md)
-- [Publishing Guide](./publishing.md)
-- [How to live reload on local dependency changes](./developing-on-deps.md)
-- [How to add new networks to the Provider Menu](./adding-new-networks.md)
-- [How to port ecf-wallet to a new platform](./porting_to_new_environment.md)
-- [How to generate a visualization of this repository's development](./development-visualization.md)
-- [How to add a feature behind a secret feature flag](./secret-preferences.md)
+- [How to add a custom build to Chrome](./add-to-chrome.md)
+- [How to add a custom build to Firefox](./add-to-firefox.md)
+- [Manifest V3 and the background lifecycle](./manifest-v3.md)
+- [QA guide](./QA_Guide.md)
+- [Telemetry and third-party services](./privacy.md)
+- [Design system](./design-system.md)
+- [Publishing guide](./publishing.md)
+- [Sensitive release protocol](./sensitive-release.md)
+- [How to take a state dump](./state_dump.md)
+- [Translation guide](./translating-guide.md)
+- [Using the Trezor emulator](./trezor-emulator.md)
+- [Components](./components)

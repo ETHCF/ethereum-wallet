@@ -1,48 +1,49 @@
 # QA Guide
 
 Steps to mark a full pass of QA complete.
-* Browsers: Opera, Chrome, Firefox, Edge.
-* OS: Ubuntu, Mac OSX, Windows
-* Load older version of ecf-wallet and attempt to simulate updating the extension.
-* Open Developer Console in background and popup, inspect errors.
-* Watch the state logs 
-  * Transactions (unapproved txs -> rejected/submitted -> confirmed)
-  * Nonces/LocalNonces
+
+* Browsers: Chrome, Firefox, Brave, Opera. These are the four the build emits.
+* OS: Ubuntu, macOS, Windows
+* Load an older build and simulate updating the extension.
+* Open the developer console for the service worker and the popup, inspect errors.
 * Vault integrity
-    * create vault
+    * Create vault
     * Log out
     * Log in again
     * Log out
     * Restore from seed
     * Create a second account
-    * Import a loose account (not related to HD Wallet)
-    * Import old existing vault seed phrase (pref with test Ether)
-    * Download State Logs, Priv key file, seed phrase file.
+    * Import a loose account (not related to the HD wallet)
+    * Import an existing vault seed phrase, preferably with test Ether
+    * Reveal the seed phrase from Settings, Security & Privacy
 * Send Ether
-    * by address
-    * by ens name
-* Web3 API Stability
-    * Create a contract from a Ðapp (remix)
-    * Load a Ðapp that reads using events/logs (ENS)
-    * Connect to MEW/MyCypto
-    * Send a transaction from any Ðapp
-        - MEW
-        - EtherDelta
-        - Leeroy
-        - Aragon
-        - (https://tmashuang.github.io/demo-dapp)
+    * By address
+    * By ENS name
+* Provider stability
+
+  The wallet exposes an EIP-1193 provider and announces itself over EIP-6963 as
+  `org.ethcf.wallet`. There is no `window.web3`.
+
+    * Announcement is visible to a dapp that listens for `eip6963:announceProvider`
+    * Deploy a contract from a dapp and call its methods
+    * Read through events and logs
+    * Send a transaction from a dapp
     * Check account balances
-* Token Management
-    * create a token with tokenfactory (http://tokenfactory.surge.sh/#/factory)
-    * Add that token to the token view
-    * Send that token to another ecf-wallet address.
-    * confirm the token arrived.
-* Send a transaction and sign a message (https://danfinlay.github.io/js-eth-personal-sign-examples/) for each keyring type
-    * hd keyring
-    * imported keyring
-* Change network from mainnet → ropsten → rinkeby → localhost (Anvil, `yarn anvil:start`)
-* Run Anvil with a block time (`ANVIL_ARGS='--block-time 10' yarn anvil:start`) to simulate retryTx in ecf-wallet
+    * Run against the bundled test dapp with `yarn dapp`, which serves
+      `@metamask/test-dapp` on port 8080
+* Token management
+    * Add a token by contract address
+    * Send that token to another address
+    * Confirm the token arrived
+* Sign a message for each keyring type, from the test dapp
+    * HD keyring
+    * Imported keyring
+    * Covers `personal_sign` and the `eth_signTypedData` variants
+* Change network from mainnet to Sepolia to localhost (Anvil, `yarn anvil:start`)
+* Run Anvil with a block time (`ANVIL_ARGS='--block-time 10' yarn anvil:start`) to
+  exercise transaction retries
 * Copy public key to clipboard
 * Export private key
+* Confirm the build hash in Settings, About matches `yarn verify-build`
 
-* Explore changes in master, target features that have been changed and break.
+* Explore changes on main, targeting features that have changed and may break.

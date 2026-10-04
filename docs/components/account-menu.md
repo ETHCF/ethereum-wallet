@@ -1,20 +1,17 @@
 # Account Menu
 
-The account menu is the popup menu which contains options such as:
- - Logging out
- - Switching accounts
- - Creating a new account
- - Importing an account
- - Connecting a HW wallet
- - Looking up info & help
- - Adjusting settings
- 
- It can be seen below where it has been outlined with a red box
- 
- ![Screenshot of account menu](https://i.imgur.com/xpkfIuR.png) 
- 
- Above screenshot showing the menu bar in ecf-wallet 6.7.1
- 
-   
+The account menu is the popup menu reached from the identicon in the top right.
+It contains:
 
+- Searching and switching accounts
+- Creating a new account
+- Importing an account
+- Connecting a hardware wallet
+- Info and help
+- Settings
+- Locking the wallet
 
+Its styles are in `ui/app/components/app/account-menu/index.scss`, and the
+network dropdown follows the same panel treatment: an opaque
+`--color-background-default` panel, a one pixel `--color-border-default` border,
+square corners and no shadow.
