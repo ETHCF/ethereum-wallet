@@ -249,7 +249,7 @@
     "message": "Precizni decimalni brojevi"
   },
   "defaultNetwork": {
-    "message": "Zadana je mreža za transakcije Ether glavna mreža."
+    "message": "Zadana je mreža za transakcije $ETH glavna mreža."
   },
   "delete": {
     "message": "Izbriši"

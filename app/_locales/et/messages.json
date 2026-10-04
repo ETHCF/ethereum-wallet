@@ -249,7 +249,7 @@
     "message": "Täpsuse kümnendkohad"
   },
   "defaultNetwork": {
-    "message": "Etheri tehingute vaikevõrk on peavõrk."
+    "message": "$ETH tehingute vaikevõrk on peavõrk."
   },
   "delete": {
     "message": "Kustuta"

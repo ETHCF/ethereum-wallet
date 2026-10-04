@@ -243,7 +243,7 @@
     "message": "Desimali za Usahihi"
   },
   "defaultNetwork": {
-    "message": "Mtandao chaguomsingi wa miamala ya Ether ni Mainnet."
+    "message": "Mtandao chaguomsingi wa miamala ya $ETH ni Mainnet."
   },
   "delete": {
     "message": "Futa"

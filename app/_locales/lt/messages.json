@@ -249,7 +249,7 @@
     "message": "Skaičiai po kablelio"
   },
   "defaultNetwork": {
-    "message": "Numatytasis „Ether“ operacijų tinklas yra pagrindinis tinklas."
+    "message": "Numatytasis „$ETH“ operacijų tinklas yra pagrindinis tinklas."
   },
   "delete": {
     "message": "Ištrinti"

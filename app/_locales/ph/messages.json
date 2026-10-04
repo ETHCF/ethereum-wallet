@@ -65,7 +65,7 @@
     "message": "I-customize ang Gas"
   },
   "defaultNetwork": {
-    "message": "Ang default network para sa Ether transactions ay ang Mainnet."
+    "message": "Ang default network para sa $ETH transactions ay ang Mainnet."
   },
   "deposit": {
     "message": "Deposito"

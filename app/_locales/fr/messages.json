@@ -237,7 +237,7 @@
     "message": "Décimales de précision"
   },
   "defaultNetwork": {
-    "message": "Le réseau par défaut pour les transactions Ether est le \"Réseau principal Ethereum\"."
+    "message": "Le réseau par défaut pour les transactions $ETH est le \"Réseau principal Ethereum\"."
   },
   "delete": {
     "message": "Supprimer"

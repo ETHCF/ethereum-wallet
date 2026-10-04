@@ -249,7 +249,7 @@
     "message": "רמת דיוק עשרוני"
   },
   "defaultNetwork": {
-    "message": "רשת ברירת המחדל לעסקאות Ether היא Mainnet."
+    "message": "רשת ברירת המחדל לעסקאות $ETH היא Mainnet."
   },
   "delete": {
     "message": "מחיקה"

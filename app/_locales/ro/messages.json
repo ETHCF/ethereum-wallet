@@ -249,7 +249,7 @@
     "message": "Zecimale de precizie"
   },
   "defaultNetwork": {
-    "message": "Rețeaua implicită pentru tranzacțiile cu Ether este Mainnet."
+    "message": "Rețeaua implicită pentru tranzacțiile cu $ETH este Mainnet."
   },
   "delete": {
     "message": "Șterge"

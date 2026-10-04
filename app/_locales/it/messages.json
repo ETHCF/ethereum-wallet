@@ -382,7 +382,7 @@
     "message": "Precisione Decimali"
   },
   "defaultNetwork": {
-    "message": "La rete predefinita per transazioni in Ether è la Rete Ethereum Principale."
+    "message": "La rete predefinita per transazioni in $ETH è la Rete Ethereum Principale."
   },
   "delete": {
     "message": "Elimina"

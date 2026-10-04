@@ -249,7 +249,7 @@
     "message": "A pontosság tizedesjegyei"
   },
   "defaultNetwork": {
-    "message": "Az Ether tranzakciók alapértelmezett hálózata a Mainnet."
+    "message": "Az $ETH tranzakciók alapértelmezett hálózata a Mainnet."
   },
   "delete": {
     "message": "Törlés"

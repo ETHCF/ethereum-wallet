@@ -240,7 +240,7 @@
     "message": "Počet desetinných míst přesnosti"
   },
   "defaultNetwork": {
-    "message": "Výchozí síť pro Etherové transakce je Mainnet."
+    "message": "Výchozí síť pro $ETH transakce je Mainnet."
   },
   "delete": {
     "message": "Odstrániť"

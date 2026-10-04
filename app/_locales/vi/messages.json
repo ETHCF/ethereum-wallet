@@ -71,7 +71,7 @@
     "message": "Tùy chỉnh RPC"
   },
   "defaultNetwork": {
-    "message": "Mạng lưới mặc định dùng cho các giao dịch Ether là Mainnet (tiền ETH thật)."
+    "message": "Mạng lưới mặc định dùng cho các giao dịch $ETH là Mainnet (tiền ETH thật)."
   },
   "deposit": {
     "message": "Ký gửi/nạp tiền"

@@ -246,7 +246,7 @@
     "message": "Decimale preciznosti"
   },
   "defaultNetwork": {
-    "message": "Podrazumevana mreža za Ether transakcije je Mainnet."
+    "message": "Podrazumevana mreža za $ETH transakcije je Mainnet."
   },
   "delete": {
     "message": "Избриши"

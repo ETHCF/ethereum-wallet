@@ -221,7 +221,7 @@
     "message": "Decimales de precisión"
   },
   "defaultNetwork": {
-    "message": "La red por defecto para las transacciones de Ether es MainNet (red principal)"
+    "message": "La red por defecto para las transacciones de $ETH es MainNet (red principal)"
   },
   "delete": {
     "message": "Eliminar"

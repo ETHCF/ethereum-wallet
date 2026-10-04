@@ -243,7 +243,7 @@
     "message": "Decimalprecision"
   },
   "defaultNetwork": {
-    "message": "Standardnätverket för Ether-transaktioner är Mainnet."
+    "message": "Standardnätverket för $ETH-transaktioner är Mainnet."
   },
   "delete": {
     "message": "Radera"

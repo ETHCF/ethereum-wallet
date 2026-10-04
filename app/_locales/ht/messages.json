@@ -143,7 +143,7 @@
     "message": "Presizyon desimal la"
   },
   "defaultNetwork": {
-    "message": "Dfo rezo a pou tranzaksyon Ether se Mainnet."
+    "message": "Dfo rezo a pou tranzaksyon $ETH se Mainnet."
   },
   "deposit": {
     "message": "Depo"

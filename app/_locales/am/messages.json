@@ -249,7 +249,7 @@
     "message": "የትክክለኛነት አስርዮሽ"
   },
   "defaultNetwork": {
-    "message": "የ Ether ግብይቶች ንቡር አውታረ መረብ Mainnet ነው።"
+    "message": "የ $ETH ግብይቶች ንቡር አውታረ መረብ Mainnet ነው።"
   },
   "delete": {
     "message": "ሰርዝ"

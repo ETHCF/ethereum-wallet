@@ -246,7 +246,7 @@
     "message": "Dokładność liczb po przecinku"
   },
   "defaultNetwork": {
-    "message": "Domyślna sieć dla Eteru to Mainnet."
+    "message": "Domyślna sieć dla $ETH to Mainnet."
   },
   "delete": {
     "message": "Usuń"

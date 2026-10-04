@@ -249,7 +249,7 @@
     "message": "اعشاریه های دقت"
   },
   "defaultNetwork": {
-    "message": "شبکه خودکار برای معاملات Ether عبارت است از Mainnet."
+    "message": "شبکه خودکار برای معاملات $ETH عبارت است از Mainnet."
   },
   "delete": {
     "message": "حذف"

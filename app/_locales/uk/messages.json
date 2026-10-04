@@ -249,7 +249,7 @@
     "message": "Знаків після коми"
   },
   "defaultNetwork": {
-    "message": "Мережа для транзакцій з Ether за замовчуванням - Mainnet."
+    "message": "Мережа для транзакцій з $ETH за замовчуванням - Mainnet."
   },
   "delete": {
     "message": "Видалити"

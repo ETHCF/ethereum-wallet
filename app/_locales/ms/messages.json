@@ -246,7 +246,7 @@
     "message": "Bilangan Perpuluhan Kejituan"
   },
   "defaultNetwork": {
-    "message": "Rangkaian lalai untuk transaksi Ether ialah Net Utama."
+    "message": "Rangkaian lalai untuk transaksi $ETH ialah Net Utama."
   },
   "delete": {
     "message": "Padam"

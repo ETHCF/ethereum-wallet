@@ -243,7 +243,7 @@
     "message": "Decimais de precisão"
   },
   "defaultNetwork": {
-    "message": "A rede-padrão para transações de Ether é a Rede Principal."
+    "message": "A rede-padrão para transações de $ETH é a Rede Principal."
   },
   "delete": {
     "message": "Excluir"

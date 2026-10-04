@@ -80,7 +80,7 @@
     "message": "Decimalen van precisie"
   },
   "defaultNetwork": {
-    "message": "Het standaardnetwerk voor Ether-transacties is Mainnet."
+    "message": "Het standaardnetwerk voor $ETH-transacties is Mainnet."
   },
   "deposit": {
     "message": "Storting"
