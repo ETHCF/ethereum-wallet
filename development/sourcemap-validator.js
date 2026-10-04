@@ -77,7 +77,9 @@ async function validateSourcemapForFile ({ buildName }) {
 
   const hasContentsOfAllSources = consumer.hasContentsOfAllSources()
   if (!hasContentsOfAllSources) {
-    console.warn('SourcemapValidator - missing content of some sources...')
+    const missing = consumer.sources.filter((source) => consumer.sourceContentFor(source, true) === null)
+    console.warn(`SourcemapValidator - missing content for ${missing.length} source(s):`)
+    missing.forEach((source) => console.warn(`   ${source}`))
   }
 
   console.log(`  sampling from ${consumer.sources.length} files`)
@@ -104,7 +106,12 @@ async function validateSourcemapForFile ({ buildName }) {
         console.warn(`   ${buildLines[position.line]}`)
         return
       }
-      const sourceContent = consumer.sourceContentFor(result.source)
+      const sourceContent = consumer.sourceContentFor(result.source, true)
+      if (sourceContent === null) {
+        // The source is mapped but its content was not embedded, so there is
+        // nothing to check the position against. Reported above, not fatal.
+        return
+      }
       const sourceLines = sourceContent.split('\n')
       const line = sourceLines[result.line - 1]
       // this sometimes includes the whole line though we tried to match somewhere in the middle
