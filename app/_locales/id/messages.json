@@ -249,7 +249,7 @@
     "message": "Ketelitian Desimal"
   },
   "defaultNetwork": {
-    "message": "Jaringan default untuk transaksi Ether adalah Main Net."
+    "message": "Jaringan default untuk transaksi Ether adalah Mainnet."
   },
   "delete": {
     "message": "Hapus"

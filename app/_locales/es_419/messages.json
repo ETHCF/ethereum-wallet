@@ -246,7 +246,7 @@
     "message": "Decimales de precisión"
   },
   "defaultNetwork": {
-    "message": "La red predeterminada para las transacciones de Ethers es Main Net."
+    "message": "La red predeterminada para las transacciones de Ethers es Mainnet."
   },
   "delete": {
     "message": "Borrar"

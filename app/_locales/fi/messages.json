@@ -246,7 +246,7 @@
     "message": "Tarkkuusdesimaalit"
   },
   "defaultNetwork": {
-    "message": "Oletusverkko Ether-tapahtumille on Main Net."
+    "message": "Oletusverkko Ether-tapahtumille on Mainnet."
   },
   "delete": {
     "message": "Poista"

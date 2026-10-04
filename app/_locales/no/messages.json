@@ -246,7 +246,7 @@
     "message": "Presisjonsdesimaler"
   },
   "defaultNetwork": {
-    "message": "Standardnettverket for Ether-transaksjoner er Main Net."
+    "message": "Standardnettverket for Ether-transaksjoner er Mainnet."
   },
   "delete": {
     "message": "Slett"

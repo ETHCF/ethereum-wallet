@@ -222,7 +222,7 @@
     "message": "Bilang ng Decimal"
   },
   "defaultNetwork": {
-    "message": "Ang default na network para sa mga transaksyon ng Ether ay Main Net."
+    "message": "Ang default na network para sa mga transaksyon ng Ether ay Mainnet."
   },
   "delete": {
     "message": "I-delete"

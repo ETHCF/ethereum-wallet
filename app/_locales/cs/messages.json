@@ -92,7 +92,7 @@
     "message": "Počet desetinných míst přesnosti"
   },
   "defaultNetwork": {
-    "message": "Výchozí síť pro Etherové transakce je Main Net."
+    "message": "Výchozí síť pro Etherové transakce je Mainnet."
   },
   "deposit": {
     "message": "Vklad"

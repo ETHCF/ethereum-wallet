@@ -249,7 +249,7 @@
     "message": "Точност до десетични знаци"
   },
   "defaultNetwork": {
-    "message": "Мрежата по подразбиране за Ether транзакции е Main Net."
+    "message": "Мрежата по подразбиране за Ether транзакции е Mainnet."
   },
   "delete": {
     "message": "Изтриване"

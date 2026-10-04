@@ -398,7 +398,7 @@
     "message": "Decimals of Precision"
   },
   "defaultNetwork": {
-    "message": "The default network for Ether transactions is Main Net."
+    "message": "The default network for $ETH transactions is Mainnet."
   },
   "delete": {
     "message": "Delete"

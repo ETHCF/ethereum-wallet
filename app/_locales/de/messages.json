@@ -237,7 +237,7 @@
     "message": "Dezimalangabe der Präzision"
   },
   "defaultNetwork": {
-    "message": "Das Standardnetzwerk für Ether Transaktionen ist das Main Net."
+    "message": "Das Standardnetzwerk für Ether Transaktionen ist das Mainnet."
   },
   "delete": {
     "message": "Löschen"
@@ -497,7 +497,7 @@
     "message": "Ausloggen"
   },
   "mainnet": {
-    "message": "Ethereum Main Net"
+    "message": "Ethereum Mainnet"
   },
   "memorizePhrase": {
     "message": "Prägen Sie sich diese Phrase ein."

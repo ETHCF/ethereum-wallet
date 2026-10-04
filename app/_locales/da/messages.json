@@ -249,7 +249,7 @@
     "message": "Decimalpræcision"
   },
   "defaultNetwork": {
-    "message": "Standardnetværket for Ether-transaktioner er Main Net."
+    "message": "Standardnetværket for Ether-transaktioner er Mainnet."
   },
   "delete": {
     "message": "Slet"
