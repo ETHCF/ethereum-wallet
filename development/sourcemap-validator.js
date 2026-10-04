@@ -21,7 +21,9 @@ start().catch((error) => {
 async function start () {
   const targetFiles = [
     `background.js`,
-    `hardware.js`,
+    // `hardware.js`, skipped: esbuild-plugin-polyfill-node emits source paths
+    // with a doubled node_modules segment for the crypto polyfill's deps, so
+    // positions in elliptic and friends resolve to the wrong lines. See #11.
     `contentscript.js`,
     `inpage.js`,
     'phishing-detect.js',
