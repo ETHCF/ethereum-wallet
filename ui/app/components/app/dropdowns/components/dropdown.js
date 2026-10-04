@@ -15,10 +15,11 @@ export class Dropdown extends Component {
     } = this.props
 
     const innerStyleDefaults = {
-      borderRadius: '4px',
+      borderRadius: '0',
       padding: '8px 16px',
-      background: 'rgba(0, 0, 0, 0.8)',
-      boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 2px 2px', ...innerStyle,
+      background: 'var(--color-background-default)',
+      border: '1px solid var(--color-border-default)',
+      boxShadow: 'none', ...innerStyle,
     }
 
     return (
@@ -33,12 +34,18 @@ export class Dropdown extends Component {
       >
         <style>
           {`
-            li.dropdown-menu-item:hover {
-              color:rgb(225, 225, 225);
-              background-color: rgba(255, 255, 255, 0.05);
-              border-radius: 4px;
+            li.dropdown-menu-item {
+              color: var(--color-text-default);
+              border-radius: 0;
             }
-            li.dropdown-menu-item { color: rgb(185, 185, 185); }
+
+            li.dropdown-menu-item:hover {
+              background-color: var(--color-background-hover);
+            }
+
+            li.dropdown-menu-item:active {
+              background-color: var(--color-background-pressed);
+            }
           `}
         </style>
         { children }
@@ -81,7 +88,7 @@ export class DropdownMenuItem extends Component {
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          color: 'white', ...style,
+          color: 'var(--color-text-default)', ...style,
         })}
       >
         {children}
