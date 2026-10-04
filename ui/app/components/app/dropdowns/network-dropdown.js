@@ -151,8 +151,8 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: currentRpcTarget
-                ? '#ffffff'
-                : '#9b9b9b',
+                ? 'var(--color-text-default)'
+                : 'var(--color-text-alternative)',
             }}
           >
             {nickname || rpc}
@@ -189,7 +189,7 @@ class NetworkDropdown extends Component {
         <span
           className="network-name-item"
           data-testid={`network-dropdown-${type}`}
-          style={{ color: isSelected ? '#ffffff' : '#9b9b9b' }}
+          style={{ color: isSelected ? 'var(--color-text-default)' : 'var(--color-text-alternative)' }}
         >
           {name}
         </span>
@@ -255,13 +255,13 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon isSelected={providerType === 'localhost'} innerBorder="1px solid #9b9b9b" />
+          <NetworkDropdownIcon isSelected={providerType === 'localhost'} innerBorder="1px solid var(--color-border-muted)" />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'localhost'
-                ? '#ffffff'
-                : '#9b9b9b',
+                ? 'var(--color-text-default)'
+                : 'var(--color-text-alternative)',
             }}
           >
             {this.context.t('localhost')}
@@ -282,13 +282,13 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon isSelected={activeNetwork === 'custom'} innerBorder="1px solid #9b9b9b" />
+          <NetworkDropdownIcon isSelected={activeNetwork === 'custom'} innerBorder="1px solid var(--color-border-muted)" />
           <span
             className="network-name-item"
             style={{
               color: activeNetwork === 'custom'
-                ? '#ffffff'
-                : '#9b9b9b',
+                ? 'var(--color-text-default)'
+                : 'var(--color-text-alternative)',
             }}
           >
             {this.context.t('customRPC')}

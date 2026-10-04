@@ -11,8 +11,8 @@ describe('Account link', function () {
           address: '0xabcd',
         },
         {
-          expected: 'https://lineascan.build/address/0xdef0',
-          network: '59144',
+          expected: 'https://basescan.org/address/0xdef0',
+          network: '8453',
           address: '0xdef0',
           rpcPrefs: {},
         },

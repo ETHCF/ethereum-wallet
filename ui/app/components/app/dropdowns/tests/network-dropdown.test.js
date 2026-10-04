@@ -85,7 +85,7 @@ describe('Network Dropdown', function () {
     })
 
     it('shows localhost after the built-in networks', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'), '1px solid #9b9b9b')
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'), '1px solid var(--color-border-muted)')
     })
 
     it('checks dropdown for frequestRPCList from  state ', function () {
@@ -93,7 +93,7 @@ describe('Network Dropdown', function () {
     })
 
     it('shows the custom RPC option last', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount + 1).prop('innerBorder'), '1px solid #9b9b9b')
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(builtInCount + 1).prop('innerBorder'), '1px solid var(--color-border-muted)')
     })
 
   })

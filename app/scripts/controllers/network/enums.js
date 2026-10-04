@@ -1,24 +1,10 @@
 export const MAINNET = 'mainnet'
-export const LINEA_MAINNET = 'linea-mainnet'
 export const ARBITRUM = 'arbitrum'
-export const AVALANCHE = 'avalanche'
-export const BSC = 'bsc'
 export const OPTIMISM = 'optimism'
 export const POLYGON = 'polygon'
-export const ZKSYNC_ERA = 'zksync-era'
-export const SEI = 'sei'
-export const MONAD = 'monad'
-export const HYPEREVM = 'hyperevm'
 export const BASE = 'base'
-export const MEGAETH = 'megaeth'
-export const TEMPO = 'tempo'
-export const ARC = 'arc'
 export const ROBINHOOD_CHAIN = 'robinhood-chain'
-export const XDC = 'xdc'
 export const SEPOLIA = 'sepolia'
-export const LINEA_SEPOLIA = 'linea-sepolia'
-export const MEGAETH_TESTNET = 'megaeth-testnet'
-export const MONAD_TESTNET = 'monad-testnet'
 export const LOCALHOST = 'localhost'
 
 export const MAINNET_NETWORK_ID = '1'
@@ -38,21 +24,9 @@ export const BUILT_IN_NETWORKS = {
     // Tried in order when the primary cannot be reached.
     fallbackRpcUrls: ['https://eth.drpc.org', 'https://1rpc.io/eth', 'https://eth-mainnet.public.blastapi.io'],
   },
-  [LINEA_MAINNET]: {
-    chainId: '0xe708', name: 'Linea', ticker: 'ETH', color: '#121212',
-    rpcUrl: 'https://rpc.linea.build', blockExplorerUrl: 'https://lineascan.build',
-  },
   [ARBITRUM]: {
     chainId: '0xa4b1', name: 'Arbitrum', ticker: 'ETH', color: '#28a0f0',
     rpcUrl: 'https://arb1.arbitrum.io/rpc', blockExplorerUrl: 'https://arbiscan.io',
-  },
-  [AVALANCHE]: {
-    chainId: '0xa86a', name: 'Avalanche', ticker: 'AVAX', color: '#e84142',
-    rpcUrl: 'https://api.avax.network/ext/bc/C/rpc', blockExplorerUrl: 'https://snowtrace.io',
-  },
-  [BSC]: {
-    chainId: '0x38', name: 'BNB Chain', ticker: 'BNB', color: '#f0b90b',
-    rpcUrl: 'https://bsc-dataseed.bnbchain.org', blockExplorerUrl: 'https://bscscan.com',
   },
   [OPTIMISM]: {
     chainId: '0xa', name: 'OP', ticker: 'ETH', color: '#ff0420',
@@ -62,61 +36,17 @@ export const BUILT_IN_NETWORKS = {
     chainId: '0x89', name: 'Polygon', ticker: 'POL', color: '#8247e5',
     rpcUrl: 'https://polygon-bor-rpc.publicnode.com', blockExplorerUrl: 'https://polygonscan.com',
   },
-  [ZKSYNC_ERA]: {
-    chainId: '0x144', name: 'zkSync Era', ticker: 'ETH', color: '#4e529a',
-    rpcUrl: 'https://mainnet.era.zksync.io', blockExplorerUrl: 'https://explorer.zksync.io',
-  },
-  [SEI]: {
-    chainId: '0x531', name: 'Sei', ticker: 'SEI', color: '#9e1f19',
-    rpcUrl: 'https://evm-rpc.sei-apis.com', blockExplorerUrl: 'https://seiscan.io',
-  },
-  [MONAD]: {
-    chainId: '0x8f', name: 'Monad', ticker: 'MON', color: '#836ef9',
-    rpcUrl: 'https://rpc.monad.xyz', blockExplorerUrl: 'https://monadscan.com',
-  },
-  [HYPEREVM]: {
-    chainId: '0x3e7', name: 'HyperEVM', ticker: 'HYPE', color: '#50d2c1',
-    rpcUrl: 'https://rpc.hyperliquid.xyz/evm', blockExplorerUrl: 'https://hyperevmscan.io',
-  },
   [BASE]: {
     chainId: '0x2105', name: 'Base', ticker: 'ETH', color: '#0052ff',
     rpcUrl: 'https://mainnet.base.org', blockExplorerUrl: 'https://basescan.org',
-  },
-  [MEGAETH]: {
-    chainId: '0x10e6', name: 'MegaETH', ticker: 'ETH', color: '#19191a',
-    rpcUrl: 'https://mainnet.megaeth.com/rpc', blockExplorerUrl: 'https://megaeth.blockscout.com',
-  },
-  [TEMPO]: {
-    chainId: '0x1079', name: 'Tempo', ticker: 'USD', color: '#1c1c1c',
-    rpcUrl: 'https://rpc.tempo.xyz', blockExplorerUrl: 'https://explore.tempo.xyz',
-  },
-  [ARC]: {
-    chainId: '0x13b2', name: 'Arc', ticker: 'USDC', color: '#2775ca',
-    rpcUrl: 'https://arc-rpc.publicnode.com', blockExplorerUrl: 'https://explorer.arc.io',
   },
   [ROBINHOOD_CHAIN]: {
     chainId: '0x1237', name: 'Robinhood Chain', ticker: 'ETH', color: '#ccff00',
     rpcUrl: 'https://rpc.mainnet.chain.robinhood.com', blockExplorerUrl: 'https://robin.etherscan.io',
   },
-  [XDC]: {
-    chainId: '0x32', name: 'XDC Network', ticker: 'XDC', color: '#2a3b8f',
-    rpcUrl: 'https://rpc.xinfin.network', blockExplorerUrl: 'https://xdcscan.com',
-  },
   [SEPOLIA]: {
     chainId: '0xaa36a7', name: 'Sepolia', ticker: 'SepoliaETH', color: '#cfb5f0', testnet: true,
     rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com', blockExplorerUrl: 'https://sepolia.etherscan.io',
-  },
-  [LINEA_SEPOLIA]: {
-    chainId: '0xe705', name: 'Linea Sepolia', ticker: 'LineaETH', color: '#61dfff', testnet: true,
-    rpcUrl: 'https://rpc.sepolia.linea.build', blockExplorerUrl: 'https://sepolia.lineascan.build',
-  },
-  [MEGAETH_TESTNET]: {
-    chainId: '0x18c7', name: 'MegaETH Testnet', ticker: 'MegaETH', color: '#9e9e9e', testnet: true,
-    rpcUrl: 'https://carrot.megaeth.com/rpc', blockExplorerUrl: 'https://megaeth-testnet-v2.blockscout.com',
-  },
-  [MONAD_TESTNET]: {
-    chainId: '0x279f', name: 'Monad Testnet', ticker: 'MON', color: '#b9aefc', testnet: true,
-    rpcUrl: 'https://testnet-rpc.monad.xyz', blockExplorerUrl: 'https://testnet.monadscan.com',
   },
 }
 
@@ -128,6 +58,14 @@ export const BUILT_IN_NETWORK_TYPES = Object.keys(BUILT_IN_NETWORKS)
 
 // Testnets that have shut down. Wallets that used one are moved to Sepolia.
 export const DEPRECATED_NETWORK_TYPES = ['ropsten', 'rinkeby', 'kovan', 'goerli']
+
+// Networks that were built in once and are not any more. A wallet left on one
+// has nothing to resolve its type against, so it is moved to mainnet. These are
+// not deprecated chains, they are simply no longer carried here.
+export const REMOVED_NETWORK_TYPES = [
+  'linea-mainnet', 'avalanche', 'bsc', 'zksync-era', 'sei', 'monad', 'hyperevm',
+  'megaeth', 'tempo', 'arc', 'xdc', 'linea-sepolia', 'megaeth-testnet', 'monad-testnet',
+]
 
 export const NETWORK_TO_NAME_MAP = Object.fromEntries(
   BUILT_IN_NETWORK_TYPES.flatMap((type) => {
