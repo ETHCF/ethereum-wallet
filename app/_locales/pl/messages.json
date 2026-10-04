@@ -394,7 +394,7 @@
     "message": "Podłącz sprzętowy portfel"
   },
   "hardwareWalletsMsg": {
-    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z EcfWalletiem"
+    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z ECF Walletiem"
   },
   "havingTroubleConnecting": {
     "message": "Problem z połączeniem?"

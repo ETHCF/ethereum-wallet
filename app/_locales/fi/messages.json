@@ -60,7 +60,7 @@
     "message": "Lisää ehdotetut käyttötunnukset"
   },
   "addAcquiredTokens": {
-    "message": "Lisää EcfWalletia käyttämällä hankkimasi tietueet"
+    "message": "Lisää ECF Walletia käyttämällä hankkimasi tietueet"
   },
   "amount": {
     "message": "Summa"
@@ -162,7 +162,7 @@
     "message": "Sulje"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Sinun tarvitsee käyttää EcfWalletia Google Chromessa voidaksesi yhdistää laitteistokukkaroosi."
+    "message": "Sinun tarvitsee käyttää ECF Walletia Google Chromessa voidaksesi yhdistää laitteistokukkaroosi."
   },
   "confirm": {
     "message": "Vahvista"
@@ -394,7 +394,7 @@
     "message": "Yhdistä kiinteän laitteiston lompakko"
   },
   "hardwareWalletsMsg": {
-    "message": "Valitse laitteistokukkaro, jota haluaisit käyttää EcfWalletilla"
+    "message": "Valitse laitteistokukkaro, jota haluaisit käyttää ECF Walletilla"
   },
   "havingTroubleConnecting": {
     "message": "Onko sinulla yhdistämisvaikeuksia?"
@@ -831,7 +831,7 @@
     "message": "Valitse tili"
   },
   "selectAnAccountHelp": {
-    "message": "Valitse EcfWalletissa näytettävä tili"
+    "message": "Valitse ECF Walletissa näytettävä tili"
   },
   "selectAHigherGasFee": {
     "message": "Valitse korkeampi bensataksa vauhdittaaksesi tapahtumasi käsittelyä.*"
@@ -1042,7 +1042,7 @@
     "message": "Tervetuloa takaisin!"
   },
   "welcome": {
-    "message": "Tervetuloa EcfWalletiin"
+    "message": "Tervetuloa ECF Walletiin"
   },
   "writePhrase": {
     "message": "Kirjoita tämä teksti paperille ja säilytä sitä turvallisessa paikassa. Jos haluat olla vielä paremmassa turvassa, kirjoita se ylös useille eri papereille ja talleta ne kahteen tai kolmeen eri paikkaan."

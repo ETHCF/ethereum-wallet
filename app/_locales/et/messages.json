@@ -60,7 +60,7 @@
     "message": "Lisa soovitatud lube"
   },
   "addAcquiredTokens": {
-    "message": "Lisage load, mis olete EcfWalletiga saanud"
+    "message": "Lisage load, mis olete ECF Walletiga saanud"
   },
   "amount": {
     "message": "Summa"
@@ -165,7 +165,7 @@
     "message": "Sule"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Riistvararahakoti ühendamiseks peate kasutama EcfWalleti Google Chrome'is."
+    "message": "Riistvararahakoti ühendamiseks peate kasutama ECF Walleti Google Chrome'is."
   },
   "confirm": {
     "message": "Kinnita"
@@ -397,7 +397,7 @@
     "message": "Ühendage riistvara rahakott"
   },
   "hardwareWalletsMsg": {
-    "message": "Valige riistvara rahakott, mida soovite EcfWalletis kasutada"
+    "message": "Valige riistvara rahakott, mida soovite ECF Walletis kasutada"
   },
   "havingTroubleConnecting": {
     "message": "Kas ühendamisel esineb probleeme?"
@@ -426,7 +426,7 @@
     "message": "Impordi konto"
   },
   "importAccountMsg": {
-    "message": "Imporditud kontosid ei seostata teie ainulaadse EcfWalleti konto seemnefraasiga. Lugege imporditud kontode kohta lähemalt"
+    "message": "Imporditud kontosid ei seostata teie ainulaadse ECF Walleti konto seemnefraasiga. Lugege imporditud kontode kohta lähemalt"
   },
   "importAccountSeedPhrase": {
     "message": "Impordi seemnefraasiga konto"
@@ -530,7 +530,7 @@
     "message": "Teid ühendatakse Ethereumi ja detsentraliseeritud võrguga."
   },
   "ecfWalletVersion": {
-    "message": "EcfWalleti versioon"
+    "message": "ECF Walleti versioon"
   },
   "myAccounts": {
     "message": "Minu kontod"
@@ -574,7 +574,7 @@
     "message": "Uus võrk"
   },
   "newToEcfWallet": {
-    "message": "Pole EcfWalleti varem kasutanud?"
+    "message": "Pole ECF Walleti varem kasutanud?"
   },
   "noAlreadyHaveSeed": {
     "message": "Ei, mul on juba seemnefraas"
@@ -828,7 +828,7 @@
     "message": "Valige konto"
   },
   "selectAnAccountHelp": {
-    "message": "Valige konto, mida EcfWalletis vaadata"
+    "message": "Valige konto, mida ECF Walletis vaadata"
   },
   "selectAHigherGasFee": {
     "message": "Valige suurem gaasihind, et kiirendada tehingu töötlemist.*"
@@ -985,7 +985,7 @@
     "message": "Proovi uuesti"
   },
   "typePassword": {
-    "message": "Sisestage oma EcfWalleti parool"
+    "message": "Sisestage oma ECF Walleti parool"
   },
   "unapproved": {
     "message": "Kinnitamata"
@@ -1039,7 +1039,7 @@
     "message": "Tere tulemast tagasi!"
   },
   "welcome": {
-    "message": "Tere tulemast EcfWalleti"
+    "message": "Tere tulemast ECF Walleti"
   },
   "writePhrase": {
     "message": "Kirjutage see fraas paberile ja hoidke seda turvalises kohas. Veel suurema turvalisuse tagamiseks kirjutage see mitmele paberile ja hoidke neid 2–3 erinevas kohas."
