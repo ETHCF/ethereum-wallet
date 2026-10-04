@@ -20,17 +20,19 @@ describe('Terms of Use page', function () {
         </Routes>
       </MemoryRouter>,
     )
-    assert.equal(wrapper.find('.terms-of-use__title').text(), '[terms]')
+    assert.equal(wrapper.find('.legal-document__title').text(), '[terms]')
+    assert.equal(wrapper.find('.legal-document__updated').text(), '[legalLastUpdated]')
     assert.deepEqual(
-      wrapper.find('.terms-of-use__heading').map((heading) => heading.text()),
+      wrapper.find('.legal-document__heading').map((heading) => heading.text()),
       TERMS_OF_USE_SECTIONS.map(({ heading }) => heading),
     )
   })
 
   it('has English text for its messages', function () {
-    for (const key of ['terms', 'termsOfUseLastUpdated']) {
+    for (const key of ['terms', 'legalLastUpdated']) {
       assert.ok(en[key], `missing ${key}`)
     }
+    assert.match(en.legalLastUpdated.message, /\$1/u)
   })
 
   it('links into the full-screen view', function () {

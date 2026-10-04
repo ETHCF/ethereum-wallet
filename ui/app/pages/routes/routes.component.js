@@ -33,6 +33,7 @@ import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
 import Help from '../help'
 import TermsOfUse from '../terms-of-use'
+import PrivacyPolicy from '../privacy-policy'
 
 import {
   ADD_TOKEN_ROUTE,
@@ -45,6 +46,7 @@ import {
   DEFAULT_ROUTE,
   HELP_ROUTE,
   TERMS_OF_USE_ROUTE,
+  PRIVACY_POLICY_ROUTE,
   INITIALIZE_ROUTE,
   INITIALIZE_UNLOCK_ROUTE,
   LOCK_ROUTE,
@@ -122,6 +124,7 @@ export default class Routes extends Component {
         <Route path={`${INITIALIZE_ROUTE}/*`} element={<FirstTimeFlow />} />
         <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
         <Route path={TERMS_OF_USE_ROUTE} element={<TermsOfUse />} />
+        <Route path={PRIVACY_POLICY_ROUTE} element={<PrivacyPolicy />} />
         <Route path={UNLOCK_ROUTE} element={<Initialized><UnlockPage /></Initialized>} />
         <Route path={RESTORE_VAULT_ROUTE} element={<Initialized><RestoreVaultPage /></Initialized>} />
         <Route path={REVEAL_SEED_ROUTE} element={<Authenticated><RevealSeedConfirmation /></Authenticated>} />

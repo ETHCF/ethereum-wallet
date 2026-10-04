@@ -24,6 +24,7 @@ const CONNECTED_ROUTE = '/connected'
 const CONNECTED_ACCOUNTS_ROUTE = '/connected/accounts'
 const HELP_ROUTE = '/help'
 const TERMS_OF_USE_ROUTE = '/terms-of-use'
+const PRIVACY_POLICY_ROUTE = '/privacy-policy'
 
 const INITIALIZE_ROUTE = '/initialize'
 const INITIALIZE_WELCOME_ROUTE = '/initialize/welcome'
@@ -94,4 +95,5 @@ export {
   CONNECTED_ACCOUNTS_ROUTE,
   HELP_ROUTE,
   TERMS_OF_USE_ROUTE,
+  PRIVACY_POLICY_ROUTE,
 }

@@ -720,6 +720,10 @@
   "ledgerAccountRestriction": {
     "message": "You need to make use your last account before you can add a new one."
   },
+  "legalLastUpdated": {
+    "message": "Last updated $1",
+    "description": "$1 is the date a legal document, such as the Terms of Use, was last changed"
+  },
   "letsGoSetUp": {
     "message": "Yes, let’s get set up!"
   },
@@ -1228,10 +1232,6 @@
   },
   "terms": {
     "message": "Terms of Use"
-  },
-  "termsOfUseLastUpdated": {
-    "message": "Last updated ",
-    "description": " is the date the terms were last changed"
   },
   "theme": {
     "message": "Theme"
