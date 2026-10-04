@@ -81,6 +81,15 @@
   content: '#';
 }
 
+.fa-plus::before {
+  content: '+';
+}
+
+// Sliders, the way a settings control is usually drawn.
+.fa-sliders::before {
+  content: '=';
+}
+
 .fa-expand-alt::before {
   content: '+';
 }
@@ -113,10 +122,21 @@
   content: '\21BB';
 }
 
+.fa-arrow-down::before {
+  content: '\2193';
+}
+
 // Short words, where no single character reads clearly. Sized down so they sit
 // in the same slot as the single-character glyphs.
 .fa-qrcode::before {
   content: 'QR';
+  font-size: 0.8em;
+}
+
+// A hardware wallet is a device on the end of a cable, and there is no
+// character for that. The connection is the recognisable part.
+.fa-usb::before {
+  content: 'USB';
   font-size: 0.8em;
 }
 

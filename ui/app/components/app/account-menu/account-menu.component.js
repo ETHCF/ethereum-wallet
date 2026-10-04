@@ -184,7 +184,7 @@ export default class AccountMenu extends Component {
           key={identity.address}
         >
           <div className="account-menu__check-mark">
-            { isSelected && <div className="account-menu__check-mark-icon" /> }
+            { isSelected && <i className="fa fa-check account-menu__check-mark-icon" /> }
           </div>
           <Identicon
             address={identity.address}
@@ -282,12 +282,7 @@ export default class AccountMenu extends Component {
         className="account-menu__scroll-button"
         onClick={this.handleScrollDown}
       >
-        <img
-          src="./images/icons/down-arrow.svg"
-          width={28}
-          height={28}
-          alt="scroll down"
-        />
+        <i className="fa fa-angle-down" title="scroll down" />
       </div>
     )
   }
@@ -343,12 +338,7 @@ export default class AccountMenu extends Component {
             toggleAccountMenu()
             navigate(NEW_ACCOUNT_ROUTE)
           }}
-          icon={(
-            <img
-              className="account-menu__item-icon"
-              src="images/plus-btn-white.svg"
-            />
-          )}
+          icon={<i className="fa fa-plus account-menu__item-icon" />}
           text={t('createAccount')}
         />
         <AccountMenuItem
@@ -356,12 +346,7 @@ export default class AccountMenu extends Component {
             toggleAccountMenu()
             navigate(IMPORT_ACCOUNT_ROUTE)
           }}
-          icon={(
-            <img
-              className="account-menu__item-icon"
-              src="images/import-account.svg"
-            />
-          )}
+          icon={<i className="fa fa-arrow-down account-menu__item-icon" />}
           text={t('importAccount')}
         />
         <AccountMenuItem
@@ -373,12 +358,7 @@ export default class AccountMenu extends Component {
               navigate(CONNECT_HARDWARE_ROUTE)
             }
           }}
-          icon={(
-            <img
-              className="account-menu__item-icon"
-              src="images/connect-icon.svg"
-            />
-          )}
+          icon={<i className="fa fa-usb account-menu__item-icon" />}
           text={t('connectHardwareWallet')}
         />
         <div className="account-menu__divider" />
@@ -387,9 +367,7 @@ export default class AccountMenu extends Component {
             toggleAccountMenu()
             navigate(ABOUT_US_ROUTE)
           }}
-          icon={
-            <img src="images/mm-info-icon.svg" />
-          }
+          icon={<i className="fa fa-info-circle account-menu__item-icon" />}
           text={t('infoHelp')}
         />
         <AccountMenuItem
@@ -397,12 +375,7 @@ export default class AccountMenu extends Component {
             toggleAccountMenu()
             navigate(SETTINGS_ROUTE)
           }}
-          icon={(
-            <img
-              className="account-menu__item-icon"
-              src="images/settings.svg"
-            />
-          )}
+          icon={<i className="fa fa-sliders account-menu__item-icon" />}
           text={t('settings')}
         />
       </div>

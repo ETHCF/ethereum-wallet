@@ -104,7 +104,7 @@ class AccountList extends Component {
               rel="noopener noreferrer"
               title={this.context.t('etherscanView')}
             >
-              <img src="images/popout.svg" alt="" />
+              <i className="fa fa-external-link-alt" />
             </a>
           </div>
         ))}
