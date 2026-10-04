@@ -22,7 +22,8 @@ export default function createBuiltInClient ({ network }) {
   if (!config) {
     throw new Error(`createBuiltInClient - unknown network "${network}"`)
   }
-  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrl: config.rpcUrl }) })
+  const rpcUrls = [config.rpcUrl, ...(config.fallbackRpcUrls || [])]
+  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrls }) })
   const fetchProvider = providerFromMiddlewareV2(fetchMiddleware)
   const blockTracker = new PollingBlockTracker({ provider: fetchProvider })
 

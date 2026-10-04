@@ -11,7 +11,7 @@ import createRpcService from './rpc-service'
 const inTest = process.env.IN_TEST === 'true'
 
 export default function createLocalhostClient () {
-  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrl: 'http://localhost:8545/' }) })
+  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrls: ['http://localhost:8545/'] }) })
   const blockProvider = providerFromMiddlewareV2(fetchMiddleware)
   const blockTracker = new PollingBlockTracker({ provider: blockProvider, pollingInterval: 1000 })
 

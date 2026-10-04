@@ -11,7 +11,7 @@ import { PollingBlockTracker } from '@metamask/eth-block-tracker'
 import createRpcService from './rpc-service'
 
 export default function createJsonRpcClient ({ rpcUrl }) {
-  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrl }) })
+  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrls: [rpcUrl] }) })
   const blockProvider = providerFromMiddlewareV2(fetchMiddleware)
   const blockTracker = new PollingBlockTracker({ provider: blockProvider })
 

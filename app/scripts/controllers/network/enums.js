@@ -35,6 +35,8 @@ export const BUILT_IN_NETWORKS = {
   [MAINNET]: {
     chainId: MAINNET_CHAIN_ID, name: MAINNET_DISPLAY_NAME, ticker: 'ETH', color: '#29b6af',
     rpcUrl: 'https://ethereum-rpc.publicnode.com', blockExplorerUrl: 'https://etherscan.io',
+    // Tried in order when the primary cannot be reached.
+    fallbackRpcUrls: ['https://eth.drpc.org', 'https://1rpc.io/eth', 'https://eth-mainnet.public.blastapi.io'],
   },
   [LINEA_MAINNET]: {
     chainId: '0xe708', name: 'Linea', ticker: 'ETH', color: '#121212',
