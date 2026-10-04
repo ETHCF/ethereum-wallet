@@ -25,22 +25,28 @@ const typeHash = {
   'first-time': CLASSNAME_FIRST_TIME,
 }
 
-const Button = ({ type, submit, large, children, icon, rounded, className, ...buttonProps }) => (
-  <button
-    type={submit ? 'submit' : undefined}
-    className={classnames(
-      'button',
-      typeHash[type] || CLASSNAME_DEFAULT,
-      large && CLASSNAME_LARGE,
-      rounded && CLASSNAME_ROUNDED,
-      className,
-    )}
-    { ...buttonProps }
-  >
-    {icon && <span className="button__icon">{icon}</span>}
-    { children }
-  </button>
-)
+// A <button> ignores href and target, so a Button given an href renders as a
+// link to be followable.
+const Button = ({ type, submit, large, children, icon, rounded, className, ...buttonProps }) => {
+  const Tag = buttonProps.href ? 'a' : 'button'
+
+  return (
+    <Tag
+      type={Tag === 'button' && submit ? 'submit' : undefined}
+      className={classnames(
+        'button',
+        typeHash[type] || CLASSNAME_DEFAULT,
+        large && CLASSNAME_LARGE,
+        rounded && CLASSNAME_ROUNDED,
+        className,
+      )}
+      { ...buttonProps }
+    >
+      {icon && <span className="button__icon">{icon}</span>}
+      { children }
+    </Tag>
+  )
+}
 
 Button.propTypes = {
   type: PropTypes.string,
