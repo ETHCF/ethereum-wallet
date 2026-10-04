@@ -8,6 +8,7 @@ import {
   INITIALIZE_SELECT_ACTION_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
 } from '../../../../helpers/constants/routes'
+import { getTermsOfUseUrl } from '../../../../helpers/constants/terms-of-use'
 
 export default class ImportWithSeedPhrase extends PureComponent {
   static contextTypes = {
@@ -260,7 +261,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
               <a
                 onClick={(e) => e.stopPropagation()}
                 key="first-time-flow__link-text"
-                href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/USER_AGREEMENT.md"
+                href={getTermsOfUseUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
               >

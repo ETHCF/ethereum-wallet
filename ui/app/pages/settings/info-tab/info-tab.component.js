@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
 import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo'
+import { getTermsOfUseUrl } from '../../../helpers/constants/terms-of-use'
 
 export default class InfoTab extends PureComponent {
   state = {
@@ -70,7 +71,7 @@ export default class InfoTab extends PureComponent {
         <div className="info-tab__link-item">
           <Button
             type="link"
-            href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/USER_AGREEMENT.md"
+            href={getTermsOfUseUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"

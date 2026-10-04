@@ -1229,6 +1229,10 @@
   "terms": {
     "message": "Terms of Use"
   },
+  "termsOfUseLastUpdated": {
+    "message": "Last updated ",
+    "description": " is the date the terms were last changed"
+  },
   "theme": {
     "message": "Theme"
   },

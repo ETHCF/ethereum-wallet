@@ -6,6 +6,7 @@ import {
   INITIALIZE_SELECT_ACTION_ROUTE,
 } from '../../../../helpers/constants/routes'
 import TextField from '../../../../components/ui/text-field'
+import { getTermsOfUseUrl } from '../../../../helpers/constants/terms-of-use'
 
 export default class NewAccount extends PureComponent {
   static contextTypes = {
@@ -185,7 +186,7 @@ export default class NewAccount extends PureComponent {
                 <a
                   onClick={(e) => e.stopPropagation()}
                   key="first-time-flow__link-text"
-                  href="https://github.com/ETHCF/ethereum-wallet/blob/HEAD/USER_AGREEMENT.md"
+                  href={getTermsOfUseUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
