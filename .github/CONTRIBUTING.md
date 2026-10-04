@@ -1,6 +1,6 @@
-# Welcome to ecf-wallet!
+# Welcome to ECF Wallet!
 
-If you're submitting code to ecf-wallet, there are some simple things we'd appreciate you doing to help us stay organized!
+If you're submitting code to ECF Wallet, there are some simple things we'd appreciate you doing to help us stay organized!
 
 ### Finding the right project
 
