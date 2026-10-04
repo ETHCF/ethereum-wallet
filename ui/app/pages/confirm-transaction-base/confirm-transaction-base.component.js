@@ -80,7 +80,6 @@ export default class ConfirmTransactionBase extends Component {
     titleComponent: PropTypes.node,
     valid: PropTypes.bool,
     warning: PropTypes.string,
-    advancedInlineGasShown: PropTypes.bool,
     insufficientBalance: PropTypes.bool,
     transactionCategory: PropTypes.string,
     getNextNonce: PropTypes.func,
@@ -217,7 +216,6 @@ export default class ConfirmTransactionBase extends Component {
       useNonceField,
       customNonceValue,
       updateCustomNonce,
-      advancedInlineGasShown,
       customGas,
       insufficientBalance,
       updateGasAndCalculate,
@@ -262,7 +260,7 @@ export default class ConfirmTransactionBase extends Component {
                 ))}
               </div>
             )}
-            {!feeMarket && (advancedInlineGasShown || notMainnetOrTest)
+            {!feeMarket && notMainnetOrTest
               ? (
                 <AdvancedGasInputs
                   updateCustomGasPrice={(newGasPrice) => updateGasAndCalculate({ ...customGas, gasPrice: newGasPrice })}

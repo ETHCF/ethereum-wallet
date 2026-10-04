@@ -248,10 +248,6 @@ export function getPreferences ({ ecfWallet }) {
   return ecfWallet.preferences
 }
 
-export function getAdvancedInlineGasShown (state) {
-  return Boolean(state.ecfWallet.featureFlags.advancedInlineGas)
-}
-
 export function getUseNonceField (state) {
   return Boolean(state.ecfWallet.useNonceField)
 }

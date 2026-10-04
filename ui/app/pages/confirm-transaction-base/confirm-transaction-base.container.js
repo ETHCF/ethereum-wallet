@@ -27,7 +27,6 @@ import { conversionGreaterThan } from '../../helpers/utils/conversion-util'
 import { MIN_GAS_LIMIT_DEC } from '../send/send.constants'
 import { checksumAddress, valuesFor } from '../../helpers/utils/util'
 import {
-  getAdvancedInlineGasShown,
   getCustomNonceValue,
   getIsMainnet,
   getKnownMethodData,
@@ -161,7 +160,6 @@ const mapStateToProps = (state, ownProps) => {
       gasLimit,
       gasPrice,
     },
-    advancedInlineGasShown: getAdvancedInlineGasShown(state),
     useNonceField: getUseNonceField(state),
     customNonceValue: getCustomNonceValue(state),
     insufficientBalance,

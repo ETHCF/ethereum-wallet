@@ -21,7 +21,6 @@ export default class SendGasRow extends Component {
     tokenBalance: PropTypes.string,
     gasPriceButtonGroupProps: PropTypes.object,
     gasButtonGroupShown: PropTypes.bool,
-    advancedInlineGasShown: PropTypes.bool,
     resetGasButtons: PropTypes.func,
     gasPrice: PropTypes.string,
     gasLimit: PropTypes.string,
@@ -75,7 +74,6 @@ export default class SendGasRow extends Component {
       showCustomizeGasModal,
       gasPriceButtonGroupProps,
       gasButtonGroupShown,
-      advancedInlineGasShown,
       maxModeOn,
       resetGasButtons,
       setGasPrice,
@@ -130,7 +128,7 @@ export default class SendGasRow extends Component {
       </div>
     )
     // Tests should behave in same way as mainnet, but are using Localhost
-    if (advancedInlineGasShown || (!isMainnet && !process.env.IN_TEST)) {
+    if (!isMainnet && !process.env.IN_TEST) {
       return advancedGasInputs
     } else if (gasButtonGroupShown) {
       return gasPriceButtonGroup
