@@ -1,0 +1,132 @@
+/*
+  Icons, drawn with characters instead of a webfont.
+
+  The markup still uses the FontAwesome class names, so components did not have
+  to change, but nothing is downloaded: these are glyphs from the UI's own
+  monospace family. Characters in Latin-1 are genuinely Courier New; the few symbols
+  below that are not come from the browser's fallback font, which matches on
+  width but can differ slightly in weight.
+*/
+
+.fa,
+.fas,
+.far {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-align: center;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fa::before,
+.fas::before,
+.far::before {
+  font-style: normal;
+}
+
+// Sizes, matching the FontAwesome scale the markup expects.
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-med {
+  font-size: 1em;
+}
+
+.fa-lg {
+  font-size: 1.333em;
+  vertical-align: -0.0667em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+// Single characters the monospace family covers directly.
+.fa-question-circle::before {
+  content: '?';
+}
+
+.fa-info-circle::before {
+  content: 'i';
+}
+
+.fa-warning::before,
+.fa-exclamation-circle::before {
+  content: '!';
+}
+
+.fa-times::before,
+.fa-trash-alt::before {
+  content: '\00D7';
+}
+
+.fa-caret-down::before,
+.fa-angle-down::before {
+  content: 'v';
+}
+
+.fa-caret-up::before,
+.fa-angle-up::before {
+  content: '^';
+}
+
+.fa-angle-left::before,
+.fa-chevron-left::before {
+  content: '<';
+}
+
+.fa-tag::before {
+  content: '#';
+}
+
+.fa-expand-alt::before {
+  content: '+';
+}
+
+// The checkbox draws its own square with a border, so these are just the mark
+// inside it. Three-character brackets would not fit the 18px box.
+.fa-square::before {
+  content: '';
+}
+
+.fa-check-square::before {
+  content: 'x';
+}
+
+.fa-minus-square::before {
+  content: '-';
+}
+
+// Symbols outside Latin-1. These render from a fallback face.
+.fa-check::before,
+.fa-check-circle::before {
+  content: '\2713';
+}
+
+.fa-external-link-alt::before {
+  content: '\2197';
+}
+
+.fa-sync::before {
+  content: '\21BB';
+}
+
+// Short words, where no single character reads clearly. Sized down so they sit
+// in the same slot as the single-character glyphs.
+.fa-qrcode::before {
+  content: 'QR';
+  font-size: 0.8em;
+}
+
+.fa-pencil-alt::before {
+  content: 'edit';
+  font-size: 0.8em;
+}
+
+.fa-file::before,
+.fa-file-text-o::before {
+  content: 'doc';
+  font-size: 0.8em;
+}
