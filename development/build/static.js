@@ -50,8 +50,12 @@ const copyTargets = [
     dest: `vendor`,
   },
   {
+    // Only the solid and regular families are imported in typography.scss.
+    // The brands family is a megabyte of webfonts nothing references.
     src: `./node_modules/@fortawesome/fontawesome-free/webfonts/`,
-    dest: `fonts/fontawesome`,
+    pattern: `fa-{solid-900,regular-400}.*`,
+    // A patterned copy joins dest and filename directly, so keep the slash.
+    dest: `fonts/fontawesome/`,
   },
   {
     src: `./ui/app/css/output/`,
