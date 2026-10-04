@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { getHelpUrl } from '../../../helpers/constants/help'
 
 export default class PermissionsConnectFooter extends Component {
   static contextTypes = {
@@ -12,13 +13,13 @@ export default class PermissionsConnectFooter extends Component {
       <div className="permissions-connect-footer">
         <div className="permissions-connect-footer__text">
           <div>{ t('onlyConnectTrust') }</div>
-          <div
+          <a
             className="permissions-connect-footer__text--link"
-            onClick={() => {
-              global.platform.openTab({ url: 'https://medium.com/metamask/privacy-mode-is-now-enabled-by-default-1c1c957f4d57' })
-            }}
+            rel="noopener noreferrer"
+            target="_blank"
+            href={getHelpUrl('safety-tips')}
           >{ t('learnMore') }
-          </div>
+          </a>
         </div>
       </div>
     )
