@@ -19,6 +19,7 @@ import { JsonRpcError } from '@metamask/rpc-errors'
 import launchEcfWalletUi from '../../ui'
 import extension from './lib/extension-api'
 import { setupMultiplex } from './lib/stream-utils'
+import readDisconnectError from './lib/read-disconnect-error'
 import ExtensionPlatform from './platforms/extension'
 import {
   ENVIRONMENT_TYPE_FULLSCREEN,
@@ -46,6 +47,7 @@ async function start () {
     extension.runtime.sendMessage({ type: 'ecf-wallet-ui-active' }).catch(() => clearInterval(heartbeat))
   }, 20000)
   extensionPort.onDisconnect.addListener(() => {
+    readDisconnectError(extensionPort)
     clearInterval(heartbeat)
     window.location.reload()
   })

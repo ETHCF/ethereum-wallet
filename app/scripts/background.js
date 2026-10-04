@@ -18,6 +18,7 @@ import log from 'loglevel'
 import { storeAsStream, storeTransformStream } from '@metamask/obs-store'
 import { ExtensionPortStream } from 'extension-port-stream'
 import { closeHardwareConnections } from './lib/hardware-keyrings'
+import readDisconnectError from './lib/read-disconnect-error'
 import extension from './lib/extension-api'
 import migrations from './migrations'
 import Migrator from './lib/migrator'
@@ -106,6 +107,9 @@ extension.alarms.onAlarm.addListener((alarm) => {
 })
 
 function queueConnection (port, handler) {
+  // A dapp tab entering the back/forward cache closes its port, and the
+  // background end receives that as a disconnect error.
+  port.onDisconnect.addListener(() => readDisconnectError(port))
   if (port.name === 'trezor-connect') {
     return
   }

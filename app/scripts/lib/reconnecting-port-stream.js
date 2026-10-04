@@ -1,18 +1,7 @@
 import { Duplex } from 'readable-stream'
+import readDisconnectError from './read-disconnect-error'
 
 const RELOAD_MESSAGE = 'ecf-wallet was reloaded or updated. Please refresh this page to reconnect.'
-
-/**
- * Reads the error a port disconnected with. Chrome reports an expected
- * disconnect, such as the page entering the back/forward cache, as an
- * unchecked runtime.lastError unless the disconnect listener reads it.
- *
- * @param {Object} port - The disconnected port
- * @returns {Object|undefined} The error, if any
- */
-function readDisconnectError (port) {
-  return globalThis.chrome?.runtime?.lastError || port.error
-}
 
 /**
  * A dapp connection reconnects on demand after a background worker suspends.

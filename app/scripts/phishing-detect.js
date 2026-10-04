@@ -4,6 +4,7 @@ import dnode from 'dnode'
 import { ExtensionPortStream } from 'extension-port-stream'
 import extension from './lib/extension-api'
 import { setupMultiplex } from './lib/stream-utils'
+import readDisconnectError from './lib/read-disconnect-error'
 import { getEnvironmentType } from './lib/util'
 import ExtensionPlatform from './platforms/extension'
 
@@ -18,6 +19,7 @@ function start () {
   global.platform = new ExtensionPlatform()
 
   const extensionPort = extension.runtime.connect({ name: getEnvironmentType() })
+  extensionPort.onDisconnect.addListener(() => readDisconnectError(extensionPort))
   const connectionStream = new ExtensionPortStream(extensionPort)
   const mx = setupMultiplex(connectionStream)
   setupControllerConnection(mx.createStream('controller'), (err, ecfWalletController) => {
