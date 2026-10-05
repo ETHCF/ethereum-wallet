@@ -10,8 +10,5 @@ require('react-redux')
 const reactReduxModule = require.cache[require.resolve('react-redux')]
 reactReduxModule.exports = Object.defineProperty({ ...reactReduxModule.exports }, '__esModule', { value: true })
 
-global.ecfWalletTransactionCodec = require('../app/scripts/lib/transaction-codec-implementation')
-global.ecfWalletModernControllers = require('../app/scripts/lib/modern-controllers-implementation')
-
 window.SVGPathElement = window.SVGPathElement || { prototype: {} }
 global.indexedDB = {}

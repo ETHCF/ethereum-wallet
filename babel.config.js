@@ -6,9 +6,10 @@ module.exports = function (api) {
         '@babel/preset-env',
         {
           targets: {
+            // The manifest minimums (development/build/manifest.js, app/manifest/firefox.json).
             browsers: [
-              'chrome >= 58',
-              'firefox >= 56.2',
+              'chrome >= 120',
+              'firefox >= 128',
             ],
           },
         },

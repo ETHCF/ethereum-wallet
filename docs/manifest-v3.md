@@ -47,8 +47,8 @@ permission directly from the user's click; the transport opens only an already
 authorized device. Firefox does not offer WebHID, so Ledger connection reports an
 unsupported browser. Trezor uses Connect's popup and Bridge/WebUSB flow.
 
-Hardware SDKs are bundled separately with esbuild because their current module
-formats are not supported by the legacy Browserify pipeline. Trezor's popup and
+Hardware SDKs are bundled separately into `hardware.js`, which runs in the
+hardware page and uses its own compatible EthereumJS version. Trezor's popup and
 USB-permission scripts are copied from the installed Connect package during the
 build, keeping their message protocol aligned with the SDK. The popup content-script
 match includes query parameters so the SDK popup can complete its handshake.
@@ -108,17 +108,16 @@ Access lists and authorization lists survive estimation, storage, signing, and
 pending-transaction RPC responses. Signing uses `eth_chainId`, independently of
 `net_version` and the existing history namespace.
 
-The packaged `transaction-codec.js` bundle loads before the background scripts
-in both browsers. It supplies EthereumJS 10, current `@metamask/eth-sig-util` 9,
-and the SIWE parser without forcing the legacy Browserify pipeline to parse
-these dependencies. Private keys remain in the background process.
-It also supplies the HD and imported-key keyrings (`@metamask/eth-hd-keyring`,
+The background bundle includes EthereumJS 10, current `@metamask/eth-sig-util` 9
+and the SIWE parser (`app/scripts/lib/transaction-codec-implementation.js`).
+Private keys remain in the background process. The same module supplies the HD
+and imported-key keyrings (`@metamask/eth-hd-keyring`,
 `@metamask/eth-simple-keyring`) to the wallet's own keyring controller, which
-keeps the existing vault format. `modern-controllers.js` loads after it the same
-way and supplies the ESM-only `@metamask/address-book-controller` and
-`@metamask/permission-controller`. The scripts injected into pages (`inpage.js`,
-`contentscript.js`) are also built with esbuild, so unused dependency code is
-left out.
+keeps the existing vault format. `app/scripts/lib/modern-controllers-implementation.js`
+supplies `@metamask/address-book-controller` and `@metamask/permission-controller`.
+All scripts are built with webpack (`development/build/webpack.config.js`); the
+scripts injected into pages (`inpage.js`, `contentscript.js`) are built
+separately so they stay small and carry no crypto polyfills.
 
 EIP-712 V1, V3, and V4 requests are supported. V3/V4 accept JSON strings or
 objects; V4 supports arrays and nested structs. Validation hashes the actual

@@ -23,12 +23,11 @@ import {
 const networks = { networkList: {} }
 
 const env = process.env.ECF_WALLET_ENV
-const { ECF_WALLET_DEBUG } = process.env
 
 let defaultProviderConfigType
 if (process.env.IN_TEST === 'true') {
   defaultProviderConfigType = LOCALHOST
-} else if (ECF_WALLET_DEBUG || env === 'test') {
+} else if (process.env.ECF_WALLET_DEBUG || env === 'test') {
   defaultProviderConfigType = SEPOLIA
 } else {
   defaultProviderConfigType = MAINNET

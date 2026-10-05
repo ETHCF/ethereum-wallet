@@ -37,15 +37,11 @@ async function start () {
   }).join(', ')
 
   // links to bundle browser builds
-  const bundles = ['background', 'ui', 'inpage', 'contentscript', 'ui-libs', 'phishing-detect']
+  const bundles = ['background', 'ui', 'inpage', 'contentscript', 'hardware', 'phishing-detect']
   const bundleLinks = bundles.map((bundle) => {
     const url = `${BUILD_LINK_BASE}/build-artifacts/source-map-explorer/${bundle}.html`
     return `<a href="${url}">${bundle}</a>`
   }).join(', ')
-
-  // links to bundle browser builds
-  const depVizUrl = `${BUILD_LINK_BASE}/build-artifacts/deps-viz/background/index.html`
-  const depVizLink = `<a href="${depVizUrl}">background</a>`
 
   // link to artifacts
   const allArtifactsUrl = `https://circleci.com/gh/ETHCF/ethereum-wallet/${CIRCLE_BUILD_NUM}#artifacts/containers/0`
@@ -53,7 +49,6 @@ async function start () {
   const contentRows = [
     `builds: ${buildLinks}`,
     `bundle viz: ${bundleLinks}`,
-    `dep viz: ${depVizLink}`,
     `<a href="${allArtifactsUrl}">all artifacts</a>`,
   ]
   const hiddenContent = `<ul>${contentRows.map((row) => `<li>${row}</li>`).join('\n')}</ul>`

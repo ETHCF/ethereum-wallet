@@ -1,10 +1,11 @@
 import { strict as assert } from 'assert'
+import { createAddressBookController } from '../../../../app/scripts/lib/modern-controllers-implementation'
 
 const address = '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc'
 const checksummed = '0x0DCD5D886577d5081B0c52e242Ef29E70Be3E7bc'
 
 describe('AddressBookController', function () {
-  const create = (state) => global.ecfWalletModernControllers.createAddressBookController(state)
+  const create = (state) => createAddressBookController(state)
 
   it('loads entries saved by the legacy controller under their network id', function () {
     const legacy = { addressBook: { 1: { [checksummed]: { address: checksummed, chainId: '1', isEns: false, memo: '', name: 'Alice' } } } }

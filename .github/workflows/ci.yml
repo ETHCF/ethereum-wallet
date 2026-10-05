@@ -46,6 +46,7 @@ jobs:
       # The hash the About screen shows must match what was built.
       - run: yarn verify-build
       - run: yarn validate-source-maps
+      - run: yarn verify-service-worker
       - run: yarn mozilla-lint
       - uses: actions/upload-artifact@v4
         with:

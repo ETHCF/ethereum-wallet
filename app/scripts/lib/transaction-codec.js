@@ -1,13 +1,14 @@
 
-// Loaded before the background bundle. Keep modern EthereumJS dependencies out
-// of Browserify; hardware SDKs use their own compatible EthereumJS version.
+import { createTypedTransaction, decodeTypedTransaction } from './transaction-codec-implementation'
+
+// Hardware SDKs use their own compatible EthereumJS version (see hardware-transport.js).
 export function createTransaction (params, chainId) {
-  return globalThis.ecfWalletTransactionCodec.createTypedTransaction(params, chainId)
+  return createTypedTransaction(params, chainId)
 }
 
 export function decodeTransaction (hex, chainId) {
   const bytes = Buffer.from(hex.replace(/^0x/u, ''), 'hex')
-  return globalThis.ecfWalletTransactionCodec.decodeTypedTransaction(bytes, chainId)
+  return decodeTypedTransaction(bytes, chainId)
 }
 
 export function transactionData (tx) {

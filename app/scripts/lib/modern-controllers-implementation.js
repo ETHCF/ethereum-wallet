@@ -6,9 +6,6 @@ import { AddressBookController } from '@metamask/address-book-controller'
 // eslint-disable-next-line import/no-unresolved
 import { PermissionController, PermissionType, constructPermission } from '@metamask/permission-controller'
 
-// Bundled with esbuild and loaded before the background bundle, like the
-// transaction codec: these packages are ESM-only, which Browserify cannot load.
-
 /**
  * @param {Object} [state] - The persisted AddressBookController state
  * @returns {{ controller: AddressBookController, store: Object }} The controller

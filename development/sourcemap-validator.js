@@ -21,14 +21,11 @@ start().catch((error) => {
 async function start () {
   const targetFiles = [
     `background.js`,
-    // `hardware.js`, skipped: esbuild-plugin-polyfill-node emits source paths
-    // with a doubled node_modules segment for the crypto polyfill's deps, so
-    // positions in elliptic and friends resolve to the wrong lines. See #11.
     `contentscript.js`,
+    `hardware.js`,
     `inpage.js`,
     'phishing-detect.js',
     `ui.js`,
-    // `ui-libs.js`, skipped because source maps are invalid due to browserify bug: https://github.com/browserify/browserify/issues/1971
   ]
   let valid = true
 

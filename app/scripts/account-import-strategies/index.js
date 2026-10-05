@@ -1,4 +1,5 @@
 import * as ethUtil from 'ethereumjs-util'
+import { decryptKeystore } from '../lib/transaction-codec-implementation'
 
 const accountImporter = {
 
@@ -22,8 +23,7 @@ const accountImporter = {
       const stripped = ethUtil.stripHexPrefix(prefixed)
       return stripped
     },
-    // Keystore decryption uses the modern EthereumJS bundle (see transaction-codec.js).
-    'JSON File': (input, password) => globalThis.ecfWalletTransactionCodec.decryptKeystore(input, password),
+    'JSON File': (input, password) => decryptKeystore(input, password),
   },
 
 }

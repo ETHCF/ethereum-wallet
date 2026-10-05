@@ -1,4 +1,4 @@
-// esbuild embeds the existing wallet icon in the inpage bundle as text.
+// The build embeds the existing wallet icon in the inpage bundle as text.
 import iconSvg from '../../images/logo/ecf-wallet-icon.svg'
 
 const icon = `data:image/svg+xml,${encodeURIComponent(iconSvg)}`

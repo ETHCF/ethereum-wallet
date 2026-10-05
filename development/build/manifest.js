@@ -15,7 +15,7 @@ function createManifestTasks ({ browserPlatforms }) {
       const platformModifications = await readJson(`${__dirname}/../../app/manifest/${platform}.json`)
       const result = merge(cloneDeep(baseManifest), platformModifications)
       if (platform === 'firefox') {
-        result.background = { scripts: ['transaction-codec.js', 'modern-controllers.js', 'background.js'] }
+        result.background = { scripts: ['background.js'] }
       } else {
         result.minimum_chrome_version = '120'
       }

@@ -4,6 +4,7 @@ import { ObservableStore } from '@metamask/obs-store'
 import log from 'loglevel'
 import { rpcErrors } from '@metamask/rpc-errors'
 
+import { createPermissionController } from '../../lib/modern-controllers-implementation'
 import createPermissionsMethodMiddleware from './permissionsMethodMiddleware'
 import PermissionsLogController from './permissionsLog'
 import PermissionApprovals from './approval-shim'
@@ -52,8 +53,7 @@ export class PermissionsController {
     })
     // Pending requests, shown on the connect page.
     this.approvals = new PermissionApprovals({ showPermissionRequest: () => this._showPermissionRequest() })
-    // @metamask/permission-controller is ESM-only; see modern-controllers.js.
-    const { controller, store } = globalThis.ecfWalletModernControllers.createPermissionController({
+    const { controller, store } = createPermissionController({
       state: restoredPermissions,
       approval: this.approvals,
       getAllAccounts: () => this.getKeyringAccounts(),

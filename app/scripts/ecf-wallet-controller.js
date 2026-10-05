@@ -54,6 +54,7 @@ import { PermissionsController } from './controllers/permissions'
 import { NOTIFICATION_NAMES } from './controllers/permissions/enums'
 import nodeify from './lib/nodeify'
 import accountImporter from './account-import-strategies'
+import { createAddressBookController } from './lib/modern-controllers-implementation'
 import selectChainId from './lib/select-chain-id'
 import seedPhraseVerifier from './lib/seed-phrase-verifier'
 
@@ -182,7 +183,7 @@ export default class EcfWalletController extends EventEmitter {
       keyringMemStore: this.keyringController.memStore,
     })
 
-    const addressBook = globalThis.ecfWalletModernControllers.createAddressBookController(initState.AddressBookController)
+    const addressBook = createAddressBookController(initState.AddressBookController)
     this.addressBookController = addressBook.controller
     this.addressBookStore = addressBook.store
 

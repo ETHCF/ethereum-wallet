@@ -1,13 +1,10 @@
 
-// The HD and imported-key keyrings come from the transaction codec bundle,
-// which keeps modern EthereumJS out of Browserify (see transaction-codec.js).
-// Read the classes on use, not on import: the bundle is a global set at startup.
+import { HdKeyring, SimpleKeyring } from './transaction-codec-implementation'
 
 export const HD_KEY_TREE = 'HD Key Tree'
 export const SIMPLE_KEY_PAIR = 'Simple Key Pair'
 
 export function getSoftwareKeyringTypes () {
-  const { SimpleKeyring, HdKeyring } = globalThis.ecfWalletTransactionCodec
   return [SimpleKeyring, HdKeyring]
 }
 
