@@ -104,13 +104,23 @@ export default function createRpcService ({
     return body
   }
 
+  // The endpoint that answered last. Without this every request would start at
+  // an endpoint already known to be unreachable and wait out its timeout again,
+  // which is the difference between one slow request and every request being
+  // slow for as long as the outage lasts. The endpoints serve the same chain,
+  // so there is nothing to go back to the first one for.
+  let preferred = 0
+
   return {
     async request (jsonRpcRequest, { headers } = {}) {
       let lastError
       for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-        for (const target of targets) {
+        for (let i = 0; i < targets.length; i++) {
+          const index = (preferred + i) % targets.length
           try {
-            return await send(target, jsonRpcRequest, headers)
+            const body = await send(targets[index], jsonRpcRequest, headers)
+            preferred = index
+            return body
           } catch (error) {
             // Anything the endpoint answered, such as a bad method, is the
             // same from every endpoint, so only reachability is retried.

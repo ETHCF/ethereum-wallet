@@ -132,6 +132,69 @@ describe('createRpcService', function () {
     assert.equal(fetch.calls.length, 10)
   })
 
+  it('keeps using the endpoint that answered instead of retrying a dead one', async function () {
+    const calls = []
+    const fetch = async (endpoint) => {
+      calls.push(endpoint)
+      if (endpoint === 'https://dead.example/') {
+        throw new TypeError('Failed to fetch')
+      }
+      return { status: 200, text: async () => JSON.stringify(ok.body) }
+    }
+    const service = createRpcService({
+      rpcUrls: ['https://dead.example/', 'https://live.example/'],
+      fetch,
+      retryIntervalMs: 0,
+    })
+
+    await service.request(REQUEST)
+    await service.request(REQUEST)
+    await service.request(REQUEST)
+
+    // The dead endpoint is paid for once, not once per request.
+    assert.deepEqual(calls, [
+      'https://dead.example/',
+      'https://live.example/',
+      'https://live.example/',
+      'https://live.example/',
+    ])
+  })
+
+  it('moves on again if the endpoint it settled on later fails', async function () {
+    let liveIsUp = true
+    const calls = []
+    const fetch = async (endpoint) => {
+      calls.push(endpoint)
+      if (endpoint === 'https://live.example/' && !liveIsUp) {
+        throw new TypeError('Failed to fetch')
+      }
+      if (endpoint === 'https://other.example/') {
+        return { status: 200, text: async () => JSON.stringify(ok.body) }
+      }
+      if (endpoint === 'https://live.example/') {
+        return { status: 200, text: async () => JSON.stringify(ok.body) }
+      }
+      throw new TypeError('Failed to fetch')
+    }
+    const service = createRpcService({
+      rpcUrls: ['https://live.example/', 'https://other.example/'],
+      fetch,
+      retryIntervalMs: 0,
+    })
+
+    await service.request(REQUEST)
+    liveIsUp = false
+    calls.length = 0
+    await service.request(REQUEST)
+    await service.request(REQUEST)
+
+    assert.deepEqual(calls, [
+      'https://live.example/',
+      'https://other.example/',
+      'https://other.example/',
+    ])
+  })
+
   it('does not try another endpoint when the error is not about reachability', async function () {
     // 405 means the endpoint answered: every other endpoint would answer the same.
     const fetch = stubFetch([{ status: 405, body: {} }])
