@@ -1,7 +1,6 @@
 const { promises: fs } = require('fs')
 const gulp = require('gulp')
 const gulpZip = require('gulp-zip')
-const del = require('del')
 const pify = require('pify')
 const pump = pify(require('pump'))
 const baseManifest = require('../../app/manifest/_base.json')
@@ -13,7 +12,7 @@ module.exports = createEtcTasks
 function createEtcTasks ({ browserPlatforms, livereload }) {
 
   const clean = createTask('clean', async function clean () {
-    await del(['./dist/*'])
+    await fs.rm('./dist', { recursive: true, force: true })
     await Promise.all(browserPlatforms.map(async (platform) => {
       await fs.mkdir(`./dist/${platform}`, { recursive: true })
     }))

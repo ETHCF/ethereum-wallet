@@ -1,6 +1,6 @@
 import assert from 'assert'
 import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import * as actions from '../../../ui/app/store/actions'
 import * as actionConstants from '../../../ui/app/store/actionConstants'
 

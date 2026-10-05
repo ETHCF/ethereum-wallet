@@ -1,7 +1,7 @@
 import assert from 'assert'
 import React from 'react'
 import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import { mountWithRouter } from '../../../../../../test/lib/render-helpers'
 import NetworkDropdown from '../network-dropdown'
 import { DropdownMenuItem } from '../components/dropdown'

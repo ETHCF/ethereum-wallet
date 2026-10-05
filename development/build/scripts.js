@@ -40,6 +40,10 @@ const sesCompatibilityTransform = makeStringTransform('ses-compatibility', { inc
   cb(null, content.replace(mutation, ''))
 })
 
+// Browserify cannot parse newer syntax, such as `??=`, so these dependencies
+// are compiled down like the app's own code.
+const modernSyntaxDependencies = /node_modules\/(?:react-redux|redux|@reduxjs\/toolkit)\//u
+
 const dependencies = Object.keys((packageJSON && packageJSON.dependencies) || {})
 const reactDepenendencies = dependencies.filter((dep) => dep.match(/react/u))
 
@@ -316,6 +320,16 @@ function createScriptTasks ({ browserPlatforms, livereload }) {
 
     let bundler = browserify(browserifyOpts)
       .transform('babelify')
+      .transform('babelify', {
+        global: true,
+        only: [modernSyntaxDependencies],
+        babelrc: false,
+        configFile: false,
+        sourceType: 'unambiguous',
+        // Map to the published files; their own maps point at sources not shipped.
+        inputSourceMap: false,
+        presets: [['@babel/preset-env', { targets: { browsers: ['chrome >= 58', 'firefox >= 56.2'] } }]],
+      })
       .transform('brfs')
       .transform(sesCompatibilityTransform, { global: true })
 

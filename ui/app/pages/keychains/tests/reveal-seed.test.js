@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import RevealSeedPage from '../reveal-seed'
 import { HOLD_DURATION_MS } from '../../../components/ui/hold-to-reveal-button/hold-to-reveal-button.component'
 

@@ -2,7 +2,7 @@ import assert from 'assert'
 import React from 'react'
 
 import sinon from 'sinon'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 
 import { fireEvent } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'

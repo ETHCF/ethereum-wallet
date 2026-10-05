@@ -1,7 +1,7 @@
 import querystring from 'querystring'
 import pump from 'pump'
 import { WindowPostMessageStream } from '@metamask/post-message-stream'
-import ObjectMultiplex from 'obj-multiplex'
+import ObjectMultiplex from '@metamask/object-multiplex'
 import extension from './lib/extension-api'
 import shouldInjectProvider from './lib/should-inject-provider'
 import ReconnectingPortStream from './lib/reconnecting-port-stream'

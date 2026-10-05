@@ -25,7 +25,6 @@ const fs = require('fs')
 const path = require('path')
 const { promisify } = require('util')
 const log = require('loglevel')
-const matchAll = require('string.prototype.matchall').getPolyfill()
 const localeIndex = require('../app/_locales/index.json')
 
 const readdir = promisify(fs.readdir)
@@ -181,7 +180,7 @@ async function verifyEnglishLocale () {
   const keyRegex = /'(\w+)'|"(\w+)"/ug
   const usedMessages = new Set()
   for await (const fileContents of getFileContents(javascriptFiles)) {
-    for (const match of matchAll.call(fileContents, keyRegex)) {
+    for (const match of fileContents.matchAll(keyRegex)) {
       usedMessages.add(match[1] || match[2])
     }
 

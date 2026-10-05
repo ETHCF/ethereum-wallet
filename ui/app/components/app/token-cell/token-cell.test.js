@@ -1,6 +1,6 @@
 import assert from 'assert'
 import React from 'react'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import { mount } from 'enzyme'
