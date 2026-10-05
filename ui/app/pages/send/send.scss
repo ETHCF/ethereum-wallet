@@ -212,19 +212,6 @@
         height: 0.75rem;
         margin: 0 0.25rem;
       }
-
-      &--qrcode {
-        // Masked rather than drawn, so the icon follows the theme instead of
-        // staying the blue baked into the asset.
-        background-color: var(--color-icon-default);
-        mask-image: url("/images/qr-blue.svg");
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        margin: 0 0.25rem;
-      }
     }
 
     &--valid {

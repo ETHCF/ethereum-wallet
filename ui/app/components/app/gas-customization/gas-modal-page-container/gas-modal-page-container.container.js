@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addHexPrefix } from 'ethereumjs-util'
+import { addHexPrefix } from '@ethereumjs/util'
 import { gasPriceForTransaction, editedGasParams, isFeeMarketTransaction, bumpFee } from '../../../../../../app/scripts/lib/transaction-fees'
 import {
   hideModal,

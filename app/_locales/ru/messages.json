@@ -383,9 +383,6 @@
   "unapproved": {
     "message": "Не одобрена"
   },
-  "unknown": {
-    "message": "Неизвестно"
-  },
   "unknownNetwork": {
     "message": "Неизвестная частная сеть"
   },
@@ -418,9 +415,6 @@
   },
   "acceleratingATransaction": {
     "message": "* Увеличение цены газа повышает шансы на более быструю обработку в сети, но это не гарантируется."
-  },
-  "accessingYourCamera": {
-    "message": "Доступ к вашей камере ..."
   },
   "accountOptions": {
     "message": "Настройки аккаунта"
@@ -758,12 +752,6 @@
   "notEnoughGas": {
     "message": "Не хватает газа"
   },
-  "noWebcamFoundTitle": {
-    "message": "Веб-камера не найдена"
-  },
-  "noWebcamFound": {
-    "message": "Веб-камера вашего компьютера не была найдена. Пожалуйста, попробуйте еще раз."
-  },
   "ofTextNofM": {
     "message": "из"
   },
@@ -859,12 +847,6 @@
   },
   "saveAsCsvFile": {
     "message": "Сохранить как файл CSV"
-  },
-  "scanInstructions": {
-    "message": "Поместите QR-код перед вашей камерой"
-  },
-  "scanQrCode": {
-    "message": "Сканировать QR-код"
   },
   "searchResults": {
     "message": "Результат поиска"
@@ -1022,15 +1004,6 @@
   "units": {
     "message": "единицы"
   },
-  "unknownQrCode": {
-    "message": "Ошибка. Мы не смогли идентифицировать этот QR-код"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ой! Что-то пошло не так...."
-  },
-  "unknownCameraError": {
-    "message": "При попытке доступа к камере произошла ошибка. Пожалуйста, попробуйте еще раз..."
-  },
   "unlock": {
     "message": "Разблокировать"
   },
@@ -1054,9 +1027,6 @@
   },
   "yesLetsTry": {
     "message": "Да, давайте начнем"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Вы должны разрешить доступ к камере, чтобы использовать эту функцию."
   },
   "yourPrivateSeedPhrase": {
     "message": "Ваша сид-фраза"

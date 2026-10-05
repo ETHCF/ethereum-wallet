@@ -1,7 +1,4 @@
 {
-  "accessingYourCamera": {
-    "message": "Aksè a Kamera"
-  },
   "account": {
     "message": "Kont"
   },
@@ -368,12 +365,6 @@
   "noTransactions": {
     "message": "Pa gen tranzaksyon"
   },
-  "noWebcamFoundTitle": {
-    "message": "Pa jwenn webcam"
-  },
-  "noWebcamFound": {
-    "message": "Nou pakay jwenn webcam òdinatè ou. Tanpri eseye ankò."
-  },
   "orderOneHere": {
     "message": "Mete nan lòd on Trezor oswa Ledger epi kenbe lajan ou nan yon stòk frèt."
   },
@@ -495,12 +486,6 @@
   },
   "saveAsCsvFile": {
     "message": "Sove kòm dosye CSV"
-  },
-  "scanInstructions": {
-    "message": "Mete kòd QR la devan kamera ou"
-  },
-  "scanQrCode": {
-    "message": "Enspeksyon QR Kòd"
   },
   "search": {
     "message": "Rechèch"
@@ -650,20 +635,8 @@
   "units": {
     "message": "inite yo"
   },
-  "unknown": {
-    "message": "Enkoni"
-  },
   "unknownNetwork": {
     "message": "Rezo Prive Enkoni"
-  },
-  "unknownQrCode": {
-    "message": "Erè: Nou pa t kapab idantifye QR kòd sa"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops! Yon bagay te ale mal...."
-  },
-  "unknownCameraError": {
-    "message": "Te gen yon erè pandan y ap eseye jwenn aksè nan kamera ou. Tanpri eseye ankò..."
   },
   "unlock": {
     "message": "Debloke"
@@ -694,9 +667,6 @@
   },
   "yesLetsTry": {
     "message": "Wi, ann eseye"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Ou bezwen bay kamera aksè pou sèvi ak fonksyon sa."
   },
   "yourSigRequested": {
     "message": "Yo mande siyati ou"

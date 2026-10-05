@@ -86,7 +86,6 @@ export default class AccountMenu extends Component {
     threshold: 0.45,
     location: 0,
     distance: 100,
-    maxPatternLength: 32,
     minMatchCharLength: 1,
     keys: [
       { name: 'name', weight: 0.5 },
@@ -149,7 +148,7 @@ export default class AccountMenu extends Component {
     let filteredIdentities = accounts
     if (searchQuery) {
       this.addressFuse.setCollection(accounts)
-      filteredIdentities = this.addressFuse.search(searchQuery)
+      filteredIdentities = this.addressFuse.search(searchQuery).map(({ item }) => item)
     }
 
     if (filteredIdentities.length === 0) {

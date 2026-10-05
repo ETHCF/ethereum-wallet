@@ -1,4 +1,5 @@
-import EthQuery from 'ethjs-query'
+import EthQuery from '@metamask/eth-query'
+import pify from 'pify'
 import log from 'loglevel'
 import { hexToBn, BnMultiplyByFraction, bnToHex } from '../../lib/util'
 
@@ -21,7 +22,7 @@ and used to do things like calculate gas of a tx.
 export default class TxGasUtil {
 
   constructor (provider) {
-    this.query = new EthQuery(provider)
+    this.query = pify(new EthQuery(provider))
   }
 
   /**

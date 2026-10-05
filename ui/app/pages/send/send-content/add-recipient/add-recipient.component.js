@@ -32,7 +32,6 @@ export default class AddRecipient extends Component {
       threshold: 0.45,
       location: 0,
       distance: 100,
-      maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: [
         { name: 'address', weight: 0.5 },
@@ -44,7 +43,6 @@ export default class AddRecipient extends Component {
       threshold: 0.45,
       location: 0,
       distance: 100,
-      maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: [
         { name: 'name', weight: 0.5 },
@@ -75,7 +73,7 @@ export default class AddRecipient extends Component {
 
     if (query) {
       this.contactFuse.setCollection(contacts)
-      _contacts = this.contactFuse.search(query)
+      _contacts = this.contactFuse.search(query).map(({ item }) => item)
     }
 
     return _contacts
@@ -88,7 +86,7 @@ export default class AddRecipient extends Component {
 
     if (query) {
       this.recentFuse.setCollection(nonContacts)
-      _nonContacts = this.recentFuse.search(query)
+      _nonContacts = this.recentFuse.search(query).map(({ item }) => item)
     }
 
     return _nonContacts

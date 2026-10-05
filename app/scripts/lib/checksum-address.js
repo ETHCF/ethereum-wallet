@@ -1,8 +1,8 @@
-import { isValidAddress, toChecksumAddress } from 'ethereumjs-util'
+import { isValidAddress, toChecksumAddress } from '@ethereumjs/util'
 
 /**
  * Checksums an address, returning anything that is not a 0x-prefixed hex
- * address unchanged. ethereumjs-util's toChecksumAddress throws for those,
+ * address unchanged. @ethereumjs/util's toChecksumAddress throws for those,
  * and callers here may hold a site's request or a partly typed address.
  *
  * @param {*} address - The value to checksum

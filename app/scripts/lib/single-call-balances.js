@@ -1,5 +1,6 @@
 import { encode } from '@metamask/abi-utils'
-import { BN, stripHexPrefix } from 'ethereumjs-util'
+import { stripHexPrefix } from '@ethereumjs/util'
+import BN from 'bn.js'
 import { decodeArguments, functionSelector } from './abi-method-decoder'
 
 const BALANCES_SELECTOR = functionSelector('balances(address[],address[])')

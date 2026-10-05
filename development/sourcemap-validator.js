@@ -1,9 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const { SourceMapConsumer } = require('source-map')
-const pify = require('pify')
 
-const fsAsync = pify(fs)
+const fsAsync = fs.promises
 
 //
 // Utility to help check if sourcemaps are working

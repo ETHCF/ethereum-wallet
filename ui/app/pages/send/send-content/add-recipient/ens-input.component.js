@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import { debounce } from 'lodash'
-import copyToClipboard from 'copy-to-clipboard/index'
-import ENS from 'ethjs-ens'
+import copyToClipboard from 'copy-to-clipboard'
 import networkMap from 'ethereum-ens-network-map'
 import log from 'loglevel'
+import ENS from '../../../../../../app/scripts/controllers/ens/ens'
 import { isValidDomainName, isValidAddress, isValidAddressHead } from '../../../../helpers/utils/util'
 
 // Local Constants
@@ -25,7 +25,6 @@ export default class EnsInput extends Component {
     selectedName: PropTypes.string,
     onChange: PropTypes.func,
     updateEnsResolution: PropTypes.func,
-    scanQrCode: PropTypes.func,
     updateEnsResolutionError: PropTypes.func,
     onPaste: PropTypes.func,
     onReset: PropTypes.func,
@@ -163,19 +162,12 @@ export default class EnsInput extends Component {
             autoFocus
             data-testid="ens-input"
           />
-          <div
-            className={classnames('ens-input__wrapper__action-icon', {
-              'ens-input__wrapper__action-icon--erase': input,
-              'ens-input__wrapper__action-icon--qrcode': !input,
-            })}
-            onClick={() => {
-              if (input) {
-                this.resetInput()
-              } else {
-                this.props.scanQrCode()
-              }
-            }}
-          />
+          {input && (
+            <div
+              className="ens-input__wrapper__action-icon ens-input__wrapper__action-icon--erase"
+              onClick={this.resetInput}
+            />
+          )}
         </div>
       </div>
     )

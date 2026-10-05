@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Agilizar a una transacción al usar un precio de gas más alto aumenta las probabilidades que que la red lo procese más rápidamente, pero eso no siempre está garantizado."
   },
-  "accessingYourCamera": {
-    "message": "Accediendo a tu cámara..."
-  },
   "account": {
     "message": "Cuenta"
   },
@@ -491,12 +488,6 @@
   "noTransactions": {
     "message": "Sin transacciones"
   },
-  "noWebcamFoundTitle": {
-    "message": "No se encontró a la webcam"
-  },
-  "noWebcamFound": {
-    "message": "No se encontró a la webcam de tu ordenador. Favor de volver a intentar."
-  },
   "ofTextNofM": {
     "message": "de"
   },
@@ -627,12 +618,6 @@
   },
   "saveAsCsvFile": {
     "message": "Guardar como archivo CSV"
-  },
-  "scanInstructions": {
-    "message": "Coloque el código QR delante de tu cámara"
-  },
-  "scanQrCode": {
-    "message": "Escanear código QR"
   },
   "search": {
     "message": "Buscar"
@@ -824,20 +809,8 @@
   "units": {
     "message": "unidades"
   },
-  "unknown": {
-    "message": "Desconocido (a)"
-  },
   "unknownNetwork": {
     "message": "Red privada desconocida"
-  },
-  "unknownQrCode": {
-    "message": "Error: No pudimos identificar ese código QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Uuups! Algo se estropeó..."
-  },
-  "unknownCameraError": {
-    "message": "Hubo un error al intentar acceder a la cámara. Por favor, vuelve a intentar..."
   },
   "unlock": {
     "message": "Desbloquear"
@@ -868,9 +841,6 @@
   },
   "yesLetsTry": {
     "message": "Sí, probemos"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Tienes que permitir acceso a la cámara para usar esta función."
   },
   "yourSigRequested": {
     "message": "Tu firma ya fue solicitada"

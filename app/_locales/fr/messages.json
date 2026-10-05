@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Accélérer une transaction en utilisant un prix de l'essence plus élevé augmente ses chances d'être traitée plus rapidement par le réseau, mais ce n'est pas toujours garanti."
   },
-  "accessingYourCamera": {
-    "message": "Accès à votre appareil photo..."
-  },
   "account": {
     "message": "Compte"
   },
@@ -582,12 +579,6 @@
   "notEnoughGas": {
     "message": "Pas assez d'essence"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webcam introuvable"
-  },
-  "noWebcamFound": {
-    "message": "La caméra de votre ordinateur n'a pas été trouvée. Veuillez réessayer."
-  },
   "ofTextNofM": {
     "message": "de"
   },
@@ -733,12 +724,6 @@
   },
   "saveAsCsvFile": {
     "message": "Enregistrer comme fichier CSV"
-  },
-  "scanInstructions": {
-    "message": "Placez le QR code devant votre appareil photo"
-  },
-  "scanQrCode": {
-    "message": "Scannez le QR Code"
   },
   "search": {
     "message": "Rechercher"
@@ -963,20 +948,8 @@
   "units": {
     "message": "unités"
   },
-  "unknown": {
-    "message": "Inconnu"
-  },
   "unknownNetwork": {
     "message": "Réseau privé inconnu"
-  },
-  "unknownQrCode": {
-    "message": "Erreur: Nous n'avons pas pu identifier le QR code"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops ! Il y a eu un problème...."
-  },
-  "unknownCameraError": {
-    "message": "Une erreur s'est produite lors de l'accès à votre appareil photo. Veuillez reessayer..."
   },
   "unlock": {
     "message": "Déverrouiller"
@@ -1016,9 +989,6 @@
   },
   "yesLetsTry": {
     "message": "Oui, essayons"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Vous devez autoriser l'accès à votre appareil pour utiliser cette fonctionnalité."
   },
   "yourSigRequested": {
     "message": "Votre signature est demandée"

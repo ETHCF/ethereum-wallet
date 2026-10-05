@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Pospešitev transakcije z višjo gas ceno poveča njene možnosti za hitrejšo obdelavo v omrežju, vendar ni vedno zagotovljena."
   },
-  "accessingYourCamera": {
-    "message": "Dostopanje do vaše kamere ..."
-  },
   "account": {
     "message": "Račun"
   },
@@ -597,12 +594,6 @@
   "notEnoughGas": {
     "message": "Ni dovolj plina"
   },
-  "noWebcamFoundTitle": {
-    "message": "Spletna kamera ni najdena"
-  },
-  "noWebcamFound": {
-    "message": "Spletna kamera ni najdena. Poskusite znova kasneje."
-  },
   "ofTextNofM": {
     "message": "od"
   },
@@ -745,12 +736,6 @@
   },
   "saveAsCsvFile": {
     "message": "Shrani kot CSV datoteko"
-  },
-  "scanInstructions": {
-    "message": "Postavite QR kodo pred vašo kamero"
-  },
-  "scanQrCode": {
-    "message": "Skeniraj QR kodo"
   },
   "search": {
     "message": "Iskanje"
@@ -981,20 +966,8 @@
   "units": {
     "message": "enote"
   },
-  "unknown": {
-    "message": "Neznano"
-  },
   "unknownNetwork": {
     "message": "Neznano zasebno omrežje"
-  },
-  "unknownQrCode": {
-    "message": "Napaka: Te QR kode ni bilo mogoče prepoznati"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops! Nekaj je šlo narobe ...."
-  },
-  "unknownCameraError": {
-    "message": "Pri dostopanju do vaše kamere je prišlo do napake. Poskusite znova kasneje ..."
   },
   "unlock": {
     "message": "Odkleni"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "Pa poskusimo"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Za uporabo te funkcije boste potrebovali dostop do kamere."
   },
   "yourSigRequested": {
     "message": "Zahtevan je bil vaš podpis"

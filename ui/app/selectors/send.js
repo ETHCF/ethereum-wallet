@@ -1,5 +1,5 @@
-import abi from 'human-standard-token-abi'
 import { calcGasTotal } from '../pages/send/send.utils'
+import { getTokenContract } from '../helpers/utils/token-util'
 import {
   accountsWithSendEtherInfoSelector,
   getAddressBook,
@@ -48,7 +48,7 @@ export function getSendTokenAddress (state) {
 export function getSendTokenContract (state) {
   const sendTokenAddress = getSendTokenAddress(state)
   return sendTokenAddress
-    ? global.eth.contract(abi).at(sendTokenAddress)
+    ? getTokenContract(sendTokenAddress)
     : null
 }
 
@@ -123,10 +123,6 @@ export function getSendEnsResolutionError (state) {
 
 export function getUnapprovedTxs (state) {
   return state.ecfWallet.unapprovedTxs
-}
-
-export function getQrCodeData (state) {
-  return state.appState.qrCodeData
 }
 
 export function getGasLoadingError (state) {

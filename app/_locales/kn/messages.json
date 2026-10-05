@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "* ಹೆಚ್ಚಿನ ಗ್ಯಾಸ್ ಬೆಲೆಯನ್ನು ಬಳಸಿಕೊಂಡು ವಹಿವಾಟನ್ನು ವೇಗಗೊಳಿಸುವುದರಿಂದ ನೆಟ್‌ವರ್ಕ್ ವೇಗವಾಗಿ ಪ್ರಕ್ರಿಯೆಗೊಳ್ಳುವ ಸಾಧ್ಯತೆಗಳನ್ನು ಅದು ಹೆಚ್ಚಿಸುತ್ತದೆ, ಆದರೆ ಇದು ಯಾವಾಗಲೂ ಖಚಿತವಾಗಿರುವುದಿಲ್ಲ."
   },
-  "accessingYourCamera": {
-    "message": "ನಿಮ್ಮ ಕ್ಯಾಮರಾವನ್ನು ಪ್ರವೇಶಿಸಲಾಗುತ್ತಿದೆ..."
-  },
   "account": {
     "message": "ಖಾತೆ"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "ಸಾಕಷ್ಟು ಗ್ಯಾಸ್ ಇಲ್ಲ"
   },
-  "noWebcamFoundTitle": {
-    "message": "ವೆಬ್‌ಕ್ಯಾಮ್ ಕಂಡುಬಂದಿಲ್ಲ"
-  },
-  "noWebcamFound": {
-    "message": "ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ವೆಬ್‌ಕ್ಯಾಮ್ ಕಂಡುಬಂದಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-  },
   "ofTextNofM": {
     "message": "ರಲ್ಲಿ"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "CSV ಫೈಲ್ ರೂಪದಲ್ಲಿ ಉಳಿಸಿ"
-  },
-  "scanInstructions": {
-    "message": "ನಿಮ್ಮ ಕ್ಯಾಮರಾದ ಮುಂದೆ QR ಕೋಡ್ ಇರಿಸಿ"
-  },
-  "scanQrCode": {
-    "message": "QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ"
   },
   "search": {
     "message": "ಹುಡುಕಾಟ"
@@ -999,20 +984,8 @@
   "units": {
     "message": "ಘಟಕಗಳು"
   },
-  "unknown": {
-    "message": "ಅಪರಿಚಿತ"
-  },
   "unknownNetwork": {
     "message": "ಅಪರಿಚಿತ ಖಾಸಗಿ ನೆಟ್‌ವರ್ಕ್"
-  },
-  "unknownQrCode": {
-    "message": "ದೋಷ: ನಮಗೆ ಆ QR ಕೋಡ್ ಅನ್ನು ಗುರುತಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "ಓಹ್! ಏನೋ ತಪ್ಪಾಗಿದೆ...."
-  },
-  "unknownCameraError": {
-    "message": "ನಿಮ್ಮ ಕ್ಯಾಮರಾವನ್ನು ಪ್ರವೇಶಿಸಲು ಪ್ರಯತ್ನಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ..."
   },
   "unlock": {
     "message": "ಅನ್‌ಲಾಕ್"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "ಹೌದು, ಪ್ರಯತ್ನಿಸೋಣ"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "ಈ ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸಲು ನೀವು ಕ್ಯಾಮರಾ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಬೇಕಾಗುತ್ತದೆ."
   },
   "yourSigRequested": {
     "message": "ನಿಮ್ಮ ಸಹಿಯನ್ನು ವಿನಂತಿಸಲಾಗಿದೆ"

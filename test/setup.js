@@ -1,3 +1,8 @@
+// ES module dependencies, such as @metamask/utils, import the CommonJS debug
+// module. With @babel/register's loader hook in place, Node gives that
+// module's own require calls ES namespaces when an ES module loads it first, so
+// debug would export an object. Load it through require before anything imports it.
+require('debug')
 require('@babel/register')
 
 require('./helper')

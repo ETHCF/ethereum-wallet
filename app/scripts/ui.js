@@ -4,14 +4,12 @@ import './lib/freezeGlobals'
 
 // polyfills
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
-import '@formatjs/intl-relativetimeformat/polyfill'
 
 import { EventEmitter } from 'events'
 import { ExtensionPortStream } from 'extension-port-stream'
 
 import Dnode from 'dnode'
-import Eth from 'ethjs'
-import EthQuery from 'eth-query'
+import EthQuery from '@metamask/eth-query'
 import StreamProvider from 'web3-stream-provider'
 import log from 'loglevel'
 import { getUniqueId } from '@metamask/json-rpc-engine'
@@ -151,7 +149,6 @@ function setupWeb3Connection (connectionStream) {
   })
   global.ethereumProvider = providerStream
   global.ethQuery = new EthQuery(providerStream)
-  global.eth = new Eth(providerStream)
 }
 
 /**

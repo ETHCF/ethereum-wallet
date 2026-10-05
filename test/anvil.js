@@ -1,6 +1,6 @@
 const path = require('path')
 const { createAnvil } = require('@viem/anvil')
-const { privateToAddress, toBuffer, bufferToHex } = require('ethereumjs-util')
+const { privateToAddress, toBytes, bytesToHex } = require('@ethereumjs/util')
 
 // `yarn foundryup` installs the pinned, checksum-verified Anvil binary here.
 const ANVIL_BINARY = path.resolve(__dirname, '../node_modules/.bin/anvil')
@@ -33,7 +33,7 @@ class Anvil {
     await this._anvil.start()
     // Ganache created accounts from private keys; Anvil funds them instead.
     for (const { secretKey, balance } of accounts) {
-      const address = bufferToHex(privateToAddress(toBuffer(secretKey)))
+      const address = bytesToHex(privateToAddress(toBytes(secretKey)))
       await this.request('anvil_setBalance', [address, `0x${BigInt(balance).toString(16)}`])
     }
     return { port: this._port }

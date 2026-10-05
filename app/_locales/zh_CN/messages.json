@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* 设定更高天燃气价格，加快交易完成进度，提高网络快速处理机率，但无法保证每次均能够实现提速。"
   },
-  "accessingYourCamera": {
-    "message": "正在获取相机使用权限..."
-  },
   "account": {
     "message": "账户"
   },
@@ -594,12 +591,6 @@
   "notEnoughGas": {
     "message": "天然气不足"
   },
-  "noWebcamFoundTitle": {
-    "message": "未找到网络摄像头"
-  },
-  "noWebcamFound": {
-    "message": "找不到您的个人电脑网络摄像头。请重试。"
-  },
   "ofTextNofM": {
     "message": "/"
   },
@@ -745,12 +736,6 @@
   },
   "saveAsCsvFile": {
     "message": "另存为CSV文件"
-  },
-  "scanInstructions": {
-    "message": "请将二维码置于镜头前"
-  },
-  "scanQrCode": {
-    "message": "扫描二维码"
   },
   "search": {
     "message": "搜索"
@@ -981,20 +966,8 @@
   "units": {
     "message": "单位"
   },
-  "unknown": {
-    "message": "未知"
-  },
   "unknownNetwork": {
     "message": "未知私有网络"
-  },
-  "unknownQrCode": {
-    "message": "错误：我们无法识别该二维码"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "哎呀！出问题了…"
-  },
-  "unknownCameraError": {
-    "message": "尝试获取相机使用权限时报错。请重试…"
   },
   "unlock": {
     "message": "解锁"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "没错。不妨一试"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "您需要开启相机访问权限，才能使用该功能。"
   },
   "yourSigRequested": {
     "message": "正在请求你的签名"

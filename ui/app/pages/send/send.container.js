@@ -17,7 +17,6 @@ import {
   getSendTo,
   getSendToNickname,
   getTokenBalance,
-  getQrCodeData,
   getSelectedAddress,
   getAddressBook,
 } from '../../selectors'
@@ -27,8 +26,6 @@ import {
   updateSendTokenBalance,
   updateGasData,
   setGasTotal,
-  showQrScanner,
-  qrCodeDetected,
   updateSendEnsResolution,
   updateSendEnsResolutionError,
 } from '../../store/actions'
@@ -61,7 +58,6 @@ function mapStateToProps (state) {
     gasPrice: getGasPrice(state),
     gasTotal: getGasTotal(state),
     network: getCurrentNetwork(state),
-    qrCodeData: getQrCodeData(state),
     selectedAddress: getSelectedAddress(state),
     sendToken: getSendToken(state),
     showHexData: getSendHexDataFeatureFlagState(state),
@@ -99,8 +95,6 @@ function mapDispatchToProps (dispatch) {
     },
     updateSendErrors: (newError) => dispatch(updateSendErrors(newError)),
     resetSendState: () => dispatch(resetSendState()),
-    scanQrCode: () => dispatch(showQrScanner()),
-    qrCodeDetected: (data) => dispatch(qrCodeDetected(data)),
     updateSendTo: (to, nickname) => dispatch(updateSendTo(to, nickname)),
     fetchBasicGasEstimates: () => dispatch(fetchBasicGasEstimates()),
     updateSendEnsResolution: (ensResolution) => dispatch(updateSendEnsResolution(ensResolution)),

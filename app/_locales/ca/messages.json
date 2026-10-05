@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Accelerar una transacció utilitzant un preu de gas més alt augmenta les possibilitats de ser processat més ràpidament per la xarxa, però no sempre es pot garantir."
   },
-  "accessingYourCamera": {
-    "message": "Accedint a la teva càmera..."
-  },
   "account": {
     "message": "Compte"
   },
@@ -600,12 +597,6 @@
   "notEnoughGas": {
     "message": "Gas Insuficient"
   },
-  "noWebcamFoundTitle": {
-    "message": "Càmera web no trobada"
-  },
-  "noWebcamFound": {
-    "message": "No s'ha trovat la webcam del teu ordinador. Si us plau prova de nou."
-  },
   "ofTextNofM": {
     "message": "de"
   },
@@ -745,12 +736,6 @@
   },
   "saveAsCsvFile": {
     "message": "Guarda com a Arxiu CSV"
-  },
-  "scanInstructions": {
-    "message": "Col·loca el codi QR davant la teva càmera"
-  },
-  "scanQrCode": {
-    "message": "Escanejar Codi QR"
   },
   "search": {
     "message": "Cerca"
@@ -975,20 +960,8 @@
   "units": {
     "message": "unitats"
   },
-  "unknown": {
-    "message": "Desconegut"
-  },
   "unknownNetwork": {
     "message": "Xarxa privada desconeguda"
-  },
-  "unknownQrCode": {
-    "message": "Error: No hem pogut identificar aquest codi QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ups! Hi ha alguna cosa que no ha funcionat..."
-  },
-  "unknownCameraError": {
-    "message": "Hi ha hagut un error mentre intentaves accedir a la teva càmera"
   },
   "unlock": {
     "message": "Desbloqueja"
@@ -1028,9 +1001,6 @@
   },
   "yesLetsTry": {
     "message": "Sí, provem"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Has de permetre l'accés a la càmera per fer servir aquesta característica."
   },
   "yourSigRequested": {
     "message": "Es necessita la teva firma"

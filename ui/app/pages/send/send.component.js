@@ -45,9 +45,6 @@ export default class SendTransactionScreen extends Component {
     updateSendTo: PropTypes.func.isRequired,
     updateSendTokenBalance: PropTypes.func.isRequired,
     updateToNicknameIfNecessary: PropTypes.func.isRequired,
-    scanQrCode: PropTypes.func.isRequired,
-    qrCodeDetected: PropTypes.func.isRequired,
-    qrCodeData: PropTypes.object,
   }
 
   static contextTypes = {
@@ -74,15 +71,12 @@ export default class SendTransactionScreen extends Component {
       sendToken,
       tokenBalance,
       updateSendErrors,
-      updateSendTo,
       updateSendTokenBalance,
       tokenContract,
       to,
       toNickname,
       addressBook,
       updateToNicknameIfNecessary,
-      qrCodeData,
-      qrCodeDetected,
     } = this.props
 
     let updateGas = false
@@ -92,7 +86,6 @@ export default class SendTransactionScreen extends Component {
       tokenBalance: prevTokenBalance,
       network: prevNetwork,
       sendToken: prevSendToken,
-      to: prevTo,
     } = prevProps
 
     const uninitialized = [prevBalance, prevGasTotal].every((n) => n === null)
@@ -146,26 +139,8 @@ export default class SendTransactionScreen extends Component {
       updateGas = true
     }
 
-    let scannedAddress
-    if (qrCodeData) {
-      if (qrCodeData.type === 'address') {
-        scannedAddress = qrCodeData.values.address.toLowerCase()
-        const currentAddress = prevTo && prevTo.toLowerCase()
-        if (currentAddress !== scannedAddress) {
-          updateSendTo(scannedAddress)
-          updateGas = true
-          // Clean up QR code data after handling
-          qrCodeDetected(null)
-        }
-      }
-    }
-
     if (updateGas) {
-      if (scannedAddress) {
-        this.updateGas({ to: scannedAddress })
-      } else {
-        this.updateGas()
-      }
+      this.updateGas()
     }
   }
 
@@ -178,16 +153,6 @@ export default class SendTransactionScreen extends Component {
 
   UNSAFE_componentWillMount () {
     this.updateSendToken()
-
-    // Show QR Scanner modal  if ?scan=true
-    if (window.location.search === '?scan=true') {
-      this.props.scanQrCode()
-
-      // Clear the queryString param after showing the modal
-      const cleanUrl = window.location.href.split('?')[0]
-      window.history.pushState({}, null, `${cleanUrl}`)
-      window.location.hash = '#send'
-    }
   }
 
   componentWillUnmount () {
@@ -292,9 +257,6 @@ export default class SendTransactionScreen extends Component {
     return (
       <EnsInput
         className="send__to-row"
-        scanQrCode={(_) => {
-          this.props.scanQrCode()
-        }}
         onChange={this.onRecipientInputChange}
         onValidAddressTyped={(address) => this.props.updateSendTo(address, '')}
         onPaste={(text) => {

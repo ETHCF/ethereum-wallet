@@ -1,4 +1,4 @@
-import EthQuery from 'eth-query'
+import EthQuery from '@metamask/eth-query'
 import pify from 'pify'
 import contracts from '@metamask/contract-metadata'
 import { warn } from 'loglevel'

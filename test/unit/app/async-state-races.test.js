@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
-import { BN } from 'ethereumjs-util'
+import BN from 'bn.js'
 import { encode as abiEncode } from '@metamask/abi-utils'
 import { ObservableStore } from '@metamask/obs-store'
 import AccountTracker from '../../../app/scripts/lib/account-tracker'

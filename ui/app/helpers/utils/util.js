@@ -1,6 +1,6 @@
 import punycode from 'punycode'
-import abi from 'human-standard-token-abi'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
+import BN from 'bn.js'
 import { DateTime } from 'luxon'
 import { toChecksumHexAddress } from '../../../../app/scripts/lib/checksum-address'
 
@@ -37,7 +37,7 @@ export function isValidAddress (address) {
   if (!address || address === '0x0000000000000000000000000000000000000000') {
     return false
   }
-  // ethereumjs-util only accepts a lower case 0x prefix.
+  // @ethereumjs/util only accepts a lower case 0x prefix.
   const prefixed = ethUtil.addHexPrefix(address.startsWith('0X') ? address.slice(2) : address)
   return (isAllOneCase(prefixed.slice(2)) && ethUtil.isValidAddress(prefixed)) || ethUtil.isValidChecksumAddress(prefixed)
 }
@@ -64,10 +64,10 @@ export function isAllOneCase (address) {
 // Takes wei Hex, returns wei BN, even if input is null
 export function numericBalance (balance) {
   if (!balance) {
-    return new ethUtil.BN(0, 16)
+    return new BN(0, 16)
   }
   const stripped = ethUtil.stripHexPrefix(balance)
-  return new ethUtil.BN(stripped, 16)
+  return new BN(stripped, 16)
 }
 
 // Takes  hex, returns [beforeDecimal, afterDecimal]
@@ -115,10 +115,6 @@ export function formatBalance (balance, decimalsToKeep, needsParse = true, ticke
 // returns a BN in wei
 export function isHex (str) {
   return Boolean(str.match(/^(0x)?[0-9a-fA-F]+$/u))
-}
-
-export function getContractAtAddress (tokenAddress) {
-  return global.eth.contract(abi).at(tokenAddress)
 }
 
 export function getRandomFileName () {

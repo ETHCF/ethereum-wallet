@@ -464,9 +464,6 @@
   "typePassword": {
     "message": "พิมพ์รหัสผ่านของคุณ"
   },
-  "unknown": {
-    "message": "ไม่รู้จัก"
-  },
   "unknownNetwork": {
     "message": "ไม่รู้จักเครือข่ายส่วนตัว"
   },

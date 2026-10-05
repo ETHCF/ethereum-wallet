@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Tapahtuman nopeuttaminen käyttämällä korkeampaa gas-hintaa parantaa mahdollisuutta, että verkko käsittelee sen nopeammin, mutta tämä ei ole aina taattua."
   },
-  "accessingYourCamera": {
-    "message": "Muodostamme yhteyttä kameraasi..."
-  },
   "account": {
     "message": "Tili"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "Liian vähän gasia"
   },
-  "noWebcamFoundTitle": {
-    "message": "Verkkokameraa ei löytynyt"
-  },
-  "noWebcamFound": {
-    "message": "Tietokoneesi verkkokameraa ei löytynyt. Ole hyvä ja yritä uudestaan."
-  },
   "ofTextNofM": {
     "message": "/"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": "Tallenna CSV-tiedostona"
-  },
-  "scanInstructions": {
-    "message": "Aseta QR-koodi kamerasi eteen"
-  },
-  "scanQrCode": {
-    "message": "Lue QR-koodi"
   },
   "search": {
     "message": "Haku"
@@ -996,20 +981,8 @@
   "units": {
     "message": "yksikköä"
   },
-  "unknown": {
-    "message": "Tuntematon"
-  },
   "unknownNetwork": {
     "message": "Tuntematon yksityinen verkko"
-  },
-  "unknownQrCode": {
-    "message": "Virhe: Emme onnistuneet tunnistamaan kyseistä QR-koodia"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Oho! Jokin meni vikaan..."
-  },
-  "unknownCameraError": {
-    "message": "Tapahtui virhe yritettäessä käyttää kameraasi. Ole hyvä ja yritä uudestaan..."
   },
   "unlock": {
     "message": "Poista lukitus"
@@ -1049,9 +1022,6 @@
   },
   "yesLetsTry": {
     "message": "Kyllä, kokeillaan"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Käyttääksesi tätä ominaisuutta sinun tarvitsee antaa kameralle käyttöoikeudet."
   },
   "yourSigRequested": {
     "message": "Allekirjoitustasi pyydetään"

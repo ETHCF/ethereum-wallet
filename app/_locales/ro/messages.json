@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Accelerarea unei tranzacții folosind un preț în gas mai mare îi crește șansele de a fi procesată mai rapid de rețea, însă acest lucru nu este garantat întotdeauna."
   },
-  "accessingYourCamera": {
-    "message": "Se accesează camera dvs..."
-  },
   "account": {
     "message": "Cont"
   },
@@ -603,12 +600,6 @@
   "notEnoughGas": {
     "message": "Gas insuficient"
   },
-  "noWebcamFoundTitle": {
-    "message": "Camera web nu a fost găsită"
-  },
-  "noWebcamFound": {
-    "message": "Webcam-ul computerului dvs. nu a fost găsit. Vă rugăm să încercați din nou."
-  },
   "ofTextNofM": {
     "message": "din"
   },
@@ -754,12 +745,6 @@
   },
   "saveAsCsvFile": {
     "message": "Salvați ca fișier CSV "
-  },
-  "scanInstructions": {
-    "message": "Așezați codul QR în fața camerei"
-  },
-  "scanQrCode": {
-    "message": "Scanați codul QR"
   },
   "search": {
     "message": "Caută"
@@ -984,20 +969,8 @@
   "units": {
     "message": "unități"
   },
-  "unknown": {
-    "message": "Necunoscută"
-  },
   "unknownNetwork": {
     "message": "Rețea privată necunoscută"
-  },
-  "unknownQrCode": {
-    "message": "Eroare: Acel cod QR nu a putut fi identificat"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Hopa! A apărut o eroare..."
-  },
-  "unknownCameraError": {
-    "message": "A survenit o eroare la accesarea camerei. Încercați din nou..."
   },
   "unlock": {
     "message": "Deblochează"
@@ -1037,9 +1010,6 @@
   },
   "yesLetsTry": {
     "message": "Da, să încercăm"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Trebuie să permiteți accesul la cameră pentru a folosi această funcție."
   },
   "yourSigRequested": {
     "message": "Semnătura dvs. este solicitată"

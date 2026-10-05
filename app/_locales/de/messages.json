@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Die Beschleunigung einer Transaktion durch die Verwendung eines höheren Gaspreises erhöht die Chancen einer schnelleren Verarbeitung durch das Netz, wofür es allerdings keine Garantie gibt."
   },
-  "accessingYourCamera": {
-    "message": "Zugriff auf Ihre Kamera …"
-  },
   "accountDetails": {
     "message": "Accountdetails"
   },
@@ -582,12 +579,6 @@
   "notEnoughGas": {
     "message": "Nicht genügend Gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webcam nicht gefunden"
-  },
-  "noWebcamFound": {
-    "message": "Die Webcam Ihres Computers wurde nicht gefunden. Bitte versuchen Sie es erneut."
-  },
   "ofTextNofM": {
     "message": "von"
   },
@@ -729,12 +720,6 @@
   },
   "saveAsCsvFile": {
     "message": "Als CSV-Datei speichern"
-  },
-  "scanInstructions": {
-    "message": "Platzieren Sie den QR-Code vor Ihrer Kamera."
-  },
-  "scanQrCode": {
-    "message": "QR-Code scannen"
   },
   "search": {
     "message": "Suche"
@@ -956,20 +941,8 @@
   "units": {
     "message": "Einheiten"
   },
-  "unknown": {
-    "message": "Unbekannt"
-  },
   "unknownNetwork": {
     "message": "Unbekanntes privates Netzwerk"
-  },
-  "unknownQrCode": {
-    "message": "Fehler: Wir konnten diesen QR-Code nicht identifizieren."
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Hoppla! Etwas ist schiefgegangen ..."
-  },
-  "unknownCameraError": {
-    "message": "Beim Versuch, auf Ihre Kamera zuzugreifen, ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut …"
   },
   "unlock": {
     "message": "Entsperren"
@@ -1006,9 +979,6 @@
   },
   "yesLetsTry": {
     "message": "Ja, versuchen wir es"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Sie müssen Zugriff auf die Kamera erlauben, um diese Funktion nutzen zu können."
   },
   "yourSigRequested": {
     "message": "Deine Unterschrift wird angefordert"

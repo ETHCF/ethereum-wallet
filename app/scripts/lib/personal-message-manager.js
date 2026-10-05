@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import { ObservableStore } from '@metamask/obs-store'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import { providerErrors } from '@metamask/rpc-errors'
 import log from 'loglevel'
 import { detectSIWE } from './signing-utils'
@@ -315,7 +315,7 @@ export default class PersonalMessageManager extends EventEmitter {
       log.debug(`Message was not hex encoded, interpreting as utf8.`)
     }
 
-    return ethUtil.bufferToHex(Buffer.from(data, 'utf8'))
+    return ethUtil.bytesToHex(Buffer.from(data, 'utf8'))
   }
 
 }

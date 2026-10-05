@@ -218,9 +218,6 @@
   "typePassword": {
     "message": "I-type ang iyong Password"
   },
-  "unknown": {
-    "message": "Hindi Alam"
-  },
   "unknownNetwork": {
     "message": "Hindi Alam ang Pribadong Network"
   },

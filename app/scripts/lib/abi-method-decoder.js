@@ -1,5 +1,6 @@
 import { encode, decode } from '@metamask/abi-utils'
-import { keccakFromString } from 'ethereumjs-util'
+import { bytesToHex, utf8ToBytes } from '@ethereumjs/util'
+import { keccak_256 as keccak256 } from '@noble/hashes/sha3.js'
 
 const elementType = (type) => type.replace(/\[\d*\]$/u, '')
 
@@ -21,7 +22,7 @@ function formatValue (type, value) {
  * @returns {string} The 4-byte selector as unprefixed lowercase hex
  */
 export function functionSelector (signature) {
-  return keccakFromString(signature).slice(0, 4).toString('hex')
+  return bytesToHex(keccak256(utf8ToBytes(signature)).slice(0, 4)).slice(2)
 }
 
 /**

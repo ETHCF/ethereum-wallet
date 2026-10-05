@@ -115,9 +115,6 @@
     "message": "$1 may access and spend up to this max amount",
     "description": "$1 is the url of the site requesting ability to spend"
   },
-  "accessingYourCamera": {
-    "message": "Accessing your camera..."
-  },
   "account": {
     "message": "Account"
   },
@@ -865,12 +862,6 @@
   "notEnoughGas": {
     "message": "Not Enough Gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webcam not found"
-  },
-  "noWebcamFound": {
-    "message": "Your computer's webcam was not found. Please try again."
-  },
   "ofTextNofM": {
     "message": "of"
   },
@@ -1035,12 +1026,6 @@
   },
   "saveAsCsvFile": {
     "message": "Save as CSV File"
-  },
-  "scanInstructions": {
-    "message": "Place the QR code in front of your camera"
-  },
-  "scanQrCode": {
-    "message": "Scan QR Code"
   },
   "search": {
     "message": "Search"
@@ -1344,20 +1329,8 @@
   "units": {
     "message": "units"
   },
-  "unknown": {
-    "message": "Unknown"
-  },
   "unknownNetwork": {
     "message": "Unknown Private Network"
-  },
-  "unknownQrCode": {
-    "message": "Error: We couldn't identify that QR code"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops! Something went wrong...."
-  },
-  "unknownCameraError": {
-    "message": "There was an error while trying to access your camera. Please try again..."
   },
   "unlimited": {
     "message": "Unlimited"
@@ -1419,9 +1392,6 @@
   },
   "yesLetsTry": {
     "message": "Yes, let's try"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "You need to allow camera access to use this feature."
   },
   "yourSigRequested": {
     "message": "Your signature is being requested"

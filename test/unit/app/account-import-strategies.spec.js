@@ -1,5 +1,5 @@
 import assert from 'assert'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import accountImporter from '../../../app/scripts/account-import-strategies'
 
 describe('Account Import Strategies', function () {

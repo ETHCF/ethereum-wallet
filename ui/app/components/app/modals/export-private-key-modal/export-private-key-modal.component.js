@@ -2,7 +2,7 @@ import log from 'loglevel'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { stripHexPrefix } from 'ethereumjs-util'
+import { stripHexPrefix } from '@ethereumjs/util'
 import { checksumAddress } from '../../../../helpers/utils/util'
 import { useSensitiveClipboard } from '../../../../hooks/useSensitiveClipboard'
 import ReadOnlyInput from '../../../ui/readonly-input'

@@ -1,5 +1,5 @@
 import { ObservableStore } from '@metamask/obs-store'
-import { isValidAddress } from 'ethereumjs-util'
+import { isValidAddress } from '@ethereumjs/util'
 import { normalizeAddress } from '../lib/util'
 import { addInternalMethodPrefix } from './permissions'
 

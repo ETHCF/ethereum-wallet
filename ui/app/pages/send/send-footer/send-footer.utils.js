@@ -1,5 +1,5 @@
 import { encode } from '@metamask/abi-utils'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import { TOKEN_TRANSFER_FUNCTION_SIGNATURE } from '../send.constants'
 
 export function addHexPrefixToObjectValues (obj) {

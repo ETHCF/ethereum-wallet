@@ -1,5 +1,5 @@
 import assert from 'assert'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import BN from 'bn.js'
 import { memoize } from 'lodash'
 import browserGlobal from './browser-global'
@@ -141,7 +141,7 @@ function normalizeAddress (input) {
   if (!input) {
     return undefined
   }
-  const value = typeof input === 'number' ? ethUtil.bufferToHex(ethUtil.toBuffer(input)) : input
+  const value = typeof input === 'number' ? ethUtil.bytesToHex(ethUtil.toBytes(input)) : input
   if (typeof value !== 'string') {
     throw new Error(`normalizeAddress() requires hex string or integer input. received ${typeof value}: ${value}`)
   }

@@ -1,7 +1,7 @@
 import { strict as assert } from 'assert'
 import { EventEmitter } from 'events'
 import { ObservableStore } from '@metamask/obs-store'
-import { privateToAddress } from 'ethereumjs-util'
+import { bytesToHex, privateToAddress } from '@ethereumjs/util'
 import { createTransaction, decodeTransaction } from '../../../app/scripts/lib/transaction-codec'
 import { gasPriceForTransaction, replacementFees } from '../../../app/scripts/lib/transaction-fees'
 import { normalizeTxParams, validateTxParams } from '../../../app/scripts/controllers/transactions/lib/util'
@@ -9,7 +9,7 @@ import TransactionController from '../../../app/scripts/controllers/transactions
 import { createTestProviderTools } from '../../stub/provider'
 
 const key = Buffer.alloc(32, 1)
-const from = `0x${privateToAddress(key).toString('hex')}`
+const from = bytesToHex(privateToAddress(key))
 const to = `0x${'2'.repeat(40)}`
 const accessList = [{ address: to, storageKeys: [`0x${'3'.repeat(64)}`] }]
 const base = { from, to, nonce: '0x7', gas: '0x186a0', value: '0x1', chainId: '0x539' }

@@ -1,5 +1,6 @@
 import { encode } from '@metamask/abi-utils'
-import * as ethUtil from 'ethereumjs-util'
+import pify from 'pify'
+import * as ethUtil from '@ethereumjs/util'
 import {
   addCurrencies,
   conversionUtil,
@@ -192,7 +193,7 @@ async function estimateGas ({
 
   // if recipient has no code, gas is 21k max:
   if (!sendToken && !data) {
-    const code = Boolean(to) && await global.eth.getCode(to)
+    const code = Boolean(to) && await pify(global.ethQuery).getCode(to)
     // Geth will return '0x', and ganache-core v2.2.1 will return '0x0'
     const codeIsEmpty = !code || code === '0x' || code === '0x0'
     if (codeIsEmpty) {

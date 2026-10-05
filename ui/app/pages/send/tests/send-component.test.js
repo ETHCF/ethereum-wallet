@@ -58,8 +58,6 @@ describe('Send Component', function () {
         tokenBalance="mockTokenBalance"
         tokenContract={{ method: 'mockTokenMethod' }}
         updateAndSetGasLimit={propsMethodSpies.updateAndSetGasLimit}
-        qrCodeDetected={() => undefined}
-        scanQrCode={() => undefined}
         updateSendEnsResolution={() => undefined}
         updateSendEnsResolutionError={() => undefined}
         updateSendErrors={propsMethodSpies.updateSendErrors}

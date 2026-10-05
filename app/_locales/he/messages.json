@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* האצת עסקה על ידי שימוש במחיר דלק גבוה יותר מגדילה את סיכוייה לעבור עיבוד מהיר יותר ע\"י הרשת, אך זה לא תמיד מובטח."
   },
-  "accessingYourCamera": {
-    "message": "ניגש למצלמה שלך ..."
-  },
   "account": {
     "message": "חשבון"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "אין מספיק דלק"
   },
-  "noWebcamFoundTitle": {
-    "message": "מצלמת הרשת לא נמצאה"
-  },
-  "noWebcamFound": {
-    "message": "מצלמת הרשת של מחשבך לא נמצאה. נא לנסות שוב."
-  },
   "ofTextNofM": {
     "message": "של"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": "שמירה כקובץ CSV"
-  },
-  "scanInstructions": {
-    "message": "הצב/י את קוד ה-QR שלך מול המצלמה"
-  },
-  "scanQrCode": {
-    "message": "סריקת קוד QR"
   },
   "search": {
     "message": "חפש"
@@ -996,20 +981,8 @@
   "units": {
     "message": "יחידות"
   },
-  "unknown": {
-    "message": "לא ידוע"
-  },
   "unknownNetwork": {
     "message": "רשת פרטית לא ידועה"
-  },
-  "unknownQrCode": {
-    "message": "שגיאה: לא הצלחנו לזהות את קוד ה- QR הזה"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "אופס! משהו השתבש...."
-  },
-  "unknownCameraError": {
-    "message": "אירעה שגיאה במהלך הניסיון לקבל גישה למצלמה שלך. נא לנסות שוב..."
   },
   "unlock": {
     "message": "בטל נעילה"
@@ -1049,9 +1022,6 @@
   },
   "yesLetsTry": {
     "message": "כן, בוא ננסה"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "עליך לאפשר גישה למצלמה כדי להשתמש בתכונה זו."
   },
   "yourSigRequested": {
     "message": "נדרשת חתימתך"

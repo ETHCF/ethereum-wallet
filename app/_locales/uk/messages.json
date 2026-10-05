@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Прискорення транзакції за допомогою вищих цін на газ підвищує її шанси бути обробленою мережею швидше, але це не завжди гарантовано."
   },
-  "accessingYourCamera": {
-    "message": "Отримуємо доступ до вашої камери..."
-  },
   "account": {
     "message": "Обліковий запис"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "Недостатньо газу"
   },
-  "noWebcamFoundTitle": {
-    "message": "Вебкамеру не знайдено"
-  },
-  "noWebcamFound": {
-    "message": "Веб-камеру комп’ютера не знайдено. Повторіть спробу."
-  },
   "ofTextNofM": {
     "message": "з"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "Зберегти як файл CSV"
-  },
-  "scanInstructions": {
-    "message": "Розташуйте QR-код перед вашою камерою"
-  },
-  "scanQrCode": {
-    "message": "Сканувати QR-код"
   },
   "search": {
     "message": "Пошук"
@@ -999,20 +984,8 @@
   "units": {
     "message": "одиниці"
   },
-  "unknown": {
-    "message": "невідомо"
-  },
   "unknownNetwork": {
     "message": "Незнайома приватна мережа"
-  },
-  "unknownQrCode": {
-    "message": "Помилка: ми не змогли ідентифікувати цей QR-код "
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Отакої! Щось пішло не так..."
-  },
-  "unknownCameraError": {
-    "message": "Виникла помилка при спробі отримати доступ до вашої камери. Будь ласка, спробуйте знову..."
   },
   "unlock": {
     "message": "Розблокувати"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "Так, давайте спробуємо"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Вам потрібно дозволити доступ до камери, щоб користуватись цією функцією."
   },
   "yourSigRequested": {
     "message": "Надійшов запит вашого підпису"

@@ -337,9 +337,6 @@
   "typePassword": {
     "message": "Typ uw wachtwoord"
   },
-  "unknown": {
-    "message": "Onbekend"
-  },
   "unknownNetwork": {
     "message": "Onbekend privénetwerk"
   },

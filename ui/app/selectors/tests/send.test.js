@@ -36,19 +36,6 @@ import {
 import mockState from './send-selectors-test-data'
 
 describe('send selectors', function () {
-  const tempGlobalEth = { ...global.eth }
-  beforeEach(function () {
-    global.eth = {
-      contract: sinon.stub().returns({
-        at: (address) => `mockAt:${address}`,
-      }),
-    }
-  })
-
-  afterEach(function () {
-    global.eth = tempGlobalEth
-  })
-
   describe('accountsWithSendEtherInfoSelector()', function () {
     it('should return an array of account objects with name info from identities', function () {
       assert.deepEqual(
@@ -203,21 +190,30 @@ describe('send selectors', function () {
   })
 
   describe('getSendTokenContract()', function () {
-    it('should return the contract at the send token address', function () {
-      assert.equal(
-        getSendTokenContract({
-          ecfWallet: {
-            send: {
-              token: {
-                address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
-                decimals: 4,
-                symbol: 'DEF',
-              },
+    it('should return a balance reader for the send token', async function () {
+      const contract = getSendTokenContract({
+        ecfWallet: {
+          send: {
+            token: {
+              address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
+              decimals: 4,
+              symbol: 'DEF',
             },
           },
-        }),
-        'mockAt:0x8d6b81208414189a58339873ab429b6c47ab92d3',
-      )
+        },
+      })
+      const originalEthQuery = global.ethQuery
+      const call = sinon.stub().callsArgWith(1, null, `0x${'2a'.padStart(64, '0')}`)
+      global.ethQuery = { call }
+      try {
+        const { balance } = await contract.balanceOf('0xec1adf982415d2ef5ec55899b9bfb8bc0f29251b')
+        assert.equal(balance.toString(), '42')
+        assert.equal(call.firstCall.args[0].to, '0x8d6b81208414189a58339873ab429b6c47ab92d3')
+        // balanceOf(address)
+        assert.ok(call.firstCall.args[0].data.startsWith('0x70a08231'))
+      } finally {
+        global.ethQuery = originalEthQuery
+      }
     })
 
     it('should return null if send token is not set', function () {

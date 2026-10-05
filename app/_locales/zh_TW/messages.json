@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* 提高交易費 Gas 價格將可加速處理時間，但不保證會有顯著效果"
   },
-  "accessingYourCamera": {
-    "message": "正在存取您的攝影鏡頭..."
-  },
   "account": {
     "message": "帳戶"
   },
@@ -606,12 +603,6 @@
   "notEnoughGas": {
     "message": "Gas 不夠"
   },
-  "noWebcamFoundTitle": {
-    "message": "找不到攝影鏡頭"
-  },
-  "noWebcamFound": {
-    "message": "無法搜尋到攝影鏡頭裝置。請再試一次"
-  },
   "orderOneHere": {
     "message": "訂購 Trezor 或 Ledger 讓資產保存於硬體裝置。"
   },
@@ -748,12 +739,6 @@
   },
   "saveAsCsvFile": {
     "message": "儲存為CSV格式檔案"
-  },
-  "scanInstructions": {
-    "message": "請將 QR code 放在攝影鏡頭前面"
-  },
-  "scanQrCode": {
-    "message": "掃描 QR Code"
   },
   "search": {
     "message": "搜尋"
@@ -978,20 +963,8 @@
   "units": {
     "message": "單位"
   },
-  "unknown": {
-    "message": "未知"
-  },
   "unknownNetwork": {
     "message": "未知私有網路"
-  },
-  "unknownQrCode": {
-    "message": "錯誤：無法辨識 QR code"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "糟糕！出了些問題...."
-  },
-  "unknownCameraError": {
-    "message": "無法存取攝影鏡頭。請再試一次..."
   },
   "unlock": {
     "message": "解鎖"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "了解，試試看"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "需要准許存取攝影鏡頭才能啟用此功能"
   },
   "yourSigRequested": {
     "message": "正在請求您的簽署"

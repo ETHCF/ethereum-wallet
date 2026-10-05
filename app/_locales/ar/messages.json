@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* تسريع المعاملات باستخدام سعر عملة جاس أعلى يزيد من فرص معالجتها بواسطة الشبكة بشكلٍ أسرع، لكن ذلك غير مضمون دائماً."
   },
-  "accessingYourCamera": {
-    "message": "جاري استخدام كاميرتك..."
-  },
   "account": {
     "message": "الحساب"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "لا توجد عملات جاس كافية"
   },
-  "noWebcamFoundTitle": {
-    "message": "لم يتم العثور على كاميرا متصلة بالإنترنت"
-  },
-  "noWebcamFound": {
-    "message": "لم يتم العثور على كاميرا ويب للكمبيوتر الخاص بك. حاول مرة اخرى."
-  },
   "ofTextNofM": {
     "message": "من"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": "حفظ كملف CSV"
-  },
-  "scanInstructions": {
-    "message": "ضع رمز الاستجابة السريعة أمام الكاميرا"
-  },
-  "scanQrCode": {
-    "message": "مسح كود الاستجابة السريعة QR"
   },
   "search": {
     "message": "البحث"
@@ -996,20 +981,8 @@
   "units": {
     "message": "وحدات"
   },
-  "unknown": {
-    "message": "غير معروف"
-  },
   "unknownNetwork": {
     "message": "شبكة خاصة مجهولة"
-  },
-  "unknownQrCode": {
-    "message": "خطأ: لم نتمكن من تحديد رمز الاستجابة السريعة هذا"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "عذرًا! وقع خطأٌ ما..."
-  },
-  "unknownCameraError": {
-    "message": "حدث خطأ أثناء محاولة الوصول إلى الكاميرا. يُرجى إعادة المحاولة..."
   },
   "unlock": {
     "message": "فتح القفل"
@@ -1049,9 +1022,6 @@
   },
   "yesLetsTry": {
     "message": "نعم، دعنا نجرب"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "أنت بحاجة إلى السماح بالوصول إلى الكاميرا لاستخدام هذه الميزة."
   },
   "yourSigRequested": {
     "message": "جاري طلب توقيعك"

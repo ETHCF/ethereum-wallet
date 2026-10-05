@@ -21,20 +21,37 @@
 * on the accompanying options.
 */
 
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
-import { BN, stripHexPrefix } from 'ethereumjs-util'
+import BN from 'bn.js'
 
 // Big Number Constants
 const BIG_NUMBER_WEI_MULTIPLIER = new BigNumber('1000000000000000000')
 const BIG_NUMBER_GWEI_MULTIPLIER = new BigNumber('1000000000')
 const BIG_NUMBER_ETH_MULTIPLIER = new BigNumber('1')
 
+/**
+ * Reads a value in the given base, except that a 0x-prefixed string is hex
+ * whatever the base. BigNumber 4 read them that way and callers rely on it;
+ * later versions reject a prefix when a base is given.
+ *
+ * @param {string|number|BigNumber} n - The value
+ * @param {number} [base] - Its base
+ * @returns {BigNumber} The value
+ */
+const bigNumberInBase = (n, base) => {
+  if (typeof n === 'string' && (/^-?0x/iu).test(n)) {
+    const value = new BigNumber(n.replace(/^-?0x/iu, ''), 16)
+    return n.startsWith('-') ? value.negated() : value
+  }
+  return new BigNumber(n, base)
+}
+
 // Setter Maps
 const toBigNumber = {
-  hex: (n) => new BigNumber(typeof n === 'string' ? stripHexPrefix(n) : n, 16),
-  dec: (n) => new BigNumber(String(n), 10),
-  BN: (n) => new BigNumber(n.toString(16), 16),
+  hex: (n) => bigNumberInBase(n, 16),
+  dec: (n) => bigNumberInBase(String(n), 10),
+  BN: (n) => bigNumberInBase(n.toString(16), 16),
 }
 const toNormalizedDenomination = {
   WEI: (bigNumber) => bigNumber.div(BIG_NUMBER_WEI_MULTIPLIER),
@@ -42,9 +59,9 @@ const toNormalizedDenomination = {
   ETH: (bigNumber) => bigNumber.div(BIG_NUMBER_ETH_MULTIPLIER),
 }
 const toSpecifiedDenomination = {
-  WEI: (bigNumber) => bigNumber.times(BIG_NUMBER_WEI_MULTIPLIER).round(),
-  GWEI: (bigNumber) => bigNumber.times(BIG_NUMBER_GWEI_MULTIPLIER).round(9),
-  ETH: (bigNumber) => bigNumber.times(BIG_NUMBER_ETH_MULTIPLIER).round(9),
+  WEI: (bigNumber) => bigNumber.times(BIG_NUMBER_WEI_MULTIPLIER).integerValue(),
+  GWEI: (bigNumber) => bigNumber.times(BIG_NUMBER_GWEI_MULTIPLIER).decimalPlaces(9),
+  ETH: (bigNumber) => bigNumber.times(BIG_NUMBER_ETH_MULTIPLIER).decimalPlaces(9),
 }
 const baseChange = {
   hex: (n) => n.toString(16),
@@ -111,12 +128,13 @@ const converter = ({
     convertedValue = toSpecifiedDenomination[toDenomination](convertedValue)
   }
 
+  // Callers pass these as numbers or numeric strings.
   if (numberOfDecimals) {
-    convertedValue = convertedValue.round(numberOfDecimals, BigNumber.ROUND_HALF_DOWN)
+    convertedValue = convertedValue.decimalPlaces(Number(numberOfDecimals), BigNumber.ROUND_HALF_DOWN)
   }
 
   if (roundDown) {
-    convertedValue = convertedValue.round(roundDown, BigNumber.ROUND_DOWN)
+    convertedValue = convertedValue.decimalPlaces(Number(roundDown), BigNumber.ROUND_DOWN)
   }
 
   if (toNumericBase) {
@@ -154,7 +172,7 @@ const addCurrencies = (a, b, options = {}) => {
     bBase,
     ...conversionOptions
   } = options
-  const value = (new BigNumber(a.toString(), aBase)).add(b.toString(), bBase)
+  const value = bigNumberInBase(a.toString(), aBase).plus(bigNumberInBase(b.toString(), bBase))
 
   return converter({
     value,
@@ -168,7 +186,7 @@ const subtractCurrencies = (a, b, options = {}) => {
     bBase,
     ...conversionOptions
   } = options
-  const value = (new BigNumber(String(a), aBase)).minus(b, bBase)
+  const value = bigNumberInBase(String(a), aBase).minus(bigNumberInBase(b, bBase))
 
   return converter({
     value,
@@ -183,8 +201,8 @@ const multiplyCurrencies = (a, b, options = {}) => {
     ...conversionOptions
   } = options
 
-  const bigNumberA = new BigNumber(String(a), multiplicandBase)
-  const bigNumberB = new BigNumber(String(b), multiplierBase)
+  const bigNumberA = bigNumberInBase(String(a), multiplicandBase)
+  const bigNumberB = bigNumberInBase(String(b), multiplierBase)
 
   const value = bigNumberA.times(bigNumberB)
 
@@ -232,7 +250,7 @@ const conversionGTE = (
 ) => {
   const firstValue = converter({ ...firstProps })
   const secondValue = converter({ ...secondProps })
-  return firstValue.greaterThanOrEqualTo(secondValue)
+  return firstValue.isGreaterThanOrEqualTo(secondValue)
 }
 
 const conversionLTE = (
@@ -241,7 +259,7 @@ const conversionLTE = (
 ) => {
   const firstValue = converter({ ...firstProps })
   const secondValue = converter({ ...secondProps })
-  return firstValue.lessThanOrEqualTo(secondValue)
+  return firstValue.isLessThanOrEqualTo(secondValue)
 }
 
 const toNegative = (n, options = {}) => {
@@ -249,6 +267,7 @@ const toNegative = (n, options = {}) => {
 }
 
 export {
+  bigNumberInBase,
   conversionUtil,
   addCurrencies,
   multiplyCurrencies,

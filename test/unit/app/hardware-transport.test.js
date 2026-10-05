@@ -1,7 +1,8 @@
 import { strict as assert } from 'assert'
 import sinon from 'sinon'
 import { hdkey } from '@ethereumjs/wallet'
-import { rlp, toChecksumAddress } from 'ethereumjs-util'
+import { bytesToHex, toChecksumAddress } from '@ethereumjs/util'
+import { RLP as rlp } from '@ethereumjs/rlp'
 import * as sigUtil from '@metamask/eth-sig-util'
 import { TrezorKeyring } from '@metamask/eth-trezor-keyring'
 import { LedgerKeyring } from '@metamask/eth-ledger-bridge-keyring'
@@ -33,7 +34,7 @@ function signTransaction (path, data) {
   } else {
     // Ledger sends the legacy EIP-155 signing payload: the fields, then chain ID, 0, 0.
     const [nonce, gasPrice, gasLimit, to, value, txData, chainId] = rlp.decode(Buffer.from(data, 'hex'))
-      .map((field) => `0x${field.toString('hex')}`)
+      .map((field) => bytesToHex(field))
     unsigned = createTransaction({ nonce, gasPrice, gasLimit, to, value, data: txData }, Number(chainId))
   }
   const signed = unsigned.sign(Buffer.from(root.derivePath(path).getWallet().getPrivateKey()))

@@ -1,7 +1,8 @@
 import log from 'loglevel'
-import BigNumber from 'bignumber.js'
+import pify from 'pify'
+import { BigNumber } from 'bignumber.js'
 import contractMap from '@metamask/contract-metadata'
-import * as util from './util'
+import { callContract } from '../../../../app/scripts/lib/contract-call'
 
 const casedContractMap = Object.keys(contractMap).reduce((acc, base) => {
   return {
@@ -14,11 +15,9 @@ const DEFAULT_SYMBOL = ''
 const DEFAULT_DECIMALS = '0'
 
 async function getSymbolFromContract (tokenAddress) {
-  const token = util.getContractAtAddress(tokenAddress)
-
   try {
-    const result = await token.symbol()
-    return result[0]
+    const [symbol] = await callContract(pify(global.ethQuery), tokenAddress, 'symbol()', ['string'])
+    return symbol
   } catch (error) {
     log.warn(`symbol() call for token at address ${tokenAddress} resulted in error:`, error)
     return undefined
@@ -26,15 +25,26 @@ async function getSymbolFromContract (tokenAddress) {
 }
 
 async function getDecimalsFromContract (tokenAddress) {
-  const token = util.getContractAtAddress(tokenAddress)
-
   try {
-    const result = await token.decimals()
-    const decimalsBN = result[0]
-    return decimalsBN && decimalsBN.toString()
+    const [decimals] = await callContract(pify(global.ethQuery), tokenAddress, 'decimals()', ['uint8'])
+    return decimals.toString()
   } catch (error) {
     log.warn(`decimals() call for token at address ${tokenAddress} resulted in error:`, error)
     return undefined
+  }
+}
+
+/**
+ * @param {string} tokenAddress - An ERC-20 token contract
+ * @returns {Object} Reads the token's balances, as `{ balance }` with the
+ * balance as a bigint
+ */
+export function getTokenContract (tokenAddress) {
+  return {
+    balanceOf: async (owner) => {
+      const [balance] = await callContract(pify(global.ethQuery), tokenAddress, 'balanceOf(address)', ['uint256'], [owner])
+      return { balance }
+    },
   }
 }
 

@@ -14,7 +14,6 @@ import AccountDetailsModal from './account-details-modal'
 import ExportPrivateKeyModal from './export-private-key-modal'
 import HideTokenConfirmationModal from './hide-token-confirmation-modal'
 import NotifcationModal from './notification-modal'
-import QRScanner from './qr-scanner'
 
 import ConfirmRemoveAccount from './confirm-remove-account'
 import ConfirmResetAccount from './confirm-reset-account'
@@ -274,19 +273,6 @@ const MODALS = {
   TRANSACTION_CONFIRMED: {
     disableBackdropClick: true,
     contents: <TransactionConfirmed />,
-    mobileModalStyle: {
-      ...modalContainerMobileStyle,
-    },
-    laptopModalStyle: {
-      ...modalContainerLaptopStyle,
-    },
-    contentStyle: {
-      borderRadius: '8px',
-    },
-  },
-
-  QR_SCANNER: {
-    contents: <QRScanner />,
     mobileModalStyle: {
       ...modalContainerMobileStyle,
     },

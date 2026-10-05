@@ -3,7 +3,7 @@ import nock from 'nock'
 import sinon from 'sinon'
 import { ObservableStore } from '@metamask/obs-store'
 import contracts from '@metamask/contract-metadata'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 import DetectTokensController from '../../../../app/scripts/controllers/detect-tokens'
 import NetworkController from '../../../../app/scripts/controllers/network/network'

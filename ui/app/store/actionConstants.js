@@ -10,7 +10,6 @@ export const SIDEBAR_CLOSE = 'UI_SIDEBAR_CLOSE'
 // alert state
 export const ALERT_OPEN = 'UI_ALERT_OPEN'
 export const ALERT_CLOSE = 'UI_ALERT_CLOSE'
-export const QR_CODE_DETECTED = 'UI_QR_CODE_DETECTED'
 // network dropdown open
 export const NETWORK_DROPDOWN_OPEN = 'UI_NETWORK_DROPDOWN_OPEN'
 export const NETWORK_DROPDOWN_CLOSE = 'UI_NETWORK_DROPDOWN_CLOSE'

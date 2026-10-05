@@ -1,4 +1,4 @@
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import BN from 'bn.js'
 import { decodeArguments } from './abi-method-decoder'
 import { toChecksumHexAddress } from './checksum-address'

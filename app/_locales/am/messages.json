@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* ከፍተኛ የነዳጅ ዋጋን በመጠቀም ግብይትን ማፋጠን በአውታረ መረቡ በፍጥነት እንዲከወን የማድረግ ዕድልን ይጨምራል፤ ነገር ግን ሁልጊዜም የተረጋገጠ አይደለም።"
   },
-  "accessingYourCamera": {
-    "message": "ወደ ካሜራዎ መድረስ..."
-  },
   "account": {
     "message": "መለያ"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "በቂ ነዳጅ የለም"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webcam አልተገኘም"
-  },
-  "noWebcamFound": {
-    "message": "የኮምፒዩተርዎ ካሜራ አልተገኘም። እባክዎ እንደገና ይሞክሩ።"
-  },
   "ofTextNofM": {
     "message": "ከ"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": "እንደ CSV ፋይል አስቀምጥ"
-  },
-  "scanInstructions": {
-    "message": "የ QR ኮዱን ከካሜራዎ ፊት ለፊት ያስቀምጡ"
-  },
-  "scanQrCode": {
-    "message": "የ QR ኮድ ስካን ያድርጉ"
   },
   "search": {
     "message": "ፍለጋ"
@@ -996,20 +981,8 @@
   "units": {
     "message": "መለኪያዎች"
   },
-  "unknown": {
-    "message": "ያልታወቀ"
-  },
   "unknownNetwork": {
     "message": "የማይታወቅ የግል አውታረ መረብ"
-  },
-  "unknownQrCode": {
-    "message": "ስህተት፡ ያን የ QR ኮድ መለየት አልቻልንም"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "ኤጭ! የሆነ ችግር ተፈጥሯል..."
-  },
-  "unknownCameraError": {
-    "message": "ወደ ስልክዎ ለመድረስ ሲሞከር የተፈጠረ ስህተት አለ። እባክዎ እንደገና ይሞክሩ..."
   },
   "unlock": {
     "message": "ክፈት"
@@ -1049,9 +1022,6 @@
   },
   "yesLetsTry": {
     "message": "አዎ፣ እንሞክር"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "ይህን ባህርይ ለመጠቀም የካሜራን መድረስ መፍቀድ አለብዎት።"
   },
   "yourSigRequested": {
     "message": "ፊርማዎ እየተጠየቀ ነው"

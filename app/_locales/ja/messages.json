@@ -8,9 +8,6 @@
   "acceleratingATransaction": {
     "message": "*より高いガス価格を使用すると、ネットワークでより速く処理され、トランザクションを高速化できる可能性が高くなりますが、常に保証されるとは限りません。"
   },
-  "accessingYourCamera": {
-    "message": "カメラにアクセスしています..."
-  },
   "account": {
     "message": "アカウント"
   },
@@ -403,9 +400,6 @@
   },
   "typePassword": {
     "message": "パスワードの入力"
-  },
-  "unknown": {
-    "message": "不明"
   },
   "unknownNetwork": {
     "message": "不明なプライベートネットワーク"

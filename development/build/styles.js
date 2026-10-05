@@ -1,4 +1,4 @@
-const pify = require('pify')
+const { promisify } = require('util')
 const gulp = require('gulp')
 const sass = require('gulp-sass')(require('sass'))
 const autoprefixer = require('gulp-autoprefixer')
@@ -7,7 +7,7 @@ const watch = require('gulp-watch')
 const sourcemaps = require('gulp-sourcemaps')
 const rtlcss = require('gulp-rtlcss')
 const rename = require('gulp-rename')
-const pump = pify(require('pump'))
+const pump = promisify(require('pump'))
 const { createTask } = require('./task')
 
 // scss compilation and autoprefixing tasks

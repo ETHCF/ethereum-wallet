@@ -153,9 +153,6 @@
   "tryAgain": {
     "message": "Tentar novamente"
   },
-  "unknown": {
-    "message": "Desconhecido"
-  },
   "unlock": {
     "message": "Desbloquear"
   },

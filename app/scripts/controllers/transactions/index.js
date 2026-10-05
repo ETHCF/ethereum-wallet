@@ -1,8 +1,10 @@
 import EventEmitter from '@metamask/safe-event-emitter'
 import { ObservableStore } from '@metamask/obs-store'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
+import { keccak_256 as keccak256 } from '@noble/hashes/sha3.js'
 import BN from 'bn.js'
-import EthQuery from 'ethjs-query'
+import EthQuery from '@metamask/eth-query'
+import pify from 'pify'
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
 import abi from 'human-standard-token-abi'
 import { NonceTracker } from 'nonce-tracker'
@@ -79,7 +81,7 @@ export default class TransactionController extends EventEmitter {
     this.networkGeneration = 0
 
     this.memStore = new ObservableStore({})
-    this.query = new EthQuery(this.provider)
+    this.query = pify(new EthQuery(this.provider))
     this.txGasUtil = new TxGasUtil(this.provider)
 
     this._mapMethods()
@@ -339,7 +341,7 @@ export default class TransactionController extends EventEmitter {
         }
       } catch (_) {
         const price = await this.query.gasPrice()
-        priority = `0x${BN.max(new BN(price.toString(16), 16).sub(baseFee), new BN(1000000000)).toString(16)}`
+        priority = `0x${BN.max(new BN(price.replace(/^0x/u, ''), 16).sub(baseFee), new BN(1000000000)).toString(16)}`
       }
       // A dapp may supply just a cap, including a cap below the suggested tip.
       if (params.maxFeePerGas) {
@@ -371,9 +373,7 @@ export default class TransactionController extends EventEmitter {
     if (txMeta.txParams.gasPrice) {
       return undefined
     }
-    const gasPrice = await this.query.gasPrice()
-
-    return ethUtil.addHexPrefix(gasPrice.toString(16))
+    return await this.query.gasPrice()
   }
 
   /**
@@ -626,7 +626,7 @@ export default class TransactionController extends EventEmitter {
 
     // add r,s,v values for provider request purposes see createEcfWalletMiddleware
     // and JSON rpc standard for further explanation
-    const signatureHex = (value) => (typeof value === 'bigint' ? `0x${value.toString(16)}` : ethUtil.bufferToHex(value))
+    const signatureHex = (value) => (typeof value === 'bigint' ? `0x${value.toString(16)}` : ethUtil.bytesToHex(value))
     txMeta.r = signatureHex(ethTx.r)
     txMeta.s = signatureHex(ethTx.s)
     txMeta.v = signatureHex(ethTx.v)
@@ -635,7 +635,7 @@ export default class TransactionController extends EventEmitter {
 
     // set state to signed
     this.txStateManager.setTxStatusSigned(txMeta.id)
-    const rawTx = ethUtil.bufferToHex(Buffer.from(ethTx.serialize()))
+    const rawTx = ethUtil.bytesToHex(Buffer.from(ethTx.serialize()))
     return rawTx
   }
 
@@ -666,8 +666,7 @@ export default class TransactionController extends EventEmitter {
       txHash = await this.query.sendRawTransaction(rawTx)
     } catch (error) {
       if (error.message.toLowerCase().includes('known transaction')) {
-        txHash = ethUtil.keccak256(ethUtil.toBuffer(ethUtil.addHexPrefix(rawTx))).toString('hex')
-        txHash = ethUtil.addHexPrefix(txHash)
+        txHash = ethUtil.bytesToHex(keccak256(ethUtil.toBytes(ethUtil.addHexPrefix(rawTx))))
       } else {
         throw error
       }
@@ -693,17 +692,7 @@ export default class TransactionController extends EventEmitter {
     }
 
     try {
-
-      // It seems that sometimes the numerical values being returned from
-      // this.query.getTransactionReceipt are BN instances and not strings.
-      const gasUsed = typeof txReceipt.gasUsed === 'string'
-        ? txReceipt.gasUsed
-        : txReceipt.gasUsed.toString(16)
-
-      txMeta.txReceipt = {
-        ...txReceipt,
-        gasUsed,
-      }
+      txMeta.txReceipt = { ...txReceipt }
 
       this.txStateManager.updateTx(txMeta, 'transactions#confirmTransaction - add txReceipt')
     } catch (err) {

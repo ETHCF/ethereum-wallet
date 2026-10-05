@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Przyspieszenie transakcji poprzez zastosowanie wyższej ceny gazu zwiększa szanse na jej szybsze przetworzenie przez sieć, jednak skuteczność tej operacji nie jest gwarantowana."
   },
-  "accessingYourCamera": {
-    "message": "Uruchamianie kamery..."
-  },
   "account": {
     "message": "Konto"
   },
@@ -606,12 +603,6 @@
   "notEnoughGas": {
     "message": "Za mało gazu"
   },
-  "noWebcamFoundTitle": {
-    "message": "Nie znaleziono kamery"
-  },
-  "noWebcamFound": {
-    "message": "Twoja kamera nie została znaleziona. Spróbuj ponownie."
-  },
   "ofTextNofM": {
     "message": "z"
   },
@@ -757,12 +748,6 @@
   },
   "saveAsCsvFile": {
     "message": "Zapisz jako plik CSV"
-  },
-  "scanInstructions": {
-    "message": "Umieść kod QR na wprost kamery"
-  },
-  "scanQrCode": {
-    "message": "Skanuj kod QR"
   },
   "search": {
     "message": "Szukaj"
@@ -987,20 +972,8 @@
   "units": {
     "message": "jednostki"
   },
-  "unknown": {
-    "message": "Nieznane"
-  },
   "unknownNetwork": {
     "message": "Nieznana sieć prywatna"
-  },
-  "unknownQrCode": {
-    "message": "Błąd: nie mogliśmy odczytać tego kodu QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ups! Coś poszło nie tak..."
-  },
-  "unknownCameraError": {
-    "message": "Podczas łączenia się z kamerą wystąpił błąd. Spróbuj ponownie..."
   },
   "unlock": {
     "message": "Odblokuj"
@@ -1040,9 +1013,6 @@
   },
   "yesLetsTry": {
     "message": "Tak, spróbuj"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Żeby użyć tej opcji należy podłączyć kamerę"
   },
   "yourSigRequested": {
     "message": "Twój podpis jest wymagany"

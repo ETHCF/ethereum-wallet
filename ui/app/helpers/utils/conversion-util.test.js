@@ -1,5 +1,5 @@
 import assert from 'assert'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import { addCurrencies, conversionUtil } from './conversion-util'
 
 describe('conversion utils', function () {
@@ -26,6 +26,11 @@ describe('conversion utils', function () {
       const conv2 = conversionUtil(1, { fromNumericBase: 'dec', fromDenomination: 'ETH', toDenomination: 'WEI' })
       assert(typeof conv1 === 'string', 'conversion 1 should return type string')
       assert(conv2 instanceof BigNumber, 'conversion 2 should be a BigNumber')
+    })
+    it('reads 0x-prefixed values as hex whatever the stated base', function () {
+      assert.equal(conversionUtil('0x0', { fromNumericBase: 'dec', toNumericBase: 'dec' }), '0')
+      assert.equal(conversionUtil('0x1a', { fromNumericBase: 'dec', toNumericBase: 'dec' }), '26')
+      assert.equal(addCurrencies('0x10', '0x1', { aBase: 16, bBase: 16, toNumericBase: 'hex' }), '11')
     })
     it('Converts from dec to hex', function () {
       assert.equal(conversionUtil('1000000000000000000', { fromNumericBase: 'dec', toNumericBase: 'hex' }), 'de0b6b3a7640000')

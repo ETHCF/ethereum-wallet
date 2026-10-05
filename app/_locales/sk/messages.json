@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "*Urýchlenie transakcie pomocou vyššej ceny za GAS zvyšuje šance na rýchlejšie spracovanie v sieti, nie je to však vždy zaručené."
   },
-  "accessingYourCamera": {
-    "message": "Prístupuje k fotoaparátu..."
-  },
   "account": {
     "message": "Účet"
   },
@@ -584,12 +581,6 @@
   "notEnoughGas": {
     "message": "Nedostatok GAS"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webová kamera sa nenašla"
-  },
-  "noWebcamFound": {
-    "message": "Webová kamera vášho počítača sa nenašla. Skúste znova."
-  },
   "ofTextNofM": {
     "message": "z"
   },
@@ -732,12 +723,6 @@
   },
   "saveAsCsvFile": {
     "message": "Uložiť ako súbor CSV"
-  },
-  "scanInstructions": {
-    "message": "Umiestnite QR kód pred kameru"
-  },
-  "scanQrCode": {
-    "message": "Skenovať QR kód"
   },
   "search": {
     "message": "Hledat"
@@ -962,20 +947,8 @@
   "units": {
     "message": "jednotky"
   },
-  "unknown": {
-    "message": "Neznámé"
-  },
   "unknownNetwork": {
     "message": "Neznámá soukromá síť"
-  },
-  "unknownQrCode": {
-    "message": "Chyba: Kód QR sa nepodarilo identifikovať"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Och! Niečo zlyhalo..."
-  },
-  "unknownCameraError": {
-    "message": "Pri pokuse o prístup k fotoaparátu sa vyskytla chyba. Skúste znova..."
   },
   "unlock": {
     "message": "Odomknúť"
@@ -1015,9 +988,6 @@
   },
   "yesLetsTry": {
     "message": "Áno, skúsme to"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Ak chcete používať túto funkciu, musíte povoliť prístup k fotoaparátu."
   },
   "yourSigRequested": {
     "message": "Je vyžadován váš podpis"

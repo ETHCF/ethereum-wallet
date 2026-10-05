@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "* Att snabba upp en överföring genom att använda ett högre gaspris ökar chanserna för att överföringen ska hanteras snabbare av nätverket, men det är inte en garanti."
   },
-  "accessingYourCamera": {
-    "message": "Begär åtkomst till din kamera..."
-  },
   "account": {
     "message": "Konto"
   },
@@ -600,12 +597,6 @@
   "notEnoughGas": {
     "message": "Inte tillräckligt med gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webbkamera hittades ej"
-  },
-  "noWebcamFound": {
-    "message": "Din dators webbkamera hittades inte. Vänligen försök igen."
-  },
   "ofTextNofM": {
     "message": "av"
   },
@@ -751,12 +742,6 @@
   },
   "saveAsCsvFile": {
     "message": "Spara som CSV-fil"
-  },
-  "scanInstructions": {
-    "message": "Placera QR-koden framför din kamera"
-  },
-  "scanQrCode": {
-    "message": "Skanna QR-koden"
   },
   "search": {
     "message": "Sök"
@@ -978,20 +963,8 @@
   "units": {
     "message": "enheter"
   },
-  "unknown": {
-    "message": "okänt"
-  },
   "unknownNetwork": {
     "message": "Okänt privatnätverk"
-  },
-  "unknownQrCode": {
-    "message": "Fel: Vi kunde inte identifiera denna QR-kod"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Hoppsan! Något gick fel..."
-  },
-  "unknownCameraError": {
-    "message": "Ett fel inträffade när din kamera försökte användas. Försök igen..."
   },
   "unlock": {
     "message": "Lås upp"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "Ja, låt oss försöka"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Du måste tillåta åtkomst till kameran för att använda den här funktionen."
   },
   "yourSigRequested": {
     "message": "En begäran om din signatur har skickats"

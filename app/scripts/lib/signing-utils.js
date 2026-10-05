@@ -1,4 +1,4 @@
-import { toChecksumAddress } from 'ethereumjs-util'
+import { toChecksumAddress } from '@ethereumjs/util'
 import { TYPED_MESSAGE_SCHEMA, parseSIWE, signTypedData as signTypedDataWithKey, validateTypedData as validateTypedDataVersion } from './transaction-codec-implementation'
 
 export function validateTypedData (data, version) {

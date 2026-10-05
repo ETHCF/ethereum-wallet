@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "* Darījuma paātrināšana, izmantojot augstāku Gas cenu, palielina iespēju, ka tīkls to apstrādās ātrāk, taču tas nav garantēts."
   },
-  "accessingYourCamera": {
-    "message": "Piekļūst kamerai..."
-  },
   "account": {
     "message": "Konts"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "Nepietiek Gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "Tīmekļa kamera nav atrasta"
-  },
-  "noWebcamFound": {
-    "message": "Jūsu datora tīmekļa kamera netika atrasta. Lūdzu, mēģiniet vēlreiz."
-  },
   "ofTextNofM": {
     "message": "no"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "Saglabāt kā CSV failu"
-  },
-  "scanInstructions": {
-    "message": "Novietojiet QR kodu kameras priekšā"
-  },
-  "scanQrCode": {
-    "message": "Ieskenēt QR kodu"
   },
   "search": {
     "message": "Meklēt"
@@ -999,20 +984,8 @@
   "units": {
     "message": "vienības"
   },
-  "unknown": {
-    "message": "Nezināma"
-  },
   "unknownNetwork": {
     "message": "Nezināms privātais tīkls"
-  },
-  "unknownQrCode": {
-    "message": "Kļūda: šo QR kodu neizdevās identificēt"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ak vai! Radās problēma..."
-  },
-  "unknownCameraError": {
-    "message": "Mēģinot piekļūt kamerai, radās kļūda. Lūdzu, mēģiniet vēlreiz..."
   },
   "unlock": {
     "message": "Atbloķēt"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "Jā, pamēģināsim"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Lai lietotu šo funkciju, jādod piekļuve kamerai."
   },
   "yourSigRequested": {
     "message": "Nepieciešams jūsu paraksts"

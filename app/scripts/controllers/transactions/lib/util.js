@@ -1,4 +1,4 @@
-import { addHexPrefix, isValidAddress } from 'ethereumjs-util'
+import { addHexPrefix, isValidAddress } from '@ethereumjs/util'
 import BN from 'bn.js'
 import { isFeeMarketTransaction } from '../../../lib/transaction-fees'
 

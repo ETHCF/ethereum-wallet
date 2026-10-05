@@ -77,6 +77,19 @@ module.exports = [
       'accessor-pairs': ['error', { enforceForClassMembers: false }],
       'require-atomic-updates': 'off',
       'import/no-unassigned-import': 'off',
+      // @noble/hashes only exports its modules with their .js extension.
+      'import/extensions': ['error', 'never', {
+        pattern: { json: 'always' },
+        pathGroupOverrides: [{ pattern: '@noble/hashes/**', action: 'ignore' }],
+      }],
+      // These packages publish only an "exports" map, which the import
+      // plugin's resolver cannot read; webpack and Node resolve them.
+      'import/no-unresolved': ['error', {
+        commonjs: true,
+        ignore: [
+          '^@metamask/(?:address-book-controller|eth-block-tracker|eth-json-rpc-middleware|eth-json-rpc-provider|json-rpc-engine|json-rpc-middleware-stream|messenger|permission-controller)(?:/|$)',
+        ],
+      }],
       'prefer-destructuring': ['error', {
         'VariableDeclarator': {
           'array': false,

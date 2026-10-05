@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "* Mempercepat transaksi dengan menggunakan harga gas yang lebih tinggi meningkatkan peluangnya untuk lebih cepat diproses oleh jaringan, tetapi tak selalu terjamin pasti cepat."
   },
-  "accessingYourCamera": {
-    "message": "Mengakses kamera Anda..."
-  },
   "account": {
     "message": "Akun"
   },
@@ -600,12 +597,6 @@
   "notEnoughGas": {
     "message": "Bensin Tidak Cukup"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webcam tidak ditemukan"
-  },
-  "noWebcamFound": {
-    "message": "Webcam komputer Anda tidak ditemukan. Harap coba kembali."
-  },
   "ofTextNofM": {
     "message": "dari"
   },
@@ -751,12 +742,6 @@
   },
   "saveAsCsvFile": {
     "message": "Simpan sebagai Berkas CSV"
-  },
-  "scanInstructions": {
-    "message": "Tempatkan kode QR di depan kamera Anda"
-  },
-  "scanQrCode": {
-    "message": "Pindai Kode QR"
   },
   "search": {
     "message": "Telusuri"
@@ -978,20 +963,8 @@
   "units": {
     "message": "unit"
   },
-  "unknown": {
-    "message": "Tidak dikenal"
-  },
   "unknownNetwork": {
     "message": "Jaringan Pribadi Tak Dikenal"
-  },
-  "unknownQrCode": {
-    "message": "Kesalahan: Kami tidak dapat mengidentifikasi kode QR itu"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ups! Terjadi sesuatu..."
-  },
-  "unknownCameraError": {
-    "message": "Terjadi eror saat mencoba mengakses kamera. Harap coba ulang..."
   },
   "unlock": {
     "message": "Buka kunci"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "Ya, ayo kita coba"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Anda perlu mengizinkan akses kamera untuk menggunakan fitur ini."
   },
   "yourSigRequested": {
     "message": "Tanda tangan Anda sedang diminta"

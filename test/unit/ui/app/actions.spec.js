@@ -3,8 +3,7 @@ import sinon from 'sinon'
 import { cloneDeep } from 'lodash'
 import createMockStore from 'redux-mock-store'
 import { thunk } from 'redux-thunk'
-import EthQuery from 'eth-query'
-import Eth from 'ethjs'
+import EthQuery from '@metamask/eth-query'
 import KeyringController from '../../../../app/scripts/lib/modern-keyring-controller'
 import { createTestProviderTools } from '../../../stub/provider'
 import enLocale from '../../../../app/_locales/en/messages.json'
@@ -696,6 +695,7 @@ describe('Actions', function () {
 
   describe('#updatedGasData', function () {
     it('errors when get code does not return', async function () {
+      const getCode = sinon.stub(global.ethQuery, 'getCode').callsArgWith(1, new Error('getCode failed'))
       const store = mockStore()
 
       const expectedActions = [
@@ -717,6 +717,8 @@ describe('Actions', function () {
         assert.fail('Should have thrown error')
       } catch (error) {
         assert.deepEqual(store.getActions(), expectedActions)
+      } finally {
+        getCode.restore()
       }
     })
 
@@ -729,9 +731,7 @@ describe('Actions', function () {
         value: '0xde0b6b3a7640000', // 1000000000000000000
       }
 
-      global.eth = {
-        getCode: sinon.stub().returns('0x'),
-      }
+      const getCode = sinon.stub(global.ethQuery, 'getCode').callsArgWith(1, null, '0x')
       const store = mockStore()
 
       const expectedActions = [
@@ -744,18 +744,24 @@ describe('Actions', function () {
 
       await store.dispatch(actions.updateGasData(mockData))
       assert.deepEqual(store.getActions(), expectedActions)
-      global.eth.getCode.reset()
+      getCode.restore()
     })
   })
 
   describe('#signTokenTx', function () {
-    it('calls eth.contract', function () {
-      global.eth = new Eth(provider)
-      const tokenSpy = sinon.spy(global.eth, 'contract')
+    it('sends a transfer call to the token contract', function () {
+      const sendTransaction = sinon.stub(global.ethQuery, 'sendTransaction').callsArgWith(1, null, '0x')
       const store = mockStore()
-      store.dispatch(actions.signTokenTx())
-      assert(tokenSpy.calledOnce)
-      tokenSpy.restore()
+      const token = '0x8d6b81208414189a58339873ab429b6c47ab92d3'
+      const recipient = '0xec1adf982415d2ef5ec55899b9bfb8bc0f29251b'
+      store.dispatch(actions.signTokenTx(token, recipient, 'a', { from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc', value: '0x0' }))
+      assert(sendTransaction.calledOnce)
+      const [txParams] = sendTransaction.firstCall.args
+      assert.equal(txParams.to, token)
+      assert.equal(txParams.from, '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc')
+      // transfer(address,uint256) with the recipient and an amount of 10
+      assert.equal(txParams.data, `0xa9059cbb000000000000000000000000${recipient.slice(2)}${'a'.padStart(64, '0')}`)
+      sendTransaction.restore()
     })
   })
 

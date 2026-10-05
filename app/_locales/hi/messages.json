@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* एक उच्च गैस की कीमत का उपयोग करके अंतरण में तेजी लाने से नेटवर्क द्वारा प्रोसेस होने की संभावना तेजी से बढ़ जाती है, लेकिन इसकी हमेशा गारंटी नहीं होती है।"
   },
-  "accessingYourCamera": {
-    "message": "आपके कैमरे तक पहुँच रहा है ..."
-  },
   "account": {
     "message": "खाता"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "पर्याप्त गैस नहीं है"
   },
-  "noWebcamFoundTitle": {
-    "message": "वेब कैमरा नहीं मिला"
-  },
-  "noWebcamFound": {
-    "message": "आपके कंप्यूटर का वेबकैम नहीं मिला। कृपया फ़िर से प्रयास करें।"
-  },
   "ofTextNofM": {
     "message": "का"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": " सीवीएस फ़ाइल के रूप में सहेजें"
-  },
-  "scanInstructions": {
-    "message": "अपने कैमरे के सामने क्यूआर कोड रखें"
-  },
-  "scanQrCode": {
-    "message": "QR कोड स्कैन करें"
   },
   "search": {
     "message": "खोज"
@@ -993,20 +978,8 @@
   "units": {
     "message": "इकाइयाँ"
   },
-  "unknown": {
-    "message": "अज्ञात"
-  },
   "unknownNetwork": {
     "message": "निजी नेटवर्क को अनलॉक करें"
-  },
-  "unknownQrCode": {
-    "message": "त्रुटि: हम उस क्यूआर  कोड की पहचान नहीं कर सके"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "ओह! कुछ समस्या उत्पन्न हो गई है..."
-  },
-  "unknownCameraError": {
-    "message": "आपके कैमरे तक पहुँचने का प्रयास करते समय कोई त्रुटि हुई। कृपया पुन: प्रयास करें..."
   },
   "unlock": {
     "message": "अनलॉक करें"
@@ -1046,9 +1019,6 @@
   },
   "yesLetsTry": {
     "message": "हाँ, चलिए कोशिश करते हैं"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "आपको इस सुविधा का उपयोग करने के लिए कैमरा एक्सेस की अनुमति देने की आवश्यकता है।"
   },
   "yourSigRequested": {
     "message": "आपके हस्ताक्षर का अनुरोध किया जा रहा है"

@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import { DISPLAY_WARNING } from '../../store/actionConstants'
 import {
   decGWEIToHexWEI,
@@ -115,7 +115,7 @@ async function getNetworkGasEstimates () {
   ])
   const average = toGwei(typeof gasPrice === 'string' ? gasPrice : `0x${gasPrice.toString(16)}`)
   const baseFee = block?.baseFeePerGas ? toGwei(block.baseFeePerGas) : new BigNumber(0)
-  const toNumber = (price) => price.round(9, BigNumber.ROUND_UP).toNumber()
+  const toNumber = (price) => price.decimalPlaces(9, BigNumber.ROUND_UP).toNumber()
   return {
     safeLow: toNumber(BigNumber.max(average.times(0.9), baseFee)),
     average: toNumber(average),

@@ -1,4 +1,4 @@
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import { conversionUtil, multiplyCurrencies } from '../../helpers/utils/conversion-util'
 
 const MIN_GAS_PRICE_DEC = '0'

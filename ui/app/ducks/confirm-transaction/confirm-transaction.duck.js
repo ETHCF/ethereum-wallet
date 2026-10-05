@@ -1,4 +1,4 @@
-import { addHexPrefix } from 'ethereumjs-util'
+import { addHexPrefix } from '@ethereumjs/util'
 import { gasPriceForTransaction, editedGasParams, isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-fees'
 import {
   unconfirmedTransactionsHashSelector,

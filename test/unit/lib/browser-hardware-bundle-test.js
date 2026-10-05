@@ -5,7 +5,7 @@ import vm from 'vm'
 import path from 'path'
 import webpack from 'webpack'
 import { hdkey } from '@ethereumjs/wallet'
-import { bufferToHex, publicToAddress, toChecksumAddress } from 'ethereumjs-util'
+import { bytesToHex, publicToAddress, toChecksumAddress } from '@ethereumjs/util'
 import createWebpackConfigs from '../../../development/build/webpack.config'
 
 /**
@@ -70,7 +70,7 @@ describe('Browser hardware key derivation', function () {
     assert.equal(accounts.length, 10)
     accounts.forEach((account, index) => {
       assert.equal(account.index, index)
-      assert.equal(account.address, toChecksumAddress(bufferToHex(publicToAddress(Buffer.from(parent.deriveChild(index).publicKey), true))))
+      assert.equal(account.address, toChecksumAddress(bytesToHex(publicToAddress(Buffer.from(parent.deriveChild(index).publicKey), true))))
     })
   })
 })

@@ -27,7 +27,11 @@ describe('Add Token', function () {
   }
 
   describe('Add Token', function () {
+    let originalEthQuery
     before(function () {
+      // Token details are not on the chain here; autofill falls back to its defaults.
+      originalEthQuery = global.ethQuery
+      global.ethQuery = { call: (_, callback) => callback(new Error('no chain')) }
       wrapper = mountWithRouter(
         <Provider store={store}>
           <AddToken.WrappedComponent {...props} />
@@ -39,6 +43,10 @@ describe('Add Token', function () {
 
     afterEach(function () {
       props.navigate.reset()
+    })
+
+    after(function () {
+      global.ethQuery = originalEthQuery
     })
 
     it('next button is disabled when no fields are populated', function () {

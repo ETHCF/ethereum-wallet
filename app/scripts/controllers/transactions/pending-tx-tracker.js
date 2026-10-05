@@ -1,6 +1,7 @@
 import EventEmitter from '@metamask/safe-event-emitter'
 import log from 'loglevel'
-import EthQuery from 'ethjs-query'
+import EthQuery from '@metamask/eth-query'
+import pify from 'pify'
 
 /**
 
@@ -39,7 +40,7 @@ export default class PendingTransactionTracker extends EventEmitter {
 
   constructor (config) {
     super()
-    this.query = config.query || (new EthQuery(config.provider))
+    this.query = config.query || pify(new EthQuery(config.provider))
     this.nonceTracker = config.nonceTracker
     this.getPendingTransactions = config.getPendingTransactions
     this.getCompletedTransactions = config.getCompletedTransactions
@@ -210,7 +211,7 @@ export default class PendingTransactionTracker extends EventEmitter {
     const { hash: txHash, txParams: { nonce, from } } = txMeta
     const networkNextNonce = await this.query.getTransactionCount(from)
 
-    if (parseInt(nonce, 16) >= networkNextNonce.toNumber()) {
+    if (parseInt(nonce, 16) >= parseInt(networkNextNonce, 16)) {
       return false
     }
 

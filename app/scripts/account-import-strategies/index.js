@@ -1,4 +1,4 @@
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import { decryptKeystore } from '../lib/transaction-codec-implementation'
 
 const accountImporter = {
@@ -16,7 +16,7 @@ const accountImporter = {
 
       const prefixed = ethUtil.addHexPrefix(privateKey)
       // A private key is 32 bytes; isValidPrivate throws for other input.
-      if (!(/^0x[0-9a-f]{64}$/iu).test(prefixed) || !ethUtil.isValidPrivate(ethUtil.toBuffer(prefixed))) {
+      if (!(/^0x[0-9a-f]{64}$/iu).test(prefixed) || !ethUtil.isValidPrivate(ethUtil.toBytes(prefixed))) {
         throw new Error('Cannot import invalid private key.')
       }
 

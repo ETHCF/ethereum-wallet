@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Akselerering av en transaksjon ved å bruke en høyere datakraftspris øker sjansene for å bli behandlet av nettverket raskere, men det er ikke alltid garantert."
   },
-  "accessingYourCamera": {
-    "message": "Oppretter tilgang til kameraet ditt..."
-  },
   "account": {
     "message": "Konto"
   },
@@ -606,12 +603,6 @@
   "notEnoughGas": {
     "message": "Ikke nok bensin"
   },
-  "noWebcamFoundTitle": {
-    "message": "Webkamera ikke funnet"
-  },
-  "noWebcamFound": {
-    "message": "Datamaskinens webkamera ble ikke funnet. Vennligst prøv igjen."
-  },
   "ofTextNofM": {
     "message": "av"
   },
@@ -757,12 +748,6 @@
   },
   "saveAsCsvFile": {
     "message": "Lagre som CSV-fil "
-  },
-  "scanInstructions": {
-    "message": "Plasser QR-koden foran kameraet ditt"
-  },
-  "scanQrCode": {
-    "message": "Skann QR-kode"
   },
   "search": {
     "message": "Søk"
@@ -981,20 +966,8 @@
   "units": {
     "message": "enheter "
   },
-  "unknown": {
-    "message": "Ukjent"
-  },
   "unknownNetwork": {
     "message": "Ukjent privat nettverk"
-  },
-  "unknownQrCode": {
-    "message": "Feil: Vi kunne ikke gjenkjenne denne QR-koden"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Oisann! Noe gikk galt.... "
-  },
-  "unknownCameraError": {
-    "message": "Det oppsto en feil under forsøket på å få tilgang til kameraet ditt. Vær så snill og prøv på nytt..."
   },
   "unlock": {
     "message": "Lås opp"
@@ -1034,9 +1007,6 @@
   },
   "yesLetsTry": {
     "message": "Ja, la oss prøve"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Du må gi kameratilgang for å bruke denne funksjonen."
   },
   "yourSigRequested": {
     "message": "Det bes om signaturen din "

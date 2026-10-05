@@ -1,5 +1,6 @@
 import assert from 'assert'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
+import BN from 'bn.js'
 import * as util from './util'
 
 describe('util', function () {
@@ -162,13 +163,13 @@ describe('util', function () {
     })
 
     it('should return 1.0000 ETH', function () {
-      const input = new ethUtil.BN(ethInWei, 10).toJSON()
+      const input = new BN(ethInWei, 10).toJSON()
       const result = util.formatBalance(input, 4)
       assert.equal(result, '1.0000 ETH')
     })
 
     it('should return 0.500 ETH', function () {
-      const input = new ethUtil.BN(ethInWei, 10).div(new ethUtil.BN('2', 10)).toJSON()
+      const input = new BN(ethInWei, 10).div(new BN('2', 10)).toJSON()
       const result = util.formatBalance(input, 3)
       assert.equal(result, '0.500 ETH')
     })

@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "*Kuwezesha muamala kwa kutumia bei ya juu ya gesi huongeza uwezekano wake wa kushughulikiwa na mtandao haraka, lakini hauhakikishiwi siku zote."
   },
-  "accessingYourCamera": {
-    "message": "Kufikia kamera yako..."
-  },
   "account": {
     "message": "Akaunti"
   },
@@ -594,12 +591,6 @@
   "notEnoughGas": {
     "message": "Hakuna Gesi ya Kutosha"
   },
-  "noWebcamFoundTitle": {
-    "message": "Kamera haipatikanai"
-  },
-  "noWebcamFound": {
-    "message": "Kamera yako ya kumpyuta haikupatikana. Tafadhali jaribu tena."
-  },
   "ofTextNofM": {
     "message": "ya"
   },
@@ -745,12 +736,6 @@
   },
   "saveAsCsvFile": {
     "message": "Hifadhi kama Faili la CSV"
-  },
-  "scanInstructions": {
-    "message": "Weka msimbo wa QR mbele ya kamera yako"
-  },
-  "scanQrCode": {
-    "message": "Kagua Msimbo wa QR"
   },
   "search": {
     "message": "Tafuta"
@@ -981,20 +966,8 @@
   "units": {
     "message": "vizio"
   },
-  "unknown": {
-    "message": "Haijulikani"
-  },
   "unknownNetwork": {
     "message": "Mtandao Binafsi Usiojulikana"
-  },
-  "unknownQrCode": {
-    "message": "Hitilafu: Hatukuweza kubainisha msimbo huo wa QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ayaa! Hitilafu fulani imetokea..."
-  },
-  "unknownCameraError": {
-    "message": "Kulikuwa na hitilafu wakati wa kujaribu kufikia kamera yako. Tafadhali jaribu tena..."
   },
   "unlock": {
     "message": "Fungua"
@@ -1034,9 +1007,6 @@
   },
   "yesLetsTry": {
     "message": "Ndiyo, ngoja tujaribu"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Unapaswa kuruhusu kamera ili utumie kipengele hiki."
   },
   "yourSigRequested": {
     "message": "Saini yako inaombwa"

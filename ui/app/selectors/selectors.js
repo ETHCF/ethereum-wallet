@@ -1,4 +1,4 @@
-import { stripHexPrefix, addHexPrefix } from 'ethereumjs-util'
+import { stripHexPrefix, addHexPrefix } from '@ethereumjs/util'
 import { createSelector } from 'reselect'
 import { NETWORK_TYPES } from '../helpers/constants/common'
 import { BUILT_IN_NETWORKS, POLYGON } from '../../../app/scripts/controllers/network/enums'

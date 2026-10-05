@@ -86,15 +86,6 @@ describe('App State', function () {
     assert.equal(newState.alertMessage, null)
   })
 
-  it('detects qr code data', function () {
-    const state = reduceApp(ecfWalletState, {
-      type: actions.QR_CODE_DETECTED,
-      value: 'qr data',
-    })
-
-    assert.equal(state.qrCodeData, 'qr data')
-  })
-
   it('opens modal', function () {
     const state = reduceApp(ecfWalletState, {
       type: actions.MODAL_OPEN,

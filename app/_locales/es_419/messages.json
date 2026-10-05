@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Aumentar una transacción utilizando un precio de gas más alto aumenta sus posibilidades de ser procesada más rápido por la red, pero esto no siempre está garantizado."
   },
-  "accessingYourCamera": {
-    "message": "Accediendo a la cámara…"
-  },
   "account": {
     "message": "Cuenta"
   },
@@ -597,12 +594,6 @@
   "notEnoughGas": {
     "message": "No tienes suficiente gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "No se encuentra la cámara web"
-  },
-  "noWebcamFound": {
-    "message": "No se encontró la cámara web de tu computadora. Vuelve a intentarlo."
-  },
   "ofTextNofM": {
     "message": "de"
   },
@@ -748,12 +739,6 @@
   },
   "saveAsCsvFile": {
     "message": "Guardar como archivo CSV"
-  },
-  "scanInstructions": {
-    "message": "Coloca el código QR delante de la cámara"
-  },
-  "scanQrCode": {
-    "message": "Escanear el código QR"
   },
   "search": {
     "message": "Buscar"
@@ -978,20 +963,8 @@
   "units": {
     "message": "unidades"
   },
-  "unknown": {
-    "message": "Desconocido"
-  },
   "unknownNetwork": {
     "message": "Red privada desconocida"
-  },
-  "unknownQrCode": {
-    "message": "Error: No se pudo identificar el código QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "¡Vaya! Se produjo un error…"
-  },
-  "unknownCameraError": {
-    "message": "Hubo un error al intentar acceder a tu cámara. Vuelve a intentarlo…"
   },
   "unlock": {
     "message": "Desbloquear"
@@ -1031,9 +1004,6 @@
   },
   "yesLetsTry": {
     "message": "Sí, intentémoslo"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Debes permitir el acceso a la cámara para utilizar esta función."
   },
   "yourSigRequested": {
     "message": "Su firma se está procesando"

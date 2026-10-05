@@ -481,7 +481,7 @@ describe('Transaction Controller', function () {
 
     it('should ignore the error "Transaction Failed: known transaction" and be as usual', async function () {
       providerResultStub.eth_sendRawTransaction = async (_, __, ___, end) => {
-        end('Transaction Failed: known transaction')
+        end(new Error('Transaction Failed: known transaction'))
       }
       const rawTx = '0xf86204831e848082520894f231d46dd78806e1dd93442cf33c7671f853874880802ca05f973e540f2d3c2f06d3725a626b75247593cb36477187ae07ecfe0a4db3cf57a00259b52ee8c58baaa385fb05c3f96116e58de89bcc165cb3bfdfc708672fed8a'
       txController.txStateManager.addTx(txMeta)
@@ -517,7 +517,7 @@ describe('Transaction Controller', function () {
         to: '0xabc',
         data: '',
       })
-      assert.deepEqual(result, { transactionCategory: SEND_ETHER_ACTION_KEY, getCodeResponse: null })
+      assert.deepEqual(result, { transactionCategory: SEND_ETHER_ACTION_KEY, getCodeResponse: '0x' })
     })
 
     it('should return a token transfer transactionCategory when data is for the respective method call', async function () {
@@ -553,6 +553,9 @@ describe('Transaction Controller', function () {
     })
 
     it('should return a simple send transactionCategory with a null getCodeResponse when to is truthy and there is data and but getCode returns an error', async function () {
+      providerResultStub.eth_getCode = async (_, __, ___, end) => {
+        end(new Error('getCode failed'))
+      }
       const result = await txController._determineTransactionCategory({
         to: '0xabc',
         data: '0xabd',
@@ -565,7 +568,7 @@ describe('Transaction Controller', function () {
         // 1 gwei
         eth_gasPrice: '0x0de0b6b3a7640000',
         // by default, all accounts are external accounts (not contracts)
-        eth_getCode: '0xa',
+        eth_getCode: '0x0a',
       }
       const _provider = createTestProviderTools({ scaffold: _providerResultStub }).provider
       const _fromAccount = getTestAccounts()[0]
@@ -594,7 +597,7 @@ describe('Transaction Controller', function () {
         // 1 gwei
         eth_gasPrice: '0x0de0b6b3a7640000',
         // by default, all accounts are external accounts (not contracts)
-        eth_getCode: '0xa',
+        eth_getCode: '0x0a',
       }
       const _provider = createTestProviderTools({ scaffold: _providerResultStub }).provider
       const _fromAccount = getTestAccounts()[0]

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import { checkExistingAddresses } from '../../helpers/utils/util'
 import { tokenInfoGetter } from '../../helpers/utils/token-util'
 import { CONFIRM_ADD_TOKEN_ROUTE } from '../../helpers/constants/routes'

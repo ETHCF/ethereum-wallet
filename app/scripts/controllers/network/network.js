@@ -1,7 +1,7 @@
 import assert from 'assert'
 import EventEmitter from 'events'
 import { ComposedStore, ObservableStore } from '@metamask/obs-store'
-import EthQuery from 'eth-query'
+import EthQuery from '@metamask/eth-query'
 import { JsonRpcEngine } from '@metamask/json-rpc-engine'
 import log from 'loglevel'
 import { createSwappableProxy, createEventEmitterProxy } from '@metamask/swappable-obj-proxy'

@@ -1,13 +1,13 @@
 import { strict as assert } from 'assert'
 import { recoverTypedSignature, recoverPersonalSignature } from '@metamask/eth-sig-util'
-import { privateToAddress } from 'ethereumjs-util'
+import { bytesToHex, privateToAddress } from '@ethereumjs/util'
 import PersonalMessageManager from '../../../app/scripts/lib/personal-message-manager'
 import TypedMessageManager from '../../../app/scripts/lib/typed-message-manager'
 import KeyringController from '../../../app/scripts/lib/modern-keyring-controller'
 import { detectSIWE, validateTypedData } from '../../../app/scripts/lib/signing-utils'
 
 const key = Buffer.alloc(32, 1)
-const from = `0x${privateToAddress(key).toString('hex')}`
+const from = bytesToHex(privateToAddress(key))
 const origin = 'https://example.com'
 const now = Date.parse('2026-09-30T12:00:00Z')
 const text = `example.com wants you to sign in with your Ethereum account:

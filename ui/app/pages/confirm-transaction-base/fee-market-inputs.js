@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import TextField from '../../components/ui/text-field'
+import { bigNumberInBase } from '../../helpers/utils/conversion-util'
 
 export default function FeeMarketInputs ({ params, onChange, onValidityChange, priorityReadOnly = false, minimumMaxFeePerGas }) {
   const [values, setValues] = useState({
-    maxFeePerGas: new BigNumber(params.maxFeePerGas, 16).div(1e9).toFixed(),
-    maxPriorityFeePerGas: new BigNumber(params.maxPriorityFeePerGas, 16).div(1e9).toFixed(),
-    gasLimit: new BigNumber(params.gas, 16).toFixed(),
+    maxFeePerGas: bigNumberInBase(params.maxFeePerGas, 16).div(1e9).toFixed(),
+    maxPriorityFeePerGas: bigNumberInBase(params.maxPriorityFeePerGas, 16).div(1e9).toFixed(),
+    gasLimit: bigNumberInBase(params.gas, 16).toFixed(),
   })
   const [error, setError] = useState('')
   const revision = useRef(0)
@@ -19,7 +20,7 @@ export default function FeeMarketInputs ({ params, onChange, onValidityChange, p
     const cap = new BigNumber(next.maxFeePerGas).times(1e9)
     const tip = new BigNumber(next.maxPriorityFeePerGas).times(1e9)
     const gas = new BigNumber(next.gasLimit)
-    const valid = [cap, tip, gas].every((number) => number.isFinite() && number.isInteger() && number.gte(0)) && cap.gte(tip) && gas.gte(21000) && (!minimumMaxFeePerGas || cap.gte(new BigNumber(minimumMaxFeePerGas, 16)))
+    const valid = [cap, tip, gas].every((number) => number.isFinite() && number.isInteger() && number.gte(0)) && cap.gte(tip) && gas.gte(21000) && (!minimumMaxFeePerGas || cap.gte(bigNumberInBase(minimumMaxFeePerGas, 16)))
     setError(valid ? '' : 'Enter valid fees and a gas limit of at least 21000. The maximum fee must cover the priority fee and any replacement fee increase.')
     onValidityChange(false)
     if (valid) {

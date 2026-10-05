@@ -3,8 +3,6 @@ const fs = require('fs-extra')
 const watch = require('gulp-watch')
 const glob = require('fast-glob')
 
-const locales = require('../../app/_locales/index.json')
-
 const { createTask, composeSeries } = require('./task')
 
 module.exports = createStaticAssetTasks
@@ -68,20 +66,6 @@ const copyTargets = [
     dest: 'vendor/trezor/usb-permissions.js',
   },
 ]
-
-const languageTags = new Set()
-for (const locale of locales) {
-  const { code } = locale
-  const tag = code.split('_')[0]
-  languageTags.add(tag)
-}
-
-for (const tag of languageTags) {
-  copyTargets.push({
-    src: `./node_modules/@formatjs/intl-relativetimeformat/dist/locale-data/${tag}.json`,
-    dest: `intl/${tag}/relative-time-format-data.json`,
-  })
-}
 
 const copyTargetsDev = [
   ...copyTargets,

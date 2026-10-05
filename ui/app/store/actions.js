@@ -1,14 +1,14 @@
-import abi from 'human-standard-token-abi'
 import pify from 'pify'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import log from 'loglevel'
 import { checksumAddress } from '../helpers/utils/util'
 import { calcTokenBalance, estimateGas } from '../pages/send/send.utils'
-import { fetchLocale, loadRelativeTimeFormatLocaleData } from '../helpers/utils/i18n-helper'
+import { fetchLocale } from '../helpers/utils/i18n-helper'
 import { getMethodDataAsync } from '../helpers/utils/transactions.util'
 import { fetchSymbolAndDecimals } from '../helpers/utils/token-util'
 import switchDirection from '../helpers/utils/switch-direction'
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../app/scripts/lib/enums'
+import { encodeCall } from '../../../app/scripts/lib/contract-call'
 import { hasUnconfirmedTransactions } from '../helpers/utils/confirm-tx.util'
 import { setCustomGasLimit } from '../ducks/gas/gas.duck'
 import txHelper from '../../lib/tx-helper'
@@ -411,14 +411,6 @@ export function unlockHardwareWalletAccount (index, deviceName, hdPath) {
   }
 }
 
-export function showQrScanner () {
-  return (dispatch) => {
-    dispatch(showModal({
-      name: 'QR_SCANNER',
-    }))
-  }
-}
-
 export function signPersonalMsg (msgData) {
   log.debug('action - signPersonalMsg')
   return async (dispatch) => {
@@ -718,8 +710,11 @@ export function updateSendEnsResolutionError (errorMessage) {
 export function signTokenTx (tokenAddress, toAddress, amount, txData) {
   return (dispatch) => {
     dispatch(showLoadingIndication())
-    const token = global.eth.contract(abi).at(tokenAddress)
-    token.transfer(toAddress, ethUtil.addHexPrefix(amount), txData)
+    pify(global.ethQuery).sendTransaction({
+      ...txData,
+      to: tokenAddress,
+      data: encodeCall('transfer(address,uint256)', [toAddress, ethUtil.addHexPrefix(amount)]),
+    })
       .catch((err) => {
         dispatch(hideLoadingIndication())
         dispatch(displayWarning(err.message))
@@ -1589,18 +1584,6 @@ export function hideAlert () {
   }
 }
 
-/**
- * This action will receive two types of values via qrCodeData
- * an object with the following structure {type, values}
- * or null (used to clear the previous value)
- */
-export function qrCodeDetected (qrCodeData) {
-  return {
-    type: actionConstants.QR_CODE_DETECTED,
-    value: qrCodeData,
-  }
-}
-
 export function showLoadingIndication (message) {
   return {
     type: actionConstants.SHOW_LOADING,
@@ -1906,9 +1889,8 @@ export function setIpfsGateway (val) {
 }
 
 export function updateCurrentLocale (key) {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(showLoadingIndication())
-    await loadRelativeTimeFormatLocaleData(key)
     return fetchLocale(key)
       .then((localeMessages) => {
         log.debug(`background.setCurrentLocale`)

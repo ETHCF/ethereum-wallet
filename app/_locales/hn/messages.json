@@ -350,9 +350,6 @@
   "typePassword": {
     "message": "अपना पासवर्ड टाइप करें"
   },
-  "unknown": {
-    "message": "अज्ञात नेटवर्क"
-  },
   "unknownNetwork": {
     "message": "अज्ञात निजी नेटवर्क"
   },

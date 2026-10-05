@@ -106,9 +106,6 @@
     "message": "$1 può avere accesso e spendere al massimo",
     "description": "$1 is the url of the site requesting ability to spend"
   },
-  "accessingYourCamera": {
-    "message": "Accesso alla fotocamera..."
-  },
   "account": {
     "message": "Account"
   },
@@ -836,12 +833,6 @@
   "notEnoughGas": {
     "message": "Gas Non Sufficiente"
   },
-  "noWebcamFoundTitle": {
-    "message": "Fotocamera non trovata"
-  },
-  "noWebcamFound": {
-    "message": "La fotocamera del tuo computer non è stata trovata. Riprova."
-  },
   "ofTextNofM": {
     "message": "di"
   },
@@ -1006,12 +997,6 @@
   },
   "saveAsCsvFile": {
     "message": "Salva Come File CSV"
-  },
-  "scanInstructions": {
-    "message": "Posizione il codice QR davanti alla fotocamera"
-  },
-  "scanQrCode": {
-    "message": "Scansiona Codice QR"
   },
   "search": {
     "message": "Cerca"
@@ -1309,20 +1294,8 @@
   "units": {
     "message": "unità"
   },
-  "unknown": {
-    "message": "Sconosciuto"
-  },
   "unknownNetwork": {
     "message": "Rete Privata Sconosciuta"
-  },
-  "unknownQrCode": {
-    "message": "Errore: Non siamo riusciti a identificare il codice QR"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops! Qualcosa è andato storto...."
-  },
-  "unknownCameraError": {
-    "message": "C'è stato un errore nel tentativo di accedere alla fotocamera. Per favore prova di nuovo..."
   },
   "unlimited": {
     "message": "Illimitato"
@@ -1384,9 +1357,6 @@
   },
   "yesLetsTry": {
     "message": "Si, proviamo"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Devi consentire l'accesso alla fotocamera per usare questa funzionalità."
   },
   "yourSigRequested": {
     "message": "E' richiesta la tua firma"

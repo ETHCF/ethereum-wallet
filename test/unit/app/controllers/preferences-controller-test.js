@@ -16,15 +16,15 @@ describe('preferences controller', function () {
   describe('setAddresses', function () {
     it('should keep a map of addresses to names and addresses in the store', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
       const { identities } = preferencesController.store.getState()
       assert.deepEqual(identities, {
-        '0xda22le': {
+        '0xda22be': {
           name: 'Account 1',
-          address: '0xda22le',
+          address: '0xda22be',
         },
         '0x7e57e2': {
           name: 'Account 2',
@@ -35,33 +35,33 @@ describe('preferences controller', function () {
 
     it('should create account tokens for each account in the store', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
       const { accountTokens } = preferencesController.store.getState()
 
       assert.deepEqual(accountTokens, {
-        '0xda22le': {},
+        '0xda22be': {},
         '0x7e57e2': {},
       })
     })
 
     it('should replace its list of addresses', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
       preferencesController.setAddresses([
-        '0xda22le77',
+        '0xda22be77',
         '0x7e57e277',
       ])
 
       const { identities } = preferencesController.store.getState()
       assert.deepEqual(identities, {
-        '0xda22le77': {
+        '0xda22be77': {
           name: 'Account 1',
-          address: '0xda22le77',
+          address: '0xda22be77',
         },
         '0x7e57e277': {
           name: 'Account 2',
@@ -74,55 +74,55 @@ describe('preferences controller', function () {
   describe('removeAddress', function () {
     it('should remove an address from state', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
-      preferencesController.removeAddress('0xda22le')
+      preferencesController.removeAddress('0xda22be')
 
-      assert.equal(preferencesController.store.getState().identities['0xda22le'], undefined)
+      assert.equal(preferencesController.store.getState().identities['0xda22be'], undefined)
     })
 
     it('should remove an address from state and respective tokens', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
-      preferencesController.removeAddress('0xda22le')
+      preferencesController.removeAddress('0xda22be')
 
-      assert.equal(preferencesController.store.getState().accountTokens['0xda22le'], undefined)
+      assert.equal(preferencesController.store.getState().accountTokens['0xda22be'], undefined)
     })
 
     it('should switch accounts if the selected address is removed', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
       preferencesController.setSelectedAddress('0x7e57e2')
       preferencesController.removeAddress('0x7e57e2')
 
-      assert.equal(preferencesController.getSelectedAddress(), '0xda22le')
+      assert.equal(preferencesController.getSelectedAddress(), '0xda22be')
     })
   })
 
   describe('setAccountLabel', function () {
     it('should update a label for the given account', function () {
       preferencesController.setAddresses([
-        '0xda22le',
+        '0xda22be',
         '0x7e57e2',
       ])
 
-      assert.deepEqual(preferencesController.store.getState().identities['0xda22le'], {
+      assert.deepEqual(preferencesController.store.getState().identities['0xda22be'], {
         name: 'Account 1',
-        address: '0xda22le',
+        address: '0xda22be',
       })
 
-      preferencesController.setAccountLabel('0xda22le', 'Dazzle')
-      assert.deepEqual(preferencesController.store.getState().identities['0xda22le'], {
+      preferencesController.setAccountLabel('0xda22be', 'Dazzle')
+      assert.deepEqual(preferencesController.store.getState().identities['0xda22be'], {
         name: 'Dazzle',
-        address: '0xda22le',
+        address: '0xda22be',
       })
     })
   })
@@ -184,14 +184,14 @@ describe('preferences controller', function () {
 
       preferencesController.setAddresses([
         '0x7e57e2',
-        '0xda22le',
+        '0xda22be',
       ])
 
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken(address, symbol, decimals)
       assert.equal(preferencesController.getTokens().length, 1, 'one token added for 1st address')
 
-      await preferencesController.setSelectedAddress('0xda22le')
+      await preferencesController.setSelectedAddress('0xda22be')
       await preferencesController.addToken(address, symbol, decimals)
       assert.equal(preferencesController.getTokens().length, 1, 'one token added for 2nd address')
     })
@@ -205,14 +205,14 @@ describe('preferences controller', function () {
 
       preferencesController.setAddresses([
         '0x7e57e2',
-        '0xda22le',
+        '0xda22be',
       ])
 
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken(addressFirst, symbolFirst, decimals)
       const tokensFirstAddress = preferencesController.getTokens()
 
-      await preferencesController.setSelectedAddress('0xda22le')
+      await preferencesController.setSelectedAddress('0xda22be')
       await preferencesController.addToken(addressSecond, symbolSecond, decimals)
       const tokensSeconAddress = preferencesController.getTokens()
 

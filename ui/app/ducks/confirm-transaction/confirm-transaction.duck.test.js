@@ -258,16 +258,18 @@ describe('Confirm Transaction Duck', function () {
   })
 
   describe('Thunk actions', function () {
+    let originalEthQuery
     beforeEach(function () {
-      global.eth = {
+      originalEthQuery = global.ethQuery
+      global.ethQuery = {
         getCode: sinon.stub().callsFake(
-          (address) => Promise.resolve(address && address.match(/isContract/u) ? 'not-0x' : '0x'),
+          (address, callback) => callback(null, address && address.match(/isContract/u) ? 'not-0x' : '0x'),
         ),
       }
     })
 
     afterEach(function () {
-      global.eth.getCode.resetHistory()
+      global.ethQuery = originalEthQuery
     })
 
     it('updates txData and gas on an existing transaction in confirmTransaction', function () {

@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Ускоряването на транзакция чрез използване на по-висока цена на газа увеличава шансовете й да се обработва по-бързо от мрежата, но това не винаги е гарантирано."
   },
-  "accessingYourCamera": {
-    "message": "Достъп до вашата камера ..."
-  },
   "account": {
     "message": "Профил"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "Няма достатъчно газ"
   },
-  "noWebcamFoundTitle": {
-    "message": "Уебкамерата не е намерена"
-  },
-  "noWebcamFound": {
-    "message": "Уеб камерата на компютърa Ви не беше намерена. Моля, опитайте отново."
-  },
   "ofTextNofM": {
     "message": "на"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "Запазване като CSV файл"
-  },
-  "scanInstructions": {
-    "message": "Поставете QR кода пред камерата"
-  },
-  "scanQrCode": {
-    "message": "Сканиране на QR код"
   },
   "search": {
     "message": "Търсене"
@@ -999,20 +984,8 @@
   "units": {
     "message": "елементи"
   },
-  "unknown": {
-    "message": "Неизвестно"
-  },
   "unknownNetwork": {
     "message": "Неизвестна частна мрежа"
-  },
-  "unknownQrCode": {
-    "message": "Грешка: Не можахме да идентифицираме този QR код"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Упс! Нещо се обърка...."
-  },
-  "unknownCameraError": {
-    "message": "При опита за достъп до камерата Ви възникна грешка. Моля, опитайте отново..."
   },
   "unlock": {
     "message": "Отключване"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "Да, нека опитаме"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Трябва да разрешите достъпа на камерата, за да използвате тази функция."
   },
   "yourSigRequested": {
     "message": "Изисква се вашият подпис"

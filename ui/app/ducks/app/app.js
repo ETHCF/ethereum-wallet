@@ -23,7 +23,6 @@ export default function reduceApp (state = {}, action) {
     },
     alertOpen: false,
     alertMessage: null,
-    qrCodeData: null,
     networkDropdownOpen: false,
     accountDetail: {
       subview: 'transactions',
@@ -95,13 +94,6 @@ export default function reduceApp (state = {}, action) {
         ...appState,
         alertOpen: false,
         alertMessage: null,
-      }
-
-    // qr scanner methods
-    case actionConstants.QR_CODE_DETECTED:
-      return {
-        ...appState,
-        qrCodeData: action.value,
       }
 
     // modal methods:

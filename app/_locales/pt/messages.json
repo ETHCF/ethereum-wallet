@@ -347,9 +347,6 @@
   "typePassword": {
     "message": "Digite a sua Palavra-passe"
   },
-  "unknown": {
-    "message": "Desconhecido"
-  },
   "unknownNetwork": {
     "message": "Rede Privada Desconhecida"
   },

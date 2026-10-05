@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* تسریع یک معامله با استفاده از قیمت بالاتر گاز، فرصت تسریع پروسس آنرا توسط شبکه افزایش میدهد اما همیشه این تضمین نمیشود."
   },
-  "accessingYourCamera": {
-    "message": "در حال دسترسی به کمره شما..."
-  },
   "account": {
     "message": "حساب"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "گاز ناکافی است"
   },
-  "noWebcamFoundTitle": {
-    "message": "وب کام پیدا نشد"
-  },
-  "noWebcamFound": {
-    "message": "وب کم کمپیوتر تان پیدا نشد. لطفًا دوباره کوشش کنید."
-  },
   "ofTextNofM": {
     "message": "به"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "ذخیره منحیث فایل CSV"
-  },
-  "scanInstructions": {
-    "message": "رمز QR را در مقابل کمره تان قرار دهید"
-  },
-  "scanQrCode": {
-    "message": "سکن کود QR"
   },
   "search": {
     "message": "جستجو"
@@ -999,20 +984,8 @@
   "units": {
     "message": "واحد ها"
   },
-  "unknown": {
-    "message": "ناشناس"
-  },
   "unknownNetwork": {
     "message": "شبکه خصوصی ناشناخته"
-  },
-  "unknownQrCode": {
-    "message": "خطا: ما نتوانستیم کود QR را شناسایی نماییم"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "اوه! مشکلی ایجاد شد"
-  },
-  "unknownCameraError": {
-    "message": "هنگام تلاش برای دسترسی به کمره شما خطایی به وجود آمد. لطفًا دوباره تلاش کنید..."
   },
   "unlock": {
     "message": "باز کردن قفل"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "بلی، بیایید امتحان کنیم"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "لازم است تا شما جهت استفاده از این مشخصه، به کمره اجازه دسترسی بدهید."
   },
   "yourSigRequested": {
     "message": "امضاء شما درخواست میشود"

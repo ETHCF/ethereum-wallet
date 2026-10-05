@@ -1,4 +1,4 @@
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isFeeMarketTransaction } from '../../../../app/scripts/lib/transaction-fees'
@@ -357,7 +357,7 @@ export default class ConfirmTransactionBase extends Component {
           )
         }
         <div className="confirm-page-container-content__data-box-label">
-          {`${t('hexData')}: ${ethUtil.toBuffer(data).length} bytes`}
+          {`${t('hexData')}: ${ethUtil.toBytes(data).length} bytes`}
         </div>
         <div className="confirm-page-container-content__data-box">
           { data }

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import * as ethUtil from 'ethereumjs-util'
+import * as ethUtil from '@ethereumjs/util'
 import UnitInput from '../unit-input'
 import { conversionUtil, multiplyCurrencies } from '../../../helpers/utils/conversion-util'
 

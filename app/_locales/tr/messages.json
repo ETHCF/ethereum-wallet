@@ -395,9 +395,6 @@
   "unapproved": {
     "message": "Onaylanmadı"
   },
-  "unknown": {
-    "message": "Bilinmeyen"
-  },
   "unknownNetwork": {
     "message": "Bilinmeyen özel ağ"
   },

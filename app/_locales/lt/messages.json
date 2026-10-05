@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "Operacijos paspartinimas naudojantis didesne dujų kaina padidina galimybes, kad ji bus greičiau apdorota tinkle, tačiau tai ne visada garantuojama. "
   },
-  "accessingYourCamera": {
-    "message": "Kreipiamasi į kamerą..."
-  },
   "account": {
     "message": "Paskyra"
   },
@@ -612,12 +609,6 @@
   "notEnoughGas": {
     "message": "Nepakanka dujų"
   },
-  "noWebcamFoundTitle": {
-    "message": "Internetinė vaizdo kamera nerasta"
-  },
-  "noWebcamFound": {
-    "message": "Jūsų kompiuterio vaizdo kamera nerasta. Bandykite dar kartą."
-  },
   "ofTextNofM": {
     "message": "nuo"
   },
@@ -763,12 +754,6 @@
   },
   "saveAsCsvFile": {
     "message": "Įrašyti kaip CSV failą"
-  },
-  "scanInstructions": {
-    "message": "Laikykite QR kodą priešais kamerą"
-  },
-  "scanQrCode": {
-    "message": "Nuskaityti QR kodą"
   },
   "search": {
     "message": "Ieškoti"
@@ -999,20 +984,8 @@
   "units": {
     "message": "vienetai"
   },
-  "unknown": {
-    "message": "Nežinoma"
-  },
   "unknownNetwork": {
     "message": "Nežinomas privatusis tinklas"
-  },
-  "unknownQrCode": {
-    "message": "Klaida: negalime identifikuoti šio QR kodo"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Vaje! Kažkas negerai..."
-  },
-  "unknownCameraError": {
-    "message": "Kreipiantis į jūsų kamerą iškilo problema. Bandykite dar kartą..."
   },
   "unlock": {
     "message": "Atrakinti"
@@ -1052,9 +1025,6 @@
   },
   "yesLetsTry": {
     "message": "Taip, mėginkime"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Norint naudotis šia funkcija, reikia leisti prieigą prie kameros.."
   },
   "yourSigRequested": {
     "message": "Prašoma jūsų parašo"

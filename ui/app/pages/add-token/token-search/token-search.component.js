@@ -13,7 +13,6 @@ const fuse = new Fuse(contractList, {
   threshold: 0.45,
   location: 0,
   distance: 100,
-  maxPatternLength: 32,
   minMatchCharLength: 1,
   keys: [
     { name: 'name', weight: 0.5 },
@@ -41,7 +40,7 @@ export default class TokenSearch extends Component {
 
   handleSearch (searchQuery) {
     this.setState({ searchQuery })
-    const fuseSearchResult = fuse.search(searchQuery)
+    const fuseSearchResult = fuse.search(searchQuery).map(({ item }) => item)
     const addressSearchResult = contractList.filter((token) => {
       return token.address.toLowerCase() === searchQuery.toLowerCase()
     })

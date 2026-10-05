@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import log from 'loglevel'
 import classnames from 'classnames'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import Modal from '../../modal'
 import Identicon from '../../../ui/identicon'
 import TextField from '../../../ui/text-field'
@@ -99,7 +98,7 @@ export default class EditApprovalPermission extends PureComponent {
                 })}
               >
                 {
-                  (new BigNumber(tokenAmount)).lessThan(new BigNumber(tokenBalance))
+                  (new BigNumber(tokenAmount)).isLessThan(new BigNumber(tokenBalance))
                     ? t('proposedApprovalLimit')
                     : t('unlimited')
                 }
@@ -170,20 +169,14 @@ export default class EditApprovalPermission extends PureComponent {
       return undefined
     }
 
-    let customSpendLimitNumber
-    try {
-      customSpendLimitNumber = new BigNumber(customSpendLimit)
-    } catch (error) {
-      log.debug(`Error converting '${customSpendLimit}' to BigNumber:`, error)
-      return t('spendLimitInvalid')
-    }
-
-    if (customSpendLimitNumber.isNegative()) {
+    // BigNumber gives NaN for input it cannot read.
+    const customSpendLimitNumber = new BigNumber(customSpendLimit)
+    if (customSpendLimitNumber.isNaN() || customSpendLimitNumber.isNegative()) {
       return t('spendLimitInvalid')
     }
 
     const maxTokenAmount = calcTokenAmount(MAX_UNSIGNED_256_INT, decimals)
-    if (customSpendLimitNumber.greaterThan(maxTokenAmount)) {
+    if (customSpendLimitNumber.isGreaterThan(maxTokenAmount)) {
       return t('spendLimitTooLarge')
     }
 

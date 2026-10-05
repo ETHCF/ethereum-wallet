@@ -15,9 +15,6 @@
   "acceleratingATransaction": {
     "message": "* Ha szeretné felgyorsítani a tranzakciót azzal, hogy magasabb gázárat használ, az növeli a gyorsabb feldolgozás esélyét, de ez nem mindig garantált."
   },
-  "accessingYourCamera": {
-    "message": "Kamerához való hozzáférés..."
-  },
   "account": {
     "message": "Fiók"
   },
@@ -609,12 +606,6 @@
   "notEnoughGas": {
     "message": "Nincs elég gáz"
   },
-  "noWebcamFoundTitle": {
-    "message": "Nem találtunk  webkamerát"
-  },
-  "noWebcamFound": {
-    "message": "Nem található számítógéped webkamerája. Kérünk, próbáld újra."
-  },
   "ofTextNofM": {
     "message": "ból"
   },
@@ -760,12 +751,6 @@
   },
   "saveAsCsvFile": {
     "message": "Mentés CSV-fájlként"
-  },
-  "scanInstructions": {
-    "message": "Helyezze a QR-kódot a fényképezőgép elé"
-  },
-  "scanQrCode": {
-    "message": "QR-kód beolvasása"
   },
   "search": {
     "message": "Keresés"
@@ -993,20 +978,8 @@
   "units": {
     "message": "egységek"
   },
-  "unknown": {
-    "message": "Ismeretlen"
-  },
   "unknownNetwork": {
     "message": "Ismeretlen magánhálózat"
-  },
-  "unknownQrCode": {
-    "message": "Hiba: nem tudtuk azonosítani a QR-kódot"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Hoppá! Valami hiba történt..."
-  },
-  "unknownCameraError": {
-    "message": "Hiba történt a kamerához való hozzáférés közben. Kérjük, próbálja újra..."
   },
   "unlock": {
     "message": "Feloldás"
@@ -1046,9 +1019,6 @@
   },
   "yesLetsTry": {
     "message": "Igen, próbáljuk ki!"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Ennek a funkciónak a használatához engedélyeznie kell a kamerához való hozzáférést."
   },
   "yourSigRequested": {
     "message": "Szükség van az aláírására"

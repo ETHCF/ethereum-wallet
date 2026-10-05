@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Ang pagpapabilis sa isang transaksyon sa pamamagitan ng paggamit ng mas mataas na presyo ng gas ay makakadagdag sa tsansa nitong maproseso ng network nang mas mabilis, pero hindi ito palaging garantisado."
   },
-  "accessingYourCamera": {
-    "message": "Ina-access ang iyong camera..."
-  },
   "accountDetails": {
     "message": "Mga Detalye ng Account"
   },
@@ -556,12 +553,6 @@
   "notEnoughGas": {
     "message": "Hindi Sapat Ang Gas"
   },
-  "noWebcamFoundTitle": {
-    "message": "Hindi nakita ang webcam"
-  },
-  "noWebcamFound": {
-    "message": "Hindi nakita ang webcam ng iyong computer. Pakisubukang muli."
-  },
   "ofTextNofM": {
     "message": "sa"
   },
@@ -694,12 +685,6 @@
   },
   "saveAsCsvFile": {
     "message": "I-save bilang CSV File"
-  },
-  "scanInstructions": {
-    "message": "Ilagay ang QR code sa harap ng iyong camera"
-  },
-  "scanQrCode": {
-    "message": "I-scan ang QR Code"
   },
   "search": {
     "message": "Hanapin"
@@ -915,20 +900,8 @@
   "units": {
     "message": "(na) unit"
   },
-  "unknown": {
-    "message": "Hindi Alam"
-  },
   "unknownNetwork": {
     "message": "Hindi Kilalang Pribadong Network"
-  },
-  "unknownQrCode": {
-    "message": "Error: Hindi namin nakilala ang QR code na iyan"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Ooops! Nagkaroon ng problema...."
-  },
-  "unknownCameraError": {
-    "message": "Nagkaroon ng error habang sinusubukang i-access ang iyong camera. Pakisubukang muli..."
   },
   "unlock": {
     "message": "I-unlock"
@@ -965,9 +938,6 @@
   },
   "yesLetsTry": {
     "message": "Oo, subukan natin"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Kailangan mong payagan ang access sa camera para magamit ang feature na ito."
   },
   "yourSigRequested": {
     "message": "Hinihiling ang iyong signature"

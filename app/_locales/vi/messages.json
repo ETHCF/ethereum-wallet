@@ -260,9 +260,6 @@
   "typePassword": {
     "message": "Điền mật khẩu của bạn"
   },
-  "unknown": {
-    "message": "Không xác định"
-  },
   "unknownNetwork": {
     "message": "Mạng lưới riêng không xác định"
   },

@@ -1,34 +1,30 @@
 import namehash from 'eth-ens-namehash'
-import Eth from 'ethjs-query'
-import EthContract from 'ethjs-contract'
+import EthQuery from '@metamask/eth-query'
+import pify from 'pify'
 import contentHash from 'content-hash'
-import registryAbi from './contracts/registry'
-import resolverAbi from './contracts/resolver'
+import { callContract } from '../contract-call'
 
 export default async function resolveEnsToIpfsContentId ({ provider, name }) {
-  const eth = new Eth(provider)
+  const query = pify(new EthQuery(provider))
   const hash = namehash.hash(name)
-  const contract = new EthContract(eth)
   // lookup registry
-  const chainId = Number.parseInt(await eth.net_version(), 10)
+  const chainId = Number.parseInt(await query.sendAsync({ method: 'net_version' }), 10)
   const registryAddress = getRegistryForChainId(chainId)
   if (!registryAddress) {
     throw new Error(`EnsIpfsResolver - no known ens-ipfs registry for chainId "${chainId}"`)
   }
-  const Registry = contract(registryAbi).at(registryAddress)
   // lookup resolver
-  const resolverLookupResult = await Registry.resolver(hash)
-  const resolverAddress = resolverLookupResult[0]
+  const [resolverAddress] = await callContract(query, registryAddress, 'resolver(bytes32)', ['address'], [hash])
   if (hexValueIsEmpty(resolverAddress)) {
     throw new Error(`EnsIpfsResolver - no resolver found for name "${name}"`)
   }
-  const Resolver = contract(resolverAbi).at(resolverAddress)
+  const supportsInterface = async (interfaceId) => {
+    const [supported] = await callContract(query, resolverAddress, 'supportsInterface(bytes4)', ['bool'], [interfaceId])
+    return supported
+  }
 
-  const isEIP1577Compliant = await Resolver.supportsInterface('0xbc1c58d1')
-  const isLegacyResolver = await Resolver.supportsInterface('0xd8389dc5')
-  if (isEIP1577Compliant[0]) {
-    const contentLookupResult = await Resolver.contenthash(hash)
-    const rawContentHash = contentLookupResult[0]
+  if (await supportsInterface('0xbc1c58d1')) {
+    const [rawContentHash] = await callContract(query, resolverAddress, 'contenthash(bytes32)', ['bytes'], [hash])
     let decodedContentHash = contentHash.decode(rawContentHash)
     const type = contentHash.getCodec(rawContentHash)
 
@@ -38,10 +34,9 @@ export default async function resolveEnsToIpfsContentId ({ provider, name }) {
 
     return { type, hash: decodedContentHash }
   }
-  if (isLegacyResolver[0]) {
+  if (await supportsInterface('0xd8389dc5')) {
     // lookup content id
-    const contentLookupResult = await Resolver.content(hash)
-    const content = contentLookupResult[0]
+    const [content] = await callContract(query, resolverAddress, 'content(bytes32)', ['bytes32'], [hash])
     if (hexValueIsEmpty(content)) {
       throw new Error(`EnsIpfsResolver - no content ID found for name "${name}"`)
     }

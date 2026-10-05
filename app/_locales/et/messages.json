@@ -11,9 +11,6 @@
   "acceleratingATransaction": {
     "message": "* Tehingu kiirendamine kõrgemate gaasihindadega suurendab võimalust kiiremaks võrgus töötlemiseks, kuid see ei ole alati tagatud."
   },
-  "accessingYourCamera": {
-    "message": "Kaamerale ligipääs..."
-  },
   "account": {
     "message": "Konto"
   },
@@ -606,12 +603,6 @@
   "notEnoughGas": {
     "message": "Ei ole piisavalt gaasi"
   },
-  "noWebcamFoundTitle": {
-    "message": "Veebikaamerat ei leitud"
-  },
-  "noWebcamFound": {
-    "message": "Teie arvuti veebikaamerat ei leitud. Proovige uuesti."
-  },
   "ofTextNofM": {
     "message": "/"
   },
@@ -757,12 +748,6 @@
   },
   "saveAsCsvFile": {
     "message": "Salvesta CSV-failina"
-  },
-  "scanInstructions": {
-    "message": "Asetage QR-kood kaamera ette"
-  },
-  "scanQrCode": {
-    "message": "Skannige QR-koos"
   },
   "search": {
     "message": "Otsi"
@@ -993,20 +978,8 @@
   "units": {
     "message": "ühikud"
   },
-  "unknown": {
-    "message": "Teadmata"
-  },
   "unknownNetwork": {
     "message": "Tundmatu privaatvõrk"
-  },
-  "unknownQrCode": {
-    "message": "Tõrge: seda QR-koodi ei saanud tuvastada"
-  },
-  "unknownCameraErrorTitle": {
-    "message": "Oih! Midagi läks valesti...."
-  },
-  "unknownCameraError": {
-    "message": "Kaamerale ligipääsemisel ilmnes tõrge. Proovige uuesti..."
   },
   "unlock": {
     "message": "Ava lukk"
@@ -1046,9 +1019,6 @@
   },
   "yesLetsTry": {
     "message": "Jah, proovime"
-  },
-  "youNeedToAllowCameraAccess": {
-    "message": "Selle funktsiooni kasutamiseks peate lubaga kaamera ligipääsu."
   },
   "yourSigRequested": {
     "message": "Taotletakse teie allkirja"

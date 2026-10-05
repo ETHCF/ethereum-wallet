@@ -21,7 +21,9 @@ const stubs = {
   }),
   conversionUtil: sinon.stub().callsFake((val) => parseInt(val, 16)),
   conversionGTE: sinon.stub().callsFake((obj1, obj2) => obj1.value >= obj2.value),
-  multiplyCurrencies: sinon.stub().callsFake((a, b) => `${a}x${b}`),
+  // Joins the operands with hex digits (b for times, d for the decimal point)
+  // so the result stays hex, as real products are.
+  multiplyCurrencies: sinon.stub().callsFake((a, b) => `${a}b${String(b).replace('.', 'd')}`),
   calcTokenAmount: sinon.stub().callsFake((a, d) => `calc:${a}${d}`),
   encode: sinon.stub().returns([16, 1100]),
   conversionGreaterThan: sinon.stub().callsFake((obj1, obj2) => obj1.value > obj2.value),
@@ -62,7 +64,7 @@ describe('send utils', function () {
   describe('calcGasTotal()', function () {
     it('should call multiplyCurrencies with the correct params and return the multiplyCurrencies return', function () {
       const result = calcGasTotal(12, 15)
-      assert.equal(result, '12x15')
+      assert.equal(result, '12b15')
       const call_ = stubs.multiplyCurrencies.getCall(0).args
       assert.deepEqual(
         call_,
@@ -288,22 +290,24 @@ describe('send utils', function () {
     }
     const baseExpectedCall = {
       from: 'mockAddress',
-      gas: '0x64x0.95',
+      gas: '0x64b0d95',
       to: '0xisContract',
       value: '0xff',
     }
 
+    let originalEthQuery
     beforeEach(function () {
-      global.eth = {
+      originalEthQuery = global.ethQuery
+      global.ethQuery = {
         getCode: sinon.stub().callsFake(
-          (address) => Promise.resolve(address.match(/isContract/u) ? 'not-0x' : '0x'),
+          (address, callback) => callback(null, address.match(/isContract/u) ? 'not-0x' : '0x'),
         ),
       }
     })
 
     afterEach(function () {
       baseMockParams.estimateGasMethod.resetHistory()
-      global.eth.getCode.resetHistory()
+      global.ethQuery = originalEthQuery
     })
 
     it('should call ethQuery.estimateGas with the expected params', async function () {
@@ -321,9 +325,9 @@ describe('send utils', function () {
       assert.equal(baseMockParams.estimateGasMethod.callCount, 1)
       assert.deepEqual(
         baseMockParams.estimateGasMethod.getCall(0).args[0],
-        { gasPrice: undefined, value: undefined, ...baseExpectedCall, gas: '0xbcdx0.95' },
+        { gasPrice: undefined, value: undefined, ...baseExpectedCall, gas: '0xbcdb0d95' },
       )
-      assert.equal(result, '0xabc16x1.5')
+      assert.equal(result, '0xabc16b1d5')
     })
 
     it('should call ethQuery.estimateGas with a value of 0x0 and the expected data and to if passed a sendToken', async function () {
@@ -378,12 +382,12 @@ describe('send utils', function () {
 
     it(`should return the adjusted blockGasLimit if it fails with a 'Transaction execution error.'`, async function () {
       const result = await estimateGas({ ...baseMockParams, to: 'isContract willFailBecauseOf:Transaction execution error.' })
-      assert.equal(result, '0x64x0.95')
+      assert.equal(result, '0x64b0d95')
     })
 
     it(`should return the adjusted blockGasLimit if it fails with a 'gas required exceeds allowance or always failing transaction.'`, async function () {
       const result = await estimateGas({ ...baseMockParams, to: 'isContract willFailBecauseOf:gas required exceeds allowance or always failing transaction.' })
-      assert.equal(result, '0x64x0.95')
+      assert.equal(result, '0x64b0d95')
     })
 
     it(`should reject other errors`, async function () {
