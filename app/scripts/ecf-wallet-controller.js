@@ -1546,18 +1546,10 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   estimateGas(estimateGasParams) {
-    return new Promise((resolve, reject) => {
-      return this.txController.txGasUtil.query.estimateGas(
-        estimateGasParams,
-        (err, res) => {
-          if (err) {
-            return reject(err);
-          }
-
-          return resolve(res);
-        },
-      );
-    });
+    // The query is promise-returning (pify), so a callback passed here would be
+    // forwarded to the node as an RPC argument and never called, leaving the
+    // send screen waiting on a gas estimate that never arrives.
+    return this.txController.txGasUtil.query.estimateGas(estimateGasParams);
   }
 
   //=============================================================================
