@@ -34,7 +34,6 @@ builds.zip
 test-artifacts
 test-builds
 build-artifacts
-lavamoat/
 
 #ignore css output and sourcemaps
 ui/app/css/output/

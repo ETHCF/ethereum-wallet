@@ -21,7 +21,7 @@ if (process.env.IN_TEST !== 'true' && process.env.ECF_WALLET_ENV !== 'test') {
  * @param {boolean} [enumerable] - If given a value, whether the property is enumerable.
  */
 export function freeze(target, key, value, enumerable = true) {
-  // SES lockdown (lockdown-run.js, lockdown-more.js) already hardens the
+  // SES lockdown (and lockdown-more.js) already hardens the
   // intrinsics and makes their globals read-only; reassigning one would throw.
   const descriptor = Object.getOwnPropertyDescriptor(target, key);
   if (descriptor && !descriptor.configurable && descriptor.writable === false) {

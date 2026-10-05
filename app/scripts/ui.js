@@ -1,9 +1,6 @@
 // this must run before anything else
 import './lib/freezeGlobals';
 
-// polyfills
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-
 import EthQuery from '@metamask/eth-query';
 import { getUniqueId } from '@metamask/json-rpc-engine';
 import { JsonRpcError } from '@metamask/rpc-errors';

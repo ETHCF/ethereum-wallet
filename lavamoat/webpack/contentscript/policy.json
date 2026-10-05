@@ -1,0 +1,121 @@
+{
+  "resources": {
+    "@metamask/object-multiplex": {
+      "globals": {
+        "console.warn": true
+      },
+      "packages": {
+        "pump>once": true,
+        "@metamask/post-message-stream>readable-stream": true
+      }
+    },
+    "@metamask/post-message-stream": {
+      "globals": {
+        "MessageEvent.prototype": true,
+        "WorkerGlobalScope": true,
+        "addEventListener": true,
+        "browser": true,
+        "chrome": true,
+        "location.origin": true,
+        "postMessage": true,
+        "removeEventListener": true
+      },
+      "packages": {
+        "@metamask/abi-utils>@metamask/utils": true,
+        "@metamask/post-message-stream>readable-stream": true
+      }
+    },
+    "@metamask/abi-utils>@metamask/utils": {
+      "packages": {
+        "@metamask/abi-utils>@metamask/superstruct": true
+      }
+    },
+    "buffer": {
+      "globals": {
+        "console": true
+      },
+      "packages": {
+        "buffer>base64-js": true,
+        "buffer>ieee754": true
+      }
+    },
+    "end-of-stream": {
+      "globals": {
+        "Bare": true,
+        "process": true,
+        "queueMicrotask": true
+      },
+      "packages": {
+        "pump>once": true,
+        "process": true
+      }
+    },
+    "events": {
+      "globals": {
+        "console": true
+      }
+    },
+    "pump>once": {
+      "packages": {
+        "pump>once>wrappy": true
+      }
+    },
+    "process": {
+      "globals": {
+        "clearTimeout": true,
+        "setTimeout": true
+      }
+    },
+    "pump": {
+      "globals": {
+        "process": true
+      },
+      "packages": {
+        "end-of-stream": true,
+        "pump>once": true,
+        "process": true
+      }
+    },
+    "@metamask/post-message-stream>readable-stream": {
+      "globals": {
+        "process.nextTick": true,
+        "process.stderr": true,
+        "process.stdout": true
+      },
+      "packages": {
+        "buffer": true,
+        "events": true,
+        "crypto-browserify>inherits": true,
+        "process": true,
+        "string_decoder": true,
+        "through2>readable-stream>util-deprecate": true
+      }
+    },
+    "string_decoder>safe-buffer": {
+      "packages": {
+        "buffer": true
+      }
+    },
+    "string_decoder": {
+      "packages": {
+        "string_decoder>safe-buffer": true
+      }
+    },
+    "through2>readable-stream>util-deprecate": {
+      "globals": {
+        "console.trace": true,
+        "console.warn": true,
+        "localStorage": true
+      }
+    },
+    "webextension-polyfill": {
+      "globals": {
+        "browser": true,
+        "chrome": true,
+        "console.error": true,
+        "console.warn": true,
+        "define": true
+      }
+    }
+  }
+}

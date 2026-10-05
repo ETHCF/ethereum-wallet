@@ -17,7 +17,9 @@ function createManifestTasks({ browserPlatforms }) {
         );
         const result = merge(cloneDeep(baseManifest), platformModifications);
         if (platform === 'firefox') {
-          result.background = { scripts: ['background.js'] };
+          result.background = {
+            scripts: ['lockdown-install.js', 'background.js'],
+          };
         } else {
           result.minimum_chrome_version = '120';
         }

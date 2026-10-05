@@ -1,9 +1,13 @@
+const { LavaMoatPlugin } = require('@lavamoat/webpack');
 const fs = require('fs');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
+const lockdownOptions = require('./lockdown-options');
+
 const rootDir = path.resolve(__dirname, '../..');
+const lockdownMore = path.join(rootDir, 'app/scripts/lockdown-more.js');
 
 /**
  * Locate the readable-stream 3 copy that `@metamask/post-message-stream` uses.
@@ -63,17 +67,45 @@ const nodeFallbacks = {
  * load in the service worker and extension pages; the page scripts are
  * injected into every website, so they stay small and need no crypto.
  *
+ * Every bundle except inpage.js, which runs inside websites, is locked down
+ * and, with LavaMoat, runs each dependency in its own compartment, limited to
+ * what lavamoat/webpack/<compiler>/policy.json allows it.
+ *
  * @param {object} opts - Build options.
  * @param {boolean} opts.devMode - Unminified, inline source maps
  * @param {boolean} opts.testing - Built for the e2e tests
+ * @param {boolean} [opts.lavamoat] - Sandbox dependencies with LavaMoat. It
+ * cannot rebuild incrementally, so development builds run without it.
+ * @param {boolean} [opts.generatePolicy] - Write LavaMoat policies instead of
+ * bundles
  * @param {object} [opts.conf] - Development settings read from .ecf-walletrc
  * @returns {object[]} The webpack configurations
  */
 module.exports = function createWebpackConfigs({
   devMode,
   testing,
+  lavamoat = false,
+  generatePolicy = false,
   conf = {},
 }) {
+  // Runs first in each sandboxed bundle. LavaMoat locks down before any module
+  // runs; without it, lockdown-dev.js does.
+  const sandboxed = (entry) => [
+    ...(lavamoat ? [] : ['./app/scripts/lockdown-dev.js']),
+    lockdownMore,
+    entry,
+  ];
+  const lavamoatPlugin = (name) =>
+    new LavaMoatPlugin({
+      rootDir,
+      // Relative to the working directory, which the build scripts set to rootDir.
+      policyLocation: path.join('lavamoat', 'webpack', name),
+      generatePolicyOnly: generatePolicy,
+      lockdown: lockdownOptions,
+      readableResourceIds: true,
+      runChecks: true,
+    });
+
   const shared = {
     mode: devMode ? 'development' : 'production',
     context: rootDir,
@@ -105,6 +137,12 @@ module.exports = function createWebpackConfigs({
           use: { loader: 'babel-loader', options: { cacheDirectory: devMode } },
         },
         { test: /\.svg$/u, type: 'asset/source' },
+        {
+          // It runs on the real global object once lockdown has finished, to
+          // freeze the intrinsics LavaMoat's compartments are built from.
+          test: lockdownMore,
+          use: LavaMoatPlugin.exclude,
+        },
       ],
     },
     plugins: [
@@ -115,6 +153,7 @@ module.exports = function createWebpackConfigs({
         'process.env.ECF_WALLET_DEBUG': JSON.stringify(Boolean(devMode)),
         'process.env.IN_TEST': JSON.stringify(testing ? 'true' : false),
         'process.env.CONF': JSON.stringify(devMode ? conf : {}),
+        'process.env.LOCKDOWN_OPTIONS': JSON.stringify(lockdownOptions),
       }),
     ],
     stats: 'errors-warnings',
@@ -124,10 +163,11 @@ module.exports = function createWebpackConfigs({
     ...shared,
     name: 'extension',
     entry: {
-      background: './app/scripts/background.js',
-      ui: './app/scripts/ui.js',
-      'phishing-detect': './app/scripts/phishing-detect.js',
-      hardware: './app/scripts/hardware.js',
+      background: sandboxed('./app/scripts/background.js'),
+      ui: sandboxed('./app/scripts/ui.js'),
+      'phishing-detect': sandboxed('./app/scripts/phishing-detect.js'),
+      hardware: sandboxed('./app/scripts/hardware.js'),
+      'offscreen-clipboard': sandboxed('./app/scripts/offscreen-clipboard.js'),
     },
     resolve: {
       alias: {
@@ -143,16 +183,12 @@ module.exports = function createWebpackConfigs({
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser.js',
       }),
+      ...(lavamoat ? [lavamoatPlugin('extension')] : []),
     ],
   };
 
   const pageScripts = {
     ...shared,
-    name: 'page-scripts',
-    entry: {
-      inpage: './app/scripts/inpage.js',
-      contentscript: './app/scripts/contentscript.js',
-    },
     resolve: {
       // The @metamask packages here use readable-stream 3, nested under each of
       // them, while the wallet's own code uses the hoisted version 4. Bundle one
@@ -191,5 +227,25 @@ module.exports = function createWebpackConfigs({
     },
   };
 
-  return [extension, pageScripts];
+  // The content script runs in the extension's isolated world, so it is
+  // sandboxed like the extension bundles.
+  const contentScript = {
+    ...pageScripts,
+    name: 'contentscript',
+    entry: { contentscript: sandboxed('./app/scripts/contentscript.js') },
+    plugins: [
+      ...pageScripts.plugins,
+      ...(lavamoat ? [lavamoatPlugin('contentscript')] : []),
+    ],
+  };
+
+  // inpage.js runs inside websites, alongside their own code, so it is neither
+  // locked down nor sandboxed: either would break the pages it is injected into.
+  const inpage = {
+    ...pageScripts,
+    name: 'inpage',
+    entry: { inpage: './app/scripts/inpage.js' },
+  };
+
+  return [extension, contentScript, inpage];
 };

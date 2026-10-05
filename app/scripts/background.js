@@ -6,9 +6,6 @@
 import './lib/freezeGlobals';
 import setupFetchDebugging from './lib/setupFetchDebugging';
 
-// polyfills
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-
 import { storeAsStream, storeTransformStream } from '@metamask/obs-store';
 import endOfStream from 'end-of-stream';
 import { ExtensionPortStream } from 'extension-port-stream';

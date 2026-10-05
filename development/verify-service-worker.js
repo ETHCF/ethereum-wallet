@@ -25,10 +25,15 @@ const stub = () =>
     },
   );
 
+// The namespaces themselves are plain objects, as in the browser: LavaMoat
+// wraps global functions when it copies them for the wallet's own code.
+const namespace = () =>
+  new Proxy({}, { get: (_, key) => (key === 'then' ? undefined : stub()) });
+
 globalThis.self = globalThis;
-globalThis.chrome = stub();
+globalThis.chrome = namespace();
 // The controllers reach for the `browser` global, not `chrome`.
-globalThis.browser = stub();
+globalThis.browser = namespace();
 let loaded = 0;
 globalThis.importScripts = (...files) => {
   for (const file of files) {

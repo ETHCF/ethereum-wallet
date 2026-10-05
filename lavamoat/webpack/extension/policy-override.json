@@ -1,0 +1,139 @@
+{
+  "resources": {
+    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>tweetnacl": {
+      "globals": {
+        "Float64Array": true
+      }
+    },
+    "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>axios": {
+      "globals": {
+        "addEventListener": true,
+        "fetch": true,
+        "postMessage": true,
+        "Request": true,
+        "Response": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>tweetnacl": {
+      "globals": {
+        "Float64Array": true
+      }
+    },
+    "@metamask/eth-sig-util>tweetnacl": {
+      "globals": {
+        "Float64Array": true
+      }
+    },
+    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>tweetnacl": {
+      "globals": {
+        "Float64Array": true
+      }
+    },
+    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>tweetnacl": {
+      "globals": {
+        "Float64Array": true
+      }
+    },
+    "@popperjs/core": {
+      "globals": {
+        "devicePixelRatio": true
+      }
+    },
+    "@trezor/connect-web>@trezor/connect>@trezor/protobuf>protobufjs>@protobufjs/float": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
+    "@trezor/connect-web>@trezor/connect>@trezor/schema-utils>@sinclair/typebox": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
+    "assert>call-bind>get-intrinsic": {
+      "globals": {
+        "Atomics": true,
+        "Float16Array": true,
+        "Float32Array": true,
+        "Float64Array": true,
+        "SharedArrayBuffer": true
+      }
+    },
+    "assert>util": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true,
+        "SharedArrayBuffer": true
+      }
+    },
+    "assert>util>which-typed-array>available-typed-arrays>possible-typed-array-names": {
+      "globals": {
+        "Float16Array": true,
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
+    "buffer": {
+      "globals": {
+        "SharedArrayBuffer": true
+      }
+    },
+    "enzyme>array.prototype.flat>es-abstract": {
+      "globals": {
+        "Float16Array": true,
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
+    "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
+    "lodash": {
+      "globals": {
+        "_": true,
+        "clearTimeout": true,
+        "Float32Array": true,
+        "Float64Array": true,
+        "setTimeout": true
+      }
+    },
+    "react-dom": {
+      "globals": {
+        "event": false,
+        "HTMLIFrameElement": true
+      }
+    },
+    "react-dom>scheduler": {
+      "globals": {
+        "SharedArrayBuffer": true
+      }
+    },
+    "react-router-dom": {
+      "globals": {
+        "history": true
+      }
+    },
+    "react-router-dom>@remix-run/router": {
+      "globals": {
+        "history": true
+      }
+    },
+    "readable-stream>buffer": {
+      "globals": {
+        "SharedArrayBuffer": true
+      }
+    },
+    "util": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true,
+        "SharedArrayBuffer": true
+      }
+    }
+  }
+}

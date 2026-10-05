@@ -25,8 +25,18 @@ function createScriptTasks({ browserPlatforms, livereload }) {
     ),
   };
 
+  // Release and test builds sandbox dependencies with LavaMoat. With
+  // LAVAMOAT_GENERATE_POLICY set, they write lavamoat/webpack/*/policy.json
+  // from the code instead of building.
   async function build(opts) {
-    const compiler = webpack(createWebpackConfigs({ ...opts, conf }));
+    const compiler = webpack(
+      createWebpackConfigs({
+        ...opts,
+        conf,
+        lavamoat: true,
+        generatePolicy: Boolean(process.env.LAVAMOAT_GENERATE_POLICY),
+      }),
+    );
     const stats = await new Promise((resolve, reject) => {
       compiler.run((error, result) =>
         error ? reject(error) : resolve(result),

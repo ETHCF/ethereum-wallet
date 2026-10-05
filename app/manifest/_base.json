@@ -44,6 +44,7 @@
   "content_scripts": [
     {
       "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "exclude_matches": ["https://connect.trezor.io/*/popup.html*"],
       "js": ["inpage.js"],
       "run_at": "document_start",
       "all_frames": true,
@@ -57,10 +58,9 @@
       ],
       "js": [
         "lockdown-install.js",
-        "lockdown-run.js",
-        "lockdown-more.js",
         "contentscript.js"
       ],
+      "exclude_matches": ["https://connect.trezor.io/*/popup.html*"],
       "run_at": "document_start",
       "all_frames": true
     },
