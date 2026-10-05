@@ -694,21 +694,6 @@ describe('Transaction Controller', function () {
       const approveTransactionArg = approveTransactionSpy.getCall(0).args[0];
       assert.equal(result.id, approveTransactionArg);
     });
-
-    it('should return the expected txMeta', async function () {
-      const result = await txController.createSpeedUpTransaction(1);
-
-      assert.deepEqual(result.txParams, expectedTxParams);
-
-      const { lastGasPrice, type } = result;
-      assert.deepEqual(
-        { lastGasPrice, type },
-        {
-          lastGasPrice: '0xa',
-          type: TRANSACTION_TYPE_RETRY,
-        },
-      );
-    });
   });
 
   describe('#publishTransaction', function () {

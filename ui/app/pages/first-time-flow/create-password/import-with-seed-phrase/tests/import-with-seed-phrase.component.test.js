@@ -15,14 +15,6 @@ function shallowRender(props = {}, context = {}) {
 }
 
 describe('ImportWithSeedPhrase Component', function () {
-  it('should render without error', function () {
-    const root = shallowRender({
-      onSubmit: sinon.spy(),
-    });
-    const textareaCount = root.find('.first-time-flow__textarea').length;
-    assert.equal(textareaCount, 1, 'should render 12 seed phrases');
-  });
-
   describe('parseSeedPhrase', function () {
     it('should handle a regular seed phrase', function () {
       const root = shallowRender({

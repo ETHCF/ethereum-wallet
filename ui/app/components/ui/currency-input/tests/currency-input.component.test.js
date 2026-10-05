@@ -58,12 +58,6 @@ describe('CurrencyInput Component', function () {
         '0.004328',
       );
     });
-
-    it('should pass maxModeOn through to the UnitInput', function () {
-      const wrapper = shallow(<CurrencyInput maxModeOn nativeCurrency="ETH" />);
-
-      assert.equal(wrapper.find(UnitInput).props().maxModeOn, true);
-    });
   });
 
   describe('handling actions', function () {

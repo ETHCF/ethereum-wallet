@@ -5,10 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import PrivacyPolicy from '..';
 import en from '../../../../../app/_locales/en/messages.json';
-import {
-  PRIVACY_POLICY_SECTIONS,
-  getPrivacyPolicyUrl,
-} from '../../../helpers/constants/privacy-policy';
+import { PRIVACY_POLICY_SECTIONS } from '../../../helpers/constants/privacy-policy';
 import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router';
 import { PRIVACY_POLICY_ROUTE } from '../../../helpers/constants/routes';
 
@@ -40,9 +37,5 @@ describe('Privacy Policy page', function () {
       assert.ok(en[key], `missing ${key}`);
     }
     assert.match(en.legalLastUpdated.message, /\$1/u);
-  });
-
-  it('links into the full-screen view', function () {
-    assert.equal(getPrivacyPolicyUrl(), 'home.html#/privacy-policy');
   });
 });

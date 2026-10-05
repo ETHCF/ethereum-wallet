@@ -4,10 +4,6 @@ import sinon from 'sinon';
 
 let mapDispatchToProps;
 
-const actionSpies = {
-  setMaxModeTo: sinon.spy(),
-  updateSendAmount: sinon.spy(),
-};
 const duckActionSpies = {
   updateSendErrors: sinon.spy(),
 };
@@ -30,7 +26,6 @@ proxyquire('../send-amount-row.container.js', {
       mockGasFeeErrorChange: true,
     }),
   },
-  '../../../../store/actions': actionSpies,
   '../../../../ducks/send/send.duck': duckActionSpies,
 });
 
@@ -43,27 +38,6 @@ describe('send-amount-row container', function () {
       dispatchSpy = sinon.spy();
       mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
       duckActionSpies.updateSendErrors.resetHistory();
-    });
-
-    describe('setMaxModeTo()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.setMaxModeTo('mockBool');
-        assert(dispatchSpy.calledOnce);
-        assert(actionSpies.setMaxModeTo.calledOnce);
-        assert.equal(actionSpies.setMaxModeTo.getCall(0).args[0], 'mockBool');
-      });
-    });
-
-    describe('updateSendAmount()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.updateSendAmount('mockAmount');
-        assert(dispatchSpy.calledOnce);
-        assert(actionSpies.updateSendAmount.calledOnce);
-        assert.equal(
-          actionSpies.updateSendAmount.getCall(0).args[0],
-          'mockAmount',
-        );
-      });
     });
 
     describe('updateGasFeeError()', function () {

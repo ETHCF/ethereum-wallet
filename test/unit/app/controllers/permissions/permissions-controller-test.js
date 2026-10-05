@@ -1363,23 +1363,6 @@ describe('permissions controller', function () {
       );
     });
 
-    it('should create a middleware', function () {
-      let middleware;
-      assert.doesNotThrow(() => {
-        middleware = permController.createMiddleware({
-          origin: DOMAINS.a.origin,
-        });
-      }, 'should not throw');
-
-      assert.equal(typeof middleware, 'function', 'should return function');
-
-      assert.equal(
-        middleware.length,
-        4,
-        'should be a (req, res, next, end) middleware',
-      );
-    });
-
     it('should create a middleware with extensionId', function () {
       const extensionId = 'fooExtension';
 

@@ -30,10 +30,6 @@ describe('Unlock Page', function () {
     sinon.restore();
   });
 
-  it('renders', function () {
-    assert.equal(wrapper.length, 1);
-  });
-
   it('changes password and submits', function () {
     const passwordField = wrapper.find({ type: 'password', id: 'password' });
     const loginButton = wrapper.find({ type: 'submit' }).last();

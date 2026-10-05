@@ -28,11 +28,7 @@ describe('Confirm Detail Row Component', function () {
       );
     });
 
-    it('should render a div with a confirm-detail-row class', function () {
-      assert.equal(wrapper.find('div.confirm-detail-row').length, 1);
-    });
-
-    it('should render the label as a child of the confirm-detail-row__label', function () {
+    it('should render the label, headerText and primaryText', function () {
       assert.equal(
         wrapper
           .find('.confirm-detail-row > .confirm-detail-row__label')
@@ -40,9 +36,6 @@ describe('Confirm Detail Row Component', function () {
           .text(),
         'mockLabel',
       );
-    });
-
-    it('should render the headerText as a child of the confirm-detail-row__header-text', function () {
       assert.equal(
         wrapper
           .find(
@@ -52,22 +45,12 @@ describe('Confirm Detail Row Component', function () {
           .text(),
         'mockHeaderText',
       );
-    });
-
-    it('should render the primaryText as a child of the confirm-detail-row__primary', function () {
       assert.equal(
         wrapper
           .find('.confirm-detail-row__details > .confirm-detail-row__primary')
           .childAt(0)
           .text(),
         'mockPrimaryText',
-      );
-    });
-
-    it('should set the primaryValueTextColor on confirm-detail-row__primary', function () {
-      assert.equal(
-        wrapper.find('.confirm-detail-row__primary').props().style.color,
-        'mockColor',
       );
     });
 

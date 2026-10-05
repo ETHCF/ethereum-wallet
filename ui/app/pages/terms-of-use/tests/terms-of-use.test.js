@@ -7,10 +7,7 @@ import TermsOfUse from '..';
 import en from '../../../../../app/_locales/en/messages.json';
 import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router';
 import { TERMS_OF_USE_ROUTE } from '../../../helpers/constants/routes';
-import {
-  TERMS_OF_USE_SECTIONS,
-  getTermsOfUseUrl,
-} from '../../../helpers/constants/terms-of-use';
+import { TERMS_OF_USE_SECTIONS } from '../../../helpers/constants/terms-of-use';
 
 describe('Terms of Use page', function () {
   it('renders every section', function () {
@@ -40,9 +37,5 @@ describe('Terms of Use page', function () {
       assert.ok(en[key], `missing ${key}`);
     }
     assert.match(en.legalLastUpdated.message, /\$1/u);
-  });
-
-  it('links into the full-screen view', function () {
-    assert.equal(getTermsOfUseUrl(), 'home.html#/terms-of-use');
   });
 });

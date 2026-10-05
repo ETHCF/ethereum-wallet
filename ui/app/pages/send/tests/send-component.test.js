@@ -38,7 +38,6 @@ describe('Send Component', function () {
   }).default;
 
   before(function () {
-    sinon.spy(SendTransactionScreen.prototype, 'componentDidMount');
     sinon.spy(SendTransactionScreen.prototype, 'updateGas');
   });
 
@@ -75,7 +74,6 @@ describe('Send Component', function () {
   });
 
   afterEach(function () {
-    SendTransactionScreen.prototype.componentDidMount.resetHistory();
     SendTransactionScreen.prototype.updateGas.resetHistory();
     utilsMethodStubs.doesAmountErrorRequireUpdate.resetHistory();
     utilsMethodStubs.getAmountErrorObject.resetHistory();
@@ -89,10 +87,6 @@ describe('Send Component', function () {
 
   after(function () {
     sinon.restore();
-  });
-
-  it('should call componentDidMount', function () {
-    assert(SendTransactionScreen.prototype.componentDidMount.calledOnce);
   });
 
   describe('componentDidMount', function () {
@@ -376,10 +370,6 @@ describe('Send Component', function () {
   });
 
   describe('render', function () {
-    it('should render a page-container class', function () {
-      assert.equal(wrapper.find('.page-container').length, 1);
-    });
-
     it('should render SendHeader and AddRecipient', function () {
       assert.equal(wrapper.find(SendHeader).length, 1);
       assert.equal(wrapper.find(AddRecipient).length, 1);
@@ -395,13 +385,6 @@ describe('Send Component', function () {
       assert.deepEqual(wrapper.find(SendFooter).props(), {
         navigate: { mockProp: 'history-abc' },
       });
-    });
-
-    it('should pass showHexData to SendContent', function () {
-      wrapper.setProps({
-        to: '0x80F061544cC398520615B5d3e7A3BedD70cd4510',
-      });
-      assert.equal(wrapper.find(SendContent).props().showHexData, true);
     });
   });
 

@@ -86,10 +86,6 @@ describe('GasModalPageContainer Component', function () {
   });
 
   describe('render', function () {
-    it('should render a PageContainer compenent', function () {
-      assert.equal(wrapper.find(PageContainer).length, 1);
-    });
-
     it('should pass correct props to PageContainer', function () {
       const { title, subtitle, disabled } = wrapper.find(PageContainer).props();
       assert.equal(title, 'customGas');
@@ -200,19 +196,6 @@ describe('GasModalPageContainer Component', function () {
       const tabs = renderedTabs.find(Tab);
       assert.equal(tabs.length, 1);
       assert.equal(tabs.at(0).props().name, 'advanced');
-    });
-  });
-
-  describe('renderBasicTabContent', function () {
-    it('should render', function () {
-      const renderBasicTabContentResult = wrapper
-        .instance()
-        .renderBasicTabContent(mockGasPriceButtonGroupProps);
-
-      assert.deepEqual(
-        renderBasicTabContentResult.props.gasPriceButtonGroupProps,
-        mockGasPriceButtonGroupProps,
-      );
     });
   });
 

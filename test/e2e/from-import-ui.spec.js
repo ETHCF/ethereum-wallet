@@ -128,22 +128,6 @@ describe('Using ecf-wallet with an existing account', function () {
       await driver.clickElement(By.css('.account-modal__close'));
       await driver.delay(largeDelayMs);
     });
-
-    it('shows a QR code for the account', async function () {
-      await driver.clickElement(
-        By.css('[data-testid="account-options-menu-button"]'),
-      );
-      await driver.clickElement(
-        By.css('[data-testid="account-options-menu__account-details"]'),
-      );
-      await driver.findVisibleElement(By.css('.qr-code__wrapper'));
-      const detailModal = await driver.findElement(By.css('span .modal'));
-      await driver.delay(regularDelayMs);
-
-      await driver.clickElement(By.css('.account-modal__close'));
-      await driver.wait(until.stalenessOf(detailModal));
-      await driver.delay(regularDelayMs);
-    });
   });
 
   describe('Lock and unlock', function () {

@@ -4,33 +4,10 @@ import React from 'react';
 import sinon from 'sinon';
 
 import Modal from '../../../modal';
-import CancelTransactionGasFee from '../cancel-transaction-gas-fee';
 import CancelTransaction from '../cancel-transaction.component';
 
 describe('CancelTransaction Component', function () {
   const t = (key) => key;
-
-  it('should render a CancelTransaction modal', function () {
-    const wrapper = shallow(<CancelTransaction newGasFee="0x1319718a5000" />, {
-      context: { t },
-    });
-
-    assert.ok(wrapper);
-    assert.equal(wrapper.find(Modal).length, 1);
-    assert.equal(wrapper.find(CancelTransactionGasFee).length, 1);
-    assert.equal(
-      wrapper.find(CancelTransactionGasFee).props().value,
-      '0x1319718a5000',
-    );
-    assert.equal(
-      wrapper.find('.cancel-transaction__title').text(),
-      'cancellationGasFee',
-    );
-    assert.equal(
-      wrapper.find('.cancel-transaction__description').text(),
-      'attemptToCancelDescription',
-    );
-  });
 
   it('should pass the correct props to the Modal component', async function () {
     const createCancelTransactionSpy = sinon

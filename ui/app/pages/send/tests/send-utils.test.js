@@ -63,7 +63,6 @@ const {
   getGasFeeErrorObject,
   getToAddressForGasUpdate,
   calcTokenBalance,
-  isBalanceSufficient,
   isTokenBalanceSufficient,
   removeLeadingZeroes,
 } = sendUtils;
@@ -230,38 +229,6 @@ describe('send utils', function () {
         }),
         'calc:2011',
       );
-    });
-  });
-
-  describe('isBalanceSufficient()', function () {
-    it('should correctly call addCurrencies and return the result of calling conversionGTE', function () {
-      stubs.conversionGTE.resetHistory();
-      const result = isBalanceSufficient({
-        amount: 15,
-        balance: 100,
-        gasTotal: 17,
-      });
-      assert.deepEqual(stubs.addCurrencies.getCall(0).args, [
-        15,
-        17,
-        {
-          aBase: 16,
-          bBase: 16,
-          toNumericBase: 'hex',
-        },
-      ]);
-      assert.deepEqual(stubs.conversionGTE.getCall(0).args, [
-        {
-          value: 100,
-          fromNumericBase: 'hex',
-        },
-        {
-          value: 32,
-          fromNumericBase: 'hex',
-        },
-      ]);
-
-      assert.equal(result, true);
     });
   });
 

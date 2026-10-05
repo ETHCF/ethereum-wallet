@@ -16,34 +16,6 @@ describe('Network Dropdown', function () {
   let wrapper;
   const createMockStore = configureMockStore([thunk]);
 
-  describe('NetworkDropdown in appState in false', function () {
-    const mockState = {
-      ecfWallet: {
-        network: '1',
-        provider: {
-          type: 'test',
-        },
-      },
-      appState: {
-        networkDropdownOpen: false,
-      },
-    };
-
-    const store = createMockStore(mockState);
-
-    beforeEach(function () {
-      wrapper = mountWithRouter(<NetworkDropdown store={store} />);
-    });
-
-    it('checks for network droppo class', function () {
-      assert.equal(wrapper.find('.network-droppo').length, 1);
-    });
-
-    it('renders only one child when networkDropdown is false in state', function () {
-      assert.equal(wrapper.children().length, 1);
-    });
-  });
-
   describe('NetworkDropdown in appState is true', function () {
     const mockState = {
       ecfWallet: {

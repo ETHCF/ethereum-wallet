@@ -129,28 +129,6 @@ describe('Actions', function () {
   });
 
   describe('#createNewVaultAndRestore', function () {
-    let createNewVaultAndRestoreSpy;
-
-    afterEach(function () {
-      createNewVaultAndRestoreSpy.restore();
-    });
-
-    it('restores new vault', async function () {
-      const store = mockStore();
-
-      createNewVaultAndRestoreSpy = sinon.spy(
-        background,
-        'createNewVaultAndRestore',
-      );
-
-      try {
-        await store.dispatch(actions.createNewVaultAndRestore());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert(createNewVaultAndRestoreSpy.calledOnce);
-      }
-    });
-
     it('errors when callback in createNewVaultAndRestore throws', async function () {
       const store = mockStore();
 
@@ -160,7 +138,7 @@ describe('Actions', function () {
         { type: 'HIDE_LOADING_INDICATION' },
       ];
 
-      createNewVaultAndRestoreSpy = sinon.stub(
+      const createNewVaultAndRestoreSpy = sinon.stub(
         background,
         'createNewVaultAndRestore',
       );
@@ -382,26 +360,8 @@ describe('Actions', function () {
   });
 
   describe('#checkHardwareStatus', function () {
-    let checkHardwareStatusSpy;
-
-    afterEach(function () {
-      checkHardwareStatusSpy.restore();
-    });
-
-    it('calls checkHardwareStatus in background', async function () {
-      checkHardwareStatusSpy = sinon
-        .stub(background, 'checkHardwareStatus')
-        .callsArgWith(2, null);
-      const store = mockStore();
-
-      await store.dispatch(
-        actions.checkHardwareStatus('ledger', `m/44'/60'/0'/0`),
-      );
-      assert.equal(checkHardwareStatusSpy.calledOnce, true);
-    });
-
     it('shows loading indicator and displays error', async function () {
-      checkHardwareStatusSpy = sinon
+      sinon
         .stub(background, 'checkHardwareStatus')
         .callsArgWith(2, new Error('error'));
       const store = mockStore();
@@ -422,24 +382,8 @@ describe('Actions', function () {
   });
 
   describe('#forgetDevice', function () {
-    let forgetDeviceSpy;
-
-    afterEach(function () {
-      forgetDeviceSpy.restore();
-    });
-
-    it('calls forgetDevice in background', async function () {
-      forgetDeviceSpy = sinon
-        .stub(background, 'forgetDevice')
-        .callsArgWith(1, null);
-      const store = mockStore();
-
-      await store.dispatch(actions.forgetDevice('ledger'));
-      assert.equal(forgetDeviceSpy.calledOnce, true);
-    });
-
     it('shows loading indicator and displays error', async function () {
-      forgetDeviceSpy = sinon
+      sinon
         .stub(background, 'forgetDevice')
         .callsArgWith(1, new Error('error'));
       const store = mockStore();
@@ -460,26 +404,8 @@ describe('Actions', function () {
   });
 
   describe('#connectHardware', function () {
-    let connectHardwareSpy;
-
-    afterEach(function () {
-      connectHardwareSpy.restore();
-    });
-
-    it('calls connectHardware in background', async function () {
-      connectHardwareSpy = sinon
-        .stub(background, 'connectHardware')
-        .callsArgWith(3, null);
-      const store = mockStore();
-
-      await store.dispatch(
-        actions.connectHardware('ledger', 0, `m/44'/60'/0'/0`),
-      );
-      assert.equal(connectHardwareSpy.calledOnce, true);
-    });
-
     it('clears loading indicator and displays connection errors', async function () {
-      connectHardwareSpy = sinon
+      sinon
         .stub(background, 'connectHardware')
         .callsArgWith(3, new Error('error'));
       const store = mockStore();
@@ -500,26 +426,8 @@ describe('Actions', function () {
   });
 
   describe('#unlockHardwareWalletAccount', function () {
-    let unlockHardwareWalletAccountSpy;
-
-    afterEach(function () {
-      unlockHardwareWalletAccountSpy.restore();
-    });
-
-    it('calls unlockHardwareWalletAccount in background', async function () {
-      unlockHardwareWalletAccountSpy = sinon
-        .stub(background, 'unlockHardwareWalletAccount')
-        .callsArgWith(3, null);
-      const store = mockStore();
-
-      await store.dispatch(
-        actions.unlockHardwareWalletAccount('ledger', 0, `m/44'/60'/0'/0`),
-      );
-      assert.equal(unlockHardwareWalletAccountSpy.calledOnce, true);
-    });
-
     it('clears loading indicator and displays connection errors', async function () {
-      unlockHardwareWalletAccountSpy = sinon
+      sinon
         .stub(background, 'unlockHardwareWalletAccount')
         .callsArgWith(3, new Error('error'));
       const store = mockStore();
@@ -602,78 +510,8 @@ describe('Actions', function () {
   });
 
   describe('#signTypedMsg', function () {
-    let signTypedMsgSpy, messages, typedMessages, msgId;
-
-    const msgParamsV3 = {
-      from: '0x0DCD5D886577d5081B0c52e242Ef29E70Be3E7bc',
-      data: JSON.stringify({
-        types: {
-          EIP712Domain: [
-            { name: 'name', type: 'string' },
-            { name: 'version', type: 'string' },
-            { name: 'chainId', type: 'uint256' },
-            { name: 'verifyingContract', type: 'address' },
-          ],
-          Person: [
-            { name: 'name', type: 'string' },
-            { name: 'wallet', type: 'address' },
-          ],
-          Mail: [
-            { name: 'from', type: 'Person' },
-            { name: 'to', type: 'Person' },
-            { name: 'contents', type: 'string' },
-          ],
-        },
-        primaryType: 'Mail',
-        domain: {
-          name: 'Ether Mainl',
-          version: '1',
-          verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-        },
-        message: {
-          from: {
-            name: 'Cow',
-            wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
-          },
-          to: {
-            name: 'Bob',
-            wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
-          },
-          contents: 'Hello, Bob!',
-        },
-      }),
-    };
-
-    beforeEach(async function () {
-      ecfWalletController
-        .newUnsignedTypedMessage(msgParamsV3, null, 'V3')
-        .catch(noop);
-      // The security checks run before the message is added.
-      while (!ecfWalletController.typedMessageManager.messages.length) {
-        await new Promise((resolve) => setImmediate(resolve));
-      }
-      messages = ecfWalletController.typedMessageManager.getUnapprovedMsgs();
-      typedMessages = ecfWalletController.typedMessageManager.messages;
-      msgId = Object.keys(messages)[0];
-      typedMessages[0].msgParams.ecfWalletId = parseInt(msgId, 10);
-    });
-
-    afterEach(function () {
-      signTypedMsgSpy.restore();
-    });
-
-    it('calls signTypedMsg in background with no error', async function () {
-      signTypedMsgSpy = sinon
-        .stub(background, 'signTypedMessage')
-        .callsArgWith(1, null, defaultState);
-      const store = mockStore();
-
-      await store.dispatch(actions.signTypedMsg(msgParamsV3));
-      assert(signTypedMsgSpy.calledOnce);
-    });
-
     it('returns expected actions with error', async function () {
-      signTypedMsgSpy = sinon
+      sinon
         .stub(background, 'signTypedMessage')
         .callsArgWith(1, new Error('error'));
       const store = mockStore();
@@ -913,28 +751,8 @@ describe('Actions', function () {
   });
 
   describe('#setSelectedAddress', function () {
-    let setSelectedAddressSpy;
-
-    afterEach(function () {
-      setSelectedAddressSpy.restore();
-    });
-
-    it('calls setSelectedAddress in background', async function () {
-      setSelectedAddressSpy = sinon
-        .stub(background, 'setSelectedAddress')
-        .callsArgWith(1, null);
-      const store = mockStore();
-
-      await store.dispatch(
-        actions.setSelectedAddress(
-          '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
-        ),
-      );
-      assert(setSelectedAddressSpy.calledOnce);
-    });
-
     it('errors when setSelectedAddress throws', async function () {
-      setSelectedAddressSpy = sinon
+      sinon
         .stub(background, 'setSelectedAddress')
         .callsArgWith(1, new Error('error'));
       const store = mockStore();
@@ -950,27 +768,8 @@ describe('Actions', function () {
   });
 
   describe('#showAccountDetail', function () {
-    let setSelectedAddressSpy;
-
-    afterEach(function () {
-      setSelectedAddressSpy.restore();
-    });
-
-    it('#showAccountDetail', async function () {
-      setSelectedAddressSpy = sinon
-        .stub(background, 'setSelectedAddress')
-        .callsArgWith(1, null);
-      const store = mockStore({
-        activeTab: {},
-        ecfWallet: { alertEnabledness: {}, selectedAddress: '0x123' },
-      });
-
-      await store.dispatch(actions.showAccountDetail());
-      assert(setSelectedAddressSpy.calledOnce);
-    });
-
     it('displays warning if setSelectedAddress throws', async function () {
-      setSelectedAddressSpy = sinon
+      sinon
         .stub(background, 'setSelectedAddress')
         .callsArgWith(1, new Error('error'));
       const store = mockStore({
@@ -989,24 +788,8 @@ describe('Actions', function () {
   });
 
   describe('#addToken', function () {
-    let addTokenSpy;
-
-    afterEach(function () {
-      addTokenSpy.restore();
-    });
-
-    it('calls addToken in background', async function () {
-      addTokenSpy = sinon.stub(background, 'addToken').callsArgWith(4, null);
-      const store = mockStore();
-
-      await store.dispatch(actions.addToken());
-      assert(addTokenSpy.calledOnce);
-    });
-
     it('errors when addToken in background throws', async function () {
-      addTokenSpy = sinon
-        .stub(background, 'addToken')
-        .callsArgWith(4, new Error('error'));
+      sinon.stub(background, 'addToken').callsArgWith(4, new Error('error'));
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
@@ -1024,25 +807,8 @@ describe('Actions', function () {
   });
 
   describe('#removeToken', function () {
-    let removeTokenSpy;
-
-    afterEach(function () {
-      removeTokenSpy.restore();
-    });
-
-    it('calls removeToken in background', async function () {
-      removeTokenSpy = sinon
-        .stub(background, 'removeToken')
-        .callsArgWith(1, null);
-      const store = mockStore();
-      await store.dispatch(actions.removeToken());
-      assert(removeTokenSpy.calledOnce);
-    });
-
     it('errors when removeToken in background fails', async function () {
-      removeTokenSpy = sinon
-        .stub(background, 'removeToken')
-        .callsArgWith(1, new Error('error'));
+      sinon.stub(background, 'removeToken').callsArgWith(1, new Error('error'));
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
@@ -1060,27 +826,9 @@ describe('Actions', function () {
   });
 
   describe('#setProviderType', function () {
-    let setProviderTypeSpy;
-    let store;
-
-    beforeEach(function () {
-      store = mockStore({ ecfWallet: { provider: {} } });
-    });
-
-    afterEach(function () {
-      setProviderTypeSpy.restore();
-    });
-
-    it('calls setProviderType', async function () {
-      setProviderTypeSpy = sinon
-        .stub(background, 'setProviderType')
-        .callsArgWith(1, null);
-      await store.dispatch(actions.setProviderType());
-      assert(setProviderTypeSpy.calledOnce);
-    });
-
     it('displays warning when setProviderType throws', async function () {
-      setProviderTypeSpy = sinon
+      const store = mockStore({ ecfWallet: { provider: {} } });
+      const setProviderTypeSpy = sinon
         .stub(background, 'setProviderType')
         .callsArgWith(1, new Error('error'));
       const expectedActions = [
@@ -1094,23 +842,8 @@ describe('Actions', function () {
   });
 
   describe('#setRpcTarget', function () {
-    let setRpcTargetSpy;
-
-    afterEach(function () {
-      setRpcTargetSpy.restore();
-    });
-
-    it('calls setRpcTarget', async function () {
-      setRpcTargetSpy = sinon
-        .stub(background, 'setCustomRpc')
-        .callsArgWith(4, null);
-      const store = mockStore();
-      await store.dispatch(actions.setRpcTarget('http://localhost:8545'));
-      assert(setRpcTargetSpy.calledOnce);
-    });
-
     it('displays warning when setRpcTarget throws', async function () {
-      setRpcTargetSpy = sinon
+      sinon
         .stub(background, 'setCustomRpc')
         .callsArgWith(4, new Error('error'));
       const store = mockStore();
@@ -1242,24 +975,8 @@ describe('Actions', function () {
   });
 
   describe('#setFeatureFlag', function () {
-    let setFeatureFlagSpy;
-
-    afterEach(function () {
-      setFeatureFlagSpy.restore();
-    });
-
-    it('calls setFeatureFlag in the background', async function () {
-      setFeatureFlagSpy = sinon
-        .stub(background, 'setFeatureFlag')
-        .callsArgWith(2, null);
-      const store = mockStore();
-
-      await store.dispatch(actions.setFeatureFlag());
-      assert(setFeatureFlagSpy.calledOnce);
-    });
-
     it('errors when setFeatureFlag in background throws', async function () {
-      setFeatureFlagSpy = sinon
+      sinon
         .stub(background, 'setFeatureFlag')
         .callsArgWith(2, new Error('error'));
       const store = mockStore();

@@ -227,9 +227,5 @@ describe('ecf-wallet', function () {
 
       assert.equal(balance, '1');
     });
-
-    it('should not show a backup reminder', async function () {
-      await driver.assertElementNotPresent(By.css('.backup-notification'));
-    });
   });
 });

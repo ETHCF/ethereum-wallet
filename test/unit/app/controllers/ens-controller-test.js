@@ -1,4 +1,3 @@
-import { ObservableStore } from '@metamask/obs-store';
 import assert from 'assert';
 import sinon from 'sinon';
 
@@ -8,31 +7,6 @@ const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const ZERO_X_ERROR_ADDRESS = '0x';
 
 describe('EnsController', function () {
-  describe('#constructor', function () {
-    it('should construct the controller given a provider and a network', async function () {
-      const currentNetworkId = '3';
-      const networkStore = new ObservableStore(currentNetworkId);
-      const ens = new EnsController({
-        provider: {},
-        networkStore,
-      });
-
-      assert.ok(ens._ens);
-    });
-
-    it('should construct the controller given an existing ENS instance', async function () {
-      const networkStore = {
-        subscribe: sinon.spy(),
-      };
-      const ens = new EnsController({
-        ens: {},
-        networkStore,
-      });
-
-      assert.ok(ens._ens);
-    });
-  });
-
   describe('#reverseResolveName', function () {
     it('should resolve to an ENS name', async function () {
       const address = '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5';

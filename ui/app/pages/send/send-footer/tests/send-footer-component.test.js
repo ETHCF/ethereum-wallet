@@ -97,13 +97,6 @@ describe('SendFooter Component', function () {
         expectedResult: true,
         gasIsLoading: false,
       },
-      'should return true if to is truthy': {
-        to: '0xsomevalidAddress',
-        inError: false,
-        gasTotal: '',
-        expectedResult: true,
-        gasIsLoading: false,
-      },
       'should return true if sendToken is truthy and tokenBalance is falsy': {
         sendToken: { mockProp: 'mockSendTokenProp' },
         tokenBalance: '',
@@ -153,6 +146,7 @@ describe('SendFooter Component', function () {
     it('should call props.update if editingTransactionId is truthy', async function () {
       await wrapper.instance().onSubmit(MOCK_EVENT);
       assert(propsMethodSpies.update.calledOnce);
+      assert.equal(propsMethodSpies.sign.callCount, 0);
       assert.deepEqual(propsMethodSpies.update.getCall(0).args[0], {
         data: undefined,
         amount: 'mockAmount',
@@ -167,14 +161,11 @@ describe('SendFooter Component', function () {
       });
     });
 
-    it('should not call props.sign if editingTransactionId is truthy', function () {
-      assert.equal(propsMethodSpies.sign.callCount, 0);
-    });
-
     it('should call props.sign if editingTransactionId is falsy', async function () {
       wrapper.setProps({ editingTransactionId: null });
       await wrapper.instance().onSubmit(MOCK_EVENT);
       assert(propsMethodSpies.sign.calledOnce);
+      assert.equal(propsMethodSpies.update.callCount, 0);
       assert.deepEqual(propsMethodSpies.sign.getCall(0).args[0], {
         data: undefined,
         amount: 'mockAmount',
@@ -187,10 +178,6 @@ describe('SendFooter Component', function () {
       });
     });
 
-    it('should not call props.update if editingTransactionId is falsy', function () {
-      assert.equal(propsMethodSpies.update.callCount, 0);
-    });
-
     it('should call navigate', async function () {
       await wrapper.instance().onSubmit(MOCK_EVENT);
       assert.equal(navigateSpy.callCount, 1);
@@ -199,43 +186,39 @@ describe('SendFooter Component', function () {
   });
 
   describe('render', function () {
-    beforeEach(function () {
-      sinon.stub(SendFooter.prototype, 'formShouldBeDisabled').returns(true);
-      wrapper = shallow(
-        <SendFooter
-          addToAddressBookIfNew={propsMethodSpies.addToAddressBookIfNew}
-          amount="mockAmount"
-          clearSend={propsMethodSpies.clearSend}
-          disabled
-          editingTransactionId="mockEditingTransactionId"
-          errors={{}}
-          from={{ address: 'mockAddress', balance: 'mockBalance' }}
-          gasLimit="mockGasLimit"
-          gasPrice="mockGasPrice"
-          gasTotal="mockGasTotal"
-          navigate={navigateSpy}
-          inError={false}
-          sendToken={{ mockProp: 'mockSendTokenProp' }}
-          sign={propsMethodSpies.sign}
-          to="mockTo"
-          toAccounts={['mockAccount']}
-          tokenBalance="mockTokenBalance"
-          unapprovedTxs={{}}
-          update={propsMethodSpies.update}
-        />,
-        { context: { t: (str) => str } },
-      );
-    });
-
-    afterEach(function () {
-      SendFooter.prototype.formShouldBeDisabled.restore();
-    });
-
-    it('should render a PageContainerFooter component', function () {
-      assert.equal(wrapper.find(PageContainerFooter).length, 1);
-    });
-
     it('should pass the correct props to PageContainerFooter', function () {
+      const formShouldBeDisabledStub = sinon
+        .stub(SendFooter.prototype, 'formShouldBeDisabled')
+        .returns(true);
+      try {
+        wrapper = shallow(
+          <SendFooter
+            addToAddressBookIfNew={propsMethodSpies.addToAddressBookIfNew}
+            amount="mockAmount"
+            clearSend={propsMethodSpies.clearSend}
+            disabled
+            editingTransactionId="mockEditingTransactionId"
+            errors={{}}
+            from={{ address: 'mockAddress', balance: 'mockBalance' }}
+            gasLimit="mockGasLimit"
+            gasPrice="mockGasPrice"
+            gasTotal="mockGasTotal"
+            navigate={navigateSpy}
+            inError={false}
+            sendToken={{ mockProp: 'mockSendTokenProp' }}
+            sign={propsMethodSpies.sign}
+            to="mockTo"
+            toAccounts={['mockAccount']}
+            tokenBalance="mockTokenBalance"
+            unapprovedTxs={{}}
+            update={propsMethodSpies.update}
+          />,
+          { context: { t: (str) => str } },
+        );
+      } finally {
+        formShouldBeDisabledStub.restore();
+      }
+
       const { onCancel, onSubmit, disabled } = wrapper
         .find(PageContainerFooter)
         .props();

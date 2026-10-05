@@ -41,10 +41,6 @@ describe('SendGasRow Component', function () {
       propsMethodSpies.resetGasButtons.resetHistory();
     });
 
-    it('should render a SendRowWrapper component', function () {
-      assert.equal(wrapper.find(SendRowWrapper).length, 1);
-    });
-
     it('should pass the correct props to SendRowWrapper', function () {
       const { label, showError, errorType } = wrapper
         .find(SendRowWrapper)
@@ -55,15 +51,10 @@ describe('SendGasRow Component', function () {
       assert.equal(errorType, 'gasFee');
     });
 
-    it('should render a GasFeeDisplay as a child of the SendRowWrapper', function () {
-      assert(wrapper.find(SendRowWrapper).childAt(0).is(GasFeeDisplay));
-    });
-
     it('should render the GasFeeDisplay', function () {
-      const { gasLoadingError, gasTotal, onReset } = wrapper
-        .find(SendRowWrapper)
-        .childAt(0)
-        .props();
+      const gasFeeDisplay = wrapper.find(SendRowWrapper).childAt(0);
+      assert(gasFeeDisplay.is(GasFeeDisplay));
+      const { gasLoadingError, gasTotal, onReset } = gasFeeDisplay.props();
       assert.equal(gasLoadingError, false);
       assert.equal(gasTotal, 'mockGasTotal');
       assert.equal(propsMethodSpies.resetGasButtons.callCount, 0);

@@ -7,21 +7,14 @@ import { mountWithRouter } from '../../../../../../test/lib/render-helpers';
 import { DEFAULT_ROUTE } from '../../../../helpers/constants/routes';
 
 describe('End of Flow Screen', function () {
-  let wrapper;
-
   const props = {
     navigate: sinon.spy(),
   };
 
-  beforeEach(function () {
-    wrapper = mountWithRouter(<EndOfFlowScreen.WrappedComponent {...props} />);
-  });
-
-  it('renders', function () {
-    assert.equal(wrapper.length, 1);
-  });
-
   it('should navigate to the default route on click', function (done) {
+    const wrapper = mountWithRouter(
+      <EndOfFlowScreen.WrappedComponent {...props} />,
+    );
     const endOfFlowButton = wrapper.find(
       '.btn-primary.first-time-flow__button',
     );

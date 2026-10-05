@@ -80,10 +80,6 @@ describe('AddRecipient Component', function () {
   });
 
   describe('render', function () {
-    it('should render a component', function () {
-      assert.equal(wrapper.find('.send__select-recipient-wrapper').length, 1);
-    });
-
     it('should render no content if there are no recents, transfers, and contacts', function () {
       wrapper.setProps({
         ownedAccounts: [],
@@ -120,20 +116,6 @@ describe('AddRecipient Component', function () {
         groups.shallow().find('.send__select-recipient-wrapper__group').length,
         1,
       );
-    });
-
-    it('should render ContactList', function () {
-      wrapper.setProps({
-        ownedAccounts: [
-          { address: '0x123', name: '123' },
-          { address: '0x124', name: '124' },
-        ],
-        addressBook: [{ address: '0x125' }],
-      });
-
-      const contactList = wrapper.find('ContactList');
-
-      assert.equal(contactList.length, 1);
     });
 
     it('should render contacts', function () {

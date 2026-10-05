@@ -14,7 +14,6 @@ describe('AdvancedTabContent Component', function () {
       updateCustomGasPrice: sinon.spy(),
       updateCustomGasLimit: sinon.spy(),
     };
-    sinon.spy(AdvancedTabContent.prototype, 'renderDataSummary');
 
     wrapper = shallow(
       <AdvancedTabContent
@@ -35,10 +34,6 @@ describe('AdvancedTabContent Component', function () {
   });
 
   describe('render()', function () {
-    it('should render the advanced-tab root node', function () {
-      assert(wrapper.hasClass('advanced-tab'));
-    });
-
     it('should render the fee summary and the gas inputs', function () {
       const advancedTabChildren = wrapper.children();
       assert.equal(advancedTabChildren.length, 2);
@@ -51,36 +46,13 @@ describe('AdvancedTabContent Component', function () {
       assert(advancedTabChildren.at(1).hasClass('advanced-tab__gas-section'));
       assert(advancedTabChildren.at(1).find(AdvancedGasInputs).exists());
     });
-
-    it('should call renderDataSummary with the transaction fee', function () {
-      const renderDataSummaryArgs =
-        AdvancedTabContent.prototype.renderDataSummary.getCall(0).args;
-      assert.deepEqual(renderDataSummaryArgs, ['$0.25']);
-    });
   });
 
   describe('renderDataSummary()', function () {
-    let dataSummary;
-
-    beforeEach(function () {
-      dataSummary = shallow(
+    it('should render the fee', function () {
+      const dataSummary = shallow(
         wrapper.instance().renderDataSummary('mockTotalFee'),
       );
-    });
-
-    it('should render the transaction-data-summary root node', function () {
-      assert(dataSummary.hasClass('advanced-tab__transaction-data-summary'));
-    });
-
-    it('should render the title of the data', function () {
-      const titlesNode = dataSummary.children().at(0);
-      assert(
-        titlesNode.hasClass('advanced-tab__transaction-data-summary__titles'),
-      );
-      assert.equal(titlesNode.children().at(0).text(), 'newTransactionFee');
-    });
-
-    it('should render the fee', function () {
       const dataNode = dataSummary.children().at(1);
       assert(
         dataNode.hasClass('advanced-tab__transaction-data-summary__container'),

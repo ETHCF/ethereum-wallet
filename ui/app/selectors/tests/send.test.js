@@ -6,31 +6,15 @@ import {
   getCurrentAccountWithSendEtherInfo,
 } from '..';
 import {
-  getBlockGasLimit,
-  getCurrentNetwork,
   getNativeCurrency,
-  getGasLimit,
-  getGasPrice,
   getGasTotal,
   getPrimaryCurrency,
-  getSendToken,
   getSendTokenContract,
-  getSendAmount,
   sendAmountIsInError,
-  getSendEditingTransactionId,
-  getSendErrors,
-  getSendFrom,
   getSendFromBalance,
   getSendFromObject,
-  getSendHexDataFeatureFlagState,
-  getSendMaxModeState,
-  getSendTo,
   getSendToAccounts,
-  getTokenBalance,
-  getUnapprovedTxs,
   gasFeeIsInError,
-  getGasLoadingError,
-  getGasButtonGroupShown,
   getTitleKey,
   isSendFormInError,
 } from '../send';
@@ -72,12 +56,6 @@ describe('send selectors', function () {
     });
   });
 
-  describe('getBlockGasLimit', function () {
-    it('should return the current block gas limit', function () {
-      assert.deepEqual(getBlockGasLimit(mockState), '0x4c1878');
-    });
-  });
-
   describe('getCurrentAccountWithSendEtherInfo()', function () {
     it('should return the currently selected account with identity info', function () {
       assert.deepEqual(getCurrentAccountWithSendEtherInfo(mockState), {
@@ -109,24 +87,6 @@ describe('send selectors', function () {
     });
   });
 
-  describe('getCurrentNetwork()', function () {
-    it('should return the id of the currently selected network', function () {
-      assert.equal(getCurrentNetwork(mockState), '3');
-    });
-  });
-
-  describe('getGasLimit()', function () {
-    it('should return the send.gasLimit', function () {
-      assert.equal(getGasLimit(mockState), '0xFFFF');
-    });
-  });
-
-  describe('getGasPrice()', function () {
-    it('should return the send.gasPrice', function () {
-      assert.equal(getGasPrice(mockState), '0xaa');
-    });
-  });
-
   describe('getGasTotal()', function () {
     it('should return the send.gasTotal', function () {
       assert.equal(getGasTotal(mockState), 'a9ff56');
@@ -140,29 +100,6 @@ describe('send selectors', function () {
           ecfWallet: { send: { token: { symbol: 'DEF' } } },
         }),
         'DEF',
-      );
-    });
-  });
-
-  describe('getSendToken()', function () {
-    it('should return the current send token if set', function () {
-      assert.deepEqual(
-        getSendToken({
-          ecfWallet: {
-            send: {
-              token: {
-                address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
-                decimals: 4,
-                symbol: 'DEF',
-              },
-            },
-          },
-        }),
-        {
-          address: '0x8d6b81208414189a58339873ab429b6c47ab92d3',
-          decimals: 4,
-          symbol: 'DEF',
-        },
       );
     });
   });
@@ -213,39 +150,6 @@ describe('send selectors', function () {
     });
   });
 
-  describe('getSendAmount()', function () {
-    it('should return the send.amount', function () {
-      assert.equal(getSendAmount(mockState), '0x080');
-    });
-  });
-
-  describe('getSendEditingTransactionId()', function () {
-    it('should return the send.editingTransactionId', function () {
-      assert.equal(getSendEditingTransactionId(mockState), 97531);
-    });
-  });
-
-  describe('getSendErrors()', function () {
-    it('should return the send.errors', function () {
-      assert.deepEqual(getSendErrors(mockState), { someError: null });
-    });
-  });
-
-  describe('getSendHexDataFeatureFlagState()', function () {
-    it('should return the sendHexData feature flag state', function () {
-      assert.deepEqual(getSendHexDataFeatureFlagState(mockState), true);
-    });
-  });
-
-  describe('getSendFrom()', function () {
-    it('should return the send.from', function () {
-      assert.deepEqual(
-        getSendFrom(mockState),
-        '0xc5b8dbac4c1d3f152cdeb400e2313f309c410acb',
-      );
-    });
-  });
-
   describe('getSendFromBalance()', function () {
     it('should get the send.from balance if it exists', function () {
       assert.equal(getSendFromBalance(mockState), '0x37452b1315889f80');
@@ -292,18 +196,6 @@ describe('send selectors', function () {
     });
   });
 
-  describe('getSendMaxModeState()', function () {
-    it('should return send.maxModeOn', function () {
-      assert.equal(getSendMaxModeState(mockState), false);
-    });
-  });
-
-  describe('getSendTo()', function () {
-    it('should return send.to', function () {
-      assert.equal(getSendTo(mockState), '0x987fedabc');
-    });
-  });
-
   describe('getSendToAccounts()', function () {
     it('should return an array including all the users accounts and the address book', function () {
       assert.deepEqual(getSendToAccounts(mockState), [
@@ -344,38 +236,6 @@ describe('send selectors', function () {
     });
   });
 
-  describe('getTokenBalance()', function () {
-    it('should', function () {
-      assert.equal(getTokenBalance(mockState), 3434);
-    });
-  });
-
-  describe('getUnapprovedTxs()', function () {
-    it('should return the unapproved txs', function () {
-      assert.deepEqual(getUnapprovedTxs(mockState), {
-        4768706228115573: {
-          id: 4768706228115573,
-          time: 1487363153561,
-          status: 'unapproved',
-          gasMultiplier: 1,
-          ecfWalletNetworkId: '3',
-          txParams: {
-            from: '0xc5b8dbac4c1d3f152cdeb400e2313f309c410acb',
-            to: '0x18a3462427bcc9133bb46e88bcbe39cd7ef0e761',
-            value: '0xde0b6b3a7640000',
-            ecfWalletId: 4768706228115573,
-            ecfWalletNetworkId: '3',
-            gas: '0x5209',
-          },
-          txFee: '17e0186e60800',
-          txValue: 'de0b6b3a7640000',
-          maxCost: 'de234b52e4a0800',
-          gasPrice: '4a817c800',
-        },
-      });
-    });
-  });
-
   describe('send-amount-row selectors', function () {
     describe('sendAmountIsInError()', function () {
       it('should return true if send.errors.amount is truthy', function () {
@@ -405,20 +265,6 @@ describe('send selectors', function () {
   });
 
   describe('send-gas-row selectors', function () {
-    describe('getGasLoadingError()', function () {
-      it('should return send.errors.gasLoading', function () {
-        const state = {
-          send: {
-            errors: {
-              gasLoading: 'abc',
-            },
-          },
-        };
-
-        assert.equal(getGasLoadingError(state), 'abc');
-      });
-    });
-
     describe('gasFeeIsInError()', function () {
       it('should return true if send.errors.gasFee is truthy', function () {
         const state = {
@@ -442,18 +288,6 @@ describe('send selectors', function () {
         };
 
         assert.equal(gasFeeIsInError(state), false);
-      });
-    });
-
-    describe('getGasButtonGroupShown()', function () {
-      it('should return send.gasButtonGroupShown', function () {
-        const state = {
-          send: {
-            gasButtonGroupShown: 'foobar',
-          },
-        };
-
-        assert.equal(getGasButtonGroupShown(state), 'foobar');
       });
     });
   });

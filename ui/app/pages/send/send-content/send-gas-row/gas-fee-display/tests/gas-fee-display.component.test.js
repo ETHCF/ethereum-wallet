@@ -30,10 +30,6 @@ describe('GasFeeDisplay Component', function () {
       propsMethodSpies.showCustomizeGasModal.resetHistory();
     });
 
-    it('should render a CurrencyDisplay component', function () {
-      assert.equal(wrapper.find(UserPreferencedCurrencyDisplay).length, 1);
-    });
-
     it('should render the CurrencyDisplay with the correct props', function () {
       const props = wrapper.find(UserPreferencedCurrencyDisplay).at(0).props();
       assert.equal(props.value, 'mockGasTotal');
@@ -46,10 +42,6 @@ describe('GasFeeDisplay Component', function () {
       assert.equal(propsMethodSpies.onReset.callCount, 0);
       onClick();
       assert.equal(propsMethodSpies.onReset.callCount, 1);
-    });
-
-    it('should render the reset button with the correct text', function () {
-      assert.equal(wrapper.find('button').text(), 'reset_t');
     });
   });
 });

@@ -1,10 +1,6 @@
 import assert from 'assert';
 
-import SendReducer, {
-  updateSendErrors,
-  showGasButtonGroup,
-  hideGasButtonGroup,
-} from './send.duck';
+import SendReducer from './send.duck';
 
 describe('Send Duck', function () {
   const mockState = {
@@ -76,21 +72,6 @@ describe('Send Duck', function () {
         }),
         initState,
       );
-    });
-  });
-
-  describe('showGasButtonGroup', function () {
-    assert.deepEqual(showGasButtonGroup(), { type: SHOW_GAS_BUTTON_GROUP });
-  });
-
-  describe('hideGasButtonGroup', function () {
-    assert.deepEqual(hideGasButtonGroup(), { type: HIDE_GAS_BUTTON_GROUP });
-  });
-
-  describe('updateSendErrors', function () {
-    assert.deepEqual(updateSendErrors('mockErrorObject'), {
-      type: UPDATE_SEND_ERRORS,
-      value: 'mockErrorObject',
     });
   });
 });

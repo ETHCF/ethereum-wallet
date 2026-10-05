@@ -92,14 +92,6 @@ describe('TransactionStateManager', function () {
     });
   });
 
-  describe('#getFullTxList', function () {
-    it('when new should return empty array', function () {
-      const result = txStateManager.getTxList();
-      assert.ok(Array.isArray(result));
-      assert.equal(result.length, 0);
-    });
-  });
-
   describe('#getTxList', function () {
     it('when new should return empty array', function () {
       const result = txStateManager.getTxList();

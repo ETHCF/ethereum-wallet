@@ -37,56 +37,27 @@ describe('ListItem', function () {
     );
   });
 
-  it('includes the data-testid', function () {
+  it('renders the passed props and content slots', function () {
     assert.equal(wrapper.props()['data-testid'], 'test-id');
-  });
-
-  it(`renders "${TITLE}" title`, function () {
+    assert(wrapper.props().className.includes(CLASSNAME));
     assert.equal(wrapper.find('.list-item__heading h2').text(), TITLE);
-  });
-
-  it('adds html title to heading element', function () {
     assert.equal(wrapper.find('.list-item__heading').props().title, TITLE);
-  });
-
-  it(`renders "I am a list item" subtitle`, function () {
     assert.equal(
       wrapper.find('.list-item__subheading').text(),
       'I am a list item',
     );
-  });
-
-  it('attaches external className', function () {
-    assert(wrapper.props().className.includes(CLASSNAME));
-  });
-
-  it('renders content on the right side of the list item', function () {
     assert.equal(
       wrapper.find('.list-item__right-content p').text(),
       'Content rendered to the right',
     );
-  });
-
-  it('renders content in the middle of the list item', function () {
     assert.equal(
       wrapper.find('.list-item__mid-content p').text(),
       'Content rendered in the middle',
     );
-  });
-
-  it('renders list item actions', function () {
     assert.equal(
       wrapper.find('.list-item__actions button').text(),
       'I am a button',
     );
-  });
-
-  it('renders the title icon', function () {
-    assert(wrapper.find(Preloader));
-  });
-
-  it('renders the list item icon', function () {
-    assert(wrapper.find(Send));
   });
 
   it('handles click action and fires onClick', function () {

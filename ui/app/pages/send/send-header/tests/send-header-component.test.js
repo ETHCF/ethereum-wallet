@@ -56,10 +56,6 @@ describe('SendHeader Component', function () {
   });
 
   describe('render', function () {
-    it('should render a PageContainerHeader component', function () {
-      assert.equal(wrapper.find(PageContainerHeader).length, 1);
-    });
-
     it('should pass the correct props to PageContainerHeader', function () {
       const { onClose, title } = wrapper.find(PageContainerHeader).props();
       assert.equal(title, 'mockTitleKey');

@@ -29,11 +29,6 @@ describe('Confirm Delete Network', function () {
     props.onConfirm.resetHistory();
   });
 
-  it('renders delete network modal title', function () {
-    const modalTitle = wrapper.find('.modal-content__title');
-    assert.equal(modalTitle.text(), 'deleteNetwork');
-  });
-
   it('clicks cancel to hide modal', function () {
     const cancelButton = wrapper.find(
       '.button.btn-default.modal-container__footer-button',

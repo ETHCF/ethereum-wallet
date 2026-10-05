@@ -99,12 +99,6 @@ describe('SendAmountRow Component', function () {
   });
 
   describe('render', function () {
-    it('should render a SendRowWrapper component', function () {
-      const { wrapper } = shallowRenderSendAmountRow();
-
-      assert.equal(wrapper.find(SendRowWrapper).length, 1);
-    });
-
     it('should pass the correct props to SendRowWrapper', function () {
       const { wrapper } = shallowRenderSendAmountRow();
       const { errorType, label, showError } = wrapper
@@ -116,27 +110,15 @@ describe('SendAmountRow Component', function () {
       assert.equal(showError, false);
     });
 
-    it('should render an AmountMaxButton as the first child of the SendRowWrapper', function () {
-      const { wrapper } = shallowRenderSendAmountRow();
-
-      assert(wrapper.find(SendRowWrapper).childAt(0).is(AmountMaxButton));
-    });
-
-    it('should render a TokenInput as the second child of the SendRowWrapper', function () {
-      const { wrapper } = shallowRenderSendAmountRow();
-
-      assert(wrapper.find(SendRowWrapper).childAt(1).is(TokenInput));
-    });
-
     it('should render the TokenInput with the correct props', function () {
       const {
         wrapper,
         instanceSpies: { updateGas, updateAmount, validateAmount },
       } = shallowRenderSendAmountRow();
-      const { onChange, error, value } = wrapper
-        .find(SendRowWrapper)
-        .childAt(1)
-        .props();
+      const sendRowWrapper = wrapper.find(SendRowWrapper);
+      assert(sendRowWrapper.childAt(0).is(AmountMaxButton));
+      assert(sendRowWrapper.childAt(1).is(TokenInput));
+      const { onChange, error, value } = sendRowWrapper.childAt(1).props();
 
       assert.equal(error, false);
       assert.equal(value, 'mockAmount');

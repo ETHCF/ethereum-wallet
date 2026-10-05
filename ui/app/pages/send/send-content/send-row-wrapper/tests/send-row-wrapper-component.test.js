@@ -21,21 +21,6 @@ describe('SendContent Component', function () {
       );
     });
 
-    it('should render a div with a send-v2__form-row class', function () {
-      assert.equal(wrapper.find('div.send-v2__form-row').length, 1);
-    });
-
-    it('should render two children of the root div, with send-v2_form label and field classes', function () {
-      assert.equal(
-        wrapper.find('.send-v2__form-row > .send-v2__form-label').length,
-        1,
-      );
-      assert.equal(
-        wrapper.find('.send-v2__form-row > .send-v2__form-field').length,
-        1,
-      );
-    });
-
     it('should render the label as a child of the send-v2__form-label', function () {
       assert.equal(
         wrapper

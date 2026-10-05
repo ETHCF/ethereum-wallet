@@ -22,7 +22,6 @@ describe('ButtonGroup Component', function () {
 
   before(function () {
     sinon.spy(ButtonGroup.prototype, 'handleButtonClick');
-    sinon.spy(ButtonGroup.prototype, 'renderButtons');
   });
 
   beforeEach(function () {
@@ -41,7 +40,6 @@ describe('ButtonGroup Component', function () {
   afterEach(function () {
     childButtonSpies.onClick.resetHistory();
     ButtonGroup.prototype.handleButtonClick.resetHistory();
-    ButtonGroup.prototype.renderButtons.resetHistory();
   });
 
   after(function () {
@@ -106,24 +104,6 @@ describe('ButtonGroup Component', function () {
     it('should render the children of the button', function () {
       const mockClass = wrapper.find('.mockClass');
       assert.equal(mockClass.length, 1);
-    });
-  });
-
-  describe('render', function () {
-    it('should render a div with the expected class and style', function () {
-      assert.equal(
-        wrapper.find('div').at(0).props().className,
-        'someClassName',
-      );
-      assert.deepEqual(wrapper.find('div').at(0).props().style, {
-        color: 'red',
-      });
-    });
-
-    it('should call renderButtons when rendering', function () {
-      assert.equal(ButtonGroup.prototype.renderButtons.callCount, 1);
-      wrapper.instance().render();
-      assert.equal(ButtonGroup.prototype.renderButtons.callCount, 2);
     });
   });
 });

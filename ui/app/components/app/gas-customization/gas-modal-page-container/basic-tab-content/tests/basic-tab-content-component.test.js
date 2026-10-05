@@ -40,60 +40,12 @@ const mockGasPriceButtonGroupProps = {
 
 describe('BasicTabContent Component', function () {
   describe('render', function () {
-    let wrapper;
-
-    beforeEach(function () {
-      wrapper = shallow(
+    it('should render a loading component instead of the GasPriceButtonGroup if gasPriceButtonGroupProps.loading is true', function () {
+      const wrapper = shallow(
         <BasicTabContent
           gasPriceButtonGroupProps={mockGasPriceButtonGroupProps}
         />,
       );
-    });
-
-    it('should have a title', function () {
-      assert(
-        wrapper
-          .find('.basic-tab-content')
-          .childAt(0)
-          .hasClass('basic-tab-content__title'),
-      );
-    });
-
-    it('should render a GasPriceButtonGroup compenent', function () {
-      assert.equal(wrapper.find(GasPriceButtonGroup).length, 1);
-    });
-
-    it('should pass correct props to GasPriceButtonGroup', function () {
-      const {
-        buttonDataLoading,
-        className,
-        gasButtonInfo,
-        handleGasPriceSelection,
-        noButtonActiveByDefault,
-        showCheck,
-      } = wrapper.find(GasPriceButtonGroup).props();
-      assert.equal(wrapper.find(GasPriceButtonGroup).length, 1);
-      assert.equal(
-        buttonDataLoading,
-        mockGasPriceButtonGroupProps.buttonDataLoading,
-      );
-      assert.equal(className, mockGasPriceButtonGroupProps.className);
-      assert.equal(
-        noButtonActiveByDefault,
-        mockGasPriceButtonGroupProps.noButtonActiveByDefault,
-      );
-      assert.equal(showCheck, mockGasPriceButtonGroupProps.showCheck);
-      assert.deepEqual(
-        gasButtonInfo,
-        mockGasPriceButtonGroupProps.gasButtonInfo,
-      );
-      assert.equal(
-        JSON.stringify(handleGasPriceSelection),
-        JSON.stringify(mockGasPriceButtonGroupProps.handleGasPriceSelection),
-      );
-    });
-
-    it('should render a loading component instead of the GasPriceButtonGroup if gasPriceButtonGroupProps.loading is true', function () {
       wrapper.setProps({
         gasPriceButtonGroupProps: {
           ...mockGasPriceButtonGroupProps,

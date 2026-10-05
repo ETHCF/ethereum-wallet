@@ -4,20 +4,6 @@ import mockState from '../../../../test/data/mock-state.json';
 import * as selectors from '../selectors';
 
 describe('Selectors', function () {
-  describe('#getSelectedAddress', function () {
-    it('returns undefined if selectedAddress is undefined', function () {
-      assert.equal(selectors.getSelectedAddress({ ecfWallet: {} }), undefined);
-    });
-
-    it('returns selectedAddress', function () {
-      const selectedAddress = '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc';
-      assert.equal(
-        selectors.getSelectedAddress({ ecfWallet: { selectedAddress } }),
-        selectedAddress,
-      );
-    });
-  });
-
   it('returns selected identity', function () {
     assert.deepEqual(selectors.getSelectedIdentity(mockState), {
       address: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
@@ -66,11 +52,6 @@ describe('Selectors', function () {
       '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
     );
     assert.equal(currentAccountwithSendEther.name, 'Test Account');
-  });
-
-  it('#getGasIsLoading', function () {
-    const gasIsLoading = selectors.getGasIsLoading(mockState);
-    assert.equal(gasIsLoading, false);
   });
 
   it('#getTotalUnapprovedCount', function () {

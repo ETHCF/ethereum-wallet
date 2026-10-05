@@ -5,13 +5,8 @@ import sinon from 'sinon';
 let mapDispatchToProps;
 
 const actionSpies = {
-  updateSendTokenBalance: sinon.spy(),
   updateGasData: sinon.spy(),
   setGasTotal: sinon.spy(),
-};
-const duckActionSpies = {
-  updateSendErrors: sinon.spy(),
-  resetSendState: sinon.spy(),
 };
 
 proxyquire('../send.container.js', {
@@ -24,7 +19,6 @@ proxyquire('../send.container.js', {
   'react-router-dom': { withRouter: () => undefined },
   redux: { compose: (_, arg2) => () => arg2() },
   '../../store/actions': actionSpies,
-  '../../ducks/send/send.duck': duckActionSpies,
   './send.utils.js': {
     calcGasTotal: (gasLimit, gasPrice) => gasLimit + gasPrice,
   },
@@ -83,42 +77,6 @@ describe('send container', function () {
           value,
           data,
         });
-      });
-    });
-
-    describe('updateSendTokenBalance()', function () {
-      const mockProps = {
-        address: '0x10',
-        tokenContract: '0x00a',
-        sendToken: { address: '0x1' },
-      };
-
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.updateSendTokenBalance({ ...mockProps });
-        assert(dispatchSpy.calledOnce);
-        assert.deepEqual(
-          actionSpies.updateSendTokenBalance.getCall(0).args[0],
-          mockProps,
-        );
-      });
-    });
-
-    describe('updateSendErrors()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.updateSendErrors('mockError');
-        assert(dispatchSpy.calledOnce);
-        assert.equal(
-          duckActionSpies.updateSendErrors.getCall(0).args[0],
-          'mockError',
-        );
-      });
-    });
-
-    describe('resetSendState()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.resetSendState();
-        assert(dispatchSpy.calledOnce);
-        assert.equal(duckActionSpies.resetSendState.getCall(0).args.length, 0);
       });
     });
   });

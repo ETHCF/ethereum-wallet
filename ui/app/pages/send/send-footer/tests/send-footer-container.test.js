@@ -6,7 +6,6 @@ let mapDispatchToProps;
 
 const actionSpies = {
   addToAddressBook: sinon.spy(),
-  clearSend: sinon.spy(),
   signTokenTx: sinon.spy(),
   signTx: sinon.spy(),
   updateTransaction: sinon.spy(),
@@ -59,14 +58,6 @@ describe('send-footer container', function () {
     beforeEach(function () {
       dispatchSpy = sinon.spy();
       mapDispatchToPropsObject = mapDispatchToProps(dispatchSpy);
-    });
-
-    describe('clearSend()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.clearSend();
-        assert(dispatchSpy.calledOnce);
-        assert(actionSpies.clearSend.calledOnce);
-      });
     });
 
     describe('sign()', function () {

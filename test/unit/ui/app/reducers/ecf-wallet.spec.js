@@ -4,11 +4,6 @@ import reduceEcfWallet from '../../../../../ui/app/ducks/ecf-wallet/ecf-wallet';
 import * as actionConstants from '../../../../../ui/app/store/actionConstants';
 
 describe('ecf-wallet Reducers', function () {
-  it('init state', function () {
-    const initState = reduceEcfWallet(undefined, {});
-    assert(initState);
-  });
-
   it('locks ecf-wallet', function () {
     const unlockEcfWalletState = {
       isUnlocked: true,

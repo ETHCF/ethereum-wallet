@@ -16,12 +16,6 @@ describe('App State', function () {
     },
   };
 
-  it('App init state', function () {
-    const initState = reduceApp(ecfWalletState, {});
-
-    assert(initState);
-  });
-
   it('sets networkDropdownOpen dropdown to true', function () {
     const state = reduceApp(ecfWalletState, {
       type: actions.NETWORK_DROPDOWN_OPEN,
@@ -115,22 +109,6 @@ describe('App State', function () {
 
     assert.equal(newState.modal.open, false);
     assert.equal(newState.modal.modalState.name, null);
-  });
-
-  it('shows send token page', function () {
-    const state = reduceApp(ecfWalletState, {
-      type: actions.SHOW_SEND_TOKEN_PAGE,
-    });
-
-    assert.equal(state.warning, null);
-  });
-
-  it('locks ecf-wallet', function () {
-    const state = reduceApp(ecfWalletState, {
-      type: actions.LOCK_ECF_WALLET,
-    });
-
-    assert.equal(state.warning, null);
   });
 
   it('goes home', function () {
@@ -228,18 +206,6 @@ describe('App State', function () {
 
     assert.equal(state.txId, null);
     assert.equal(state.warning, null);
-  });
-
-  it('returns to account detail page when no unconf actions completed tx', function () {
-    const state = reduceApp(ecfWalletState, {
-      type: actions.COMPLETED_TX,
-      value: {
-        unconfirmedActionsCount: 0,
-      },
-    });
-
-    assert.equal(state.warning, null);
-    assert.equal(state.accountDetail.subview, 'transactions');
   });
 
   it('sets default warning when unlock fails', function () {

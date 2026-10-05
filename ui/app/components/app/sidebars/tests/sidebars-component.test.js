@@ -30,17 +30,8 @@ describe('Sidebar Component', function () {
   });
 
   describe('renderOverlay', function () {
-    let renderOverlay;
-
-    beforeEach(function () {
-      renderOverlay = shallow(wrapper.instance().renderOverlay());
-    });
-
-    it('should render a overlay element', function () {
-      assert(renderOverlay.hasClass('sidebar-overlay'));
-    });
-
     it('should pass the correct onClick function to the element', function () {
+      const renderOverlay = shallow(wrapper.instance().renderOverlay());
       assert.equal(propsMethodSpies.hideSidebar.callCount, 0);
       renderOverlay.props().onClick();
       assert.equal(propsMethodSpies.hideSidebar.callCount, 1);
@@ -69,11 +60,6 @@ describe('Sidebar Component', function () {
   });
 
   describe('render', function () {
-    it('should render a div with one child', function () {
-      assert(wrapper.is('div'));
-      assert.equal(wrapper.children().length, 1);
-    });
-
     it('should render the TransitionGroup without any children', function () {
       assert(wrapper.children().at(0).is(TransitionGroup));
       assert.equal(wrapper.children().at(0).children().length, 0);

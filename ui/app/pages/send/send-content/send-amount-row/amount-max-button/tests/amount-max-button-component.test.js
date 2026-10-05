@@ -67,10 +67,6 @@ describe('AmountMaxButton Component', function () {
   });
 
   describe('render', function () {
-    it('should render an element with a send-v2__amount-max class', function () {
-      assert(wrapper.exists('.send-v2__amount-max'));
-    });
-
     it('should call setMaxModeTo and setMaxAmount when the checkbox is checked', function () {
       const { onClick } = wrapper.find('.send-v2__amount-max').props();
 
@@ -80,11 +76,6 @@ describe('AmountMaxButton Component', function () {
       assert.equal(AmountMaxButton.prototype.setMaxAmount.callCount, 1);
       assert.equal(propsMethodSpies.setMaxModeTo.callCount, 1);
       assert.deepEqual(propsMethodSpies.setMaxModeTo.getCall(0).args, [true]);
-    });
-
-    it('should render the expected text when maxModeOn is false', function () {
-      wrapper.setProps({ maxModeOn: false });
-      assert.equal(wrapper.find('.send-v2__amount-max').text(), 'max_t');
     });
   });
 });

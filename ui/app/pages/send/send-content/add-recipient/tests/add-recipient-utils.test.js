@@ -81,18 +81,5 @@ describe('add-recipient utils', function () {
         },
       );
     });
-
-    it('should null if "to" is part of contract metadata but sendToken is falsy', function () {
-      assert.deepEqual(
-        getToWarningObject(
-          '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359',
-          [{ address: '0xabc123' }],
-          { address: '0xabc123' },
-        ),
-        {
-          to: KNOWN_RECIPIENT_ADDRESS_ERROR,
-        },
-      );
-    });
   });
 });

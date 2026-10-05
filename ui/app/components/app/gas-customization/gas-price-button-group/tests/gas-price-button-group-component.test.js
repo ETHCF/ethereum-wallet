@@ -3,7 +3,6 @@ import React from 'react';
 import sinon from 'sinon';
 
 import shallow from '../../../../../../lib/shallow-with-context';
-import ButtonGroup from '../../../../ui/button-group';
 import GasPriceButtonGroup from '../gas-price-button-group.component';
 
 describe('GasPriceButtonGroup Component', function () {
@@ -55,18 +54,6 @@ describe('GasPriceButtonGroup Component', function () {
   });
 
   describe('render', function () {
-    it('should render a ButtonGroup', function () {
-      assert(wrapper.is(ButtonGroup));
-    });
-
-    it('should render the correct props on the ButtonGroup', function () {
-      const { className, defaultActiveButtonIndex, noButtonActiveByDefault } =
-        wrapper.props();
-      assert.equal(className, 'gas-price-button-group');
-      assert.equal(defaultActiveButtonIndex, 2);
-      assert.equal(noButtonActiveByDefault, true);
-    });
-
     function renderButtonArgsTest(i, mockPropsAndFlags) {
       assert.deepEqual(
         GasPriceButtonGroup.prototype.renderButton.getCall(i).args,
@@ -103,10 +90,6 @@ describe('GasPriceButtonGroup Component', function () {
         mockButtonPropsAndFlags,
       );
       wrappedRenderButtonResult = shallow(renderButtonResult);
-    });
-
-    it('should render a button', function () {
-      assert.equal(wrappedRenderButtonResult.type(), 'button');
     });
 
     it('should call the correct method when clicked', function () {

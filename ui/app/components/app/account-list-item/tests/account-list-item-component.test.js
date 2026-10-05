@@ -4,7 +4,6 @@ import React from 'react';
 import sinon from 'sinon';
 
 import * as utils from '../../../../helpers/utils/util';
-import Identicon from '../../../ui/identicon';
 import AccountListItem from '../account-list-item';
 
 describe('AccountListItem Component', function () {
@@ -60,25 +59,6 @@ describe('AccountListItem Component', function () {
       assert.deepEqual(propsMethodSpies.handleClick.getCall(0).args, [
         { address: 'mockAddress', name: 'mockName', balance: 'mockBalance' },
       ]);
-    });
-
-    it('should have a top row div', function () {
-      assert.equal(
-        wrapper.find('.mockClassName > .account-list-item__top-row').length,
-        1,
-      );
-      assert(
-        wrapper.find('.mockClassName > .account-list-item__top-row').is('div'),
-      );
-    });
-
-    it('should have an identicon, name and icon in the top row', function () {
-      const topRow = wrapper.find(
-        '.mockClassName > .account-list-item__top-row',
-      );
-      assert.equal(topRow.find(Identicon).length, 1);
-      assert.equal(topRow.find('.account-list-item__account-name').length, 1);
-      assert.equal(topRow.find('.account-list-item__icon').length, 1);
     });
 
     it('should show the account name if it exists', function () {

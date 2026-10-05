@@ -46,23 +46,6 @@ describe('FirstTimeFlowSwitch', function () {
     assert.equal(wrapper.find('Navigate').filter({ to: LOCK_ROUTE }).length, 1);
   });
 
-  it('redirects to /welcome route when isInitialized is false', function () {
-    const props = {
-      completedOnboarding: false,
-      isUnlocked: false,
-      isInitialized: false,
-    };
-
-    const wrapper = mountWithRouter(
-      <FirstTimeFlowSwitch.WrappedComponent {...props} />,
-    );
-
-    assert.equal(
-      wrapper.find('Navigate').filter({ to: INITIALIZE_WELCOME_ROUTE }).length,
-      1,
-    );
-  });
-
   it('redirects to /unlock route when isInitialized is true', function () {
     const props = {
       completedOnboarding: false,

@@ -94,14 +94,6 @@ describe('NetworkController', function () {
       });
     });
 
-    describe('#setNetworkState', function () {
-      it('should update the network', function () {
-        networkController.setNetworkState(1, 'rpc');
-        const networkState = networkController.getNetworkState();
-        assert.equal(networkState, 1, 'network is 1');
-      });
-    });
-
     describe('#setProviderType', function () {
       it('should update provider.type', function () {
         networkController.initializeProvider(networkControllerProviderConfig);

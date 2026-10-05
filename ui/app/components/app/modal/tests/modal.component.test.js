@@ -64,21 +64,6 @@ describe('Modal Component', function () {
     assert.equal(buttons.at(1).props().type, 'confirm');
   });
 
-  it('should render a modal with children', function () {
-    const wrapper = shallow(
-      <Modal
-        onCancel={() => undefined}
-        cancelText="Cancel"
-        onSubmit={() => undefined}
-        submitText="Submit"
-      >
-        <div className="test-child" />
-      </Modal>,
-    );
-
-    assert.ok(wrapper.find('.test-class'));
-  });
-
   it('should render a modal with a header', function () {
     const handleCancel = sinon.spy();
     const handleSubmit = sinon.spy();
@@ -93,7 +78,6 @@ describe('Modal Component', function () {
       />,
     );
 
-    assert.ok(wrapper.find('.modal-container__header'));
     assert.equal(
       wrapper.find('.modal-container__header-text').text(),
       'My Header',

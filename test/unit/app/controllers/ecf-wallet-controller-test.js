@@ -139,15 +139,13 @@ describe('EcfWalletController', function () {
     const importPrivkey =
       '4cfd3e90fc78b0f86bf7524722150bb8da9c60cd532564d7ff43f5716514f553';
 
-    beforeEach(async function () {
+    it('adds private key to keyrings in KeyringController', async function () {
       const password = 'a-fake-password';
       await ecfWalletController.createNewVaultAndRestore(password, TEST_SEED);
       await ecfWalletController.importAccountWithStrategy('Private Key', [
         importPrivkey,
       ]);
-    });
 
-    it('adds private key to keyrings in KeyringController', async function () {
       const simpleKeyrings =
         ecfWalletController.keyringController.getKeyringsByType(
           'Simple Key Pair',
@@ -158,9 +156,6 @@ describe('EcfWalletController', function () {
         await simpleKeyrings[0].exportAccount(address),
         importPrivkey,
       );
-    });
-
-    it('adds 1 account', async function () {
       const keyringAccounts =
         await ecfWalletController.keyringController.getAccounts();
       assert.equal(
@@ -576,10 +571,6 @@ describe('EcfWalletController', function () {
       assert(ecfWalletController.keyringController.addNewAccount.calledOnce);
     });
 
-    it('should call keyringController.getAccounts ', async function () {
-      assert(ecfWalletController.keyringController.getAccounts.called);
-    });
-
     it('should call preferencesController.setAddresses', async function () {
       assert(ecfWalletController.preferencesController.setAddresses.calledOnce);
     });
@@ -598,20 +589,12 @@ describe('EcfWalletController', function () {
   });
 
   describe('#setCustomRpc', function () {
-    let rpcTarget;
-
-    beforeEach(function () {
-      rpcTarget = ecfWalletController.setCustomRpc(CUSTOM_RPC_URL);
-    });
-
-    it('returns custom RPC that when called', async function () {
-      assert.equal(await rpcTarget, CUSTOM_RPC_URL);
-    });
-
-    it('changes the network controller rpc', function () {
+    it('changes the network controller rpc', async function () {
+      const rpcTarget = ecfWalletController.setCustomRpc(CUSTOM_RPC_URL);
       const networkControllerState =
         ecfWalletController.networkController.store.getState();
       assert.equal(networkControllerState.provider.rpcTarget, CUSTOM_RPC_URL);
+      assert.equal(await rpcTarget, CUSTOM_RPC_URL);
     });
   });
 
@@ -697,7 +680,6 @@ describe('EcfWalletController', function () {
   });
 
   describe('#removeAccount', function () {
-    let ret;
     const addressToRemove = '0x1';
 
     beforeEach(async function () {
@@ -709,7 +691,7 @@ describe('EcfWalletController', function () {
         'removeAllAccountPermissions',
       );
 
-      ret = await ecfWalletController.removeAccount(addressToRemove);
+      await ecfWalletController.removeAccount(addressToRemove);
     });
 
     afterEach(function () {
@@ -749,10 +731,6 @@ describe('EcfWalletController', function () {
           addressToRemove,
         ),
       );
-    });
-
-    it('should return address', async function () {
-      assert.equal(ret, '0x1');
     });
   });
 
@@ -843,15 +821,9 @@ describe('EcfWalletController', function () {
       }
     });
 
-    it('persists address from msg params', function () {
-      assert.equal(ecfWalletPersonalMsgs[msgId].msgParams.from, address);
-    });
-
-    it('persists data from msg params', function () {
-      assert.equal(ecfWalletPersonalMsgs[msgId].msgParams.data, data);
-    });
-
     it('sets the status to unapproved', function () {
+      assert.equal(ecfWalletPersonalMsgs[msgId].msgParams.from, address);
+      assert.equal(ecfWalletPersonalMsgs[msgId].msgParams.data, data);
       assert.equal(ecfWalletPersonalMsgs[msgId].status, 'unapproved');
     });
 

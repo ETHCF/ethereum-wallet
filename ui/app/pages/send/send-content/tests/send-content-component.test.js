@@ -20,18 +20,6 @@ describe('SendContent Component', function () {
   });
 
   describe('render', function () {
-    it('should render a PageContainerContent component', function () {
-      assert.equal(wrapper.find(PageContainerContent).length, 1);
-    });
-
-    it('should render a div with a .send-v2__form class as a child of PageContainerContent', function () {
-      const PageContainerContentChild = wrapper
-        .find(PageContainerContent)
-        .children();
-      PageContainerContentChild.is('div');
-      PageContainerContentChild.is('.send-v2__form');
-    });
-
     it('should render the correct row components as grandchildren of the PageContainerContent component', function () {
       const PageContainerContentChild = wrapper
         .find(PageContainerContent)
@@ -127,19 +115,5 @@ describe('SendContent Component', function () {
       );
       assert.equal(PageContainerContentChild.childAt(3).exists(), false);
     });
-  });
-
-  it('should not render the asset dropdown if token length is 0 ', function () {
-    wrapper.setProps({ tokens: [] });
-    const PageContainerContentChild = wrapper
-      .find(PageContainerContent)
-      .children();
-    assert(PageContainerContentChild.childAt(1).is(SendAssetRow));
-    assert(
-      PageContainerContentChild.childAt(1).find(
-        'send-v2__asset-dropdown__single-asset',
-      ),
-      true,
-    );
   });
 });

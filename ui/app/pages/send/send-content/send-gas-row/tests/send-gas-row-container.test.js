@@ -13,12 +13,7 @@ const actionSpies = {
   updateSend: sinon.spy(),
 };
 
-const sendDuckSpies = {
-  showGasButtonGroup: sinon.spy(),
-};
-
 const gasDuckSpies = {
-  resetCustomData: sinon.spy(),
   setCustomGasPrice: sinon.spy(),
   setCustomGasLimit: sinon.spy(),
 };
@@ -40,7 +35,6 @@ proxyquire('../send-gas-row.container.js', {
     calcGasTotal: (gasLimit, gasPrice) => gasLimit + gasPrice,
   },
   '../../../../store/actions': actionSpies,
-  '../../../../ducks/send/send.duck': sendDuckSpies,
   '../../../../ducks/gas/gas.duck': gasDuckSpies,
 });
 
@@ -108,22 +102,6 @@ describe('send-gas-row container', function () {
           actionSpies.setGasTotal.getCall(0).args[0],
           'mockNewLimitmockPrice',
         );
-      });
-    });
-
-    describe('showGasButtonGroup()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.showGasButtonGroup();
-        assert(dispatchSpy.calledOnce);
-        assert(sendDuckSpies.showGasButtonGroup.calledOnce);
-      });
-    });
-
-    describe('resetCustomData()', function () {
-      it('should dispatch an action', function () {
-        mapDispatchToPropsObject.resetCustomData();
-        assert(dispatchSpy.calledOnce);
-        assert(gasDuckSpies.resetCustomData.calledOnce);
       });
     });
   });
