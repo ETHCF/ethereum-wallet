@@ -117,7 +117,7 @@
         "@ethereumjs/rlp": true,
         "@ethereumjs/util": true,
         "@ethereumjs/tx>@noble/curves": true,
-        "@ethereumjs/tx>@noble/hashes": true
+        "@noble/hashes": true
       }
     },
     "@ethereumjs/tx-hardware": {
@@ -151,7 +151,7 @@
       "packages": {
         "@ethereumjs/rlp": true,
         "@ethereumjs/util>@noble/curves": true,
-        "@ethereumjs/util>@noble/hashes": true
+        "@noble/hashes": true
       }
     },
     "@ethereumjs/common-hardware>@ethereumjs/util": {
@@ -347,13 +347,13 @@
       "meta": {
         "webpack-optimization": [
           "Dependency '@ethereumjs/util' reexports from '@ethereumjs/rlp' and webpack collapsed that to a direct import.",
-          "Dependency '@ethereumjs/util' reexports from '@ethereumjs/util>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/util' reexports from '@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@ethereumjs/rlp": true,
         "@ethereumjs/util": true,
-        "@ethereumjs/util>@noble/hashes": true,
+        "@noble/hashes": true,
         "@ethereumjs/wallet>@scure/base": true,
         "@ethereumjs/wallet>ethereum-cryptography": true,
         "@ethereumjs/wallet>js-md5": true,
@@ -1149,12 +1149,12 @@
     },
     "@ethereumjs/tx>@noble/curves": {
       "packages": {
-        "@ethereumjs/tx>@noble/hashes": true
+        "@noble/hashes": true
       }
     },
     "@ethereumjs/util>@noble/curves": {
       "packages": {
-        "@ethereumjs/util>@noble/hashes": true
+        "@noble/hashes": true
       }
     },
     "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves": {
@@ -1171,18 +1171,6 @@
       }
     },
     "@noble/hashes": {
-      "globals": {
-        "TextEncoder": true,
-        "crypto": true
-      }
-    },
-    "@ethereumjs/tx>@noble/hashes": {
-      "globals": {
-        "TextEncoder": true,
-        "crypto": true
-      }
-    },
-    "@ethereumjs/util>@noble/hashes": {
       "globals": {
         "TextEncoder": true,
         "crypto": true
