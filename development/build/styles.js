@@ -2,7 +2,6 @@ const { promisify } = require('util')
 const gulp = require('gulp')
 const sass = require('gulp-sass')(require('sass'))
 const autoprefixer = require('gulp-autoprefixer')
-const gulpStylelint = require('gulp-stylelint')
 const watch = require('gulp-watch')
 const sourcemaps = require('gulp-sourcemaps')
 const rtlcss = require('gulp-rtlcss')
@@ -28,18 +27,7 @@ function createStyleTasks ({ livereload }) {
     pattern: 'ui/app/**/*.scss',
   }))
 
-  const lint = createTask('lint-scss', function () {
-    return gulp
-      .src('ui/app/css/itcss/**/*.scss')
-      .pipe(gulpStylelint({
-        reporters: [
-          { formatter: 'string', console: true },
-        ],
-        fix: true,
-      }))
-  })
-
-  return { prod, dev, lint }
+  return { prod, dev }
 
   function createScssBuildTask ({ src, dest, devMode, pattern }) {
     return async function () {

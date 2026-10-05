@@ -1,5 +1,5 @@
 import { Writable as WritableStream } from 'readable-stream'
-import promiseToCallback from 'promise-to-callback'
+import promiseToCallback from './promise-to-callback'
 
 class AsyncWritableStream extends WritableStream {
 

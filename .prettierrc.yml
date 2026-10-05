@@ -1,0 +1,7 @@
+# The same options @metamask/eslint-config gives Prettier, for editors and
+# the Prettier CLI.
+endOfLine: auto
+quoteProps: as-needed
+singleQuote: true
+tabWidth: 2
+trailingComma: all

@@ -1,4 +1,4 @@
-import promiseToCallback from 'promise-to-callback'
+import promiseToCallback from './promise-to-callback'
 
 const callbackNoop = function (err) {
   if (err) {
