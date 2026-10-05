@@ -44,9 +44,14 @@ reactReduxModule.exports = { ...reactReduxModule.exports }
 // loads every test file before running any, so it is listening by then; it
 // is stopped when the test process exits. A zero base fee keeps the low gas
 // prices the tests use valid, as on Ganache, which predated EIP-1559.
+// A chain that never starts used to surface as a dozen unrelated assertion
+// failures in whichever tests happened to need it, so fail loudly instead.
 new Anvil()
   .start({ blockTime: undefined, chainId: 1337, mnemonic: getTestSeed(), blockBaseFeePerGas: 0 })
-  .catch((error) => console.error('Anvil failed to start; run `yarn foundryup`.', error))
+  .catch((error) => {
+    console.error('Anvil failed to start; run `yarn foundryup`.', error)
+    process.exit(1)
+  })
 
 log.setDefaultLevel(5)
 global.log = log

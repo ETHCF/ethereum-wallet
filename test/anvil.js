@@ -16,6 +16,9 @@ const defaultOptions = {
   hardfork: 'muirglacier',
   mnemonic: 'phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent',
   port: 8545,
+  // The default 10s is enough on a warm machine but not on a cold CI runner,
+  // where the process start and the first block cost more.
+  startTimeout: 60000,
 }
 
 /**
