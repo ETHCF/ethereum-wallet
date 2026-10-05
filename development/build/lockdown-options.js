@@ -6,9 +6,11 @@
 // prototypes, ...), so a compromised dependency cannot tamper with built-ins
 // that wallet code relies on, for example to intercept keys or transaction data.
 module.exports = {
-  // Keep native console and error stacks for debugging.
-  consoleTaming: 'unsafe',
-  errorTaming: 'unsafe',
+  // Keep stack traces, and the paths and function names in them, out of reach
+  // of the code that runs. Development builds keep native console and error
+  // stacks for debugging (see webpack.config.js).
+  consoleTaming: 'safe',
+  errorTaming: 'safe',
   stackFiltering: 'verbose',
   // Let existing code assign properties that shadow frozen prototype
   // properties (for example `toString`), instead of throwing.

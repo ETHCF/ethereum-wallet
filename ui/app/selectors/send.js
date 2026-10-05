@@ -126,7 +126,7 @@ export function getUnapprovedTxs(state) {
 }
 
 export function getGasLoadingError(state) {
-  return state.send.errors.gasLoading;
+  return Boolean(state.send.errors.gasLoading);
 }
 
 export function gasFeeIsInError(state) {

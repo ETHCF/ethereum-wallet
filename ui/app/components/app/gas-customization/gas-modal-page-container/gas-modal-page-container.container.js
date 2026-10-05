@@ -189,6 +189,8 @@ const mapDispatchToProps = (dispatch) => {
     updateCustomGasLimit: (newLimit) =>
       dispatch(setCustomGasLimit(addHexPrefix(newLimit))),
     setGasData: (newLimit, newPrice) => {
+      // A limit the user chose replaces the estimate that failed.
+      dispatch(updateSendErrors({ gasLoading: null }));
       dispatch(setGasLimit(newLimit));
       dispatch(setGasPrice(newPrice));
       dispatch(updateSend({ gasPriceIsCustom: true }));

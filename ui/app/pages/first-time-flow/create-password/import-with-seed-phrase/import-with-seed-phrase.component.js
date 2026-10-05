@@ -9,6 +9,7 @@ import {
   INITIALIZE_SELECT_ACTION_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
 } from '../../../../helpers/constants/routes';
+import { SECRET_INPUT_PROPS } from '../../../../helpers/constants/secret-input';
 import { getTermsOfUseUrl } from '../../../../helpers/constants/terms-of-use';
 
 export default class ImportWithSeedPhrase extends PureComponent {
@@ -195,6 +196,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
           <label>{t('walletSeed')}</label>
           {showSeedPhrase ? (
             <textarea
+              {...SECRET_INPUT_PROPS}
               className="first-time-flow__textarea"
               onChange={(e) => this.handleSeedPhraseChange(e.target.value)}
               value={this.state.seedPhrase}
@@ -202,6 +204,7 @@ export default class ImportWithSeedPhrase extends PureComponent {
             />
           ) : (
             <TextField
+              {...SECRET_INPUT_PROPS}
               className="first-time-flow__textarea first-time-flow__seedphrase"
               type="password"
               onChange={(e) => this.handleSeedPhraseChange(e.target.value)}

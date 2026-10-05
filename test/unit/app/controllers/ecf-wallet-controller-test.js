@@ -427,18 +427,14 @@ describe('EcfWalletController', function () {
 
   describe('connectHardware', function () {
     it('should throw if it receives an unknown device name', async function () {
-      try {
-        await ecfWalletController.connectHardware(
+      await assert.rejects(
+        ecfWalletController.connectHardware(
           'Some random device name',
           0,
           `m/44/0'/0'`,
-        );
-      } catch (e) {
-        assert.equal(
-          e,
-          'Error: EcfWalletController:getKeyringForDevice - Unknown device',
-        );
-      }
+        ),
+        { message: 'EcfWalletController:getKeyringForDevice - Unknown device' },
+      );
     });
 
     it('should add the Trezor Hardware keyring', async function () {
@@ -472,17 +468,13 @@ describe('EcfWalletController', function () {
 
   describe('checkHardwareStatus', function () {
     it('should throw if it receives an unknown device name', async function () {
-      try {
-        await ecfWalletController.checkHardwareStatus(
+      await assert.rejects(
+        ecfWalletController.checkHardwareStatus(
           'Some random device name',
           `m/44/0'/0'`,
-        );
-      } catch (e) {
-        assert.equal(
-          e,
-          'Error: EcfWalletController:getKeyringForDevice - Unknown device',
-        );
-      }
+        ),
+        { message: 'EcfWalletController:getKeyringForDevice - Unknown device' },
+      );
     });
 
     it('should be locked by default', async function () {
@@ -494,14 +486,10 @@ describe('EcfWalletController', function () {
 
   describe('forgetDevice', function () {
     it('should throw if it receives an unknown device name', async function () {
-      try {
-        await ecfWalletController.forgetDevice('Some random device name');
-      } catch (e) {
-        assert.equal(
-          e,
-          'Error: EcfWalletController:getKeyringForDevice - Unknown device',
-        );
-      }
+      await assert.rejects(
+        ecfWalletController.forgetDevice('Some random device name'),
+        { message: 'EcfWalletController:getKeyringForDevice - Unknown device' },
+      );
     });
 
     it('should wipe all the keyring info', async function () {
@@ -628,23 +616,17 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('#verifySeedPhrase without a vault', function () {
+    it('errors when no keyring is provided', async function () {
+      await assert.rejects(ecfWalletController.verifySeedPhrase(), {
+        message: 'EcfWalletController - No HD Key Tree found',
+      });
+    });
+  });
+
   describe('#verifyseedPhrase', function () {
-    it('errors when no keying is provided', async function () {
-      try {
-        await ecfWalletController.verifySeedPhrase();
-      } catch (error) {
-        assert.equal(
-          error.message,
-          'EcfWalletController - No HD Key Tree found',
-        );
-      }
-    });
-
-    beforeEach(async function () {
-      await ecfWalletController.createNewVaultAndKeychain('password');
-    });
-
     it('#addNewAccount', async function () {
+      await ecfWalletController.createNewVaultAndKeychain('password');
       await ecfWalletController.addNewAccount();
       const getAccounts =
         await ecfWalletController.keyringController.getAccounts();

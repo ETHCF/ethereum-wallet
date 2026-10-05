@@ -10,6 +10,7 @@ import txHelper from '../../lib/tx-helper';
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account';
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/ecf-wallet/ecf-wallet';
 import { setCustomGasLimit } from '../ducks/gas/gas.duck';
+import { updateSendErrors } from '../ducks/send/send.duck';
 import { hasUnconfirmedTransactions } from '../helpers/utils/confirm-tx.util';
 import { fetchLocale } from '../helpers/utils/i18n-helper';
 import switchDirection from '../helpers/utils/switch-direction';
@@ -603,13 +604,16 @@ export function updateGasData({
       .then((gas) => {
         dispatch(setGasLimit(gas));
         dispatch(setCustomGasLimit(gas));
-        dispatch(updateSendErrors({ gasLoadingError: null }));
+        dispatch(updateSendErrors({ gasLoading: null }));
         dispatch(gasLoadingFinished());
         return undefined;
       })
       .catch((err) => {
         log.error(err);
-        dispatch(updateSendErrors({ gasLoadingError: 'gasLoadingError' }));
+        // The gas limit was not estimated, so sending would use whatever it
+        // was before, which may be far too low. Hold the form until a later
+        // estimate succeeds or the user sets a limit.
+        dispatch(updateSendErrors({ gasLoading: 'gasEstimateFailed' }));
         dispatch(gasLoadingFinished());
       });
   };
@@ -642,15 +646,7 @@ export function updateSendTokenBalance({ sendToken, tokenContract, address }) {
       })
       .catch((err) => {
         log.error(err);
-        updateSendErrors({ tokenBalance: 'tokenBalanceError' });
       });
-  };
-}
-
-export function updateSendErrors(errorObject) {
-  return {
-    type: actionConstants.UPDATE_SEND_ERRORS,
-    value: errorObject,
   };
 }
 

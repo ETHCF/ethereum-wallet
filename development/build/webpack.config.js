@@ -88,11 +88,14 @@ module.exports = function createWebpackConfigs({
   generatePolicy = false,
   conf = {},
 }) {
-  // The e2e tests drive extension pages with WebDriver's executeScript, which
-  // evaluates its scripts through the page's Function constructor.
-  const lockdown = testing
-    ? { ...lockdownOptions, evalTaming: 'unsafe-eval' }
-    : lockdownOptions;
+  const lockdown = {
+    ...lockdownOptions,
+    // Native console and error stacks for debugging.
+    ...(devMode ? { consoleTaming: 'unsafe', errorTaming: 'unsafe' } : {}),
+    // The e2e tests drive extension pages with WebDriver's executeScript,
+    // which evaluates its scripts through the page's Function constructor.
+    ...(testing ? { evalTaming: 'unsafe-eval' } : {}),
+  };
   // Runs first in each sandboxed bundle. LavaMoat locks down before any module
   // runs; without it, lockdown-dev.js does.
   const sandboxed = (entry) => [

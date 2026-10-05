@@ -17,11 +17,10 @@ describe('txUtils', function () {
         from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
         value: '-0x01',
       };
-      try {
-        txUtils.validateTxParams(sample);
-      } catch (err) {
-        assert.ok(err, 'error');
-      }
+      assert.throws(
+        () => txUtils.validateTxParams(sample),
+        /not a positive number/u,
+      );
     });
   });
 

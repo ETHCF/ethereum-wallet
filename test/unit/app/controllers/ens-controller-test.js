@@ -63,7 +63,7 @@ describe('EnsController', function () {
       assert.strictEqual(name, undefined);
     });
 
-    it('should throw an error when the lookup resolves to the zero address', async function () {
+    it('gives no name when the lookup resolves to the zero address', async function () {
       const address = '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5';
       const networkStore = {
         subscribe: sinon.spy(),
@@ -76,15 +76,12 @@ describe('EnsController', function () {
         networkStore,
       });
 
-      try {
-        await ens.reverseResolveAddress(address);
-        assert.fail('#reverseResolveAddress did not throw');
-      } catch (e) {
-        assert.ok(e);
-      }
+      assert.strictEqual(await ens.reverseResolveAddress(address), undefined);
+      // Nothing is recorded for the UI to show next to the address.
+      assert.deepEqual(ens.store.getState().ensResolutionsByAddress, {});
     });
 
-    it('should throw an error the lookup resolves to the zero x address', async function () {
+    it('gives no name when the lookup resolves to the zero x address', async function () {
       const address = '0x8e5d75d60224ea0c33d0041e75de68b1c3cb6dd5';
       const networkStore = {
         subscribe: sinon.spy(),
@@ -100,12 +97,9 @@ describe('EnsController', function () {
         networkStore,
       });
 
-      try {
-        await ens.reverseResolveAddress(address);
-        assert.fail('#reverseResolveAddress did not throw');
-      } catch (e) {
-        assert.ok(e);
-      }
+      assert.strictEqual(await ens.reverseResolveAddress(address), undefined);
+      // Nothing is recorded for the UI to show next to the address.
+      assert.deepEqual(ens.store.getState().ensResolutionsByAddress, {});
     });
   });
 });

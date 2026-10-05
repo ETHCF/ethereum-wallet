@@ -15,6 +15,25 @@ function shallowRender(props = {}, context = {}) {
 }
 
 describe('ImportWithSeedPhrase Component', function () {
+  it('never spell checks or autocompletes the seed phrase, shown or masked', function () {
+    const root = shallowRender({ onSubmit: sinon.spy() });
+    const fields = () => [
+      ...root.find('textarea'),
+      ...root.find('.first-time-flow__seedphrase'),
+    ];
+    for (const showSeedPhrase of [false, true]) {
+      root.setState({ showSeedPhrase });
+      assert.equal(fields().length, 1);
+      const field = root.find(
+        showSeedPhrase ? 'textarea' : '.first-time-flow__seedphrase',
+      );
+      assert.equal(field.prop('spellCheck'), false);
+      assert.equal(field.prop('autoComplete'), 'off');
+      assert.equal(field.prop('autoCorrect'), 'off');
+      assert.equal(field.prop('autoCapitalize'), 'off');
+    }
+  });
+
   describe('parseSeedPhrase', function () {
     it('should handle a regular seed phrase', function () {
       const root = shallowRender({

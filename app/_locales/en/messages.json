@@ -559,6 +559,9 @@
   "functionType": {
     "message": "Function Type"
   },
+  "gasEstimateFailed": {
+    "message": "Couldn't estimate the gas this transaction needs, so it could fail. Check your network connection, or set a gas limit yourself."
+  },
   "gasLimit": {
     "message": "Gas Limit"
   },
@@ -1147,6 +1150,10 @@
   },
   "somethingWentWrong": {
     "message": "Oops! Something went wrong."
+  },
+  "spenderWithColon": {
+    "message": "Spender:",
+    "description": "Labels the address an approval lets spend the user's tokens"
   },
   "speedUp": {
     "message": "Speed Up"

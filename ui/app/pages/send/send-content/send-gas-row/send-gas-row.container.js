@@ -98,6 +98,8 @@ function mapDispatchToProps(dispatch) {
       }
     },
     setGasLimit: (newLimit, gasPrice) => {
+      // A limit the user chose replaces the estimate that failed.
+      dispatch(updateSendErrors({ gasLoading: null }));
       dispatch(setGasLimit(newLimit));
       dispatch(setCustomGasLimit(newLimit));
       if (gasPrice) {

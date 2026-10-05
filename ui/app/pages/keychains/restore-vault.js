@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Button from '../../components/ui/button';
 import TextField from '../../components/ui/text-field';
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes';
+import { SECRET_INPUT_PROPS } from '../../helpers/constants/secret-input';
 import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   createNewVaultAndRestore,
@@ -25,6 +26,7 @@ class RestoreVaultPage extends Component {
 
   state = {
     seedPhrase: '',
+    showSeedPhrase: false,
     password: '',
     confirmPassword: '',
     seedPhraseError: null,
@@ -48,6 +50,12 @@ class RestoreVaultPage extends Component {
 
     this.setState({ seedPhrase, seedPhraseError });
   }
+
+  toggleShowSeedPhrase = () => {
+    this.setState(({ showSeedPhrase }) => ({
+      showSeedPhrase: !showSeedPhrase,
+    }));
+  };
 
   handlePasswordChange(password) {
     const { confirmPassword } = this.state;
@@ -137,12 +145,48 @@ class RestoreVaultPage extends Component {
             </div>
             <div className="import-account__input-wrapper">
               <label className="import-account__input-label">Wallet Seed</label>
-              <textarea
-                className="import-account__secret-phrase"
-                onChange={(e) => this.handleSeedPhraseChange(e.target.value)}
-                value={this.state.seedPhrase}
-                placeholder={this.context.t('separateEachWord')}
-              />
+              {this.state.showSeedPhrase ? (
+                <textarea
+                  {...SECRET_INPUT_PROPS}
+                  className="import-account__secret-phrase"
+                  onChange={(e) => this.handleSeedPhraseChange(e.target.value)}
+                  value={this.state.seedPhrase}
+                  placeholder={this.context.t('separateEachWord')}
+                />
+              ) : (
+                <TextField
+                  {...SECRET_INPUT_PROPS}
+                  id="seed-phrase"
+                  type="password"
+                  className="first-time-flow__textarea first-time-flow__seedphrase"
+                  onChange={(e) => this.handleSeedPhraseChange(e.target.value)}
+                  value={this.state.seedPhrase}
+                  placeholder={this.context.t('seedPhrasePlaceholderPaste')}
+                />
+              )}
+              <div
+                className="first-time-flow__checkbox-container"
+                onClick={this.toggleShowSeedPhrase}
+              >
+                <div
+                  className="first-time-flow__checkbox"
+                  tabIndex="0"
+                  role="checkbox"
+                  onKeyPress={this.toggleShowSeedPhrase}
+                  aria-checked={this.state.showSeedPhrase}
+                  aria-labelledby="restore-show-seed-label"
+                >
+                  {this.state.showSeedPhrase ? (
+                    <i className="fa fa-check fa-2x" />
+                  ) : null}
+                </div>
+                <span
+                  id="restore-show-seed-label"
+                  className="first-time-flow__checkbox-label"
+                >
+                  {this.context.t('showSeedPhrase')}
+                </span>
+              </div>
             </div>
             <span className="error">{seedPhraseError}</span>
             <TextField
@@ -187,6 +231,9 @@ class RestoreVaultPage extends Component {
     );
   }
 }
+
+// For tests, without the store and router.
+export { RestoreVaultPage as UnconnectedRestoreVaultPage };
 
 export default withRouter(
   connect(

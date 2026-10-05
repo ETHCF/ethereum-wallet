@@ -8,6 +8,11 @@ import sinon from 'sinon';
 import enLocale from '../../../../app/_locales/en/messages.json';
 import EcfWalletController from '../../../../app/scripts/ecf-wallet-controller';
 import KeyringController from '../../../../app/scripts/lib/modern-keyring-controller';
+import sendReducer from '../../../../ui/app/ducks/send/send.duck';
+import {
+  getGasLoadingError,
+  isSendFormInError,
+} from '../../../../ui/app/selectors/send';
 import * as actions from '../../../../ui/app/store/actions';
 import { createTestProviderTools } from '../../../stub/provider';
 import firstTimeState from '../../localhostState';
@@ -97,12 +102,10 @@ describe('Actions', function () {
         callback(new Error('error in submitPassword'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.tryUnlockEcfWallet('test'));
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
 
     it('stays unlocked when verifySeedPhrase fails, since the vault is already open', async function () {
@@ -147,12 +150,10 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.createNewVaultAndRestore());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -186,12 +187,10 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.requestRevealSeedWords());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -238,15 +237,13 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(
           actions.removeAccount('0xe18035bf8712672935fdb4e5e431b1a0183d2dfc'),
         );
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        const actionTypes = store.getActions().map((action) => action.type);
-        assert.deepEqual(actionTypes, expectedActions);
-      }
+      });
+      const actionTypes = store.getActions().map((action) => action.type);
+      assert.deepEqual(actionTypes, expectedActions);
     });
   });
 
@@ -287,12 +284,10 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.resetAccount());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -339,12 +334,10 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.importNewAccount());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -372,12 +365,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.checkHardwareStatus());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -394,12 +385,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.forgetDevice());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -416,12 +405,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.connectHardware());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -438,12 +425,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.unlockHardwareWalletAccount());
-        assert.fail('Should have thrown error');
-      } catch (error) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -495,17 +480,15 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(
           actions.signPersonalMsg({
             ...msgParams,
             ecfWalletId: parseInt(msgId, 10),
           }),
         );
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -521,12 +504,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.signTypedMsg());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -564,20 +545,11 @@ describe('Actions', function () {
   });
 
   describe('#updatedGasData', function () {
-    it('errors when get code does not return', async function () {
+    it('holds the send form when the gas limit cannot be estimated', async function () {
       const getCode = sinon
         .stub(global.ethQuery, 'getCode')
         .callsArgWith(1, new Error('getCode failed'));
       const store = mockStore();
-
-      const expectedActions = [
-        { type: 'GAS_LOADING_STARTED' },
-        {
-          type: 'UPDATE_SEND_ERRORS',
-          value: { gasLoadingError: 'gasLoadingError' },
-        },
-        { type: 'GAS_LOADING_FINISHED' },
-      ];
 
       const mockData = {
         gasPrice: '0x3b9aca00', //
@@ -589,12 +561,22 @@ describe('Actions', function () {
 
       try {
         await store.dispatch(actions.updateGasData(mockData));
-        assert.fail('Should have thrown error');
-      } catch (error) {
-        assert.deepEqual(store.getActions(), expectedActions);
       } finally {
         getCode.restore();
       }
+      const actionsDispatched = store.getActions();
+      assert.deepEqual(actionsDispatched, [
+        { type: 'GAS_LOADING_STARTED' },
+        {
+          type: 'ecf-wallet/send/UPDATE_SEND_ERRORS',
+          value: { gasLoading: 'gasEstimateFailed' },
+        },
+        { type: 'GAS_LOADING_FINISHED' },
+      ]);
+      // The send reducer handles it, so the form shows the error and is held.
+      const sendState = actionsDispatched.reduce(sendReducer, undefined);
+      assert.equal(isSendFormInError({ send: sendState }), true);
+      assert.equal(getGasLoadingError({ send: sendState }), true);
     });
 
     it('returns default gas limit for basic eth transaction', async function () {
@@ -615,7 +597,10 @@ describe('Actions', function () {
         { type: 'GAS_LOADING_STARTED' },
         { type: 'UPDATE_GAS_LIMIT', value: '0x5208' },
         { type: 'ecf-wallet/gas/SET_CUSTOM_GAS_LIMIT', value: '0x5208' },
-        { type: 'UPDATE_SEND_ERRORS', value: { gasLoadingError: null } },
+        {
+          type: 'ecf-wallet/send/UPDATE_SEND_ERRORS',
+          value: { gasLoading: null },
+        },
         { type: 'GAS_LOADING_FINISHED' },
       ];
 
@@ -702,12 +687,9 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
-        await store.dispatch(actions.updateTransaction(txData));
-        assert.fail('Should have thrown error');
-      } catch (error) {
-        assert.equal(error.message, 'error');
-      }
+      await assert.rejects(store.dispatch(actions.updateTransaction(txData)), {
+        message: 'error',
+      });
     });
   });
 
@@ -727,7 +709,7 @@ describe('Actions', function () {
       assert(backgroundSetLockedSpy.calledOnce);
     });
 
-    it('returns display warning error with value when setLocked in background callback errors', async function () {
+    it('shows a warning but still locks the UI when the background cannot lock', async function () {
       const store = mockStore();
 
       const expectedActions = [
@@ -741,12 +723,9 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
-        await store.dispatch(actions.lockEcfWallet());
-        assert.fail('Should have thrown error');
-      } catch (error) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      // It resolves: the UI locks either way.
+      await store.dispatch(actions.lockEcfWallet());
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -797,12 +776,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.addToken());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -816,12 +793,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.removeToken());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -915,17 +890,15 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(
           actions.exportAccount(
             password,
             '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
           ),
         );
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
 
     it('returns action errors when second func callback errors', async function () {
@@ -944,17 +917,15 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(
           actions.exportAccount(
             password,
             '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
           ),
         );
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -986,12 +957,10 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      try {
+      await assert.rejects(async () => {
         await store.dispatch(actions.setFeatureFlag());
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      });
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 
@@ -1041,7 +1010,7 @@ describe('Actions', function () {
       assert.deepEqual(store.getActions(), expectedActions);
     });
 
-    it('errors when setCurrentLocale throws', async function () {
+    it('shows a warning and keeps the locale when setCurrentLocale fails', async function () {
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
@@ -1053,12 +1022,8 @@ describe('Actions', function () {
         callback(new Error('error'));
       });
 
-      try {
-        await store.dispatch(actions.updateCurrentLocale('en'));
-        assert.fail('Should have thrown error');
-      } catch (_) {
-        assert.deepEqual(store.getActions(), expectedActions);
-      }
+      await store.dispatch(actions.updateCurrentLocale('en'));
+      assert.deepEqual(store.getActions(), expectedActions);
     });
   });
 

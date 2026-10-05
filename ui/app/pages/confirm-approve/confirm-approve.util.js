@@ -1,3 +1,5 @@
+import { BigNumber } from 'bignumber.js';
+
 import { decimalToHex } from '../../helpers/utils/conversions.util';
 import { calcTokenValue } from '../../helpers/utils/token-util';
 import { getTokenData } from '../../helpers/utils/transactions.util';
@@ -42,4 +44,33 @@ export function getCustomTxParamsData(
   );
   const customTxParamsData = `${signature}${spender}${customPermissionValue}`;
   return customTxParamsData;
+}
+
+// Allowances at or above 2^128 base units are far beyond any real token
+// supply, so they amount to an unlimited allowance, as the background's
+// security checks also treat them.
+const UNLIMITED_BASE_UNITS = new BigNumber(2).pow(128);
+
+/**
+ * Formats an allowance for the user to approve: the exact amount, never
+ * rounded or in exponent form, or "Unlimited" for one that is unlimited in
+ * effect.
+ *
+ * @param {string} amount - The allowance in whole tokens, as a decimal string
+ * @param {number} decimals - The token's decimals
+ * @param {Function} t - Translates a locale key
+ * @returns {string} The amount to show
+ */
+export function formatApprovalAmount(amount, decimals, t) {
+  if (!amount) {
+    return '';
+  }
+  try {
+    if (calcTokenValue(amount, decimals).gte(UNLIMITED_BASE_UNITS)) {
+      return t('unlimited');
+    }
+    return new BigNumber(amount).toFixed();
+  } catch (_) {
+    return String(amount);
+  }
 }

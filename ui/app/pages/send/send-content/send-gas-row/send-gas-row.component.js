@@ -136,13 +136,13 @@ export default class SendGasRow extends Component {
   }
 
   render() {
-    const { gasFeeError } = this.props;
+    const { gasFeeError, gasLoadingError } = this.props;
 
     return (
       <SendRowWrapper
         label={`${this.context.t('transactionFee')}:`}
-        showError={gasFeeError}
-        errorType="gasFee"
+        showError={gasFeeError || gasLoadingError}
+        errorType={gasFeeError ? 'gasFee' : 'gasLoading'}
       >
         {this.renderContent()}
       </SendRowWrapper>

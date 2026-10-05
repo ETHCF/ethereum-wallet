@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import ConfirmApproveContent from './confirm-approve-content';
-import { getCustomTxParamsData } from './confirm-approve.util';
+import {
+  formatApprovalAmount,
+  getCustomTxParamsData,
+} from './confirm-approve.util';
 import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
 import {
   calcTokenAmount,
@@ -11,6 +14,7 @@ import {
   getTokenValue,
 } from '../../helpers/utils/token-util';
 import { getTokenData } from '../../helpers/utils/transactions.util';
+import { useI18nContext } from '../../hooks/useI18nContext';
 import { useTokenTracker } from '../../hooks/useTokenTracker';
 import {
   transactionFeeSelector,
@@ -23,6 +27,7 @@ import { showModal } from '../../store/actions';
 import ConfirmTransactionBase from '../confirm-transaction-base';
 
 export default function ConfirmApprove() {
+  const t = useI18nContext();
   const dispatch = useDispatch();
   const { id: paramsTransactionId } = useParams();
   const { id: transactionId, txParams: { to: tokenAddress, data } = {} } =
@@ -76,7 +81,7 @@ export default function ConfirmApprove() {
 
   const { icon: siteImage = '' } = domainMetadata[origin] || {};
 
-  const tokensText = `${Number(tokenAmount)} ${tokenSymbol}`;
+  const tokensText = `${formatApprovalAmount(tokenAmount, decimals, t)} ${tokenSymbol}`;
   const tokenBalance = tokenTrackerBalance
     ? calcTokenAmount(tokenTrackerBalance, decimals).toString(10)
     : '';

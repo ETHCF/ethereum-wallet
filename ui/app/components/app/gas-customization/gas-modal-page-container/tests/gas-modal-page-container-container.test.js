@@ -25,6 +25,7 @@ const confirmTransactionActionSpies = {
 
 const sendActionSpies = {
   hideGasButtonGroup: sinon.spy(),
+  updateSendErrors: sinon.spy(),
 };
 
 proxyquire('../gas-modal-page-container.container.js', {
@@ -274,7 +275,11 @@ describe('gas-modal-page-container container', function () {
     describe('setGasData()', function () {
       it('should dispatch a setGasPrice and setGasLimit action with the correct props', function () {
         mapDispatchToPropsObject.setGasData('ffff', 'aaaa');
-        assert(dispatchSpy.calledThrice);
+        assert.equal(dispatchSpy.callCount, 4);
+        // A limit the user chose replaces a failed estimate.
+        assert.deepEqual(sendActionSpies.updateSendErrors.lastCall.args[0], {
+          gasLoading: null,
+        });
         // The user chose this price.
         assert.deepEqual(actionSpies.updateSend.getCall(0).args[0], {
           gasPriceIsCustom: true,

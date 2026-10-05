@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import Identicon from '../../../components/ui/identicon';
 import { checksumAddress } from '../../../helpers/utils/util';
+import { formatApprovalAmount } from '../confirm-approve.util';
 
 export default class ConfirmApproveContent extends Component {
   static contextTypes = {
@@ -89,8 +90,14 @@ export default class ConfirmApproveContent extends Component {
 
   renderPermissionContent() {
     const { t } = this.context;
-    const { customTokenAmount, tokenAmount, tokenSymbol, origin, toAddress } =
-      this.props;
+    const {
+      customTokenAmount,
+      decimals,
+      tokenAmount,
+      tokenSymbol,
+      origin,
+      toAddress,
+    } = this.props;
 
     return (
       <div className="flex-column">
@@ -101,7 +108,7 @@ export default class ConfirmApproveContent extends Component {
           <div className="confirm-approve-content__label">
             {t('amountWithColon')}
           </div>
-          <div className="confirm-approve-content__medium-text">{`${Number(customTokenAmount || tokenAmount)} ${tokenSymbol}`}</div>
+          <div className="confirm-approve-content__medium-text">{`${formatApprovalAmount(customTokenAmount || tokenAmount, decimals, t)} ${tokenSymbol}`}</div>
         </div>
         <div className="flex-row">
           <div className="confirm-approve-content__label">
@@ -143,6 +150,7 @@ export default class ConfirmApproveContent extends Component {
       showEditApprovalPermissionModal,
       setCustomAmount,
       tokenBalance,
+      toAddress,
     } = this.props;
     const { showFullTxDetails } = this.state;
 
@@ -165,6 +173,26 @@ export default class ConfirmApproveContent extends Component {
         </div>
         <div className="confirm-approve-content__description">
           {t('trustSiteApprovePermission', [origin, tokenSymbol])}
+        </div>
+        <div className="confirm-approve-content__spender">
+          <div className="confirm-approve-content__label">
+            {t('spenderWithColon')}
+          </div>
+          <div
+            className="confirm-approve-content__medium-text"
+            data-testid="approve-spender"
+          >
+            {checksumAddress(toAddress)}
+          </div>
+          <div className="confirm-approve-content__label">
+            {t('amountWithColon')}
+          </div>
+          <div
+            className="confirm-approve-content__medium-text"
+            data-testid="approve-amount"
+          >
+            {`${formatApprovalAmount(customTokenAmount || tokenAmount, decimals, t)} ${tokenSymbol}`}
+          </div>
         </div>
         <div className="confirm-approve-content__edit-submission-button-container">
           <div

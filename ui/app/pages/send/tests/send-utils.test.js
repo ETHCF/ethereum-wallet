@@ -404,14 +404,13 @@ describe('send utils', function () {
     });
 
     it(`should reject other errors`, async function () {
-      try {
-        await estimateGas({
+      await assert.rejects(
+        estimateGas({
           ...baseMockParams,
           to: 'isContract willFailBecauseOf:some other error',
-        });
-      } catch (err) {
-        assert.equal(err.message, 'some other error');
-      }
+        }),
+        { message: 'some other error' },
+      );
     });
   });
 

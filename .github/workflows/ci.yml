@@ -42,6 +42,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+      # The committed LavaMoat policies must be the ones this code and a clean
+      # install of the lockfile produce, or the build would sandbox with stale
+      # permissions.
+      - run: yarn lavamoat:policy
+      - name: Check the LavaMoat policies are up to date
+        run: |
+          if [ -n "$(git status --porcelain -- lavamoat)" ]; then
+            git status --short -- lavamoat
+            git diff -- lavamoat
+            echo "::error::The LavaMoat policies are out of date. Run 'yarn lavamoat:policy' after a clean 'yarn install --frozen-lockfile', review the changes and commit them."
+            exit 1
+          fi
       - run: yarn dist
       # The hash the About screen shows must match what was built.
       - run: yarn verify-build

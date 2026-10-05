@@ -24,12 +24,9 @@ describe('fetchWithTimeout', function () {
       timeout: 123,
     });
 
-    try {
+    await assert.rejects(async () => {
       await fetch('https://api.infura.io/moon').then((r) => r.json());
-      assert.fail('Request should throw');
-    } catch (e) {
-      assert.ok(e);
-    }
+    });
   });
 
   it('should abort the request when the custom timeout is hit', async function () {
@@ -42,11 +39,11 @@ describe('fetchWithTimeout', function () {
       timeout: 123,
     });
 
-    try {
-      await fetch('https://api.infura.io/moon').then((r) => r.json());
-      assert.fail('Request should be aborted');
-    } catch (e) {
-      assert.deepEqual(e.message, 'Aborted');
-    }
+    await assert.rejects(
+      async () => {
+        await fetch('https://api.infura.io/moon').then((r) => r.json());
+      },
+      { message: 'Aborted' },
+    );
   });
 });

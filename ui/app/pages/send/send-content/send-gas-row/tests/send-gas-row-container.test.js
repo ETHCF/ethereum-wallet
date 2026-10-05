@@ -87,7 +87,11 @@ describe('send-gas-row container', function () {
     describe('setGasLimit()', function () {
       it('should dispatch an action', function () {
         mapDispatchToPropsObject.setGasLimit('mockNewLimit', 'mockPrice');
-        assert(dispatchSpy.calledThrice);
+        assert.equal(dispatchSpy.callCount, 4);
+        // A limit the user chose replaces a failed estimate.
+        assert.deepEqual(dispatchSpy.getCall(0).args[0].value, {
+          gasLoading: null,
+        });
         assert(actionSpies.setGasLimit.calledOnce);
         assert.equal(
           actionSpies.setGasLimit.getCall(0).args[0],
