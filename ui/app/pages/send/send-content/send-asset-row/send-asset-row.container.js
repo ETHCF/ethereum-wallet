@@ -1,21 +1,25 @@
-import { connect } from 'react-redux'
-import { getEcfWalletAccounts, getSendTokenAddress } from '../../../../selectors'
-import { updateSendToken } from '../../../../store/actions'
-import SendAssetRow from './send-asset-row.component'
+import { connect } from 'react-redux';
 
-function mapStateToProps (state) {
+import SendAssetRow from './send-asset-row.component';
+import {
+  getEcfWalletAccounts,
+  getSendTokenAddress,
+} from '../../../../selectors';
+import { updateSendToken } from '../../../../store/actions';
+
+function mapStateToProps(state) {
   return {
     tokens: state.ecfWallet.tokens,
     selectedAddress: state.ecfWallet.selectedAddress,
     sendTokenAddress: getSendTokenAddress(state),
     accounts: getEcfWalletAccounts(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     setSendToken: (token) => dispatch(updateSendToken(token)),
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendAssetRow)
+export default connect(mapStateToProps, mapDispatchToProps)(SendAssetRow);

@@ -1,159 +1,178 @@
-import assert from 'assert'
-import EventEmitter from 'events'
-import { ComposedStore, ObservableStore } from '@metamask/obs-store'
-import EthQuery from '@metamask/eth-query'
-import { JsonRpcEngine } from '@metamask/json-rpc-engine'
-import log from 'loglevel'
-import { createSwappableProxy, createEventEmitterProxy } from '@metamask/swappable-obj-proxy'
-import createEcfWalletMiddleware from './createEcfWalletMiddleware'
-import providerFromEngine from './provider-from-engine'
-import createBuiltInClient from './createBuiltInClient'
-import createJsonRpcClient from './createJsonRpcClient'
-import createLocalhostClient from './createLocalhostClient'
+import EthQuery from '@metamask/eth-query';
+import { JsonRpcEngine } from '@metamask/json-rpc-engine';
+import { ComposedStore, ObservableStore } from '@metamask/obs-store';
+import {
+  createSwappableProxy,
+  createEventEmitterProxy,
+} from '@metamask/swappable-obj-proxy';
+import assert from 'assert';
+import EventEmitter from 'events';
+import log from 'loglevel';
 
-import { normalizeChainId } from './chain-utils'
+import { normalizeChainId } from './chain-utils';
+import createBuiltInClient from './createBuiltInClient';
+import createEcfWalletMiddleware from './createEcfWalletMiddleware';
+import createJsonRpcClient from './createJsonRpcClient';
+import createLocalhostClient from './createLocalhostClient';
 import {
   SEPOLIA,
   MAINNET,
   LOCALHOST,
   BUILT_IN_NETWORKS,
   BUILT_IN_NETWORK_TYPES,
-} from './enums'
+} from './enums';
+import providerFromEngine from './provider-from-engine';
 
-const networks = { networkList: {} }
+const networks = { networkList: {} };
 
-const env = process.env.ECF_WALLET_ENV
+const env = process.env.ECF_WALLET_ENV;
 
-let defaultProviderConfigType
+let defaultProviderConfigType;
 if (process.env.IN_TEST === 'true') {
-  defaultProviderConfigType = LOCALHOST
+  defaultProviderConfigType = LOCALHOST;
 } else if (process.env.ECF_WALLET_DEBUG || env === 'test') {
-  defaultProviderConfigType = SEPOLIA
+  defaultProviderConfigType = SEPOLIA;
 } else {
-  defaultProviderConfigType = MAINNET
+  defaultProviderConfigType = MAINNET;
 }
 
 const defaultProviderConfig = {
   type: defaultProviderConfigType,
-}
+};
 
 const defaultNetworkConfig = {
   ticker: 'ETH',
-}
+};
 
 export default class NetworkController extends EventEmitter {
-
-  constructor (opts = {}) {
-    super()
+  constructor(opts = {}) {
+    super();
 
     // parse options
-    const providerConfig = opts.provider || defaultProviderConfig
+    const providerConfig = opts.provider || defaultProviderConfig;
     // create stores
-    this.providerStore = new ObservableStore(providerConfig)
-    this.networkStore = new ObservableStore('loading')
-    this.networkConfig = new ObservableStore(defaultNetworkConfig)
-    this.store = new ComposedStore({ provider: this.providerStore, network: this.networkStore, settings: this.networkConfig })
-    this.on('networkDidChange', this.lookupNetwork)
+    this.providerStore = new ObservableStore(providerConfig);
+    this.networkStore = new ObservableStore('loading');
+    this.networkConfig = new ObservableStore(defaultNetworkConfig);
+    this.store = new ComposedStore({
+      provider: this.providerStore,
+      network: this.networkStore,
+      settings: this.networkConfig,
+    });
+    this.on('networkDidChange', this.lookupNetwork);
     // provider and block tracker
-    this._provider = null
-    this._blockTracker = null
+    this._provider = null;
+    this._blockTracker = null;
     // provider and block tracker proxies - because the network changes
-    this._providerProxy = null
-    this._blockTrackerProxy = null
+    this._providerProxy = null;
+    this._blockTrackerProxy = null;
   }
 
-  initializeProvider (providerParams) {
-    this._baseProviderParams = providerParams
-    const { type, rpcTarget, chainId, ticker, nickname } = this.providerStore.getState()
-    this._configureProvider({ type, rpcTarget, chainId, ticker, nickname })
-    this.lookupNetwork()
+  initializeProvider(providerParams) {
+    this._baseProviderParams = providerParams;
+    const { type, rpcTarget, chainId, ticker, nickname } =
+      this.providerStore.getState();
+    this._configureProvider({ type, rpcTarget, chainId, ticker, nickname });
+    this.lookupNetwork();
   }
 
   // return the proxies so the references will always be good
-  getProviderAndBlockTracker () {
-    const provider = this._providerProxy
-    const blockTracker = this._blockTrackerProxy
-    return { provider, blockTracker }
+  getProviderAndBlockTracker() {
+    const provider = this._providerProxy;
+    const blockTracker = this._blockTrackerProxy;
+    return { provider, blockTracker };
   }
 
-  verifyNetwork () {
+  verifyNetwork() {
     // Check network when restoring connectivity:
     if (this.isNetworkLoading()) {
-      this.lookupNetwork()
+      this.lookupNetwork();
     }
   }
 
-  getNetworkState () {
-    return this.networkStore.getState()
+  getNetworkState() {
+    return this.networkStore.getState();
   }
 
-  getChainId () {
-    return this._chainId
+  getChainId() {
+    return this._chainId;
   }
 
-  getNetworkConfig () {
-    return this.networkConfig.getState()
+  getNetworkConfig() {
+    return this.networkConfig.getState();
   }
 
-  setNetworkState (network, type) {
+  setNetworkState(network, type) {
     if (network === 'loading') {
-      this.networkStore.putState(network)
-      return
+      this.networkStore.putState(network);
+      return;
     }
 
     // type must be defined
     if (!type) {
-      return
+      return;
     }
-    this.networkStore.putState(networks.networkList[type]?.chainId || network)
+    this.networkStore.putState(networks.networkList[type]?.chainId || network);
   }
 
-  isNetworkLoading () {
-    return this.getNetworkState() === 'loading'
+  isNetworkLoading() {
+    return this.getNetworkState() === 'loading';
   }
 
-  lookupNetwork () {
+  lookupNetwork() {
     // Prevent firing when provider is not defined.
     if (!this._provider) {
-      log.warn('NetworkController - lookupNetwork aborted due to missing provider')
-      return
+      log.warn(
+        'NetworkController - lookupNetwork aborted due to missing provider',
+      );
+      return;
     }
-    const { type } = this.providerStore.getState()
-    const provider = this._provider
-    const ethQuery = new EthQuery(provider)
+    const { type } = this.providerStore.getState();
+    const provider = this._provider;
+    const ethQuery = new EthQuery(provider);
     ethQuery.sendAsync({ method: 'net_version' }, (error, network) => {
       if (provider !== this._provider) {
-        return
+        return;
       }
       if (error) {
-        this.setNetworkState('loading')
-        return
+        this.setNetworkState('loading');
+        return;
       }
       ethQuery.sendAsync({ method: 'eth_chainId' }, (chainError, chainId) => {
         if (provider !== this._provider) {
-          return
+          return;
         }
-        if (chainError || typeof chainId !== 'string' || !(/^0x[0-9a-f]+$/iu).test(chainId)) {
-          this._chainId = undefined
-          this.setNetworkState('loading')
-          return
+        if (
+          chainError ||
+          typeof chainId !== 'string' ||
+          !/^0x[0-9a-f]+$/iu.test(chainId)
+        ) {
+          this._chainId = undefined;
+          this.setNetworkState('loading');
+          return;
         }
         // A custom RPC that reports a different chain than the one configured
         // could get transactions signed for the wrong chain. Refuse to use it.
-        const expectedChainId = type === 'rpc' ? this.providerStore.getState().chainId : undefined
-        if (expectedChainId && normalizeChainId(expectedChainId) !== normalizeChainId(chainId)) {
-          log.warn(`NetworkController - RPC returned chain ID ${chainId}, expected ${expectedChainId}`)
-          this._chainId = undefined
-          this.setNetworkState('loading')
-          return
+        const expectedChainId =
+          type === 'rpc' ? this.providerStore.getState().chainId : undefined;
+        if (
+          expectedChainId &&
+          normalizeChainId(expectedChainId) !== normalizeChainId(chainId)
+        ) {
+          log.warn(
+            `NetworkController - RPC returned chain ID ${chainId}, expected ${expectedChainId}`,
+          );
+          this._chainId = undefined;
+          this.setNetworkState('loading');
+          return;
         }
-        this._chainId = chainId
-        this.setNetworkState(network, type)
-      })
-    })
+        this._chainId = chainId;
+        this.setNetworkState(network, type);
+      });
+    });
   }
 
-  setRpcTarget (rpcTarget, chainId, ticker = 'ETH', nickname = '', rpcPrefs) {
+  setRpcTarget(rpcTarget, chainId, ticker = 'ETH', nickname = '', rpcPrefs) {
     const providerConfig = {
       type: 'rpc',
       rpcTarget,
@@ -161,118 +180,141 @@ export default class NetworkController extends EventEmitter {
       ticker,
       nickname,
       rpcPrefs,
-    }
-    this.providerConfig = providerConfig
+    };
+    this.providerConfig = providerConfig;
   }
 
-  async setProviderType (type, rpcTarget = '', ticker = 'ETH', nickname = '') {
-    assert.notEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`)
-    assert(BUILT_IN_NETWORK_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`)
-    const providerConfig = { type, rpcTarget, ticker: BUILT_IN_NETWORKS[type]?.ticker || ticker, nickname }
-    this.providerConfig = providerConfig
+  async setProviderType(type, rpcTarget = '', ticker = 'ETH', nickname = '') {
+    assert.notEqual(
+      type,
+      'rpc',
+      `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`,
+    );
+    assert(
+      BUILT_IN_NETWORK_TYPES.includes(type) || type === LOCALHOST,
+      `NetworkController - Unknown rpc type "${type}"`,
+    );
+    const providerConfig = {
+      type,
+      rpcTarget,
+      ticker: BUILT_IN_NETWORKS[type]?.ticker || ticker,
+      nickname,
+    };
+    this.providerConfig = providerConfig;
   }
 
-  resetConnection () {
-    this.providerConfig = this.getProviderConfig()
+  resetConnection() {
+    this.providerConfig = this.getProviderConfig();
   }
 
-  set providerConfig (providerConfig) {
-    this.providerStore.updateState(providerConfig)
-    this._switchNetwork(providerConfig)
+  set providerConfig(providerConfig) {
+    this.providerStore.updateState(providerConfig);
+    this._switchNetwork(providerConfig);
   }
 
-  getProviderConfig () {
-    return this.providerStore.getState()
+  getProviderConfig() {
+    return this.providerStore.getState();
   }
 
   //
   // Private
   //
 
-  _switchNetwork (opts) {
-    this.setNetworkState('loading')
-    this._configureProvider(opts)
-    this.emit('networkDidChange', opts.type)
+  _switchNetwork(opts) {
+    this.setNetworkState('loading');
+    this._configureProvider(opts);
+    this.emit('networkDidChange', opts.type);
   }
 
-  _configureProvider (opts) {
-    this._chainId = undefined
-    const { type, rpcTarget, chainId, ticker, nickname } = opts
+  _configureProvider(opts) {
+    this._chainId = undefined;
+    const { type, rpcTarget, chainId, ticker, nickname } = opts;
     // built-in networks
     if (BUILT_IN_NETWORK_TYPES.includes(type)) {
-      this._configureBuiltInProvider(opts)
-    // other type-based rpc endpoints
+      this._configureBuiltInProvider(opts);
+      // other type-based rpc endpoints
     } else if (type === LOCALHOST) {
-      this._configureLocalhostProvider()
-    // url-based rpc endpoints
+      this._configureLocalhostProvider();
+      // url-based rpc endpoints
     } else if (type === 'rpc') {
-      this._configureStandardProvider({ rpcUrl: rpcTarget, chainId, ticker, nickname })
+      this._configureStandardProvider({
+        rpcUrl: rpcTarget,
+        chainId,
+        ticker,
+        nickname,
+      });
     } else {
-      throw new Error(`NetworkController - _configureProvider - unknown type "${type}"`)
+      throw new Error(
+        `NetworkController - _configureProvider - unknown type "${type}"`,
+      );
     }
   }
 
-  _configureBuiltInProvider ({ type }) {
-    log.info('NetworkController - configureBuiltInProvider', type)
+  _configureBuiltInProvider({ type }) {
+    log.info('NetworkController - configureBuiltInProvider', type);
     const networkClient = createBuiltInClient({
       network: type,
-    })
-    this._setNetworkClient(networkClient)
+    });
+    this._setNetworkClient(networkClient);
     // setup networkConfig
     const settings = {
       ticker: BUILT_IN_NETWORKS[type].ticker,
-    }
-    this.networkConfig.putState(settings)
+    };
+    this.networkConfig.putState(settings);
   }
 
-  _configureLocalhostProvider () {
-    log.info('NetworkController - configureLocalhostProvider')
-    const networkClient = createLocalhostClient()
-    this._setNetworkClient(networkClient)
+  _configureLocalhostProvider() {
+    log.info('NetworkController - configureLocalhostProvider');
+    const networkClient = createLocalhostClient();
+    this._setNetworkClient(networkClient);
   }
 
-  _configureStandardProvider ({ rpcUrl, chainId, ticker, nickname }) {
-    log.info('NetworkController - configureStandardProvider', rpcUrl)
-    const networkClient = createJsonRpcClient({ rpcUrl })
+  _configureStandardProvider({ rpcUrl, chainId, ticker, nickname }) {
+    log.info('NetworkController - configureStandardProvider', rpcUrl);
+    const networkClient = createJsonRpcClient({ rpcUrl });
     // hack to add a 'rpc' network with chainId
     networks.networkList.rpc = {
       chainId,
       rpcUrl,
       ticker: ticker || 'ETH',
       nickname,
-    }
+    };
     // setup networkConfig
     let settings = {
       network: chainId,
-    }
-    settings = Object.assign(settings, networks.networkList.rpc)
-    this.networkConfig.putState(settings)
-    this._setNetworkClient(networkClient)
+    };
+    settings = Object.assign(settings, networks.networkList.rpc);
+    this.networkConfig.putState(settings);
+    this._setNetworkClient(networkClient);
   }
 
-  _setNetworkClient ({ networkMiddleware, blockTracker }) {
-    const ecfWalletMiddleware = createEcfWalletMiddleware(this._baseProviderParams)
-    const engine = new JsonRpcEngine()
-    engine.push(ecfWalletMiddleware)
-    engine.push(networkMiddleware)
-    const provider = providerFromEngine(engine)
-    this._setProviderAndBlockTracker({ provider, blockTracker })
+  _setNetworkClient({ networkMiddleware, blockTracker }) {
+    const ecfWalletMiddleware = createEcfWalletMiddleware(
+      this._baseProviderParams,
+    );
+    const engine = new JsonRpcEngine();
+    engine.push(ecfWalletMiddleware);
+    engine.push(networkMiddleware);
+    const provider = providerFromEngine(engine);
+    this._setProviderAndBlockTracker({ provider, blockTracker });
   }
 
-  _setProviderAndBlockTracker ({ provider, blockTracker }) {
+  _setProviderAndBlockTracker({ provider, blockTracker }) {
     // update or intialize proxies
     if (this._providerProxy) {
-      this._providerProxy.setTarget(provider)
+      this._providerProxy.setTarget(provider);
     } else {
-      this._providerProxy = createSwappableProxy(provider)
+      this._providerProxy = createSwappableProxy(provider);
     }
     if (this._blockTrackerProxy) {
-      this._blockTrackerProxy.setTarget(blockTracker)
+      this._blockTrackerProxy.setTarget(blockTracker);
     } else {
-      this._blockTrackerProxy = createEventEmitterProxy(blockTracker, { eventFilter: 'skipInternal' })
+      this._blockTrackerProxy = createEventEmitterProxy(blockTracker, {
+        eventFilter: 'skipInternal',
+      });
     }
     // set new provider and blockTracker
-    this._provider = provider
-    this._blockTracker = blockTracker
+    this._provider = provider;
+    this._blockTracker = blockTracker;
   }
 }

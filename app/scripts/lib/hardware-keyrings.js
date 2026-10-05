@@ -1,229 +1,304 @@
-import { EventEmitter } from 'events'
-import log from 'loglevel'
-import { transactionData, decodeTransaction } from './transaction-codec'
-import extension from './extension-api'
+import { EventEmitter } from 'events';
+import log from 'loglevel';
 
-let creatingTab
-let closingTab
-let activeRequests = 0
-let closeWhenIdle = false
-let connectionGeneration = 0
-const completedMethods = new Set(['addAccounts', 'signTransaction', 'signMessage', 'signPersonalMessage', 'signTypedData', 'exportAccount', 'forgetDevice'])
+import extension from './extension-api';
+import { transactionData, decodeTransaction } from './transaction-codec';
 
-function tabsCall (method, ...args) {
-  return extension.tabs[method](...args)
+let creatingTab;
+let closingTab;
+let activeRequests = 0;
+let closeWhenIdle = false;
+let connectionGeneration = 0;
+const completedMethods = new Set([
+  'addAccounts',
+  'signTransaction',
+  'signMessage',
+  'signPersonalMessage',
+  'signTypedData',
+  'exportAccount',
+  'forgetDevice',
+]);
+
+function tabsCall(method, ...args) {
+  return extension.tabs[method](...args);
 }
 
-async function openTransportTab () {
-  const url = extension.runtime.getURL('hardware.html')
-  const contexts = await extension.runtime.getContexts({ contextTypes: ['TAB'], documentUrls: [url] })
-  const tab = contexts.length ? await tabsCall('get', contexts[0].tabId) : await tabsCall('create', { url, active: false })
+async function openTransportTab() {
+  const url = extension.runtime.getURL('hardware.html');
+  const contexts = await extension.runtime.getContexts({
+    contextTypes: ['TAB'],
+    documentUrls: [url],
+  });
+  const tab = contexts.length
+    ? await tabsCall('get', contexts[0].tabId)
+    : await tabsCall('create', { url, active: false });
   if (tab.status === 'complete') {
-    return
+    return;
   }
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
-      cleanup()
-      reject(new Error('Hardware wallet connection tab did not load. Please retry.'))
-    }, 30000)
-    function cleanup () {
-      extension.tabs.onUpdated.removeListener(updated)
-      extension.tabs.onRemoved.removeListener(removed)
-      clearTimeout(timeout)
+      cleanup();
+      reject(
+        new Error('Hardware wallet connection tab did not load. Please retry.'),
+      );
+    }, 30000);
+    function cleanup() {
+      extension.tabs.onUpdated.removeListener(updated);
+      extension.tabs.onRemoved.removeListener(removed);
+      clearTimeout(timeout);
     }
-    function updated (id, info) {
+    function updated(id, info) {
       if (id === tab.id && info.status === 'complete') {
-        cleanup()
-        resolve()
+        cleanup();
+        resolve();
       }
     }
-    function removed (id) {
+    function removed(id) {
       if (id === tab.id) {
-        cleanup()
-        reject(new Error('Hardware wallet connection tab was closed. Please retry.'))
+        cleanup();
+        reject(
+          new Error('Hardware wallet connection tab was closed. Please retry.'),
+        );
       }
     }
-    extension.tabs.onUpdated.addListener(updated)
-    extension.tabs.onRemoved.addListener(removed)
+    extension.tabs.onUpdated.addListener(updated);
+    extension.tabs.onRemoved.addListener(removed);
     // Cover completion between tabs.create and listener registration.
-    tabsCall('get', tab.id).then((current) => updated(tab.id, current), () => removed(tab.id))
-  })
+    // eslint-disable-next-line promise/catch-or-return -- the rejection handler is the second argument to then()
+    tabsCall('get', tab.id).then(
+      (current) => updated(tab.id, current),
+      () => removed(tab.id),
+    );
+  });
 }
 
-async function requestHardware (request) {
-  const generation = connectionGeneration
-  activeRequests += 1
+async function requestHardware(request) {
+  const generation = connectionGeneration;
+  activeRequests += 1;
   try {
     // A new request must not reuse a tab that is still being removed.
-    await closingTab
+    await closingTab;
     if (generation !== connectionGeneration) {
-      throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+      throw new Error(
+        'Hardware wallet request cancelled because the wallet was locked.',
+      );
     }
     if (!creatingTab) {
       creatingTab = openTransportTab().finally(() => {
-        creatingTab = null
-      })
+        creatingTab = null;
+      });
     }
-    await creatingTab
+    await creatingTab;
     if (generation !== connectionGeneration) {
-      throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+      throw new Error(
+        'Hardware wallet request cancelled because the wallet was locked.',
+      );
     }
-    const response = await extension.runtime.sendMessage({ type: 'ecf-wallet-hardware-request', ...request })
+    const response = await extension.runtime.sendMessage({
+      type: 'ecf-wallet-hardware-request',
+      ...request,
+    });
     if (!response || response.error) {
-      throw new Error(response?.error || 'Hardware wallet transport disconnected. Please retry.')
+      throw new Error(
+        response?.error ||
+          'Hardware wallet transport disconnected. Please retry.',
+      );
     }
     // Keep account discovery alive until the user imports an account. Signing
     // and other completed operations release the shared tab once it is idle.
-    closeWhenIdle = closeWhenIdle || completedMethods.has(request.method)
-    return response
+    closeWhenIdle = closeWhenIdle || completedMethods.has(request.method);
+    return response;
   } catch (error) {
-    closeWhenIdle = true
-    throw error
+    closeWhenIdle = true;
+    throw error;
   } finally {
-    activeRequests -= 1
+    activeRequests -= 1;
     if (!activeRequests && closeWhenIdle) {
-      closeWhenIdle = false
+      closeWhenIdle = false;
       // A cleanup error must never turn a completed signature into a failure.
-      await closeTransportTabs().catch((error) => log.warn('Unable to close hardware wallet connection tab', error))
+      await closeTransportTabs().catch((error) =>
+        log.warn('Unable to close hardware wallet connection tab', error),
+      );
     }
   }
 }
 
-function closeTransportTabs () {
+function closeTransportTabs() {
   if (!closingTab) {
     closingTab = (async () => {
       if (creatingTab) {
-        await creatingTab.catch(() => undefined)
+        await creatingTab.catch(() => undefined);
       }
       const contexts = await extension.runtime.getContexts({
-        contextTypes: ['TAB'], documentUrls: [extension.runtime.getURL('hardware.html')],
-      })
-      await Promise.all(contexts.map((context) => tabsCall('remove', context.tabId)))
+        contextTypes: ['TAB'],
+        documentUrls: [extension.runtime.getURL('hardware.html')],
+      });
+      await Promise.all(
+        contexts.map((context) => tabsCall('remove', context.tabId)),
+      );
     })().finally(() => {
-      closingTab = null
-    })
+      closingTab = null;
+    });
   }
-  return closingTab
+  return closingTab;
 }
 
-export async function closeHardwareConnections () {
-  connectionGeneration += 1
-  await closeTransportTabs()
+export async function closeHardwareConnections() {
+  connectionGeneration += 1;
+  await closeTransportTabs();
 }
 
-export function createRemoteKeyring (type, send = requestHardware) {
+export function createRemoteKeyring(type, send = requestHardware) {
   class RemoteKeyring extends EventEmitter {
-    constructor (opts = {}) {
-      super()
-      this.type = type
-      this.id = global.crypto.randomUUID()
-      this.queue = Promise.resolve()
-      this.generation = connectionGeneration
-      this.stateRevision = 0
-      this.settingRevisions = {}
-      this.removedAccounts = new Map()
-      this.deserialize(opts)
+    constructor(opts = {}) {
+      super();
+      this.type = type;
+      this.id = global.crypto.randomUUID();
+      this.queue = Promise.resolve();
+      this.generation = connectionGeneration;
+      this.stateRevision = 0;
+      this.settingRevisions = {};
+      this.removedAccounts = new Map();
+      this.deserialize(opts);
     }
 
-    async serialize () {
-      return JSON.parse(JSON.stringify(this.state))
+    async serialize() {
+      return JSON.parse(JSON.stringify(this.state));
     }
 
-    async deserialize (opts = {}) {
-      this.state = { ...opts, accounts: opts.accounts || [] }
+    async deserialize(opts = {}) {
+      this.state = { ...opts, accounts: opts.accounts || [] };
     }
 
-    async getAccounts () {
-      return this.state.accounts.slice()
+    async getAccounts() {
+      return this.state.accounts.slice();
     }
 
-    isUnlocked () {
-      return Boolean(this.unlocked)
+    isUnlocked() {
+      return Boolean(this.unlocked);
     }
 
-    setAccountToUnlock (index) {
-      this.state.unlockedAccount = Number(index)
-      this.stateRevision += 1
-      this.settingRevisions.unlockedAccount = this.stateRevision
+    setAccountToUnlock(index) {
+      this.state.unlockedAccount = Number(index);
+      this.stateRevision += 1;
+      this.settingRevisions.unlockedAccount = this.stateRevision;
     }
 
-    setHdPath (hdPath) {
-      if (type === 'Ledger Hardware' && this.state.accounts.length && !this.state.accountDetails) {
-        this.state.legacyHdPath = this.state.legacyHdPath || this.state.hdPath
+    setHdPath(hdPath) {
+      if (
+        type === 'Ledger Hardware' &&
+        this.state.accounts.length &&
+        !this.state.accountDetails
+      ) {
+        this.state.legacyHdPath = this.state.legacyHdPath || this.state.hdPath;
       }
-      this.state.hdPath = hdPath
-      this.stateRevision += 1
-      this.settingRevisions.hdPath = this.stateRevision
-      this.settingRevisions.legacyHdPath = this.stateRevision
+      this.state.hdPath = hdPath;
+      this.stateRevision += 1;
+      this.settingRevisions.hdPath = this.stateRevision;
+      this.settingRevisions.legacyHdPath = this.stateRevision;
     }
 
-    removeAccount (address) {
-      this.state.accounts = this.state.accounts.filter((account) => account.toLowerCase() !== address.toLowerCase())
-      this.stateRevision += 1
-      this.removedAccounts.set(address.toLowerCase(), this.stateRevision)
+    removeAccount(address) {
+      this.state.accounts = this.state.accounts.filter(
+        (account) => account.toLowerCase() !== address.toLowerCase(),
+      );
+      this.stateRevision += 1;
+      this.removedAccounts.set(address.toLowerCase(), this.stateRevision);
     }
 
-    async forgetDevice () {
-      await this.call('forgetDevice', [])
-      this.id = global.crypto.randomUUID()
-      this.state = { accounts: [] }
-      this.unlocked = false
+    async forgetDevice() {
+      await this.call('forgetDevice', []);
+      this.id = global.crypto.randomUUID();
+      this.state = { accounts: [] };
+      this.unlocked = false;
     }
 
-    async call (method, args) {
-      const revision = this.stateRevision
+    async call(method, args) {
+      const revision = this.stateRevision;
       // Freeze user-selected settings when enqueued, while still carrying public
       // account state returned by earlier operations in the same queue.
-      const settings = {}
+      const settings = {};
       for (const field of ['hdPath', 'legacyHdPath', 'unlockedAccount']) {
-        settings[field] = this.state[field]
+        settings[field] = this.state[field];
       }
       const operation = this.queue.then(async () => {
         if (this.generation !== connectionGeneration) {
-          throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+          throw new Error(
+            'Hardware wallet request cancelled because the wallet was locked.',
+          );
         }
-        const state = JSON.parse(JSON.stringify({ ...this.state, ...settings }))
-        const response = await send({ id: this.id, keyringType: type, method, args, state, network: this.network })
+        const state = JSON.parse(
+          JSON.stringify({ ...this.state, ...settings }),
+        );
+        const response = await send({
+          id: this.id,
+          keyringType: type,
+          method,
+          args,
+          state,
+          network: this.network,
+        });
         if (this.generation !== connectionGeneration) {
-          throw new Error('Hardware wallet request cancelled because the wallet was locked.')
+          throw new Error(
+            'Hardware wallet request cancelled because the wallet was locked.',
+          );
         }
-        const updated = { ...response.state }
-        for (const [field, changedAt] of Object.entries(this.settingRevisions)) {
+        const updated = { ...response.state };
+        for (const [field, changedAt] of Object.entries(
+          this.settingRevisions,
+        )) {
           if (changedAt > revision) {
-            updated[field] = this.state[field]
+            updated[field] = this.state[field];
           }
         }
-        updated.accounts = updated.accounts.filter((account) => !(this.removedAccounts.get(account.toLowerCase()) > revision))
-        this.state = updated
-        this.unlocked = response.unlocked
-        return response.result
-      })
-      this.queue = operation.catch(() => undefined)
-      return operation
+        updated.accounts = updated.accounts.filter(
+          (account) =>
+            !(this.removedAccounts.get(account.toLowerCase()) > revision),
+        );
+        this.state = updated;
+        this.unlocked = response.unlocked;
+        return response.result;
+      });
+      this.queue = operation.catch(() => undefined);
+      return operation;
     }
 
-    async signTransaction (address, tx) {
+    async signTransaction(address, tx) {
       if (type === 'Trezor Hardware' && Number(tx.type) === 1) {
-        throw new Error('Trezor Connect does not support EIP-2930 type 1 transactions. Use an EIP-1559 transaction with an access list.')
+        throw new Error(
+          'Trezor Connect does not support EIP-2930 type 1 transactions. Use an EIP-1559 transaction with an access list.',
+        );
       }
       if (Number(tx.type) === 4) {
-        throw new Error('EIP-7702 signing is supported only by software accounts.')
+        throw new Error(
+          'EIP-7702 signing is supported only by software accounts.',
+        );
       }
-      const data = transactionData(tx)
-      const signed = await this.call('signTransaction', [address, data])
-      return decodeTransaction(signed, Number(data.chainId))
+      const data = transactionData(tx);
+      const signed = await this.call('signTransaction', [address, data]);
+      return decodeTransaction(signed, Number(data.chainId));
     }
   }
-  for (const method of ['unlock', 'addAccounts', 'getFirstPage', 'getNextPage', 'getPreviousPage', 'signMessage', 'signPersonalMessage', 'signTypedData', 'exportAccount']) {
+  for (const method of [
+    'unlock',
+    'addAccounts',
+    'getFirstPage',
+    'getNextPage',
+    'getPreviousPage',
+    'signMessage',
+    'signPersonalMessage',
+    'signTypedData',
+    'exportAccount',
+  ]) {
     RemoteKeyring.prototype[method] = function (...args) {
-      return this.call(method, args)
-    }
+      return this.call(method, args);
+    };
   }
-  RemoteKeyring.type = type
-  return RemoteKeyring
+  RemoteKeyring.type = type;
+  return RemoteKeyring;
 }
 
 // Keep DOM-only SDKs out of both browsers' background bundles. The connection
 // tab supplies the tabs/windows APIs that Trezor Connect needs under MV3.
-export const Trezor = createRemoteKeyring('Trezor Hardware')
-export const Ledger = createRemoteKeyring('Ledger Hardware')
+export const Trezor = createRemoteKeyring('Trezor Hardware');
+export const Ledger = createRemoteKeyring('Ledger Hardware');

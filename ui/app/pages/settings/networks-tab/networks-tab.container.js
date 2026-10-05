@@ -1,6 +1,9 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import withRouter from '../../../helpers/higher-order-components/with-router'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import NetworksTab from './networks-tab.component';
+import { defaultNetworksData } from './networks-tab.constants';
+import withRouter from '../../../helpers/higher-order-components/with-router';
 import {
   setSelectedSettingsRpcUrl,
   updateAndSetCustomRpc,
@@ -8,21 +11,16 @@ import {
   setNetworksTabAddMode,
   editRpc,
   showModal,
-} from '../../../store/actions'
-import NetworksTab from './networks-tab.component'
-import { defaultNetworksData } from './networks-tab.constants'
+} from '../../../store/actions';
 
-const defaultNetworks = defaultNetworksData.map((network) => ({ ...network, viewOnly: true }))
+const defaultNetworks = defaultNetworksData.map((network) => ({
+  ...network,
+  viewOnly: true,
+}));
 
 const mapStateToProps = (state) => {
-  const {
-    frequentRpcListDetail,
-    provider,
-  } = state.ecfWallet
-  const {
-    networksTabSelectedRpcUrl,
-    networksTabIsInAddMode,
-  } = state.appState
+  const { frequentRpcListDetail, provider } = state.ecfWallet;
+  const { networksTabSelectedRpcUrl, networksTabIsInAddMode } = state.appState;
 
   const frequentRpcNetworkListDetails = frequentRpcListDetail.map((rpc) => {
     return {
@@ -33,19 +31,30 @@ const mapStateToProps = (state) => {
       chainId: rpc.chainId,
       ticker: rpc.ticker,
       blockExplorerUrl: (rpc.rpcPrefs && rpc.rpcPrefs.blockExplorerUrl) || '',
-    }
-  })
+    };
+  });
 
-  const networksToRender = [...defaultNetworks, ...frequentRpcNetworkListDetails]
-  let selectedNetwork = networksToRender.find((network) => network.rpcUrl === networksTabSelectedRpcUrl) || {}
-  const networkIsSelected = Boolean(selectedNetwork.rpcUrl)
+  const networksToRender = [
+    ...defaultNetworks,
+    ...frequentRpcNetworkListDetails,
+  ];
+  let selectedNetwork =
+    networksToRender.find(
+      (network) => network.rpcUrl === networksTabSelectedRpcUrl,
+    ) || {};
+  const networkIsSelected = Boolean(selectedNetwork.rpcUrl);
 
-  let networkDefaultedToProvider = false
+  let networkDefaultedToProvider = false;
   if (!networkIsSelected && !networksTabIsInAddMode) {
-    selectedNetwork = networksToRender.find((network) => {
-      return network.rpcUrl === provider.rpcTarget || (network.providerType !== 'rpc' && network.providerType === provider.type)
-    }) || {}
-    networkDefaultedToProvider = true
+    selectedNetwork =
+      networksToRender.find((network) => {
+        return (
+          network.rpcUrl === provider.rpcTarget ||
+          (network.providerType !== 'rpc' &&
+            network.providerType === provider.type)
+        );
+      }) || {};
+    networkDefaultedToProvider = true;
   }
 
   return {
@@ -56,27 +65,33 @@ const mapStateToProps = (state) => {
     providerType: provider.type,
     providerUrl: provider.rpcTarget,
     networkDefaultedToProvider,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setSelectedSettingsRpcUrl: (newRpcUrl) => dispatch(setSelectedSettingsRpcUrl(newRpcUrl)),
+    setSelectedSettingsRpcUrl: (newRpcUrl) =>
+      dispatch(setSelectedSettingsRpcUrl(newRpcUrl)),
     setRpcTarget: (newRpc, chainId, ticker, nickname, rpcPrefs) => {
-      dispatch(updateAndSetCustomRpc(newRpc, chainId, ticker, nickname, rpcPrefs))
+      dispatch(
+        updateAndSetCustomRpc(newRpc, chainId, ticker, nickname, rpcPrefs),
+      );
     },
     showConfirmDeleteNetworkModal: ({ target, onConfirm }) => {
-      return dispatch(showModal({ name: 'CONFIRM_DELETE_NETWORK', target, onConfirm }))
+      return dispatch(
+        showModal({ name: 'CONFIRM_DELETE_NETWORK', target, onConfirm }),
+      );
     },
     displayWarning: (warning) => dispatch(displayWarning(warning)),
-    setNetworksTabAddMode: (isInAddMode) => dispatch(setNetworksTabAddMode(isInAddMode)),
+    setNetworksTabAddMode: (isInAddMode) =>
+      dispatch(setNetworksTabAddMode(isInAddMode)),
     editRpc: (oldRpc, newRpc, chainId, ticker, nickname, rpcPrefs) => {
-      dispatch(editRpc(oldRpc, newRpc, chainId, ticker, nickname, rpcPrefs))
+      dispatch(editRpc(oldRpc, newRpc, chainId, ticker, nickname, rpcPrefs));
     },
-  }
-}
+  };
+};
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(NetworksTab)
+)(NetworksTab);

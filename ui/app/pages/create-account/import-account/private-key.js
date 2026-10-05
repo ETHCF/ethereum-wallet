@@ -1,17 +1,18 @@
-import React, { Component } from 'react'
-import { compose } from 'redux'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import withRouter from '../../../helpers/higher-order-components/with-router'
-import * as actions from '../../../store/actions'
-import { getEcfWalletAccounts } from '../../../selectors'
-import Button from '../../../components/ui/button'
-import { getMostRecentOverviewPage } from '../../../ducks/history/history'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import Button from '../../../components/ui/button';
+import { getMostRecentOverviewPage } from '../../../ducks/history/history';
+import withRouter from '../../../helpers/higher-order-components/with-router';
+import { getEcfWalletAccounts } from '../../../selectors';
+import * as actions from '../../../store/actions';
 
 class PrivateKeyImportView extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     importNewAccount: PropTypes.func.isRequired,
@@ -21,47 +22,55 @@ class PrivateKeyImportView extends Component {
     firstAddress: PropTypes.string.isRequired,
     error: PropTypes.node,
     mostRecentOverviewPage: PropTypes.string.isRequired,
-  }
+  };
 
-  inputRef = React.createRef()
+  inputRef = React.createRef();
 
-  state = { isEmpty: true }
+  state = { isEmpty: true };
 
-  createNewKeychain () {
-    const privateKey = this.inputRef.current.value
-    const { importNewAccount, navigate, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
+  createNewKeychain() {
+    const privateKey = this.inputRef.current.value;
+    const {
+      importNewAccount,
+      navigate,
+      displayWarning,
+      mostRecentOverviewPage,
+      setSelectedAddress,
+      firstAddress,
+    } = this.props;
 
     importNewAccount('Private Key', [privateKey])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
-          navigate(mostRecentOverviewPage)
-          displayWarning(null)
+          navigate(mostRecentOverviewPage);
+          displayWarning(null);
         } else {
-          displayWarning('Error importing account.')
-          setSelectedAddress(firstAddress)
+          displayWarning('Error importing account.');
+          setSelectedAddress(firstAddress);
         }
+        return undefined;
       })
-      .catch((err) => err && displayWarning(err.message || err))
+      .catch((err) => err && displayWarning(err.message || err));
   }
 
   createKeyringOnEnter = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      this.createNewKeychain()
+      event.preventDefault();
+      this.createNewKeychain();
     }
-  }
+  };
 
-  checkInputEmpty () {
-    const privateKey = this.inputRef.current.value
-    let isEmpty = true
+  checkInputEmpty() {
+    const privateKey = this.inputRef.current.value;
+    let isEmpty = true;
     if (privateKey !== '') {
-      isEmpty = false
+      isEmpty = false;
     }
-    this.setState({ isEmpty })
+    this.setState({ isEmpty });
   }
 
-  render () {
-    const { error, displayWarning } = this.props
+  render() {
+    const { error, displayWarning } = this.props;
 
     return (
       <div className="new-account-import-form__private-key">
@@ -84,9 +93,9 @@ class PrivateKeyImportView extends Component {
             large
             className="new-account-create-form__button"
             onClick={() => {
-              const { navigate, mostRecentOverviewPage } = this.props
-              displayWarning(null)
-              navigate(mostRecentOverviewPage)
+              const { navigate, mostRecentOverviewPage } = this.props;
+              displayWarning(null);
+              navigate(mostRecentOverviewPage);
             }}
           >
             {this.context.t('cancel')}
@@ -101,35 +110,33 @@ class PrivateKeyImportView extends Component {
             {this.context.t('import')}
           </Button>
         </div>
-        {
-          error
-            ? <span className="error">{error}</span>
-            : null
-        }
+        {error ? <span className="error">{error}</span> : null}
       </div>
-    )
+    );
   }
 }
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(PrivateKeyImportView)
+)(PrivateKeyImportView);
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     error: state.appState.warning,
     firstAddress: Object.keys(getEcfWalletAccounts(state))[0],
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     importNewAccount: (strategy, [privateKey]) => {
-      return dispatch(actions.importNewAccount(strategy, [privateKey]))
+      return dispatch(actions.importNewAccount(strategy, [privateKey]));
     },
-    displayWarning: (message) => dispatch(actions.displayWarning(message || null)),
-    setSelectedAddress: (address) => dispatch(actions.setSelectedAddress(address)),
-  }
+    displayWarning: (message) =>
+      dispatch(actions.displayWarning(message || null)),
+    setSelectedAddress: (address) =>
+      dispatch(actions.setSelectedAddress(address)),
+  };
 }

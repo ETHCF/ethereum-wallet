@@ -10,76 +10,94 @@
  * notice when the machine has no network at all.
  */
 
-require('@babel/register')
+require('@babel/register');
 
-const { BUILT_IN_NETWORKS } = require('../app/scripts/controllers/network/enums')
+const {
+  BUILT_IN_NETWORKS,
+} = require('../app/scripts/controllers/network/enums');
 
-const TIMEOUT_MS = 15000
+const TIMEOUT_MS = 15000;
 
-async function chainIdOf (url) {
+async function chainIdOf(url) {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: 1, jsonrpc: '2.0', method: 'eth_chainId', params: [] }),
+    body: JSON.stringify({
+      id: 1,
+      jsonrpc: '2.0',
+      method: 'eth_chainId',
+      params: [],
+    }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
-  })
+  });
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`)
+    throw new Error(`HTTP ${response.status}`);
   }
-  const { result, error } = await response.json()
+  const { result, error } = await response.json();
   if (error) {
-    throw new Error(error.message || 'JSON-RPC error')
+    throw new Error(error.message || 'JSON-RPC error');
   }
-  return result
+  return result;
 }
 
-async function online () {
+async function online() {
   try {
-    await fetch('https://example.com', { method: 'HEAD', signal: AbortSignal.timeout(TIMEOUT_MS) })
-    return true
+    await fetch('https://example.com', {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+    return true;
   } catch (_) {
-    return false
+    return false;
   }
 }
 
-async function main () {
-  const targets = []
+async function main() {
+  const targets = [];
   for (const [name, config] of Object.entries(BUILT_IN_NETWORKS)) {
     for (const url of [config.rpcUrl, ...(config.fallbackRpcUrls || [])]) {
-      targets.push({ name, url, expected: config.chainId })
+      targets.push({ name, url, expected: config.chainId });
     }
   }
 
-  const failures = []
+  const failures = [];
   for (const { name, url, expected } of targets) {
     try {
-      const actual = await chainIdOf(url)
+      const actual = await chainIdOf(url);
       if (BigInt(actual) === BigInt(expected)) {
-        console.log(`  ok           ${name.padEnd(16)} ${url}`)
+        console.log(`  ok           ${name.padEnd(16)} ${url}`);
       } else {
-        failures.push(`${name}: ${url} reports chain ${actual}, expected ${expected}`)
-        console.log(`  WRONG CHAIN  ${name.padEnd(16)} ${url} -> ${actual}`)
+        failures.push(
+          `${name}: ${url} reports chain ${actual}, expected ${expected}`,
+        );
+        console.log(`  WRONG CHAIN  ${name.padEnd(16)} ${url} -> ${actual}`);
       }
     } catch (error) {
-      failures.push(`${name}: ${url} did not answer (${error.message})`)
-      console.log(`  UNREACHABLE  ${name.padEnd(16)} ${url} -> ${error.message}`)
+      failures.push(`${name}: ${url} did not answer (${error.message})`);
+      console.log(
+        `  UNREACHABLE  ${name.padEnd(16)} ${url} -> ${error.message}`,
+      );
     }
   }
 
-  console.log(`\n${targets.length - failures.length}/${targets.length} endpoints healthy`)
+  console.log(
+    `\n${targets.length - failures.length}/${targets.length} endpoints healthy`,
+  );
   if (!failures.length) {
-    return
+    return;
   }
   if (!(await online())) {
-    console.log('No network from this machine; not treating the above as endpoint failures.')
-    return
+    console.log(
+      'No network from this machine; not treating the above as endpoint failures.',
+    );
+    return;
   }
-  console.error(`\n${failures.length} endpoint(s) need attention:`)
-  failures.forEach((f) => console.error(`  ${f}`))
-  process.exitCode = 1
+  console.error(`\n${failures.length} endpoint(s) need attention:`);
+  failures.forEach((f) => console.error(`  ${f}`));
+  process.exitCode = 1;
 }
 
 main().catch((error) => {
-  console.error(error)
-  process.exitCode = 1
-})
+  console.error(error);
+  process.exitCode = 1;
+});

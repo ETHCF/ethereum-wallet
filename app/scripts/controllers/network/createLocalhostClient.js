@@ -1,38 +1,44 @@
-import { asLegacyMiddleware } from '@metamask/json-rpc-engine/v2'
+import { PollingBlockTracker } from '@metamask/eth-block-tracker';
 import {
   createBlockRefRewriteMiddleware,
   createBlockTrackerInspectorMiddleware,
   createFetchMiddleware,
-} from '@metamask/eth-json-rpc-middleware'
-import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider'
-import { PollingBlockTracker } from '@metamask/eth-block-tracker'
-import createRpcService from './rpc-service'
+} from '@metamask/eth-json-rpc-middleware';
+import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider';
+import { asLegacyMiddleware } from '@metamask/json-rpc-engine/v2';
 
-const inTest = process.env.IN_TEST === 'true'
+import createRpcService from './rpc-service';
 
-export default function createLocalhostClient () {
-  const fetchMiddleware = createFetchMiddleware({ rpcService: createRpcService({ rpcUrls: ['http://localhost:8545/'] }) })
-  const blockProvider = providerFromMiddlewareV2(fetchMiddleware)
-  const blockTracker = new PollingBlockTracker({ provider: blockProvider, pollingInterval: 1000 })
+const inTest = process.env.IN_TEST === 'true';
+
+export default function createLocalhostClient() {
+  const fetchMiddleware = createFetchMiddleware({
+    rpcService: createRpcService({ rpcUrls: ['http://localhost:8545/'] }),
+  });
+  const blockProvider = providerFromMiddlewareV2(fetchMiddleware);
+  const blockTracker = new PollingBlockTracker({
+    provider: blockProvider,
+    pollingInterval: 1000,
+  });
 
   const networkMiddleware = asLegacyMiddleware(
     createEstimateGasMiddleware(),
     createBlockRefRewriteMiddleware({ blockTracker }),
     createBlockTrackerInspectorMiddleware({ blockTracker }),
     fetchMiddleware,
-  )
-  return { networkMiddleware, blockTracker }
+  );
+  return { networkMiddleware, blockTracker };
 }
 
-function delay (time) {
-  return new Promise((resolve) => setTimeout(resolve, time))
+function delay(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-function createEstimateGasMiddleware () {
+function createEstimateGasMiddleware() {
   return async ({ request, next }) => {
     if (request.method === 'eth_estimateGas' && inTest) {
-      await delay(2000)
+      await delay(2000);
     }
-    return next()
-  }
+    return next();
+  };
 }

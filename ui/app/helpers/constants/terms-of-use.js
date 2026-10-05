@@ -1,8 +1,8 @@
-import { TERMS_OF_USE_ROUTE } from './routes'
+import { TERMS_OF_USE_ROUTE } from './routes';
 
 // The terms are a legal text, so they are kept in English rather than in the
 // locale files. Each section is a heading, its paragraphs, and an optional list.
-export const TERMS_OF_USE_LAST_UPDATED = 'October 4, 2026'
+export const TERMS_OF_USE_LAST_UPDATED = 'October 4, 2026';
 
 export const TERMS_OF_USE_SECTIONS = [
   {
@@ -30,16 +30,14 @@ export const TERMS_OF_USE_SECTIONS = [
   },
   {
     heading: 'Acceptable Use',
-    paragraphs: [
-      'You may not:',
-    ],
+    paragraphs: ['You may not:'],
     items: [
       'Break the law, or use the wallet to send funds that are the proceeds of crime or to finance illegal activity.',
       'Use the wallet to access accounts, keys or funds that are not yours without permission.',
       'Falsely imply that you are employed by, affiliated with, or endorsed by ECF.',
       'Distribute modified copies of the wallet under the ECF Wallet name, or in a way that suggests they come from ECF.',
       'Remove any marks showing proprietary ownership from materials included with the wallet.',
-      'Break or circumvent any security feature of the wallet, or attempt to obtain another user\'s keys or seed phrase.',
+      "Break or circumvent any security feature of the wallet, or attempt to obtain another user's keys or seed phrase.",
       'Impersonate others through the wallet, including when requesting signatures or transactions.',
       'Encourage or help anyone in violation of these terms.',
     ],
@@ -68,7 +66,7 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Your Responsibility',
     paragraphs: [
-      'You agree to indemnify ECF from legal claims by others related to your breach of these terms, or breach of these terms by others using your accounts or keys. Both you and ECF agree to notify the other side of any legal claims you might have to indemnify ECF for as soon as possible. If ECF fails to notify you of a legal claim promptly, you won\'t have to indemnify ECF for damages that you could have defended against or mitigated with prompt notice. You agree to allow ECF to control investigation, defense and settlement of legal claims you would have to indemnify ECF for, and to cooperate with those efforts. ECF agrees not to agree to any settlement that admits fault for you or imposes obligations on you without your prior agreement.',
+      "You agree to indemnify ECF from legal claims by others related to your breach of these terms, or breach of these terms by others using your accounts or keys. Both you and ECF agree to notify the other side of any legal claims you might have to indemnify ECF for as soon as possible. If ECF fails to notify you of a legal claim promptly, you won't have to indemnify ECF for damages that you could have defended against or mitigated with prompt notice. You agree to allow ECF to control investigation, defense and settlement of legal claims you would have to indemnify ECF for, and to cooperate with those efforts. ECF agrees not to agree to any settlement that admits fault for you or imposes obligations on you without your prior agreement.",
     ],
   },
   {
@@ -89,7 +87,7 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Feedback',
     paragraphs: [
-      'ECF welcomes your feedback and suggestions for the wallet. You agree that ECF will be free to act on feedback and suggestions you provide, and that ECF won\'t have to notify you that your feedback was used, get your permission to use it, or pay you. You agree not to submit feedback or suggestions that you believe might be confidential or proprietary, to you or others.',
+      "ECF welcomes your feedback and suggestions for the wallet. You agree that ECF will be free to act on feedback and suggestions you provide, and that ECF won't have to notify you that your feedback was used, get your permission to use it, or pay you. You agree not to submit feedback or suggestions that you believe might be confidential or proprietary, to you or others.",
     ],
   },
   {
@@ -104,8 +102,8 @@ export const TERMS_OF_USE_SECTIONS = [
     paragraphs: [
       'The law of the State of New York will govern any dispute related to these terms or your use of the wallet.',
       'You and ECF agree to seek injunctions related to these terms only in state or federal court in Brooklyn, New York. Neither you nor ECF will object to jurisdiction, forum or venue in those courts.',
-      'Other than to seek an injunction or for claims under the Computer Fraud and Abuse Act, you and ECF will resolve any dispute by binding American Arbitration Association arbitration. Arbitration will follow the AAA\'s Commercial Arbitration Rules and Supplementary Procedures for Consumer Related Disputes. Arbitration will happen in Brooklyn, New York. You will settle any dispute as an individual, and not as part of a class action or other representative proceeding, whether as the plaintiff or a class member. No arbitrator will consolidate any dispute with any other arbitration without ECF\'s permission.',
-      'Any arbitration award will include costs of the arbitration, reasonable attorneys\' fees and reasonable costs for witnesses. You and ECF may enter arbitration awards in any court with jurisdiction.',
+      "Other than to seek an injunction or for claims under the Computer Fraud and Abuse Act, you and ECF will resolve any dispute by binding American Arbitration Association arbitration. Arbitration will follow the AAA's Commercial Arbitration Rules and Supplementary Procedures for Consumer Related Disputes. Arbitration will happen in Brooklyn, New York. You will settle any dispute as an individual, and not as part of a class action or other representative proceeding, whether as the plaintiff or a class member. No arbitrator will consolidate any dispute with any other arbitration without ECF's permission.",
+      "Any arbitration award will include costs of the arbitration, reasonable attorneys' fees and reasonable costs for witnesses. You and ECF may enter arbitration awards in any court with jurisdiction.",
     ],
   },
   {
@@ -115,7 +113,7 @@ export const TERMS_OF_USE_SECTIONS = [
       'You may not assign your agreement with ECF. ECF may assign your agreement to any affiliate, any other company that obtains control of ECF, or any other company that buys assets of ECF related to the wallet. Any attempted assignment against these terms has no legal effect.',
       'Neither the exercise of any right under this agreement, nor waiver of any breach of this agreement, waives any other breach of this agreement.',
       'These terms embody all the terms of agreement between you and ECF about use of the wallet. These terms entirely replace any other agreements about your use of the wallet, written or not.',
-      'The wallet\'s source code is published separately under its own open-source license, and nothing in these terms limits your rights under that license.',
+      "The wallet's source code is published separately under its own open-source license, and nothing in these terms limits your rights under that license.",
     ],
   },
   {
@@ -128,10 +126,10 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Changes',
     paragraphs: [
-      'ECF may update the terms of use. Updated terms ship with new versions of the wallet and are published in its source repository. Once you get notice of an update, it is effective when you next use the wallet. If you don\'t agree to the update, you must stop using the wallet.',
+      "ECF may update the terms of use. Updated terms ship with new versions of the wallet and are published in its source repository. Once you get notice of an update, it is effective when you next use the wallet. If you don't agree to the update, you must stop using the wallet.",
     ],
   },
-]
+];
 
 /**
  * A link to the terms in the full-screen view. Every extension page sits next to
@@ -139,6 +137,6 @@ export const TERMS_OF_USE_SECTIONS = [
  *
  * @returns {string} The URL
  */
-export function getTermsOfUseUrl () {
-  return `home.html#${TERMS_OF_USE_ROUTE}`
+export function getTermsOfUseUrl() {
+  return `home.html#${TERMS_OF_USE_ROUTE}`;
 }

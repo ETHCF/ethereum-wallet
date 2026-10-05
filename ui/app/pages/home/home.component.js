@@ -1,17 +1,15 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import AssetList from '../../components/app/asset-list'
-import TransactionList from '../../components/app/transaction-list'
-import MenuBar from '../../components/app/menu-bar'
-import BuildStamp from '../../components/app/build-stamp'
-import Popover from '../../components/ui/popover'
-import Button from '../../components/ui/button'
-import ConnectedSites from '../connected-sites'
-import ConnectedAccounts from '../connected-accounts'
-import { Tabs, Tab } from '../../components/ui/tabs'
-import { EthOverview } from '../../components/app/wallet-overview'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
+import AssetList from '../../components/app/asset-list';
+import BuildStamp from '../../components/app/build-stamp';
+import MenuBar from '../../components/app/menu-bar';
+import TransactionList from '../../components/app/transaction-list';
+import { EthOverview } from '../../components/app/wallet-overview';
+import Button from '../../components/ui/button';
+import Popover from '../../components/ui/popover';
+import { Tabs, Tab } from '../../components/ui/tabs';
 import {
   ASSET_ROUTE,
   RESTORE_VAULT_ROUTE,
@@ -21,15 +19,17 @@ import {
   CONNECT_ROUTE,
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
-} from '../../helpers/constants/routes'
-import { toRelativeRoutePath } from '../../helpers/utils/routes.util'
+} from '../../helpers/constants/routes';
+import { toRelativeRoutePath } from '../../helpers/utils/routes.util';
+import ConnectedAccounts from '../connected-accounts';
+import ConnectedSites from '../connected-sites';
 
-const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme'
+const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme';
 
 export default class Home extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     navigate: PropTypes.func,
@@ -45,13 +45,13 @@ export default class Home extends PureComponent {
     connectedStatusPopoverHasBeenShown: PropTypes.bool,
     defaultHomeActiveTabName: PropTypes.string,
     onTabClick: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     mounted: false,
-  }
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     const {
       firstPermissionsRequestId,
       hasNetworkRequests,
@@ -60,23 +60,23 @@ export default class Home extends PureComponent {
       suggestedTokens = {},
       totalUnapprovedCount,
       unconfirmedTransactionsCount,
-    } = this.props
+    } = this.props;
 
-    this.setState({ mounted: true })
+    this.setState({ mounted: true });
     if (isNotification && totalUnapprovedCount === 0) {
-      global.platform.closeCurrentWindow()
+      global.platform.closeCurrentWindow();
     } else if (firstPermissionsRequestId) {
-      navigate(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
+      navigate(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`);
     } else if (unconfirmedTransactionsCount > 0) {
-      navigate(CONFIRM_TRANSACTION_ROUTE)
+      navigate(CONFIRM_TRANSACTION_ROUTE);
     } else if (Object.keys(suggestedTokens).length > 0) {
-      navigate(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
+      navigate(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE);
     } else if (hasNetworkRequests) {
-      navigate(CONFIRM_NETWORK_REQUEST_ROUTE)
+      navigate(CONFIRM_NETWORK_REQUEST_ROUTE);
     }
   }
 
-  static getDerivedStateFromProps (
+  static getDerivedStateFromProps(
     {
       firstPermissionsRequestId,
       hasNetworkRequests,
@@ -89,26 +89,31 @@ export default class Home extends PureComponent {
   ) {
     if (!mounted) {
       if (isNotification && totalUnapprovedCount === 0) {
-        return { closing: true }
-      } else if (firstPermissionsRequestId || unconfirmedTransactionsCount > 0 || Object.keys(suggestedTokens).length > 0 || hasNetworkRequests) {
-        return { redirecting: true }
+        return { closing: true };
+      } else if (
+        firstPermissionsRequestId ||
+        unconfirmedTransactionsCount > 0 ||
+        Object.keys(suggestedTokens).length > 0 ||
+        hasNetworkRequests
+      ) {
+        return { redirecting: true };
       }
     }
-    return null
+    return null;
   }
 
-  componentDidUpdate (_, prevState) {
+  componentDidUpdate(_, prevState) {
     if (!prevState.closing && this.state.closing) {
-      global.platform.closeCurrentWindow()
+      global.platform.closeCurrentWindow();
     }
   }
 
   renderPopover = () => {
-    const { setConnectedStatusPopoverHasBeenShown } = this.props
-    const { t } = this.context
+    const { setConnectedStatusPopoverHasBeenShown } = this.props;
+    const { t } = this.context;
     return (
       <Popover
-        title={ t('whatsThis') }
+        title={t('whatsThis')}
         onClose={setConnectedStatusPopoverHasBeenShown}
         className="home__connected-status-popover"
         showArrow
@@ -120,37 +125,33 @@ export default class Home extends PureComponent {
             >
               <div className="home__connected-status-popover-bg" />
             </div>
-          )
+          );
         }}
-        footer={(
+        footer={
           <>
-            <a
-              href={LEARN_MORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              { t('learnMore') }
+            <a href={LEARN_MORE_URL} target="_blank" rel="noopener noreferrer">
+              {t('learnMore')}
             </a>
             <Button
               type="primary"
               onClick={setConnectedStatusPopoverHasBeenShown}
             >
-              { t('dismiss') }
+              {t('dismiss')}
             </Button>
           </>
-        )}
+        }
       >
         <main className="home__connect-status-text">
-          <div>{ t('ecfWalletConnectStatusParagraphOne') }</div>
-          <div>{ t('ecfWalletConnectStatusParagraphTwo') }</div>
-          <div>{ t('ecfWalletConnectStatusParagraphThree') }</div>
+          <div>{t('ecfWalletConnectStatusParagraphOne')}</div>
+          <div>{t('ecfWalletConnectStatusParagraphTwo')}</div>
+          <div>{t('ecfWalletConnectStatusParagraphThree')}</div>
         </main>
       </Popover>
-    )
-  }
+    );
+  };
 
-  render () {
-    const { t } = this.context
+  render() {
+    const { t } = this.context;
     const {
       defaultHomeActiveTabName,
       onTabClick,
@@ -158,29 +159,41 @@ export default class Home extends PureComponent {
       navigate,
       connectedStatusPopoverHasBeenShown,
       isPopup,
-    } = this.props
+    } = this.props;
 
     if (forgottenPassword) {
-      return <Navigate to={RESTORE_VAULT_ROUTE} replace />
+      return <Navigate to={RESTORE_VAULT_ROUTE} replace />;
     } else if (this.state.closing || this.state.redirecting) {
-      return null
+      return null;
     }
 
     return (
       <div className="main-container">
         <Routes>
-          <Route path={toRelativeRoutePath(CONNECTED_ROUTE)} element={<ConnectedSites />} />
-          <Route path={toRelativeRoutePath(CONNECTED_ACCOUNTS_ROUTE)} element={<ConnectedAccounts />} />
+          <Route
+            path={toRelativeRoutePath(CONNECTED_ROUTE)}
+            element={<ConnectedSites />}
+          />
+          <Route
+            path={toRelativeRoutePath(CONNECTED_ACCOUNTS_ROUTE)}
+            element={<ConnectedAccounts />}
+          />
           <Route path="*" element={null} />
         </Routes>
         <div className="home__container">
-          { isPopup && !connectedStatusPopoverHasBeenShown ? this.renderPopover() : null }
+          {isPopup && !connectedStatusPopoverHasBeenShown
+            ? this.renderPopover()
+            : null}
           <div className="home__main-view">
             <MenuBar />
             <div className="home__balance-wrapper">
               <EthOverview />
             </div>
-            <Tabs defaultActiveTabName={defaultHomeActiveTabName} onTabClick={onTabClick} tabsClassName="home__tabs">
+            <Tabs
+              defaultActiveTabName={defaultHomeActiveTabName}
+              onTabClick={onTabClick}
+              tabsClassName="home__tabs"
+            >
               <Tab
                 activeClassName="home__tab--active"
                 className="home__tab"
@@ -204,6 +217,6 @@ export default class Home extends PureComponent {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

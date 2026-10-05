@@ -3,9 +3,13 @@
  *
  * @returns {boolean} {@code true} - if the provider should be injected
  */
-export default function shouldInjectProvider () {
-  return doctypeCheck() && suffixCheck() &&
-    documentElementCheck() && !blockedDomainCheck()
+export default function shouldInjectProvider() {
+  return (
+    doctypeCheck() &&
+    suffixCheck() &&
+    documentElementCheck() &&
+    !blockedDomainCheck()
+  );
 }
 
 /**
@@ -13,12 +17,12 @@ export default function shouldInjectProvider () {
  *
  * @returns {boolean} {@code true} - if the doctype is html or if none exists
  */
-function doctypeCheck () {
-  const { doctype } = window.document
+function doctypeCheck() {
+  const { doctype } = window.document;
   if (doctype) {
-    return doctype.name === 'html'
+    return doctype.name === 'html';
   }
-  return true
+  return true;
 }
 
 /**
@@ -28,20 +32,17 @@ function doctypeCheck () {
  * that we should not inject the provider into. This check is indifferent of
  * query parameters in the location.
  *
- * @returns {boolean} - whether or not the extension of the current document is prohibited
+ * @returns {boolean} whether or not the extension of the current document is prohibited
  */
-function suffixCheck () {
-  const prohibitedTypes = [
-    /\.xml$/u,
-    /\.pdf$/u,
-  ]
-  const currentUrl = window.location.pathname
+function suffixCheck() {
+  const prohibitedTypes = [/\.xml$/u, /\.pdf$/u];
+  const currentUrl = window.location.pathname;
   for (let i = 0; i < prohibitedTypes.length; i++) {
     if (prohibitedTypes[i].test(currentUrl)) {
-      return false
+      return false;
     }
   }
-  return true
+  return true;
 }
 
 /**
@@ -49,12 +50,12 @@ function suffixCheck () {
  *
  * @returns {boolean} {@code true} - if the documentElement is an html node or if none exists
  */
-function documentElementCheck () {
-  const documentElement = document.documentElement?.nodeName
+function documentElementCheck() {
+  const documentElement = document.documentElement?.nodeName;
   if (documentElement) {
-    return documentElement.toLowerCase() === 'html'
+    return documentElement.toLowerCase() === 'html';
   }
-  return true
+  return true;
 }
 
 /**
@@ -62,7 +63,7 @@ function documentElementCheck () {
  *
  * @returns {boolean} {@code true} - if the current domain is blocked
  */
-function blockedDomainCheck () {
+function blockedDomainCheck() {
   const blockedDomains = [
     'uscourts.gov',
     'dropbox.com',
@@ -74,15 +75,18 @@ function blockedDomainCheck () {
     'ani.gamer.com.tw',
     'blueskybooking.com',
     'sharefile.com',
-  ]
-  const currentUrl = window.location.href
-  let currentRegex
+  ];
+  const currentUrl = window.location.href;
+  let currentRegex;
   for (let i = 0; i < blockedDomains.length; i++) {
-    const blockedDomain = blockedDomains[i].replace('.', '\\.')
-    currentRegex = new RegExp(`(?:https?:\\/\\/)(?:(?!${blockedDomain}).)*$`, 'u')
+    const blockedDomain = blockedDomains[i].replace('.', '\\.');
+    currentRegex = new RegExp(
+      `(?:https?:\\/\\/)(?:(?!${blockedDomain}).)*$`,
+      'u',
+    );
     if (!currentRegex.test(currentUrl)) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }

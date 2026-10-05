@@ -1,33 +1,40 @@
-import { connect } from 'react-redux'
-import { findLastIndex } from 'lodash'
-import { getNativeCurrency } from '../../../selectors'
-import TransactionActivityLog from './transaction-activity-log.component'
-import { combineTransactionHistories } from './transaction-activity-log.util'
+import { findLastIndex } from 'lodash';
+import { connect } from 'react-redux';
+
+import TransactionActivityLog from './transaction-activity-log.component';
 import {
   TRANSACTION_RESUBMITTED_EVENT,
   TRANSACTION_CANCEL_ATTEMPTED_EVENT,
-} from './transaction-activity-log.constants'
+} from './transaction-activity-log.constants';
+import { combineTransactionHistories } from './transaction-activity-log.util';
+import { getNativeCurrency } from '../../../selectors';
 
-const matchesEventKey = (matchEventKey) => ({ eventKey }) => eventKey === matchEventKey
+const matchesEventKey =
+  (matchEventKey) =>
+  ({ eventKey }) =>
+    eventKey === matchEventKey;
 
 const mapStateToProps = (state) => {
   return {
     nativeCurrency: getNativeCurrency(state),
-  }
-}
+  };
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
-    transactionGroup: {
-      transactions = [],
-      primaryTransaction,
-    } = {},
+    transactionGroup: { transactions = [], primaryTransaction } = {},
     ...restOwnProps
-  } = ownProps
+  } = ownProps;
 
-  const activities = combineTransactionHistories(transactions)
-  const inlineRetryIndex = findLastIndex(activities, matchesEventKey(TRANSACTION_RESUBMITTED_EVENT))
-  const inlineCancelIndex = findLastIndex(activities, matchesEventKey(TRANSACTION_CANCEL_ATTEMPTED_EVENT))
+  const activities = combineTransactionHistories(transactions);
+  const inlineRetryIndex = findLastIndex(
+    activities,
+    matchesEventKey(TRANSACTION_RESUBMITTED_EVENT),
+  );
+  const inlineCancelIndex = findLastIndex(
+    activities,
+    matchesEventKey(TRANSACTION_CANCEL_ATTEMPTED_EVENT),
+  );
 
   return {
     ...stateProps,
@@ -37,7 +44,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     inlineRetryIndex,
     inlineCancelIndex,
     primaryTransaction,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, null, mergeProps)(TransactionActivityLog)
+export default connect(
+  mapStateToProps,
+  null,
+  mergeProps,
+)(TransactionActivityLog);

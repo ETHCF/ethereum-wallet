@@ -2,4 +2,4 @@
 export const ROUTER_FUTURE_FLAGS = {
   v7_relativeSplatPath: true,
   v7_startTransition: true,
-}
+};

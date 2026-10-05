@@ -1,66 +1,108 @@
-import namehash from 'eth-ens-namehash'
-import EthQuery from '@metamask/eth-query'
-import pify from 'pify'
-import contentHash from 'content-hash'
-import { callContract } from '../contract-call'
+import EthQuery from '@metamask/eth-query';
+import contentHash from 'content-hash';
+import namehash from 'eth-ens-namehash';
+import pify from 'pify';
 
-export default async function resolveEnsToIpfsContentId ({ provider, name }) {
-  const query = pify(new EthQuery(provider))
-  const hash = namehash.hash(name)
+import { callContract } from '../contract-call';
+
+export default async function resolveEnsToIpfsContentId({ provider, name }) {
+  const query = pify(new EthQuery(provider));
+  const hash = namehash.hash(name);
   // lookup registry
-  const chainId = Number.parseInt(await query.sendAsync({ method: 'net_version' }), 10)
-  const registryAddress = getRegistryForChainId(chainId)
+  const chainId = Number.parseInt(
+    await query.sendAsync({ method: 'net_version' }),
+    10,
+  );
+  const registryAddress = getRegistryForChainId(chainId);
   if (!registryAddress) {
-    throw new Error(`EnsIpfsResolver - no known ens-ipfs registry for chainId "${chainId}"`)
+    throw new Error(
+      `EnsIpfsResolver - no known ens-ipfs registry for chainId "${chainId}"`,
+    );
   }
   // lookup resolver
-  const [resolverAddress] = await callContract(query, registryAddress, 'resolver(bytes32)', ['address'], [hash])
+  const [resolverAddress] = await callContract(
+    query,
+    registryAddress,
+    'resolver(bytes32)',
+    ['address'],
+    [hash],
+  );
   if (hexValueIsEmpty(resolverAddress)) {
-    throw new Error(`EnsIpfsResolver - no resolver found for name "${name}"`)
+    throw new Error(`EnsIpfsResolver - no resolver found for name "${name}"`);
   }
   const supportsInterface = async (interfaceId) => {
-    const [supported] = await callContract(query, resolverAddress, 'supportsInterface(bytes4)', ['bool'], [interfaceId])
-    return supported
-  }
+    const [supported] = await callContract(
+      query,
+      resolverAddress,
+      'supportsInterface(bytes4)',
+      ['bool'],
+      [interfaceId],
+    );
+    return supported;
+  };
 
   if (await supportsInterface('0xbc1c58d1')) {
-    const [rawContentHash] = await callContract(query, resolverAddress, 'contenthash(bytes32)', ['bytes'], [hash])
-    let decodedContentHash = contentHash.decode(rawContentHash)
-    const type = contentHash.getCodec(rawContentHash)
+    const [rawContentHash] = await callContract(
+      query,
+      resolverAddress,
+      'contenthash(bytes32)',
+      ['bytes'],
+      [hash],
+    );
+    let decodedContentHash = contentHash.decode(rawContentHash);
+    const type = contentHash.getCodec(rawContentHash);
 
     if (type === 'ipfs-ns' || type === 'ipns-ns') {
-      decodedContentHash = contentHash.helpers.cidV0ToV1Base32(decodedContentHash)
+      decodedContentHash =
+        contentHash.helpers.cidV0ToV1Base32(decodedContentHash);
     }
 
-    return { type, hash: decodedContentHash }
+    return { type, hash: decodedContentHash };
   }
   if (await supportsInterface('0xd8389dc5')) {
     // lookup content id
-    const [content] = await callContract(query, resolverAddress, 'content(bytes32)', ['bytes32'], [hash])
+    const [content] = await callContract(
+      query,
+      resolverAddress,
+      'content(bytes32)',
+      ['bytes32'],
+      [hash],
+    );
     if (hexValueIsEmpty(content)) {
-      throw new Error(`EnsIpfsResolver - no content ID found for name "${name}"`)
+      throw new Error(
+        `EnsIpfsResolver - no content ID found for name "${name}"`,
+      );
     }
-    return { type: 'swarm-ns', hash: content.slice(2) }
+    return { type: 'swarm-ns', hash: content.slice(2) };
   }
-  throw new Error(`EnsIpfsResolver - the resolver for name "${name}" is not standard, it should either supports contenthash() or content()`)
+  throw new Error(
+    `EnsIpfsResolver - the resolver for name "${name}" is not standard, it should either supports contenthash() or content()`,
+  );
 }
 
-function hexValueIsEmpty (value) {
-  return [undefined, null, '0x', '0x0', '0x0000000000000000000000000000000000000000000000000000000000000000'].includes(value)
+function hexValueIsEmpty(value) {
+  return [
+    undefined,
+    null,
+    '0x',
+    '0x0',
+    '0x0000000000000000000000000000000000000000000000000000000000000000',
+  ].includes(value);
 }
 
 /**
  * Returns the registry address for the given chain ID
- * @param {number} chainId the chain ID
+ *
+ * @param {number} chainId - the chain ID
  * @returns {string|null} the registry address if known, null otherwise
  */
-function getRegistryForChainId (chainId) {
+function getRegistryForChainId(chainId) {
   switch (chainId) {
     case 1:
     case 11155111:
       // Mainnet and Sepolia use the same address
-      return '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+      return '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
     default:
-      return null
+      return null;
   }
 }

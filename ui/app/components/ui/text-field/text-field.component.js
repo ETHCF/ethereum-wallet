@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 const TextField = ({
   id,
@@ -19,13 +19,14 @@ const TextField = ({
   dir = 'auto',
   ...inputProps
 }) => {
-  const [focused, setFocused] = useState(false)
-  const helperTextId = error && id ? `${id}-helper-text` : undefined
+  const [focused, setFocused] = useState(false);
+  const helperTextId = error && id ? `${id}-helper-text` : undefined;
   // The material theme's label sits inside the empty field and moves above it
   // once the field is focused or holds a value.
-  const hasValue = [inputProps.value, inputProps.defaultValue]
-    .some((value) => value !== undefined && value !== null && value !== '')
-  const labelRaised = theme !== 'material' || focused || hasValue
+  const hasValue = [inputProps.value, inputProps.defaultValue].some(
+    (value) => value !== undefined && value !== null && value !== '',
+  );
+  const labelRaised = theme !== 'material' || focused || hasValue;
 
   return (
     <div
@@ -60,22 +61,24 @@ const TextField = ({
           aria-invalid={Boolean(error)}
           aria-describedby={helperTextId}
           onFocus={(event) => {
-            setFocused(true)
-            onFocus?.(event)
+            setFocused(true);
+            onFocus?.(event);
           }}
           onBlur={(event) => {
-            setFocused(false)
-            onBlur?.(event)
+            setFocused(false);
+            onBlur?.(event);
           }}
           {...inputProps}
         />
       </div>
       {error && (
-        <p id={helperTextId} className="text-field__helper-text">{error}</p>
+        <p id={helperTextId} className="text-field__helper-text">
+          {error}
+        </p>
       )}
     </div>
-  )
-}
+  );
+};
 
 TextField.propTypes = {
   id: PropTypes.string,
@@ -95,6 +98,6 @@ TextField.propTypes = {
   disabled: PropTypes.bool,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-}
+};
 
-export default TextField
+export default TextField;

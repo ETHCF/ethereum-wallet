@@ -1,12 +1,13 @@
-import { connect } from 'react-redux'
-import { getSendErrors } from '../../../../../selectors'
-import SendRowErrorMessage from './send-row-error-message.component'
+import { connect } from 'react-redux';
 
-export default connect(mapStateToProps)(SendRowErrorMessage)
+import SendRowErrorMessage from './send-row-error-message.component';
+import { getSendErrors } from '../../../../../selectors';
 
-function mapStateToProps (state, ownProps) {
+export default connect(mapStateToProps)(SendRowErrorMessage);
+
+function mapStateToProps(state, ownProps) {
   return {
     errors: getSendErrors(state),
     errorType: ownProps.errorType,
-  }
+  };
 }

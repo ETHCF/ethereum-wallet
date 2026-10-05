@@ -1,29 +1,31 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../components/ui/button'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import Button from '../../components/ui/button';
 
 export default class NewAccountCreateForm extends Component {
   static defaultProps = {
     newAccountNumber: 0,
-  }
+  };
 
   state = {
     newAccountName: '',
     defaultAccountName: this.context.t('newAccountNumberName', [
       this.props.newAccountNumber,
     ]),
-  }
+  };
 
-  render () {
-    const { newAccountName, defaultAccountName } = this.state
-    const { navigate, createAccount, mostRecentOverviewPage } = this.props
+  render() {
+    const { newAccountName, defaultAccountName } = this.state;
+    const { navigate, createAccount, mostRecentOverviewPage } = this.props;
     const createClick = (_) => {
       createAccount(newAccountName || defaultAccountName)
         .then(() => {
-          navigate(mostRecentOverviewPage)
+          navigate(mostRecentOverviewPage);
+          return undefined;
         })
-        .catch(console.error)
-    }
+        .catch(console.error);
+    };
 
     return (
       <div className="new-account-create-form">
@@ -35,7 +37,9 @@ export default class NewAccountCreateForm extends Component {
             className="new-account-create-form__input"
             value={newAccountName}
             placeholder={defaultAccountName}
-            onChange={(event) => this.setState({ newAccountName: event.target.value })}
+            onChange={(event) =>
+              this.setState({ newAccountName: event.target.value })
+            }
           />
           <div className="new-account-create-form__buttons">
             <Button
@@ -57,7 +61,7 @@ export default class NewAccountCreateForm extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -66,8 +70,8 @@ NewAccountCreateForm.propTypes = {
   newAccountNumber: PropTypes.number,
   navigate: PropTypes.func,
   mostRecentOverviewPage: PropTypes.string.isRequired,
-}
+};
 
 NewAccountCreateForm.contextTypes = {
   t: PropTypes.func,
-}
+};

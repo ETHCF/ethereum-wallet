@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import { ETH } from '../../../helpers/constants/common'
-import CurrencyDisplay from '../../ui/currency-display'
-import { useUserPreferencedCurrency } from '../../../hooks/useUserPreferencedCurrency'
-import { getNativeCurrencyImage } from '../../../selectors'
+import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function UserPreferencedCurrencyDisplay ({
+import { ETH } from '../../../helpers/constants/common';
+import { useUserPreferencedCurrency } from '../../../hooks/useUserPreferencedCurrency';
+import { getNativeCurrencyImage } from '../../../selectors';
+import CurrencyDisplay from '../../ui/currency-display';
+
+export default function UserPreferencedCurrencyDisplay({
   'data-testid': dataTestId,
   ethLogoHeight = 12,
   ethNumberOfDecimals,
@@ -14,18 +15,25 @@ export default function UserPreferencedCurrencyDisplay ({
   showEthLogo,
   ...restProps
 }) {
-  const { currency, numberOfDecimals } = useUserPreferencedCurrency({ ethNumberOfDecimals, numberOfDecimals: propsNumberOfDecimals })
+  const { currency, numberOfDecimals } = useUserPreferencedCurrency({
+    ethNumberOfDecimals,
+    numberOfDecimals: propsNumberOfDecimals,
+  });
 
-  const nativeCurrencyImage = useSelector(getNativeCurrencyImage)
+  const nativeCurrencyImage = useSelector(getNativeCurrencyImage);
 
   const prefixComponent = useMemo(() => {
-    return currency && (nativeCurrencyImage || currency === ETH) && showEthLogo && (
-      <img
-        src={nativeCurrencyImage || '/images/eth.svg'}
-        height={ethLogoHeight}
-      />
-    )
-  }, [currency, nativeCurrencyImage, showEthLogo, ethLogoHeight])
+    return (
+      currency &&
+      (nativeCurrencyImage || currency === ETH) &&
+      showEthLogo && (
+        <img
+          src={nativeCurrencyImage || '/images/eth.svg'}
+          height={ethLogoHeight}
+        />
+      )
+    );
+  }, [currency, nativeCurrencyImage, showEthLogo, ethLogoHeight]);
 
   return (
     <CurrencyDisplay
@@ -35,7 +43,7 @@ export default function UserPreferencedCurrencyDisplay ({
       numberOfDecimals={numberOfDecimals}
       prefixComponent={prefixComponent}
     />
-  )
+  );
 }
 
 UserPreferencedCurrencyDisplay.propTypes = {
@@ -49,5 +57,8 @@ UserPreferencedCurrencyDisplay.propTypes = {
   style: PropTypes.object,
   showEthLogo: PropTypes.bool,
   ethLogoHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ethNumberOfDecimals: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-}
+  ethNumberOfDecimals: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+};

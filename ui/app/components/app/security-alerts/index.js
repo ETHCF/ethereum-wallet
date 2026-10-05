@@ -1,1 +1,1 @@
-export { default, hasDangerAlerts } from './security-alerts.component'
+export { default, hasDangerAlerts } from './security-alerts.component';

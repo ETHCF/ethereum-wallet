@@ -1,14 +1,15 @@
-import assert from 'assert'
-import * as reactRedux from 'react-redux'
-import { renderHook } from '@testing-library/react'
-import sinon from 'sinon'
-import transactions from '../../../../test/data/transaction-data.json'
-import { useTransactionDisplayData } from '../useTransactionDisplayData'
-import { getNativeCurrency } from '../../selectors'
-import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
-import * as i18nhooks from '../useI18nContext'
-import { getMessage } from '../../helpers/utils/i18n-helper'
-import messages from '../../../../app/_locales/en/messages.json'
+import { renderHook } from '@testing-library/react';
+import assert from 'assert';
+import * as reactRedux from 'react-redux';
+import sinon from 'sinon';
+
+import messages from '../../../../app/_locales/en/messages.json';
+import transactions from '../../../../test/data/transaction-data.json';
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
+import { getMessage } from '../../helpers/utils/i18n-helper';
+import { getNativeCurrency } from '../../selectors';
+import * as i18nhooks from '../useI18nContext';
+import { useTransactionDisplayData } from '../useTransactionDisplayData';
 
 const expectedResults = [
   {
@@ -83,67 +84,100 @@ const expectedResults = [
     isPending: false,
     status: 'confirmed',
   },
-]
+];
 
-let useSelector, useI18nContext
+let useSelector, useI18nContext;
 
 describe('useTransactionDisplayData', function () {
-  let clock
+  let clock;
 
   before(function () {
-    clock = sinon.useFakeTimers({ now: new Date('2020-05-25').getTime(), toFake: ['Date'] })
-    useSelector = sinon.stub(reactRedux, 'useSelector')
-    useI18nContext = sinon.stub(i18nhooks, 'useI18nContext')
-    useI18nContext.returns((key, variables) => getMessage('en', messages, key, variables))
+    clock = sinon.useFakeTimers({
+      now: new Date('2020-05-25').getTime(),
+      toFake: ['Date'],
+    });
+    useSelector = sinon.stub(reactRedux, 'useSelector');
+    useI18nContext = sinon.stub(i18nhooks, 'useI18nContext');
+    useI18nContext.returns((key, variables) =>
+      getMessage('en', messages, key, variables),
+    );
     useSelector.callsFake((selector) => {
       if (selector === getTokens) {
-        return []
+        return [];
       } else if (selector === getNativeCurrency) {
-        return 'ETH'
+        return 'ETH';
       }
-      return null
-    })
-  })
+      return null;
+    });
+  });
   transactions.forEach((transactionGroup, idx) => {
     describe(`when called with group containing primaryTransaction id ${transactionGroup.primaryTransaction.id}`, function () {
-      const expected = expectedResults[idx]
+      const expected = expectedResults[idx];
+
       it(`should return a title of ${expected.title}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.title, expected.title)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.title, expected.title);
+      });
+
       it(`should return a subtitle of ${expected.subtitle}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.subtitle, expected.subtitle)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.subtitle, expected.subtitle);
+      });
+
       it(`should return a category of ${expected.category}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.category, expected.category)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.category, expected.category);
+      });
+
       it(`should return a primaryCurrency of ${expected.primaryCurrency}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.primaryCurrency, expected.primaryCurrency)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.primaryCurrency, expected.primaryCurrency);
+      });
+
       it(`should return a status of ${expected.status}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.status, expected.status)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.status, expected.status);
+      });
+
       it(`should return a recipientAddress of ${expected.recipientAddress}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.recipientAddress, expected.recipientAddress)
-      })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(
+          result.current.recipientAddress,
+          expected.recipientAddress,
+        );
+      });
+
       it(`should return a senderAddress of ${expected.senderAddress}`, function () {
-        const { result } = renderHook(() => useTransactionDisplayData(transactionGroup))
-        assert.equal(result.current.senderAddress, expected.senderAddress)
-      })
-    })
-  })
+        const { result } = renderHook(() =>
+          useTransactionDisplayData(transactionGroup),
+        );
+        assert.equal(result.current.senderAddress, expected.senderAddress);
+      });
+    });
+  });
+
   it('should return an appropriate object', function () {
-    const { result } = renderHook(() => useTransactionDisplayData(transactions[0]))
-    assert.deepEqual(result.current, expectedResults[0])
-  })
+    const { result } = renderHook(() =>
+      useTransactionDisplayData(transactions[0]),
+    );
+    assert.deepEqual(result.current, expectedResults[0]);
+  });
+
   after(function () {
-    clock.restore()
-    useSelector.restore()
-    useI18nContext.restore()
-  })
-})
+    clock.restore();
+    useSelector.restore();
+    useI18nContext.restore();
+  });
+});

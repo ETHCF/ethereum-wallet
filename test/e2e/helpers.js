@@ -1,72 +1,81 @@
-const path = require('path')
-const createStaticServer = require('../../development/create-static-server')
-const Anvil = require('../anvil')
-const FixtureServer = require('./fixture-server')
-const { buildWebDriver } = require('./webdriver')
+const path = require('path');
 
-const tinyDelayMs = 200
-const regularDelayMs = tinyDelayMs * 2
-const largeDelayMs = regularDelayMs * 2
+const createStaticServer = require('../../development/create-static-server');
+const Anvil = require('../anvil');
+const FixtureServer = require('./fixture-server');
+const { buildWebDriver } = require('./webdriver');
 
-const dappPort = 8080
+const tinyDelayMs = 200;
+const regularDelayMs = tinyDelayMs * 2;
+const largeDelayMs = regularDelayMs * 2;
 
-async function withFixtures (options, callback) {
-  const { dapp, fixtures, chainOptions, driverOptions, title } = options
-  const fixtureServer = new FixtureServer()
-  const chainServer = options.chainServer || new Anvil()
-  let dappServer
+const dappPort = 8080;
 
-  let webDriver
+async function withFixtures(options, callback) {
+  const { dapp, fixtures, chainOptions, driverOptions, title } = options;
+  const fixtureServer = new FixtureServer();
+  const chainServer = options.chainServer || new Anvil();
+  let dappServer;
+
+  let webDriver;
   try {
-    await chainServer.start(chainOptions)
-    await fixtureServer.start()
-    await fixtureServer.loadState(path.join(__dirname, 'fixtures', fixtures))
+    await chainServer.start(chainOptions);
+    await fixtureServer.start();
+    await fixtureServer.loadState(path.join(__dirname, 'fixtures', fixtures));
     if (dapp) {
-      const dappDirectory = path.resolve(__dirname, '..', '..', 'node_modules', '@metamask', 'test-dapp', 'dist')
-      dappServer = createStaticServer(dappDirectory)
-      dappServer.listen(dappPort)
+      const dappDirectory = path.resolve(
+        __dirname,
+        '..',
+        '..',
+        'node_modules',
+        '@metamask',
+        'test-dapp',
+        'dist',
+      );
+      dappServer = createStaticServer(dappDirectory);
+      dappServer.listen(dappPort);
       await new Promise((resolve, reject) => {
-        dappServer.on('listening', resolve)
-        dappServer.on('error', reject)
-      })
+        dappServer.on('listening', resolve);
+        dappServer.on('error', reject);
+      });
     }
-    const { driver } = await buildWebDriver(driverOptions)
-    webDriver = driver
+    const { driver } = await buildWebDriver(driverOptions);
+    webDriver = driver;
 
-    // eslint-disable-next-line callback-return
+    // eslint-disable-next-line n/callback-return -- the test body is awaited, then the browser console is checked
     await callback({
       driver,
       chainServer,
-    })
+    });
 
     if (process.env.SELENIUM_BROWSER === 'chrome') {
-      const errors = await driver.checkBrowserForConsoleErrors(driver)
+      const errors = await driver.checkBrowserForConsoleErrors(driver);
       if (errors.length) {
-        const errorReports = errors.map((err) => err.message)
-        const errorMessage = `Errors found in browser console:\n${errorReports.join('\n')}`
-        throw new Error(errorMessage)
+        const errorReports = errors.map((err) => err.message);
+        const errorMessage = `Errors found in browser console:\n${errorReports.join('\n')}`;
+        throw new Error(errorMessage);
       }
     }
   } catch (error) {
     if (webDriver) {
-      await webDriver.verboseReportOnFailure(title)
+      await webDriver.verboseReportOnFailure(title);
     }
-    throw error
+    throw error;
   } finally {
-    await fixtureServer.stop()
-    await chainServer.quit()
+    await fixtureServer.stop();
+    await chainServer.quit();
     if (webDriver) {
-      await webDriver.quit()
+      await webDriver.quit();
     }
     if (dappServer) {
       await new Promise((resolve, reject) => {
         dappServer.close((error) => {
           if (error) {
-            return reject(error)
+            return reject(error);
           }
-          return resolve()
-        })
-      })
+          return resolve();
+        });
+      });
     }
   }
 }
@@ -76,4 +85,4 @@ module.exports = {
   regularDelayMs,
   largeDelayMs,
   withFixtures,
-}
+};

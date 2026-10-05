@@ -1,63 +1,59 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../../components/ui/button'
-import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo'
-import { getPrivacyPolicyUrl } from '../../../helpers/constants/privacy-policy'
-import { getTermsOfUseUrl } from '../../../helpers/constants/terms-of-use'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import Button from '../../../components/ui/button';
+import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo';
+import { getPrivacyPolicyUrl } from '../../../helpers/constants/privacy-policy';
+import { getTermsOfUseUrl } from '../../../helpers/constants/terms-of-use';
 
 export default class InfoTab extends PureComponent {
   state = {
     version: global.platform.getVersion(),
     buildHash: null,
     buildCommit: null,
-  }
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     // Written at build time by development/build/build-info.js. It is packaged
     // with the extension, so this never touches the network.
-    global.fetch('./build-info.json')
+    global
+      .fetch('./build-info.json')
       .then((response) => response.json())
-      .then(({ hash, commit }) => this.setState({ buildHash: hash, buildCommit: commit }))
-      .catch(() => undefined)
+      .then(({ hash, commit }) =>
+        this.setState({ buildHash: hash, buildCommit: commit }),
+      )
+      .catch(() => undefined);
   }
 
-  renderBuild () {
-    const { t } = this.context
-    const { buildHash, buildCommit } = this.state
+  renderBuild() {
+    const { t } = this.context;
+    const { buildHash, buildCommit } = this.state;
 
     if (!buildHash) {
-      return null
+      return null;
     }
 
     return (
       <div className="info-tab__item">
-        <div className="info-tab__version-header">
-          { t('buildHash') }
-        </div>
-        <div className="info-tab__build-value">{ buildHash }</div>
-        <div className="info-tab__version-header">
-          { t('buildCommit') }
-        </div>
-        <div className="info-tab__build-value">{ buildCommit }</div>
-        <div className="info-tab__about">
-          { t('buildVerifyInstructions') }
-        </div>
+        <div className="info-tab__version-header">{t('buildHash')}</div>
+        <div className="info-tab__build-value">{buildHash}</div>
+        <div className="info-tab__version-header">{t('buildCommit')}</div>
+        <div className="info-tab__build-value">{buildCommit}</div>
+        <div className="info-tab__about">{t('buildVerifyInstructions')}</div>
       </div>
-    )
+    );
   }
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  renderInfoLinks () {
-    const { t } = this.context
+  renderInfoLinks() {
+    const { t } = this.context;
 
     return (
       <div className="settings-page__content-item settings-page__content-item--without-height">
-        <div className="info-tab__link-header">
-          { t('links') }
-        </div>
+        <div className="info-tab__link-header">{t('links')}</div>
         <div className="info-tab__link-item">
           <Button
             type="link"
@@ -66,7 +62,7 @@ export default class InfoTab extends PureComponent {
             rel="noopener noreferrer"
             className="info-tab__link-text"
           >
-            { t('privacyMsg') }
+            {t('privacyMsg')}
           </Button>
         </div>
         <div className="info-tab__link-item">
@@ -77,7 +73,7 @@ export default class InfoTab extends PureComponent {
             rel="noopener noreferrer"
             className="info-tab__link-text"
           >
-            { t('terms') }
+            {t('terms')}
           </Button>
         </div>
         <div className="info-tab__link-item">
@@ -88,7 +84,7 @@ export default class InfoTab extends PureComponent {
             rel="noopener noreferrer"
             className="info-tab__link-text"
           >
-            { t('attributions') }
+            {t('attributions')}
           </Button>
         </div>
         <hr className="info-tab__separator" />
@@ -100,7 +96,7 @@ export default class InfoTab extends PureComponent {
             rel="noopener noreferrer"
             className="info-tab__link-text"
           >
-            { t('visitWebSite') }
+            {t('visitWebSite')}
           </Button>
         </div>
         <div className="info-tab__link-item">
@@ -111,15 +107,15 @@ export default class InfoTab extends PureComponent {
             rel="noopener noreferrer"
             className="info-tab__link-text"
           >
-            { t('contactUs') }
+            {t('contactUs')}
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
-    const { t } = this.context
+  render() {
+    const { t } = this.context;
 
     return (
       <div className="settings-page__body">
@@ -130,22 +126,20 @@ export default class InfoTab extends PureComponent {
             </div>
             <div className="info-tab__item">
               <div className="info-tab__version-header">
-                { t('ecfWalletVersion') }
+                {t('ecfWalletVersion')}
               </div>
               <div className="info-tab__version-number">
-                { this.state.version }
+                {this.state.version}
               </div>
             </div>
             <div className="info-tab__item">
-              <div className="info-tab__about">
-                { t('ecfWalletDescription') }
-              </div>
+              <div className="info-tab__about">{t('ecfWalletDescription')}</div>
             </div>
-            { this.renderBuild() }
+            {this.renderBuild()}
           </div>
-          { this.renderInfoLinks() }
+          {this.renderInfoLinks()}
         </div>
       </div>
-    )
+    );
   }
 }

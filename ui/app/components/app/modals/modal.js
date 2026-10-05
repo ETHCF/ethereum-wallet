@@ -1,31 +1,28 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-
-import { connect } from 'react-redux'
-import * as actions from '../../../store/actions'
-import { resetCustomData as resetCustomGasData } from '../../../ducks/gas/gas.duck'
-import isMobileView from '../../../../lib/is-mobile-view'
-import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Modal Components
-import ConfirmCustomizeGasModal from '../gas-customization/gas-modal-page-container'
-import AccountDetailsModal from './account-details-modal'
-import ExportPrivateKeyModal from './export-private-key-modal'
-import HideTokenConfirmationModal from './hide-token-confirmation-modal'
-import NotifcationModal from './notification-modal'
-
-import ConfirmRemoveAccount from './confirm-remove-account'
-import ConfirmResetAccount from './confirm-reset-account'
-import TransactionConfirmed from './transaction-confirmed'
-import CancelTransaction from './cancel-transaction'
-
-import FadeModal from './fade-modal'
-import RejectTransactions from './reject-transactions'
-import ConfirmDeleteNetwork from './confirm-delete-network'
-import AddToAddressBookModal from './add-to-addressbook-modal'
-import EditApprovalPermission from './edit-approval-permission'
-import NewAccountModal from './new-account-modal'
+import AccountDetailsModal from './account-details-modal';
+import AddToAddressBookModal from './add-to-addressbook-modal';
+import CancelTransaction from './cancel-transaction';
+import ConfirmDeleteNetwork from './confirm-delete-network';
+import ConfirmRemoveAccount from './confirm-remove-account';
+import ConfirmResetAccount from './confirm-reset-account';
+import EditApprovalPermission from './edit-approval-permission';
+import ExportPrivateKeyModal from './export-private-key-modal';
+import FadeModal from './fade-modal';
+import HideTokenConfirmationModal from './hide-token-confirmation-modal';
+import NewAccountModal from './new-account-modal';
+import NotifcationModal from './notification-modal';
+import RejectTransactions from './reject-transactions';
+import TransactionConfirmed from './transaction-confirmed';
+import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums';
+import { getEnvironmentType } from '../../../../../app/scripts/lib/util';
+import isMobileView from '../../../../lib/is-mobile-view';
+import { resetCustomData as resetCustomGasData } from '../../../ducks/gas/gas.duck';
+import * as actions from '../../../store/actions';
+import ConfirmCustomizeGasModal from '../gas-customization/gas-modal-page-container';
 
 const modalContainerBaseStyle = {
   transform: 'translate3d(-50%, 0, 0px)',
@@ -33,19 +30,19 @@ const modalContainerBaseStyle = {
   borderRadius: '8px',
   backgroundColor: 'var(--color-background-default)',
   boxShadow: '0 2px 22px 0 rgba(0,0,0,0.2)',
-}
+};
 
 const modalContainerLaptopStyle = {
   ...modalContainerBaseStyle,
   width: '344px',
   top: '15%',
-}
+};
 
 const modalContainerMobileStyle = {
   ...modalContainerBaseStyle,
   width: '309px',
   top: '12.5%',
-}
+};
 
 const accountModalStyle = {
   mobileModalStyle: {
@@ -73,10 +70,9 @@ const accountModalStyle = {
   contentStyle: {
     borderRadius: '4px',
   },
-}
+};
 
 const MODALS = {
-
   ADD_TO_ADDRESSBOOK: {
     contents: <AddToAddressBookModal />,
     mobileModalStyle: {
@@ -154,7 +150,12 @@ const MODALS = {
   },
 
   GAS_PRICE_INFO_MODAL: {
-    contents: <NotifcationModal header="gasPriceNoDenom" message="gasPriceInfoModalContent" />,
+    contents: (
+      <NotifcationModal
+        header="gasPriceNoDenom"
+        message="gasPriceInfoModalContent"
+      />
+    ),
     mobileModalStyle: {
       width: '95%',
       top: getEnvironmentType() === ENVIRONMENT_TYPE_POPUP ? '52vh' : '36.5vh',
@@ -166,7 +167,9 @@ const MODALS = {
   },
 
   GAS_LIMIT_INFO_MODAL: {
-    contents: <NotifcationModal header="gasLimit" message="gasLimitInfoModalContent" />,
+    contents: (
+      <NotifcationModal header="gasLimit" message="gasLimitInfoModalContent" />
+    ),
     mobileModalStyle: {
       width: '95%',
       top: getEnvironmentType() === ENVIRONMENT_TYPE_POPUP ? '52vh' : '36.5vh',
@@ -315,32 +318,31 @@ const MODALS = {
     mobileModalStyle: {},
     laptopModalStyle: {},
   },
-}
+};
 
 const BACKDROPSTYLE = {
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-}
+};
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     active: state.appState.modal.open,
     modalState: state.appState.modal.modalState,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: (customOnHideOpts) => {
-      dispatch(actions.hideModal())
+      dispatch(actions.hideModal());
       if (customOnHideOpts && customOnHideOpts.action) {
-        dispatch(customOnHideOpts.action(...customOnHideOpts.args))
+        dispatch(customOnHideOpts.action(...customOnHideOpts.args));
       }
     },
     hideWarning: () => {
-      dispatch(actions.hideWarning())
+      dispatch(actions.hideWarning());
     },
-
-  }
+  };
 }
 
 class Modal extends Component {
@@ -349,29 +351,30 @@ class Modal extends Component {
     hideModal: PropTypes.func.isRequired,
     hideWarning: PropTypes.func.isRequired,
     modalState: PropTypes.object.isRequired,
+  };
+
+  hide() {
+    this.modalRef.hide();
   }
 
-  hide () {
-    this.modalRef.hide()
+  show() {
+    this.modalRef.show();
   }
 
-  show () {
-    this.modalRef.show()
-  }
-
-  UNSAFE_componentWillReceiveProps (nextProps, _) {
+  UNSAFE_componentWillReceiveProps(nextProps, _) {
     if (nextProps.active) {
-      this.show()
+      this.show();
     } else if (this.props.active) {
-      this.hide()
+      this.hide();
     }
   }
 
-  render () {
-    const modal = MODALS[this.props.modalState.name || 'DEFAULT']
-    const { contents: children, disableBackdropClick = false } = modal
-    const modalStyle = modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle']
-    const contentStyle = modal.contentStyle || {}
+  render() {
+    const modal = MODALS[this.props.modalState.name || 'DEFAULT'];
+    const { contents: children, disableBackdropClick = false } = modal;
+    const modalStyle =
+      modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle'];
+    const contentStyle = modal.contentStyle || {};
 
     return (
       <FadeModal
@@ -380,12 +383,12 @@ class Modal extends Component {
           if (modal.onHide) {
             modal.onHide({
               hideWarning: this.props.hideWarning,
-            })
+            });
           }
-          this.props.hideModal(modal.customOnHideOpts)
+          this.props.hideModal(modal.customOnHideOpts);
         }}
         ref={(ref) => {
-          this.modalRef = ref
+          this.modalRef = ref;
         }}
         modalStyle={modalStyle}
         contentStyle={contentStyle}
@@ -394,8 +397,8 @@ class Modal extends Component {
       >
         {children}
       </FadeModal>
-    )
+    );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal)
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

@@ -4,105 +4,112 @@
  * @license   MIT
  */
 
-import EventEmitter from 'events'
+import * as ethUtil from '@ethereumjs/util';
+import createFilterMiddleware from '@metamask/eth-json-rpc-filters';
+import createSubscriptionManager from '@metamask/eth-json-rpc-filters/subscriptionManager';
+import { providerAsMiddleware } from '@metamask/eth-json-rpc-middleware';
+import EthQuery from '@metamask/eth-query';
+import {
+  JsonRpcEngine,
+  createAsyncMiddleware,
+} from '@metamask/json-rpc-engine';
+import { createEngineStream } from '@metamask/json-rpc-middleware-stream';
+import { Mutex } from 'await-semaphore';
+import Dnode from 'dnode';
+import EventEmitter from 'events';
+import { debounce } from 'lodash';
+import log from 'loglevel';
+import { nanoid } from 'nanoid';
+import pump from 'pump';
 
-import pump from 'pump'
-import Dnode from 'dnode'
-import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
-import { debounce } from 'lodash'
-import { createEngineStream } from '@metamask/json-rpc-middleware-stream'
-import createFilterMiddleware from '@metamask/eth-json-rpc-filters'
-import createSubscriptionManager from '@metamask/eth-json-rpc-filters/subscriptionManager'
-import { providerAsMiddleware } from '@metamask/eth-json-rpc-middleware'
-import { Mutex } from 'await-semaphore'
-import * as ethUtil from '@ethereumjs/util'
-import log from 'loglevel'
-import EthQuery from '@metamask/eth-query'
-import { nanoid } from 'nanoid'
-import extension from './lib/extension-api'
-import KeyringController from './lib/modern-keyring-controller'
-import { mnemonicToString } from './lib/software-keyrings'
-import { Trezor as TrezorKeyring, Ledger as LedgerBridgeKeyring } from './lib/hardware-keyrings'
-import ComposableObservableStore from './lib/ComposableObservableStore'
-import AccountTracker from './lib/account-tracker'
-import createLoggerMiddleware from './lib/createLoggerMiddleware'
-import createOriginMiddleware from './lib/createOriginMiddleware'
-import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware'
-import OriginThrottler from './lib/origin-throttler'
-import createDupeReqFilterStream from './lib/createDupeReqFilterStream'
-import NetworkRequestController from './controllers/network-requests'
-import { normalizeChainId } from './controllers/network/chain-utils'
-import { getTypedDataAlerts } from './lib/security-checks'
-import createTabIdMiddleware from './lib/createTabIdMiddleware'
-import createOnboardingMiddleware from './lib/createOnboardingMiddleware'
-import { setupMultiplex } from './lib/stream-utils'
-import EnsController from './controllers/ens'
-import NetworkController from './controllers/network'
-import PreferencesController from './controllers/preferences'
-import AppStateController from './controllers/app-state'
-import CachedBalancesController from './controllers/cached-balances'
-import AlertController from './controllers/alert'
-import OnboardingController from './controllers/onboarding'
-import DecryptMessageManager from './lib/decrypt-message-manager'
-import EncryptionPublicKeyManager from './lib/encryption-public-key-manager'
-import PersonalMessageManager from './lib/personal-message-manager'
-import TypedMessageManager from './lib/typed-message-manager'
-import TransactionController from './controllers/transactions'
-import PhishingController from './controllers/phishing'
-import DetectTokensController from './controllers/detect-tokens'
-import { PermissionsController } from './controllers/permissions'
-import { NOTIFICATION_NAMES } from './controllers/permissions/enums'
-import nodeify from './lib/nodeify'
-import accountImporter from './account-import-strategies'
-import { createAddressBookController } from './lib/modern-controllers-implementation'
-import selectChainId from './lib/select-chain-id'
-import seedPhraseVerifier from './lib/seed-phrase-verifier'
+import accountImporter from './account-import-strategies';
+import AlertController from './controllers/alert';
+import AppStateController from './controllers/app-state';
+import CachedBalancesController from './controllers/cached-balances';
+import DetectTokensController from './controllers/detect-tokens';
+import EnsController from './controllers/ens';
+import NetworkController from './controllers/network';
+import { normalizeChainId } from './controllers/network/chain-utils';
+import NetworkRequestController from './controllers/network-requests';
+import OnboardingController from './controllers/onboarding';
+import { PermissionsController } from './controllers/permissions';
+import { NOTIFICATION_NAMES } from './controllers/permissions/enums';
+import PhishingController from './controllers/phishing';
+import PreferencesController from './controllers/preferences';
+import TransactionController from './controllers/transactions';
+import AccountTracker from './lib/account-tracker';
+import ComposableObservableStore from './lib/ComposableObservableStore';
+import createDupeReqFilterStream from './lib/createDupeReqFilterStream';
+import createLoggerMiddleware from './lib/createLoggerMiddleware';
+import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware';
+import createOnboardingMiddleware from './lib/createOnboardingMiddleware';
+import createOriginMiddleware from './lib/createOriginMiddleware';
+import createTabIdMiddleware from './lib/createTabIdMiddleware';
+import DecryptMessageManager from './lib/decrypt-message-manager';
+import EncryptionPublicKeyManager from './lib/encryption-public-key-manager';
+import extension from './lib/extension-api';
+import {
+  Trezor as TrezorKeyring,
+  Ledger as LedgerBridgeKeyring,
+} from './lib/hardware-keyrings';
+import { createAddressBookController } from './lib/modern-controllers-implementation';
+import KeyringController from './lib/modern-keyring-controller';
+import nodeify from './lib/nodeify';
+import OriginThrottler from './lib/origin-throttler';
+import PersonalMessageManager from './lib/personal-message-manager';
+import { getTypedDataAlerts } from './lib/security-checks';
+import seedPhraseVerifier from './lib/seed-phrase-verifier';
+import selectChainId from './lib/select-chain-id';
+import { mnemonicToString } from './lib/software-keyrings';
+import { setupMultiplex } from './lib/stream-utils';
+import TypedMessageManager from './lib/typed-message-manager';
 
 export default class EcfWalletController extends EventEmitter {
-
   /**
-   * @constructor
-   * @param {Object} opts
+   * Creates the controllers and wires them together.
+   *
+   * @class
+   * @param {object} opts - The platform, persisted state and callbacks for the UI.
    */
-  constructor (opts) {
-    super()
+  constructor(opts) {
+    super();
 
-    this.defaultMaxListeners = 20
+    this.defaultMaxListeners = 20;
 
-    this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
-    this.opts = opts
-    this.platform = opts.platform
-    const initState = opts.initState || {}
-    this.recordFirstTimeInfo(initState)
+    this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200);
+    this.opts = opts;
+    this.platform = opts.platform;
+    const initState = opts.initState || {};
+    this.recordFirstTimeInfo(initState);
 
     // this keeps track of how many "controllerStream" connections are open
     // the only thing that uses controller connections are open ecf-wallet UI instances
-    this.activeControllerConnections = 0
+    this.activeControllerConnections = 0;
 
-    this.getRequestAccountTabIds = opts.getRequestAccountTabIds
-    this.getOpenEcfWalletTabsIds = opts.getOpenEcfWalletTabsIds
+    this.getRequestAccountTabIds = opts.getRequestAccountTabIds;
+    this.getOpenEcfWalletTabsIds = opts.getOpenEcfWalletTabsIds;
 
     // observable state store
-    this.store = new ComposableObservableStore(initState)
+    this.store = new ComposableObservableStore(initState);
 
     // external connections by origin
     // Do not modify directly. Use the associated methods.
-    this.connections = {}
+    this.connections = {};
 
     // lock to ensure only one vault created at once
-    this.createVaultMutex = new Mutex()
+    this.createVaultMutex = new Mutex();
 
     // next, we will initialize the controllers
     // controller initialization order matters
 
-    this.networkController = new NetworkController(initState.NetworkController)
+    this.networkController = new NetworkController(initState.NetworkController);
 
     this.preferencesController = new PreferencesController({
       initState: initState.PreferencesController,
       initLangCode: opts.initLangCode,
       openPopup: opts.openPopup,
       network: this.networkController,
-    })
+    });
 
     this.appStateController = new AppStateController({
       addUnlockListener: this.on.bind(this, 'unlock'),
@@ -111,134 +118,188 @@ export default class EcfWalletController extends EventEmitter {
       onInactiveTimeout: () => this.setLocked(),
       showUnlockRequest: opts.showUnlockRequest,
       preferencesStore: this.preferencesController.store,
-    })
+    });
 
-    this.phishingController = new PhishingController()
+    this.phishingController = new PhishingController();
 
     // now we can initialize the RPC provider, which other controllers require
-    this.initializeProvider()
-    this.provider = this.networkController.getProviderAndBlockTracker().provider
-    this.blockTracker = this.networkController.getProviderAndBlockTracker().blockTracker
+    this.initializeProvider();
+    this.provider =
+      this.networkController.getProviderAndBlockTracker().provider;
+    this.blockTracker =
+      this.networkController.getProviderAndBlockTracker().blockTracker;
 
     this.ensController = new EnsController({
       provider: this.provider,
       networkStore: this.networkController.networkStore,
-    })
+    });
 
     // account tracker watches balances, nonces, and any code at their address
     this.accountTracker = new AccountTracker({
       provider: this.provider,
       blockTracker: this.blockTracker,
       network: this.networkController,
-    })
+    });
 
     // start and stop polling for balances based on activeControllerConnections
     this.on('controllerConnectionChanged', (activeControllerConnections) => {
       if (activeControllerConnections > 0) {
-        this.accountTracker.start()
+        this.accountTracker.start();
       } else {
-        this.accountTracker.stop()
+        this.accountTracker.stop();
       }
-    })
+    });
 
     this.cachedBalancesController = new CachedBalancesController({
       accountTracker: this.accountTracker,
-      getNetwork: this.networkController.getNetworkState.bind(this.networkController),
+      getNetwork: this.networkController.getNetworkState.bind(
+        this.networkController,
+      ),
       initState: initState.CachedBalancesController,
-    })
+    });
 
     this.onboardingController = new OnboardingController({
       initState: initState.OnboardingController,
       preferencesController: this.preferencesController,
-    })
+    });
 
     // ensure accountTracker updates balances after network change
     this.networkController.on('networkDidChange', () => {
-      this.accountTracker._updateAccounts()
-    })
+      this.accountTracker._updateAccounts();
+    });
 
-    const additionalKeyrings = [TrezorKeyring, LedgerBridgeKeyring]
+    const additionalKeyrings = [TrezorKeyring, LedgerBridgeKeyring];
     this.keyringController = new KeyringController({
       keyringTypes: additionalKeyrings,
       initState: initState.KeyringController,
-      getNetwork: this.networkController.getNetworkState.bind(this.networkController),
+      getNetwork: this.networkController.getNetworkState.bind(
+        this.networkController,
+      ),
       encryptor: opts.encryptor || undefined,
-    })
-    this.keyringController.memStore.subscribe((s) => this._onKeyringControllerUpdate(s))
-    this.keyringController.on('unlock', () => this._onUnlock())
-    this.keyringController.on('lock', () => this._onLock())
+    });
+    this.keyringController.memStore.subscribe((s) =>
+      this._onKeyringControllerUpdate(s),
+    );
+    this.keyringController.on('unlock', () => this._onUnlock());
+    this.keyringController.on('lock', () => this._onLock());
 
-    this.permissionsController = new PermissionsController({
-      getKeyringAccounts: this.keyringController.getAccounts.bind(this.keyringController),
-      getUnlockPromise: this.appStateController.getUnlockPromise.bind(this.appStateController),
-      notifyDomain: this.notifyConnections.bind(this),
-      notifyAllDomains: this.notifyAllConnections.bind(this),
-      preferences: this.preferencesController.store,
-      showPermissionRequest: opts.showPermissionRequest,
-    }, initState.PermissionController, initState.PermissionsMetadata)
+    this.permissionsController = new PermissionsController(
+      {
+        getKeyringAccounts: this.keyringController.getAccounts.bind(
+          this.keyringController,
+        ),
+        getUnlockPromise: this.appStateController.getUnlockPromise.bind(
+          this.appStateController,
+        ),
+        notifyDomain: this.notifyConnections.bind(this),
+        notifyAllDomains: this.notifyAllConnections.bind(this),
+        preferences: this.preferencesController.store,
+        showPermissionRequest: opts.showPermissionRequest,
+      },
+      initState.PermissionController,
+      initState.PermissionsMetadata,
+    );
 
     this.detectTokensController = new DetectTokensController({
       preferences: this.preferencesController,
       network: this.networkController,
       keyringMemStore: this.keyringController.memStore,
-    })
+    });
 
-    const addressBook = createAddressBookController(initState.AddressBookController)
-    this.addressBookController = addressBook.controller
-    this.addressBookStore = addressBook.store
+    const addressBook = createAddressBookController(
+      initState.AddressBookController,
+    );
+    this.addressBookController = addressBook.controller;
+    this.addressBookStore = addressBook.store;
 
-    this.originThrottler = new OriginThrottler()
+    this.originThrottler = new OriginThrottler();
 
     this.networkRequestController = new NetworkRequestController({
-      getCurrentChainId: () => normalizeChainId(this.networkController.getChainId()),
-      getCustomNetworks: () => this.preferencesController.getFrequentRpcListDetail(),
-      addCustomNetwork: async ({ rpcUrl, chainId, ticker, chainName, blockExplorerUrl }) => {
-        const rpcPrefs = blockExplorerUrl ? { blockExplorerUrl } : {}
-        await this.preferencesController.addToFrequentRpcList(rpcUrl, chainId, ticker, chainName, rpcPrefs)
-        this.networkController.setRpcTarget(rpcUrl, chainId, ticker, chainName, rpcPrefs)
+      getCurrentChainId: () =>
+        normalizeChainId(this.networkController.getChainId()),
+      getCustomNetworks: () =>
+        this.preferencesController.getFrequentRpcListDetail(),
+      addCustomNetwork: async ({
+        rpcUrl,
+        chainId,
+        ticker,
+        chainName,
+        blockExplorerUrl,
+      }) => {
+        const rpcPrefs = blockExplorerUrl ? { blockExplorerUrl } : {};
+        await this.preferencesController.addToFrequentRpcList(
+          rpcUrl,
+          chainId,
+          ticker,
+          chainName,
+          rpcPrefs,
+        );
+        this.networkController.setRpcTarget(
+          rpcUrl,
+          chainId,
+          ticker,
+          chainName,
+          rpcPrefs,
+        );
       },
       setCustomNetwork: ({ rpcUrl, chainId, ticker, nickname, rpcPrefs }) => {
-        this.networkController.setRpcTarget(rpcUrl, chainId, ticker, nickname, rpcPrefs)
+        this.networkController.setRpcTarget(
+          rpcUrl,
+          chainId,
+          ticker,
+          nickname,
+          rpcPrefs,
+        );
       },
       setBuiltInNetwork: (type) => this.networkController.setProviderType(type),
       showApprovalRequest: opts.showPermissionRequest,
-    })
+    });
 
     this.alertController = new AlertController({
       initState: initState.AlertController,
       preferencesStore: this.preferencesController.store,
-    })
+    });
 
     this.txController = new TransactionController({
-      initState: initState.TransactionController || initState.TransactionManager,
-      getPermittedAccounts: this.permissionsController.getAccounts.bind(this.permissionsController),
+      initState:
+        initState.TransactionController || initState.TransactionManager,
+      getPermittedAccounts: this.permissionsController.getAccounts.bind(
+        this.permissionsController,
+      ),
       networkStore: this.networkController.networkStore,
       getChainId: () => this.networkController.getChainId(),
       preferencesStore: this.preferencesController.store,
       txHistoryLimit: 40,
       getNetwork: this.networkController.getNetworkState.bind(this),
-      signTransaction: this.keyringController.signTransaction.bind(this.keyringController),
+      signTransaction: this.keyringController.signTransaction.bind(
+        this.keyringController,
+      ),
       provider: this.provider,
       blockTracker: this.blockTracker,
       getSecurityContext: () => this.getSecurityContext(),
-    })
-    this.txController.on('newUnapprovedTx', () => opts.showUnapprovedTx())
+    });
+    this.txController.on('newUnapprovedTx', () => opts.showUnapprovedTx());
 
     this.txController.on(`tx:status-update`, async (txId, status) => {
       if (status === 'confirmed' || status === 'failed') {
-        const txMeta = this.txController.txStateManager.getFullTxList().find((tx) => tx.id === txId)
+        const txMeta = this.txController.txStateManager
+          .getFullTxList()
+          .find((tx) => tx.id === txId);
         if (txMeta) {
-          this.platform.showTransactionNotification(txMeta)
+          this.platform.showTransactionNotification(txMeta);
         }
-
       }
-    })
+    });
 
-    this.networkController.lookupNetwork()
-    this.personalMessageManager = new PersonalMessageManager({ getChainId: () => this.networkController.getChainId() })
-    this.decryptMessageManager = new DecryptMessageManager()
-    this.encryptionPublicKeyManager = new EncryptionPublicKeyManager()
-    this.typedMessageManager = new TypedMessageManager({ networkController: this.networkController })
+    this.networkController.lookupNetwork();
+    this.personalMessageManager = new PersonalMessageManager({
+      getChainId: () => this.networkController.getChainId(),
+    });
+    this.decryptMessageManager = new DecryptMessageManager();
+    this.encryptionPublicKeyManager = new EncryptionPublicKeyManager();
+    this.typedMessageManager = new TypedMessageManager({
+      networkController: this.networkController,
+    });
 
     this.store.updateStructure({
       AppStateController: this.appStateController.store,
@@ -252,7 +313,7 @@ export default class EcfWalletController extends EventEmitter {
       OnboardingController: this.onboardingController.store,
       PermissionController: this.permissionsController.permissionStore,
       PermissionsMetadata: this.permissionsController.store,
-    })
+    });
 
     this.memStore = new ComposableObservableStore(null, {
       AppStateController: this.appStateController.store,
@@ -275,25 +336,28 @@ export default class EcfWalletController extends EventEmitter {
       NetworkRequestController: this.networkRequestController.memStore,
       // ENS Controller
       EnsController: this.ensController.store,
-    })
-    this.memStore.subscribe(this.sendUpdate.bind(this))
+    });
+    this.memStore.subscribe(this.sendUpdate.bind(this));
     // keep external providers' chain in sync
-    this.on('update', (memState) => this._onStateUpdate(memState))
+    this.on('update', (memState) => this._onStateUpdate(memState));
 
-    const password = process.env.CONF?.password
+    const password = process.env.CONF?.password;
     if (
-      password && !this.isUnlocked() &&
+      password &&
+      !this.isUnlocked() &&
       this.onboardingController.completedOnboarding
     ) {
-      this.submitPassword(password)
+      this.submitPassword(password);
     }
   }
 
   /**
    * Constructor helper: initialize a provider.
+   *
+   * @returns {void} Nothing; the network controller holds the provider.
    */
-  initializeProvider () {
-    const version = this.platform.getVersion()
+  initializeProvider() {
+    const version = this.platform.getVersion();
     const providerOpts = {
       static: {
         eth_syncing: false,
@@ -303,12 +367,13 @@ export default class EcfWalletController extends EventEmitter {
       // account mgmt
       getAccounts: async ({ origin }) => {
         if (origin === 'ecf-wallet') {
-          const selectedAddress = this.preferencesController.getSelectedAddress()
-          return selectedAddress ? [selectedAddress] : []
+          const selectedAddress =
+            this.preferencesController.getSelectedAddress();
+          return selectedAddress ? [selectedAddress] : [];
         } else if (this.isUnlocked()) {
-          return await this.permissionsController.getAccounts(origin)
+          return await this.permissionsController.getAccounts(origin);
         }
-        return [] // changing this is a breaking change
+        return []; // changing this is a breaking change
       },
       // tx signing
       processTransaction: this.newUnapprovedTransaction.bind(this),
@@ -320,10 +385,12 @@ export default class EcfWalletController extends EventEmitter {
       processDecryptMessage: this.newRequestDecryptMessage.bind(this),
       processEncryptionPublicKey: this.newRequestEncryptionPublicKey.bind(this),
       getPendingNonce: this.getPendingNonce.bind(this),
-      getPendingTransactionByHash: (hash) => this.txController.getFilteredTxList({ hash, status: 'submitted' })[0],
-    }
-    const providerProxy = this.networkController.initializeProvider(providerOpts)
-    return providerProxy
+      getPendingTransactionByHash: (hash) =>
+        this.txController.getFilteredTxList({ hash, status: 'submitted' })[0],
+    };
+    const providerProxy =
+      this.networkController.initializeProvider(providerOpts);
+    return providerProxy;
   }
 
   /**
@@ -331,16 +398,18 @@ export default class EcfWalletController extends EventEmitter {
    * shared only while the wallet is unlocked.
    *
    * @param {string} origin - The origin to get the provider state for.
-   * @returns {Promise<Object>} isUnlocked, chainId, networkVersion, isConnected and accounts.
+   * @returns {Promise<object>} isUnlocked, chainId, networkVersion, isConnected and accounts.
    */
-  async getProviderState (origin) {
-    const networkState = await this.waitForProviderNetworkState()
-    const isUnlocked = this.isUnlocked()
+  async getProviderState(origin) {
+    const networkState = await this.waitForProviderNetworkState();
+    const isUnlocked = this.isUnlocked();
     return {
       isUnlocked,
       ...networkState,
-      accounts: isUnlocked ? await this.permissionsController.getAccounts(origin) : [],
-    }
+      accounts: isUnlocked
+        ? await this.permissionsController.getAccounts(origin)
+        : [],
+    };
   }
 
   /**
@@ -348,43 +417,47 @@ export default class EcfWalletController extends EventEmitter {
    * providers reject state without one, so wait for it.
    *
    * @param {number} [timeout] - Milliseconds to wait before giving up.
-   * @returns {Promise<Object>} The provider network state.
+   * @returns {Promise<object>} The provider network state.
    */
-  async waitForProviderNetworkState (timeout = 15000) {
-    const current = this.getProviderNetworkState()
+  async waitForProviderNetworkState(timeout = 15000) {
+    const current = this.getProviderNetworkState();
     if (current.chainId) {
-      return current
+      return current;
     }
     return new Promise((resolve, reject) => {
-      const wait = {}
+      const wait = {};
       const onUpdate = (memState) => {
-        const state = this.getProviderNetworkState(memState)
+        const state = this.getProviderNetworkState(memState);
         if (state.chainId) {
-          clearTimeout(wait.timer)
-          this.removeListener('update', onUpdate)
-          resolve(state)
+          clearTimeout(wait.timer);
+          this.removeListener('update', onUpdate);
+          resolve(state);
         }
-      }
+      };
       wait.timer = setTimeout(() => {
-        this.removeListener('update', onUpdate)
-        reject(new Error('The network did not report a chain ID.'))
-      }, timeout)
-      this.on('update', onUpdate)
-    })
+        this.removeListener('update', onUpdate);
+        reject(new Error('The network did not report a chain ID.'));
+      }, timeout);
+      this.on('update', onUpdate);
+    });
   }
 
   /**
-   * @param {Object} [memState] - The current memState, if already available.
-   * @returns {Object} chainId, networkVersion and isConnected for external providers.
+   * Gets the network part of an external origin's provider state.
+   *
+   * @param {object} [memState] - The current memState, if already available.
+   * @returns {object} chainId, networkVersion and isConnected for external providers.
    */
-  getProviderNetworkState (memState = this.getState()) {
-    const { network, provider } = memState
-    const isConnected = network !== 'loading'
+  getProviderNetworkState(memState = this.getState()) {
+    const { network, provider } = memState;
+    const isConnected = network !== 'loading';
     return {
-      chainId: this.networkController.getChainId() || selectChainId({ network, provider }),
+      chainId:
+        this.networkController.getChainId() ||
+        selectChainId({ network, provider }),
       networkVersion: isConnected ? network : 'loading',
       isConnected,
-    }
+    };
   }
 
   //=============================================================================
@@ -394,16 +467,16 @@ export default class EcfWalletController extends EventEmitter {
   /**
    * The ecf-wallet-state of the various controllers, made available to the UI
    *
-   * @returns {Object} - status
+   * @returns {object} status
    */
-  getState () {
-    const { vault } = this.keyringController.store.getState()
-    const isInitialized = Boolean(vault)
+  getState() {
+    const { vault } = this.keyringController.store.getState();
+    const isInitialized = Boolean(vault);
 
     return {
       ...{ isInitialized },
       ...this.memStore.getFlatState(),
-    }
+    };
   }
 
   /**
@@ -411,9 +484,9 @@ export default class EcfWalletController extends EventEmitter {
    * These functions are the interface for the UI.
    * The API object can be transmitted over a stream with dnode.
    *
-   * @returns {Object} - Object containing API functions.
+   * @returns {object} Object containing API functions.
    */
-  getApi () {
+  getApi() {
     const {
       keyringController,
       networkController,
@@ -422,7 +495,7 @@ export default class EcfWalletController extends EventEmitter {
       permissionsController,
       preferencesController,
       txController,
-    } = this
+    } = this;
 
     return {
       // etc
@@ -449,55 +522,114 @@ export default class EcfWalletController extends EventEmitter {
       connectHardware: nodeify(this.connectHardware, this),
       forgetDevice: nodeify(this.forgetDevice, this),
       checkHardwareStatus: nodeify(this.checkHardwareStatus, this),
-      unlockHardwareWalletAccount: nodeify(this.unlockHardwareWalletAccount, this),
+      unlockHardwareWalletAccount: nodeify(
+        this.unlockHardwareWalletAccount,
+        this,
+      ),
 
       // vault management
       submitPassword: nodeify(this.submitPassword, this),
       verifyPassword: nodeify(this.verifyPassword, this),
-      approveNetworkRequest: nodeify(this.networkRequestController.approve, this.networkRequestController),
-      rejectNetworkRequest: nodeify(this.networkRequestController.reject, this.networkRequestController),
+      approveNetworkRequest: nodeify(
+        this.networkRequestController.approve,
+        this.networkRequestController,
+      ),
+      rejectNetworkRequest: nodeify(
+        this.networkRequestController.reject,
+        this.networkRequestController,
+      ),
       scheduleClipboardClear: nodeify(this.scheduleClipboardClear, this),
       clearClipboard: nodeify(this.clearClipboard, this),
 
       // network management
-      setProviderType: nodeify(networkController.setProviderType, networkController),
+      setProviderType: nodeify(
+        networkController.setProviderType,
+        networkController,
+      ),
       setCustomRpc: nodeify(this.setCustomRpc, this),
       updateAndSetCustomRpc: nodeify(this.updateAndSetCustomRpc, this),
       delCustomRpc: nodeify(this.delCustomRpc, this),
 
       // PreferencesController
-      setSelectedAddress: nodeify(preferencesController.setSelectedAddress, preferencesController),
+      setSelectedAddress: nodeify(
+        preferencesController.setSelectedAddress,
+        preferencesController,
+      ),
       addToken: nodeify(preferencesController.addToken, preferencesController),
-      removeToken: nodeify(preferencesController.removeToken, preferencesController),
-      removeSuggestedTokens: nodeify(preferencesController.removeSuggestedTokens, preferencesController),
-      setAccountLabel: nodeify(preferencesController.setAccountLabel, preferencesController),
-      setFeatureFlag: nodeify(preferencesController.setFeatureFlag, preferencesController),
-      setPreference: nodeify(preferencesController.setPreference, preferencesController),
-      completeOnboarding: nodeify(preferencesController.completeOnboarding, preferencesController),
-      addKnownMethodData: nodeify(preferencesController.addKnownMethodData, preferencesController),
+      removeToken: nodeify(
+        preferencesController.removeToken,
+        preferencesController,
+      ),
+      removeSuggestedTokens: nodeify(
+        preferencesController.removeSuggestedTokens,
+        preferencesController,
+      ),
+      setAccountLabel: nodeify(
+        preferencesController.setAccountLabel,
+        preferencesController,
+      ),
+      setFeatureFlag: nodeify(
+        preferencesController.setFeatureFlag,
+        preferencesController,
+      ),
+      setPreference: nodeify(
+        preferencesController.setPreference,
+        preferencesController,
+      ),
+      completeOnboarding: nodeify(
+        preferencesController.completeOnboarding,
+        preferencesController,
+      ),
+      addKnownMethodData: nodeify(
+        preferencesController.addKnownMethodData,
+        preferencesController,
+      ),
 
       // AddressController
-      setAddressBook: nodeify(this.addressBookController.set, this.addressBookController),
-      removeFromAddressBook: this.addressBookController.delete.bind(this.addressBookController),
+      setAddressBook: nodeify(
+        this.addressBookController.set,
+        this.addressBookController,
+      ),
+      removeFromAddressBook: this.addressBookController.delete.bind(
+        this.addressBookController,
+      ),
 
       // AppStateController
-      setLastActiveTime: nodeify(this.appStateController.setLastActiveTime, this.appStateController),
-      setDefaultHomeActiveTabName: nodeify(this.appStateController.setDefaultHomeActiveTabName, this.appStateController),
-      setConnectedStatusPopoverHasBeenShown: nodeify(this.appStateController.setConnectedStatusPopoverHasBeenShown, this.appStateController),
+      setLastActiveTime: nodeify(
+        this.appStateController.setLastActiveTime,
+        this.appStateController,
+      ),
+      setDefaultHomeActiveTabName: nodeify(
+        this.appStateController.setDefaultHomeActiveTabName,
+        this.appStateController,
+      ),
+      setConnectedStatusPopoverHasBeenShown: nodeify(
+        this.appStateController.setConnectedStatusPopoverHasBeenShown,
+        this.appStateController,
+      ),
 
       // EnsController
-      tryReverseResolveAddress: nodeify(this.ensController.reverseResolveAddress, this.ensController),
+      tryReverseResolveAddress: nodeify(
+        this.ensController.reverseResolveAddress,
+        this.ensController,
+      ),
 
       // KeyringController
       setLocked: nodeify(this.setLocked, this),
       createNewVaultAndKeychain: nodeify(this.createNewVaultAndKeychain, this),
       createNewVaultAndRestore: nodeify(this.createNewVaultAndRestore, this),
-      exportAccount: nodeify(keyringController.exportAccount, keyringController),
+      exportAccount: nodeify(
+        keyringController.exportAccount,
+        keyringController,
+      ),
 
       // txController
       cancelTransaction: nodeify(txController.cancelTransaction, txController),
       updateTransaction: nodeify(txController.updateTransaction, txController),
-      updateAndApproveTransaction: nodeify(txController.updateAndApproveTransaction, txController),
+      updateAndApproveTransaction: nodeify(
+        txController.updateAndApproveTransaction,
+        txController,
+      ),
       createCancelTransaction: nodeify(this.createCancelTransaction, this),
       createSpeedUpTransaction: nodeify(this.createSpeedUpTransaction, this),
       getFilteredTxList: nodeify(txController.getFilteredTxList, txController),
@@ -524,22 +656,53 @@ export default class EcfWalletController extends EventEmitter {
       cancelEncryptionPublicKey: this.cancelEncryptionPublicKey.bind(this),
 
       // onboarding controller
-      setSeedPhraseBackedUp: nodeify(onboardingController.setSeedPhraseBackedUp, onboardingController),
+      setSeedPhraseBackedUp: nodeify(
+        onboardingController.setSeedPhraseBackedUp,
+        onboardingController,
+      ),
 
       // alert controller
-      setAlertEnabledness: nodeify(alertController.setAlertEnabledness, alertController),
-      setUnconnectedAccountAlertShown: nodeify(this.alertController.setUnconnectedAccountAlertShown, this.alertController),
+      setAlertEnabledness: nodeify(
+        alertController.setAlertEnabledness,
+        alertController,
+      ),
+      setUnconnectedAccountAlertShown: nodeify(
+        this.alertController.setUnconnectedAccountAlertShown,
+        this.alertController,
+      ),
 
       // permissions
-      approvePermissionsRequest: nodeify(permissionsController.approvePermissionsRequest, permissionsController),
-      clearPermissions: permissionsController.clearPermissions.bind(permissionsController),
-      getApprovedAccounts: nodeify(permissionsController.getAccounts, permissionsController),
-      rejectPermissionsRequest: nodeify(permissionsController.rejectPermissionsRequest, permissionsController),
-      removePermissionsFor: permissionsController.removePermissionsFor.bind(permissionsController),
-      addPermittedAccount: nodeify(permissionsController.addPermittedAccount, permissionsController),
-      removePermittedAccount: nodeify(permissionsController.removePermittedAccount, permissionsController),
-      requestAccountsPermissionWithId: nodeify(permissionsController.requestAccountsPermissionWithId, permissionsController),
-    }
+      approvePermissionsRequest: nodeify(
+        permissionsController.approvePermissionsRequest,
+        permissionsController,
+      ),
+      clearPermissions: permissionsController.clearPermissions.bind(
+        permissionsController,
+      ),
+      getApprovedAccounts: nodeify(
+        permissionsController.getAccounts,
+        permissionsController,
+      ),
+      rejectPermissionsRequest: nodeify(
+        permissionsController.rejectPermissionsRequest,
+        permissionsController,
+      ),
+      removePermissionsFor: permissionsController.removePermissionsFor.bind(
+        permissionsController,
+      ),
+      addPermittedAccount: nodeify(
+        permissionsController.addPermittedAccount,
+        permissionsController,
+      ),
+      removePermittedAccount: nodeify(
+        permissionsController.removePermittedAccount,
+        permissionsController,
+      ),
+      requestAccountsPermissionWithId: nodeify(
+        permissionsController.requestAccountsPermissionWithId,
+        permissionsController,
+      ),
+    };
   }
 
   //=============================================================================
@@ -556,183 +719,211 @@ export default class EcfWalletController extends EventEmitter {
    * A keychain, or keyring, controls many accounts with a single backup and signing strategy.
    * For example, a mnemonic phrase can generate many accounts, and is a keyring.
    *
-   * @param  {string} password
+   * @param {string} password - The password to encrypt the vault with.
    *
-   * @returns {Object} - vault
+   * @returns {object} vault
    */
-  async createNewVaultAndKeychain (password) {
-    const releaseLock = await this.createVaultMutex.acquire()
+  async createNewVaultAndKeychain(password) {
+    const releaseLock = await this.createVaultMutex.acquire();
     try {
-      let vault
-      const accounts = await this.keyringController.getAccounts()
+      let vault;
+      const accounts = await this.keyringController.getAccounts();
       if (accounts.length > 0) {
-        vault = await this.keyringController.fullUpdate()
+        vault = await this.keyringController.fullUpdate();
       } else {
-        vault = await this.keyringController.createNewVaultAndKeychain(password)
-        const addresses = await this.keyringController.getAccounts()
-        this.preferencesController.setAddresses(addresses)
-        this.selectFirstIdentity()
+        vault =
+          await this.keyringController.createNewVaultAndKeychain(password);
+        const addresses = await this.keyringController.getAccounts();
+        this.preferencesController.setAddresses(addresses);
+        this.selectFirstIdentity();
       }
-      return vault
+      return vault;
     } finally {
-      releaseLock()
+      releaseLock();
     }
   }
 
   /**
    * Create a new Vault and restore an existent keyring.
-   * @param  {} password
-   * @param  {} seed
+   *
+   * @param {string} password - The password to encrypt the vault with.
+   * @param {string} seed - The seed phrase to restore.
+   * @returns {Promise<object>} The keyring controller's memory state.
    */
-  async createNewVaultAndRestore (password, seed) {
-    const releaseLock = await this.createVaultMutex.acquire()
+  async createNewVaultAndRestore(password, seed) {
+    const releaseLock = await this.createVaultMutex.acquire();
     try {
-      let accounts, lastBalance
+      let accounts, lastBalance;
 
-      const { keyringController } = this
+      const { keyringController } = this;
 
       // clear known identities
-      this.preferencesController.setAddresses([])
+      this.preferencesController.setAddresses([]);
 
       // clear permissions
-      this.permissionsController.clearPermissions()
+      this.permissionsController.clearPermissions();
 
       // clear accounts in accountTracker
-      this.accountTracker.clearAccounts()
+      this.accountTracker.clearAccounts();
 
       // clear cachedBalances
-      this.cachedBalancesController.clearCachedBalances()
+      this.cachedBalancesController.clearCachedBalances();
 
       // clear unapproved transactions
-      this.txController.txStateManager.clearUnapprovedTxs()
+      this.txController.txStateManager.clearUnapprovedTxs();
 
       // create new vault
-      const vault = await keyringController.createNewVaultAndRestore(password, seed)
+      const vault = await keyringController.createNewVaultAndRestore(
+        password,
+        seed,
+      );
 
-      const ethQuery = new EthQuery(this.provider)
-      accounts = await keyringController.getAccounts()
-      lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
+      const ethQuery = new EthQuery(this.provider);
+      accounts = await keyringController.getAccounts();
+      lastBalance = await this.getBalance(
+        accounts[accounts.length - 1],
+        ethQuery,
+      );
 
-      const primaryKeyring = keyringController.getKeyringsByType('HD Key Tree')[0]
+      const primaryKeyring =
+        keyringController.getKeyringsByType('HD Key Tree')[0];
       if (!primaryKeyring) {
-        throw new Error('EcfWalletController - No HD Key Tree found')
+        throw new Error('EcfWalletController - No HD Key Tree found');
       }
 
       // seek out the first zero balance
       while (lastBalance !== '0x0') {
-        await keyringController.addNewAccount(primaryKeyring)
-        accounts = await keyringController.getAccounts()
-        lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
+        await keyringController.addNewAccount(primaryKeyring);
+        accounts = await keyringController.getAccounts();
+        lastBalance = await this.getBalance(
+          accounts[accounts.length - 1],
+          ethQuery,
+        );
       }
 
       // set new identities
-      this.preferencesController.setAddresses(accounts)
-      this.selectFirstIdentity()
-      return vault
+      this.preferencesController.setAddresses(accounts);
+      this.selectFirstIdentity();
+      return vault;
     } finally {
-      releaseLock()
+      releaseLock();
     }
   }
 
   /**
    * Get an account balance from the AccountTracker or request it directly from the network.
+   *
    * @param {string} address - The account address
    * @param {EthQuery} ethQuery - The EthQuery instance to use when asking the network
+   * @returns {Promise<string>} The balance, as a hex string.
    */
-  getBalance (address, ethQuery) {
+  getBalance(address, ethQuery) {
     return new Promise((resolve, reject) => {
-      const cached = this.accountTracker.store.getState().accounts[address]
+      const cached = this.accountTracker.store.getState().accounts[address];
 
       if (cached && cached.balance) {
-        resolve(cached.balance)
+        resolve(cached.balance);
       } else {
         ethQuery.getBalance(address, (error, balance) => {
           if (error) {
-            reject(error)
-            log.error(error)
+            reject(error);
+            log.error(error);
           } else {
-            resolve(balance || '0x0')
+            resolve(balance || '0x0');
           }
-        })
+        });
       }
-    })
+    });
   }
 
   /**
    * Addresses the user already knows, for the on-device transaction checks.
    *
-   * @returns {Object} Lower-case sets of the user's accounts, contacts and tracked tokens.
+   * @returns {object} Lower-case sets of the user's accounts, contacts and tracked tokens.
    */
-  getSecurityContext () {
-    const { identities = {}, tokens = [] } = this.preferencesController.store.getState()
-    const { addressBook = {} } = this.addressBookController.state
-    const contacts = Object.values(addressBook).flatMap((entries) => Object.keys(entries || {}))
+  getSecurityContext() {
+    const { identities = {}, tokens = [] } =
+      this.preferencesController.store.getState();
+    const { addressBook = {} } = this.addressBookController.state;
+    const contacts = Object.values(addressBook).flatMap((entries) =>
+      Object.keys(entries || {}),
+    );
     return {
-      ownAccounts: new Set(Object.keys(identities).map((address) => address.toLowerCase())),
+      ownAccounts: new Set(
+        Object.keys(identities).map((address) => address.toLowerCase()),
+      ),
       contacts: new Set(contacts.map((address) => address.toLowerCase())),
-      tokenContracts: new Set(tokens.map(({ address }) => address.toLowerCase())),
-    }
+      tokenContracts: new Set(
+        tokens.map(({ address }) => address.toLowerCase()),
+      ),
+    };
   }
 
   /**
    * Runs the on-device checks for typed data, such as token permits. A failing
    * check must not block the request, so errors yield no alerts.
+   *
+   * @param {object} msgParams - The params passed to eth_signTypedData.
+   * @returns {Promise<object[]>} Alerts, most severe first.
    */
-  async getTypedDataAlerts (msgParams) {
+  async getTypedDataAlerts(msgParams) {
     try {
       return await getTypedDataAlerts({
         data: msgParams.data,
         getCode: (address) => this.txController.query.getCode(address),
         ownAccounts: this.getSecurityContext().ownAccounts,
-      })
+      });
     } catch (error) {
-      log.warn('Typed data checks failed', error)
-      return []
+      log.warn('Typed data checks failed', error);
+      return [];
     }
   }
 
   getCurrentNetwork = () => {
-    return this.networkController.store.getState().network
-  }
+    return this.networkController.store.getState().network;
+  };
 
-  /*
+  /**
    * Submits the user's password and attempts to unlock the vault.
    * Also synchronizes the preferencesController, to ensure its schema
    * is up to date with known accounts once the vault is decrypted.
    *
    * @param {string} password - The user's password
-   * @returns {Promise<object>} - The keyringController update.
+   * @returns {Promise<object>} The keyringController update.
    */
-  async submitPassword (password) {
-    await this.keyringController.submitPassword(password)
+  async submitPassword(password) {
+    await this.keyringController.submitPassword(password);
 
     // The vault is open from here. Priming the block tracker reaches the
     // network, and an unreachable network does not mean the password was
     // wrong, so it must not fail the unlock.
     try {
-      await this.blockTracker.checkForLatestBlock()
+      await this.blockTracker.checkForLatestBlock();
     } catch (error) {
-      log.error('ecf-wallet - unlocked, but could not reach the network', error)
+      log.error(
+        'ecf-wallet - unlocked, but could not reach the network',
+        error,
+      );
     }
 
-    return this.keyringController.fullUpdate()
+    return this.keyringController.fullUpdate();
   }
 
   /**
    * Submits a user's password to check its validity.
    *
-   * @param {string} password The user's password
+   * @param {string} password - The user's password
    */
-  async verifyPassword (password) {
-    await this.keyringController.verifyPassword(password)
+  async verifyPassword(password) {
+    await this.keyringController.verifyPassword(password);
   }
 
   /**
    * Clears the clipboard after a delay, once a secret has been copied.
    */
-  async scheduleClipboardClear () {
+  async scheduleClipboardClear() {
     if (this.opts.clipboardCleaner) {
-      this.opts.clipboardCleaner.schedule()
+      this.opts.clipboardCleaner.schedule();
     }
   }
 
@@ -741,12 +932,14 @@ export default class EcfWalletController extends EventEmitter {
    *
    * @returns {Promise<boolean>} Whether the clipboard was cleared.
    */
-  async clearClipboard () {
-    return this.opts.clipboardCleaner ? this.opts.clipboardCleaner.clear() : false
+  async clearClipboard() {
+    return this.opts.clipboardCleaner
+      ? this.opts.clipboardCleaner.clear()
+      : false;
   }
 
   /**
-   * @type Identity
+   * @typedef {object} Identity
    * @property {string} name - The account nickname.
    * @property {string} address - The account's ethereum address, in lower case.
    */
@@ -754,115 +947,132 @@ export default class EcfWalletController extends EventEmitter {
   /**
    * Sets the first address in the state to the selected address
    */
-  selectFirstIdentity () {
-    const { identities } = this.preferencesController.store.getState()
-    const address = Object.keys(identities)[0]
-    this.preferencesController.setSelectedAddress(address)
+  selectFirstIdentity() {
+    const { identities } = this.preferencesController.store.getState();
+    const address = Object.keys(identities)[0];
+    this.preferencesController.setSelectedAddress(address);
   }
 
   //
   // Hardware
   //
 
-  async getKeyringForDevice (deviceName, hdPath = null) {
-    let keyringName = null
+  async getKeyringForDevice(deviceName, hdPath = null) {
+    let keyringName = null;
     switch (deviceName) {
       case 'trezor':
-        keyringName = TrezorKeyring.type
-        break
+        keyringName = TrezorKeyring.type;
+        break;
       case 'ledger':
-        keyringName = LedgerBridgeKeyring.type
-        break
+        keyringName = LedgerBridgeKeyring.type;
+        break;
       default:
-        throw new Error('EcfWalletController:getKeyringForDevice - Unknown device')
+        throw new Error(
+          'EcfWalletController:getKeyringForDevice - Unknown device',
+        );
     }
-    let keyring = await this.keyringController.getKeyringsByType(keyringName)[0]
+    let keyring =
+      await this.keyringController.getKeyringsByType(keyringName)[0];
     if (!keyring) {
-      keyring = await this.keyringController.addNewKeyring(keyringName)
+      keyring = await this.keyringController.addNewKeyring(keyringName);
     }
     if (hdPath && keyring.setHdPath) {
-      keyring.setHdPath(hdPath)
+      keyring.setHdPath(hdPath);
     }
 
-    keyring.network = this.networkController.getProviderConfig().type
+    keyring.network = this.networkController.getProviderConfig().type;
 
-    return keyring
-
+    return keyring;
   }
 
   /**
    * Fetch account list from a trezor device.
    *
-   * @returns [] accounts
+   * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
+   * @param {number} page - -1 for the previous page, 1 for the next, or anything else for the first.
+   * @param {string} [hdPath] - The HD path to derive accounts at.
+   * @returns {Promise<object[]>} accounts
    */
-  async connectHardware (deviceName, page, hdPath) {
-    const keyring = await this.getKeyringForDevice(deviceName, hdPath)
-    let accounts = []
+  async connectHardware(deviceName, page, hdPath) {
+    const keyring = await this.getKeyringForDevice(deviceName, hdPath);
+    let accounts = [];
     switch (page) {
       case -1:
-        accounts = await keyring.getPreviousPage()
-        break
+        accounts = await keyring.getPreviousPage();
+        break;
       case 1:
-        accounts = await keyring.getNextPage()
-        break
+        accounts = await keyring.getNextPage();
+        break;
       default:
-        accounts = await keyring.getFirstPage()
+        accounts = await keyring.getFirstPage();
     }
 
     // Merge with existing accounts
     // and make sure addresses are not repeated
-    const oldAccounts = await this.keyringController.getAccounts()
-    const accountsToTrack = [...new Set(oldAccounts.concat(accounts.map((a) => a.address.toLowerCase())))]
-    this.accountTracker.syncWithAddresses(accountsToTrack)
-    return accounts
+    const oldAccounts = await this.keyringController.getAccounts();
+    const accountsToTrack = [
+      ...new Set(
+        oldAccounts.concat(accounts.map((a) => a.address.toLowerCase())),
+      ),
+    ];
+    this.accountTracker.syncWithAddresses(accountsToTrack);
+    return accounts;
   }
 
   /**
    * Check if the device is unlocked
    *
-   * @returns {Promise<boolean>}
+   * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
+   * @param {string} [hdPath] - The HD path to derive accounts at.
+   * @returns {Promise<boolean>} Whether the device is unlocked.
    */
-  async checkHardwareStatus (deviceName, hdPath) {
-    const keyring = await this.getKeyringForDevice(deviceName, hdPath)
-    return keyring.isUnlocked()
+  async checkHardwareStatus(deviceName, hdPath) {
+    const keyring = await this.getKeyringForDevice(deviceName, hdPath);
+    return keyring.isUnlocked();
   }
 
   /**
    * Clear
    *
-   * @returns {Promise<boolean>}
+   * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
+   * @returns {Promise<boolean>} True once the device is forgotten.
    */
-  async forgetDevice (deviceName) {
-
-    const keyring = await this.getKeyringForDevice(deviceName)
-    await keyring.forgetDevice()
-    return true
+  async forgetDevice(deviceName) {
+    const keyring = await this.getKeyringForDevice(deviceName);
+    await keyring.forgetDevice();
+    return true;
   }
 
   /**
    * Imports an account from a trezor device.
    *
-   * @returns {} keyState
+   * @param {number|string} index - The index of the account on the device.
+   * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
+   * @param {string} [hdPath] - The HD path to derive accounts at.
+   * @returns {Promise<object>} keyState
    */
-  async unlockHardwareWalletAccount (index, deviceName, hdPath) {
-    const keyring = await this.getKeyringForDevice(deviceName, hdPath)
+  async unlockHardwareWalletAccount(index, deviceName, hdPath) {
+    const keyring = await this.getKeyringForDevice(deviceName, hdPath);
 
-    keyring.setAccountToUnlock(index)
-    const oldAccounts = await this.keyringController.getAccounts()
-    const keyState = await this.keyringController.addNewAccount(keyring)
-    const newAccounts = await this.keyringController.getAccounts()
-    this.preferencesController.setAddresses(newAccounts)
+    keyring.setAccountToUnlock(index);
+    const oldAccounts = await this.keyringController.getAccounts();
+    const keyState = await this.keyringController.addNewAccount(keyring);
+    const newAccounts = await this.keyringController.getAccounts();
+    this.preferencesController.setAddresses(newAccounts);
     newAccounts.forEach((address) => {
       if (!oldAccounts.includes(address)) {
         // Set the account label to Trezor 1 /  Ledger 1, etc
-        this.preferencesController.setAccountLabel(address, `${deviceName[0].toUpperCase()}${deviceName.slice(1)} ${parseInt(index, 10) + 1}`)
+        this.preferencesController.setAccountLabel(
+          address,
+          `${deviceName[0].toUpperCase()}${deviceName.slice(1)} ${parseInt(index, 10) + 1}`,
+        );
         // Select the account
-        this.preferencesController.setSelectedAddress(address)
+        this.preferencesController.setSelectedAddress(address);
       }
-    })
+    });
 
-    const { identities } = this.preferencesController.store.getState()
-    return { ...keyState, identities }
+    const { identities } = this.preferencesController.store.getState();
+    return { ...keyState, identities };
   }
 
   //
@@ -872,29 +1082,30 @@ export default class EcfWalletController extends EventEmitter {
   /**
    * Adds a new account to the default (first) HD seed phrase Keyring.
    *
-   * @returns {} keyState
+   * @returns {Promise<object>} keyState
    */
-  async addNewAccount () {
-    const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
+  async addNewAccount() {
+    const primaryKeyring =
+      this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {
-      throw new Error('EcfWalletController - No HD Key Tree found')
+      throw new Error('EcfWalletController - No HD Key Tree found');
     }
-    const { keyringController } = this
-    const oldAccounts = await keyringController.getAccounts()
-    const keyState = await keyringController.addNewAccount(primaryKeyring)
-    const newAccounts = await keyringController.getAccounts()
+    const { keyringController } = this;
+    const oldAccounts = await keyringController.getAccounts();
+    const keyState = await keyringController.addNewAccount(primaryKeyring);
+    const newAccounts = await keyringController.getAccounts();
 
-    await this.verifySeedPhrase()
+    await this.verifySeedPhrase();
 
-    this.preferencesController.setAddresses(newAccounts)
+    this.preferencesController.setAddresses(newAccounts);
     newAccounts.forEach((address) => {
       if (!oldAccounts.includes(address)) {
-        this.preferencesController.setSelectedAddress(address)
+        this.preferencesController.setSelectedAddress(address);
       }
-    })
+    });
 
-    const { identities } = this.preferencesController.store.getState()
-    return { ...keyState, identities }
+    const { identities } = this.preferencesController.store.getState();
+    return { ...keyState, identities };
   }
 
   /**
@@ -904,30 +1115,30 @@ export default class EcfWalletController extends EventEmitter {
    *
    * Called when the first account is created and on unlocking the vault.
    *
-   * @returns {Promise<string>} - Seed phrase to be confirmed by the user.
+   * @returns {Promise<string>} Seed phrase to be confirmed by the user.
    */
-  async verifySeedPhrase () {
-
-    const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
+  async verifySeedPhrase() {
+    const primaryKeyring =
+      this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {
-      throw new Error('EcfWalletController - No HD Key Tree found')
+      throw new Error('EcfWalletController - No HD Key Tree found');
     }
 
-    const serialized = await primaryKeyring.serialize()
+    const serialized = await primaryKeyring.serialize();
     // The keyring serializes its mnemonic as UTF-8 bytes.
-    const seedWords = mnemonicToString(serialized.mnemonic)
+    const seedWords = mnemonicToString(serialized.mnemonic);
 
-    const accounts = await primaryKeyring.getAccounts()
+    const accounts = await primaryKeyring.getAccounts();
     if (accounts.length < 1) {
-      throw new Error('EcfWalletController - No accounts found')
+      throw new Error('EcfWalletController - No accounts found');
     }
 
     try {
-      await seedPhraseVerifier.verifyAccounts(accounts, seedWords)
-      return seedWords
+      await seedPhraseVerifier.verifyAccounts(accounts, seedWords);
+      return seedWords;
     } catch (err) {
-      log.error(err.message)
-      throw err
+      log.error(err.message);
+      throw err;
     }
   }
 
@@ -936,33 +1147,33 @@ export default class EcfWalletController extends EventEmitter {
    * Mostly used in development environments, when networks are restarted with
    * the same network ID.
    *
-   * @returns {Promise<string>} - The current selected address.
+   * @returns {Promise<string>} The current selected address.
    */
-  async resetAccount () {
-    const selectedAddress = this.preferencesController.getSelectedAddress()
-    this.txController.wipeTransactions(selectedAddress)
-    this.networkController.resetConnection()
+  async resetAccount() {
+    const selectedAddress = this.preferencesController.getSelectedAddress();
+    this.txController.wipeTransactions(selectedAddress);
+    this.networkController.resetConnection();
 
-    return selectedAddress
+    return selectedAddress;
   }
 
   /**
    * Removes an account from state / storage.
    *
-   * @param {string[]} address - A hex address
-   *
+   * @param {string} address - A hex address
+   * @returns {Promise<string>} The removed address.
    */
-  async removeAccount (address) {
+  async removeAccount(address) {
     // Remove all associated permissions
-    await this.permissionsController.removeAllAccountPermissions(address)
+    await this.permissionsController.removeAllAccountPermissions(address);
     // Remove account from the preferences controller
-    this.preferencesController.removeAddress(address)
+    this.preferencesController.removeAddress(address);
     // Remove account from the account tracker controller
-    this.accountTracker.removeAccount([address])
+    this.accountTracker.removeAccount([address]);
 
     // Remove account from the keyring
-    await this.keyringController.removeAccount(address)
-    return address
+    await this.keyringController.removeAccount(address);
+    return address;
   }
 
   /**
@@ -970,19 +1181,21 @@ export default class EcfWalletController extends EventEmitter {
    * These are defined in app/scripts/account-import-strategies
    * Each strategy represents a different way of serializing an Ethereum key pair.
    *
-   * @param  {string} strategy - A unique identifier for an account import strategy.
-   * @param  {any} args - The data required by that strategy to import an account.
-   * @param  {Function} cb - A callback function called with a state update on success.
+   * @param {string} strategy - A unique identifier for an account import strategy.
+   * @param {any} args - The data required by that strategy to import an account.
    */
-  async importAccountWithStrategy (strategy, args) {
-    const privateKey = await accountImporter.importAccount(strategy, args)
-    const keyring = await this.keyringController.addNewKeyring('Simple Key Pair', [privateKey])
-    const accounts = await keyring.getAccounts()
+  async importAccountWithStrategy(strategy, args) {
+    const privateKey = await accountImporter.importAccount(strategy, args);
+    const keyring = await this.keyringController.addNewKeyring(
+      'Simple Key Pair',
+      [privateKey],
+    );
+    const accounts = await keyring.getAccounts();
     // update accounts in preferences controller
-    const allAccounts = await this.keyringController.getAccounts()
-    this.preferencesController.setAddresses(allAccounts)
+    const allAccounts = await this.keyringController.getAccounts();
+    this.preferencesController.setAddresses(allAccounts);
     // set new account as selected
-    await this.preferencesController.setSelectedAddress(accounts[0])
+    await this.preferencesController.setSelectedAddress(accounts[0]);
   }
 
   // ---------------------------------------------------------------------------
@@ -993,11 +1206,12 @@ export default class EcfWalletController extends EventEmitter {
    * this wrapper needs to exist so we can provide a reference to
    *  "newUnapprovedTransaction" before "txController" is instantiated
    *
-   * @param {Object} msgParams - The params passed to eth_sign.
-   * @param {Object} req - (optional) the original request, containing the origin
+   * @param {object} txParams - The params of the transaction.
+   * @param {object} req - (optional) the original request, containing the origin
+   * @returns {Promise<string>} The hash of the transaction after being submitted to the network.
    */
-  async newUnapprovedTransaction (txParams, req) {
-    return await this.txController.newUnapprovedTransaction(txParams, req)
+  async newUnapprovedTransaction(txParams, req) {
+    return await this.txController.newUnapprovedTransaction(txParams, req);
   }
 
   // personal_sign methods:
@@ -1009,197 +1223,218 @@ export default class EcfWalletController extends EventEmitter {
    *
    * We currently define our eth_sign and personal_sign mostly for legacy Dapps.
    *
-   * @param {Object} msgParams - The params of the message to sign & return to the Dapp.
-   * @param {Function} cb - The callback function called with the signature.
-   * Passed back to the requesting Dapp.
+   * @param {object} msgParams - The params of the message to sign & return to the Dapp.
+   * @param {object} req - (optional) the original request, containing the origin
+   * @returns {Promise<string>} The signature, passed back to the requesting Dapp.
    */
-  async newUnsignedPersonalMessage (msgParams, req) {
-    const promise = this.personalMessageManager.addUnapprovedMessageAsync(msgParams, req)
-    this.sendUpdate()
-    this.opts.showUnconfirmedMessage()
-    return promise
+  async newUnsignedPersonalMessage(msgParams, req) {
+    const promise = this.personalMessageManager.addUnapprovedMessageAsync(
+      msgParams,
+      req,
+    );
+    this.sendUpdate();
+    this.opts.showUnconfirmedMessage();
+    return promise;
   }
 
   /**
    * Signifies a user's approval to sign a personal_sign message in queue.
    * Triggers signing, and the callback function from newUnsignedPersonalMessage.
    *
-   * @param {Object} msgParams - The params of the message to sign & return to the Dapp.
-   * @returns {Promise<Object>} - A full state update.
+   * @param {object} msgParams - The params of the message to sign & return to the Dapp.
+   * @returns {Promise<object>} A full state update.
    */
-  signPersonalMessage (msgParams) {
-    log.info('EcfWalletController - signPersonalMessage')
-    const msgId = msgParams.ecfWalletId
+  signPersonalMessage(msgParams) {
+    log.info('EcfWalletController - signPersonalMessage');
+    const msgId = msgParams.ecfWalletId;
     // sets the status op the message to 'approved'
     // and removes the ecfWalletId for signing
-    return this.personalMessageManager.approveMessage(msgParams)
+    return this.personalMessageManager
+      .approveMessage(msgParams)
       .then((cleanMsgParams) => {
-      // signs the message
-        return this.keyringController.signPersonalMessage(cleanMsgParams)
+        // signs the message
+        return this.keyringController.signPersonalMessage(cleanMsgParams);
       })
       .then((rawSig) => {
-      // tells the listener that the message has been signed
-      // and can be returned to the dapp
-        this.personalMessageManager.setMsgStatusSigned(msgId, rawSig)
-        return this.getState()
-      })
+        // tells the listener that the message has been signed
+        // and can be returned to the dapp
+        this.personalMessageManager.setMsgStatusSigned(msgId, rawSig);
+        return this.getState();
+      });
   }
 
   /**
    * Used to cancel a personal_sign type message.
+   *
    * @param {string} msgId - The ID of the message to cancel.
    * @param {Function} cb - The callback function called with a full state update.
    */
-  cancelPersonalMessage (msgId, cb) {
-    const messageManager = this.personalMessageManager
-    messageManager.rejectMsg(msgId)
+  cancelPersonalMessage(msgId, cb) {
+    const messageManager = this.personalMessageManager;
+    messageManager.rejectMsg(msgId);
     if (!cb || typeof cb !== 'function') {
-      return
+      return;
     }
-    cb(null, this.getState())
+    cb(null, this.getState());
   }
 
   // eth_decrypt methods
 
   /**
-  * Called when a dapp uses the eth_decrypt method.
-  *
-  * @param {Object} msgParams - The params of the message to sign & return to the Dapp.
-  * @param {Object} req - (optional) the original request, containing the origin
-  * Passed back to the requesting Dapp.
-  */
-  async newRequestDecryptMessage (msgParams, req) {
-    const promise = this.decryptMessageManager.addUnapprovedMessageAsync(msgParams, req)
-    this.sendUpdate()
-    this.opts.showUnconfirmedMessage()
-    return promise
+   * Called when a dapp uses the eth_decrypt method.
+   *
+   * @param {object} msgParams - The params of the message to sign & return to the Dapp.
+   * @param {object} req - (optional) the original request, containing the origin
+   * @returns {Promise<string>} The decrypted message, passed back to the requesting Dapp.
+   */
+  async newRequestDecryptMessage(msgParams, req) {
+    const promise = this.decryptMessageManager.addUnapprovedMessageAsync(
+      msgParams,
+      req,
+    );
+    this.sendUpdate();
+    this.opts.showUnconfirmedMessage();
+    return promise;
   }
 
   /**
-  * Only decrypt message and don't touch transaction state
-  *
-  * @param {Object} msgParams - The params of the message to decrypt.
-  * @returns {Promise<Object>} - A full state update.
-  */
-  async decryptMessageInline (msgParams) {
-    log.info('EcfWalletController - decryptMessageInline')
+   * Only decrypt message and don't touch transaction state
+   *
+   * @param {object} msgParams - The params of the message to decrypt.
+   * @returns {Promise<object>} A full state update.
+   */
+  async decryptMessageInline(msgParams) {
+    log.info('EcfWalletController - decryptMessageInline');
     // decrypt the message inline
-    const msgId = msgParams.ecfWalletId
-    const msg = this.decryptMessageManager.getMsg(msgId)
+    const msgId = msgParams.ecfWalletId;
+    const msg = this.decryptMessageManager.getMsg(msgId);
     try {
-      const stripped = ethUtil.stripHexPrefix(msgParams.data)
-      const buff = Buffer.from(stripped, 'hex')
-      msgParams.data = JSON.parse(buff.toString('utf8'))
+      const stripped = ethUtil.stripHexPrefix(msgParams.data);
+      const buff = Buffer.from(stripped, 'hex');
+      msgParams.data = JSON.parse(buff.toString('utf8'));
 
-      msg.rawData = await this.keyringController.decryptMessage(msgParams)
+      msg.rawData = await this.keyringController.decryptMessage(msgParams);
     } catch (e) {
-      msg.error = e.message
+      msg.error = e.message;
     }
-    this.decryptMessageManager._updateMsg(msg)
+    this.decryptMessageManager._updateMsg(msg);
 
-    return this.getState()
+    return this.getState();
   }
 
   /**
-  * Signifies a user's approval to decrypt a message in queue.
-  * Triggers decrypt, and the callback function from newUnsignedDecryptMessage.
-  *
-  * @param {Object} msgParams - The params of the message to decrypt & return to the Dapp.
-  * @returns {Promise<Object>} - A full state update.
-  */
-  async decryptMessage (msgParams) {
-    log.info('EcfWalletController - decryptMessage')
-    const msgId = msgParams.ecfWalletId
+   * Signifies a user's approval to decrypt a message in queue.
+   * Triggers decrypt, and the callback function from newUnsignedDecryptMessage.
+   *
+   * @param {object} msgParams - The params of the message to decrypt & return to the Dapp.
+   * @returns {Promise<object>} A full state update.
+   */
+  async decryptMessage(msgParams) {
+    log.info('EcfWalletController - decryptMessage');
+    const msgId = msgParams.ecfWalletId;
     // sets the status op the message to 'approved'
     // and removes the ecfWalletId for decryption
     try {
-      const cleanMsgParams = await this.decryptMessageManager.approveMessage(msgParams)
+      const cleanMsgParams =
+        await this.decryptMessageManager.approveMessage(msgParams);
 
-      const stripped = ethUtil.stripHexPrefix(cleanMsgParams.data)
-      const buff = Buffer.from(stripped, 'hex')
-      cleanMsgParams.data = JSON.parse(buff.toString('utf8'))
+      const stripped = ethUtil.stripHexPrefix(cleanMsgParams.data);
+      const buff = Buffer.from(stripped, 'hex');
+      cleanMsgParams.data = JSON.parse(buff.toString('utf8'));
 
       // decrypt the message
-      const rawMess = await this.keyringController.decryptMessage(cleanMsgParams)
+      const rawMess =
+        await this.keyringController.decryptMessage(cleanMsgParams);
       // tells the listener that the message has been decrypted and can be returned to the dapp
-      this.decryptMessageManager.setMsgStatusDecrypted(msgId, rawMess)
+      this.decryptMessageManager.setMsgStatusDecrypted(msgId, rawMess);
     } catch (error) {
-      log.info('EcfWalletController - eth_decrypt failed.', error)
-      this.decryptMessageManager.errorMessage(msgId, error)
+      log.info('EcfWalletController - eth_decrypt failed.', error);
+      this.decryptMessageManager.errorMessage(msgId, error);
     }
-    return this.getState()
+    return this.getState();
   }
 
   /**
    * Used to cancel a eth_decrypt type message.
+   *
    * @param {string} msgId - The ID of the message to cancel.
    * @param {Function} cb - The callback function called with a full state update.
    */
-  cancelDecryptMessage (msgId, cb) {
-    const messageManager = this.decryptMessageManager
-    messageManager.rejectMsg(msgId)
+  cancelDecryptMessage(msgId, cb) {
+    const messageManager = this.decryptMessageManager;
+    messageManager.rejectMsg(msgId);
     if (!cb || typeof cb !== 'function') {
-      return
+      return;
     }
-    cb(null, this.getState())
+    cb(null, this.getState());
   }
 
   // eth_getEncryptionPublicKey methods
 
   /**
-  * Called when a dapp uses the eth_getEncryptionPublicKey method.
-  *
-  * @param {Object} msgParams - The params of the message to sign & return to the Dapp.
-  * @param {Object} req - (optional) the original request, containing the origin
-  * Passed back to the requesting Dapp.
-  */
-  async newRequestEncryptionPublicKey (msgParams, req) {
-    const promise = this.encryptionPublicKeyManager.addUnapprovedMessageAsync(msgParams, req)
-    this.sendUpdate()
-    this.opts.showUnconfirmedMessage()
-    return promise
+   * Called when a dapp uses the eth_getEncryptionPublicKey method.
+   *
+   * @param {object} msgParams - The params of the message to sign & return to the Dapp.
+   * @param {object} req - (optional) the original request, containing the origin
+   * @returns {Promise<string>} The public key, passed back to the requesting Dapp.
+   */
+  async newRequestEncryptionPublicKey(msgParams, req) {
+    const promise = this.encryptionPublicKeyManager.addUnapprovedMessageAsync(
+      msgParams,
+      req,
+    );
+    this.sendUpdate();
+    this.opts.showUnconfirmedMessage();
+    return promise;
   }
 
   /**
-  * Signifies a user's approval to receiving encryption public key in queue.
-  * Triggers receiving, and the callback function from newUnsignedEncryptionPublicKey.
-  *
-  * @param {Object} msgParams - The params of the message to receive & return to the Dapp.
-  * @returns {Promise<Object>} - A full state update.
-  */
-  async encryptionPublicKey (msgParams) {
-    log.info('EcfWalletController - encryptionPublicKey')
-    const msgId = msgParams.ecfWalletId
+   * Signifies a user's approval to receiving encryption public key in queue.
+   * Triggers receiving, and the callback function from newUnsignedEncryptionPublicKey.
+   *
+   * @param {object} msgParams - The params of the message to receive & return to the Dapp.
+   * @returns {Promise<object>} A full state update.
+   */
+  async encryptionPublicKey(msgParams) {
+    log.info('EcfWalletController - encryptionPublicKey');
+    const msgId = msgParams.ecfWalletId;
     // sets the status op the message to 'approved'
     // and removes the ecfWalletId for decryption
     try {
-      const params = await this.encryptionPublicKeyManager.approveMessage(msgParams)
+      const params =
+        await this.encryptionPublicKeyManager.approveMessage(msgParams);
 
       // EncryptionPublicKey message
-      const publicKey = await this.keyringController.getEncryptionPublicKey(params.data)
+      const publicKey = await this.keyringController.getEncryptionPublicKey(
+        params.data,
+      );
 
       // tells the listener that the message has been processed
       // and can be returned to the dapp
-      this.encryptionPublicKeyManager.setMsgStatusReceived(msgId, publicKey)
+      this.encryptionPublicKeyManager.setMsgStatusReceived(msgId, publicKey);
     } catch (error) {
-      log.info('EcfWalletController - eth_getEncryptionPublicKey failed.', error)
-      this.encryptionPublicKeyManager.errorMessage(msgId, error)
+      log.info(
+        'EcfWalletController - eth_getEncryptionPublicKey failed.',
+        error,
+      );
+      this.encryptionPublicKeyManager.errorMessage(msgId, error);
     }
-    return this.getState()
+    return this.getState();
   }
 
   /**
    * Used to cancel a eth_getEncryptionPublicKey type message.
+   *
    * @param {string} msgId - The ID of the message to cancel.
    * @param {Function} cb - The callback function called with a full state update.
    */
-  cancelEncryptionPublicKey (msgId, cb) {
-    const messageManager = this.encryptionPublicKeyManager
-    messageManager.rejectMsg(msgId)
+  cancelEncryptionPublicKey(msgId, cb) {
+    const messageManager = this.encryptionPublicKeyManager;
+    messageManager.rejectMsg(msgId);
     if (!cb || typeof cb !== 'function') {
-      return
+      return;
     }
-    cb(null, this.getState())
+    cb(null, this.getState());
   }
 
   // eth_signTypedData methods
@@ -1207,62 +1442,76 @@ export default class EcfWalletController extends EventEmitter {
   /**
    * Called when a dapp uses the eth_signTypedData method, per EIP 712.
    *
-   * @param {Object} msgParams - The params passed to eth_signTypedData.
-   * @param {Function} cb - The callback function, called with the signature.
+   * @param {object} msgParams - The params passed to eth_signTypedData.
+   * @param {object} req - (optional) the original request, containing the origin
+   * @param {string} version - The typed data version: 'V1', 'V3' or 'V4'.
+   * @returns {Promise<string>} The signature, passed back to the requesting Dapp.
    */
-  async newUnsignedTypedMessage (msgParams, req, version) {
-    const securityAlerts = ['V3', 'V4'].includes(version) ? await this.getTypedDataAlerts(msgParams) : []
-    const promise = this.typedMessageManager.addUnapprovedMessageAsync(msgParams, req, version, securityAlerts)
-    this.sendUpdate()
-    this.opts.showUnconfirmedMessage()
-    return promise
+  async newUnsignedTypedMessage(msgParams, req, version) {
+    const securityAlerts = ['V3', 'V4'].includes(version)
+      ? await this.getTypedDataAlerts(msgParams)
+      : [];
+    const promise = this.typedMessageManager.addUnapprovedMessageAsync(
+      msgParams,
+      req,
+      version,
+      securityAlerts,
+    );
+    this.sendUpdate();
+    this.opts.showUnconfirmedMessage();
+    return promise;
   }
 
   /**
    * The method for a user approving a call to eth_signTypedData, per EIP 712.
    * Triggers the callback in newUnsignedTypedMessage.
    *
-   * @param  {Object} msgParams - The params passed to eth_signTypedData.
-   * @returns {Object|undefined} - Full state update.
+   * @param {object} msgParams - The params passed to eth_signTypedData.
+   * @returns {object | undefined} Full state update.
    */
-  async signTypedMessage (msgParams) {
-    log.info('EcfWalletController - eth_signTypedData')
-    const msgId = msgParams.ecfWalletId
-    const version = this.typedMessageManager.getMsg(msgId)?.msgParams.version
+  async signTypedMessage(msgParams) {
+    log.info('EcfWalletController - eth_signTypedData');
+    const msgId = msgParams.ecfWalletId;
+    const version = this.typedMessageManager.getMsg(msgId)?.msgParams.version;
     // Only the call that successfully claims approval owns the signing result.
     // A duplicate/stale approval must not fail somebody else's pending request.
-    const cleanMsgParams = await this.typedMessageManager.approveMessage(msgParams)
+    const cleanMsgParams =
+      await this.typedMessageManager.approveMessage(msgParams);
     try {
       // For some reason every version after V1 used stringified params.
       if (version !== 'V1') {
         // But we don't have to require that. We can stop suggesting it now:
         if (typeof cleanMsgParams.data === 'string') {
-          cleanMsgParams.data = JSON.parse(cleanMsgParams.data)
+          cleanMsgParams.data = JSON.parse(cleanMsgParams.data);
         }
       }
 
-      const signature = await this.keyringController.signTypedMessage(cleanMsgParams, { version })
-      this.typedMessageManager.setMsgStatusSigned(msgId, signature)
-      return this.getState()
+      const signature = await this.keyringController.signTypedMessage(
+        cleanMsgParams,
+        { version },
+      );
+      this.typedMessageManager.setMsgStatusSigned(msgId, signature);
+      return this.getState();
     } catch (error) {
-      log.info('EcfWalletController - eth_signTypedData failed.', error)
-      this.typedMessageManager.errorMessage(msgId, error)
-      return undefined
+      log.info('EcfWalletController - eth_signTypedData failed.', error);
+      this.typedMessageManager.errorMessage(msgId, error);
+      return undefined;
     }
   }
 
   /**
    * Used to cancel a eth_signTypedData type message.
+   *
    * @param {string} msgId - The ID of the message to cancel.
    * @param {Function} cb - The callback function called with a full state update.
    */
-  cancelTypedMessage (msgId, cb) {
-    const messageManager = this.typedMessageManager
-    messageManager.rejectMsg(msgId)
+  cancelTypedMessage(msgId, cb) {
+    const messageManager = this.typedMessageManager;
+    messageManager.rejectMsg(msgId);
     if (!cb || typeof cb !== 'function') {
-      return
+      return;
     }
-    cb(null, this.getState())
+    cb(null, this.getState());
   }
 
   //=============================================================================
@@ -1272,32 +1521,43 @@ export default class EcfWalletController extends EventEmitter {
   /**
    * Allows a user to attempt to cancel a previously submitted transaction by creating a new
    * transaction.
+   *
    * @param {number} originalTxId - the id of the txMeta that you want to attempt to cancel
    * @param {string} [customGasPrice] - the hex value to use for the cancel transaction
-   * @returns {Object} - ecf-wallet state
+   * @returns {object} ecf-wallet state
    */
-  async createCancelTransaction (originalTxId, customGasPrice) {
-    await this.txController.createCancelTransaction(originalTxId, customGasPrice)
-    const state = await this.getState()
-    return state
+  async createCancelTransaction(originalTxId, customGasPrice) {
+    await this.txController.createCancelTransaction(
+      originalTxId,
+      customGasPrice,
+    );
+    const state = await this.getState();
+    return state;
   }
 
-  async createSpeedUpTransaction (originalTxId, customGasPrice, customGasLimit) {
-    await this.txController.createSpeedUpTransaction(originalTxId, customGasPrice, customGasLimit)
-    const state = await this.getState()
-    return state
+  async createSpeedUpTransaction(originalTxId, customGasPrice, customGasLimit) {
+    await this.txController.createSpeedUpTransaction(
+      originalTxId,
+      customGasPrice,
+      customGasLimit,
+    );
+    const state = await this.getState();
+    return state;
   }
 
-  estimateGas (estimateGasParams) {
+  estimateGas(estimateGasParams) {
     return new Promise((resolve, reject) => {
-      return this.txController.txGasUtil.query.estimateGas(estimateGasParams, (err, res) => {
-        if (err) {
-          return reject(err)
-        }
+      return this.txController.txGasUtil.query.estimateGas(
+        estimateGasParams,
+        (err, res) => {
+          if (err) {
+            return reject(err);
+          }
 
-        return resolve(res)
-      })
-    })
+          return resolve(res);
+        },
+      );
+    });
   }
 
   //=============================================================================
@@ -1306,22 +1566,24 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * Allows a user to begin the seed phrase recovery process.
+   *
    * @param {Function} cb - A callback function called when complete.
    */
-  markPasswordForgotten (cb) {
-    this.preferencesController.setPasswordForgotten(true)
-    this.sendUpdate()
-    cb()
+  markPasswordForgotten(cb) {
+    this.preferencesController.setPasswordForgotten(true);
+    this.sendUpdate();
+    cb();
   }
 
   /**
    * Allows a user to end the seed phrase recovery process.
+   *
    * @param {Function} cb - A callback function called when complete.
    */
-  unMarkPasswordForgotten (cb) {
-    this.preferencesController.setPasswordForgotten(false)
-    this.sendUpdate()
-    cb()
+  unMarkPasswordForgotten(cb) {
+    this.preferencesController.setPasswordForgotten(false);
+    this.sendUpdate();
+    cb();
   }
 
   //=============================================================================
@@ -1330,31 +1592,36 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * A runtime.MessageSender object, as provided by the browser:
+   *
    * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/MessageSender
-   * @typedef {Object} MessageSender
+   * @typedef {object} MessageSender
+   * @property {object} [tab] - The tab that opened the connection, if any.
+   * @property {string} [id] - The ID of the extension that opened the connection.
+   * @property {string} [url] - The URL of the page or frame that opened the connection.
    */
 
   /**
    * Used to create a multiplexed stream for connecting to an untrusted context
    * like a Dapp or other extension.
+   *
    * @param {*} connectionStream - The Duplex stream to connect to.
    * @param {MessageSender} sender - The sender of the messages on this stream
    */
-  setupUntrustedCommunication (connectionStream, sender) {
-    const { usePhishDetect } = this.preferencesController.store.getState()
-    const { hostname } = new URL(sender.url)
+  setupUntrustedCommunication(connectionStream, sender) {
+    const { usePhishDetect } = this.preferencesController.store.getState();
+    const { hostname } = new URL(sender.url);
     // Check if new connection is blocked if phishing detection is on
     if (usePhishDetect && this.phishingController.test(hostname)) {
-      log.debug('ecf-wallet - sending phishing warning for', hostname)
-      this.sendPhishingWarning(connectionStream, hostname)
-      return
+      log.debug('ecf-wallet - sending phishing warning for', hostname);
+      this.sendPhishingWarning(connectionStream, hostname);
+      return;
     }
 
     // setup multiplexing
-    const mux = setupMultiplex(connectionStream)
+    const mux = setupMultiplex(connectionStream);
 
     // messages between inpage and background
-    this.setupProviderConnection(mux.createStream('provider'), sender)
+    this.setupProviderConnection(mux.createStream('provider'), sender);
   }
 
   /**
@@ -1366,12 +1633,12 @@ export default class EcfWalletController extends EventEmitter {
    * @param {*} connectionStream - The duplex stream to connect to.
    * @param {MessageSender} sender - The sender of the messages on this stream
    */
-  setupTrustedCommunication (connectionStream, sender) {
+  setupTrustedCommunication(connectionStream, sender) {
     // setup multiplexing
-    const mux = setupMultiplex(connectionStream)
+    const mux = setupMultiplex(connectionStream);
     // connect features
-    this.setupControllerConnection(mux.createStream('controller'))
-    this.setupProviderConnection(mux.createStream('provider'), sender, true)
+    this.setupControllerConnection(mux.createStream('controller'));
+    this.setupProviderConnection(mux.createStream('provider'), sender, true);
   }
 
   /**
@@ -1383,71 +1650,75 @@ export default class EcfWalletController extends EventEmitter {
    * for sending the reload attempt to.
    * @param {string} hostname - The hostname that triggered the suspicion.
    */
-  sendPhishingWarning (connectionStream, hostname) {
-    const mux = setupMultiplex(connectionStream)
-    const phishingStream = mux.createStream('phishing')
-    phishingStream.write({ hostname })
+  sendPhishingWarning(connectionStream, hostname) {
+    const mux = setupMultiplex(connectionStream);
+    const phishingStream = mux.createStream('phishing');
+    phishingStream.write({ hostname });
   }
 
   /**
    * A method for providing our API over a stream using Dnode.
+   *
    * @param {*} outStream - The stream to provide our API over.
    */
-  setupControllerConnection (outStream) {
-    const api = this.getApi()
-    const dnode = Dnode(api)
+  setupControllerConnection(outStream) {
+    const api = this.getApi();
+    const dnode = Dnode(api);
     // report new active controller connection
-    this.activeControllerConnections += 1
-    this.emit('controllerConnectionChanged', this.activeControllerConnections)
+    this.activeControllerConnections += 1;
+    this.emit('controllerConnectionChanged', this.activeControllerConnections);
     // connect dnode api to remote connection
-    pump(
-      outStream,
-      dnode,
-      outStream,
-      (err) => {
-        // report new active controller connection
-        this.activeControllerConnections -= 1
-        this.emit('controllerConnectionChanged', this.activeControllerConnections)
-        // report any error
-        if (err) {
-          log.error(err)
-        }
-      },
-    )
+    pump(outStream, dnode, outStream, (err) => {
+      // report new active controller connection
+      this.activeControllerConnections -= 1;
+      this.emit(
+        'controllerConnectionChanged',
+        this.activeControllerConnections,
+      );
+      // report any error
+      if (err) {
+        log.error(err);
+      }
+    });
     dnode.on('remote', (remote) => {
       // push updates to popup
-      const sendUpdate = (update) => remote.sendUpdate(update)
-      this.on('update', sendUpdate)
+      const sendUpdate = (update) => remote.sendUpdate(update);
+      this.on('update', sendUpdate);
       // remove update listener once the connection ends
-      dnode.on('end', () => this.removeListener('update', sendUpdate))
-    })
+      dnode.on('end', () => this.removeListener('update', sendUpdate));
+    });
   }
 
   /**
    * A method for serving our ethereum provider over a given stream.
+   *
    * @param {*} outStream - The stream to provide over.
    * @param {MessageSender} sender - The sender of the messages on this stream
    * @param {boolean} isInternal - True if this is a connection with an internal process
    */
-  setupProviderConnection (outStream, sender, isInternal) {
-    const origin = isInternal
-      ? 'ecf-wallet'
-      : (new URL(sender.url)).origin
-    let extensionId
+  setupProviderConnection(outStream, sender, isInternal) {
+    const origin = isInternal ? 'ecf-wallet' : new URL(sender.url).origin;
+    let extensionId;
     if (sender.id !== extension.runtime.id) {
-      extensionId = sender.id
+      extensionId = sender.id;
     }
-    let tabId
+    let tabId;
     if (sender.tab && sender.tab.id) {
-      tabId = sender.tab.id
+      tabId = sender.tab.id;
     }
 
-    const engine = this.setupProviderEngine({ origin, location: sender.url, extensionId, tabId, isInternal })
+    const engine = this.setupProviderEngine({
+      origin,
+      location: sender.url,
+      extensionId,
+      tabId,
+      isInternal,
+    });
 
     // setup connection
-    const providerStream = createEngineStream({ engine })
+    const providerStream = createEngineStream({ engine });
 
-    const connectionId = this.addConnection(origin, { engine })
+    const connectionId = this.addConnection(origin, { engine });
 
     pump(
       outStream,
@@ -1456,18 +1727,18 @@ export default class EcfWalletController extends EventEmitter {
       outStream,
       (err) => {
         // handle any middleware cleanup
-        engine.destroy()
-        connectionId && this.removeConnection(origin, connectionId)
+        engine.destroy();
+        connectionId && this.removeConnection(origin, connectionId);
         if (err) {
-          log.error(err)
+          log.error(err);
         }
       },
-    )
+    );
 
     if (!isInternal) {
       // A page reconnecting after the background restarted may have missed
       // changes; the provider ignores notifications that change nothing.
-      this._sendProviderState(origin, engine)
+      this._sendProviderState(origin, engine);
     }
   }
 
@@ -1475,87 +1746,119 @@ export default class EcfWalletController extends EventEmitter {
    * Sends the current chain and accounts to one provider connection.
    *
    * @param {string} origin - The connection's origin
-   * @param {Object} engine - The connection's RPC engine
+   * @param {object} engine - The connection's RPC engine
    */
-  async _sendProviderState (origin, engine) {
+  async _sendProviderState(origin, engine) {
     try {
-      const accounts = this.isUnlocked() ? await this.permissionsController.getAccounts(origin) : []
-      const networkState = this.getProviderNetworkState()
+      const accounts = this.isUnlocked()
+        ? await this.permissionsController.getAccounts(origin)
+        : [];
+      const networkState = this.getProviderNetworkState();
       // Without a chain ID the provider would reject the update; one follows
       // from _onStateUpdate when the network reports it.
       if (networkState.chainId) {
-        engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.chainChanged, params: networkState })
+        engine.emit('notification', {
+          jsonrpc: '2.0',
+          method: NOTIFICATION_NAMES.chainChanged,
+          params: networkState,
+        });
       }
-      engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.accountsChanged, params: accounts })
+      engine.emit('notification', {
+        jsonrpc: '2.0',
+        method: NOTIFICATION_NAMES.accountsChanged,
+        params: accounts,
+      });
     } catch (error) {
-      log.warn('ecf-wallet - could not send provider state', error)
+      log.warn('ecf-wallet - could not send provider state', error);
     }
   }
 
   /**
    * A method for creating a provider that is safely restricted for the requesting domain.
-   * @param {Object} options - Provider engine options
+   *
+   * @param {object} options - Provider engine options
    * @param {string} options.origin - The origin of the sender
    * @param {string} options.location - The full URL of the sender
-   * @param {extensionId} [options.extensionId] - The extension ID of the sender, if the sender is an external extension
-   * @param {tabId} [options.tabId] - The tab ID of the sender - if the sender is within a tab
+   * @param {string} [options.extensionId] - The extension ID of the sender, if the sender is an external extension
+   * @param {number} [options.tabId] - The tab ID of the sender - if the sender is within a tab
    * @param {boolean} [options.isInternal] - True if called for a connection to an internal process
-   **/
-  setupProviderEngine ({ origin, location, extensionId, tabId, isInternal = false }) {
+   * @returns {JsonRpcEngine} The provider engine.
+   */
+  setupProviderEngine({
+    origin,
+    location,
+    extensionId,
+    tabId,
+    isInternal = false,
+  }) {
     // setup json rpc engine stack
-    const engine = new JsonRpcEngine()
-    const { provider, blockTracker } = this
+    const engine = new JsonRpcEngine();
+    const { provider, blockTracker } = this;
 
     // create filter polyfill middleware
-    const filterMiddleware = createFilterMiddleware({ provider, blockTracker })
+    const filterMiddleware = createFilterMiddleware({ provider, blockTracker });
 
     // create subscription polyfill middleware
-    const subscriptionManager = createSubscriptionManager({ provider, blockTracker })
-    subscriptionManager.events.on('notification', (message) => engine.emit('notification', message))
+    const subscriptionManager = createSubscriptionManager({
+      provider,
+      blockTracker,
+    });
+    subscriptionManager.events.on('notification', (message) =>
+      engine.emit('notification', message),
+    );
 
     // append origin to each request
-    engine.push(createOriginMiddleware({ origin }))
+    engine.push(createOriginMiddleware({ origin }));
     // refuse unsafe methods before any permission or approval prompt
-    engine.push(createMethodBlockMiddleware())
+    engine.push(createMethodBlockMiddleware());
     if (!isInternal) {
       // The provider requests its initial state; later changes are notifications.
-      engine.push(createAsyncMiddleware(async (req, res, next) => {
-        if (req.method !== 'metamask_getProviderState') {
-          // eslint-disable-next-line callback-return
-          await next()
-          return
-        }
-        res.result = await this.getProviderState(origin)
-      }))
+      engine.push(
+        createAsyncMiddleware(async (req, res, next) => {
+          if (req.method !== 'metamask_getProviderState') {
+            await next();
+            return;
+          }
+          res.result = await this.getProviderState(origin);
+        }),
+      );
     }
     if (!isInternal) {
       // refuse prompts from a site whose requests were just rejected repeatedly
-      engine.push(this.originThrottler.createMiddleware({ origin }))
+      engine.push(this.originThrottler.createMiddleware({ origin }));
     }
     // network add and switch requests, each approved by the user
-    engine.push(this.networkRequestController.createMiddleware({ origin }))
+    engine.push(this.networkRequestController.createMiddleware({ origin }));
     // append tabId to each request if it exists
     if (tabId) {
-      engine.push(createTabIdMiddleware({ tabId }))
+      engine.push(createTabIdMiddleware({ tabId }));
     }
     // logging
-    engine.push(createLoggerMiddleware({ origin }))
-    engine.push(createOnboardingMiddleware({
-      location,
-      registerOnboarding: this.onboardingController.registerOnboarding,
-    }))
+    engine.push(createLoggerMiddleware({ origin }));
+    engine.push(
+      createOnboardingMiddleware({
+        location,
+        registerOnboarding: this.onboardingController.registerOnboarding,
+      }),
+    );
     // filter and subscription polyfills
-    engine.push(filterMiddleware)
-    engine.push(subscriptionManager.middleware)
+    engine.push(filterMiddleware);
+    engine.push(subscriptionManager.middleware);
     if (!isInternal) {
       // permissions
-      engine.push(this.permissionsController.createMiddleware({ origin, extensionId }))
+      engine.push(
+        this.permissionsController.createMiddleware({ origin, extensionId }),
+      );
     }
     // watch asset
-    engine.push(this.preferencesController.requestWatchAsset.bind(this.preferencesController))
+    engine.push(
+      this.preferencesController.requestWatchAsset.bind(
+        this.preferencesController,
+      ),
+    );
     // forward to ecf-wallet primary provider
-    engine.push(providerAsMiddleware(provider))
-    return engine
+    engine.push(providerAsMiddleware(provider));
+    return engine;
   }
 
   /**
@@ -1564,26 +1867,25 @@ export default class EcfWalletController extends EventEmitter {
    * can be deleted later.
    *
    * @param {string} origin - The connection's origin string.
-   * @param {Object} options - Data associated with the connection
-   * @param {Object} options.engine - The connection's JSON Rpc Engine
-   * @returns {string} - The connection's id (so that it can be deleted later)
+   * @param {object} options - Data associated with the connection
+   * @param {object} options.engine - The connection's JSON Rpc Engine
+   * @returns {string} The connection's id (so that it can be deleted later)
    */
-  addConnection (origin, { engine }) {
-
+  addConnection(origin, { engine }) {
     if (origin === 'ecf-wallet') {
-      return null
+      return null;
     }
 
     if (!this.connections[origin]) {
-      this.connections[origin] = {}
+      this.connections[origin] = {};
     }
 
-    const id = nanoid()
+    const id = nanoid();
     this.connections[origin][id] = {
       engine,
-    }
+    };
 
-    return id
+    return id;
   }
 
   /**
@@ -1593,17 +1895,16 @@ export default class EcfWalletController extends EventEmitter {
    * @param {string} origin - The connection's origin string.
    * @param {string} id - The connection's id, as returned from addConnection.
    */
-  removeConnection (origin, id) {
-
-    const connections = this.connections[origin]
+  removeConnection(origin, id) {
+    const connections = this.connections[origin];
     if (!connections) {
-      return
+      return;
     }
 
-    delete connections[id]
+    delete connections[id];
 
     if (Object.keys(connections).length === 0) {
-      delete this.connections[origin]
+      delete this.connections[origin];
     }
   }
 
@@ -1615,16 +1916,15 @@ export default class EcfWalletController extends EventEmitter {
    * @param {string} origin - The connection's origin string.
    * @param {any} payload - The event payload.
    */
-  notifyConnections (origin, payload) {
-
-    const connections = this.connections[origin]
+  notifyConnections(origin, payload) {
+    const connections = this.connections[origin];
     if (!this.isUnlocked() || !connections) {
-      return
+      return;
     }
 
     Object.values(connections).forEach((conn) => {
-      conn.engine && conn.engine.emit('notification', payload)
-    })
+      conn.engine && conn.engine.emit('notification', payload);
+    });
   }
 
   /**
@@ -1634,101 +1934,123 @@ export default class EcfWalletController extends EventEmitter {
    *
    * @param {any} payload - The event payload.
    */
-  notifyAllConnections (payload) {
-
+  notifyAllConnections(payload) {
     if (!this.isUnlocked()) {
-      return
+      return;
     }
 
     Object.values(this.connections).forEach((origin) => {
       Object.values(origin).forEach((conn) => {
-        conn.engine && conn.engine.emit('notification', payload)
-      })
-    })
+        conn.engine && conn.engine.emit('notification', payload);
+      });
+    });
   }
 
   /**
    * Unlocking shares each origin's permitted accounts with its providers again.
    */
-  _onUnlock () {
+  _onUnlock() {
     Object.entries(this.connections).forEach(([origin, connections]) => {
-      Object.values(connections).forEach(({ engine }) => engine && this._sendProviderState(origin, engine))
-    })
-    this.emit('unlock')
+      Object.values(connections).forEach(
+        ({ engine }) => engine && this._sendProviderState(origin, engine),
+      );
+    });
+    this.emit('unlock');
   }
 
   /**
    * Locking hides all accounts from sites. This must reach every connection,
    * unlike notifications sent while unlocked.
    */
-  _onLock () {
+  _onLock() {
     Object.values(this.connections).forEach((connections) => {
       Object.values(connections).forEach(({ engine }) => {
-        engine && engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.accountsChanged, params: [] })
-      })
-    })
+        engine &&
+          engine.emit('notification', {
+            jsonrpc: '2.0',
+            method: NOTIFICATION_NAMES.accountsChanged,
+            params: [],
+          });
+      });
+    });
   }
 
   /**
    * Tells providers about network changes. The chain is not secret, so this
    * is sent whether or not the wallet is locked.
    *
-   * @param {Object} memState - The new memState
+   * @param {object} memState - The new memState
    */
-  _onStateUpdate (memState) {
-    const networkState = this.getProviderNetworkState(memState)
+  _onStateUpdate(memState) {
+    const networkState = this.getProviderNetworkState(memState);
     if (!networkState.chainId) {
-      return
+      return;
     }
-    const { lastProviderNetworkState: last } = this
-    if (last && last.chainId === networkState.chainId && last.networkVersion === networkState.networkVersion &&
-        last.isConnected === networkState.isConnected) {
-      return
+    const { lastProviderNetworkState: last } = this;
+    if (
+      last &&
+      last.chainId === networkState.chainId &&
+      last.networkVersion === networkState.networkVersion &&
+      last.isConnected === networkState.isConnected
+    ) {
+      return;
     }
-    this.lastProviderNetworkState = networkState
+    this.lastProviderNetworkState = networkState;
     Object.values(this.connections).forEach((connections) => {
       Object.values(connections).forEach(({ engine }) => {
-        engine && engine.emit('notification', { jsonrpc: '2.0', method: NOTIFICATION_NAMES.chainChanged, params: networkState })
-      })
-    })
+        engine &&
+          engine.emit('notification', {
+            jsonrpc: '2.0',
+            method: NOTIFICATION_NAMES.chainChanged,
+            params: networkState,
+          });
+      });
+    });
   }
 
   // handlers
 
   /**
    * Handle a KeyringController update
-   * @param {Object} state - the KC state
+   *
+   * @param {object} state - the KC state
    * @returns {Promise<void>}
    * @private
    */
-  async _onKeyringControllerUpdate (state) {
-    const { keyrings } = state
-    const addresses = keyrings.reduce((acc, { accounts }) => acc.concat(accounts), [])
+  async _onKeyringControllerUpdate(state) {
+    const { keyrings } = state;
+    const addresses = keyrings.reduce(
+      (acc, { accounts }) => acc.concat(accounts),
+      [],
+    );
 
     if (!addresses.length) {
-      return
+      return;
     }
 
     // Ensure preferences + identities controller know about all addresses
-    this.preferencesController.syncAddresses(addresses)
-    this.accountTracker.syncWithAddresses(addresses)
+    this.preferencesController.syncAddresses(addresses);
+    this.accountTracker.syncWithAddresses(addresses);
   }
 
   // misc
 
   /**
    * A method for emitting the full ecf-wallet state to all registered listeners.
+   *
    * @private
    */
-  privateSendUpdate () {
-    this.emit('update', this.getState())
+  privateSendUpdate() {
+    this.emit('update', this.getState());
   }
 
   /**
+   * Checks whether the vault is unlocked.
+   *
    * @returns {boolean} Whether the extension is unlocked.
    */
-  isUnlocked () {
-    return this.keyringController.memStore.getState().isUnlocked
+  isUnlocked() {
+    return this.keyringController.memStore.getState().isUnlocked;
   }
 
   //=============================================================================
@@ -1737,30 +2059,33 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * Returns the nonce that will be associated with a transaction once approved
+   *
    * @param {string} address - The hex string address for the transaction
-   * @returns {Promise<number>}
+   * @returns {Promise<number>} The pending nonce.
    */
-  async getPendingNonce (address) {
-    const { nonceDetails, releaseLock } = await this.txController.nonceTracker.getNonceLock(address)
-    const pendingNonce = nonceDetails.params.highestSuggested
+  async getPendingNonce(address) {
+    const { nonceDetails, releaseLock } =
+      await this.txController.nonceTracker.getNonceLock(address);
+    const pendingNonce = nonceDetails.params.highestSuggested;
 
-    releaseLock()
-    return pendingNonce
+    releaseLock();
+    return pendingNonce;
   }
 
   /**
    * Returns the next nonce according to the nonce-tracker
+   *
    * @param {string} address - The hex string address for the transaction
-   * @returns {Promise<number>}
+   * @returns {Promise<number>} The next nonce.
    */
-  async getNextNonce (address) {
-    let nonceLock
+  async getNextNonce(address) {
+    let nonceLock;
     try {
-      nonceLock = await this.txController.nonceTracker.getNonceLock(address)
+      nonceLock = await this.txController.nonceTracker.getNonceLock(address);
     } finally {
-      nonceLock.releaseLock()
+      nonceLock.releaseLock();
     }
-    return nonceLock.nextNonce
+    return nonceLock.nextNonce;
   }
 
   //=============================================================================
@@ -1772,185 +2097,245 @@ export default class EcfWalletController extends EventEmitter {
   // network
   /**
    * A method for selecting a custom URL for an ethereum RPC provider and updating it
+   *
    * @param {string} rpcUrl - A URL for a valid Ethereum RPC API.
    * @param {string} chainId - The chainId of the selected network.
    * @param {string} ticker - The ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
-   * @returns {Promise<String>} - The RPC Target URL confirmed.
+   * @returns {Promise<string>} The RPC Target URL confirmed.
    */
 
-  async updateAndSetCustomRpc (rpcUrl, chainId, ticker = 'ETH', nickname, rpcPrefs) {
-    await this.preferencesController.updateRpc({ rpcUrl, chainId, ticker, nickname, rpcPrefs })
-    this.networkController.setRpcTarget(rpcUrl, chainId, ticker, nickname, rpcPrefs)
-    return rpcUrl
+  async updateAndSetCustomRpc(
+    rpcUrl,
+    chainId,
+    ticker = 'ETH',
+    nickname,
+    rpcPrefs,
+  ) {
+    await this.preferencesController.updateRpc({
+      rpcUrl,
+      chainId,
+      ticker,
+      nickname,
+      rpcPrefs,
+    });
+    this.networkController.setRpcTarget(
+      rpcUrl,
+      chainId,
+      ticker,
+      nickname,
+      rpcPrefs,
+    );
+    return rpcUrl;
   }
 
   /**
    * A method for selecting a custom URL for an ethereum RPC provider.
+   *
    * @param {string} rpcTarget - A URL for a valid Ethereum RPC API.
    * @param {string} chainId - The chainId of the selected network.
    * @param {string} ticker - The ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
-   * @returns {Promise<String>} - The RPC Target URL confirmed.
+   * @param {object} [rpcPrefs] - Network preferences, such as a block explorer URL.
+   * @returns {Promise<string>} The RPC Target URL confirmed.
    */
-  async setCustomRpc (rpcTarget, chainId, ticker = 'ETH', nickname = '', rpcPrefs = {}) {
-    const frequentRpcListDetail = this.preferencesController.getFrequentRpcListDetail()
-    const rpcSettings = frequentRpcListDetail.find((rpc) => rpcTarget === rpc.rpcUrl)
+  async setCustomRpc(
+    rpcTarget,
+    chainId,
+    ticker = 'ETH',
+    nickname = '',
+    rpcPrefs = {},
+  ) {
+    const frequentRpcListDetail =
+      this.preferencesController.getFrequentRpcListDetail();
+    const rpcSettings = frequentRpcListDetail.find(
+      (rpc) => rpcTarget === rpc.rpcUrl,
+    );
 
     if (rpcSettings) {
-      this.networkController.setRpcTarget(rpcSettings.rpcUrl, rpcSettings.chainId, rpcSettings.ticker, rpcSettings.nickname, rpcPrefs)
+      this.networkController.setRpcTarget(
+        rpcSettings.rpcUrl,
+        rpcSettings.chainId,
+        rpcSettings.ticker,
+        rpcSettings.nickname,
+        rpcPrefs,
+      );
     } else {
-      this.networkController.setRpcTarget(rpcTarget, chainId, ticker, nickname, rpcPrefs)
-      await this.preferencesController.addToFrequentRpcList(rpcTarget, chainId, ticker, nickname, rpcPrefs)
+      this.networkController.setRpcTarget(
+        rpcTarget,
+        chainId,
+        ticker,
+        nickname,
+        rpcPrefs,
+      );
+      await this.preferencesController.addToFrequentRpcList(
+        rpcTarget,
+        chainId,
+        ticker,
+        nickname,
+        rpcPrefs,
+      );
     }
-    return rpcTarget
+    return rpcTarget;
   }
 
   /**
    * A method for deleting a selected custom URL.
+   *
    * @param {string} rpcTarget - A RPC URL to delete.
    */
-  async delCustomRpc (rpcTarget) {
-    await this.preferencesController.removeFromFrequentRpcList(rpcTarget)
+  async delCustomRpc(rpcTarget) {
+    await this.preferencesController.removeFromFrequentRpcList(rpcTarget);
   }
 
   /**
    * Sets whether or not to use the nonce field.
+   *
    * @param {boolean} val - True for nonce field, false for not nonce field.
    * @param {Function} cb - A callback function called when complete.
    */
-  setUseNonceField (val, cb) {
+  setUseNonceField(val, cb) {
     try {
-      this.preferencesController.setUseNonceField(val)
-      cb(null)
+      this.preferencesController.setUseNonceField(val);
+      cb(null);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     } catch (err) {
-      cb(err)
+      cb(err);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     }
   }
 
   /**
    * Sets whether or not to use phishing detection.
-   * @param {boolean} val
-   * @param {Function} cb
+   *
+   * @param {boolean} val - Whether to use phishing detection.
+   * @param {Function} cb - A node style callback, called with an error if one occurs.
    */
-  setUsePhishDetect (val, cb) {
+  setUsePhishDetect(val, cb) {
     try {
-      this.preferencesController.setUsePhishDetect(val)
-      cb(null)
+      this.preferencesController.setUsePhishDetect(val);
+      cb(null);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     } catch (err) {
-      cb(err)
+      cb(err);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     }
   }
 
   /**
    * Sets the IPFS gateway to use for ENS content resolution.
+   *
    * @param {string} val - the host of the gateway to set
    * @param {Function} cb - A callback function called when complete.
    */
-  setIpfsGateway (val, cb) {
+  setIpfsGateway(val, cb) {
     try {
-      this.preferencesController.setIpfsGateway(val)
-      cb(null)
+      this.preferencesController.setIpfsGateway(val);
+      cb(null);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     } catch (err) {
-      cb(err)
+      cb(err);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     }
   }
 
   /**
    * Sets the type of first time flow the user wishes to follow: create or import
+   *
    * @param {string} type - Indicates the type of first time flow the user wishes to follow
    * @param {Function} cb - A callback function called when complete.
    */
-  setFirstTimeFlowType (type, cb) {
+  setFirstTimeFlowType(type, cb) {
     try {
-      this.preferencesController.setFirstTimeFlowType(type)
-      cb(null)
+      this.preferencesController.setFirstTimeFlowType(type);
+      cb(null);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     } catch (err) {
-      cb(err)
+      cb(err);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     }
   }
 
   /**
    * A method for setting a user's current locale, affecting the language rendered.
+   *
    * @param {string} key - Locale identifier.
    * @param {Function} cb - A callback function called when complete.
    */
-  setCurrentLocale (key, cb) {
+  setCurrentLocale(key, cb) {
     try {
-      const direction = this.preferencesController.setCurrentLocale(key)
-      cb(null, direction)
+      const direction = this.preferencesController.setCurrentLocale(key);
+      cb(null, direction);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     } catch (err) {
-      cb(err)
+      cb(err);
       // eslint-disable-next-line no-useless-return
-      return
+      return;
     }
   }
 
   /**
    * A method for initializing storage the first time.
-   * @param {Object} initState - The default state to initialize with.
+   *
+   * @param {object} initState - The default state to initialize with.
    * @private
    */
-  recordFirstTimeInfo (initState) {
-    if (!('firstTimeInfo' in initState)) {
-      const version = this.platform.getVersion()
+  recordFirstTimeInfo(initState) {
+    if (!Object.hasOwn(initState, 'firstTimeInfo')) {
+      const version = this.platform.getVersion();
       initState.firstTimeInfo = {
         version,
         date: Date.now(),
-      }
+      };
     }
   }
 
   // TODO: Replace isClientOpen methods with `controllerConnectionChanged` events.
   /**
    * A method for recording whether the ecf-wallet user interface is open or not.
+   *
    * @private
-   * @param {boolean} open
+   * @param {boolean} open - Whether the user interface is open.
    */
-  set isClientOpen (open) {
-    this._isClientOpen = open
-    this.detectTokensController.isOpen = open
+  set isClientOpen(open) {
+    this._isClientOpen = open;
+    this.detectTokensController.isOpen = open;
   }
 
   /**
-  * Creates RPC engine middleware for processing eth_signTypedData requests
-  *
-  * @param {Object} req - request object
-  * @param {Object} res - response object
-  * @param {Function} - next
-  * @param {Function} - end
-  */
+   * Creates RPC engine middleware for processing eth_signTypedData requests
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @param {Function} next - next
+   * @param {Function} end - end
+   */
 
   /**
    * Adds a domain to the PhishingController safelist
+   *
    * @param {string} hostname - the domain to safelist
+   * @returns {void}
    */
-  safelistPhishingDomain (hostname) {
-    return this.phishingController.bypass(hostname)
+  safelistPhishingDomain(hostname) {
+    return this.phishingController.bypass(hostname);
   }
 
   /**
    * Locks ecf-wallet
+   *
+   * @returns {Promise<object>} The keyring controller's memory state.
    */
-  setLocked () {
-    return this.keyringController.setLocked()
+  setLocked() {
+    return this.keyringController.setLocked();
   }
 }

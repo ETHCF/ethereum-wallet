@@ -1,51 +1,74 @@
-import { JsonRpcEngine, createAsyncMiddleware, createScaffoldMiddleware } from '@metamask/json-rpc-engine'
-import appProviderFromEngine from '../../app/scripts/controllers/network/provider-from-engine'
+import {
+  JsonRpcEngine,
+  createAsyncMiddleware,
+  createScaffoldMiddleware,
+} from '@metamask/json-rpc-engine';
 
-export function getTestSeed () {
-  return 'people carpet cluster attract ankle motor ozone mass dove original primary mask'
+import appProviderFromEngine from '../../app/scripts/controllers/network/provider-from-engine';
+
+export function getTestSeed() {
+  return 'people carpet cluster attract ankle motor ozone mass dove original primary mask';
 }
 
-export function getTestAccounts () {
+export function getTestAccounts() {
   return [
-    { address: '0x88bb7F89eB5e5b30D3e15a57C68DBe03C6aCCB21', key: Buffer.from('254A8D551474F35CCC816388B4ED4D20B945C96B7EB857A68064CB9E9FB2C092', 'hex') },
-    { address: '0x1fe9aAB565Be19629fF4e8541ca2102fb42D7724', key: Buffer.from('6BAB5A4F2A6911AF8EE2BD32C6C05F6643AC48EF6C939CDEAAAE6B1620805A9B', 'hex') },
-    { address: '0xbda5c89aa6bA1b352194291AD6822C92AbC87c7B', key: Buffer.from('9B11D7F833648F26CE94D544855558D7053ECD396E4F4563968C232C012879B0', 'hex') },
-  ]
+    {
+      address: '0x88bb7F89eB5e5b30D3e15a57C68DBe03C6aCCB21',
+      key: Buffer.from(
+        '254A8D551474F35CCC816388B4ED4D20B945C96B7EB857A68064CB9E9FB2C092',
+        'hex',
+      ),
+    },
+    {
+      address: '0x1fe9aAB565Be19629fF4e8541ca2102fb42D7724',
+      key: Buffer.from(
+        '6BAB5A4F2A6911AF8EE2BD32C6C05F6643AC48EF6C939CDEAAAE6B1620805A9B',
+        'hex',
+      ),
+    },
+    {
+      address: '0xbda5c89aa6bA1b352194291AD6822C92AbC87c7B',
+      key: Buffer.from(
+        '9B11D7F833648F26CE94D544855558D7053ECD396E4F4563968C232C012879B0',
+        'hex',
+      ),
+    },
+  ];
 }
 
-export function createEngineForTestData () {
-  return new JsonRpcEngine()
+export function createEngineForTestData() {
+  return new JsonRpcEngine();
 }
 
-export function providerFromEngine (engine) {
-  return appProviderFromEngine(engine)
+export function providerFromEngine(engine) {
+  return appProviderFromEngine(engine);
 }
 
 // Forwards requests to the test chain that test/helper.js starts on port 8545.
 // Tests may only connect to localhost.
-function testChainMiddleware () {
+function testChainMiddleware() {
   return createAsyncMiddleware(async (req, res) => {
-    const { id, jsonrpc, method, params } = req
+    const { id, jsonrpc, method, params } = req;
     const response = await fetch('http://localhost:8545', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, jsonrpc, method, params }),
-    })
-    const { result, error } = await response.json()
+    });
+    const { result, error } = await response.json();
     if (error) {
-      throw error
+      throw error;
     }
-    res.result = result
-  })
+    res.result = result;
+  });
 }
 
-export function createTestProviderTools (opts = {}) {
-  const engine = createEngineForTestData()
+export function createTestProviderTools(opts = {}) {
+  const engine = createEngineForTestData();
   // handle provided hooks
-  engine.push(createScaffoldMiddleware(opts.scaffold || {}))
+  engine.push(createScaffoldMiddleware(opts.scaffold || {}));
   // handle block tracker methods
-  engine.push(testChainMiddleware())
+  engine.push(testChainMiddleware());
   // wrap in standard provider interface
-  const provider = providerFromEngine(engine)
-  return { provider, engine }
+  const provider = providerFromEngine(engine);
+  return { provider, engine };
 }

@@ -1,5 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react'
-import { useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
+import React, { useCallback, useEffect, useRef } from 'react';
+import {
+  useLocation,
+  useNavigate,
+  useNavigationType,
+  useParams,
+} from 'react-router-dom';
 
 /**
  * Gives a class component the router hooks' values as props: `navigate`,
@@ -9,12 +14,12 @@ import { useLocation, useNavigate, useNavigationType, useParams } from 'react-ro
  * @param {React.ComponentType} WrappedComponent - The component to wrap
  * @returns {React.ComponentType} The wrapped component
  */
-export default function withRouter (WrappedComponent) {
+export default function withRouter(WrappedComponent) {
   const ComponentWithRouter = (props) => {
-    const routerNavigate = useNavigate()
-    const location = useLocation()
-    const params = useParams()
-    const navigationType = useNavigationType()
+    const routerNavigate = useNavigate();
+    const location = useLocation();
+    const params = useParams();
+    const navigationType = useNavigationType();
 
     // React Router ignores navigate() until the component that called
     // useNavigate() has mounted, and on the first render the router only
@@ -22,21 +27,24 @@ export default function withRouter (WrappedComponent) {
     // wrapped component's componentDidMount runs before both (children mount
     // first), so hold navigations made before then and make them in this
     // passive effect, which runs after every layout effect of the commit.
-    const mounted = useRef(false)
-    const pendingNavigations = useRef([])
+    const mounted = useRef(false);
+    const pendingNavigations = useRef([]);
     useEffect(() => {
-      mounted.current = true
+      mounted.current = true;
       for (const args of pendingNavigations.current.splice(0)) {
-        routerNavigate(...args)
+        routerNavigate(...args);
       }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-    const navigate = useCallback((...args) => {
-      if (mounted.current) {
-        routerNavigate(...args)
-      } else {
-        pendingNavigations.current.push(args)
-      }
-    }, [routerNavigate])
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const navigate = useCallback(
+      (...args) => {
+        if (mounted.current) {
+          routerNavigate(...args);
+        } else {
+          pendingNavigations.current.push(args);
+        }
+      },
+      [routerNavigate],
+    );
 
     return (
       <WrappedComponent
@@ -46,11 +54,12 @@ export default function withRouter (WrappedComponent) {
         navigationType={navigationType}
         {...props}
       />
-    )
-  }
-  ComponentWithRouter.displayName = `withRouter(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`
+    );
+  };
+  ComponentWithRouter.displayName = `withRouter(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
   // Like react-router 5's withRouter, expose the innermost component, which
   // connect() also exposes, so tests can render it without the store.
-  ComponentWithRouter.WrappedComponent = WrappedComponent.WrappedComponent || WrappedComponent
-  return ComponentWithRouter
+  ComponentWithRouter.WrappedComponent =
+    WrappedComponent.WrappedComponent || WrappedComponent;
+  return ComponentWithRouter;
 }

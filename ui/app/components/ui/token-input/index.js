@@ -1,1 +1,1 @@
-export { default } from './token-input.component'
+export { default } from './token-input.component';

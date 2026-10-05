@@ -1,19 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { alertIsOpen as unconnectedAccountAlertIsOpen } from '../../../ducks/alerts/unconnected-account'
-import UnconnectedAccountAlert from './unconnected-account-alert'
+import UnconnectedAccountAlert from './unconnected-account-alert';
+import { alertIsOpen as unconnectedAccountAlertIsOpen } from '../../../ducks/alerts/unconnected-account';
 
 const Alerts = () => {
-  const _unconnectedAccountAlertIsOpen = useSelector(unconnectedAccountAlertIsOpen)
+  const _unconnectedAccountAlertIsOpen = useSelector(
+    unconnectedAccountAlertIsOpen,
+  );
 
   if (_unconnectedAccountAlertIsOpen) {
-    return (
-      <UnconnectedAccountAlert />
-    )
+    return <UnconnectedAccountAlert />;
   }
 
-  return null
-}
+  return null;
+};
 
-export default Alerts
+export default Alerts;

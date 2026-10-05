@@ -1,5 +1,5 @@
-import { useLayoutEffect, useState } from 'react'
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
+import { useLayoutEffect, useState } from 'react';
 
 /**
  * Returns the previous value while it is equal to the new one, so effects
@@ -10,14 +10,15 @@ import { isEqual } from 'lodash'
  * @param {Function} [equalityFn] - Determines whether two values are equal
  * @returns {*} The value, or an equal value from an earlier render
  */
-export function useEqualityCheck (value, equalityFn = isEqual) {
-  const [computedValue, setComputedValue] = useState(value)
+export function useEqualityCheck(value, equalityFn = isEqual) {
+  const [computedValue, setComputedValue] = useState(value);
 
   useLayoutEffect(() => {
     if (!equalityFn(value, computedValue)) {
-      setComputedValue(value)
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- keeps the previous reference until the value changes, which is this hook's purpose
+      setComputedValue(value);
     }
-  }, [value, equalityFn, computedValue])
+  }, [value, equalityFn, computedValue]);
 
-  return computedValue
+  return computedValue;
 }

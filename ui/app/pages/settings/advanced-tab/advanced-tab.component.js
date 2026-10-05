@@ -1,53 +1,57 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import TextField from '../../../components/ui/text-field'
-import Button from '../../../components/ui/button'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import Button from '../../../components/ui/button';
+import TextField from '../../../components/ui/text-field';
 
 export default class AdvancedTab extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     autoLockTimeLimit: PropTypes.number,
     setAutoLockTimeLimit: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     autoLockTimeLimit: this.props.autoLockTimeLimit,
     lockTimeError: '',
-  }
+  };
 
-  handleLockChange (time) {
-    const { t } = this.context
-    const autoLockTimeLimit = Math.max(Number(time), 0)
+  handleLockChange(time) {
+    const { t } = this.context;
+    const autoLockTimeLimit = Math.max(Number(time), 0);
 
     this.setState(() => {
-      let lockTimeError = ''
+      let lockTimeError = '';
 
       if (autoLockTimeLimit > 10080) {
-        lockTimeError = t('lockTimeTooGreat')
+        lockTimeError = t('lockTimeTooGreat');
       }
 
       return {
         autoLockTimeLimit,
         lockTimeError,
-      }
-    })
+      };
+    });
   }
 
-  render () {
-    const { t } = this.context
-    const { lockTimeError } = this.state
-    const { autoLockTimeLimit, setAutoLockTimeLimit } = this.props
+  render() {
+    const { t } = this.context;
+    const { lockTimeError } = this.state;
+    const { autoLockTimeLimit, setAutoLockTimeLimit } = this.props;
 
     return (
       <div className="settings-page__body">
-        <div className="settings-page__content-row" data-testid="advanced-setting-auto-lock">
+        <div
+          className="settings-page__content-row"
+          data-testid="advanced-setting-auto-lock"
+        >
           <div className="settings-page__content-item">
-            <span>{ t('autoLockTimeLimit') }</span>
+            <span>{t('autoLockTimeLimit')}</span>
             <div className="settings-page__content-description">
-              { t('autoLockTimeLimitDescription') }
+              {t('autoLockTimeLimitDescription')}
             </div>
           </div>
           <div className="settings-page__content-item">
@@ -69,15 +73,15 @@ export default class AdvancedTab extends PureComponent {
                 className="settings-tab__rpc-save-button"
                 disabled={lockTimeError !== ''}
                 onClick={() => {
-                  setAutoLockTimeLimit(this.state.autoLockTimeLimit)
+                  setAutoLockTimeLimit(this.state.autoLockTimeLimit);
                 }}
               >
-                { t('save') }
+                {t('save')}
               </Button>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

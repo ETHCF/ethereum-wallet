@@ -1,18 +1,16 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import contractMap from '@metamask/contract-metadata'
+import contractMap from '@metamask/contract-metadata';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
-import { checksumAddress } from '../../../helpers/utils/util'
-import EcfIdenticon from './ecf-identicon'
+import EcfIdenticon from './ecf-identicon';
+import { checksumAddress } from '../../../helpers/utils/util';
 
-const getStyles = (diameter) => (
-  {
-    height: diameter,
-    width: diameter,
-    borderRadius: 0,
-  }
-)
+const getStyles = (diameter) => ({
+  height: diameter,
+  width: diameter,
+  borderRadius: 0,
+});
 
 export default class Identicon extends PureComponent {
   static propTypes = {
@@ -22,7 +20,7 @@ export default class Identicon extends PureComponent {
     diameter: PropTypes.number,
     image: PropTypes.string,
     nativeCurrencyImage: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     addBorder: false,
@@ -31,10 +29,10 @@ export default class Identicon extends PureComponent {
     diameter: 46,
     image: undefined,
     nativeCurrencyImage: undefined,
-  }
+  };
 
-  renderImage () {
-    const { className, diameter, image } = this.props
+  renderImage() {
+    const { className, diameter, image } = this.props;
 
     return (
       <img
@@ -42,11 +40,11 @@ export default class Identicon extends PureComponent {
         src={image}
         style={getStyles(diameter)}
       />
-    )
+    );
   }
 
-  renderContractLogo (logo) {
-    const { className, diameter } = this.props
+  renderContractLogo(logo) {
+    const { className, diameter } = this.props;
 
     return (
       <img
@@ -54,11 +52,11 @@ export default class Identicon extends PureComponent {
         src={`./images/contract/${logo}`}
         style={getStyles(diameter)}
       />
-    )
+    );
   }
 
-  renderIdenticon () {
-    const { address, className, diameter } = this.props
+  renderIdenticon() {
+    const { address, className, diameter } = this.props;
 
     return (
       <EcfIdenticon
@@ -66,30 +64,39 @@ export default class Identicon extends PureComponent {
         diameter={diameter}
         className={className}
       />
-    )
+    );
   }
 
-  render () {
-    const { className, address, image, diameter, addBorder, nativeCurrencyImage } = this.props
+  render() {
+    const {
+      className,
+      address,
+      image,
+      diameter,
+      addBorder,
+      nativeCurrencyImage,
+    } = this.props;
 
     if (image) {
-      return this.renderImage()
+      return this.renderImage();
     }
 
     if (address) {
-      const checksummedAddress = checksumAddress(address)
+      const checksummedAddress = checksumAddress(address);
 
       // A token we ship metadata for draws its own logo rather than an identicon.
-      const { logo } = contractMap[checksummedAddress] || {}
+      const { logo } = contractMap[checksummedAddress] || {};
       if (logo) {
-        return this.renderContractLogo(logo)
+        return this.renderContractLogo(logo);
       }
 
       return (
-        <div className={classnames({ 'identicon__address-wrapper': addBorder })}>
-          { this.renderIdenticon() }
+        <div
+          className={classnames({ 'identicon__address-wrapper': addBorder })}
+        >
+          {this.renderIdenticon()}
         </div>
-      )
+      );
     }
 
     return (
@@ -98,6 +105,6 @@ export default class Identicon extends PureComponent {
         src={nativeCurrencyImage || './images/eth_logo.svg'}
         style={getStyles(diameter)}
       />
-    )
+    );
   }
 }

@@ -1,118 +1,126 @@
-import { Duplex } from 'readable-stream'
-import readDisconnectError from './read-disconnect-error'
+import { Duplex } from 'readable-stream';
 
-const RELOAD_MESSAGE = 'ecf-wallet was reloaded or updated. Please refresh this page to reconnect.'
+import readDisconnectError from './read-disconnect-error';
+
+const RELOAD_MESSAGE =
+  'ecf-wallet was reloaded or updated. Please refresh this page to reconnect.';
 
 /**
  * A dapp connection reconnects on demand after a background worker suspends.
  * Outstanding RPC requests fail explicitly; signing requests are never replayed.
  */
 export default class ReconnectingPortStream extends Duplex {
-  constructor (connect) {
-    super({ objectMode: true })
-    this.connect = connect
-    this.port = null
-    this.pending = new Map()
-    this.contextInvalidated = false
-    this.open()
+  constructor(connect) {
+    super({ objectMode: true });
+    this.connect = connect;
+    this.port = null;
+    this.pending = new Map();
+    this.contextInvalidated = false;
+    this.open();
   }
 
-  open () {
+  open() {
     if (this.port || this.contextInvalidated) {
-      return
+      return;
     }
-    let port
+    let port;
     try {
-      port = this.connect()
+      port = this.connect();
     } catch (error) {
       if (!this.handleContextInvalidation(error)) {
-        throw error
+        throw error;
       }
-      return
+      return;
     }
-    this.port = port
+    this.port = port;
     port.onMessage.addListener((message) => {
       if (port !== this.port) {
-        return
+        return;
       }
       if (message.name === 'provider' && message.data?.id !== undefined) {
-        this.pending.delete(message.data.id)
+        this.pending.delete(message.data.id);
       }
-      this.push(message)
-    })
+      this.push(message);
+    });
     port.onDisconnect.addListener(() => {
-      readDisconnectError(port)
+      readDisconnectError(port);
       if (port !== this.port) {
-        return
+        return;
       }
-      this.port = null
-      this.failPending('ecf-wallet restarted. Please retry your request.')
-    })
+      this.port = null;
+      this.failPending('ecf-wallet restarted. Please retry your request.');
+    });
   }
 
-  failPending (message) {
-    const ids = Array.from(this.pending.keys())
+  failPending(message) {
+    const ids = Array.from(this.pending.keys());
     // Clear before pushing: a response can synchronously trigger another request.
-    this.pending.clear()
+    this.pending.clear();
     for (const id of ids) {
       this.push({
-        name: 'provider', data: {
-          jsonrpc: '2.0', id,
+        name: 'provider',
+        data: {
+          jsonrpc: '2.0',
+          id,
           error: { code: 4900, message },
         },
-      })
+      });
     }
   }
 
-  handleContextInvalidation (error) {
+  handleContextInvalidation(error) {
     if (!error?.message?.includes('Extension context invalidated')) {
-      return false
+      return false;
     }
     // Unlike a suspended worker, an invalidated content script cannot reconnect.
     // Keep the page transport alive so pending and future RPCs fail explicitly.
-    this.contextInvalidated = true
-    this.port = null
-    this.failPending(RELOAD_MESSAGE)
-    return true
+    this.contextInvalidated = true;
+    this.port = null;
+    this.failPending(RELOAD_MESSAGE);
+    return true;
   }
 
-  _read () {
+  _read() {
     // Incoming messages are pushed by the browser port listener.
   }
 
-  _write (message, _encoding, callback) {
+  _write(message, _encoding, callback) {
     try {
-      if (message.name === 'provider' && message.data?.method && message.data.id !== undefined) {
-        this.pending.set(message.data.id, true)
+      if (
+        message.name === 'provider' &&
+        message.data?.method &&
+        message.data.id !== undefined
+      ) {
+        this.pending.set(message.data.id, true);
       }
-      this.open()
+      this.open();
       if (this.contextInvalidated) {
-        this.failPending(RELOAD_MESSAGE)
-        return callback()
+        this.failPending(RELOAD_MESSAGE);
+        return callback();
       }
-      this.port.postMessage(message)
-      return callback()
+      this.port.postMessage(message);
+      return callback();
     } catch (error) {
       if (this.handleContextInvalidation(error)) {
-        return callback()
+        return callback();
       }
-      return callback(error)
+      return callback(error);
     }
   }
 
-  _destroy (error, callback) {
-    const { port } = this
-    this.port = null
-    this.pending.clear()
+  _destroy(error, callback) {
+    const { port } = this;
+    this.port = null;
+    this.pending.clear();
     if (port) {
       try {
-        port.disconnect()
+        port.disconnect();
       } catch (disconnectError) {
         if (!this.handleContextInvalidation(disconnectError)) {
-          return callback(error || disconnectError)
+          return callback(error || disconnectError);
         }
       }
     }
-    return callback(error)
+    return callback(error);
   }
 }

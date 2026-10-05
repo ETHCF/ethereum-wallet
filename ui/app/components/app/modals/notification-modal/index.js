@@ -1,1 +1,1 @@
-export { default } from './notification-modal'
+export { default } from './notification-modal';

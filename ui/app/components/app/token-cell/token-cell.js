@@ -1,12 +1,13 @@
-import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import AssetListItem from '../asset-list-item'
-import { getSelectedAddress } from '../../../selectors'
-import { useI18nContext } from '../../../hooks/useI18nContext'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-export default function TokenCell ({
+import { useI18nContext } from '../../../hooks/useI18nContext';
+import { getSelectedAddress } from '../../../selectors';
+import AssetListItem from '../asset-list-item';
+
+export default function TokenCell({
   address,
   decimals,
   outdatedBalance,
@@ -15,27 +16,27 @@ export default function TokenCell ({
   image,
   onClick,
 }) {
-  const userAddress = useSelector(getSelectedAddress)
-  const t = useI18nContext()
+  const userAddress = useSelector(getSelectedAddress);
+  const t = useI18nContext();
 
-  const warning = outdatedBalance
-    ? (
-      <span>
-        { t('troubleTokenBalances') }
-        <a
-          href={`https://ethplorer.io/address/${userAddress}`}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          { t('here') }
-        </a>
-      </span>
-    )
-    : null
+  const warning = outdatedBalance ? (
+    <span>
+      {t('troubleTokenBalances')}
+      <a
+        href={`https://ethplorer.io/address/${userAddress}`}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {t('here')}
+      </a>
+    </span>
+  ) : null;
 
   return (
     <AssetListItem
-      className={classnames('token-cell', { 'token-cell--outdated': outdatedBalance })}
+      className={classnames('token-cell', {
+        'token-cell--outdated': outdatedBalance,
+      })}
       iconClassName="token-cell__icon"
       onClick={onClick.bind(null, address)}
       tokenAddress={address}
@@ -45,8 +46,7 @@ export default function TokenCell ({
       warning={warning}
       primary={`${string || 0} ${symbol}`}
     />
-
-  )
+  );
 }
 
 TokenCell.propTypes = {
@@ -57,8 +57,8 @@ TokenCell.propTypes = {
   string: PropTypes.string,
   image: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-}
+};
 
 TokenCell.defaultProps = {
   outdatedBalance: false,
-}
+};

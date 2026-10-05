@@ -5,41 +5,60 @@
 // use test builds, which skip some production-only startup code.
 //
 // Usage: node development/verify-service-worker.js [dist/chrome]
-const fs = require('fs')
-const path = require('path')
-const vm = require('vm')
+const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
 
-const dir = path.resolve(process.argv[2] || path.join(__dirname, '..', 'dist', 'chrome'))
+const dir = path.resolve(
+  process.argv[2] || path.join(__dirname, '..', 'dist', 'chrome'),
+);
 
 // Every extension API is a callable stub: only top-level evaluation is checked.
-const stub = () => new Proxy(function () {
-  return undefined
-}, {
-  get: (_, key) => (key === 'then' ? undefined : stub()),
-  apply: () => stub(),
-})
+const stub = () =>
+  new Proxy(
+    function () {
+      return undefined;
+    },
+    {
+      get: (_, key) => (key === 'then' ? undefined : stub()),
+      apply: () => stub(),
+    },
+  );
 
-globalThis.self = globalThis
-globalThis.chrome = stub()
+globalThis.self = globalThis;
+globalThis.chrome = stub();
 // The controllers reach for the `browser` global, not `chrome`.
-globalThis.browser = stub()
-let loaded = 0
+globalThis.browser = stub();
+let loaded = 0;
 globalThis.importScripts = (...files) => {
   for (const file of files) {
-    vm.runInThisContext(fs.readFileSync(path.join(dir, file), 'utf8'), { filename: file })
-    loaded += 1
+    vm.runInThisContext(fs.readFileSync(path.join(dir, file), 'utf8'), {
+      filename: file,
+    });
+    loaded += 1;
   }
-}
+};
 // Initialization continues asynchronously against the stubs; only the
 // synchronous evaluation of each script matters here.
-process.on('unhandledRejection', () => undefined)
+process.on('unhandledRejection', () => undefined);
 
 try {
-  vm.runInThisContext(fs.readFileSync(path.join(dir, 'service-worker.js'), 'utf8'), { filename: 'service-worker.js' })
+  vm.runInThisContext(
+    fs.readFileSync(path.join(dir, 'service-worker.js'), 'utf8'),
+    { filename: 'service-worker.js' },
+  );
 } catch (error) {
-  console.error(`Service worker failed while loading (after ${loaded} scripts): ${error.name}: ${error.message}`)
-  console.error(String(error.stack).split('\n').filter((line) => line.trim().startsWith('at ')).slice(0, 5).join('\n'))
-  process.exit(1)
+  console.error(
+    `Service worker failed while loading (after ${loaded} scripts): ${error.name}: ${error.message}`,
+  );
+  console.error(
+    String(error.stack)
+      .split('\n')
+      .filter((line) => line.trim().startsWith('at '))
+      .slice(0, 5)
+      .join('\n'),
+  );
+  process.exit(1);
 }
-console.log(`Service worker loaded ${loaded} scripts from ${dir}`)
-process.exit(0)
+console.log(`Service worker loaded ${loaded} scripts from ${dir}`);
+process.exit(0);

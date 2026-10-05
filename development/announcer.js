@@ -1,10 +1,14 @@
-const fs = require('fs')
-const path = require('path')
-const { version } = require('../app/manifest/_base.json')
+const fs = require('fs');
+const path = require('path');
 
-const changelog = fs.readFileSync(path.join(__dirname, '..', 'CHANGELOG.md'), 'utf8')
+const { version } = require('../app/manifest/_base.json');
 
-const log = changelog.split(version)[1].split('##')[0].trim()
-const msg = `*ecf-wallet ${version}* now published! It should auto-update soon!\n${log}`
+const changelog = fs.readFileSync(
+  path.join(__dirname, '..', 'CHANGELOG.md'),
+  'utf8',
+);
 
-console.log(msg)
+const log = changelog.split(version)[1].split('##')[0].trim();
+const msg = `*ecf-wallet ${version}* now published! It should auto-update soon!\n${log}`;
+
+console.log(msg);

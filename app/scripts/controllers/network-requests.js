@@ -1,9 +1,10 @@
-import EventEmitter from 'events'
-import { ObservableStore } from '@metamask/obs-store'
-import { providerErrors, rpcErrors } from '@metamask/rpc-errors'
-import { createAsyncMiddleware } from '@metamask/json-rpc-engine'
-import fetchWithTimeout from '../lib/fetch-with-timeout'
-import createId from '../lib/random-id'
+import { createAsyncMiddleware } from '@metamask/json-rpc-engine';
+import { ObservableStore } from '@metamask/obs-store';
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
+import EventEmitter from 'events';
+
+import fetchWithTimeout from '../lib/fetch-with-timeout';
+import createId from '../lib/random-id';
 import {
   getAddChainWarnings,
   getBuiltInNetworkName,
@@ -11,20 +12,23 @@ import {
   normalizeChainId,
   validateAddChainParams,
   validateSwitchChainParams,
-} from './network/chain-utils'
+} from './network/chain-utils';
 
-export const ADD_CHAIN = 'wallet_addEthereumChain'
-export const SWITCH_CHAIN = 'wallet_switchEthereumChain'
+export const ADD_CHAIN = 'wallet_addEthereumChain';
+export const SWITCH_CHAIN = 'wallet_switchEthereumChain';
 // EIP-3326: the chain has not been added to the wallet.
-export const UNRECOGNIZED_CHAIN_ERROR_CODE = 4902
+export const UNRECOGNIZED_CHAIN_ERROR_CODE = 4902;
 
 // json-rpc-engine replaces error codes it does not know, such as 4902, with
 // an internal error unless the error is an instance of its own error class.
-function unrecognizedChainError (message) {
-  return providerErrors.custom({ code: UNRECOGNIZED_CHAIN_ERROR_CODE, message })
+function unrecognizedChainError(message) {
+  return providerErrors.custom({
+    code: UNRECOGNIZED_CHAIN_ERROR_CODE,
+    message,
+  });
 }
 
-const fetchRpc = fetchWithTimeout({ timeout: 10000 })
+const fetchRpc = fetchWithTimeout({ timeout: 10000 });
 
 /**
  * Asks an RPC endpoint which chain it serves.
@@ -32,16 +36,21 @@ const fetchRpc = fetchWithTimeout({ timeout: 10000 })
  * @param {string} rpcUrl - The endpoint.
  * @returns {Promise<string|undefined>} Its hex chain ID, if it answered with one.
  */
-export async function fetchRpcChainId (rpcUrl) {
+export async function fetchRpcChainId(rpcUrl) {
   const response = await fetchRpc(rpcUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_chainId', params: [] }),
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'eth_chainId',
+      params: [],
+    }),
     credentials: 'omit',
     referrerPolicy: 'no-referrer',
-  })
-  const { result } = await response.json()
-  return normalizeChainId(result)
+  });
+  const { result } = await response.json();
+  return normalizeChainId(result);
 }
 
 /**
@@ -49,7 +58,7 @@ export async function fetchRpcChainId (rpcUrl) {
  * explicit approval, and each site may have only one pending at a time.
  */
 export default class NetworkRequestController extends EventEmitter {
-  constructor ({
+  constructor({
     getCurrentChainId,
     getCustomNetworks,
     addCustomNetwork,
@@ -58,119 +67,140 @@ export default class NetworkRequestController extends EventEmitter {
     showApprovalRequest,
     getRpcChainId = fetchRpcChainId,
   }) {
-    super()
-    this.getCurrentChainId = getCurrentChainId
-    this.getCustomNetworks = getCustomNetworks
-    this.addCustomNetwork = addCustomNetwork
-    this.setCustomNetwork = setCustomNetwork
-    this.setBuiltInNetwork = setBuiltInNetwork
-    this.showApprovalRequest = showApprovalRequest
-    this.getRpcChainId = getRpcChainId
-    this.pending = new Map()
-    this.memStore = new ObservableStore({ pendingNetworkRequests: {} })
+    super();
+    this.getCurrentChainId = getCurrentChainId;
+    this.getCustomNetworks = getCustomNetworks;
+    this.addCustomNetwork = addCustomNetwork;
+    this.setCustomNetwork = setCustomNetwork;
+    this.setBuiltInNetwork = setBuiltInNetwork;
+    this.showApprovalRequest = showApprovalRequest;
+    this.getRpcChainId = getRpcChainId;
+    this.pending = new Map();
+    this.memStore = new ObservableStore({ pendingNetworkRequests: {} });
   }
 
-  get pendingCount () {
-    return this.pending.size
+  get pendingCount() {
+    return this.pending.size;
   }
 
-  createMiddleware ({ origin }) {
+  createMiddleware({ origin }) {
     return createAsyncMiddleware(async (req, res, next) => {
       if (req.method === ADD_CHAIN) {
-        res.result = await this.addChain(origin, req.params)
+        res.result = await this.addChain(origin, req.params);
       } else if (req.method === SWITCH_CHAIN) {
-        res.result = await this.switchChain(origin, req.params)
+        res.result = await this.switchChain(origin, req.params);
       } else {
-        // eslint-disable-next-line callback-return
-        await next()
+        await next();
       }
-    })
+    });
   }
 
-  async addChain (origin, params) {
-    const network = validateAddChainParams(params)
-    const builtInType = getBuiltInNetworkType(network.chainId)
+  async addChain(origin, params) {
+    const network = validateAddChainParams(params);
+    const builtInType = getBuiltInNetworkType(network.chainId);
     if (builtInType) {
       // Built-in networks always use their own RPC provider.
-      return this.requestSwitch(origin, network.chainId)
+      return this.requestSwitch(origin, network.chainId);
     }
-    const existing = this.findCustomNetwork(network.chainId, network.rpcUrl)
+    const existing = this.findCustomNetwork(network.chainId, network.rpcUrl);
     if (existing?.rpcUrl === network.rpcUrl) {
-      return this.requestSwitch(origin, network.chainId)
+      return this.requestSwitch(origin, network.chainId);
     }
 
-    this.assertNoPendingRequest(origin)
-    let rpcChainId
+    this.assertNoPendingRequest(origin);
+    let rpcChainId;
     try {
-      rpcChainId = await this.getRpcChainId(network.rpcUrl)
+      rpcChainId = await this.getRpcChainId(network.rpcUrl);
     } catch (_) {
-      throw rpcErrors.invalidParams({ message: `Could not fetch the chain ID from ${network.rpcUrl}. Is the RPC URL correct?` })
+      throw rpcErrors.invalidParams({
+        message: `Could not fetch the chain ID from ${network.rpcUrl}. Is the RPC URL correct?`,
+      });
     }
     if (rpcChainId !== network.chainId) {
       throw rpcErrors.invalidParams({
         message: `The RPC endpoint returned a different chain ID (${rpcChainId}) than the one requested (${network.chainId}).`,
-      })
+      });
     }
     return this.addRequest(origin, {
       type: 'add',
       network,
       warnings: getAddChainWarnings(network, existing),
       perform: async () => {
-        await this.addCustomNetwork(network)
+        await this.addCustomNetwork(network);
       },
-    })
+    });
   }
 
-  async switchChain (origin, params) {
-    return this.requestSwitch(origin, validateSwitchChainParams(params))
+  async switchChain(origin, params) {
+    return this.requestSwitch(origin, validateSwitchChainParams(params));
   }
 
-  async requestSwitch (origin, chainId) {
+  async requestSwitch(origin, chainId) {
     if (this.getCurrentChainId() === chainId) {
-      return null
+      return null;
     }
-    const builtInType = getBuiltInNetworkType(chainId)
-    const custom = builtInType ? undefined : this.findCustomNetwork(chainId)
+    const builtInType = getBuiltInNetworkType(chainId);
+    const custom = builtInType ? undefined : this.findCustomNetwork(chainId);
     if (!builtInType && !custom) {
-      throw unrecognizedChainError(`Chain ${chainId} is not in this wallet. Call ${ADD_CHAIN} to add it before switching to it.`)
+      throw unrecognizedChainError(
+        `Chain ${chainId} is not in this wallet. Call ${ADD_CHAIN} to add it before switching to it.`,
+      );
     }
-    this.assertNoPendingRequest(origin)
+    this.assertNoPendingRequest(origin);
     return this.addRequest(origin, {
       type: 'switch',
       network: builtInType
-        ? { chainId, chainName: getBuiltInNetworkName(builtInType), ticker: 'ETH' }
-        : { chainId, chainName: custom.nickname || custom.rpcUrl, rpcUrl: custom.rpcUrl, ticker: custom.ticker || 'ETH' },
+        ? {
+            chainId,
+            chainName: getBuiltInNetworkName(builtInType),
+            ticker: 'ETH',
+          }
+        : {
+            chainId,
+            chainName: custom.nickname || custom.rpcUrl,
+            rpcUrl: custom.rpcUrl,
+            ticker: custom.ticker || 'ETH',
+          },
       warnings: [],
       perform: async () => {
         // The network list may have changed while the request was pending.
         if (builtInType) {
-          await this.setBuiltInNetwork(builtInType)
-          return
+          await this.setBuiltInNetwork(builtInType);
+          return;
         }
-        const current = this.findCustomNetwork(chainId, custom.rpcUrl)
+        const current = this.findCustomNetwork(chainId, custom.rpcUrl);
         if (current?.rpcUrl !== custom.rpcUrl) {
-          throw unrecognizedChainError(`Chain ${chainId} was removed from this wallet while the request was waiting.`)
+          throw unrecognizedChainError(
+            `Chain ${chainId} was removed from this wallet while the request was waiting.`,
+          );
         }
-        await this.setCustomNetwork(current)
+        await this.setCustomNetwork(current);
       },
-    })
+    });
   }
 
-  findCustomNetwork (chainId, preferredRpcUrl) {
-    const matches = this.getCustomNetworks().filter((network) => normalizeChainId(network.chainId) === chainId)
-    return matches.find((network) => network.rpcUrl === preferredRpcUrl) || matches[0]
+  findCustomNetwork(chainId, preferredRpcUrl) {
+    const matches = this.getCustomNetworks().filter(
+      (network) => normalizeChainId(network.chainId) === chainId,
+    );
+    return (
+      matches.find((network) => network.rpcUrl === preferredRpcUrl) ||
+      matches[0]
+    );
   }
 
-  assertNoPendingRequest (origin) {
+  assertNoPendingRequest(origin) {
     for (const { request } of this.pending.values()) {
       if (request.origin === origin) {
-        throw rpcErrors.resourceUnavailable(`A network request from ${origin} is already pending. Please wait.`)
+        throw rpcErrors.resourceUnavailable(
+          `A network request from ${origin} is already pending. Please wait.`,
+        );
       }
     }
   }
 
-  addRequest (origin, { type, network, warnings, perform }) {
-    const id = String(createId())
+  addRequest(origin, { type, network, warnings, perform }) {
+    const id = String(createId());
     const request = {
       id,
       origin,
@@ -179,46 +209,46 @@ export default class NetworkRequestController extends EventEmitter {
       warnings,
       fromChainId: this.getCurrentChainId(),
       time: Date.now(),
-    }
+    };
     const result = new Promise((resolve, reject) => {
-      this.pending.set(id, { request, perform, resolve, reject })
-    })
-    this.update()
-    this.showApprovalRequest()
-    return result
+      this.pending.set(id, { request, perform, resolve, reject });
+    });
+    this.update();
+    this.showApprovalRequest();
+    return result;
   }
 
-  async approve (id) {
-    const entry = this.take(id)
+  async approve(id) {
+    const entry = this.take(id);
     try {
-      await entry.perform()
-      entry.resolve(null)
+      await entry.perform();
+      entry.resolve(null);
     } catch (error) {
-      entry.reject(error)
-      throw error
+      entry.reject(error);
+      throw error;
     }
   }
 
-  reject (id) {
-    this.take(id).reject(providerErrors.userRejectedRequest())
+  reject(id) {
+    this.take(id).reject(providerErrors.userRejectedRequest());
   }
 
-  take (id) {
-    const entry = this.pending.get(id)
+  take(id) {
+    const entry = this.pending.get(id);
     if (!entry) {
-      throw new Error(`Network request "${id}" not found.`)
+      throw new Error(`Network request "${id}" not found.`);
     }
-    this.pending.delete(id)
-    this.update()
-    return entry
+    this.pending.delete(id);
+    this.update();
+    return entry;
   }
 
-  update () {
-    const pendingNetworkRequests = {}
+  update() {
+    const pendingNetworkRequests = {};
     for (const [id, { request }] of this.pending) {
-      pendingNetworkRequests[id] = request
+      pendingNetworkRequests[id] = request;
     }
-    this.memStore.putState({ pendingNetworkRequests })
-    this.emit('update')
+    this.memStore.putState({ pendingNetworkRequests });
+    this.emit('update');
   }
 }

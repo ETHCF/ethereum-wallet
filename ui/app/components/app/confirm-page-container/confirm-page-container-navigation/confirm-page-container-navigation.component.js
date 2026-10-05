@@ -1,8 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const ConfirmPageContainerNavigation = (props) => {
-  const { onNextTx, totalTx, positionOfCurrentTx, nextTxId, prevTxId, showNavigation, firstTx, lastTx, ofText, requestsWaitingText } = props
+  const {
+    onNextTx,
+    totalTx,
+    positionOfCurrentTx,
+    nextTxId,
+    prevTxId,
+    showNavigation,
+    firstTx,
+    lastTx,
+    ofText,
+    requestsWaitingText,
+  } = props;
 
   return (
     <div
@@ -51,19 +62,25 @@ const ConfirmPageContainerNavigation = (props) => {
           data-testid="next-page"
           onClick={() => onNextTx(nextTxId)}
         >
-          <img className="confirm-page-container-navigation__imageflip" src="/images/single-arrow.svg" />
+          <img
+            className="confirm-page-container-navigation__imageflip"
+            src="/images/single-arrow.svg"
+          />
         </div>
         <div
           className="confirm-page-container-navigation__arrow"
           data-testid="last-page"
           onClick={() => onNextTx(lastTx)}
         >
-          <img className="confirm-page-container-navigation__imageflip" src="/images/double-arrow.svg" />
+          <img
+            className="confirm-page-container-navigation__imageflip"
+            src="/images/double-arrow.svg"
+          />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ConfirmPageContainerNavigation.propTypes = {
   totalTx: PropTypes.number,
@@ -76,6 +93,6 @@ ConfirmPageContainerNavigation.propTypes = {
   lastTx: PropTypes.string,
   ofText: PropTypes.string,
   requestsWaitingText: PropTypes.string,
-}
+};
 
-export default ConfirmPageContainerNavigation
+export default ConfirmPageContainerNavigation;

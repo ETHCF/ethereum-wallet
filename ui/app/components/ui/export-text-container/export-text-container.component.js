@@ -1,15 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { exportAsFile } from '../../../helpers/utils/util'
-import Copy from '../icon/copy-icon.component'
-import { useI18nContext } from '../../../hooks/useI18nContext'
-import { useSensitiveClipboard } from '../../../hooks/useSensitiveClipboard'
-import SensitiveClipboardNotice from '../sensitive-clipboard-notice'
+import PropTypes from 'prop-types';
+import React from 'react';
 
-function ExportTextContainer ({ text = '' }) {
-  const t = useI18nContext()
+import { exportAsFile } from '../../../helpers/utils/util';
+import { useI18nContext } from '../../../hooks/useI18nContext';
+import { useSensitiveClipboard } from '../../../hooks/useSensitiveClipboard';
+import Copy from '../icon/copy-icon.component';
+import SensitiveClipboardNotice from '../sensitive-clipboard-notice';
+
+function ExportTextContainer({ text = '' }) {
+  const t = useI18nContext();
   // Only secrets are exported, so copies are cleared from the clipboard later.
-  const [clipboardState, handleCopy, clearClipboard] = useSensitiveClipboard()
+  const [clipboardState, handleCopy, clearClipboard] = useSensitiveClipboard();
 
   return (
     <div className="export-text-container">
@@ -20,12 +21,14 @@ function ExportTextContainer ({ text = '' }) {
         <div
           className="export-text-container__button export-text-container__button--copy"
           onClick={() => {
-            handleCopy(text)
+            handleCopy(text);
           }}
         >
           <Copy size={17} color="currentColor" />
           <div className="export-text-container__button-text">
-            {clipboardState === 'copied' ? t('copiedExclamation') : t('copyToClipboard')}
+            {clipboardState === 'copied'
+              ? t('copiedExclamation')
+              : t('copyToClipboard')}
           </div>
         </div>
         <div
@@ -38,13 +41,16 @@ function ExportTextContainer ({ text = '' }) {
           </div>
         </div>
       </div>
-      <SensitiveClipboardNotice state={clipboardState} onClear={clearClipboard} />
+      <SensitiveClipboardNotice
+        state={clipboardState}
+        onClear={clearClipboard}
+      />
     </div>
-  )
+  );
 }
 
 ExportTextContainer.propTypes = {
   text: PropTypes.string,
-}
+};
 
-export default React.memo(ExportTextContainer)
+export default React.memo(ExportTextContainer);

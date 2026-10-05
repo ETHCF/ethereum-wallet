@@ -1,15 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import Identicon from '../../../ui/identicon'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-function addressesEqual (address1, address2) {
-  return String(address1).toLowerCase() === String(address2).toLowerCase()
+import Identicon from '../../../ui/identicon';
+
+function addressesEqual(address1, address2) {
+  return String(address1).toLowerCase() === String(address2).toLowerCase();
 }
 
-export default function RecipientGroup ({ label, items, onSelect, selectedAddress }) {
+export default function RecipientGroup({
+  label,
+  items,
+  onSelect,
+  selectedAddress,
+}) {
   if (!items || !items.length) {
-    return null
+    return null;
   }
 
   return (
@@ -19,42 +25,44 @@ export default function RecipientGroup ({ label, items, onSelect, selectedAddres
           {label}
         </div>
       )}
-      {
-        items.map(({ address, name }) => (
-          <div
-            key={address}
-            onClick={() => onSelect(address, name)}
-            className={classnames({
-              'send__select-recipient-wrapper__group-item': !addressesEqual(address, selectedAddress),
-              'send__select-recipient-wrapper__group-item--selected': addressesEqual(address, selectedAddress),
-            })}
-          >
-            <Identicon address={address} diameter={28} />
-            <div className="send__select-recipient-wrapper__group-item__content">
-              <div className="send__select-recipient-wrapper__group-item__title">
-                {name || address}
-              </div>
-              {
-                name && (
-                  <div className="send__select-recipient-wrapper__group-item__subtitle">
-                    {address}
-                  </div>
-                )
-              }
+      {items.map(({ address, name }) => (
+        <div
+          key={address}
+          onClick={() => onSelect(address, name)}
+          className={classnames({
+            'send__select-recipient-wrapper__group-item': !addressesEqual(
+              address,
+              selectedAddress,
+            ),
+            'send__select-recipient-wrapper__group-item--selected':
+              addressesEqual(address, selectedAddress),
+          })}
+        >
+          <Identicon address={address} diameter={28} />
+          <div className="send__select-recipient-wrapper__group-item__content">
+            <div className="send__select-recipient-wrapper__group-item__title">
+              {name || address}
             </div>
+            {name && (
+              <div className="send__select-recipient-wrapper__group-item__subtitle">
+                {address}
+              </div>
+            )}
           </div>
-        ))
-      }
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
 RecipientGroup.propTypes = {
   label: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    address: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  })),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      address: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ),
   onSelect: PropTypes.func.isRequired,
   selectedAddress: PropTypes.string,
-}
+};

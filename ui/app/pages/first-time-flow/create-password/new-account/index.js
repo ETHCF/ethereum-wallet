@@ -1,4 +1,4 @@
-import withRouter from '../../../../helpers/higher-order-components/with-router'
-import NewAccount from './new-account.component'
+import NewAccount from './new-account.component';
+import withRouter from '../../../../helpers/higher-order-components/with-router';
 
-export default withRouter(NewAccount)
+export default withRouter(NewAccount);

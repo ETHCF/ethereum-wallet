@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import classnames from 'classnames'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-export default function ReadOnlyInput (props) {
+export default function ReadOnlyInput(props) {
   const {
     wrapperClass = '',
     inputClass = '',
     value,
     textarea,
     onClick,
-  } = props
+  } = props;
 
-  const InputType = textarea ? 'textarea' : 'input'
+  const InputType = textarea ? 'textarea' : 'input';
 
   return (
     <div className={classnames('readonly-input', wrapperClass)}>
@@ -23,7 +23,7 @@ export default function ReadOnlyInput (props) {
         onClick={onClick}
       />
     </div>
-  )
+  );
 }
 
 ReadOnlyInput.propTypes = {
@@ -32,4 +32,4 @@ ReadOnlyInput.propTypes = {
   value: PropTypes.string,
   textarea: PropTypes.bool,
   onClick: PropTypes.func,
-}
+};

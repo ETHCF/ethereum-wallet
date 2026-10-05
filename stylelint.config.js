@@ -122,4 +122,4 @@ module.exports = {
     // 'max-nesting-depth': 3,
     'no-unknown-animations': true,
   },
-}
+};

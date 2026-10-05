@@ -1,16 +1,17 @@
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import Identicon from '../../ui/identicon'
-import ListItem from '../../ui/list-item'
-import Tooltip from '../../ui/tooltip'
-import InfoIcon from '../../ui/icon/info-icon.component'
-import Button from '../../ui/button'
-import { useI18nContext } from '../../../hooks/useI18nContext'
-import { updateSendToken } from '../../../store/actions'
-import { SEND_ROUTE } from '../../../helpers/constants/routes'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { SEND_ROUTE } from '../../../helpers/constants/routes';
+import { useI18nContext } from '../../../hooks/useI18nContext';
+import { updateSendToken } from '../../../store/actions';
+import Button from '../../ui/button';
+import InfoIcon from '../../ui/icon/info-icon.component';
+import Identicon from '../../ui/identicon';
+import ListItem from '../../ui/list-item';
+import Tooltip from '../../ui/tooltip';
 
 const AssetListItem = ({
   className,
@@ -24,60 +25,51 @@ const AssetListItem = ({
   warning,
   primary,
 }) => {
-  const t = useI18nContext()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const titleIcon = warning
-    ? (
-      <Tooltip
-        wrapperClassName="asset-list-item__warning-tooltip"
-        interactive
-        position="bottom"
-        html={warning}
-      >
-        <InfoIcon severity="warning" />
-      </Tooltip>
-    )
-    : null
+  const t = useI18nContext();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const titleIcon = warning ? (
+    <Tooltip
+      wrapperClassName="asset-list-item__warning-tooltip"
+      interactive
+      position="bottom"
+      html={warning}
+    >
+      <InfoIcon severity="warning" />
+    </Tooltip>
+  ) : null;
 
-  const midContent = warning
-    ? (
-      <>
-        <InfoIcon severity="warning" />
-        <div className="asset-list-item__warning">{warning}</div>
-      </>
-    )
-    : null
+  const midContent = warning ? (
+    <>
+      <InfoIcon severity="warning" />
+      <div className="asset-list-item__warning">{warning}</div>
+    </>
+  ) : null;
 
   const sendTokenButton = useMemo(() => {
     if (tokenAddress === null || tokenAddress === undefined) {
-      return null
+      return null;
     }
     return (
       <Button
         type="link"
         className="asset-list-item__send-token-button"
         onClick={(e) => {
-          e.stopPropagation()
-          dispatch(updateSendToken({
-            address: tokenAddress,
-            decimals: tokenDecimals,
-            symbol: tokenSymbol,
-          }))
-          navigate(SEND_ROUTE)
+          e.stopPropagation();
+          dispatch(
+            updateSendToken({
+              address: tokenAddress,
+              decimals: tokenDecimals,
+              symbol: tokenSymbol,
+            }),
+          );
+          navigate(SEND_ROUTE);
         }}
       >
         {t('sendSpecifiedTokens', [tokenSymbol])}
       </Button>
-    )
-  }, [
-    tokenSymbol,
-    tokenAddress,
-    tokenDecimals,
-    navigate,
-    t,
-    dispatch,
-  ])
+    );
+  }, [tokenSymbol, tokenAddress, tokenDecimals, navigate, t, dispatch]);
 
   return (
     <ListItem
@@ -86,24 +78,24 @@ const AssetListItem = ({
       title={primary}
       titleIcon={titleIcon}
       onClick={onClick}
-      icon={(
+      icon={
         <Identicon
           className={iconClassName}
           diameter={32}
           address={tokenAddress}
           image={tokenImage}
         />
-      )}
+      }
       midContent={midContent}
-      rightContent={(
+      rightContent={
         <>
           <span className="asset-list-item__chevron-right">&gt;</span>
           {sendTokenButton}
         </>
-      )}
+      }
     />
-  )
-}
+  );
+};
 
 AssetListItem.propTypes = {
   className: PropTypes.string,
@@ -116,7 +108,7 @@ AssetListItem.propTypes = {
   tokenImage: PropTypes.string,
   warning: PropTypes.node,
   primary: PropTypes.string,
-}
+};
 
 AssetListItem.defaultProps = {
   className: undefined,
@@ -125,6 +117,6 @@ AssetListItem.defaultProps = {
   tokenAddress: undefined,
   tokenImage: undefined,
   warning: undefined,
-}
+};
 
-export default AssetListItem
+export default AssetListItem;

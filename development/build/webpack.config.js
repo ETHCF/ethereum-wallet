@@ -1,21 +1,34 @@
-const fs = require('fs')
-const path = require('path')
-const webpack = require('webpack')
-const TerserPlugin = require('terser-webpack-plugin')
+const fs = require('fs');
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
 
-const rootDir = path.resolve(__dirname, '../..')
+const rootDir = path.resolve(__dirname, '../..');
 
 /**
+ * Locate the readable-stream 3 copy that `@metamask/post-message-stream` uses.
+ *
  * @returns {string} The browser entry of the readable-stream 3 copy that Yarn
- * nests under the @metamask packages
+ * nests under the `@metamask` packages
  */
-function readableStreamBrowserEntry () {
-  const fromPackage = path.dirname(require.resolve('@metamask/post-message-stream'))
-  const { version } = JSON.parse(fs.readFileSync(require.resolve('readable-stream/package.json', { paths: [fromPackage] }), 'utf8'))
+function readableStreamBrowserEntry() {
+  const fromPackage = path.dirname(
+    require.resolve('@metamask/post-message-stream'),
+  );
+  const { version } = JSON.parse(
+    fs.readFileSync(
+      require.resolve('readable-stream/package.json', { paths: [fromPackage] }),
+      'utf8',
+    ),
+  );
   if (!version.startsWith('3.')) {
-    throw new Error(`Expected readable-stream 3 for @metamask packages, found ${version}`)
+    throw new Error(
+      `Expected readable-stream 3 for @metamask packages, found ${version}`,
+    );
   }
-  return require.resolve('readable-stream/readable-browser.js', { paths: [fromPackage] })
+  return require.resolve('readable-stream/readable-browser.js', {
+    paths: [fromPackage],
+  });
 }
 
 // Browserify supplied these Node modules to every bundle; webpack needs them
@@ -43,20 +56,24 @@ const nodeFallbacks = {
   util: require.resolve('util/'),
   vm: false,
   zlib: false,
-}
+};
 
 /**
  * Webpack configurations for the extension's scripts. The extension bundles
  * load in the service worker and extension pages; the page scripts are
  * injected into every website, so they stay small and need no crypto.
  *
- * @param {Object} opts
+ * @param {object} opts - Build options.
  * @param {boolean} opts.devMode - Unminified, inline source maps
  * @param {boolean} opts.testing - Built for the e2e tests
- * @param {Object} [opts.conf] - Development settings read from .ecf-walletrc
- * @returns {Object[]} The webpack configurations
+ * @param {object} [opts.conf] - Development settings read from .ecf-walletrc
+ * @returns {object[]} The webpack configurations
  */
-module.exports = function createWebpackConfigs ({ devMode, testing, conf = {} }) {
+module.exports = function createWebpackConfigs({
+  devMode,
+  testing,
+  conf = {},
+}) {
   const shared = {
     mode: devMode ? 'development' : 'production',
     context: rootDir,
@@ -92,14 +109,16 @@ module.exports = function createWebpackConfigs ({ devMode, testing, conf = {} })
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(devMode ? 'development' : 'production'),
+        'process.env.NODE_ENV': JSON.stringify(
+          devMode ? 'development' : 'production',
+        ),
         'process.env.ECF_WALLET_DEBUG': JSON.stringify(Boolean(devMode)),
         'process.env.IN_TEST': JSON.stringify(testing ? 'true' : false),
         'process.env.CONF': JSON.stringify(devMode ? conf : {}),
       }),
     ],
     stats: 'errors-warnings',
-  }
+  };
 
   const extension = {
     ...shared,
@@ -125,7 +144,7 @@ module.exports = function createWebpackConfigs ({ devMode, testing, conf = {} })
         process: 'process/browser.js',
       }),
     ],
-  }
+  };
 
   const pageScripts = {
     ...shared,
@@ -170,7 +189,7 @@ module.exports = function createWebpackConfigs ({ devMode, testing, conf = {} })
         }),
       ],
     },
-  }
+  };
 
-  return [extension, pageScripts]
-}
+  return [extension, pageScripts];
+};

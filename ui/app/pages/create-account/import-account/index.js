@@ -1,44 +1,42 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Dropdown from '../../../components/ui/dropdown'
-import { getHelpUrl } from '../../../helpers/constants/help'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import JsonImportView from './json';
+import PrivateKeyImportView from './private-key';
+import Dropdown from '../../../components/ui/dropdown';
+import { getHelpUrl } from '../../../helpers/constants/help';
 
 // Subviews
-import JsonImportView from './json'
-import PrivateKeyImportView from './private-key'
 
 export default class AccountImportSubview extends Component {
   static contextTypes = {
     t: PropTypes.func,
+  };
+
+  state = {};
+
+  getMenuItemTexts() {
+    return [this.context.t('privateKey'), this.context.t('jsonFile')];
   }
 
-  state = {}
-
-  getMenuItemTexts () {
-    return [
-      this.context.t('privateKey'),
-      this.context.t('jsonFile'),
-    ]
-  }
-
-  renderImportView () {
-    const { type } = this.state
-    const menuItems = this.getMenuItemTexts()
-    const current = type || menuItems[0]
+  renderImportView() {
+    const { type } = this.state;
+    const menuItems = this.getMenuItemTexts();
+    const current = type || menuItems[0];
 
     switch (current) {
       case this.context.t('privateKey'):
-        return <PrivateKeyImportView />
+        return <PrivateKeyImportView />;
       case this.context.t('jsonFile'):
-        return <JsonImportView />
+        return <JsonImportView />;
       default:
-        return <JsonImportView />
+        return <JsonImportView />;
     }
   }
 
-  render () {
-    const menuItems = this.getMenuItemTexts()
-    const { type } = this.state
+  render() {
+    const menuItems = this.getMenuItemTexts();
+    const { type } = this.state;
 
     return (
       <div className="new-account-import-form">
@@ -65,12 +63,12 @@ export default class AccountImportSubview extends Component {
             options={menuItems.map((text) => ({ value: text }))}
             selectedOption={type || menuItems[0]}
             onChange={(value) => {
-              this.setState({ type: value })
+              this.setState({ type: value });
             }}
           />
         </div>
         {this.renderImportView()}
       </div>
-    )
+    );
   }
 }

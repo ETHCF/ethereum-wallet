@@ -1,7 +1,9 @@
-import base, { createConfig } from '@metamask/eslint-config';
-import mocha from '@metamask/eslint-config-mocha';
 import babelParser from '@babel/eslint-parser';
 import babelPlugin from '@babel/eslint-plugin';
+import base, { createConfig } from '@metamask/eslint-config';
+import browser from '@metamask/eslint-config-browser';
+import mocha from '@metamask/eslint-config-mocha';
+import nodejs from '@metamask/eslint-config-nodejs';
 import jsonPlugin from 'eslint-plugin-json';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -21,6 +23,9 @@ export default createConfig([
       'docs/**',
       'coverage/**',
       'app/vendor/**',
+      // Minified third-party bundles the e2e tests serve.
+      'test/e2e/send-eth-with-private-key-test/ethereumjs-tx.js',
+      'test/e2e/send-eth-with-private-key-test/web3js.js',
     ],
   },
 
@@ -81,6 +86,18 @@ export default createConfig([
         },
       ],
 
+      // Existing JSDoc comments are checked, but documenting every function
+      // of this JavaScript codebase is not required.
+      'jsdoc/require-jsdoc': 'off',
+
+      // Naming and wording rules the existing code does not follow; adopting
+      // them would mean renaming identifiers across most of the codebase
+      // (err, msg, cb, the translation function t) and rewording its comments.
+      'id-denylist': 'off',
+      'id-length': 'off',
+      'no-shadow': 'off',
+      'jsdoc/match-description': 'off',
+
       'no-invalid-this': 'off',
       '@babel/no-invalid-this': 'error',
 
@@ -110,6 +127,59 @@ export default createConfig([
       'react/no-deprecated': 'error',
       'react/default-props-match-prop-types': 'error',
       'react/jsx-no-duplicate-props': 'error',
+    },
+  },
+
+  {
+    files: ['app/**/*.js', 'ui/**/*.js'],
+    extends: [browser],
+    rules: {
+      // Webpack provides these to the extension's bundles (see
+      // development/build/webpack.config.js), and the migrations mix in require.
+      'no-restricted-globals': [
+        'error',
+        '__dirname',
+        '__filename',
+        'clearImmediate',
+        'exports',
+        'module',
+        'setImmediate',
+      ],
+    },
+  },
+
+  {
+    files: [
+      '*.js',
+      '*.mjs',
+      'development/**/*.js',
+      'test/**/*.js',
+      'ui/**/*.test.js',
+      'ui/**/tests/**/*.js',
+    ],
+    extends: [nodejs],
+    languageOptions: {
+      // The Node config assumes CommonJS; most of these files are ES modules.
+      // CommonJS files are listed further down.
+      sourceType: 'module',
+    },
+    rules: {
+      // Build scripts and tests: they read the environment, exit with a
+      // status, use synchronous file access and require dev dependencies.
+      'n/no-process-env': 'off',
+      'n/no-process-exit': 'off',
+      'n/no-sync': 'off',
+      'n/no-unpublished-require': 'off',
+      'n/no-unpublished-import': 'off',
+      'n/hashbang': 'off',
+    },
+  },
+
+  {
+    // Tests run in Node with a simulated browser (jsdom).
+    files: ['test/**/*.js', 'ui/**/*.test.js', 'ui/**/tests/**/*.js'],
+    rules: {
+      'no-restricted-globals': 'off',
     },
   },
 

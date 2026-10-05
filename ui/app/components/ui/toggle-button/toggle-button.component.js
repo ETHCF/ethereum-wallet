@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const ToggleButton = (props) => {
-  const { value, onToggle, offLabel, onLabel } = props
+  const { value, onToggle, offLabel, onLabel } = props;
 
-  const modifier = value ? 'on' : 'off'
+  const modifier = value ? 'on' : 'off';
   // Called with the current value, as callers expect.
-  const toggle = () => onToggle && onToggle(value)
+  const toggle = () => onToggle && onToggle(value);
 
   return (
     <div className={`toggle-button toggle-button--${modifier}`}>
@@ -18,8 +18,8 @@ const ToggleButton = (props) => {
         onClick={toggle}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault()
-            toggle()
+            event.preventDefault();
+            toggle();
           }
         }}
       >
@@ -30,14 +30,14 @@ const ToggleButton = (props) => {
         <span className="toggle-button__label-on">{onLabel}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ToggleButton.propTypes = {
   value: PropTypes.bool,
   onToggle: PropTypes.func,
   offLabel: PropTypes.string,
   onLabel: PropTypes.string,
-}
+};
 
-export default ToggleButton
+export default ToggleButton;

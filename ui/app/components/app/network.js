@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import classnames from 'classnames'
-import { BUILT_IN_NETWORKS } from '../../../../app/scripts/controllers/network/enums'
-import NetworkDropdownIcon from './dropdowns/components/network-dropdown-icon'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-function NetworkIndicator ({ disabled, children, hoverText, onClick }) {
+import NetworkDropdownIcon from './dropdowns/components/network-dropdown-icon';
+import { BUILT_IN_NETWORKS } from '../../../../app/scripts/controllers/network/enums';
+
+function NetworkIndicator({ disabled, children, hoverText, onClick }) {
   return (
     <div
       className={classnames('network-component pointer', {
@@ -14,7 +15,7 @@ function NetworkIndicator ({ disabled, children, hoverText, onClick }) {
       title={hoverText}
       onClick={(event) => {
         if (!disabled) {
-          onClick(event)
+          onClick(event);
         }
       }}
     >
@@ -23,7 +24,7 @@ function NetworkIndicator ({ disabled, children, hoverText, onClick }) {
         <div className="network-indicator__down-arrow" />
       </div>
     </div>
-  )
+  );
 }
 
 NetworkIndicator.propTypes = {
@@ -31,12 +32,12 @@ NetworkIndicator.propTypes = {
   disabled: PropTypes.bool,
   hoverText: PropTypes.string,
   onClick: PropTypes.func,
-}
+};
 
 export default class Network extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     network: PropTypes.string.isRequired,
@@ -47,31 +48,28 @@ export default class Network extends Component {
     }).isRequired,
     disabled: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
-  }
+  };
 
-  render () {
-    const {
-      t,
-    } = this.context
+  render() {
+    const { t } = this.context;
 
-    const {
-      disabled,
-      network: networkNumber,
-      onClick,
-      provider,
-    } = this.props
+    const { disabled, network: networkNumber, onClick, provider } = this.props;
 
-    let providerName, providerNick, providerUrl
+    let providerName, providerNick, providerUrl;
     if (provider) {
-      providerName = provider.type
-      providerNick = provider.nickname || ''
-      providerUrl = provider.rpcTarget
+      providerName = provider.type;
+      providerNick = provider.nickname || '';
+      providerUrl = provider.rpcTarget;
     }
 
-    const builtIn = BUILT_IN_NETWORKS[providerName]
+    const builtIn = BUILT_IN_NETWORKS[providerName];
     if (builtIn) {
       return (
-        <NetworkIndicator disabled={disabled} hoverText={builtIn.name} onClick={onClick}>
+        <NetworkIndicator
+          disabled={disabled}
+          hoverText={builtIn.name}
+          onClick={onClick}
+        >
           <NetworkDropdownIcon
             backgroundColor={builtIn.color}
             nonSelectBackgroundColor={builtIn.color}
@@ -79,7 +77,7 @@ export default class Network extends Component {
           />
           <div className="network-name">{builtIn.name}</div>
         </NetworkIndicator>
-      )
+      );
     }
 
     return (
@@ -88,25 +86,29 @@ export default class Network extends Component {
         hoverText={providerNick || providerName || providerUrl || null}
         onClick={onClick}
       >
-        {
-          networkNumber === 'loading'
-            ? (
-              <span className="pointer network-loading-spinner" onClick={(event) => onClick(event)}>
-                <img title={t('attemptingConnect')} src="images/loading.svg" alt="" />
-              </span>
-            )
-            : (
-              <i className="fa fa-question-circle fa-lg" style={{ color: 'rgb(125, 128, 130)' }} />
-            )
-        }
+        {networkNumber === 'loading' ? (
+          <span
+            className="pointer network-loading-spinner"
+            onClick={(event) => onClick(event)}
+          >
+            <img
+              title={t('attemptingConnect')}
+              src="images/loading.svg"
+              alt=""
+            />
+          </span>
+        ) : (
+          <i
+            className="fa fa-question-circle fa-lg"
+            style={{ color: 'rgb(125, 128, 130)' }}
+          />
+        )}
         <div className="network-name">
-          {
-            providerName === 'localhost'
-              ? t('localhost')
-              : providerNick || t('privateNetwork')
-          }
+          {providerName === 'localhost'
+            ? t('localhost')
+            : providerNick || t('privateNetwork')}
         </div>
       </NetworkIndicator>
-    )
+    );
   }
 }

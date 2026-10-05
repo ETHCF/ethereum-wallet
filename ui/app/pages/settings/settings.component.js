@@ -1,21 +1,22 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { Route, Routes, matchPath } from 'react-router-dom'
-import classnames from 'classnames'
-import TabBar from '../../components/app/tab-bar'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { Route, Routes, matchPath } from 'react-router-dom';
+
+import AdvancedTab from './advanced-tab';
+import InfoTab from './info-tab';
+import NetworksTab from './networks-tab';
+import SecurityTab from './security-tab';
+import SettingsTab from './settings-tab';
+import TabBar from '../../components/app/tab-bar';
 import {
   SECURITY_ROUTE,
   GENERAL_ROUTE,
   ABOUT_US_ROUTE,
   SETTINGS_ROUTE,
   NETWORKS_ROUTE,
-} from '../../helpers/constants/routes'
-import { toRelativeRoutePath } from '../../helpers/utils/routes.util'
-import SettingsTab from './settings-tab'
-import AdvancedTab from './advanced-tab'
-import NetworksTab from './networks-tab'
-import InfoTab from './info-tab'
-import SecurityTab from './security-tab'
+} from '../../helpers/constants/routes';
+import { toRelativeRoutePath } from '../../helpers/utils/routes.util';
 
 class SettingsPage extends PureComponent {
   static propTypes = {
@@ -25,14 +26,15 @@ class SettingsPage extends PureComponent {
     isPopupView: PropTypes.bool,
     pathnameI18nKey: PropTypes.string,
     mostRecentOverviewPage: PropTypes.string.isRequired,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  render () {
-    const { navigate, backRoute, currentPath, mostRecentOverviewPage } = this.props
+  render() {
+    const { navigate, backRoute, currentPath, mostRecentOverviewPage } =
+      this.props;
 
     return (
       <div
@@ -41,15 +43,13 @@ class SettingsPage extends PureComponent {
         })}
       >
         <div className="settings-page__header">
-          {
-            currentPath !== SETTINGS_ROUTE && currentPath !== NETWORKS_ROUTE && (
-              <div
-                className="settings-page__back-button"
-                onClick={() => navigate(backRoute)}
-              />
-            )
-          }
-          { this.renderTitle() }
+          {currentPath !== SETTINGS_ROUTE && currentPath !== NETWORKS_ROUTE && (
+            <div
+              className="settings-page__back-button"
+              onClick={() => navigate(backRoute)}
+            />
+          )}
+          {this.renderTitle()}
           <div
             className="settings-page__close-button"
             onClick={() => navigate(mostRecentOverviewPage)}
@@ -57,43 +57,42 @@ class SettingsPage extends PureComponent {
         </div>
         <div className="settings-page__content">
           <div className="settings-page__content__tabs">
-            { this.renderTabs() }
+            {this.renderTabs()}
           </div>
           <div className="settings-page__content__modules">
-            { this.renderSubHeader() }
-            { this.renderContent() }
+            {this.renderSubHeader()}
+            {this.renderContent()}
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  renderTitle () {
-    const { t } = this.context
-    const { isPopupView, pathnameI18nKey } = this.props
-    const titleText = isPopupView && pathnameI18nKey ? t(pathnameI18nKey) : t('settings')
+  renderTitle() {
+    const { t } = this.context;
+    const { isPopupView, pathnameI18nKey } = this.props;
+    const titleText =
+      isPopupView && pathnameI18nKey ? t(pathnameI18nKey) : t('settings');
+
+    return <div className="settings-page__header__title">{titleText}</div>;
+  }
+
+  renderSubHeader() {
+    const { t } = this.context;
+    const { currentPath, pathnameI18nKey } = this.props;
 
     return (
-      <div className="settings-page__header__title">
-        {titleText}
-      </div>
-    )
+      currentPath !== NETWORKS_ROUTE && (
+        <div className="settings-page__subheader">
+          <div>{t(pathnameI18nKey || 'general')}</div>
+        </div>
+      )
+    );
   }
 
-  renderSubHeader () {
-    const { t } = this.context
-    const { currentPath, pathnameI18nKey } = this.props
-
-    return currentPath !== NETWORKS_ROUTE && (
-      <div className="settings-page__subheader">
-        <div>{t(pathnameI18nKey || 'general')}</div>
-      </div>
-    )
-  }
-
-  renderTabs () {
-    const { navigate, currentPath } = this.props
-    const { t } = this.context
+  renderTabs() {
+    const { navigate, currentPath } = this.props;
+    const { t } = this.context;
 
     return (
       <TabBar
@@ -105,26 +104,51 @@ class SettingsPage extends PureComponent {
         ]}
         isActive={(key) => {
           if (key === GENERAL_ROUTE && currentPath === SETTINGS_ROUTE) {
-            return true
+            return true;
           }
-          return matchPath(key, currentPath)
+          return matchPath(key, currentPath);
         }}
         onSelect={(key) => navigate(key)}
       />
-    )
+    );
   }
 
-  renderContent () {
+  renderContent() {
     return (
       <Routes>
-        <Route path={toRelativeRoutePath(GENERAL_ROUTE, SETTINGS_ROUTE)} element={<><SettingsTab /><AdvancedTab /></>} />
-        <Route path={toRelativeRoutePath(ABOUT_US_ROUTE, SETTINGS_ROUTE)} element={<InfoTab />} />
-        <Route path={toRelativeRoutePath(NETWORKS_ROUTE, SETTINGS_ROUTE)} element={<NetworksTab />} />
-        <Route path={toRelativeRoutePath(SECURITY_ROUTE, SETTINGS_ROUTE)} element={<SecurityTab />} />
-        <Route path="*" element={<><SettingsTab /><AdvancedTab /></>} />
+        <Route
+          path={toRelativeRoutePath(GENERAL_ROUTE, SETTINGS_ROUTE)}
+          element={
+            <>
+              <SettingsTab />
+              <AdvancedTab />
+            </>
+          }
+        />
+        <Route
+          path={toRelativeRoutePath(ABOUT_US_ROUTE, SETTINGS_ROUTE)}
+          element={<InfoTab />}
+        />
+        <Route
+          path={toRelativeRoutePath(NETWORKS_ROUTE, SETTINGS_ROUTE)}
+          element={<NetworksTab />}
+        />
+        <Route
+          path={toRelativeRoutePath(SECURITY_ROUTE, SETTINGS_ROUTE)}
+          element={<SecurityTab />}
+        />
+        <Route
+          path="*"
+          element={
+            <>
+              <SettingsTab />
+              <AdvancedTab />
+            </>
+          }
+        />
       </Routes>
-    )
+    );
   }
 }
 
-export default SettingsPage
+export default SettingsPage;

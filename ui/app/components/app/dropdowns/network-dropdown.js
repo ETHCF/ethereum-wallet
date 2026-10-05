@@ -1,21 +1,29 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withRouter from '../../../helpers/higher-order-components/with-router'
-import * as actions from '../../../store/actions'
-import { NETWORKS_ROUTE } from '../../../helpers/constants/routes'
-import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from '../../../../../app/scripts/controllers/network/enums'
-import { Dropdown, DropdownMenuItem } from './components/dropdown'
-import NetworkDropdownIcon from './components/network-dropdown-icon'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-const MAINNET_TYPES = BUILT_IN_NETWORK_TYPES.filter((type) => !BUILT_IN_NETWORKS[type].testnet)
-const TESTNET_TYPES = BUILT_IN_NETWORK_TYPES.filter((type) => BUILT_IN_NETWORKS[type].testnet)
+import { Dropdown, DropdownMenuItem } from './components/dropdown';
+import NetworkDropdownIcon from './components/network-dropdown-icon';
+import {
+  BUILT_IN_NETWORKS,
+  BUILT_IN_NETWORK_TYPES,
+} from '../../../../../app/scripts/controllers/network/enums';
+import { NETWORKS_ROUTE } from '../../../helpers/constants/routes';
+import withRouter from '../../../helpers/higher-order-components/with-router';
+import * as actions from '../../../store/actions';
+
+const MAINNET_TYPES = BUILT_IN_NETWORK_TYPES.filter(
+  (type) => !BUILT_IN_NETWORKS[type].testnet,
+);
+const TESTNET_TYPES = BUILT_IN_NETWORK_TYPES.filter(
+  (type) => BUILT_IN_NETWORKS[type].testnet,
+);
 const DROPDOWN_MENU_ITEM_STYLE = {
   fontSize: '16px',
   lineHeight: '20px',
   padding: '12px 0',
-}
+};
 
 // classes from nodes of the toggle element.
 const notToggleElementClassnames = [
@@ -24,37 +32,38 @@ const notToggleElementClassnames = [
   'network-indicator',
   'network-caret',
   'network-component',
-]
+];
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     provider: state.ecfWallet.provider,
     frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
     networkDropdownOpen: state.appState.networkDropdownOpen,
     network: state.ecfWallet.network,
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     setProviderType: (type) => {
-      dispatch(actions.setProviderType(type))
+      dispatch(actions.setProviderType(type));
     },
     setRpcTarget: (target, network, ticker, nickname) => {
-      dispatch(actions.setRpcTarget(target, network, ticker, nickname))
+      dispatch(actions.setRpcTarget(target, network, ticker, nickname));
     },
     delRpcTarget: (target) => {
-      dispatch(actions.delRpcTarget(target))
+      dispatch(actions.delRpcTarget(target));
     },
     hideNetworkDropdown: () => dispatch(actions.hideNetworkDropdown()),
-    setNetworksTabAddMode: (isInAddMode) => dispatch(actions.setNetworksTabAddMode(isInAddMode)),
-  }
+    setNetworksTabAddMode: (isInAddMode) =>
+      dispatch(actions.setNetworksTabAddMode(isInAddMode)),
+  };
 }
 
 class NetworkDropdown extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     provider: PropTypes.shape({
@@ -72,32 +81,33 @@ class NetworkDropdown extends Component {
     networkDropdownOpen: PropTypes.bool.isRequired,
     navigate: PropTypes.func.isRequired,
     delRpcTarget: PropTypes.func.isRequired,
+  };
+
+  handleClick(newProviderType) {
+    const { setProviderType } = this.props;
+
+    setProviderType(newProviderType);
   }
 
-  handleClick (newProviderType) {
-    const { setProviderType } = this.props
-
-    setProviderType(newProviderType)
-  }
-
-  renderCustomOption (provider) {
-    const { rpcTarget, type, ticker, nickname } = provider
-    const { network } = this.props
+  renderCustomOption(provider) {
+    const { rpcTarget, type, ticker, nickname } = provider;
+    const { network } = this.props;
 
     if (type !== 'rpc') {
-      return null
+      return null;
     }
 
     switch (rpcTarget) {
-
       case 'http://localhost:8545':
-        return null
+        return null;
 
       default:
         return (
           <DropdownMenuItem
             key={rpcTarget}
-            onClick={() => this.props.setRpcTarget(rpcTarget, network, ticker, nickname)}
+            onClick={() =>
+              this.props.setRpcTarget(rpcTarget, network, ticker, nickname)
+            }
             closeMenu={() => this.props.hideNetworkDropdown()}
             style={{
               fontSize: '16px',
@@ -107,45 +117,44 @@ class NetworkDropdown extends Component {
           >
             <i className="fa fa-check" />
             <i className="fa fa-question-circle fa-med menu-icon-circle" />
-            <span
-              className="network-name-item"
-            >
-              {nickname || rpcTarget}
-            </span>
+            <span className="network-name-item">{nickname || rpcTarget}</span>
           </DropdownMenuItem>
-        )
+        );
     }
   }
 
-  renderCommonRpc (rpcListDetail, provider) {
-    const reversedRpcListDetail = rpcListDetail.slice().reverse()
+  renderCommonRpc(rpcListDetail, provider) {
+    const reversedRpcListDetail = rpcListDetail.slice().reverse();
 
     return reversedRpcListDetail.map((entry) => {
-      const rpc = entry.rpcUrl
-      const ticker = entry.ticker || 'ETH'
-      const nickname = entry.nickname || ''
-      const currentRpcTarget = provider.type === 'rpc' && rpc === provider.rpcTarget
+      const rpc = entry.rpcUrl;
+      const ticker = entry.ticker || 'ETH';
+      const nickname = entry.nickname || '';
+      const currentRpcTarget =
+        provider.type === 'rpc' && rpc === provider.rpcTarget;
 
-      if ((rpc === 'http://localhost:8545') || currentRpcTarget) {
-        return null
+      if (rpc === 'http://localhost:8545' || currentRpcTarget) {
+        return null;
       }
-      const { chainId } = entry
+      const { chainId } = entry;
       return (
         <DropdownMenuItem
           key={`common${rpc}`}
           closeMenu={() => this.props.hideNetworkDropdown()}
-          onClick={() => this.props.setRpcTarget(rpc, chainId, ticker, nickname)}
+          onClick={() =>
+            this.props.setRpcTarget(rpc, chainId, ticker, nickname)
+          }
           style={{
             fontSize: '16px',
             lineHeight: '20px',
             padding: '12px 0',
           }}
         >
-          {
-            currentRpcTarget
-              ? <i className="fa fa-check" />
-              : <div className="network-check__transparent">✓</div>
-          }
+          {currentRpcTarget ? (
+            <i className="fa fa-check" />
+          ) : (
+            <div className="network-check__transparent">✓</div>
+          )}
           <i className="fa fa-question-circle fa-med menu-icon-circle" />
           <span
             className="network-name-item"
@@ -160,19 +169,21 @@ class NetworkDropdown extends Component {
           <i
             className="fa fa-times delete"
             onClick={(e) => {
-              e.stopPropagation()
-              this.props.delRpcTarget(rpc)
+              e.stopPropagation();
+              this.props.delRpcTarget(rpc);
             }}
           />
         </DropdownMenuItem>
-      )
-    })
+      );
+    });
   }
 
-  renderBuiltInNetwork (type) {
-    const { provider: { type: providerType } } = this.props
-    const { name, color } = BUILT_IN_NETWORKS[type]
-    const isSelected = providerType === type
+  renderBuiltInNetwork(type) {
+    const {
+      provider: { type: providerType },
+    } = this.props;
+    const { name, color } = BUILT_IN_NETWORKS[type];
+    const isSelected = providerType === type;
     return (
       <DropdownMenuItem
         key={type}
@@ -180,39 +191,47 @@ class NetworkDropdown extends Component {
         onClick={() => this.handleClick(type)}
         style={DROPDOWN_MENU_ITEM_STYLE}
       >
-        {
-          isSelected
-            ? <i className="fa fa-check" />
-            : <div className="network-check__transparent">✓</div>
-        }
+        {isSelected ? (
+          <i className="fa fa-check" />
+        ) : (
+          <div className="network-check__transparent">✓</div>
+        )}
         <NetworkDropdownIcon backgroundColor={color} isSelected={isSelected} />
         <span
           className="network-name-item"
           data-testid={`network-dropdown-${type}`}
-          style={{ color: isSelected ? 'var(--color-text-default)' : 'var(--color-text-alternative)' }}
+          style={{
+            color: isSelected
+              ? 'var(--color-text-default)'
+              : 'var(--color-text-alternative)',
+          }}
         >
           {name}
         </span>
       </DropdownMenuItem>
-    )
+    );
   }
 
-  render () {
-    const { provider: { type: providerType, rpcTarget: activeNetwork }, setNetworksTabAddMode } = this.props
-    const rpcListDetail = this.props.frequentRpcListDetail
-    const isOpen = this.props.networkDropdownOpen
-    const dropdownMenuItemStyle = DROPDOWN_MENU_ITEM_STYLE
+  render() {
+    const {
+      provider: { type: providerType, rpcTarget: activeNetwork },
+      setNetworksTabAddMode,
+    } = this.props;
+    const rpcListDetail = this.props.frequentRpcListDetail;
+    const isOpen = this.props.networkDropdownOpen;
+    const dropdownMenuItemStyle = DROPDOWN_MENU_ITEM_STYLE;
 
     return (
       <Dropdown
         isOpen={isOpen}
         onClickOutside={(event) => {
-          const { classList } = event.target
-          const isInClassList = (className) => classList.contains(className)
-          const notToggleElementIndex = notToggleElementClassnames.findIndex(isInClassList)
+          const { classList } = event.target;
+          const isInClassList = (className) => classList.contains(className);
+          const notToggleElementIndex =
+            notToggleElementClassnames.findIndex(isInClassList);
 
           if (notToggleElementIndex === -1) {
-            this.props.hideNetworkDropdown()
+            this.props.hideNetworkDropdown();
           }
         }}
         containerClassName="network-droppo"
@@ -250,18 +269,22 @@ class NetworkDropdown extends Component {
           onClick={() => this.handleClick('localhost')}
           style={dropdownMenuItemStyle}
         >
-          {
-            providerType === 'localhost'
-              ? <i className="fa fa-check" />
-              : <div className="network-check__transparent">✓</div>
-          }
-          <NetworkDropdownIcon isSelected={providerType === 'localhost'} innerBorder="1px solid var(--color-border-muted)" />
+          {providerType === 'localhost' ? (
+            <i className="fa fa-check" />
+          ) : (
+            <div className="network-check__transparent">✓</div>
+          )}
+          <NetworkDropdownIcon
+            isSelected={providerType === 'localhost'}
+            innerBorder="1px solid var(--color-border-muted)"
+          />
           <span
             className="network-name-item"
             style={{
-              color: providerType === 'localhost'
-                ? 'var(--color-text-default)'
-                : 'var(--color-text-alternative)',
+              color:
+                providerType === 'localhost'
+                  ? 'var(--color-text-default)'
+                  : 'var(--color-text-alternative)',
             }}
           >
             {this.context.t('localhost')}
@@ -272,34 +295,38 @@ class NetworkDropdown extends Component {
         <DropdownMenuItem
           closeMenu={() => this.props.hideNetworkDropdown()}
           onClick={() => {
-            setNetworksTabAddMode(true)
-            this.props.navigate(NETWORKS_ROUTE)
+            setNetworksTabAddMode(true);
+            this.props.navigate(NETWORKS_ROUTE);
           }}
           style={dropdownMenuItemStyle}
         >
-          {
-            activeNetwork === 'custom'
-              ? <i className="fa fa-check" />
-              : <div className="network-check__transparent">✓</div>
-          }
-          <NetworkDropdownIcon isSelected={activeNetwork === 'custom'} innerBorder="1px solid var(--color-border-muted)" />
+          {activeNetwork === 'custom' ? (
+            <i className="fa fa-check" />
+          ) : (
+            <div className="network-check__transparent">✓</div>
+          )}
+          <NetworkDropdownIcon
+            isSelected={activeNetwork === 'custom'}
+            innerBorder="1px solid var(--color-border-muted)"
+          />
           <span
             className="network-name-item"
             style={{
-              color: activeNetwork === 'custom'
-                ? 'var(--color-text-default)'
-                : 'var(--color-text-alternative)',
+              color:
+                activeNetwork === 'custom'
+                  ? 'var(--color-text-default)'
+                  : 'var(--color-text-alternative)',
             }}
           >
             {this.context.t('customRPC')}
           </span>
         </DropdownMenuItem>
       </Dropdown>
-    )
+    );
   }
 }
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(NetworkDropdown)
+)(NetworkDropdown);

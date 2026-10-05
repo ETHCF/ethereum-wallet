@@ -1,1 +1,1 @@
-export { default } from './sensitive-clipboard-notice.component'
+export { default } from './sensitive-clipboard-notice.component';

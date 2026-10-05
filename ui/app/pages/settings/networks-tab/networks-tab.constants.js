@@ -1,4 +1,4 @@
-import { BUILT_IN_NETWORKS } from '../../../../../app/scripts/controllers/network/enums'
+import { BUILT_IN_NETWORKS } from '../../../../../app/scripts/controllers/network/enums';
 
 const defaultNetworksData = [
   ...Object.entries(BUILT_IN_NETWORKS).map(([providerType, network]) => ({
@@ -17,8 +17,6 @@ const defaultNetworksData = [
     providerType: 'localhost',
     rpcUrl: 'http://localhost:8545/',
   },
-]
+];
 
-export {
-  defaultNetworksData,
-}
+export { defaultNetworksData };

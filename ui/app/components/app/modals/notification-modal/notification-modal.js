@@ -1,27 +1,28 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { hideModal } from '../../../../store/actions'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { hideModal } from '../../../../store/actions';
 
 class NotificationModal extends Component {
   static contextProps = {
     t: PropTypes.func.isRequired,
-  }
+  };
 
-  render () {
+  render() {
     const {
       header,
       message,
       showCancelButton = false,
       showConfirmButton = false,
-      // eslint-disable-next-line no-shadow
+
       hideModal,
       onConfirm,
-    } = this.props
+    } = this.props;
 
-    const { t } = this.context
+    const { t } = this.context;
 
-    const showButtons = showCancelButton || showConfirmButton
+    const showButtons = showCancelButton || showConfirmButton;
 
     return (
       <div>
@@ -49,8 +50,8 @@ class NotificationModal extends Component {
                 <div
                   className="button btn-secondary notification-modal__buttons__btn"
                   onClick={() => {
-                    onConfirm()
-                    hideModal()
+                    onConfirm();
+                    hideModal();
                   }}
                 >
                   {t('confirm')}
@@ -60,7 +61,7 @@ class NotificationModal extends Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -71,19 +72,18 @@ NotificationModal.propTypes = {
   showCancelButton: PropTypes.bool,
   showConfirmButton: PropTypes.bool,
   onConfirm: PropTypes.func,
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     hideModal: () => {
-      dispatch(hideModal())
+      dispatch(hideModal());
     },
-  }
-}
+  };
+};
 
 NotificationModal.contextTypes = {
   t: PropTypes.func,
-}
+};
 
-export default connect(null, mapDispatchToProps)(NotificationModal)
-
+export default connect(null, mapDispatchToProps)(NotificationModal);

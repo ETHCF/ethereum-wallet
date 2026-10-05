@@ -1,33 +1,29 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Navigate, useParams } from 'react-router-dom'
-import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet'
-import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
-import { getNativeCurrency } from '../../selectors'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate, useParams } from 'react-router-dom';
 
-import NativeAsset from './components/native-asset'
-import TokenAsset from './components/token-asset'
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
+import { DEFAULT_ROUTE } from '../../helpers/constants/routes';
+import { getNativeCurrency } from '../../selectors';
+import NativeAsset from './components/native-asset';
+import TokenAsset from './components/token-asset';
 
 const Asset = () => {
-  const nativeCurrency = useSelector(getNativeCurrency)
-  const tokens = useSelector(getTokens)
-  const { asset } = useParams()
+  const nativeCurrency = useSelector(getNativeCurrency);
+  const tokens = useSelector(getTokens);
+  const { asset } = useParams();
 
-  const token = tokens.find(({ address }) => address === asset)
+  const token = tokens.find(({ address }) => address === asset);
 
-  let content
+  let content;
   if (token) {
-    content = <TokenAsset token={token} />
+    content = <TokenAsset token={token} />;
   } else if (asset === nativeCurrency) {
-    content = <NativeAsset nativeCurrency={nativeCurrency} />
+    content = <NativeAsset nativeCurrency={nativeCurrency} />;
   } else {
-    content = <Navigate to={DEFAULT_ROUTE} replace />
+    content = <Navigate to={DEFAULT_ROUTE} replace />;
   }
-  return (
-    <div className="main-container asset__container">
-      { content }
-    </div>
-  )
-}
+  return <div className="main-container asset__container">{content}</div>;
+};
 
-export default Asset
+export default Asset;

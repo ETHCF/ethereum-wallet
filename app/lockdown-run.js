@@ -1,5 +1,5 @@
 /* global lockdown */
-/* eslint-disable import/unambiguous */
+/* eslint-disable import-x/unambiguous */
 // Runs SES lockdown before any other script in this context. Lockdown freezes
 // the JavaScript intrinsics (Object, Array, Promise, their prototypes, ...),
 // so a compromised dependency cannot tamper with built-ins that wallet code
@@ -23,8 +23,8 @@ try {
     errorTrapping: 'none',
     unhandledRejectionTrapping: 'none',
     localeTaming: 'unsafe',
-  })
+  });
 } catch (error) {
   // Fail open so the wallet still starts, but make the failure visible.
-  console.error('ECF Wallet: lockdown failed', error)
+  console.error('ECF Wallet: lockdown failed', error);
 }

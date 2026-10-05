@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import AccountModalContainer from '../account-modal-container'
-import getAccountLink from '../../../../../lib/account-link'
-import QrView from '../../../ui/qr-code'
-import EditableLabel from '../../../ui/editable-label'
-import Button from '../../../ui/button'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import getAccountLink from '../../../../../lib/account-link';
+import Button from '../../../ui/button';
+import EditableLabel from '../../../ui/editable-label';
+import QrView from '../../../ui/qr-code';
+import AccountModalContainer from '../account-modal-container';
 
 export default class AccountDetailsModal extends Component {
   static propTypes = {
@@ -14,13 +15,13 @@ export default class AccountDetailsModal extends Component {
     setAccountLabel: PropTypes.func,
     keyrings: PropTypes.array,
     rpcPrefs: PropTypes.object,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  render () {
+  render() {
     const {
       selectedIdentity,
       network,
@@ -28,17 +29,17 @@ export default class AccountDetailsModal extends Component {
       setAccountLabel,
       keyrings,
       rpcPrefs,
-    } = this.props
-    const { name, address } = selectedIdentity
+    } = this.props;
+    const { name, address } = selectedIdentity;
 
     const keyring = keyrings.find((kr) => {
-      return kr.accounts.includes(address)
-    })
+      return kr.accounts.includes(address);
+    });
 
-    let exportPrivateKeyFeatureEnabled = true
+    let exportPrivateKeyFeatureEnabled = true;
     // This feature is disabled for hardware wallets
     if (keyring && keyring.type.search('Hardware') !== -1) {
-      exportPrivateKeyFeatureEnabled = false
+      exportPrivateKeyFeatureEnabled = false;
     }
 
     return (
@@ -62,28 +63,28 @@ export default class AccountDetailsModal extends Component {
           type="secondary"
           className="account-details-modal__button"
           onClick={() => {
-            global.platform.openTab({ url: getAccountLink(address, network, rpcPrefs) })
+            global.platform.openTab({
+              url: getAccountLink(address, network, rpcPrefs),
+            });
           }}
         >
           {rpcPrefs.blockExplorerUrl
-            ? this.context.t('blockExplorerView', [rpcPrefs.blockExplorerUrl.match(/^https?:\/\/(.+)/u)[1]])
-            : this.context.t('viewOnEtherscan')
-          }
+            ? this.context.t('blockExplorerView', [
+                rpcPrefs.blockExplorerUrl.match(/^https?:\/\/(.+)/u)[1],
+              ])
+            : this.context.t('viewOnEtherscan')}
         </Button>
 
-        {exportPrivateKeyFeatureEnabled
-          ? (
-            <Button
-              type="secondary"
-              className="account-details-modal__button"
-              onClick={() => showExportPrivateKeyModal()}
-            >
-              {this.context.t('exportPrivateKey')}
-            </Button>
-          )
-          : null
-        }
+        {exportPrivateKeyFeatureEnabled ? (
+          <Button
+            type="secondary"
+            className="account-details-modal__button"
+            onClick={() => showExportPrivateKeyModal()}
+          >
+            {this.context.t('exportPrivateKey')}
+          </Button>
+        ) : null}
       </AccountModalContainer>
-    )
+    );
   }
 }

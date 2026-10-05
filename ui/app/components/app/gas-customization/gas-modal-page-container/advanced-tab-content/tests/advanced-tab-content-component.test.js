@@ -1,21 +1,22 @@
-import assert from 'assert'
-import React from 'react'
-import sinon from 'sinon'
-import shallow from '../../../../../../../lib/shallow-with-context'
-import AdvancedTabContent from '../advanced-tab-content.component'
-import AdvancedGasInputs from '../../../advanced-gas-inputs'
+import assert from 'assert';
+import React from 'react';
+import sinon from 'sinon';
+
+import shallow from '../../../../../../../lib/shallow-with-context';
+import AdvancedGasInputs from '../../../advanced-gas-inputs';
+import AdvancedTabContent from '../advanced-tab-content.component';
 
 describe('AdvancedTabContent Component', function () {
-  let wrapper
+  let wrapper;
 
   beforeEach(function () {
     const propsMethodSpies = {
       updateCustomGasPrice: sinon.spy(),
       updateCustomGasLimit: sinon.spy(),
-    }
-    sinon.spy(AdvancedTabContent.prototype, 'renderDataSummary')
+    };
+    sinon.spy(AdvancedTabContent.prototype, 'renderDataSummary');
 
-    wrapper = shallow((
+    wrapper = shallow(
       <AdvancedTabContent
         updateCustomGasPrice={propsMethodSpies.updateCustomGasPrice}
         updateCustomGasLimit={propsMethodSpies.updateCustomGasLimit}
@@ -25,56 +26,66 @@ describe('AdvancedTabContent Component', function () {
         insufficientBalance={false}
         customPriceIsSafe
         isSpeedUp={false}
-      />
-    ))
-  })
+      />,
+    );
+  });
 
   afterEach(function () {
-    sinon.restore()
-  })
+    sinon.restore();
+  });
 
   describe('render()', function () {
     it('should render the advanced-tab root node', function () {
-      assert(wrapper.hasClass('advanced-tab'))
-    })
+      assert(wrapper.hasClass('advanced-tab'));
+    });
 
     it('should render the fee summary and the gas inputs', function () {
-      const advancedTabChildren = wrapper.children()
-      assert.equal(advancedTabChildren.length, 2)
+      const advancedTabChildren = wrapper.children();
+      assert.equal(advancedTabChildren.length, 2);
 
-      assert(advancedTabChildren.at(0).hasClass('advanced-tab__transaction-data-summary'))
-      assert(advancedTabChildren.at(1).hasClass('advanced-tab__gas-section'))
-      assert(advancedTabChildren.at(1).find(AdvancedGasInputs).exists())
-    })
+      assert(
+        advancedTabChildren
+          .at(0)
+          .hasClass('advanced-tab__transaction-data-summary'),
+      );
+      assert(advancedTabChildren.at(1).hasClass('advanced-tab__gas-section'));
+      assert(advancedTabChildren.at(1).find(AdvancedGasInputs).exists());
+    });
 
     it('should call renderDataSummary with the transaction fee', function () {
-      const renderDataSummaryArgs = AdvancedTabContent.prototype.renderDataSummary.getCall(0).args
-      assert.deepEqual(renderDataSummaryArgs, ['$0.25'])
-    })
-  })
+      const renderDataSummaryArgs =
+        AdvancedTabContent.prototype.renderDataSummary.getCall(0).args;
+      assert.deepEqual(renderDataSummaryArgs, ['$0.25']);
+    });
+  });
 
   describe('renderDataSummary()', function () {
-    let dataSummary
+    let dataSummary;
 
     beforeEach(function () {
-      dataSummary = shallow(wrapper.instance().renderDataSummary('mockTotalFee'))
-    })
+      dataSummary = shallow(
+        wrapper.instance().renderDataSummary('mockTotalFee'),
+      );
+    });
 
     it('should render the transaction-data-summary root node', function () {
-      assert(dataSummary.hasClass('advanced-tab__transaction-data-summary'))
-    })
+      assert(dataSummary.hasClass('advanced-tab__transaction-data-summary'));
+    });
 
     it('should render the title of the data', function () {
-      const titlesNode = dataSummary.children().at(0)
-      assert(titlesNode.hasClass('advanced-tab__transaction-data-summary__titles'))
-      assert.equal(titlesNode.children().at(0).text(), 'newTransactionFee')
-    })
+      const titlesNode = dataSummary.children().at(0);
+      assert(
+        titlesNode.hasClass('advanced-tab__transaction-data-summary__titles'),
+      );
+      assert.equal(titlesNode.children().at(0).text(), 'newTransactionFee');
+    });
 
     it('should render the fee', function () {
-      const dataNode = dataSummary.children().at(1)
-      assert(dataNode.hasClass('advanced-tab__transaction-data-summary__container'))
-      assert.equal(dataNode.children().at(0).text(), 'mockTotalFee')
-    })
-  })
-
-})
+      const dataNode = dataSummary.children().at(1);
+      assert(
+        dataNode.hasClass('advanced-tab__transaction-data-summary__container'),
+      );
+      assert.equal(dataNode.children().at(0).text(), 'mockTotalFee');
+    });
+  });
+});

@@ -1,23 +1,26 @@
-import { connect } from 'react-redux'
-import { unconfirmedTransactionsListSelector } from '../../selectors'
-import ConfirmTransactionSwitch from './confirm-transaction-switch.component'
+import { connect } from 'react-redux';
+
+import ConfirmTransactionSwitch from './confirm-transaction-switch.component';
+import { unconfirmedTransactionsListSelector } from '../../selectors';
 
 const mapStateToProps = (state, ownProps) => {
-  const { ecfWallet: { unapprovedTxs } } = state
-  const { params = {}, location: { pathname } = {} } = ownProps
-  const urlId = pathname && pathname.match(/\d+/u) && pathname.match(/\d+/u)[0]
-  const { id: paramsId } = params
-  const transactionId = paramsId || urlId
+  const {
+    ecfWallet: { unapprovedTxs },
+  } = state;
+  const { params = {}, location: { pathname } = {} } = ownProps;
+  const urlId = pathname && pathname.match(/\d+/u) && pathname.match(/\d+/u)[0];
+  const { id: paramsId } = params;
+  const transactionId = paramsId || urlId;
 
-  const unconfirmedTransactions = unconfirmedTransactionsListSelector(state)
-  const totalUnconfirmed = unconfirmedTransactions.length
+  const unconfirmedTransactions = unconfirmedTransactionsListSelector(state);
+  const totalUnconfirmed = unconfirmedTransactions.length;
   const transaction = totalUnconfirmed
     ? unapprovedTxs[transactionId] || unconfirmedTransactions[0]
-    : {}
+    : {};
 
   return {
     txData: transaction,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(ConfirmTransactionSwitch)
+export default connect(mapStateToProps)(ConfirmTransactionSwitch);

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import PageContainerFooter from '../../../components/ui/page-container/page-container-footer'
-import { CONFIRM_TRANSACTION_ROUTE } from '../../../helpers/constants/routes'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import PageContainerFooter from '../../../components/ui/page-container/page-container-footer';
+import { CONFIRM_TRANSACTION_ROUTE } from '../../../helpers/constants/routes';
 
 export default class SendFooter extends Component {
-
   static propTypes = {
     addToAddressBookIfNew: PropTypes.func,
     amount: PropTypes.string,
@@ -27,20 +27,20 @@ export default class SendFooter extends Component {
     update: PropTypes.func,
     gasIsLoading: PropTypes.bool,
     mostRecentOverviewPage: PropTypes.string.isRequired,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
+  };
+
+  onCancel() {
+    const { clearSend, navigate, mostRecentOverviewPage } = this.props;
+    clearSend();
+    navigate(mostRecentOverviewPage);
   }
 
-  onCancel () {
-    const { clearSend, navigate, mostRecentOverviewPage } = this.props
-    clearSend()
-    navigate(mostRecentOverviewPage)
-  }
-
-  async onSubmit (event) {
-    event.preventDefault()
+  async onSubmit(event) {
+    event.preventDefault();
     const {
       addToAddressBookIfNew,
       amount,
@@ -58,7 +58,7 @@ export default class SendFooter extends Component {
       update,
       toAccounts,
       navigate,
-    } = this.props
+    } = this.props;
 
     // Should not be needed because submit should be disabled if there are errors.
     // const noErrors = !amountError && toError === null
@@ -68,44 +68,68 @@ export default class SendFooter extends Component {
     // }
 
     // TODO: add nickname functionality
-    await addToAddressBookIfNew(to, toAccounts)
+    await addToAddressBookIfNew(to, toAccounts);
     const promise = editingTransactionId
       ? update({
-        amount,
-        data,
-        editingTransactionId,
-        from,
-        gas,
-        gasPrice,
-        gasPriceIsCustom,
-        sendToken,
-        to,
-        unapprovedTxs,
-      })
-      : sign({ data, sendToken, to, amount, from, gas, gasPrice, gasPriceIsCustom })
+          amount,
+          data,
+          editingTransactionId,
+          from,
+          gas,
+          gasPrice,
+          gasPriceIsCustom,
+          sendToken,
+          to,
+          unapprovedTxs,
+        })
+      : sign({
+          data,
+          sendToken,
+          to,
+          amount,
+          from,
+          gas,
+          gasPrice,
+          gasPriceIsCustom,
+        });
 
-    Promise.resolve(promise)
-      .then(() => {
-        navigate(CONFIRM_TRANSACTION_ROUTE)
-      })
+    // eslint-disable-next-line promise/catch-or-return -- deliberately not awaited, so onSubmit resolves before navigation
+    Promise.resolve(promise).then(() => {
+      navigate(CONFIRM_TRANSACTION_ROUTE);
+      return undefined;
+    });
   }
 
-  formShouldBeDisabled () {
-    const { data, inError, sendToken, tokenBalance, gasTotal, to, gasLimit, gasIsLoading } = this.props
-    const missingTokenBalance = sendToken && !tokenBalance
-    const gasLimitTooLow = gasLimit < 5208 // 5208 is hex value of 21000, minimum gas limit
-    const shouldBeDisabled = inError || !gasTotal || missingTokenBalance || !(data || to) || gasLimitTooLow || gasIsLoading
-    return shouldBeDisabled
+  formShouldBeDisabled() {
+    const {
+      data,
+      inError,
+      sendToken,
+      tokenBalance,
+      gasTotal,
+      to,
+      gasLimit,
+      gasIsLoading,
+    } = this.props;
+    const missingTokenBalance = sendToken && !tokenBalance;
+    const gasLimitTooLow = gasLimit < 5208; // 5208 is hex value of 21000, minimum gas limit
+    const shouldBeDisabled =
+      inError ||
+      !gasTotal ||
+      missingTokenBalance ||
+      !(data || to) ||
+      gasLimitTooLow ||
+      gasIsLoading;
+    return shouldBeDisabled;
   }
 
-  render () {
+  render() {
     return (
       <PageContainerFooter
         onCancel={() => this.onCancel()}
         onSubmit={(e) => this.onSubmit(e)}
         disabled={this.formShouldBeDisabled()}
       />
-    )
+    );
   }
-
 }

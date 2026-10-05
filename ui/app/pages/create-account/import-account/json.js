@@ -1,32 +1,40 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import withRouter from '../../../helpers/higher-order-components/with-router'
-import * as actions from '../../../store/actions'
-import { getEcfWalletAccounts } from '../../../selectors'
-import Button from '../../../components/ui/button'
-import { getMostRecentOverviewPage } from '../../../ducks/history/history'
-import { getHelpUrl } from '../../../helpers/constants/help'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-const HELP_LINK = getHelpUrl('import-json')
+import Button from '../../../components/ui/button';
+import { getMostRecentOverviewPage } from '../../../ducks/history/history';
+import { getHelpUrl } from '../../../helpers/constants/help';
+import withRouter from '../../../helpers/higher-order-components/with-router';
+import { getEcfWalletAccounts } from '../../../selectors';
+import * as actions from '../../../store/actions';
+
+const HELP_LINK = getHelpUrl('import-json');
 
 class JsonImportSubview extends Component {
   state = {
     fileContents: '',
     isEmpty: true,
-  }
+  };
 
-  inputRef = React.createRef()
+  inputRef = React.createRef();
 
-  render () {
-    const { error, navigate, mostRecentOverviewPage } = this.props
-    const enabled = !this.state.isEmpty && this.state.fileContents !== ''
+  render() {
+    const { error, navigate, mostRecentOverviewPage } = this.props;
+    const enabled = !this.state.isEmpty && this.state.fileContents !== '';
 
     return (
       <div className="new-account-import-form__json">
         <p>{this.context.t('usedByClients')}</p>
-        <a className="warning" href={HELP_LINK} target="_blank" rel="noopener noreferrer">{this.context.t('fileImportFail')}</a>
+        <a
+          className="warning"
+          href={HELP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {this.context.t('fileImportFail')}
+        </a>
         <input
           type="file"
           onChange={this.onFileChange}
@@ -66,28 +74,24 @@ class JsonImportSubview extends Component {
             {this.context.t('import')}
           </Button>
         </div>
-        {
-          error
-            ? <span className="error">{error}</span>
-            : null
-        }
+        {error ? <span className="error">{error}</span> : null}
       </div>
-    )
+    );
   }
 
   onFileChange = async ({ target }) => {
-    const [file] = target.files
-    this.setState({ fileContents: file ? await file.text() : '' })
-  }
+    const [file] = target.files;
+    this.setState({ fileContents: file ? await file.text() : '' });
+  };
 
-  createKeyringOnEnter (event) {
+  createKeyringOnEnter(event) {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      this.createNewKeychain()
+      event.preventDefault();
+      this.createNewKeychain();
     }
   }
 
-  createNewKeychain () {
+  createNewKeychain() {
     const {
       firstAddress,
       displayWarning,
@@ -95,37 +99,38 @@ class JsonImportSubview extends Component {
       importNewJsonAccount,
       mostRecentOverviewPage,
       setSelectedAddress,
-    } = this.props
-    const { fileContents } = this.state
+    } = this.props;
+    const { fileContents } = this.state;
 
     if (!fileContents) {
-      const message = this.context.t('needImportFile')
-      displayWarning(message)
-      return
+      const message = this.context.t('needImportFile');
+      displayWarning(message);
+      return;
     }
 
-    const password = this.inputRef.current.value
+    const password = this.inputRef.current.value;
 
     importNewJsonAccount([fileContents, password])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
-          navigate(mostRecentOverviewPage)
-          displayWarning(null)
+          navigate(mostRecentOverviewPage);
+          displayWarning(null);
         } else {
-          displayWarning('Error importing account.')
-          setSelectedAddress(firstAddress)
+          displayWarning('Error importing account.');
+          setSelectedAddress(firstAddress);
         }
+        return undefined;
       })
-      .catch((err) => err && displayWarning(err.message || err))
+      .catch((err) => err && displayWarning(err.message || err));
   }
 
-  checkInputEmpty () {
-    const password = this.inputRef.current.value
-    let isEmpty = true
+  checkInputEmpty() {
+    const password = this.inputRef.current.value;
+    let isEmpty = true;
     if (password !== '') {
-      isEmpty = false
+      isEmpty = false;
     }
-    this.setState({ isEmpty })
+    this.setState({ isEmpty });
   }
 }
 
@@ -137,29 +142,31 @@ JsonImportSubview.propTypes = {
   navigate: PropTypes.func,
   setSelectedAddress: PropTypes.func,
   mostRecentOverviewPage: PropTypes.string.isRequired,
-}
+};
 
 const mapStateToProps = (state) => {
   return {
     error: state.appState.warning,
     firstAddress: Object.keys(getEcfWalletAccounts(state))[0],
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     displayWarning: (warning) => dispatch(actions.displayWarning(warning)),
-    importNewJsonAccount: (options) => dispatch(actions.importNewAccount('JSON File', options)),
-    setSelectedAddress: (address) => dispatch(actions.setSelectedAddress(address)),
-  }
-}
+    importNewJsonAccount: (options) =>
+      dispatch(actions.importNewAccount('JSON File', options)),
+    setSelectedAddress: (address) =>
+      dispatch(actions.setSelectedAddress(address)),
+  };
+};
 
 JsonImportSubview.contextTypes = {
   t: PropTypes.func,
-}
+};
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(JsonImportSubview)
+)(JsonImportSubview);

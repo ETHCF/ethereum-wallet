@@ -1,78 +1,76 @@
-import { forOwn } from 'lodash'
+import { forOwn } from 'lodash';
+
 import {
-  CAVEAT_TYPES,
-} from '../../../app/scripts/controllers/permissions/enums'
-import { getEcfWalletAccountsOrdered, getOriginOfCurrentTab, getSelectedAddress } from '.'
+  getEcfWalletAccountsOrdered,
+  getOriginOfCurrentTab,
+  getSelectedAddress,
+} from '.';
+import { CAVEAT_TYPES } from '../../../app/scripts/controllers/permissions/enums';
 
 // selectors
 
 /**
  * Get the permission domains object.
  *
- * @param {Object} state - The current state.
- * @returns {Object} The permissions domains object.
+ * @param {object} state - The current state.
+ * @returns {object} The permissions domains object.
  */
-export function getPermissionDomains (state) {
-  return state.ecfWallet.subjects || {}
+export function getPermissionDomains(state) {
+  return state.ecfWallet.subjects || {};
 }
 
 /**
  * Get the permission domains metadata object.
  *
- * @param {Object} state - The current state.
- * @returns {Object} The permission domains metadata object.
+ * @param {object} state - The current state.
+ * @returns {object} The permission domains metadata object.
  */
-export function getPermissionDomainsMetadata (state) {
-  return state.ecfWallet.domainMetadata || {}
+export function getPermissionDomainsMetadata(state) {
+  return state.ecfWallet.domainMetadata || {};
 }
 
 /**
  * Selects the permitted accounts from the eth_accounts permission given state
  * and an origin.
  *
- * @param {Object} state - The current state.
+ * @param {object} state - The current state.
  * @param {string} origin - The origin/domain to get the permitted accounts for.
  * @returns {Array<string>} An empty array or an array of accounts.
  */
-export function getPermittedAccounts (state, origin) {
+export function getPermittedAccounts(state, origin) {
   return getAccountsFromPermission(
-    getAccountsPermissionFromDomain(
-      domainSelector(state, origin),
-    ),
-  )
+    getAccountsPermissionFromDomain(domainSelector(state, origin)),
+  );
 }
 
 /**
  * Selects the permitted accounts from the eth_accounts permission for the
  * origin of the current tab.
  *
- * @param {Object} state - The current state.
+ * @param {object} state - The current state.
  * @returns {Array<string>} An empty array or an array of accounts.
  */
-export function getPermittedAccountsForCurrentTab (state) {
-  return getPermittedAccounts(
-    state,
-    getOriginOfCurrentTab(state),
-  )
+export function getPermittedAccountsForCurrentTab(state) {
+  return getPermittedAccounts(state, getOriginOfCurrentTab(state));
 }
 
 /**
  * Returns a map of permitted accounts by origin for all origins.
  *
- * @param {Object} state - The current state.
- * @returns {Object} Permitted accounts by origin.
+ * @param {object} state - The current state.
+ * @returns {object} Permitted accounts by origin.
  */
-export function getPermittedAccountsByOrigin (state) {
-  const domains = getPermissionDomains(state)
+export function getPermittedAccountsByOrigin(state) {
+  const domains = getPermissionDomains(state);
   return Object.keys(domains).reduce((acc, domainKey) => {
     const accounts = getAccountsFromPermission(
       getAccountsPermissionFromDomain(domains[domainKey]),
-    )
+    );
     if (accounts.length > 0) {
-      acc[domainKey] = accounts
+      acc[domainKey] = accounts;
     }
-    return acc
-  }, {})
+    return acc;
+  }, {});
 }
 
 /**
@@ -82,30 +80,23 @@ export function getPermittedAccountsByOrigin (state) {
  * - name
  * - icon
  *
- * @param {Object} state - The current state.
- * @returns {Array<Object>} An array of connected domain objects.
+ * @param {object} state - The current state.
+ * @returns {Array<object>} An array of connected domain objects.
  */
-export function getConnectedDomainsForSelectedAddress (state) {
-  const {
-    selectedAddress,
-  } = state.ecfWallet
-  const domains = getPermissionDomains(state)
-  const domainMetadata = getPermissionDomainsMetadata(state)
+export function getConnectedDomainsForSelectedAddress(state) {
+  const { selectedAddress } = state.ecfWallet;
+  const domains = getPermissionDomains(state);
+  const domainMetadata = getPermissionDomainsMetadata(state);
 
-  const connectedDomains = []
+  const connectedDomains = [];
 
   forOwn(domains, (domainValue, domainKey) => {
-    const exposedAccounts = getAccountsFromDomain(domainValue)
+    const exposedAccounts = getAccountsFromDomain(domainValue);
     if (!exposedAccounts.includes(selectedAddress)) {
-      return
+      return;
     }
 
-    const {
-      extensionId,
-      name,
-      icon,
-      host,
-    } = domainMetadata[domainKey] || {}
+    const { extensionId, name, icon, host } = domainMetadata[domainKey] || {};
 
     connectedDomains.push({
       extensionId,
@@ -113,10 +104,10 @@ export function getConnectedDomainsForSelectedAddress (state) {
       name,
       icon,
       host,
-    })
-  })
+    });
+  });
 
-  return connectedDomains
+  return connectedDomains;
 }
 
 /**
@@ -125,88 +116,97 @@ export function getConnectedDomainsForSelectedAddress (state) {
  * - icon
  * - name
  *
- * @param {Object} state - The current state.
- * @returns {Object} A mapping of addresses to a mapping of origins to
+ * @param {object} state - The current state.
+ * @returns {object} A mapping of addresses to a mapping of origins to
  * connected domain info.
  */
-export function getAddressConnectedDomainMap (state) {
-  const domainMetadata = getPermissionDomainsMetadata(state)
-  const accountsMap = getPermittedAccountsByOrigin(state)
-  const addressConnectedIconMap = {}
+export function getAddressConnectedDomainMap(state) {
+  const domainMetadata = getPermissionDomainsMetadata(state);
+  const accountsMap = getPermittedAccountsByOrigin(state);
+  const addressConnectedIconMap = {};
 
   Object.keys(accountsMap).forEach((domainKey) => {
-
-    const { icon, name } = domainMetadata[domainKey] || {}
+    const { icon, name } = domainMetadata[domainKey] || {};
 
     accountsMap[domainKey].forEach((address) => {
-
-      const nameToRender = name || domainKey
+      const nameToRender = name || domainKey;
 
       addressConnectedIconMap[address] = addressConnectedIconMap[address]
-        ? { ...addressConnectedIconMap[address], [domainKey]: { icon, name: nameToRender } }
-        : { [domainKey]: { icon, name: nameToRender } }
-    })
-  })
+        ? {
+            ...addressConnectedIconMap[address],
+            [domainKey]: { icon, name: nameToRender },
+          }
+        : { [domainKey]: { icon, name: nameToRender } };
+    });
+  });
 
-  return addressConnectedIconMap
+  return addressConnectedIconMap;
 }
 
 // selector helpers
 
-function getAccountsFromDomain (domain) {
-  return getAccountsFromPermission(
-    getAccountsPermissionFromDomain(domain),
-  )
+function getAccountsFromDomain(domain) {
+  return getAccountsFromPermission(getAccountsPermissionFromDomain(domain));
 }
 
-function getAccountsPermissionFromDomain (domain = {}) {
-  return domain?.permissions?.eth_accounts || {}
+function getAccountsPermissionFromDomain(domain = {}) {
+  return domain?.permissions?.eth_accounts || {};
 }
 
-function getAccountsFromPermission (accountsPermission) {
-  const accountsCaveat = getAccountsCaveatFromPermission(accountsPermission)
-  return (
-    accountsCaveat && Array.isArray(accountsCaveat.value)
-      ? accountsCaveat.value
-      : []
-  )
+function getAccountsFromPermission(accountsPermission) {
+  const accountsCaveat = getAccountsCaveatFromPermission(accountsPermission);
+  return accountsCaveat && Array.isArray(accountsCaveat.value)
+    ? accountsCaveat.value
+    : [];
 }
 
-function getAccountsCaveatFromPermission (accountsPermission = {}) {
+function getAccountsCaveatFromPermission(accountsPermission = {}) {
   return (
     Array.isArray(accountsPermission.caveats) &&
     accountsPermission.caveats.find(
       (c) => c.type === CAVEAT_TYPES.restrictReturnedAccounts,
     )
-  )
+  );
 }
 
-function domainSelector (state, origin) {
-  return origin && state.ecfWallet.subjects?.[origin]
+function domainSelector(state, origin) {
+  return origin && state.ecfWallet.subjects?.[origin];
 }
 
-export function getAccountToConnectToActiveTab (state) {
-  const selectedAddress = getSelectedAddress(state)
-  const connectedAccounts = getPermittedAccountsForCurrentTab(state)
+export function getAccountToConnectToActiveTab(state) {
+  const selectedAddress = getSelectedAddress(state);
+  const connectedAccounts = getPermittedAccountsForCurrentTab(state);
 
-  const { ecfWallet: { identities } } = state
-  const numberOfAccounts = Object.keys(identities).length
+  const {
+    ecfWallet: { identities },
+  } = state;
+  const numberOfAccounts = Object.keys(identities).length;
 
-  if (connectedAccounts.length && connectedAccounts.length !== numberOfAccounts) {
-    if (connectedAccounts.findIndex((address) => address === selectedAddress) === -1) {
-      return identities[selectedAddress]
+  if (
+    connectedAccounts.length &&
+    connectedAccounts.length !== numberOfAccounts
+  ) {
+    if (
+      connectedAccounts.findIndex((address) => address === selectedAddress) ===
+      -1
+    ) {
+      return identities[selectedAddress];
     }
   }
 
-  return undefined
+  return undefined;
 }
 
-export function getOrderedConnectedAccountsForActiveTab (state) {
-  const { activeTab, ecfWallet: { permissionsHistory } } = state
+export function getOrderedConnectedAccountsForActiveTab(state) {
+  const {
+    activeTab,
+    ecfWallet: { permissionsHistory },
+  } = state;
 
-  const permissionsHistoryByAccount = permissionsHistory[activeTab.origin]?.eth_accounts?.accounts
-  const orderedAccounts = getEcfWalletAccountsOrdered(state)
-  const connectedAccounts = getPermittedAccountsForCurrentTab(state)
+  const permissionsHistoryByAccount =
+    permissionsHistory[activeTab.origin]?.eth_accounts?.accounts;
+  const orderedAccounts = getEcfWalletAccountsOrdered(state);
+  const connectedAccounts = getPermittedAccountsForCurrentTab(state);
 
   return orderedAccounts
     .filter((account) => connectedAccounts.includes(account.address))
@@ -214,68 +214,70 @@ export function getOrderedConnectedAccountsForActiveTab (state) {
       ...account,
       lastActive: permissionsHistoryByAccount?.[account.address],
     }))
-    .sort(({ lastSelected: lastSelectedA }, { lastSelected: lastSelectedB }) => {
-      if (lastSelectedA === lastSelectedB) {
-        return 0
-      } else if (lastSelectedA === undefined) {
-        return 1
-      } else if (lastSelectedB === undefined) {
-        return -1
-      }
+    .sort(
+      ({ lastSelected: lastSelectedA }, { lastSelected: lastSelectedB }) => {
+        if (lastSelectedA === lastSelectedB) {
+          return 0;
+        } else if (lastSelectedA === undefined) {
+          return 1;
+        } else if (lastSelectedB === undefined) {
+          return -1;
+        }
 
-      return lastSelectedB - lastSelectedA
-    })
+        return lastSelectedB - lastSelectedA;
+      },
+    );
 }
 
-export function getPermissionsForActiveTab (state) {
-  const { activeTab, ecfWallet } = state
-  const {
-    subjects = {},
-  } = ecfWallet
+export function getPermissionsForActiveTab(state) {
+  const { activeTab, ecfWallet } = state;
+  const { subjects = {} } = ecfWallet;
 
-  const permissions = subjects[activeTab.origin]?.permissions
-  return permissions && Object.keys(permissions).map((key) => ({ key }))
+  const permissions = subjects[activeTab.origin]?.permissions;
+  return permissions && Object.keys(permissions).map((key) => ({ key }));
 }
 
-export function getLastConnectedInfo (state) {
-  const { permissionsHistory = {} } = state.ecfWallet
+export function getLastConnectedInfo(state) {
+  const { permissionsHistory = {} } = state.ecfWallet;
   return Object.keys(permissionsHistory).reduce((acc, origin) => {
-    const ethAccountsHistory = JSON.parse(JSON.stringify(permissionsHistory[origin].eth_accounts))
+    const ethAccountsHistory = JSON.parse(
+      JSON.stringify(permissionsHistory[origin].eth_accounts),
+    );
     return {
       ...acc,
       [origin]: ethAccountsHistory,
-    }
-  }, {})
+    };
+  }, {});
 }
 
-export function getPermissionsMetadataHostCounts (state) {
-  const metadata = getPermissionDomainsMetadata(state)
+export function getPermissionsMetadataHostCounts(state) {
+  const metadata = getPermissionDomainsMetadata(state);
   return Object.values(metadata).reduce((counts, { host }) => {
     if (host) {
       if (counts[host]) {
-        counts[host] += 1
+        counts[host] += 1;
       } else {
-        counts[host] = 1
+        counts[host] = 1;
       }
     }
-    return counts
-  }, {})
+    return counts;
+  }, {});
 }
 
-export function getPermissionsRequests (state) {
-  return state.ecfWallet.permissionsRequests || []
+export function getPermissionsRequests(state) {
+  return state.ecfWallet.permissionsRequests || [];
 }
 
-export function getPermissionsRequestCount (state) {
-  const permissionsRequests = getPermissionsRequests(state)
-  return permissionsRequests.length
+export function getPermissionsRequestCount(state) {
+  const permissionsRequests = getPermissionsRequests(state);
+  return permissionsRequests.length;
 }
 
-export function getFirstPermissionRequest (state) {
-  const requests = getPermissionsRequests(state)
-  return requests && requests[0] ? requests[0] : null
+export function getFirstPermissionRequest(state) {
+  const requests = getPermissionsRequests(state);
+  return requests && requests[0] ? requests[0] : null;
 }
 
-export function hasPermissionRequests (state) {
-  return Boolean(getFirstPermissionRequest(state))
+export function hasPermissionRequests(state) {
+  return Boolean(getFirstPermissionRequest(state));
 }

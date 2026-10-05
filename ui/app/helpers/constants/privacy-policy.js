@@ -1,9 +1,9 @@
-import { PRIVACY_POLICY_ROUTE } from './routes'
+import { PRIVACY_POLICY_ROUTE } from './routes';
 
 // Like the terms of use, the policy is a legal text kept in English rather than
 // in the locale files. It describes what the code does, so update it alongside
 // any change that stores new data or contacts a new service.
-export const PRIVACY_POLICY_LAST_UPDATED = 'October 4, 2026'
+export const PRIVACY_POLICY_LAST_UPDATED = 'October 4, 2026';
 
 export const PRIVACY_POLICY_SECTIONS = [
   {
@@ -16,7 +16,7 @@ export const PRIVACY_POLICY_SECTIONS = [
   {
     heading: 'Information Stored on Your Device',
     paragraphs: [
-      'The wallet keeps the following in your browser\'s extension storage. ECF never receives it.',
+      "The wallet keeps the following in your browser's extension storage. ECF never receives it.",
     ],
     items: [
       'Your seed phrase and private keys, encrypted with your password.',
@@ -29,7 +29,7 @@ export const PRIVACY_POLICY_SECTIONS = [
   {
     heading: 'While the Wallet Is Unlocked',
     paragraphs: [
-      'When you unlock the wallet, the key that decrypts your vault is kept in the browser\'s memory-only session storage, so the wallet stays unlocked while the browser restarts its background process. It is removed when the wallet locks or the browser closes, and is never written to disk.',
+      "When you unlock the wallet, the key that decrypts your vault is kept in the browser's memory-only session storage, so the wallet stays unlocked while the browser restarts its background process. It is removed when the wallet locks or the browser closes, and is never written to disk.",
       'When you copy your seed phrase or a private key, the wallet clears your clipboard about a minute later.',
     ],
   },
@@ -45,9 +45,9 @@ export const PRIVACY_POLICY_SECTIONS = [
       'Every service below sees your IP address and the content of the requests the wallet sends it, and handles them under its own privacy policy. ECF does not receive copies of these requests.',
     ],
     items: [
-      'Blockchain networks. To show balances and send transactions, the wallet sends requests, including your account addresses and the transactions you sign, to the selected network\'s RPC endpoint. Ethereum Mainnet uses PublicNode, and falls back to dRPC, 1RPC and Blast when PublicNode cannot be reached. The other built-in networks use PublicNode (Sepolia and Polygon) or the network\'s own public endpoint (Arbitrum, Optimism, Base and Robinhood Chain). If you add a network or choose your own RPC endpoint, requests go there instead.',
+      "Blockchain networks. To show balances and send transactions, the wallet sends requests, including your account addresses and the transactions you sign, to the selected network's RPC endpoint. Ethereum Mainnet uses PublicNode, and falls back to dRPC, 1RPC and Blast when PublicNode cannot be reached. The other built-in networks use PublicNode (Sepolia and Polygon) or the network's own public endpoint (Arbitrum, Optimism, Base and Robinhood Chain). If you add a network or choose your own RPC endpoint, requests go there instead.",
       'Phishing list. About once an hour the wallet downloads the eth-phishing-detect blocklist from jsDelivr. The sites you visit are checked against it on your device; your browsing is not sent anywhere. The list is downloaded even if you turn phishing detection off.',
-      'Contract method names. When a transaction calls a contract function the wallet does not recognize, it looks up the function\'s 4-byte identifier at 4byte.directory to show you its name.',
+      "Contract method names. When a transaction calls a contract function the wallet does not recognize, it looks up the function's 4-byte identifier at 4byte.directory to show you its name.",
       'ENS websites. When you visit a .eth address on Ethereum Mainnet, the wallet looks up the name through your RPC endpoint and then loads the site through your IPFS gateway (dweb.link unless you change it), a Swarm gateway, or app.ens.domains.',
       'Networks requested by websites. When a site asks to add a network, the wallet asks the proposed RPC endpoint for its chain ID before showing you the request.',
       'Hardware wallets. Trezor devices are reached through Trezor Connect (connect.trezor.io), which is run by Trezor. Ledger devices are reached directly over WebHID.',
@@ -69,9 +69,7 @@ export const PRIVACY_POLICY_SECTIONS = [
   },
   {
     heading: 'Browser Permissions',
-    paragraphs: [
-      'The wallet asks your browser for these permissions:',
-    ],
+    paragraphs: ['The wallet asks your browser for these permissions:'],
     items: [
       'Access to the websites you visit, to provide the Ethereum provider and to warn you about known phishing sites.',
       'Storage, to keep your encrypted wallet and settings.',
@@ -89,9 +87,7 @@ export const PRIVACY_POLICY_SECTIONS = [
   },
   {
     heading: 'Children',
-    paragraphs: [
-      'The wallet is not directed to children under thirteen.',
-    ],
+    paragraphs: ['The wallet is not directed to children under thirteen.'],
   },
   {
     heading: 'Changes',
@@ -105,7 +101,7 @@ export const PRIVACY_POLICY_SECTIONS = [
       'Send privacy questions to ECF by opening an issue at https://github.com/ETHCF/ethereum-wallet/issues or through https://ethcf.org/.',
     ],
   },
-]
+];
 
 /**
  * A link to the policy in the full-screen view. Every extension page sits next
@@ -113,6 +109,6 @@ export const PRIVACY_POLICY_SECTIONS = [
  *
  * @returns {string} The URL
  */
-export function getPrivacyPolicyUrl () {
-  return `home.html#${PRIVACY_POLICY_ROUTE}`
+export function getPrivacyPolicyUrl() {
+  return `home.html#${PRIVACY_POLICY_ROUTE}`;
 }

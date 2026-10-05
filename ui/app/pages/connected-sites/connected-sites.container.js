@@ -1,10 +1,9 @@
-import { connect } from 'react-redux'
-import {
-  getOpenEcfWalletTabsIds,
-  requestAccountsPermissionWithId,
-  removePermissionsFor,
-  removePermittedAccount,
-} from '../../store/actions'
+import { connect } from 'react-redux';
+
+import ConnectedSites from './connected-sites.component';
+import { getMostRecentOverviewPage } from '../../ducks/history/history';
+import { CONNECT_ROUTE } from '../../helpers/constants/routes';
+import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   getConnectedDomainsForSelectedAddress,
   getCurrentAccountWithSendEtherInfo,
@@ -13,29 +12,30 @@ import {
   getPermissionsMetadataHostCounts,
   getPermittedAccountsByOrigin,
   getSelectedAddress,
-} from '../../selectors'
-import { CONNECT_ROUTE } from '../../helpers/constants/routes'
-import { getMostRecentOverviewPage } from '../../ducks/history/history'
-import withRouter from '../../helpers/higher-order-components/with-router'
-import ConnectedSites from './connected-sites.component'
+} from '../../selectors';
+import {
+  getOpenEcfWalletTabsIds,
+  requestAccountsPermissionWithId,
+  removePermissionsFor,
+  removePermittedAccount,
+} from '../../store/actions';
 
 const mapStateToProps = (state) => {
-  const { openEcfWalletTabs } = state.appState
-  const { id } = state.activeTab
-  const connectedDomains = getConnectedDomainsForSelectedAddress(state)
-  const originOfCurrentTab = getOriginOfCurrentTab(state)
-  const permittedAccountsByOrigin = getPermittedAccountsByOrigin(state)
-  const selectedAddress = getSelectedAddress(state)
+  const { openEcfWalletTabs } = state.appState;
+  const { id } = state.activeTab;
+  const connectedDomains = getConnectedDomainsForSelectedAddress(state);
+  const originOfCurrentTab = getOriginOfCurrentTab(state);
+  const permittedAccountsByOrigin = getPermittedAccountsByOrigin(state);
+  const selectedAddress = getSelectedAddress(state);
 
-  const currentTabHasNoAccounts = !permittedAccountsByOrigin[
-    originOfCurrentTab
-  ]?.length
+  const currentTabHasNoAccounts =
+    !permittedAccountsByOrigin[originOfCurrentTab]?.length;
 
-  let tabToConnect
+  let tabToConnect;
   if (originOfCurrentTab && currentTabHasNoAccounts && !openEcfWalletTabs[id]) {
     tabToConnect = {
       origin: originOfCurrentTab,
-    }
+    };
   }
 
   return {
@@ -47,24 +47,27 @@ const mapStateToProps = (state) => {
     permittedAccountsByOrigin,
     selectedAddress,
     tabToConnect,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getOpenEcfWalletTabsIds: () => dispatch(getOpenEcfWalletTabsIds()),
     disconnectAccount: (domainKey, address) => {
-      dispatch(removePermittedAccount(domainKey, address))
+      dispatch(removePermittedAccount(domainKey, address));
     },
     disconnectAllAccounts: (domainKey, domain) => {
-      const permissionMethodNames = Object.keys(domain.permissions)
-      dispatch(removePermissionsFor({
-        [domainKey]: permissionMethodNames,
-      }))
+      const permissionMethodNames = Object.keys(domain.permissions);
+      dispatch(
+        removePermissionsFor({
+          [domainKey]: permissionMethodNames,
+        }),
+      );
     },
-    requestAccountsPermissionWithId: (origin) => dispatch(requestAccountsPermissionWithId(origin)),
-  }
-}
+    requestAccountsPermissionWithId: (origin) =>
+      dispatch(requestAccountsPermissionWithId(origin)),
+  };
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
@@ -73,16 +76,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     mostRecentOverviewPage,
     selectedAddress,
     tabToConnect,
-  } = stateProps
+  } = stateProps;
   const {
     disconnectAccount,
     disconnectAllAccounts,
-    // eslint-disable-next-line no-shadow
-    requestAccountsPermissionWithId,
-  } = dispatchProps
-  const { navigate } = ownProps
 
-  const closePopover = () => navigate(mostRecentOverviewPage)
+    requestAccountsPermissionWithId,
+  } = dispatchProps;
+  const { navigate } = ownProps;
+
+  const closePopover = () => navigate(mostRecentOverviewPage);
 
   return {
     ...ownProps,
@@ -90,22 +93,24 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     closePopover,
     disconnectAccount: (domainKey) => {
-      disconnectAccount(domainKey, selectedAddress)
+      disconnectAccount(domainKey, selectedAddress);
       if (connectedDomains.length === 1) {
-        closePopover()
+        closePopover();
       }
     },
     disconnectAllAccounts: (domainKey) => {
-      disconnectAllAccounts(domainKey, domains[domainKey])
+      disconnectAllAccounts(domainKey, domains[domainKey]);
       if (connectedDomains.length === 1) {
-        closePopover()
+        closePopover();
       }
     },
     requestAccountsPermission: async () => {
-      const id = await requestAccountsPermissionWithId(tabToConnect.origin)
-      navigate(`${CONNECT_ROUTE}/${id}`)
+      const id = await requestAccountsPermissionWithId(tabToConnect.origin);
+      navigate(`${CONNECT_ROUTE}/${id}`);
     },
-  }
-}
+  };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedSites))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps, mergeProps)(ConnectedSites),
+);

@@ -1,1 +1,1 @@
-export { default } from './confirm-network-request.component'
+export { default } from './confirm-network-request.component';

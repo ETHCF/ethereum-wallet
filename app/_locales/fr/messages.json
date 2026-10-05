@@ -496,9 +496,6 @@
   "memorizePhrase": {
     "message": "Mémorisez cette phrase."
   },
-  "memo": {
-    "message": "note"
-  },
   "ecfWalletDescription": {
     "message": "ECF Wallet est un coffre sécurisé pour votre identité sur Ethereum."
   },

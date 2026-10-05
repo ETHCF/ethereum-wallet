@@ -1,25 +1,25 @@
-import browserGlobal from './browser-global'
+import browserGlobal from './browser-global';
 
 const fetchWithTimeout = ({ timeout = 120000 } = {}) => {
-  return async function _fetch (url, opts) {
-    const abortController = new browserGlobal.AbortController()
-    const abortSignal = abortController.signal
+  return async function _fetch(url, opts) {
+    const abortController = new browserGlobal.AbortController();
+    const abortSignal = abortController.signal;
     const f = browserGlobal.fetch(url, {
       ...opts,
       signal: abortSignal,
-    })
+    });
 
-    const timer = setTimeout(() => abortController.abort(), timeout)
+    const timer = setTimeout(() => abortController.abort(), timeout);
 
     try {
-      const res = await f
-      clearTimeout(timer)
-      return res
+      const res = await f;
+      clearTimeout(timer);
+      return res;
     } catch (e) {
-      clearTimeout(timer)
-      throw e
+      clearTimeout(timer);
+      throw e;
     }
-  }
-}
+  };
+};
 
-export default fetchWithTimeout
+export default fetchWithTimeout;

@@ -1,14 +1,13 @@
-import { nanoid } from 'nanoid'
-import { JsonRpcEngine, createAsyncMiddleware } from '@metamask/json-rpc-engine'
-import { ObservableStore } from '@metamask/obs-store'
-import log from 'loglevel'
-import { rpcErrors } from '@metamask/rpc-errors'
+import {
+  JsonRpcEngine,
+  createAsyncMiddleware,
+} from '@metamask/json-rpc-engine';
+import { ObservableStore } from '@metamask/obs-store';
+import { rpcErrors } from '@metamask/rpc-errors';
+import log from 'loglevel';
+import { nanoid } from 'nanoid';
 
-import { createPermissionController } from '../../lib/modern-controllers-implementation'
-import createPermissionsMethodMiddleware from './permissionsMethodMiddleware'
-import PermissionsLogController from './permissionsLog'
-import PermissionApprovals from './approval-shim'
-
+import PermissionApprovals from './approval-shim';
 import {
   SAFE_METHODS, // methods that do not require any permissions to use
   WALLET_PREFIX,
@@ -18,11 +17,13 @@ import {
   HISTORY_STORE_KEY,
   NOTIFICATION_NAMES,
   CAVEAT_TYPES,
-} from './enums'
+} from './enums';
+import PermissionsLogController from './permissionsLog';
+import createPermissionsMethodMiddleware from './permissionsMethodMiddleware';
+import { createPermissionController } from '../../lib/modern-controllers-implementation';
 
 export class PermissionsController {
-
-  constructor (
+  constructor(
     {
       getKeyringAccounts,
       getUnlockPromise,
@@ -34,101 +35,117 @@ export class PermissionsController {
     restoredPermissions = {},
     restoredState = {},
   ) {
-
     // additional top-level store key set in _initializeMetadataStore
     this.store = new ObservableStore({
       [LOG_STORE_KEY]: restoredState[LOG_STORE_KEY] || [],
       [HISTORY_STORE_KEY]: restoredState[HISTORY_STORE_KEY] || {},
-    })
+    });
 
-    this.getKeyringAccounts = getKeyringAccounts
-    this._getUnlockPromise = getUnlockPromise
-    this._notifyDomain = notifyDomain
-    this._notifyAllDomains = notifyAllDomains
-    this._showPermissionRequest = showPermissionRequest
+    this.getKeyringAccounts = getKeyringAccounts;
+    this._getUnlockPromise = getUnlockPromise;
+    this._notifyDomain = notifyDomain;
+    this._notifyAllDomains = notifyAllDomains;
+    this._showPermissionRequest = showPermissionRequest;
 
     this.permissionsLog = new PermissionsLogController({
       restrictedMethods: ['eth_accounts'],
       store: this.store,
-    })
+    });
     // Pending requests, shown on the connect page.
-    this.approvals = new PermissionApprovals({ showPermissionRequest: () => this._showPermissionRequest() })
+    this.approvals = new PermissionApprovals({
+      showPermissionRequest: () => this._showPermissionRequest(),
+    });
     const { controller, store } = createPermissionController({
       state: restoredPermissions,
       approval: this.approvals,
       getAllAccounts: () => this.getKeyringAccounts(),
       getIdentities: () => this._getIdentities(),
       unrestrictedMethods: SAFE_METHODS,
-    })
-    this.permissions = controller
-    this.permissionStore = store
-    this._lastSelectedAddress = preferences.getState().selectedAddress
-    this.preferences = preferences
+    });
+    this.permissions = controller;
+    this.permissionStore = store;
+    this._lastSelectedAddress = preferences.getState().selectedAddress;
+    this.preferences = preferences;
 
-    this._initializeMetadataStore(restoredState)
+    this._initializeMetadataStore(restoredState);
 
     preferences.subscribe(async ({ selectedAddress }) => {
       if (selectedAddress && selectedAddress !== this._lastSelectedAddress) {
-        this._lastSelectedAddress = selectedAddress
-        await this._handleAccountSelected(selectedAddress)
+        this._lastSelectedAddress = selectedAddress;
+        await this._handleAccountSelected(selectedAddress);
       }
-    })
+    });
   }
 
-  createMiddleware ({ origin, extensionId }) {
-
+  createMiddleware({ origin, extensionId }) {
     if (typeof origin !== 'string' || !origin.length) {
-      throw new Error('Must provide non-empty string origin.')
+      throw new Error('Must provide non-empty string origin.');
     }
 
-    const metadataState = this.store.getState()[METADATA_STORE_KEY]
+    const metadataState = this.store.getState()[METADATA_STORE_KEY];
 
     if (extensionId && metadataState[origin]?.extensionId !== extensionId) {
-      this.addDomainMetadata(origin, { extensionId })
+      this.addDomainMetadata(origin, { extensionId });
     }
 
-    const engine = new JsonRpcEngine()
+    const engine = new JsonRpcEngine();
 
-    engine.push(this.permissionsLog.createMiddleware())
+    engine.push(this.permissionsLog.createMiddleware());
 
-    engine.push(createPermissionsMethodMiddleware({
-      addDomainMetadata: this.addDomainMetadata.bind(this),
-      getAccounts: this.getAccounts.bind(this, origin),
-      getUnlockPromise: () => this._getUnlockPromise(true),
-      hasPermission: this.hasPermission.bind(this, origin),
-      getPermissions: () => this.permissions.getPermissions(origin),
-      notifyAccountsChanged: this.notifyAccountsChanged.bind(this, origin),
-      requestAccountsPermission: this._requestPermissions.bind(
-        this, { origin }, { eth_accounts: {} },
-      ),
-      requestPermissions: (permissions) => this._requestPermissions({ origin }, permissions),
-      revokePermissions: (permissionNames) => this.removePermissionsFor({ [origin]: permissionNames }),
-    }))
+    engine.push(
+      createPermissionsMethodMiddleware({
+        addDomainMetadata: this.addDomainMetadata.bind(this),
+        getAccounts: this.getAccounts.bind(this, origin),
+        getUnlockPromise: () => this._getUnlockPromise(true),
+        hasPermission: this.hasPermission.bind(this, origin),
+        getPermissions: () => this.permissions.getPermissions(origin),
+        notifyAccountsChanged: this.notifyAccountsChanged.bind(this, origin),
+        requestAccountsPermission: this._requestPermissions.bind(
+          this,
+          { origin },
+          { eth_accounts: {} },
+        ),
+        requestPermissions: (permissions) =>
+          this._requestPermissions({ origin }, permissions),
+        revokePermissions: (permissionNames) =>
+          this.removePermissionsFor({ [origin]: permissionNames }),
+      }),
+    );
 
     // Every other method either needs no permission or must be permitted.
-    engine.push(createAsyncMiddleware(async (req, res, next) => {
-      if (this.permissions.hasUnrestrictedMethod(req.method)) {
-        // eslint-disable-next-line callback-return
-        await next()
-        return
-      }
-      res.result = await this.permissions.executeRestrictedMethod(origin, req.method, req.params)
-    }))
+    engine.push(
+      createAsyncMiddleware(async (req, res, next) => {
+        if (this.permissions.hasUnrestrictedMethod(req.method)) {
+          await next();
+          return;
+        }
+        res.result = await this.permissions.executeRestrictedMethod(
+          origin,
+          req.method,
+          req.params,
+        );
+      }),
+    );
 
-    return engine.asMiddleware()
+    return engine.asMiddleware();
   }
 
   /**
    * Request {@code eth_accounts} permissions
+   *
    * @param {string} origin - The requesting origin
    * @returns {Promise<string>} The permissions request ID
    */
-  async requestAccountsPermissionWithId (origin) {
-    const id = nanoid()
+  async requestAccountsPermissionWithId(origin) {
+    const id = nanoid();
     this._requestPermissions({ origin }, { eth_accounts: {} }, id)
-      .then(async () => this.notifyAccountsChanged(origin, await this.getAccounts(origin)))
-      .catch((error) => log.debug(`Permissions request ${id} did not complete`, error))
-    return id
+      .then(async () =>
+        this.notifyAccountsChanged(origin, await this.getAccounts(origin)),
+      )
+      .catch((error) =>
+        log.debug(`Permissions request ${id} did not complete`, error),
+      );
+    return id;
   }
 
   /**
@@ -137,16 +154,21 @@ export class PermissionsController {
    * which accounts are exposed to a given domain.
    *
    * @param {string} origin - The origin string.
+   * @returns {Promise<string[]>} The exposed account addresses, or an empty
+   * array.
    */
-  async getAccounts (origin) {
+  async getAccounts(origin) {
     if (!this.hasPermission(origin, 'eth_accounts')) {
-      return []
+      return [];
     }
     try {
-      const accounts = await this.permissions.executeRestrictedMethod(origin, 'eth_accounts')
-      return Array.isArray(accounts) ? accounts : []
+      const accounts = await this.permissions.executeRestrictedMethod(
+        origin,
+        'eth_accounts',
+      );
+      return Array.isArray(accounts) ? accounts : [];
     } catch (_) {
-      return []
+      return [];
     }
   }
 
@@ -157,17 +179,17 @@ export class PermissionsController {
    * @param {string} permission - The permission to check for.
    * @returns {boolean} Whether the origin has the permission.
    */
-  hasPermission (origin, permission) {
-    return this.permissions.hasPermission(origin, permission)
+  hasPermission(origin, permission) {
+    return this.permissions.hasPermission(origin, permission);
   }
 
   /**
    * Gets the identities from the preferences controller store
    *
-   * @returns {Object} identities
+   * @returns {object} identities
    */
-  _getIdentities () {
-    return this.preferences.getState().identities
+  _getIdentities() {
+    return this.preferences.getState().identities;
   }
 
   /**
@@ -175,19 +197,27 @@ export class PermissionsController {
    * Only eth_accounts can be requested, and the user chooses its accounts, so
    * any caveats in the request are ignored.
    *
-   * @param {Object} subject - The requesting origin, as { origin }.
-   * @param {Object} permissions - The requested permissions.
+   * @param {object} subject - The requesting origin, as { origin }.
+   * @param {string} subject.origin - The origin of the requesting site.
+   * @param {object} permissions - The requested permissions.
    * @param {string} [id] - The id of the request. Never taken from the site.
-   * @returns {Promise<Object[]>} Resolves with the granted permissions, or
+   * @returns {Promise<object[]>} Resolves with the granted permissions, or
    * rejects with an error.
    */
-  async _requestPermissions ({ origin }, permissions, id = nanoid()) {
-    const names = Object.keys(permissions || {})
+  async _requestPermissions({ origin }, permissions, id = nanoid()) {
+    const names = Object.keys(permissions || {});
     if (names.length !== 1 || names[0] !== 'eth_accounts') {
-      throw rpcErrors.invalidParams({ message: 'Only eth_accounts can be requested.', data: permissions })
+      throw rpcErrors.invalidParams({
+        message: 'Only eth_accounts can be requested.',
+        data: permissions,
+      });
     }
-    const [granted] = await this.permissions.requestPermissions({ origin }, { eth_accounts: {} }, { id })
-    return Object.values(granted)
+    const [granted] = await this.permissions.requestPermissions(
+      { origin },
+      { eth_accounts: {} },
+      { id },
+    );
+    return Object.values(granted);
   }
 
   /**
@@ -195,35 +225,40 @@ export class PermissionsController {
    * chosen accounts, resolving the site's request; rejects it if that fails.
    * Idempotent for a given request id.
    *
-   * @param {Object} approved - The request object approved by the user
+   * @param {object} approved - The request object approved by the user
    * @param {Array} accounts - The accounts to expose, if any
    */
-  async approvePermissionsRequest (approved, accounts) {
-
-    const { id } = approved.metadata
-    const pending = this.approvals.getRequest(id)
+  async approvePermissionsRequest(approved, accounts) {
+    const { id } = approved.metadata;
+    const pending = this.approvals.getRequest(id);
 
     if (!pending) {
-      log.debug(`Permissions request with id '${id}' not found`)
-      return
+      log.debug(`Permissions request with id '${id}' not found`);
+      return;
     }
 
     // Grant only what the site asked for, whatever the UI sent back.
-    const permissions = Object.fromEntries(Object.entries(pending.permissions)
-      .filter(([name]) => Object.prototype.hasOwnProperty.call(approved.permissions || {}, name)))
+    const permissions = Object.fromEntries(
+      Object.entries(pending.permissions).filter(([name]) =>
+        Object.prototype.hasOwnProperty.call(approved.permissions || {}, name),
+      ),
+    );
 
     try {
       if (Object.keys(permissions).length > 0) {
-        this.validatePermittedAccounts(accounts)
+        this.validatePermittedAccounts(accounts);
       }
       await this.permissions.acceptPermissionsRequest({
         metadata: pending.metadata,
         permissions,
         approvedAccounts: Array.isArray(accounts) ? [...accounts] : [],
-      })
+      });
     } catch (err) {
       if (this.approvals.hasRequest({ id })) {
-        this.approvals.rejectRequest(id, rpcErrors.invalidRequest({ message: err.message, data: err }))
+        this.approvals.rejectRequest(
+          id,
+          rpcErrors.invalidRequest({ message: err.message, data: err }),
+        );
       }
     }
   }
@@ -234,12 +269,12 @@ export class PermissionsController {
    *
    * @param {string} id - The id of the request rejected by the user
    */
-  async rejectPermissionsRequest (id) {
+  async rejectPermissionsRequest(id) {
     if (!this.approvals.hasRequest({ id })) {
-      log.debug(`Permissions request with id '${id}' not found`)
-      return
+      log.debug(`Permissions request with id '${id}' not found`);
+      return;
     }
-    await this.permissions.rejectPermissionsRequest(id)
+    await this.permissions.rejectPermissionsRequest(id);
   }
 
   /**
@@ -251,30 +286,30 @@ export class PermissionsController {
    * @param {string} origin - The origin to expose the account to.
    * @param {string} account - The new account to expose.
    */
-  async addPermittedAccount (origin, account) {
-
+  async addPermittedAccount(origin, account) {
     if (!this._getSubjects()[origin]) {
-      throw new Error('Unrecognized domain')
+      throw new Error('Unrecognized domain');
     }
 
-    this.validatePermittedAccounts([account])
+    this.validatePermittedAccounts([account]);
 
-    const oldPermittedAccounts = this._getPermittedAccounts(origin)
+    const oldPermittedAccounts = this._getPermittedAccounts(origin);
     if (!oldPermittedAccounts) {
-      throw new Error(`Origin does not have 'eth_accounts' permission`)
+      throw new Error(`Origin does not have 'eth_accounts' permission`);
     } else if (oldPermittedAccounts.includes(account)) {
-      throw new Error('Account is already permitted for origin')
+      throw new Error('Account is already permitted for origin');
     }
 
     this.permissions.updateCaveat(
-      origin, 'eth_accounts',
+      origin,
+      'eth_accounts',
       CAVEAT_TYPES.restrictReturnedAccounts,
       [...oldPermittedAccounts, account],
-    )
+    );
 
-    const permittedAccounts = await this.getAccounts(origin)
+    const permittedAccounts = await this.getAccounts(origin);
 
-    this.notifyAccountsChanged(origin, permittedAccounts)
+    this.notifyAccountsChanged(origin, permittedAccounts);
   }
 
   /**
@@ -288,38 +323,38 @@ export class PermissionsController {
    * @param {string} origin - The origin to remove the account from.
    * @param {string} account - The account to remove.
    */
-  async removePermittedAccount (origin, account) {
-
+  async removePermittedAccount(origin, account) {
     if (!this._getSubjects()[origin]) {
-      throw new Error('Unrecognized domain')
+      throw new Error('Unrecognized domain');
     }
 
-    this.validatePermittedAccounts([account])
+    this.validatePermittedAccounts([account]);
 
-    const oldPermittedAccounts = this._getPermittedAccounts(origin)
+    const oldPermittedAccounts = this._getPermittedAccounts(origin);
     if (!oldPermittedAccounts) {
-      throw new Error(`Origin does not have 'eth_accounts' permission`)
+      throw new Error(`Origin does not have 'eth_accounts' permission`);
     } else if (!oldPermittedAccounts.includes(account)) {
-      throw new Error('Account is not permitted for origin')
+      throw new Error('Account is not permitted for origin');
     }
 
-    let newPermittedAccounts = oldPermittedAccounts
-      .filter((acc) => acc !== account)
+    let newPermittedAccounts = oldPermittedAccounts.filter(
+      (acc) => acc !== account,
+    );
 
     if (newPermittedAccounts.length === 0) {
-      this.removePermissionsFor({ [origin]: ['eth_accounts'] })
+      this.removePermissionsFor({ [origin]: ['eth_accounts'] });
     } else {
-
       this.permissions.updateCaveat(
-        origin, 'eth_accounts',
+        origin,
+        'eth_accounts',
         CAVEAT_TYPES.restrictReturnedAccounts,
         newPermittedAccounts,
-      )
+      );
 
-      newPermittedAccounts = await this.getAccounts(origin)
+      newPermittedAccounts = await this.getAccounts(origin);
     }
 
-    this.notifyAccountsChanged(origin, newPermittedAccounts)
+    this.notifyAccountsChanged(origin, newPermittedAccounts);
   }
 
   /**
@@ -330,13 +365,18 @@ export class PermissionsController {
    *
    * @param {string} account - The account to remove.
    */
-  async removeAllAccountPermissions (account) {
-    this.validatePermittedAccounts([account])
+  async removeAllAccountPermissions(account) {
+    this.validatePermittedAccounts([account]);
 
-    const connectedOrigins = Object.keys(this._getSubjects())
-      .filter((origin) => this._getPermittedAccounts(origin)?.includes(account))
+    const connectedOrigins = Object.keys(this._getSubjects()).filter((origin) =>
+      this._getPermittedAccounts(origin)?.includes(account),
+    );
 
-    await Promise.all(connectedOrigins.map((origin) => this.removePermittedAccount(origin, account)))
+    await Promise.all(
+      connectedOrigins.map((origin) =>
+        this.removePermittedAccount(origin, account),
+      ),
+    );
   }
 
   /**
@@ -345,18 +385,18 @@ export class PermissionsController {
    *
    * @param {string[]} accounts - An array of addresses.
    */
-  validatePermittedAccounts (accounts) {
+  validatePermittedAccounts(accounts) {
     if (!Array.isArray(accounts) || accounts.length === 0) {
-      throw new Error('Must provide non-empty array of account(s).')
+      throw new Error('Must provide non-empty array of account(s).');
     }
 
     // assert accounts exist
-    const allIdentities = this._getIdentities()
+    const allIdentities = this._getIdentities();
     accounts.forEach((acc) => {
       if (!allIdentities[acc]) {
-        throw new Error(`Unknown account: ${acc}`)
+        throw new Error(`Unknown account: ${acc}`);
       }
-    })
+    });
   }
 
   /**
@@ -366,28 +406,25 @@ export class PermissionsController {
    * @param {string} origin - The origin of the domain to notify.
    * @param {Array<string>} newAccounts - The currently permitted accounts.
    */
-  notifyAccountsChanged (origin, newAccounts) {
-
+  notifyAccountsChanged(origin, newAccounts) {
     if (typeof origin !== 'string' || !origin) {
-      throw new Error(`Invalid origin: '${origin}'`)
+      throw new Error(`Invalid origin: '${origin}'`);
     }
 
     if (!Array.isArray(newAccounts)) {
-      throw new Error('Invalid accounts', newAccounts)
+      throw new Error('Invalid accounts', newAccounts);
     }
 
     this._notifyDomain(origin, {
       jsonrpc: '2.0',
       method: NOTIFICATION_NAMES.accountsChanged,
       params: newAccounts,
-    })
+    });
 
     // if the accounts changed from the perspective of the dapp,
     // update "last seen" time for the origin and account(s)
     // exception: no accounts -> no times to update
-    this.permissionsLog.updateAccountsHistory(
-      origin, newAccounts,
-    )
+    this.permissionsLog.updateAccountsHistory(origin, newAccounts);
 
     // NOTE:
     // we don't check for accounts changing in the notifyAllDomains case,
@@ -401,34 +438,35 @@ export class PermissionsController {
    * Should only be called after confirming that the permissions exist, to
    * avoid sending unnecessary notifications.
    *
-   * @param {Object} domains { origin: [permissions] } - The map of domain
+   * @param {object} domains - { origin: [permissions] } - The map of domain
    * origins to permissions to remove.
    */
-  removePermissionsFor (domains) {
-
+  removePermissionsFor(domains) {
     Object.entries(domains).forEach(([origin, perms]) => {
       // Unlike rpc-cap, revokePermissions throws for permissions that do not exist.
-      const existing = perms.filter((methodName) => this.hasPermission(origin, methodName))
+      const existing = perms.filter((methodName) =>
+        this.hasPermission(origin, methodName),
+      );
       if (existing.length === 0) {
-        return
+        return;
       }
-      this.permissions.revokePermissions({ [origin]: existing })
+      this.permissions.revokePermissions({ [origin]: existing });
       if (existing.includes('eth_accounts')) {
-        this.notifyAccountsChanged(origin, [])
+        this.notifyAccountsChanged(origin, []);
       }
-    })
+    });
   }
 
   /**
    * Removes all known domains and their related permissions.
    */
-  clearPermissions () {
-    this.permissions.clearState()
+  clearPermissions() {
+    this.permissions.clearState();
     this._notifyAllDomains({
       jsonrpc: '2.0',
       method: NOTIFICATION_NAMES.accountsChanged,
       params: [],
-    })
+    });
   }
 
   /**
@@ -439,22 +477,21 @@ export class PermissionsController {
    * degraded user experience, since metadata cannot yet be requested on demand.
    *
    * @param {string} origin - The origin whose domain metadata to store.
-   * @param {Object} metadata - The domain's metadata that will be stored.
+   * @param {object} metadata - The domain's metadata that will be stored.
    */
-  addDomainMetadata (origin, metadata) {
-
-    const oldMetadataState = this.store.getState()[METADATA_STORE_KEY]
-    const newMetadataState = { ...oldMetadataState }
+  addDomainMetadata(origin, metadata) {
+    const oldMetadataState = this.store.getState()[METADATA_STORE_KEY];
+    const newMetadataState = { ...oldMetadataState };
 
     // delete pending metadata origin from queue, and delete its metadata if
     // it doesn't have any permissions
     if (this._pendingSiteMetadata.size >= METADATA_CACHE_MAX_SIZE) {
-      const permissionsDomains = this._getSubjects()
+      const permissionsDomains = this._getSubjects();
 
-      const oldOrigin = this._pendingSiteMetadata.values().next().value
-      this._pendingSiteMetadata.delete(oldOrigin)
+      const oldOrigin = this._pendingSiteMetadata.values().next().value;
+      this._pendingSiteMetadata.delete(oldOrigin);
       if (!permissionsDomains[oldOrigin]) {
-        delete newMetadataState[oldOrigin]
+        delete newMetadataState[oldOrigin];
       }
     }
 
@@ -463,14 +500,17 @@ export class PermissionsController {
       ...oldMetadataState[origin],
       ...metadata,
       lastUpdated: Date.now(),
+    };
+
+    if (
+      !newMetadataState[origin].extensionId &&
+      !newMetadataState[origin].host
+    ) {
+      newMetadataState[origin].host = new URL(origin).host;
     }
 
-    if (!newMetadataState[origin].extensionId && !newMetadataState[origin].host) {
-      newMetadataState[origin].host = new URL(origin).host
-    }
-
-    this._pendingSiteMetadata.add(origin)
-    this._setDomainMetadata(newMetadataState)
+    this._pendingSiteMetadata.add(origin);
+    this._setDomainMetadata(newMetadataState);
   }
 
   /**
@@ -479,15 +519,14 @@ export class PermissionsController {
    *
    * Requires PermissionsController._initializePermissions to have been called first.
    *
-   * @param {Object} restoredState - The restored permissions controller state.
+   * @param {object} restoredState - The restored permissions controller state.
    */
-  _initializeMetadataStore (restoredState) {
+  _initializeMetadataStore(restoredState) {
+    const metadataState = restoredState[METADATA_STORE_KEY] || {};
+    const newMetadataState = this._trimDomainMetadata(metadataState);
 
-    const metadataState = restoredState[METADATA_STORE_KEY] || {}
-    const newMetadataState = this._trimDomainMetadata(metadataState)
-
-    this._pendingSiteMetadata = new Set()
-    this._setDomainMetadata(newMetadataState)
+    this._pendingSiteMetadata = new Set();
+    this._setDomainMetadata(newMetadataState);
   }
 
   /**
@@ -495,30 +534,30 @@ export class PermissionsController {
    * without permissions.
    * Returns a new object; does not mutate the argument.
    *
-   * @param {Object} metadataState - The metadata store state object to trim.
-   * @returns {Object} The new metadata state object.
+   * @param {object} metadataState - The metadata store state object to trim.
+   * @returns {object} The new metadata state object.
    */
-  _trimDomainMetadata (metadataState) {
-
-    const newMetadataState = { ...metadataState }
-    const origins = Object.keys(metadataState)
-    const permissionsDomains = this._getSubjects()
+  _trimDomainMetadata(metadataState) {
+    const newMetadataState = { ...metadataState };
+    const origins = Object.keys(metadataState);
+    const permissionsDomains = this._getSubjects();
 
     origins.forEach((origin) => {
       if (!permissionsDomains[origin]) {
-        delete newMetadataState[origin]
+        delete newMetadataState[origin];
       }
-    })
+    });
 
-    return newMetadataState
+    return newMetadataState;
   }
 
   /**
    * Replaces the existing domain metadata with the passed-in object.
-   * @param {Object} newMetadataState - The new metadata to set.
+   *
+   * @param {object} newMetadataState - The new metadata to set.
    */
-  _setDomainMetadata (newMetadataState) {
-    this.store.updateState({ [METADATA_STORE_KEY]: newMetadataState })
+  _setDomainMetadata(newMetadataState) {
+    this.store.updateState({ [METADATA_STORE_KEY]: newMetadataState });
   }
 
   /**
@@ -527,19 +566,25 @@ export class PermissionsController {
    * @param {string} origin - The origin to obtain permitted accounts for
    * @returns {Array<string>|null} The list of permitted accounts
    */
-  _getPermittedAccounts (origin) {
+  _getPermittedAccounts(origin) {
     if (!this.hasPermission(origin, 'eth_accounts')) {
-      return null
+      return null;
     }
-    const caveat = this.permissions.getCaveat(origin, 'eth_accounts', CAVEAT_TYPES.restrictReturnedAccounts)
-    return caveat?.value ? [...caveat.value] : null
+    const caveat = this.permissions.getCaveat(
+      origin,
+      'eth_accounts',
+      CAVEAT_TYPES.restrictReturnedAccounts,
+    );
+    return caveat?.value ? [...caveat.value] : null;
   }
 
   /**
-   * @returns {Object} The origins with permissions, by origin.
+   * Gets the permission subjects.
+   *
+   * @returns {object} The origins with permissions, by origin.
    */
-  _getSubjects () {
-    return this.permissions.state.subjects || {}
+  _getSubjects() {
+    return this.permissions.state.subjects || {};
   }
 
   /**
@@ -551,21 +596,20 @@ export class PermissionsController {
    *
    * @param {string} account - The newly selected account's address.
    */
-  async _handleAccountSelected (account) {
-
+  async _handleAccountSelected(account) {
     if (typeof account !== 'string') {
-      throw new Error('Selected account should be a non-empty string.')
+      throw new Error('Selected account should be a non-empty string.');
     }
 
-    const connectedDomains = Object.keys(this._getSubjects())
-      .filter((origin) => this._getPermittedAccounts(origin)?.includes(account))
+    const connectedDomains = Object.keys(this._getSubjects()).filter((origin) =>
+      this._getPermittedAccounts(origin)?.includes(account),
+    );
 
     await Promise.all(
-      connectedDomains
-        .map(
-          (origin) => this._handleConnectedAccountSelected(origin),
-        ),
-    )
+      connectedDomains.map((origin) =>
+        this._handleConnectedAccountSelected(origin),
+      ),
+    );
   }
 
   /**
@@ -576,14 +620,13 @@ export class PermissionsController {
    *
    * @param {string} origin - The origin
    */
-  async _handleConnectedAccountSelected (origin) {
-    const permittedAccounts = await this.getAccounts(origin)
+  async _handleConnectedAccountSelected(origin) {
+    const permittedAccounts = await this.getAccounts(origin);
 
-    this.notifyAccountsChanged(origin, permittedAccounts)
+    this.notifyAccountsChanged(origin, permittedAccounts);
   }
-
 }
 
-export function addInternalMethodPrefix (method) {
-  return WALLET_PREFIX + method
+export function addInternalMethodPrefix(method) {
+  return WALLET_PREFIX + method;
 }

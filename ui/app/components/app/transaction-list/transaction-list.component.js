@@ -1,111 +1,141 @@
-import React, { useMemo, useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types';
+import React, { useMemo, useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+
+import { TOKEN_CATEGORY_HASH } from '../../../helpers/constants/transactions';
+import { useI18nContext } from '../../../hooks/useI18nContext';
 import {
   nonceSortedCompletedTransactionsSelector,
   nonceSortedPendingTransactionsSelector,
-} from '../../../selectors/transactions'
-import { useI18nContext } from '../../../hooks/useI18nContext'
-import TransactionListItem from '../transaction-list-item'
-import Button from '../../ui/button'
-import { TOKEN_CATEGORY_HASH } from '../../../helpers/constants/transactions'
+} from '../../../selectors/transactions';
+import Button from '../../ui/button';
+import TransactionListItem from '../transaction-list-item';
 
-const PAGE_INCREMENT = 10
+const PAGE_INCREMENT = 10;
 
 const getTransactionGroupRecipientAddressFilter = (recipientAddress) => {
-  return ({ initialTransaction: { txParams } }) => txParams && txParams.to === recipientAddress
-}
+  return ({ initialTransaction: { txParams } }) =>
+    txParams && txParams.to === recipientAddress;
+};
 
 const tokenTransactionFilter = ({
-  initialTransaction: {
-    transactionCategory,
-  },
-}) => !TOKEN_CATEGORY_HASH[transactionCategory]
+  initialTransaction: { transactionCategory },
+}) => !TOKEN_CATEGORY_HASH[transactionCategory];
 
-const getFilteredTransactionGroups = (transactionGroups, hideTokenTransactions, tokenAddress) => {
+const getFilteredTransactionGroups = (
+  transactionGroups,
+  hideTokenTransactions,
+  tokenAddress,
+) => {
   if (hideTokenTransactions) {
-    return transactionGroups.filter(tokenTransactionFilter)
+    return transactionGroups.filter(tokenTransactionFilter);
   } else if (tokenAddress) {
-    return transactionGroups.filter(getTransactionGroupRecipientAddressFilter(tokenAddress))
+    return transactionGroups.filter(
+      getTransactionGroupRecipientAddressFilter(tokenAddress),
+    );
   }
-  return transactionGroups
-}
+  return transactionGroups;
+};
 
-export default function TransactionList ({ hideTokenTransactions, tokenAddress }) {
-  const [limit, setLimit] = useState(PAGE_INCREMENT)
-  const t = useI18nContext()
+export default function TransactionList({
+  hideTokenTransactions,
+  tokenAddress,
+}) {
+  const [limit, setLimit] = useState(PAGE_INCREMENT);
+  const t = useI18nContext();
 
-  const unfilteredPendingTransactions = useSelector(nonceSortedPendingTransactionsSelector)
-  const unfilteredCompletedTransactions = useSelector(nonceSortedCompletedTransactionsSelector)
+  const unfilteredPendingTransactions = useSelector(
+    nonceSortedPendingTransactionsSelector,
+  );
+  const unfilteredCompletedTransactions = useSelector(
+    nonceSortedCompletedTransactionsSelector,
+  );
 
   const pendingTransactions = useMemo(
-    () => getFilteredTransactionGroups(unfilteredPendingTransactions, hideTokenTransactions, tokenAddress),
+    () =>
+      getFilteredTransactionGroups(
+        unfilteredPendingTransactions,
+        hideTokenTransactions,
+        tokenAddress,
+      ),
     [hideTokenTransactions, tokenAddress, unfilteredPendingTransactions],
-  )
+  );
   const completedTransactions = useMemo(
-    () => getFilteredTransactionGroups(unfilteredCompletedTransactions, hideTokenTransactions, tokenAddress),
+    () =>
+      getFilteredTransactionGroups(
+        unfilteredCompletedTransactions,
+        hideTokenTransactions,
+        tokenAddress,
+      ),
     [hideTokenTransactions, tokenAddress, unfilteredCompletedTransactions],
-  )
+  );
 
-  const viewMore = useCallback(() => setLimit((prev) => prev + PAGE_INCREMENT), [])
+  const viewMore = useCallback(
+    () => setLimit((prev) => prev + PAGE_INCREMENT),
+    [],
+  );
 
-  const pendingLength = pendingTransactions.length
+  const pendingLength = pendingTransactions.length;
 
   return (
     <div className="transaction-list">
       <div className="transaction-list__transactions">
-        {
-          pendingLength > 0 && (
-            <div className="transaction-list__pending-transactions">
-              <div className="transaction-list__header">
-                { `${t('queue')} (${pendingTransactions.length})` }
-              </div>
-              {
-                pendingTransactions.map((transactionGroup, index) => (
-                  <TransactionListItem isEarliestNonce={index === 0} transactionGroup={transactionGroup} key={`${transactionGroup.nonce}:${index}`} />
-                ))
-              }
+        {pendingLength > 0 && (
+          <div className="transaction-list__pending-transactions">
+            <div className="transaction-list__header">
+              {`${t('queue')} (${pendingTransactions.length})`}
             </div>
-          )
-        }
+            {pendingTransactions.map((transactionGroup, index) => (
+              <TransactionListItem
+                isEarliestNonce={index === 0}
+                transactionGroup={transactionGroup}
+                key={`${transactionGroup.nonce}:${index}`}
+              />
+            ))}
+          </div>
+        )}
         <div className="transaction-list__completed-transactions">
-          {
-            pendingLength > 0
-              ? (
-                <div className="transaction-list__header">
-                  { t('history') }
-                </div>
-              )
-              : null
-          }
-          {
-            completedTransactions.length > 0
-              ? completedTransactions.slice(0, limit).map((transactionGroup, index) => (
-                <TransactionListItem transactionGroup={transactionGroup} key={`${transactionGroup.nonce}:${limit + index - 10}`} />
+          {pendingLength > 0 ? (
+            <div className="transaction-list__header">{t('history')}</div>
+          ) : null}
+          {completedTransactions.length > 0 ? (
+            completedTransactions
+              .slice(0, limit)
+              .map((transactionGroup, index) => (
+                <TransactionListItem
+                  transactionGroup={transactionGroup}
+                  key={`${transactionGroup.nonce}:${limit + index - 10}`}
+                />
               ))
-              : (
-                <div className="transaction-list__empty">
-                  <div className="transaction-list__empty-text">
-                    { t('noTransactions') }
-                  </div>
-                </div>
-              )
-          }
+          ) : (
+            <div className="transaction-list__empty">
+              <div className="transaction-list__empty-text">
+                {t('noTransactions')}
+              </div>
+            </div>
+          )}
           {completedTransactions.length > limit && (
-            <Button className="transaction-list__view-more" type="secondary" rounded onClick={viewMore}>View More</Button>
+            <Button
+              className="transaction-list__view-more"
+              type="secondary"
+              rounded
+              onClick={viewMore}
+            >
+              View More
+            </Button>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 TransactionList.propTypes = {
   hideTokenTransactions: PropTypes.bool,
   tokenAddress: PropTypes.string,
-}
+};
 
 TransactionList.defaultProps = {
   hideTokenTransactions: false,
   tokenAddress: undefined,
-}
+};

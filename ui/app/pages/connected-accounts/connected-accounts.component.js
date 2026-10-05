@@ -1,18 +1,19 @@
-import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
-import Popover from '../../components/ui/popover'
-import ConnectedAccountsList from '../../components/app/connected-accounts-list'
-import ConnectedAccountsPermissions from '../../components/app/connected-accounts-permissions'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import ConnectedAccountsList from '../../components/app/connected-accounts-list';
+import ConnectedAccountsPermissions from '../../components/app/connected-accounts-permissions';
+import Popover from '../../components/ui/popover';
 
 export default class ConnectedAccounts extends PureComponent {
   static contextTypes = {
     t: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     accountToConnect: null,
     permissions: undefined,
-  }
+  };
 
   static propTypes = {
     accountToConnect: PropTypes.object,
@@ -26,9 +27,9 @@ export default class ConnectedAccounts extends PureComponent {
     removePermittedAccount: PropTypes.func.isRequired,
     setSelectedAddress: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
-  }
+  };
 
-  render () {
+  render() {
     const {
       accountToConnect,
       activeTabOrigin,
@@ -41,17 +42,26 @@ export default class ConnectedAccounts extends PureComponent {
       selectedAddress,
       removePermittedAccount,
       setSelectedAddress,
-    } = this.props
-    const { t } = this.context
+    } = this.props;
+    const { t } = this.context;
 
-    const connectedAccountsDescription = connectedAccounts.length > 1
-      ? t('connectedAccountsDescriptionPlural', [connectedAccounts.length])
-      : t('connectedAccountsDescriptionSingular')
+    const connectedAccountsDescription =
+      connectedAccounts.length > 1
+        ? t('connectedAccountsDescriptionPlural', [connectedAccounts.length])
+        : t('connectedAccountsDescriptionSingular');
 
     return (
       <Popover
-        title={isActiveTabExtension ? t('currentExtension') : new URL(activeTabOrigin).host}
-        subtitle={connectedAccounts.length ? connectedAccountsDescription : t('connectedAccountsEmptyDescription')}
+        title={
+          isActiveTabExtension
+            ? t('currentExtension')
+            : new URL(activeTabOrigin).host
+        }
+        subtitle={
+          connectedAccounts.length
+            ? connectedAccountsDescription
+            : t('connectedAccountsEmptyDescription')
+        }
         onClose={() => navigate(mostRecentOverviewPage)}
         footerClassName="connected-accounts__footer"
         footer={<ConnectedAccountsPermissions permissions={permissions} />}
@@ -66,6 +76,6 @@ export default class ConnectedAccounts extends PureComponent {
           shouldRenderListOptions
         />
       </Popover>
-    )
+    );
   }
 }

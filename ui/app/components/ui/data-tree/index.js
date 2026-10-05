@@ -1,1 +1,1 @@
-export { default } from './data-tree.component'
+export { default } from './data-tree.component';

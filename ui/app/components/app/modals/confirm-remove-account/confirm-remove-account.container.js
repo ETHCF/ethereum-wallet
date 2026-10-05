@@ -1,22 +1,23 @@
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withModalProps from '../../../../helpers/higher-order-components/with-modal-props'
-import { removeAccount } from '../../../../store/actions'
-import ConfirmRemoveAccount from './confirm-remove-account.component'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import ConfirmRemoveAccount from './confirm-remove-account.component';
+import withModalProps from '../../../../helpers/higher-order-components/with-modal-props';
+import { removeAccount } from '../../../../store/actions';
 
 const mapStateToProps = (state) => {
   return {
     network: state.ecfWallet.network,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     removeAccount: (address) => dispatch(removeAccount(address)),
-  }
-}
+  };
+};
 
 export default compose(
   withModalProps,
   connect(mapStateToProps, mapDispatchToProps),
-)(ConfirmRemoveAccount)
+)(ConfirmRemoveAccount);

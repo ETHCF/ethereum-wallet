@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import FeeMarketInputs from '../../../../pages/confirm-transaction-base/fee-market-inputs'
-import PageContainer from '../../../ui/page-container'
-import { Tabs, Tab } from '../../../ui/tabs'
-import AdvancedTabContent from './advanced-tab-content'
-import BasicTabContent from './basic-tab-content'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import AdvancedTabContent from './advanced-tab-content';
+import BasicTabContent from './basic-tab-content';
+import FeeMarketInputs from '../../../../pages/confirm-transaction-base/fee-market-inputs';
+import PageContainer from '../../../ui/page-container';
+import { Tabs, Tab } from '../../../ui/tabs';
 
 export default class GasModalPageContainer extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     hideBasic: PropTypes.bool,
@@ -34,25 +35,23 @@ export default class GasModalPageContainer extends Component {
     isSpeedUp: PropTypes.bool,
     isRetry: PropTypes.bool,
     disableSave: PropTypes.bool,
-  }
+  };
 
-  state = {}
+  state = {};
 
-  componentDidMount () {
+  componentDidMount() {
     if (!this.props.feeMarketParams) {
-      this.props.fetchBasicGasEstimates()
+      this.props.fetchBasicGasEstimates();
     }
   }
 
-  renderBasicTabContent (gasPriceButtonGroupProps) {
+  renderBasicTabContent(gasPriceButtonGroupProps) {
     return (
-      <BasicTabContent
-        gasPriceButtonGroupProps={gasPriceButtonGroupProps}
-      />
-    )
+      <BasicTabContent gasPriceButtonGroupProps={gasPriceButtonGroupProps} />
+    );
   }
 
-  renderAdvancedTabContent () {
+  renderAdvancedTabContent() {
     const {
       updateCustomGasPrice,
       updateCustomGasLimit,
@@ -62,10 +61,8 @@ export default class GasModalPageContainer extends Component {
       customPriceIsSafe,
       isSpeedUp,
       isRetry,
-      infoRowProps: {
-        transactionFee,
-      },
-    } = this.props
+      infoRowProps: { transactionFee },
+    } = this.props;
 
     return (
       <AdvancedTabContent
@@ -79,32 +76,49 @@ export default class GasModalPageContainer extends Component {
         isSpeedUp={isSpeedUp}
         isRetry={isRetry}
       />
-    )
+    );
   }
 
-  renderInfoRows (newTotalEth, sendAmount, transactionFee) {
+  renderInfoRows(newTotalEth, sendAmount, transactionFee) {
     return (
       <div className="gas-modal-content__info-row-wrapper">
         <div className="gas-modal-content__info-row">
           <div className="gas-modal-content__info-row__send-info">
-            <span className="gas-modal-content__info-row__send-info__label">{this.context.t('sendAmount')}</span>
-            <span className="gas-modal-content__info-row__send-info__value">{sendAmount}</span>
+            <span className="gas-modal-content__info-row__send-info__label">
+              {this.context.t('sendAmount')}
+            </span>
+            <span className="gas-modal-content__info-row__send-info__value">
+              {sendAmount}
+            </span>
           </div>
           <div className="gas-modal-content__info-row__transaction-info">
-            <span className="gas-modal-content__info-row__transaction-info__label">{this.context.t('transactionFee')}</span>
-            <span className="gas-modal-content__info-row__transaction-info__value">{transactionFee}</span>
+            <span className="gas-modal-content__info-row__transaction-info__label">
+              {this.context.t('transactionFee')}
+            </span>
+            <span className="gas-modal-content__info-row__transaction-info__value">
+              {transactionFee}
+            </span>
           </div>
           <div className="gas-modal-content__info-row__total-info">
-            <span className="gas-modal-content__info-row__total-info__label">{this.context.t('newTotal')}</span>
-            <span className="gas-modal-content__info-row__total-info__value">{newTotalEth}</span>
+            <span className="gas-modal-content__info-row__total-info__label">
+              {this.context.t('newTotal')}
+            </span>
+            <span className="gas-modal-content__info-row__total-info__value">
+              {newTotalEth}
+            </span>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  renderTabs () {
-    const { feeMarketParams, minimumMaxFeePerGas, updateCustomGasPrice, updateCustomGasLimit } = this.props
+  renderTabs() {
+    const {
+      feeMarketParams,
+      minimumMaxFeePerGas,
+      updateCustomGasPrice,
+      updateCustomGasLimit,
+    } = this.props;
     if (feeMarketParams) {
       return (
         <div className="gas-modal-content">
@@ -113,25 +127,27 @@ export default class GasModalPageContainer extends Component {
             minimumMaxFeePerGas={minimumMaxFeePerGas}
             priorityReadOnly
             onChange={({ maxFeePerGas, gasLimit }) => {
-              updateCustomGasPrice(maxFeePerGas)
-              updateCustomGasLimit(gasLimit)
+              updateCustomGasPrice(maxFeePerGas);
+              updateCustomGasLimit(gasLimit);
             }}
-            onValidityChange={(valid) => this.setState({ feeInputInvalid: !valid })}
+            onValidityChange={(valid) =>
+              this.setState({ feeInputInvalid: !valid })
+            }
           />
-          {(this.props.isSpeedUp || this.props.isRetry) && <p>The priority fee is increased automatically for this replacement.</p>}
+          {(this.props.isSpeedUp || this.props.isRetry) && (
+            <p>
+              The priority fee is increased automatically for this replacement.
+            </p>
+          )}
         </div>
-      )
+      );
     }
 
     const {
       gasPriceButtonGroupProps,
       hideBasic,
-      infoRowProps: {
-        newTotalEth,
-        sendAmount,
-        transactionFee,
-      },
-    } = this.props
+      infoRowProps: { newTotalEth, sendAmount, transactionFee },
+    } = this.props;
 
     let tabsToRender = [
       {
@@ -142,10 +158,10 @@ export default class GasModalPageContainer extends Component {
         name: this.context.t('advanced'),
         content: this.renderAdvancedTabContent(),
       },
-    ]
+    ];
 
     if (hideBasic) {
-      tabsToRender = tabsToRender.slice(1)
+      tabsToRender = tabsToRender.slice(1);
     }
 
     return (
@@ -153,23 +169,23 @@ export default class GasModalPageContainer extends Component {
         {tabsToRender.map(({ name, content }, i) => (
           <Tab name={name} key={`gas-modal-tab-${i}`}>
             <div className="gas-modal-content">
-              { content }
-              { this.renderInfoRows(newTotalEth, sendAmount, transactionFee) }
+              {content}
+              {this.renderInfoRows(newTotalEth, sendAmount, transactionFee)}
             </div>
           </Tab>
         ))}
       </Tabs>
-    )
+    );
   }
 
-  render () {
+  render() {
     const {
       cancelAndClose,
       onSubmit,
       customModalGasPriceInHex,
       customModalGasLimitInHex,
       disableSave,
-    } = this.props
+    } = this.props;
 
     return (
       <div className="gas-modal-page-container">
@@ -181,13 +197,13 @@ export default class GasModalPageContainer extends Component {
           onCancel={() => cancelAndClose()}
           onClose={() => cancelAndClose()}
           onSubmit={() => {
-            onSubmit(customModalGasLimitInHex, customModalGasPriceInHex)
+            onSubmit(customModalGasLimitInHex, customModalGasPriceInHex);
           }}
           submitText={this.context.t('save')}
           headerCloseText={this.context.t('close')}
           hideCancel
         />
       </div>
-    )
+    );
   }
 }

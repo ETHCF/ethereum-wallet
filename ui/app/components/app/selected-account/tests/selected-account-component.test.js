@@ -1,17 +1,25 @@
-import assert from 'assert'
-import React from 'react'
-import { render } from 'enzyme'
-import SelectedAccount from '../selected-account.component'
+import assert from 'assert';
+import { render } from 'enzyme';
+import React from 'react';
+
+import SelectedAccount from '../selected-account.component';
 
 describe('SelectedAccount Component', function () {
   it('should render checksummed address', function () {
-    const wrapper = render((
+    const wrapper = render(
       <SelectedAccount
-        selectedIdentity={{ name: 'testName', address: '0x1b82543566f41a7db9a9a75fc933c340ffb55c9d' }}
-      />
-    ), { context: { t: () => undefined } })
+        selectedIdentity={{
+          name: 'testName',
+          address: '0x1b82543566f41a7db9a9a75fc933c340ffb55c9d',
+        }}
+      />,
+      { context: { t: () => undefined } },
+    );
     // Checksummed version of address is displayed
-    assert.equal(wrapper.find('.selected-account__address').text(), '0x1B82543566F41A7dB9a9a75fC933C340FFb55C9D')
-    assert.equal(wrapper.find('.selected-account__name').text(), 'testName')
-  })
-})
+    assert.equal(
+      wrapper.find('.selected-account__address').text(),
+      '0x1B82543566F41A7dB9a9a75fC933C340FFb55C9D',
+    );
+    assert.equal(wrapper.find('.selected-account__name').text(), 'testName');
+  });
+});

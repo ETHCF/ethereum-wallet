@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import AdvancedGasInputs from '../../advanced-gas-inputs'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import AdvancedGasInputs from '../../advanced-gas-inputs';
 
 export default class AdvancedTabContent extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     updateCustomGasPrice: PropTypes.func,
@@ -16,13 +17,13 @@ export default class AdvancedTabContent extends Component {
     insufficientBalance: PropTypes.bool,
     customPriceIsSafe: PropTypes.bool,
     isSpeedUp: PropTypes.bool,
-  }
+  };
 
-  renderDataSummary (transactionFee) {
+  renderDataSummary(transactionFee) {
     return (
       <div className="advanced-tab__transaction-data-summary">
         <div className="advanced-tab__transaction-data-summary__titles">
-          <span>{ this.context.t('newTransactionFee') }</span>
+          <span>{this.context.t('newTransactionFee')}</span>
         </div>
         <div className="advanced-tab__transaction-data-summary__container">
           <div className="advanced-tab__transaction-data-summary__fee">
@@ -30,10 +31,10 @@ export default class AdvancedTabContent extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
+  render() {
     const {
       updateCustomGasPrice,
       updateCustomGasLimit,
@@ -43,11 +44,11 @@ export default class AdvancedTabContent extends Component {
       customPriceIsSafe,
       isSpeedUp,
       transactionFee,
-    } = this.props
+    } = this.props;
 
     return (
       <div className="advanced-tab">
-        { this.renderDataSummary(transactionFee) }
+        {this.renderDataSummary(transactionFee)}
         <div className="advanced-tab__gas-section">
           <div className="advanced-tab__gas-inputs">
             <AdvancedGasInputs
@@ -62,6 +63,6 @@ export default class AdvancedTabContent extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

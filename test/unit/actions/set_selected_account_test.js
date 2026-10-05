@@ -1,7 +1,8 @@
-import assert from 'assert'
-import freeze from 'deep-freeze-strict'
-import reducers from '../../../ui/app/ducks'
-import * as actionConstants from '../../../ui/app/store/actionConstants'
+import assert from 'assert';
+import freeze from 'deep-freeze-strict';
+
+import reducers from '../../../ui/app/ducks';
+import * as actionConstants from '../../../ui/app/store/actionConstants';
 
 describe('SHOW_ACCOUNT_DETAIL', function () {
   it('updates ecf-wallet state', function () {
@@ -9,16 +10,16 @@ describe('SHOW_ACCOUNT_DETAIL', function () {
       ecfWallet: {
         selectedAddress: 'foo',
       },
-    }
-    freeze(initialState)
+    };
+    freeze(initialState);
 
     const action = {
       type: actionConstants.SHOW_ACCOUNT_DETAIL,
       value: 'bar',
-    }
-    freeze(action)
+    };
+    freeze(action);
 
-    const resultingState = reducers(initialState, action)
-    assert.equal(resultingState.ecfWallet.selectedAddress, action.value)
-  })
-})
+    const resultingState = reducers(initialState, action);
+    assert.equal(resultingState.ecfWallet.selectedAddress, action.value);
+  });
+});

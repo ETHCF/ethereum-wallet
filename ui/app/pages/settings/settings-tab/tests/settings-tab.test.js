@@ -1,8 +1,9 @@
-import assert from 'assert'
-import React from 'react'
-import sinon from 'sinon'
-import { mount } from 'enzyme'
-import SettingsTab from '..'
+import assert from 'assert';
+import { mount } from 'enzyme';
+import React from 'react';
+import sinon from 'sinon';
+
+import SettingsTab from '..';
 
 describe('Settings Tab', function () {
   const props = {
@@ -10,19 +11,17 @@ describe('Settings Tab', function () {
     updateCurrentLocale: sinon.spy(),
     warning: '',
     currentLocale: 'en',
-  }
+  };
 
   it('selects locale', async function () {
-    const wrapper = mount(
-      <SettingsTab.WrappedComponent {...props} />, {
-        context: {
-          t: (str) => str,
-        },
+    const wrapper = mount(<SettingsTab.WrappedComponent {...props} />, {
+      context: {
+        t: (str) => str,
       },
-    )
-    const selectLocale = wrapper.find({ placeholder: 'selectLocale' })
+    });
+    const selectLocale = wrapper.find({ placeholder: 'selectLocale' });
 
-    await selectLocale.props().onSelect('ja')
-    assert(props.updateCurrentLocale.calledOnce)
-  })
-})
+    await selectLocale.props().onSelect('ja');
+    assert(props.updateCurrentLocale.calledOnce);
+  });
+});

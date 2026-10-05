@@ -1,58 +1,60 @@
 // Extension installation is a browser-level CDP command; ChromeDriver's CDP
 // endpoint sends commands to a page target instead.
-module.exports = async function connectBrowser (driver) {
-  const capabilities = await driver.getCapabilities()
-  const address = capabilities.get('goog:chromeOptions').debuggerAddress
-  const { webSocketDebuggerUrl } = await global.fetch(`http://${address}/json/version`).then((response) => response.json())
-  const socket = new global.WebSocket(webSocketDebuggerUrl)
+module.exports = async function connectBrowser(driver) {
+  const capabilities = await driver.getCapabilities();
+  const address = capabilities.get('goog:chromeOptions').debuggerAddress;
+  const { webSocketDebuggerUrl } = await global
+    .fetch(`http://${address}/json/version`)
+    .then((response) => response.json());
+  const socket = new global.WebSocket(webSocketDebuggerUrl);
   await new Promise((resolve, reject) => {
-    socket.addEventListener('open', resolve, { once: true })
-    socket.addEventListener('error', reject, { once: true })
-  })
-  let nextId = 0
-  const pending = new Map()
-  const listeners = new Set()
+    socket.addEventListener('open', resolve, { once: true });
+    socket.addEventListener('error', reject, { once: true });
+  });
+  let nextId = 0;
+  const pending = new Map();
+  const listeners = new Set();
   socket.addEventListener('message', ({ data }) => {
-    const message = JSON.parse(data)
+    const message = JSON.parse(data);
     if (message.method) {
-      listeners.forEach((listener) => listener(message))
+      listeners.forEach((listener) => listener(message));
     }
-    const request = pending.get(message.id)
+    const request = pending.get(message.id);
     if (request) {
-      pending.delete(message.id)
-      clearTimeout(request.timer)
+      pending.delete(message.id);
+      clearTimeout(request.timer);
       if (message.error) {
-        request.reject(new Error(message.error.message))
+        request.reject(new Error(message.error.message));
       } else {
-        request.resolve(message.result)
+        request.resolve(message.result);
       }
     }
-  })
+  });
   return {
-    onEvent (listener) {
-      listeners.add(listener)
-      return () => listeners.delete(listener)
+    onEvent(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
     },
-    send (method, params = {}, sessionId) {
+    send(method, params = {}, sessionId) {
       return new Promise((resolve, reject) => {
-        nextId += 1
-        const id = nextId
+        nextId += 1;
+        const id = nextId;
         const timer = setTimeout(() => {
-          pending.delete(id)
-          reject(new Error(`CDP request timed out: ${method}`))
-        }, 10000)
-        pending.set(id, { resolve, reject, timer })
-        socket.send(JSON.stringify({ id, method, params, sessionId }))
-      })
+          pending.delete(id);
+          reject(new Error(`CDP request timed out: ${method}`));
+        }, 10000);
+        pending.set(id, { resolve, reject, timer });
+        socket.send(JSON.stringify({ id, method, params, sessionId }));
+      });
     },
-    close () {
+    close() {
       for (const request of pending.values()) {
-        clearTimeout(request.timer)
-        request.reject(new Error('CDP connection closed'))
+        clearTimeout(request.timer);
+        request.reject(new Error('CDP connection closed'));
       }
-      pending.clear()
-      listeners.clear()
-      socket.close()
+      pending.clear();
+      listeners.clear();
+      socket.close();
     },
-  }
-}
+  };
+};

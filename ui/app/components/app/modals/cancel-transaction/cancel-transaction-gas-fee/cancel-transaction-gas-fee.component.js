@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import UserPreferencedCurrencyDisplay from '../../../user-preferenced-currency-display'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import UserPreferencedCurrencyDisplay from '../../../user-preferenced-currency-display';
 
 export default class CancelTransaction extends PureComponent {
   static propTypes = {
     value: PropTypes.string,
-  }
+  };
 
-  render () {
-    const { value } = this.props
+  render() {
+    const { value } = this.props;
 
     return (
       <div className="cancel-transaction-gas-fee">
@@ -17,6 +18,6 @@ export default class CancelTransaction extends PureComponent {
           value={value}
         />
       </div>
-    )
+    );
   }
 }

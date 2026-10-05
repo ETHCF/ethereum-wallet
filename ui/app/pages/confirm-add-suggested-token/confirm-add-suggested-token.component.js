@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../components/ui/button'
-import Identicon from '../../components/ui/identicon'
-import TokenBalance from '../../components/ui/token-balance'
-import { getEnvironmentType } from '../../../../app/scripts/lib/util'
-import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums';
+import { getEnvironmentType } from '../../../../app/scripts/lib/util';
+import Button from '../../components/ui/button';
+import Identicon from '../../components/ui/identicon';
+import TokenBalance from '../../components/ui/token-balance';
 
 export default class ConfirmAddSuggestedToken extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     navigate: PropTypes.func,
@@ -18,106 +19,102 @@ export default class ConfirmAddSuggestedToken extends Component {
     pendingTokens: PropTypes.object,
     removeSuggestedTokens: PropTypes.func,
     tokens: PropTypes.array,
+  };
+
+  componentDidMount() {
+    this._checkPendingTokens();
   }
 
-  componentDidMount () {
-    this._checkPendingTokens()
+  componentDidUpdate() {
+    this._checkPendingTokens();
   }
 
-  componentDidUpdate () {
-    this._checkPendingTokens()
-  }
-
-  _checkPendingTokens () {
-    const { mostRecentOverviewPage, pendingTokens = {}, navigate } = this.props
+  _checkPendingTokens() {
+    const { mostRecentOverviewPage, pendingTokens = {}, navigate } = this.props;
 
     if (Object.keys(pendingTokens).length > 0) {
-      return
+      return;
     }
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      global.platform.closeCurrentWindow()
+      global.platform.closeCurrentWindow();
     } else {
-      navigate(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage);
     }
   }
 
-  getTokenName (name, symbol) {
-    return typeof name === 'undefined'
-      ? symbol
-      : `${name} (${symbol})`
+  getTokenName(name, symbol) {
+    return typeof name === 'undefined' ? symbol : `${name} (${symbol})`;
   }
 
-  render () {
-    const { addToken, pendingTokens, tokens, removeSuggestedTokens, navigate, mostRecentOverviewPage } = this.props
-    const pendingTokenKey = Object.keys(pendingTokens)[0]
-    const pendingToken = pendingTokens[pendingTokenKey]
-    const hasTokenDuplicates = this.checkTokenDuplicates(pendingTokens, tokens)
-    const reusesName = this.checkNameReuse(pendingTokens, tokens)
+  render() {
+    const {
+      addToken,
+      pendingTokens,
+      tokens,
+      removeSuggestedTokens,
+      navigate,
+      mostRecentOverviewPage,
+    } = this.props;
+    const pendingTokenKey = Object.keys(pendingTokens)[0];
+    const pendingToken = pendingTokens[pendingTokenKey];
+    const hasTokenDuplicates = this.checkTokenDuplicates(pendingTokens, tokens);
+    const reusesName = this.checkNameReuse(pendingTokens, tokens);
 
     return (
       <div className="page-container">
         <div className="page-container__header">
           <div className="page-container__title">
-            { this.context.t('addSuggestedTokens') }
+            {this.context.t('addSuggestedTokens')}
           </div>
           <div className="page-container__subtitle">
-            { this.context.t('likeToAddTokens') }
+            {this.context.t('likeToAddTokens')}
           </div>
-          { hasTokenDuplicates ?
-            (
-              <div className="warning">
-                { this.context.t('knownTokenWarning') }
-              </div>
-            ) : null
-          }
-          { reusesName ?
-            (
-              <div className="warning">
-                { this.context.t('reusedTokenNameWarning') }
-              </div>
-            ) : null
-          }
+          {hasTokenDuplicates ? (
+            <div className="warning">{this.context.t('knownTokenWarning')}</div>
+          ) : null}
+          {reusesName ? (
+            <div className="warning">
+              {this.context.t('reusedTokenNameWarning')}
+            </div>
+          ) : null}
         </div>
         <div className="page-container__content">
           <div className="confirm-add-token">
             <div className="confirm-add-token__header">
               <div className="confirm-add-token__token">
-                { this.context.t('token') }
+                {this.context.t('token')}
               </div>
               <div className="confirm-add-token__balance">
-                { this.context.t('balance') }
+                {this.context.t('balance')}
               </div>
             </div>
             <div className="confirm-add-token__token-list">
-              {
-                Object.entries(pendingTokens)
-                  .map(([address, token]) => {
-                    const { name, symbol, image } = token
+              {Object.entries(pendingTokens).map(([address, token]) => {
+                const { name, symbol, image } = token;
 
-                    return (
-                      <div
-                        className="confirm-add-token__token-list-item"
-                        key={address}
-                      >
-                        <div className="confirm-add-token__token confirm-add-token__data">
-                          <Identicon
-                            className="confirm-add-token__token-icon"
-                            diameter={48}
-                            address={address}
-                            image={image}
-                          />
-                          <div className="confirm-add-token__name">
-                            { this.getTokenName(name, symbol) }
-                          </div>
-                        </div>
-                        <div className="confirm-add-token__balance">
-                          <TokenBalance token={token} />
-                        </div>
+                return (
+                  <div
+                    className="confirm-add-token__token-list-item"
+                    key={address}
+                  >
+                    <div className="confirm-add-token__token confirm-add-token__data">
+                      <Identicon
+                        className="confirm-add-token__token-icon"
+                        diameter={48}
+                        address={address}
+                        image={image}
+                      />
+                      <div className="confirm-add-token__name">
+                        {this.getTokenName(name, symbol)}
                       </div>
-                    )
-                  })
-              }
+                    </div>
+                    <div className="confirm-add-token__balance">
+                      <TokenBalance token={token} />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -127,40 +124,41 @@ export default class ConfirmAddSuggestedToken extends Component {
               type="default"
               large
               className="page-container__footer-button"
-              onClick={() => {
-                removeSuggestedTokens()
-                  .then(() => navigate(mostRecentOverviewPage))
-              }}
+              onClick={() =>
+                removeSuggestedTokens().then(() =>
+                  navigate(mostRecentOverviewPage),
+                )
+              }
             >
-              { this.context.t('cancel') }
+              {this.context.t('cancel')}
             </Button>
             <Button
               type="secondary"
               large
               className="page-container__footer-button"
               disabled={pendingTokens.length === 0}
-              onClick={() => {
+              onClick={() =>
                 addToken(pendingToken)
                   .then(() => removeSuggestedTokens())
                   .then(() => navigate(mostRecentOverviewPage))
-              }}
+              }
             >
-              { this.context.t('addToken') }
+              {this.context.t('addToken')}
             </Button>
           </footer>
         </div>
       </div>
-    )
+    );
   }
 
-  checkTokenDuplicates (pendingTokens, tokens) {
-    const pending = Object.keys(pendingTokens)
-    const existing = tokens.map((token) => token.address)
+  checkTokenDuplicates(pendingTokens, tokens) {
+    const pending = Object.keys(pendingTokens);
+    const existing = tokens.map((token) => token.address);
     const dupes = pending.filter((proposed) => {
-      return existing.includes(proposed)
-    })
+      return existing.includes(proposed);
+    });
 
-    return dupes.length > 0
+    return dupes.length > 0;
   }
 
   /**
@@ -168,16 +166,20 @@ export default class ConfirmAddSuggestedToken extends Component {
    * - Share a symbol with an existing `tokens` member.
    * - Does not share an address with that same `tokens` member.
    * This should be flagged as possibly deceptive or confusing.
+   *
+   * @param {object} pendingTokens - The suggested tokens, by address.
+   * @param {Array<object>} tokens - The tokens already added.
+   * @returns {boolean} Whether a suggested token reuses an existing symbol.
    */
-  checkNameReuse (pendingTokens, tokens) {
+  checkNameReuse(pendingTokens, tokens) {
     const duplicates = Object.keys(pendingTokens)
       .map((addr) => pendingTokens[addr])
       .filter((token) => {
-        const dupes = tokens.filter((old) => old.symbol === token.symbol)
-          .filter((old) => old.address !== token.address)
-        return dupes.length > 0
-      })
-    return duplicates.length > 0
+        const dupes = tokens
+          .filter((old) => old.symbol === token.symbol)
+          .filter((old) => old.address !== token.address);
+        return dupes.length > 0;
+      });
+    return duplicates.length > 0;
   }
-
 }

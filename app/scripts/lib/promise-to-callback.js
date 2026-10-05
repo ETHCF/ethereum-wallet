@@ -6,11 +6,12 @@
  * @param {Promise} promise - The promise to wait for
  * @returns {Function} Takes the callback, called with (error) or (null, value)
  */
-export default function promiseToCallback (promise) {
+export default function promiseToCallback(promise) {
   return (callback) => {
+    // eslint-disable-next-line promise/catch-or-return -- the rejection handler is the second argument to then()
     promise.then(
       (value) => setTimeout(callback, 0, null, value),
       (error) => setTimeout(callback, 0, error),
-    )
-  }
+    );
+  };
 }

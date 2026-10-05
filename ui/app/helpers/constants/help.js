@@ -1,4 +1,4 @@
-import { HELP_ROUTE } from './routes'
+import { HELP_ROUTE } from './routes';
 
 // Each topic is a title and its paragraphs, as locale message keys.
 export const HELP_TOPICS = {
@@ -40,7 +40,7 @@ export const HELP_TOPICS = {
       'helpSafetyTips6',
     ],
   },
-}
+};
 
 /**
  * A link to a help topic in the full-screen view. Every extension page sits next
@@ -49,6 +49,6 @@ export const HELP_TOPICS = {
  * @param {string} topic - A key of HELP_TOPICS
  * @returns {string} The URL
  */
-export function getHelpUrl (topic) {
-  return `home.html#${HELP_ROUTE}/${topic}`
+export function getHelpUrl(topic) {
+  return `home.html#${HELP_ROUTE}/${topic}`;
 }

@@ -1,1 +1,1 @@
-export { default } from './with-router.component'
+export { default } from './with-router.component';

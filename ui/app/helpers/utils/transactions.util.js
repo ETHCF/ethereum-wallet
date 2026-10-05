@@ -1,14 +1,17 @@
-import * as ethUtil from '@ethereumjs/util'
-import { MethodRegistry } from 'eth-method-registry'
-import abi from 'human-standard-token-abi'
-import log from 'loglevel'
+import * as ethUtil from '@ethereumjs/util';
+import { MethodRegistry } from 'eth-method-registry';
+import abi from 'human-standard-token-abi';
+import log from 'loglevel';
+
+import { addCurrencies } from './conversion-util';
+import fetchWithCache from './fetch-with-cache';
 import {
   TRANSACTION_TYPE_CANCEL,
   TRANSACTION_STATUS_CONFIRMED,
-} from '../../../../app/scripts/controllers/transactions/enums'
-import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums'
-import { getTxExplorerUrl } from '../../../../app/scripts/lib/block-explorer'
-import createMethodDecoder from '../../../../app/scripts/lib/abi-method-decoder'
+} from '../../../../app/scripts/controllers/transactions/enums';
+import createMethodDecoder from '../../../../app/scripts/lib/abi-method-decoder';
+import { getTxExplorerUrl } from '../../../../app/scripts/lib/block-explorer';
+import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums';
 import {
   TOKEN_METHOD_TRANSFER,
   TOKEN_METHOD_APPROVE,
@@ -24,177 +27,192 @@ import {
   CONTRACT_INTERACTION_KEY,
   CANCEL_ATTEMPT_ACTION_KEY,
   DEPOSIT_TRANSACTION_KEY,
-} from '../constants/transactions'
-import fetchWithCache from './fetch-with-cache'
+} from '../constants/transactions';
 
-import { addCurrencies } from './conversion-util'
+const decodeTokenMethod = createMethodDecoder(abi);
 
-const decodeTokenMethod = createMethodDecoder(abi)
-
-export function getTokenData (data = '') {
-  return decodeTokenMethod(data)
+export function getTokenData(data = '') {
+  return decodeTokenMethod(data);
 }
 
-async function getMethodFrom4Byte (fourBytePrefix) {
-  const fourByteResponse = (await fetchWithCache(`https://www.4byte.directory/api/v1/signatures/?hex_signature=${fourBytePrefix}`, {
-    referrerPolicy: 'no-referrer-when-downgrade',
-    body: null,
-    method: 'GET',
-    mode: 'cors',
-  }))
+async function getMethodFrom4Byte(fourBytePrefix) {
+  const fourByteResponse = await fetchWithCache(
+    `https://www.4byte.directory/api/v1/signatures/?hex_signature=${fourBytePrefix}`,
+    {
+      referrerPolicy: 'no-referrer-when-downgrade',
+      body: null,
+      method: 'GET',
+      mode: 'cors',
+    },
+  );
 
   if (fourByteResponse.count === 1) {
-    return fourByteResponse.results[0].text_signature
+    return fourByteResponse.results[0].text_signature;
   }
-  return null
+  return null;
 }
-let registry
+let registry;
 
 /**
  * Attempts to return the method data from the MethodRegistry library, the message registry library and the token abi, in that order of preference
+ *
  * @param {string} fourBytePrefix - The prefix from the method code associated with the data
- * @returns {Object}
+ * @returns {object} The method's name and params, or an empty object if it
+ * could not be found
  */
-export async function getMethodDataAsync (fourBytePrefix) {
+export async function getMethodDataAsync(fourBytePrefix) {
   try {
     const fourByteSig = getMethodFrom4Byte(fourBytePrefix).catch((e) => {
-      log.error(e)
-      return null
-    })
+      log.error(e);
+      return null;
+    });
 
     if (!registry) {
-      registry = new MethodRegistry({ provider: global.ethereumProvider })
+      registry = new MethodRegistry({ provider: global.ethereumProvider });
     }
 
-    let sig = await registry.lookup(fourBytePrefix)
+    let sig = await registry.lookup(fourBytePrefix);
 
     if (!sig) {
-      sig = await fourByteSig
+      sig = await fourByteSig;
     }
 
     if (!sig) {
-      return {}
+      return {};
     }
 
-    const parsedResult = registry.parse(sig)
+    const parsedResult = registry.parse(sig);
 
     return {
       name: parsedResult.name,
       params: parsedResult.args,
-    }
+    };
   } catch (error) {
-    log.error(error)
-    return {}
+    log.error(error);
+    return {};
   }
 }
 
-export function isConfirmDeployContract (txData = {}) {
-  const { txParams = {} } = txData
-  return !txParams.to
+export function isConfirmDeployContract(txData = {}) {
+  const { txParams = {} } = txData;
+  return !txParams.to;
 }
 
 /**
-  * Given an transaction category, returns a boolean which indicates whether the transaction is calling an erc20 token method
-  *
-  * @param {string} transactionCategory - The category of transaction being evaluated
-  * @returns {boolean} - whether the transaction is calling an erc20 token method
-  */
-export function isTokenMethodAction (transactionCategory) {
+ * Given an transaction category, returns a boolean which indicates whether the transaction is calling an erc20 token method
+ *
+ * @param {string} transactionCategory - The category of transaction being evaluated
+ * @returns {boolean} whether the transaction is calling an erc20 token method
+ */
+export function isTokenMethodAction(transactionCategory) {
   return [
     TOKEN_METHOD_TRANSFER,
     TOKEN_METHOD_APPROVE,
     TOKEN_METHOD_TRANSFER_FROM,
-  ].includes(transactionCategory)
+  ].includes(transactionCategory);
 }
 
 /**
  * Returns the action of a transaction as a key to be passed into the translator.
- * @param {Object} transaction - txData object
- * @returns {string|undefined}
+ *
+ * @param {object} transaction - txData object
+ * @returns {string|undefined} The translation key for the action
  */
-export function getTransactionActionKey (transaction) {
-  const { msgParams, type, transactionCategory } = transaction
+export function getTransactionActionKey(transaction) {
+  const { msgParams, type, transactionCategory } = transaction;
 
   if (transactionCategory === 'incoming') {
-    return DEPOSIT_TRANSACTION_KEY
+    return DEPOSIT_TRANSACTION_KEY;
   }
 
   if (type === 'cancel') {
-    return CANCEL_ATTEMPT_ACTION_KEY
+    return CANCEL_ATTEMPT_ACTION_KEY;
   }
 
   if (msgParams) {
     if (type === MESSAGE_TYPE.ETH_DECRYPT) {
-      return DECRYPT_REQUEST_KEY
+      return DECRYPT_REQUEST_KEY;
     } else if (type === MESSAGE_TYPE.ETH_GET_ENCRYPTION_PUBLIC_KEY) {
-      return ENCRYPTION_PUBLIC_KEY_REQUEST_KEY
+      return ENCRYPTION_PUBLIC_KEY_REQUEST_KEY;
     }
-    return SIGNATURE_REQUEST_KEY
+    return SIGNATURE_REQUEST_KEY;
   }
 
   if (isConfirmDeployContract(transaction)) {
-    return DEPLOY_CONTRACT_ACTION_KEY
+    return DEPLOY_CONTRACT_ACTION_KEY;
   }
 
-  const isTokenAction = isTokenMethodAction(transactionCategory)
-  const isNonTokenSmartContract = transactionCategory === CONTRACT_INTERACTION_KEY
+  const isTokenAction = isTokenMethodAction(transactionCategory);
+  const isNonTokenSmartContract =
+    transactionCategory === CONTRACT_INTERACTION_KEY;
 
   if (isTokenAction || isNonTokenSmartContract) {
     switch (transactionCategory) {
       case TOKEN_METHOD_TRANSFER:
-        return SEND_TOKEN_ACTION_KEY
+        return SEND_TOKEN_ACTION_KEY;
       case TOKEN_METHOD_APPROVE:
-        return APPROVE_ACTION_KEY
+        return APPROVE_ACTION_KEY;
       case TOKEN_METHOD_TRANSFER_FROM:
-        return TRANSFER_FROM_ACTION_KEY
+        return TRANSFER_FROM_ACTION_KEY;
       case CONTRACT_INTERACTION_KEY:
-        return CONTRACT_INTERACTION_KEY
+        return CONTRACT_INTERACTION_KEY;
       default:
-        return undefined
+        return undefined;
     }
   } else {
-    return SEND_ETHER_ACTION_KEY
+    return SEND_ETHER_ACTION_KEY;
   }
 }
 
-export function sumHexes (...args) {
+export function sumHexes(...args) {
   const total = args.reduce((acc, base) => {
     return addCurrencies(acc, base, {
       toNumericBase: 'hex',
-    })
-  })
+    });
+  });
 
-  return ethUtil.addHexPrefix(total)
+  return ethUtil.addHexPrefix(total);
 }
 
 /**
  * Returns a status key for a transaction. Requires parsing the txMeta.txReceipt on top of
  * txMeta.status because txMeta.status does not reflect on-chain errors.
- * @param {Object} transaction - The txMeta object of a transaction.
- * @param {Object} transaction.txReceipt - The transaction receipt.
- * @returns {string}
+ *
+ * @param {object} transaction - The txMeta object of a transaction.
+ * @param {object} transaction.txReceipt - The transaction receipt.
+ * @returns {string} 'failed', 'cancelled', or the transaction's status
  */
-export function getStatusKey (transaction) {
-  const { txReceipt: { status: receiptStatus } = {}, type, status } = transaction
+export function getStatusKey(transaction) {
+  const {
+    txReceipt: { status: receiptStatus } = {},
+    type,
+    status,
+  } = transaction;
 
   // There was an on-chain failure
   if (receiptStatus === '0x0') {
-    return 'failed'
+    return 'failed';
   }
 
-  if (status === TRANSACTION_STATUS_CONFIRMED && type === TRANSACTION_TYPE_CANCEL) {
-    return 'cancelled'
+  if (
+    status === TRANSACTION_STATUS_CONFIRMED &&
+    type === TRANSACTION_TYPE_CANCEL
+  ) {
+    return 'cancelled';
   }
 
-  return transaction.status
+  return transaction.status;
 }
 
 /**
  * Returns an external block explorer URL at which a transaction can be viewed.
- * @param {number} networkId
- * @param {string} hash
- * @param {Object} rpcPrefs
+ *
+ * @param {number} networkId - The network the transaction is on.
+ * @param {string} hash - The transaction hash.
+ * @param {object} rpcPrefs - The network's RPC preferences, which may include
+ * a block explorer URL.
+ * @returns {string} The explorer URL, or an empty string if there is none.
  */
-export function getBlockExplorerUrlForTx (networkId, hash, rpcPrefs = {}) {
-  return getTxExplorerUrl(hash, networkId, rpcPrefs)
+export function getBlockExplorerUrlForTx(networkId, hash, rpcPrefs = {}) {
+  return getTxExplorerUrl(hash, networkId, rpcPrefs);
 }

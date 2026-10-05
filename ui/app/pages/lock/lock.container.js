@@ -1,24 +1,27 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import withRouter from '../../helpers/higher-order-components/with-router'
-import { lockEcfWallet } from '../../store/actions'
-import Lock from './lock.component'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import Lock from './lock.component';
+import withRouter from '../../helpers/higher-order-components/with-router';
+import { lockEcfWallet } from '../../store/actions';
 
 const mapStateToProps = (state) => {
-  const { ecfWallet: { isUnlocked } } = state
+  const {
+    ecfWallet: { isUnlocked },
+  } = state;
 
   return {
     isUnlocked,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     lockEcfWallet: () => dispatch(lockEcfWallet()),
-  }
-}
+  };
+};
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Lock)
+)(Lock);

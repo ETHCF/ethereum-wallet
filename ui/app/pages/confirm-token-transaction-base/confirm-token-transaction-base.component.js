@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import ConfirmTransactionBase from '../confirm-transaction-base'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import ConfirmTransactionBase from '../confirm-transaction-base';
 
 export default class ConfirmTokenTransactionBase extends Component {
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     tokenAddress: PropTypes.string,
@@ -14,38 +15,35 @@ export default class ConfirmTokenTransactionBase extends Component {
     tokenSymbol: PropTypes.string,
     ethTransactionTotal: PropTypes.string,
     nativeCurrencyImage: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     tokenAmount: 0,
-  }
+  };
 
-  renderPrimaryTotalTextOverride () {
-    const { tokenAmount, tokenSymbol, ethTransactionTotal, nativeCurrencyImage } = this.props
-    const tokensText = `${tokenAmount} ${tokenSymbol}`
+  renderPrimaryTotalTextOverride() {
+    const {
+      tokenAmount,
+      tokenSymbol,
+      ethTransactionTotal,
+      nativeCurrencyImage,
+    } = this.props;
+    const tokensText = `${tokenAmount} ${tokenSymbol}`;
 
     return (
       <div>
-        <span>{ `${tokensText} + ` }</span>
-        <img
-          src={nativeCurrencyImage || '/images/eth.svg'}
-          height="18"
-        />
-        <span>{ ethTransactionTotal }</span>
+        <span>{`${tokensText} + `}</span>
+        <img src={nativeCurrencyImage || '/images/eth.svg'} height="18" />
+        <span>{ethTransactionTotal}</span>
       </div>
-    )
+    );
   }
 
-  render () {
-    const {
-      toAddress,
-      tokenAddress,
-      tokenSymbol,
-      tokenAmount,
-      ...restProps
-    } = this.props
+  render() {
+    const { toAddress, tokenAddress, tokenSymbol, tokenAmount, ...restProps } =
+      this.props;
 
-    const tokensText = `${tokenAmount} ${tokenSymbol}`
+    const tokensText = `${tokenAmount} ${tokenSymbol}`;
 
     return (
       <ConfirmTransactionBase
@@ -55,6 +53,6 @@ export default class ConfirmTokenTransactionBase extends Component {
         primaryTotalTextOverride={this.renderPrimaryTotalTextOverride()}
         {...restProps}
       />
-    )
+    );
   }
 }

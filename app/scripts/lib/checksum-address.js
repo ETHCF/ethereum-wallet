@@ -1,4 +1,4 @@
-import { isValidAddress, toChecksumAddress } from '@ethereumjs/util'
+import { isValidAddress, toChecksumAddress } from '@ethereumjs/util';
 
 /**
  * Checksums an address, returning anything that is not a 0x-prefixed hex
@@ -8,6 +8,8 @@ import { isValidAddress, toChecksumAddress } from '@ethereumjs/util'
  * @param {*} address - The value to checksum
  * @returns {*} The checksummed address, or the value unchanged
  */
-export function toChecksumHexAddress (address) {
-  return typeof address === 'string' && isValidAddress(address) ? toChecksumAddress(address) : address
+export function toChecksumHexAddress(address) {
+  return typeof address === 'string' && isValidAddress(address)
+    ? toChecksumAddress(address)
+    : address;
 }

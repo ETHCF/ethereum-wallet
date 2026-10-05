@@ -1,40 +1,23 @@
-import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { matchPath, Route, Routes as RouterRoutes } from 'react-router-dom'
-import IdleTimer from 'react-idle-timer'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import IdleTimer from 'react-idle-timer';
+import { matchPath, Route, Routes as RouterRoutes } from 'react-router-dom';
 
-import FirstTimeFlow from '../first-time-flow'
-import SendTransactionScreen from '../send'
-import ConfirmTransaction from '../confirm-transaction'
-import Sidebar from '../../components/app/sidebars'
-import Home from '../home'
-import Settings from '../settings'
-import Authenticated from '../../helpers/higher-order-components/authenticated'
-import Initialized from '../../helpers/higher-order-components/initialized'
-import Lock from '../lock'
-import PermissionsConnect from '../permissions-connect'
-import RestoreVaultPage from '../keychains/restore-vault'
-import RevealSeedConfirmation from '../keychains/reveal-seed'
-import AddTokenPage from '../add-token'
-import ConfirmAddTokenPage from '../confirm-add-token'
-import ConfirmAddSuggestedTokenPage from '../confirm-add-suggested-token'
-import ConfirmNetworkRequest from '../confirm-network-request'
-import CreateAccountPage from '../create-account'
-import Loading from '../../components/ui/loading-screen'
-import LoadingNetwork from '../../components/app/loading-network-screen'
-import NetworkDropdown from '../../components/app/dropdowns/network-dropdown'
-import AccountMenu from '../../components/app/account-menu'
-import { Modal } from '../../components/app/modals'
-import Alert from '../../components/ui/alert'
-import AppHeader from '../../components/app/app-header'
-import UnlockPage from '../unlock-page'
-import Alerts from '../../components/app/alerts'
-import Asset from '../asset'
-import Help from '../help'
-import TermsOfUse from '../terms-of-use'
-import PrivacyPolicy from '../privacy-policy'
-
+import {
+  ENVIRONMENT_TYPE_NOTIFICATION,
+  ENVIRONMENT_TYPE_POPUP,
+} from '../../../../app/scripts/lib/enums';
+import { getEnvironmentType } from '../../../../app/scripts/lib/util';
+import AccountMenu from '../../components/app/account-menu';
+import Alerts from '../../components/app/alerts';
+import AppHeader from '../../components/app/app-header';
+import NetworkDropdown from '../../components/app/dropdowns/network-dropdown';
+import LoadingNetwork from '../../components/app/loading-network-screen';
+import { Modal } from '../../components/app/modals';
+import Sidebar from '../../components/app/sidebars';
+import Alert from '../../components/ui/alert';
+import Loading from '../../components/ui/loading-screen';
 import {
   ADD_TOKEN_ROUTE,
   ASSET_ROUTE,
@@ -56,12 +39,33 @@ import {
   SEND_ROUTE,
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
-} from '../../helpers/constants/routes'
-
-import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
-import { getEnvironmentType } from '../../../../app/scripts/lib/util'
-import { getConnectingLabel, getNetworkDisplayName } from '../../helpers/utils/network-display'
-import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme'
+} from '../../helpers/constants/routes';
+import Authenticated from '../../helpers/higher-order-components/authenticated';
+import Initialized from '../../helpers/higher-order-components/initialized';
+import {
+  getConnectingLabel,
+  getNetworkDisplayName,
+} from '../../helpers/utils/network-display';
+import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme';
+import AddTokenPage from '../add-token';
+import Asset from '../asset';
+import ConfirmAddSuggestedTokenPage from '../confirm-add-suggested-token';
+import ConfirmAddTokenPage from '../confirm-add-token';
+import ConfirmNetworkRequest from '../confirm-network-request';
+import ConfirmTransaction from '../confirm-transaction';
+import CreateAccountPage from '../create-account';
+import FirstTimeFlow from '../first-time-flow';
+import Help from '../help';
+import Home from '../home';
+import RestoreVaultPage from '../keychains/restore-vault';
+import RevealSeedConfirmation from '../keychains/reveal-seed';
+import Lock from '../lock';
+import PermissionsConnect from '../permissions-connect';
+import PrivacyPolicy from '../privacy-policy';
+import SendTransactionScreen from '../send';
+import Settings from '../settings';
+import TermsOfUse from '../terms-of-use';
+import UnlockPage from '../unlock-page';
 
 export default class Routes extends Component {
   static propTypes = {
@@ -88,35 +92,37 @@ export default class Routes extends Component {
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
     theme: PropTypes.string,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  componentDidMount () {
-    applyTheme(this.props.theme)
+  componentDidMount() {
+    applyTheme(this.props.theme);
     // Follow the operating system when the theme preference is os
-    this.removeSystemThemeListener = onSystemThemeChange(() => applyTheme(this.props.theme))
+    this.removeSystemThemeListener = onSystemThemeChange(() =>
+      applyTheme(this.props.theme),
+    );
   }
 
-  componentDidUpdate (prevProps) {
-    const { location, navigationType, pageChanged, theme } = this.props
+  componentDidUpdate(prevProps) {
+    const { location, navigationType, pageChanged, theme } = this.props;
     if (prevProps.theme !== theme) {
-      applyTheme(theme)
+      applyTheme(theme);
     }
     // Record the pages the user navigated to (not back or forward to).
     if (location.key !== prevProps.location.key && navigationType === 'PUSH') {
-      pageChanged(location.pathname)
+      pageChanged(location.pathname);
     }
   }
 
-  componentWillUnmount () {
-    this.removeSystemThemeListener()
+  componentWillUnmount() {
+    this.removeSystemThemeListener();
   }
 
-  renderRoutes () {
-    const { autoLockTimeLimit, setLastActiveTime } = this.props
+  renderRoutes() {
+    const { autoLockTimeLimit, setLastActiveTime } = this.props;
 
     const routes = (
       <RouterRoutes>
@@ -125,69 +131,177 @@ export default class Routes extends Component {
         <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
         <Route path={TERMS_OF_USE_ROUTE} element={<TermsOfUse />} />
         <Route path={PRIVACY_POLICY_ROUTE} element={<PrivacyPolicy />} />
-        <Route path={UNLOCK_ROUTE} element={<Initialized><UnlockPage /></Initialized>} />
-        <Route path={RESTORE_VAULT_ROUTE} element={<Initialized><RestoreVaultPage /></Initialized>} />
-        <Route path={REVEAL_SEED_ROUTE} element={<Authenticated><RevealSeedConfirmation /></Authenticated>} />
-        <Route path={`${SETTINGS_ROUTE}/*`} element={<Authenticated><Settings /></Authenticated>} />
-        <Route path={`${CONFIRM_TRANSACTION_ROUTE}/:id?/*`} element={<Authenticated><ConfirmTransaction /></Authenticated>} />
-        <Route path={SEND_ROUTE} element={<Authenticated><SendTransactionScreen /></Authenticated>} />
-        <Route path={ADD_TOKEN_ROUTE} element={<Authenticated><AddTokenPage /></Authenticated>} />
-        <Route path={CONFIRM_ADD_TOKEN_ROUTE} element={<Authenticated><ConfirmAddTokenPage /></Authenticated>} />
-        <Route path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE} element={<Authenticated><ConfirmAddSuggestedTokenPage /></Authenticated>} />
-        <Route path={CONFIRM_NETWORK_REQUEST_ROUTE} element={<Authenticated><ConfirmNetworkRequest /></Authenticated>} />
-        <Route path={`${NEW_ACCOUNT_ROUTE}/*`} element={<Authenticated><CreateAccountPage /></Authenticated>} />
-        <Route path={`${CONNECT_ROUTE}/:id/*`} element={<Authenticated><PermissionsConnect /></Authenticated>} />
-        <Route path={`${ASSET_ROUTE}/:asset`} element={<Authenticated><Asset /></Authenticated>} />
-        <Route path={`${DEFAULT_ROUTE}*`} element={<Authenticated><Home /></Authenticated>} />
+        <Route
+          path={UNLOCK_ROUTE}
+          element={
+            <Initialized>
+              <UnlockPage />
+            </Initialized>
+          }
+        />
+        <Route
+          path={RESTORE_VAULT_ROUTE}
+          element={
+            <Initialized>
+              <RestoreVaultPage />
+            </Initialized>
+          }
+        />
+        <Route
+          path={REVEAL_SEED_ROUTE}
+          element={
+            <Authenticated>
+              <RevealSeedConfirmation />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${SETTINGS_ROUTE}/*`}
+          element={
+            <Authenticated>
+              <Settings />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${CONFIRM_TRANSACTION_ROUTE}/:id?/*`}
+          element={
+            <Authenticated>
+              <ConfirmTransaction />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={SEND_ROUTE}
+          element={
+            <Authenticated>
+              <SendTransactionScreen />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={ADD_TOKEN_ROUTE}
+          element={
+            <Authenticated>
+              <AddTokenPage />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={CONFIRM_ADD_TOKEN_ROUTE}
+          element={
+            <Authenticated>
+              <ConfirmAddTokenPage />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE}
+          element={
+            <Authenticated>
+              <ConfirmAddSuggestedTokenPage />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={CONFIRM_NETWORK_REQUEST_ROUTE}
+          element={
+            <Authenticated>
+              <ConfirmNetworkRequest />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${NEW_ACCOUNT_ROUTE}/*`}
+          element={
+            <Authenticated>
+              <CreateAccountPage />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${CONNECT_ROUTE}/:id/*`}
+          element={
+            <Authenticated>
+              <PermissionsConnect />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${ASSET_ROUTE}/:asset`}
+          element={
+            <Authenticated>
+              <Asset />
+            </Authenticated>
+          }
+        />
+        <Route
+          path={`${DEFAULT_ROUTE}*`}
+          element={
+            <Authenticated>
+              <Home />
+            </Authenticated>
+          }
+        />
       </RouterRoutes>
-    )
+    );
 
     if (autoLockTimeLimit > 0) {
       return (
         <IdleTimer onAction={setLastActiveTime} throttle={1000}>
           {routes}
         </IdleTimer>
-      )
+      );
     }
 
-    return routes
+    return routes;
   }
 
-  onInitializationUnlockPage () {
-    const { location } = this.props
-    return Boolean(matchPath(INITIALIZE_UNLOCK_ROUTE, location.pathname))
+  onInitializationUnlockPage() {
+    const { location } = this.props;
+    return Boolean(matchPath(INITIALIZE_UNLOCK_ROUTE, location.pathname));
   }
 
-  onConfirmPage () {
-    const { location } = this.props
-    return Boolean(matchPath({ path: CONFIRM_TRANSACTION_ROUTE, end: false }, location.pathname))
+  onConfirmPage() {
+    const { location } = this.props;
+    return Boolean(
+      matchPath(
+        { path: CONFIRM_TRANSACTION_ROUTE, end: false },
+        location.pathname,
+      ),
+    );
   }
 
-  hideAppHeader () {
-    const { location, hasPermissionsRequests } = this.props
+  hideAppHeader() {
+    const { location, hasPermissionsRequests } = this.props;
 
-    const isInitializing = Boolean(matchPath({ path: INITIALIZE_ROUTE, end: false }, location.pathname))
+    const isInitializing = Boolean(
+      matchPath({ path: INITIALIZE_ROUTE, end: false }, location.pathname),
+    );
 
     if (isInitializing && !this.onInitializationUnlockPage()) {
-      return true
+      return true;
     }
 
-    const windowType = getEnvironmentType()
+    const windowType = getEnvironmentType();
 
     if (windowType === ENVIRONMENT_TYPE_NOTIFICATION) {
-      return true
+      return true;
     }
 
     if (windowType === ENVIRONMENT_TYPE_POPUP && this.onConfirmPage()) {
-      return true
+      return true;
     }
 
-    const isHandlingPermissionsRequest = Boolean(matchPath({ path: CONNECT_ROUTE, end: false }, location.pathname)) || hasPermissionsRequests
+    const isHandlingPermissionsRequest =
+      Boolean(
+        matchPath({ path: CONNECT_ROUTE, end: false }, location.pathname),
+      ) || hasPermissionsRequests;
 
-    return isHandlingPermissionsRequest
+    return isHandlingPermissionsRequest;
   }
 
-  render () {
+  render() {
     const {
       isLoading,
       isUnlocked,
@@ -201,23 +315,27 @@ export default class Routes extends Component {
       sidebar,
       submittedPendingTransactions,
       isMouseUser,
-    } = this.props
-    const isLoadingNetwork = network === 'loading'
-    const loadMessage = (loadingMessage || isLoadingNetwork)
-      ? this.getConnectingLabel(loadingMessage)
-      : null
+    } = this.props;
+    const isLoadingNetwork = network === 'loading';
+    const loadMessage =
+      loadingMessage || isLoadingNetwork
+        ? this.getConnectingLabel(loadingMessage)
+        : null;
 
     const {
       isOpen: sidebarIsOpen,
       transitionName: sidebarTransitionName,
       type: sidebarType,
       props,
-    } = sidebar
-    const { transaction: sidebarTransaction } = props || {}
+    } = sidebar;
+    const { transaction: sidebarTransaction } = props || {};
 
-    const sidebarShouldClose = sidebarTransaction &&
+    const sidebarShouldClose =
+      sidebarTransaction &&
       !sidebarTransaction.status === 'failed' &&
-      !submittedPendingTransactions.find(({ id }) => id === sidebarTransaction.id)
+      !submittedPendingTransactions.find(
+        ({ id }) => id === sidebarTransaction.id,
+      );
 
     return (
       <div
@@ -226,21 +344,18 @@ export default class Routes extends Component {
         onClick={() => setMouseUserState(true)}
         onKeyDown={(e) => {
           if (e.keyCode === 9) {
-            setMouseUserState(false)
+            setMouseUserState(false);
           }
         }}
       >
         <Modal />
-        <Alert
-          visible={this.props.alertOpen}
-          msg={alertMessage}
-        />
-        { !this.hideAppHeader() && (
+        <Alert visible={this.props.alertOpen} msg={alertMessage} />
+        {!this.hideAppHeader() && (
           <AppHeader
             hideNetworkIndicator={this.onInitializationUnlockPage()}
             disabled={this.onConfirmPage()}
           />
-        ) }
+        )}
         <Sidebar
           sidebarOpen={sidebarIsOpen}
           sidebarShouldClose={sidebarShouldClose}
@@ -255,44 +370,38 @@ export default class Routes extends Component {
         />
         <AccountMenu />
         <div className="main-container-wrapper">
-          { isLoading && <Loading loadingMessage={loadMessage} /> }
-          { !isLoading && isLoadingNetwork && <LoadingNetwork /> }
-          { this.renderRoutes() }
+          {isLoading && <Loading loadingMessage={loadMessage} />}
+          {!isLoading && isLoadingNetwork && <LoadingNetwork />}
+          {this.renderRoutes()}
         </div>
-        {
-          isUnlocked
-            ? (
-              <Alerts />
-            )
-            : null
-        }
+        {isUnlocked ? <Alerts /> : null}
       </div>
-    )
+    );
   }
 
-  toggleEcfWalletActive () {
+  toggleEcfWalletActive() {
     if (this.props.isUnlocked) {
       // currently active: deactivate
-      this.props.lockEcfWallet()
+      this.props.lockEcfWallet();
     } else {
       // currently inactive: redirect to password box
-      const passwordBox = document.querySelector('input[type=password]')
+      const passwordBox = document.querySelector('input[type=password]');
       if (!passwordBox) {
-        return
+        return;
       }
-      passwordBox.focus()
+      passwordBox.focus();
     }
   }
 
-  getConnectingLabel (loadingMessage) {
+  getConnectingLabel(loadingMessage) {
     if (loadingMessage) {
-      return loadingMessage
+      return loadingMessage;
     }
-    const { provider, providerId } = this.props
-    return getConnectingLabel(provider, providerId, this.context.t)
+    const { provider, providerId } = this.props;
+    return getConnectingLabel(provider, providerId, this.context.t);
   }
 
-  getNetworkName () {
-    return getNetworkDisplayName(this.props.provider, this.context.t)
+  getNetworkName() {
+    return getNetworkDisplayName(this.props.provider, this.context.t);
   }
 }

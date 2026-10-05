@@ -1,17 +1,21 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { getEthConversionFromWeiHex, getValueFromWeiHex } from '../../../helpers/utils/conversions.util'
-import { formatDate } from '../../../helpers/utils/util'
-import { getTxExplorerUrl } from '../../../../../app/scripts/lib/block-explorer'
-import TransactionActivityLogIcon from './transaction-activity-log-icon'
-import { CONFIRMED_STATUS } from './transaction-activity-log.constants'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import TransactionActivityLogIcon from './transaction-activity-log-icon';
+import { CONFIRMED_STATUS } from './transaction-activity-log.constants';
+import { getTxExplorerUrl } from '../../../../../app/scripts/lib/block-explorer';
+import {
+  getEthConversionFromWeiHex,
+  getValueFromWeiHex,
+} from '../../../helpers/utils/conversions.util';
+import { formatDate } from '../../../helpers/utils/util';
 
 export default class TransactionActivityLog extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
     metricEvent: PropTypes.func,
-  }
+  };
 
   static propTypes = {
     activities: PropTypes.array,
@@ -23,73 +27,80 @@ export default class TransactionActivityLog extends PureComponent {
     onRetry: PropTypes.func,
     primaryTransaction: PropTypes.object,
     isEarliestNonce: PropTypes.bool,
-  }
+  };
 
   handleActivityClick = (hash) => {
-    const { primaryTransaction } = this.props
-    const { ecfWalletNetworkId } = primaryTransaction
+    const { primaryTransaction } = this.props;
+    const { ecfWalletNetworkId } = primaryTransaction;
 
-    const url = getTxExplorerUrl(hash, ecfWalletNetworkId)
+    const url = getTxExplorerUrl(hash, ecfWalletNetworkId);
     if (url) {
-      global.platform.openTab({ url })
+      global.platform.openTab({ url });
     }
+  };
+
+  renderInlineRetry(index) {
+    const { t } = this.context;
+    const {
+      inlineRetryIndex,
+      primaryTransaction = {},
+      onRetry,
+      isEarliestNonce,
+    } = this.props;
+    const { status } = primaryTransaction;
+
+    return isEarliestNonce &&
+      status !== CONFIRMED_STATUS &&
+      index === inlineRetryIndex ? (
+      <div className="transaction-activity-log__action-link" onClick={onRetry}>
+        {t('speedUpTransaction')}
+      </div>
+    ) : null;
   }
 
-  renderInlineRetry (index) {
-    const { t } = this.context
-    const { inlineRetryIndex, primaryTransaction = {}, onRetry, isEarliestNonce } = this.props
-    const { status } = primaryTransaction
+  renderInlineCancel(index) {
+    const { t } = this.context;
+    const {
+      inlineCancelIndex,
+      primaryTransaction = {},
+      onCancel,
+      isEarliestNonce,
+    } = this.props;
+    const { status } = primaryTransaction;
 
-    return isEarliestNonce && status !== CONFIRMED_STATUS && index === inlineRetryIndex
-      ? (
-        <div
-          className="transaction-activity-log__action-link"
-          onClick={onRetry}
-        >
-          { t('speedUpTransaction') }
-        </div>
-      ) : null
+    return isEarliestNonce &&
+      status !== CONFIRMED_STATUS &&
+      index === inlineCancelIndex ? (
+      <div className="transaction-activity-log__action-link" onClick={onCancel}>
+        {t('speedUpCancellation')}
+      </div>
+    ) : null;
   }
 
-  renderInlineCancel (index) {
-    const { t } = this.context
-    const { inlineCancelIndex, primaryTransaction = {}, onCancel, isEarliestNonce } = this.props
-    const { status } = primaryTransaction
-
-    return isEarliestNonce && status !== CONFIRMED_STATUS && index === inlineCancelIndex
-      ? (
-        <div
-          className="transaction-activity-log__action-link"
-          onClick={onCancel}
-        >
-          { t('speedUpCancellation') }
-        </div>
-      ) : null
-  }
-
-  renderActivity (activity, index) {
-    const { nativeCurrency } = this.props
-    const { eventKey, value, timestamp, hash } = activity
-    const ethValue = index === 0
-      ? `${getValueFromWeiHex({
-        value,
-        fromCurrency: 'ETH',
-        toCurrency: 'ETH',
-        numberOfDecimals: 6,
-      })} ${nativeCurrency}`
-      : getEthConversionFromWeiHex({
-        value,
-        fromCurrency: 'ETH',
-        numberOfDecimals: 3,
-      })
-    const formattedTimestamp = formatDate(timestamp, 'T \'on\' M/d/y')
-    const activityText = this.context.t(eventKey, [ethValue, formattedTimestamp])
+  renderActivity(activity, index) {
+    const { nativeCurrency } = this.props;
+    const { eventKey, value, timestamp, hash } = activity;
+    const ethValue =
+      index === 0
+        ? `${getValueFromWeiHex({
+            value,
+            fromCurrency: 'ETH',
+            toCurrency: 'ETH',
+            numberOfDecimals: 6,
+          })} ${nativeCurrency}`
+        : getEthConversionFromWeiHex({
+            value,
+            fromCurrency: 'ETH',
+            numberOfDecimals: 3,
+          });
+    const formattedTimestamp = formatDate(timestamp, "T 'on' M/d/y");
+    const activityText = this.context.t(eventKey, [
+      ethValue,
+      formattedTimestamp,
+    ]);
 
     return (
-      <div
-        key={index}
-        className="transaction-activity-log__activity"
-      >
+      <div key={index} className="transaction-activity-log__activity">
         <TransactionActivityLogIcon
           className="transaction-activity-log__activity-icon"
           eventKey={eventKey}
@@ -100,32 +111,34 @@ export default class TransactionActivityLog extends PureComponent {
             title={activityText}
             onClick={() => this.handleActivityClick(hash)}
           >
-            { activityText }
+            {activityText}
           </div>
-          { this.renderInlineRetry(index) }
-          { this.renderInlineCancel(index) }
+          {this.renderInlineRetry(index)}
+          {this.renderInlineCancel(index)}
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
-    const { t } = this.context
-    const { className, activities } = this.props
+  render() {
+    const { t } = this.context;
+    const { className, activities } = this.props;
 
     if (activities.length === 0) {
-      return null
+      return null;
     }
 
     return (
       <div className={classnames('transaction-activity-log', className)}>
         <div className="transaction-activity-log__title">
-          { t('activityLog') }
+          {t('activityLog')}
         </div>
         <div className="transaction-activity-log__activities-container">
-          { activities.map((activity, index) => this.renderActivity(activity, index)) }
+          {activities.map((activity, index) =>
+            this.renderActivity(activity, index),
+          )}
         </div>
       </div>
-    )
+    );
   }
 }

@@ -1,69 +1,95 @@
-import EthQuery from '@metamask/eth-query'
-import pify from 'pify'
-import contracts from '@metamask/contract-metadata'
-import { warn } from 'loglevel'
-import getSingleCallBalances from '../lib/single-call-balances'
-import { MAINNET } from './network/enums'
+import contracts from '@metamask/contract-metadata';
+import EthQuery from '@metamask/eth-query';
+import { warn } from 'loglevel';
+import pify from 'pify';
+
+import getSingleCallBalances from '../lib/single-call-balances';
+import { MAINNET } from './network/enums';
 
 // By default, poll every 3 minutes
-const DEFAULT_INTERVAL = 180 * 1000
-const SINGLE_CALL_BALANCES_ADDRESS = '0xb1f8e55c7f64d203c1400b9d8555d050f94adf39'
+const DEFAULT_INTERVAL = 180 * 1000;
+const SINGLE_CALL_BALANCES_ADDRESS =
+  '0xb1f8e55c7f64d203c1400b9d8555d050f94adf39';
 
 /**
  * A controller that polls for token exchange
  * rates based on a user's current token list
  */
 export default class DetectTokensController {
-
   /**
    * Creates a DetectTokensController
    *
-   * @param {Object} [config] - Options to configure controller
+   * @param {object} [config] - Options to configure controller
+   * @param {number} [config.interval] - Polling interval in milliseconds.
+   * @param {object} [config.preferences] - The preferences controller.
+   * @param {object} [config.network] - The network controller.
+   * @param {object} [config.keyringMemStore] - The keyring controller memory
+   * store, used to track the unlocked state.
    */
-  constructor ({ interval = DEFAULT_INTERVAL, preferences, network, keyringMemStore } = {}) {
-    this.preferences = preferences
-    this.interval = interval
-    this.network = network
-    this.keyringMemStore = keyringMemStore
+  constructor({
+    interval = DEFAULT_INTERVAL,
+    preferences,
+    network,
+    keyringMemStore,
+  } = {}) {
+    this.preferences = preferences;
+    this.interval = interval;
+    this.network = network;
+    this.keyringMemStore = keyringMemStore;
   }
 
   /**
    * For each token in @metamask/contract-metadata, check the selectedAddress balance.
    */
-  async detectNewTokens () {
+  async detectNewTokens() {
     if (!this.isActive) {
-      return
+      return;
     }
     if (this._network.store.getState().provider.type !== MAINNET) {
-      return
+      return;
     }
 
-    const tokensToDetect = []
+    const tokensToDetect = [];
     for (const contractAddress in contracts) {
-      if (contracts[contractAddress].erc20 && !(this.tokenAddresses.includes(contractAddress.toLowerCase()))) {
-        tokensToDetect.push(contractAddress)
+      if (
+        contracts[contractAddress].erc20 &&
+        !this.tokenAddresses.includes(contractAddress.toLowerCase())
+      ) {
+        tokensToDetect.push(contractAddress);
       }
     }
 
-    let result
+    let result;
     try {
-      result = await this._getTokenBalances(tokensToDetect)
+      result = await this._getTokenBalances(tokensToDetect);
     } catch (error) {
-      warn(`ecf-wallet - DetectTokensController single call balance fetch failed`, error)
-      return
+      warn(
+        `ecf-wallet - DetectTokensController single call balance fetch failed`,
+        error,
+      );
+      return;
     }
 
     tokensToDetect.forEach((tokenAddress, index) => {
-      const balance = result[index]
+      const balance = result[index];
       if (balance && !balance.isZero()) {
-        this._preferences.addToken(tokenAddress, contracts[tokenAddress].symbol, contracts[tokenAddress].decimals)
+        this._preferences.addToken(
+          tokenAddress,
+          contracts[tokenAddress].symbol,
+          contracts[tokenAddress].decimals,
+        );
       }
-    })
+    });
   }
 
-  async _getTokenBalances (tokens) {
-    const query = pify(new EthQuery(this._network._provider))
-    return getSingleCallBalances(query, SINGLE_CALL_BALANCES_ADDRESS, [this.selectedAddress], tokens)
+  async _getTokenBalances(tokens) {
+    const query = pify(new EthQuery(this._network._provider));
+    return getSingleCallBalances(
+      query,
+      SINGLE_CALL_BALANCES_ADDRESS,
+      [this.selectedAddress],
+      tokens,
+    );
   }
 
   /**
@@ -71,87 +97,94 @@ export default class DetectTokensController {
    * in case of address change or user session initialization.
    *
    */
-  restartTokenDetection () {
+  restartTokenDetection() {
     if (!(this.isActive && this.selectedAddress)) {
-      return
+      return;
     }
-    this.detectNewTokens()
-    this.interval = DEFAULT_INTERVAL
+    this.detectNewTokens();
+    this.interval = DEFAULT_INTERVAL;
   }
 
   /**
-   * @type {Number}
+   * Restarts polling with the given interval; a falsy value stops polling.
+   *
+   * @type {number}
    */
-  set interval (interval) {
-    this._handle && clearInterval(this._handle)
+  set interval(interval) {
+    this._handle && clearInterval(this._handle);
     if (!interval) {
-      return
+      return;
     }
     this._handle = setInterval(() => {
-      this.detectNewTokens()
-    }, interval)
+      this.detectNewTokens();
+    }, interval);
   }
 
   /**
    * In setter when selectedAddress is changed, detectNewTokens and restart polling
-   * @type {Object}
+   *
+   * @type {object}
    */
-  set preferences (preferences) {
+  set preferences(preferences) {
     if (!preferences) {
-      return
+      return;
     }
-    this._preferences = preferences
-    const currentTokens = preferences.store.getState().tokens
+    this._preferences = preferences;
+    const currentTokens = preferences.store.getState().tokens;
     this.tokenAddresses = currentTokens
       ? currentTokens.map((token) => token.address)
-      : []
+      : [];
     preferences.store.subscribe(({ tokens = [] }) => {
       this.tokenAddresses = tokens.map((token) => {
-        return token.address
-      })
-    })
+        return token.address;
+      });
+    });
     preferences.store.subscribe(({ selectedAddress }) => {
       if (this.selectedAddress !== selectedAddress) {
-        this.selectedAddress = selectedAddress
-        this.restartTokenDetection()
+        this.selectedAddress = selectedAddress;
+        this.restartTokenDetection();
       }
-    })
+    });
   }
 
   /**
-   * @type {Object}
+   * Sets the network controller used to check the current network.
+   *
+   * @type {object}
    */
-  set network (network) {
+  set network(network) {
     if (!network) {
-      return
+      return;
     }
-    this._network = network
+    this._network = network;
   }
 
   /**
    * In setter when isUnlocked is updated to true, detectNewTokens and restart polling
-   * @type {Object}
+   *
+   * @type {object}
    */
-  set keyringMemStore (keyringMemStore) {
+  set keyringMemStore(keyringMemStore) {
     if (!keyringMemStore) {
-      return
+      return;
     }
-    this._keyringMemStore = keyringMemStore
+    this._keyringMemStore = keyringMemStore;
     this._keyringMemStore.subscribe(({ isUnlocked }) => {
       if (this.isUnlocked !== isUnlocked) {
-        this.isUnlocked = isUnlocked
+        this.isUnlocked = isUnlocked;
         if (isUnlocked) {
-          this.restartTokenDetection()
+          this.restartTokenDetection();
         }
       }
-    })
+    });
   }
 
   /**
    * Internal isActive state
-   * @type {Object}
+   *
+   * @type {object}
    */
-  get isActive () {
-    return this.isOpen && this.isUnlocked
+  get isActive() {
+    return this.isOpen && this.isUnlocked;
   }
 }

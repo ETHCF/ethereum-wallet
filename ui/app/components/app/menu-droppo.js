@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default class MenuDroppoComponent extends Component {
   static propTypes = {
@@ -14,75 +14,81 @@ export default class MenuDroppoComponent extends Component {
     style: PropTypes.object.isRequired,
     useCssTransition: PropTypes.bool,
     speed: PropTypes.string,
-  }
+  };
 
-  renderPrimary () {
-    const { isOpen } = this.props
+  renderPrimary() {
+    const { isOpen } = this.props;
     if (!isOpen) {
-      return null
+      return null;
     }
 
-    const innerStyle = this.props.innerStyle || {}
+    const innerStyle = this.props.innerStyle || {};
 
     return (
       <div className="menu-droppo" key="menu-droppo-drawer" style={innerStyle}>
         {this.props.children}
       </div>
-    )
+    );
   }
 
-  manageListeners () {
-    const { isOpen, onClickOutside } = this.props
+  manageListeners() {
+    const { isOpen, onClickOutside } = this.props;
 
     if (isOpen) {
-      this.outsideClickHandler = onClickOutside
+      this.outsideClickHandler = onClickOutside;
     }
   }
 
   globalClickOccurred = (event) => {
-    const { target } = event
+    const { target } = event;
     // eslint-disable-next-line react/no-find-dom-node
-    const container = findDOMNode(this)
+    const container = findDOMNode(this);
 
-    if (target !== container &&
+    if (
+      target !== container &&
       !isDescendant(this.container, event.target) &&
-      this.outsideClickHandler) {
-      this.outsideClickHandler(event)
+      this.outsideClickHandler
+    ) {
+      this.outsideClickHandler(event);
     }
-  }
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     if (this && document.body) {
-      document.body.addEventListener('click', this.globalClickOccurred)
+      document.body.addEventListener('click', this.globalClickOccurred);
       // eslint-disable-next-line react/no-find-dom-node
-      const container = findDOMNode(this)
-      this.container = container
+      const container = findDOMNode(this);
+      this.container = container;
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this && document.body) {
-      document.body.removeEventListener('click', this.globalClickOccurred)
+      document.body.removeEventListener('click', this.globalClickOccurred);
     }
   }
 
-  render () {
-    const { containerClassName = '', style } = this.props
-    const speed = this.props.speed || '300ms'
-    const { useCssTransition } = this.props
-    const zIndex = ('zIndex' in this.props) ? this.props.zIndex : 0
+  render() {
+    const { containerClassName = '', style } = this.props;
+    const speed = this.props.speed || '300ms';
+    const { useCssTransition } = this.props;
+    const zIndex = Reflect.has(this.props, 'zIndex') ? this.props.zIndex : 0;
 
-    this.manageListeners()
+    this.manageListeners();
 
     const baseStyle = {
       position: 'fixed',
       ...style,
       zIndex,
-    }
+    };
 
     return (
-      <div style={baseStyle} className={`menu-droppo-container ${containerClassName}`}>
-        <style>{`
+      <div
+        style={baseStyle}
+        className={`menu-droppo-container ${containerClassName}`}
+      >
+        <style>
+          {`
           .menu-droppo-enter {
             transition: transform ${speed} ease-in-out;
             transform: translateY(-200%);
@@ -104,32 +110,34 @@ export default class MenuDroppoComponent extends Component {
           }
         `}
         </style>
-        {
-          useCssTransition
-            ? (
-              <TransitionGroup className="css-transition-group">
-                {this.props.isOpen && (
-                  <CSSTransition key="menu-droppo" classNames="menu-droppo" timeout={parseInt(speed, 10)}>
-                    {this.renderPrimary()}
-                  </CSSTransition>
-                )}
-              </TransitionGroup>
-            )
-            : this.renderPrimary()
-        }
+        {useCssTransition ? (
+          <TransitionGroup className="css-transition-group">
+            {this.props.isOpen && (
+              <CSSTransition
+                key="menu-droppo"
+                classNames="menu-droppo"
+                timeout={parseInt(speed, 10)}
+              >
+                {this.renderPrimary()}
+              </CSSTransition>
+            )}
+          </TransitionGroup>
+        ) : (
+          this.renderPrimary()
+        )}
       </div>
-    )
+    );
   }
 }
 
-function isDescendant (parent, child) {
-  let node = child.parentNode
+function isDescendant(parent, child) {
+  let node = child.parentNode;
   while (node !== null) {
     if (node === parent) {
-      return true
+      return true;
     }
-    node = node.parentNode
+    node = node.parentNode;
   }
 
-  return false
+  return false;
 }

@@ -1,7 +1,8 @@
-import assert from 'assert'
-import React from 'react'
-import { shallow } from 'enzyme'
-import TransactionBreakdown from '../transaction-breakdown.component'
+import assert from 'assert';
+import { shallow } from 'enzyme';
+import React from 'react';
+
+import TransactionBreakdown from '../transaction-breakdown.component';
 
 describe('TransactionBreakdown Component', function () {
   it('should render properly', function () {
@@ -17,17 +18,14 @@ describe('TransactionBreakdown Component', function () {
         to: '0x2',
         value: '0x2386f26fc10000',
       },
-    }
+    };
 
     const wrapper = shallow(
-      <TransactionBreakdown
-        transaction={transaction}
-        className="test-class"
-      />,
+      <TransactionBreakdown transaction={transaction} className="test-class" />,
       { context: { t: (str1, str2) => (str2 ? str1 + str2 : str1) } },
-    )
+    );
 
-    assert.ok(wrapper.hasClass('transaction-breakdown'))
-    assert.ok(wrapper.hasClass('test-class'))
-  })
-})
+    assert.ok(wrapper.hasClass('transaction-breakdown'));
+    assert.ok(wrapper.hasClass('test-class'));
+  });
+});

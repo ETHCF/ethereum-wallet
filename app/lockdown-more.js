@@ -1,5 +1,5 @@
 /* global Compartment */
-/* eslint-disable import/unambiguous */
+/* eslint-disable import-x/unambiguous */
 // Lockdown freezes the intrinsics but leaves the global object writable, so
 // `globalThis.Promise = Evil` would still replace them for later code. This
 // makes each JavaScript intrinsic global non-writable and non-configurable.
@@ -7,17 +7,30 @@
 try {
   const intrinsicNames = Reflect.ownKeys(new Compartment().globalThis)
     // Compartment-only helpers and the globals themselves are not intrinsics.
-    .filter((name) => !['globalThis', 'eval', 'Compartment', 'harden', 'lockdown', 'assert'].includes(name))
+    .filter(
+      (name) =>
+        ![
+          'globalThis',
+          'eval',
+          'Compartment',
+          'harden',
+          'lockdown',
+          'assert',
+        ].includes(name),
+    );
   for (const name of intrinsicNames) {
-    const descriptor = Reflect.getOwnPropertyDescriptor(globalThis, name)
+    const descriptor = Reflect.getOwnPropertyDescriptor(globalThis, name);
     if (descriptor?.configurable) {
-      if ('value' in descriptor) {
-        Object.defineProperty(globalThis, name, { configurable: false, writable: false })
+      if (Object.hasOwn(descriptor, 'value')) {
+        Object.defineProperty(globalThis, name, {
+          configurable: false,
+          writable: false,
+        });
       } else {
-        Object.defineProperty(globalThis, name, { configurable: false })
+        Object.defineProperty(globalThis, name, { configurable: false });
       }
     }
   }
 } catch (error) {
-  console.error('ECF Wallet: protecting intrinsics failed', error)
+  console.error('ECF Wallet: protecting intrinsics failed', error);
 }

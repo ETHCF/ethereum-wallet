@@ -1,5 +1,5 @@
 module.exports = function (api) {
-  api.cache(false)
+  api.cache(false);
   return {
     presets: [
       [
@@ -7,10 +7,7 @@ module.exports = function (api) {
         {
           targets: {
             // The manifest minimums (development/build/manifest.js, app/manifest/firefox.json).
-            browsers: [
-              'chrome >= 120',
-              'firefox >= 128',
-            ],
+            browsers: ['chrome >= 120', 'firefox >= 128'],
           },
         },
       ],
@@ -18,8 +15,6 @@ module.exports = function (api) {
     ],
     // Class fields, object rest/spread, optional chaining and nullish
     // coalescing are standard now; preset-env compiles them for the targets.
-    plugins: [
-      '@babel/plugin-transform-runtime',
-    ],
-  }
-}
+    plugins: ['@babel/plugin-transform-runtime'],
+  };
+};

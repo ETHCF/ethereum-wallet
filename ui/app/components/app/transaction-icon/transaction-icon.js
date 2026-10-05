@@ -1,10 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Approve from '../../ui/icon/approve-icon.component'
-import Interaction from '../../ui/icon/interaction-icon.component'
-import Receive from '../../ui/icon/receive-icon.component'
-import Send from '../../ui/icon/send-icon.component'
-import Sign from '../../ui/icon/sign-icon.component'
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import {
   TRANSACTION_CATEGORY_APPROVAL,
   TRANSACTION_CATEGORY_SIGNATURE_REQUEST,
@@ -18,7 +14,12 @@ import {
   DROPPED_STATUS,
   SUBMITTED_STATUS,
   APPROVED_STATUS,
-} from '../../../helpers/constants/transactions'
+} from '../../../helpers/constants/transactions';
+import Approve from '../../ui/icon/approve-icon.component';
+import Interaction from '../../ui/icon/interaction-icon.component';
+import Receive from '../../ui/icon/receive-icon.component';
+import Send from '../../ui/icon/send-icon.component';
+import Sign from '../../ui/icon/sign-icon.component';
 
 const ICON_MAP = {
   [TRANSACTION_CATEGORY_APPROVAL]: Approve,
@@ -26,11 +27,11 @@ const ICON_MAP = {
   [TRANSACTION_CATEGORY_SEND]: Send,
   [TRANSACTION_CATEGORY_SIGNATURE_REQUEST]: Sign,
   [TRANSACTION_CATEGORY_RECEIVE]: Receive,
-}
+};
 
-const FAIL_COLOR = 'var(--color-error-default)'
-const PENDING_COLOR = 'var(--color-text-alternative)'
-const OK_COLOR = 'var(--color-text-default)'
+const FAIL_COLOR = 'var(--color-error-default)';
+const PENDING_COLOR = 'var(--color-text-alternative)';
+const OK_COLOR = 'var(--color-text-default)';
 
 const COLOR_MAP = {
   [SUBMITTED_STATUS]: PENDING_COLOR,
@@ -40,18 +41,17 @@ const COLOR_MAP = {
   [REJECTED_STATUS]: FAIL_COLOR,
   [CANCELLED_STATUS]: FAIL_COLOR,
   [DROPPED_STATUS]: FAIL_COLOR,
-}
+};
 
-export default function TransactionIcon ({ status, category }) {
+export default function TransactionIcon({ status, category }) {
+  const color = COLOR_MAP[status] || OK_COLOR;
 
-  const color = COLOR_MAP[status] || OK_COLOR
+  const Icon = ICON_MAP[category];
 
-  const Icon = ICON_MAP[category]
-
-  return <Icon color={color} size={28} />
+  return <Icon color={color} size={28} />;
 }
 
 TransactionIcon.propTypes = {
   status: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-}
+};

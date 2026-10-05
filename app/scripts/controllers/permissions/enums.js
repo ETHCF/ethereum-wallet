@@ -1,35 +1,34 @@
+export const WALLET_PREFIX = 'wallet_';
 
-export const WALLET_PREFIX = 'wallet_'
+export const HISTORY_STORE_KEY = 'permissionsHistory';
 
-export const HISTORY_STORE_KEY = 'permissionsHistory'
+export const LOG_STORE_KEY = 'permissionsLog';
 
-export const LOG_STORE_KEY = 'permissionsLog'
+export const METADATA_STORE_KEY = 'domainMetadata';
 
-export const METADATA_STORE_KEY = 'domainMetadata'
-
-export const METADATA_CACHE_MAX_SIZE = 100
+export const METADATA_CACHE_MAX_SIZE = 100;
 
 export const CAVEAT_TYPES = {
   // The accounts a site may see; it sees only the primary one of them.
   restrictReturnedAccounts: 'restrictReturnedAccounts',
-}
+};
 
 export const NOTIFICATION_NAMES = {
   accountsChanged: 'metamask_accountsChanged',
   chainChanged: 'metamask_chainChanged',
-}
+};
 
 export const LOG_IGNORE_METHODS = [
   'metamask_sendDomainMetadata',
   'metamask_getProviderState',
-]
+];
 
 export const LOG_METHOD_TYPES = {
   restricted: 'restricted',
   internal: 'internal',
-}
+};
 
-export const LOG_LIMIT = 100
+export const LOG_LIMIT = 100;
 
 export const SAFE_METHODS = [
   'web3_sha3',
@@ -88,4 +87,4 @@ export const SAFE_METHODS = [
   'wallet_watchAsset',
   'eth_getEncryptionPublicKey',
   'eth_decrypt',
-]
+];

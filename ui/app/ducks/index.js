@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux'
-import { ALERT_TYPES } from '../../../app/scripts/controllers/alert'
-import ecfWalletReducer from './ecf-wallet/ecf-wallet'
-import localeMessagesReducer from './locale/locale'
-import sendReducer from './send/send.duck'
-import appStateReducer from './app/app'
-import confirmTransactionReducer from './confirm-transaction/confirm-transaction.duck'
-import gasReducer from './gas/gas.duck'
-import { unconnectedAccount } from './alerts'
-import historyReducer from './history/history'
+import { combineReducers } from 'redux';
+
+import { unconnectedAccount } from './alerts';
+import appStateReducer from './app/app';
+import confirmTransactionReducer from './confirm-transaction/confirm-transaction.duck';
+import ecfWalletReducer from './ecf-wallet/ecf-wallet';
+import gasReducer from './gas/gas.duck';
+import historyReducer from './history/history';
+import localeMessagesReducer from './locale/locale';
+import sendReducer from './send/send.duck';
+import { ALERT_TYPES } from '../../../app/scripts/controllers/alert';
 
 export default combineReducers({
   [ALERT_TYPES.unconnectedAccount]: unconnectedAccount,
@@ -19,4 +20,4 @@ export default combineReducers({
   confirmTransaction: confirmTransactionReducer,
   gas: gasReducer,
   localeMessages: localeMessagesReducer,
-})
+});

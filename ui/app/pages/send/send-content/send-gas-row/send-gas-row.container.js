@@ -1,4 +1,15 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import SendGasRow from './send-gas-row.component';
+import {
+  resetCustomData,
+  setCustomGasPrice,
+  setCustomGasLimit,
+} from '../../../../ducks/gas/gas.duck';
+import {
+  showGasButtonGroup,
+  updateSendErrors,
+} from '../../../../ducks/send/send.duck';
 import {
   getGasTotal,
   getGasPrice,
@@ -16,40 +27,41 @@ import {
   getRenderableEstimateDataForSmallButtonsFromGWEI,
   getDefaultActiveButtonIndex,
   getIsMainnet,
-} from '../../../../selectors'
+} from '../../../../selectors';
 import {
-  isBalanceSufficient,
-  calcGasTotal,
-} from '../../send.utils'
-import { calcMaxAmount } from '../send-amount-row/amount-max-button/amount-max-button.utils'
-import {
-  showGasButtonGroup,
-  updateSendErrors,
-} from '../../../../ducks/send/send.duck'
-import {
-  resetCustomData,
-  setCustomGasPrice,
-  setCustomGasLimit,
-} from '../../../../ducks/gas/gas.duck'
-import { showModal, setGasPrice, setGasLimit, setGasTotal, updateSend, updateSendAmount } from '../../../../store/actions'
-import SendGasRow from './send-gas-row.component'
+  showModal,
+  setGasPrice,
+  setGasLimit,
+  setGasTotal,
+  updateSend,
+  updateSendAmount,
+} from '../../../../store/actions';
+import { isBalanceSufficient, calcGasTotal } from '../../send.utils';
+import { calcMaxAmount } from '../send-amount-row/amount-max-button/amount-max-button.utils';
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SendGasRow)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(SendGasRow);
 
-function mapStateToProps (state) {
-  const gasButtonInfo = getRenderableEstimateDataForSmallButtonsFromGWEI(state)
-  const gasPrice = getGasPrice(state)
-  const gasLimit = getGasLimit(state)
-  const activeButtonIndex = getDefaultActiveButtonIndex(gasButtonInfo, gasPrice)
+function mapStateToProps(state) {
+  const gasButtonInfo = getRenderableEstimateDataForSmallButtonsFromGWEI(state);
+  const gasPrice = getGasPrice(state);
+  const gasLimit = getGasLimit(state);
+  const activeButtonIndex = getDefaultActiveButtonIndex(
+    gasButtonInfo,
+    gasPrice,
+  );
 
-  const gasTotal = getGasTotal(state)
-  const balance = getCurrentEthBalance(state)
+  const gasTotal = getGasTotal(state);
+  const balance = getCurrentEthBalance(state);
 
   const insufficientBalance = !isBalanceSufficient({
     amount: getSendToken(state) ? '0x0' : getSendAmount(state),
     gasTotal,
     balance,
-  })
+  });
 
   return {
     balance: getSendFromBalance(state),
@@ -70,45 +82,46 @@ function mapStateToProps (state) {
     sendToken: getSendToken(state),
     tokenBalance: getTokenBalance(state),
     isMainnet: getIsMainnet(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    showCustomizeGasModal: () => dispatch(showModal({ name: 'CUSTOMIZE_GAS', hideBasic: true })),
+    showCustomizeGasModal: () =>
+      dispatch(showModal({ name: 'CUSTOMIZE_GAS', hideBasic: true })),
     setGasPrice: (newPrice, gasLimit, { isCustom = true } = {}) => {
-      dispatch(setGasPrice(newPrice))
-      dispatch(updateSend({ gasPriceIsCustom: isCustom }))
-      dispatch(setCustomGasPrice(newPrice))
+      dispatch(setGasPrice(newPrice));
+      dispatch(updateSend({ gasPriceIsCustom: isCustom }));
+      dispatch(setCustomGasPrice(newPrice));
       if (gasLimit) {
-        dispatch(setGasTotal(calcGasTotal(gasLimit, newPrice)))
+        dispatch(setGasTotal(calcGasTotal(gasLimit, newPrice)));
       }
     },
     setGasLimit: (newLimit, gasPrice) => {
-      dispatch(setGasLimit(newLimit))
-      dispatch(setCustomGasLimit(newLimit))
+      dispatch(setGasLimit(newLimit));
+      dispatch(setCustomGasLimit(newLimit));
       if (gasPrice) {
-        dispatch(setGasTotal(calcGasTotal(newLimit, gasPrice)))
+        dispatch(setGasTotal(calcGasTotal(newLimit, gasPrice)));
       }
     },
     setAmountToMax: (maxAmountDataObject) => {
-      dispatch(updateSendErrors({ amount: null }))
-      dispatch(updateSendAmount(calcMaxAmount(maxAmountDataObject)))
+      dispatch(updateSendErrors({ amount: null }));
+      dispatch(updateSendAmount(calcMaxAmount(maxAmountDataObject)));
     },
     showGasButtonGroup: () => dispatch(showGasButtonGroup()),
     resetCustomData: () => dispatch(resetCustomData()),
-  }
+  };
 }
 
-function mergeProps (stateProps, dispatchProps, ownProps) {
-  const { gasPriceButtonGroupProps } = stateProps
-  const { gasButtonInfo } = gasPriceButtonGroupProps
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  const { gasPriceButtonGroupProps } = stateProps;
+  const { gasButtonInfo } = gasPriceButtonGroupProps;
   const {
     setGasPrice: dispatchSetGasPrice,
     showGasButtonGroup: dispatchShowGasButtonGroup,
     resetCustomData: dispatchResetCustomData,
     ...otherDispatchProps
-  } = dispatchProps
+  } = dispatchProps;
 
   return {
     ...stateProps,
@@ -119,10 +132,12 @@ function mergeProps (stateProps, dispatchProps, ownProps) {
       handleGasPriceSelection: dispatchSetGasPrice,
     },
     resetGasButtons: () => {
-      dispatchResetCustomData()
-      dispatchSetGasPrice(gasButtonInfo[1].priceInHexWei, undefined, { isCustom: false })
-      dispatchShowGasButtonGroup()
+      dispatchResetCustomData();
+      dispatchSetGasPrice(gasButtonInfo[1].priceInHexWei, undefined, {
+        isCustom: false,
+      });
+      dispatchShowGasButtonGroup();
     },
     setGasPrice: dispatchSetGasPrice,
-  }
+  };
 }

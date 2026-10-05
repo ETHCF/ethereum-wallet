@@ -1,12 +1,13 @@
-import { connect } from 'react-redux'
-import * as ethUtil from '@ethereumjs/util'
+import * as ethUtil from '@ethereumjs/util';
+import { connect } from 'react-redux';
+
+import SendFooter from './send-footer.component';
 import {
-  addToAddressBook,
-  clearSend,
-  signTokenTx,
-  signTx,
-  updateTransaction,
-} from '../../../store/actions'
+  addressIsNew,
+  constructTxParams,
+  constructUpdatedTx,
+} from './send-footer.utils';
+import { getMostRecentOverviewPage } from '../../../ducks/history/history';
 import {
   getGasLimit,
   getGasPrice,
@@ -25,26 +26,29 @@ import {
   getGasIsLoading,
   getRenderableEstimateDataForSmallButtonsFromGWEI,
   getDefaultActiveButtonIndex,
-} from '../../../selectors'
-import { getMostRecentOverviewPage } from '../../../ducks/history/history'
-import SendFooter from './send-footer.component'
+} from '../../../selectors';
 import {
-  addressIsNew,
-  constructTxParams,
-  constructUpdatedTx,
-} from './send-footer.utils'
+  addToAddressBook,
+  clearSend,
+  signTokenTx,
+  signTx,
+  updateTransaction,
+} from '../../../store/actions';
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendFooter)
+export default connect(mapStateToProps, mapDispatchToProps)(SendFooter);
 
-function mapStateToProps (state) {
-
-  const gasButtonInfo = getRenderableEstimateDataForSmallButtonsFromGWEI(state)
-  const gasPrice = getGasPrice(state)
-  const activeButtonIndex = getDefaultActiveButtonIndex(gasButtonInfo, gasPrice)
-  const gasEstimateType = activeButtonIndex >= 0
-    ? gasButtonInfo[activeButtonIndex].gasEstimateType
-    : 'custom'
-  const editingTransactionId = getSendEditingTransactionId(state)
+function mapStateToProps(state) {
+  const gasButtonInfo = getRenderableEstimateDataForSmallButtonsFromGWEI(state);
+  const gasPrice = getGasPrice(state);
+  const activeButtonIndex = getDefaultActiveButtonIndex(
+    gasButtonInfo,
+    gasPrice,
+  );
+  const gasEstimateType =
+    activeButtonIndex >= 0
+      ? gasButtonInfo[activeButtonIndex].gasEstimateType
+      : 'custom';
+  const editingTransactionId = getSendEditingTransactionId(state);
 
   return {
     amount: getSendAmount(state),
@@ -65,13 +69,22 @@ function mapStateToProps (state) {
     gasEstimateType,
     gasIsLoading: getGasIsLoading(state),
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     clearSend: () => dispatch(clearSend()),
-    sign: ({ sendToken, to, amount, from, gas, gasPrice, gasPriceIsCustom, data }) => {
+    sign: ({
+      sendToken,
+      to,
+      amount,
+      from,
+      gas,
+      gasPrice,
+      gasPriceIsCustom,
+      data,
+    }) => {
       const txParams = constructTxParams({
         amount,
         data,
@@ -81,11 +94,11 @@ function mapDispatchToProps (dispatch) {
         gasPriceIsCustom,
         sendToken,
         to,
-      })
+      });
 
       sendToken
         ? dispatch(signTokenTx(sendToken.address, to, amount, txParams))
-        : dispatch(signTx(txParams))
+        : dispatch(signTx(txParams));
     },
     update: ({
       amount,
@@ -110,17 +123,17 @@ function mapDispatchToProps (dispatch) {
         sendToken,
         to,
         unapprovedTxs,
-      })
+      });
 
-      return dispatch(updateTransaction(editingTx))
+      return dispatch(updateTransaction(editingTx));
     },
 
     addToAddressBookIfNew: (newAddress, toAccounts, nickname = '') => {
-      const hexPrefixedAddress = ethUtil.addHexPrefix(newAddress)
+      const hexPrefixedAddress = ethUtil.addHexPrefix(newAddress);
       if (addressIsNew(toAccounts, hexPrefixedAddress)) {
         // TODO: nickname, i.e. addToAddressBook(recipient, nickname)
-        dispatch(addToAddressBook(hexPrefixedAddress, nickname))
+        dispatch(addToAddressBook(hexPrefixedAddress, nickname));
       }
     },
-  }
+  };
 }

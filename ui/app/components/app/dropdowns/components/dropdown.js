@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import MenuDroppo from '../../menu-droppo'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import MenuDroppo from '../../menu-droppo';
 
 export class Dropdown extends Component {
-  render () {
+  render() {
     const {
       containerClassName,
       isOpen,
@@ -12,15 +13,16 @@ export class Dropdown extends Component {
       innerStyle,
       children,
       useCssTransition,
-    } = this.props
+    } = this.props;
 
     const innerStyleDefaults = {
       borderRadius: '0',
       padding: '8px 16px',
       background: 'var(--color-background-default)',
       border: '1px solid var(--color-border-default)',
-      boxShadow: 'none', ...innerStyle,
-    }
+      boxShadow: 'none',
+      ...innerStyle,
+    };
 
     return (
       <MenuDroppo
@@ -48,15 +50,15 @@ export class Dropdown extends Component {
             }
           `}
         </style>
-        { children }
+        {children}
       </MenuDroppo>
-    )
+    );
   }
 }
 
 Dropdown.defaultProps = {
   useCssTransition: false,
-}
+};
 
 Dropdown.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -66,20 +68,20 @@ Dropdown.propTypes = {
   innerStyle: PropTypes.object,
   useCssTransition: PropTypes.bool,
   containerClassName: PropTypes.string,
-}
+};
 
 export class DropdownMenuItem extends Component {
-  render () {
-    const { onClick, closeMenu, children, style } = this.props
+  render() {
+    const { onClick, closeMenu, children, style } = this.props;
 
     return (
       <li
         className="dropdown-menu-item"
         onClick={() => {
-          onClick()
-          closeMenu()
+          onClick();
+          closeMenu();
         }}
-        style={({
+        style={{
           listStyle: 'none',
           padding: '8px 0px',
           fontSize: '18px',
@@ -88,12 +90,13 @@ export class DropdownMenuItem extends Component {
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          color: 'var(--color-text-default)', ...style,
-        })}
+          color: 'var(--color-text-default)',
+          ...style,
+        }}
       >
         {children}
       </li>
-    )
+    );
   }
 }
 
@@ -102,4 +105,4 @@ DropdownMenuItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   children: PropTypes.node,
   style: PropTypes.object,
-}
+};

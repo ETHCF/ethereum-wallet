@@ -1,31 +1,41 @@
-import contractMap from '@metamask/contract-metadata'
+import contractMap from '@metamask/contract-metadata';
+
+import { toChecksumHexAddress } from '../../../../../../app/scripts/lib/checksum-address';
+import {
+  isValidAddress,
+  isEthNetwork,
+  checkExistingAddresses,
+} from '../../../../helpers/utils/util';
 import {
   REQUIRED_ERROR,
   INVALID_RECIPIENT_ADDRESS_ERROR,
   KNOWN_RECIPIENT_ADDRESS_ERROR,
   INVALID_RECIPIENT_ADDRESS_NOT_ETH_NETWORK_ERROR,
-} from '../../send.constants'
+} from '../../send.constants';
 
-import { isValidAddress, isEthNetwork, checkExistingAddresses } from '../../../../helpers/utils/util'
-import { toChecksumHexAddress } from '../../../../../../app/scripts/lib/checksum-address'
-
-export function getToErrorObject (to, hasHexData = false, network) {
-  let toError = null
+export function getToErrorObject(to, hasHexData = false, network) {
+  let toError = null;
   if (!to) {
     if (!hasHexData) {
-      toError = REQUIRED_ERROR
+      toError = REQUIRED_ERROR;
     }
   } else if (!isValidAddress(to, network) && !toError) {
-    toError = isEthNetwork(network) ? INVALID_RECIPIENT_ADDRESS_ERROR : INVALID_RECIPIENT_ADDRESS_NOT_ETH_NETWORK_ERROR
+    toError = isEthNetwork(network)
+      ? INVALID_RECIPIENT_ADDRESS_ERROR
+      : INVALID_RECIPIENT_ADDRESS_NOT_ETH_NETWORK_ERROR;
   }
 
-  return { to: toError }
+  return { to: toError };
 }
 
-export function getToWarningObject (to, tokens = [], sendToken = null) {
-  let toWarning = null
-  if (sendToken && (toChecksumHexAddress(to) in contractMap || checkExistingAddresses(to, tokens))) {
-    toWarning = KNOWN_RECIPIENT_ADDRESS_ERROR
+export function getToWarningObject(to, tokens = [], sendToken = null) {
+  let toWarning = null;
+  if (
+    sendToken &&
+    (Reflect.has(contractMap, toChecksumHexAddress(to)) ||
+      checkExistingAddresses(to, tokens))
+  ) {
+    toWarning = KNOWN_RECIPIENT_ADDRESS_ERROR;
   }
-  return { to: toWarning }
+  return { to: toWarning };
 }

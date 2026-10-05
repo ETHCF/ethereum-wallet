@@ -1,31 +1,27 @@
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withRouter from '../../helpers/higher-order-components/with-router'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import Routes from './routes.component';
+import { pageChanged } from '../../ducks/history/history';
+import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   getNetworkIdentifier,
   hasPermissionRequests,
   getPreferences,
   submittedPendingTransactionsSelector,
-} from '../../selectors'
+} from '../../selectors';
 import {
   hideSidebar,
   lockEcfWallet,
   setLastActiveTime,
   setMouseUserState,
-} from '../../store/actions'
-import { pageChanged } from '../../ducks/history/history'
-import Routes from './routes.component'
+} from '../../store/actions';
 
-function mapStateToProps (state) {
-  const { appState } = state
-  const {
-    sidebar,
-    alertOpen,
-    alertMessage,
-    isLoading,
-    loadingMessage,
-  } = appState
-  const { autoLockTimeLimit = 0, theme } = getPreferences(state)
+function mapStateToProps(state) {
+  const { appState } = state;
+  const { sidebar, alertOpen, alertMessage, isLoading, loadingMessage } =
+    appState;
+  const { autoLockTimeLimit = 0, theme } = getPreferences(state);
 
   return {
     sidebar,
@@ -44,17 +40,21 @@ function mapStateToProps (state) {
     autoLockTimeLimit,
     theme,
     hasPermissionsRequests: hasPermissionRequests(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     lockEcfWallet: () => dispatch(lockEcfWallet(false)),
     hideSidebar: () => dispatch(hideSidebar()),
-    setMouseUserState: (isMouseUser) => dispatch(setMouseUserState(isMouseUser)),
+    setMouseUserState: (isMouseUser) =>
+      dispatch(setMouseUserState(isMouseUser)),
     setLastActiveTime: () => dispatch(setLastActiveTime()),
     pageChanged: (path) => dispatch(pageChanged(path)),
-  }
+  };
 }
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Routes)
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(Routes);

@@ -1,29 +1,33 @@
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withRouter from '../../helpers/higher-order-components/with-router'
-import { addToken, removeSuggestedTokens } from '../../store/actions'
-import { getMostRecentOverviewPage } from '../../ducks/history/history'
-import ConfirmAddSuggestedToken from './confirm-add-suggested-token.component'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import ConfirmAddSuggestedToken from './confirm-add-suggested-token.component';
+import { getMostRecentOverviewPage } from '../../ducks/history/history';
+import withRouter from '../../helpers/higher-order-components/with-router';
+import { addToken, removeSuggestedTokens } from '../../store/actions';
 
 const mapStateToProps = (state) => {
-  const { ecfWallet: { pendingTokens, suggestedTokens, tokens } } = state
-  const params = { ...pendingTokens, ...suggestedTokens }
+  const {
+    ecfWallet: { pendingTokens, suggestedTokens, tokens },
+  } = state;
+  const params = { ...pendingTokens, ...suggestedTokens };
 
   return {
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
     pendingTokens: params,
     tokens,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToken: ({ address, symbol, decimals, image }) => dispatch(addToken(address, symbol, Number(decimals), image)),
+    addToken: ({ address, symbol, decimals, image }) =>
+      dispatch(addToken(address, symbol, Number(decimals), image)),
     removeSuggestedTokens: () => dispatch(removeSuggestedTokens()),
-  }
-}
+  };
+};
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(ConfirmAddSuggestedToken)
+)(ConfirmAddSuggestedToken);

@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const TabBar = (props) => {
-  const { tabs = [], onSelect, isActive } = props
+  const { tabs = [], onSelect, isActive } = props;
 
   return (
     <div className="tab-bar">
@@ -22,13 +22,13 @@ const TabBar = (props) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 TabBar.propTypes = {
   isActive: PropTypes.func.isRequired,
   tabs: PropTypes.array,
   onSelect: PropTypes.func,
-}
+};
 
-export default TabBar
+export default TabBar;

@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import SendRowWrapper from '../send-row-wrapper'
-import GasPriceButtonGroup from '../../../../components/app/gas-customization/gas-price-button-group'
-import AdvancedGasInputs from '../../../../components/app/gas-customization/advanced-gas-inputs'
-import GasFeeDisplay from './gas-fee-display/gas-fee-display.component'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import AdvancedGasInputs from '../../../../components/app/gas-customization/advanced-gas-inputs';
+import GasPriceButtonGroup from '../../../../components/app/gas-customization/gas-price-button-group';
+import SendRowWrapper from '../send-row-wrapper';
+import GasFeeDisplay from './gas-fee-display/gas-fee-display.component';
 
 export default class SendGasRow extends Component {
-
   static propTypes = {
     balance: PropTypes.string,
     gasFeeError: PropTypes.bool,
@@ -26,48 +26,43 @@ export default class SendGasRow extends Component {
     gasLimit: PropTypes.string,
     insufficientBalance: PropTypes.bool,
     isMainnet: PropTypes.bool,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  renderAdvancedOptionsButton () {
-    const { showCustomizeGasModal, isMainnet } = this.props
+  renderAdvancedOptionsButton() {
+    const { showCustomizeGasModal, isMainnet } = this.props;
     // Tests should behave in same way as mainnet, but are using Localhost
     if (!isMainnet && !process.env.IN_TEST) {
-      return null
+      return null;
     }
     return (
       <div
         className="advanced-gas-options-btn"
         onClick={() => {
-          showCustomizeGasModal()
+          showCustomizeGasModal();
         }}
       >
-        { this.context.t('advancedOptions') }
+        {this.context.t('advancedOptions')}
       </div>
-    )
+    );
   }
 
-  setMaxAmount () {
-    const {
-      balance,
-      gasTotal,
-      sendToken,
-      setAmountToMax,
-      tokenBalance,
-    } = this.props
+  setMaxAmount() {
+    const { balance, gasTotal, sendToken, setAmountToMax, tokenBalance } =
+      this.props;
 
     setAmountToMax({
       balance,
       gasTotal,
       sendToken,
       tokenBalance,
-    })
+    });
   }
 
-  renderContent () {
+  renderContent() {
     const {
       gasLoadingError,
       gasTotal,
@@ -82,7 +77,7 @@ export default class SendGasRow extends Component {
       gasLimit,
       insufficientBalance,
       isMainnet,
-    } = this.props
+    } = this.props;
 
     const gasPriceButtonGroup = (
       <div>
@@ -91,53 +86,57 @@ export default class SendGasRow extends Component {
           showCheck={false}
           {...gasPriceButtonGroupProps}
           handleGasPriceSelection={async (...args) => {
-            await gasPriceButtonGroupProps.handleGasPriceSelection(...args)
+            await gasPriceButtonGroupProps.handleGasPriceSelection(...args);
             if (maxModeOn) {
-              this.setMaxAmount()
+              this.setMaxAmount();
             }
           }}
         />
-        { this.renderAdvancedOptionsButton() }
+        {this.renderAdvancedOptionsButton()}
       </div>
-    )
+    );
     const gasFeeDisplay = (
       <GasFeeDisplay
         gasLoadingError={gasLoadingError}
         gasTotal={gasTotal}
         onReset={() => {
-          resetGasButtons()
+          resetGasButtons();
           if (maxModeOn) {
-            this.setMaxAmount()
+            this.setMaxAmount();
           }
         }}
         onClick={() => showCustomizeGasModal()}
       />
-    )
+    );
     const advancedGasInputs = (
       <div>
         <AdvancedGasInputs
-          updateCustomGasPrice={(newGasPrice) => setGasPrice(newGasPrice, gasLimit)}
-          updateCustomGasLimit={(newGasLimit) => setGasLimit(newGasLimit, gasPrice)}
+          updateCustomGasPrice={(newGasPrice) =>
+            setGasPrice(newGasPrice, gasLimit)
+          }
+          updateCustomGasLimit={(newGasLimit) =>
+            setGasLimit(newGasLimit, gasPrice)
+          }
           customGasPrice={gasPrice}
           customGasLimit={gasLimit}
           insufficientBalance={insufficientBalance}
           customPriceIsSafe
           isSpeedUp={false}
         />
-        { this.renderAdvancedOptionsButton() }
+        {this.renderAdvancedOptionsButton()}
       </div>
-    )
+    );
     // Tests should behave in same way as mainnet, but are using Localhost
     if (!isMainnet && !process.env.IN_TEST) {
-      return advancedGasInputs
+      return advancedGasInputs;
     } else if (gasButtonGroupShown) {
-      return gasPriceButtonGroup
+      return gasPriceButtonGroup;
     }
-    return gasFeeDisplay
+    return gasFeeDisplay;
   }
 
-  render () {
-    const { gasFeeError } = this.props
+  render() {
+    const { gasFeeError } = this.props;
 
     return (
       <SendRowWrapper
@@ -145,9 +144,8 @@ export default class SendGasRow extends Component {
         showError={gasFeeError}
         errorType="gasFee"
       >
-        { this.renderContent() }
+        {this.renderContent()}
       </SendRowWrapper>
-    )
+    );
   }
-
 }

@@ -1,13 +1,13 @@
-import { connect } from 'react-redux'
-import { getOnboardingInitiator } from '../../../selectors'
-import withRouter from '../../../helpers/higher-order-components/with-router'
-import EndOfFlow from './end-of-flow.component'
+import { connect } from 'react-redux';
+
+import EndOfFlow from './end-of-flow.component';
+import withRouter from '../../../helpers/higher-order-components/with-router';
+import { getOnboardingInitiator } from '../../../selectors';
 
 const mapStateToProps = (state) => {
-
   return {
     onboardingInitiator: getOnboardingInitiator(state),
-  }
-}
+  };
+};
 
-export default withRouter(connect(mapStateToProps)(EndOfFlow))
+export default withRouter(connect(mapStateToProps)(EndOfFlow));

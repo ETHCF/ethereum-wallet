@@ -1,20 +1,19 @@
-import assert from 'assert'
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
-import sinon from 'sinon'
-import createMockStore from 'redux-mock-store'
-import { mount } from 'enzyme'
-import ConfirmRemoveAccount from '..'
+import assert from 'assert';
+import { mount } from 'enzyme';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Provider } from 'react-redux';
+import createMockStore from 'redux-mock-store';
+import sinon from 'sinon';
+
+import ConfirmRemoveAccount from '..';
 
 describe('Confirm Remove Account', function () {
-  let wrapper
+  let wrapper;
 
   const state = {
-    ecfWallet: {
-
-    },
-  }
+    ecfWallet: {},
+  };
 
   const props = {
     hideModal: sinon.spy(),
@@ -24,17 +23,17 @@ describe('Confirm Remove Account', function () {
       address: '0xAddress',
       name: 'Account 1',
     },
-  }
+  };
 
-  const mockStore = createMockStore()
-  const store = mockStore(state)
+  const mockStore = createMockStore();
+  const store = mockStore(state);
 
   beforeEach(function () {
-
     wrapper = mount(
-      <Provider store={store} >
+      <Provider store={store}>
         <ConfirmRemoveAccount.WrappedComponent {...props} />
-      </Provider>, {
+      </Provider>,
+      {
         context: {
           t: (str) => str,
           store,
@@ -44,38 +43,40 @@ describe('Confirm Remove Account', function () {
           store: PropTypes.object,
         },
       },
-    )
-  })
+    );
+  });
 
   afterEach(function () {
-    props.hideModal.resetHistory()
-  })
+    props.hideModal.resetHistory();
+  });
 
   it('nevermind', function () {
-    const nevermind = wrapper.find({ type: 'default' })
-    nevermind.simulate('click')
+    const nevermind = wrapper.find({ type: 'default' });
+    nevermind.simulate('click');
 
-    assert(props.hideModal.calledOnce)
-  })
+    assert(props.hideModal.calledOnce);
+  });
 
   it('remove', function (done) {
-    const remove = wrapper.find({ type: 'secondary' })
-    remove.simulate('click')
+    const remove = wrapper.find({ type: 'secondary' });
+    remove.simulate('click');
 
-    assert(props.removeAccount.calledOnce)
-    assert.equal(props.removeAccount.getCall(0).args[0], props.identity.address)
+    assert(props.removeAccount.calledOnce);
+    assert.equal(
+      props.removeAccount.getCall(0).args[0],
+      props.identity.address,
+    );
 
     setImmediate(() => {
-      assert(props.hideModal.calledOnce)
-      done()
-    })
-
-  })
+      assert(props.hideModal.calledOnce);
+      done();
+    });
+  });
 
   it('closes', function () {
-    const close = wrapper.find('.modal-container__header-close')
-    close.simulate('click')
+    const close = wrapper.find('.modal-container__header-close');
+    close.simulate('click');
 
-    assert(props.hideModal.calledOnce)
-  })
-})
+    assert(props.hideModal.calledOnce);
+  });
+});

@@ -1,65 +1,62 @@
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withRouter from '../../helpers/higher-order-components/with-router'
-import { clearConfirmTransaction } from '../../ducks/confirm-transaction/confirm-transaction.duck'
-import { updateSend, showSendTokenPage } from '../../store/actions'
-import { conversionUtil } from '../../helpers/utils/conversion-util'
-import { sendTokenTokenAmountAndToAddressSelector } from '../../selectors'
-import ConfirmSendToken from './confirm-send-token.component'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import ConfirmSendToken from './confirm-send-token.component';
+import { clearConfirmTransaction } from '../../ducks/confirm-transaction/confirm-transaction.duck';
+import withRouter from '../../helpers/higher-order-components/with-router';
+import { conversionUtil } from '../../helpers/utils/conversion-util';
+import { sendTokenTokenAmountAndToAddressSelector } from '../../selectors';
+import { updateSend, showSendTokenPage } from '../../store/actions';
 
 const mapStateToProps = (state) => {
-  const { tokenAmount } = sendTokenTokenAmountAndToAddressSelector(state)
+  const { tokenAmount } = sendTokenTokenAmountAndToAddressSelector(state);
 
   return {
     tokenAmount,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     editTransaction: ({ txData, tokenData, tokenProps }) => {
-
       const {
         id,
-        txParams: {
-          from,
-          to: tokenAddress,
-          gas: gasLimit,
-          gasPrice,
-        } = {},
-      } = txData
+        txParams: { from, to: tokenAddress, gas: gasLimit, gasPrice } = {},
+      } = txData;
 
-      const { params = [] } = tokenData
-      const { value: to } = params[0] || {}
-      const { value: tokenAmountInDec } = params[1] || {}
+      const { params = [] } = tokenData;
+      const { value: to } = params[0] || {};
+      const { value: tokenAmountInDec } = params[1] || {};
 
       const tokenAmountInHex = conversionUtil(tokenAmountInDec, {
         fromNumericBase: 'dec',
         toNumericBase: 'hex',
-      })
+      });
 
-      dispatch(updateSend({
-        from,
-        gasLimit,
-        gasPrice,
-        gasPriceIsCustom: false,
-        gasTotal: null,
-        to,
-        amount: tokenAmountInHex,
-        errors: { to: null, amount: null },
-        editingTransactionId: id && id.toString(),
-        token: {
-          ...tokenProps,
-          address: tokenAddress,
-        },
-      }))
-      dispatch(clearConfirmTransaction())
-      dispatch(showSendTokenPage())
+      dispatch(
+        updateSend({
+          from,
+          gasLimit,
+          gasPrice,
+          gasPriceIsCustom: false,
+          gasTotal: null,
+          to,
+          amount: tokenAmountInHex,
+          errors: { to: null, amount: null },
+          editingTransactionId: id && id.toString(),
+          token: {
+            ...tokenProps,
+            address: tokenAddress,
+          },
+        }),
+      );
+      dispatch(clearConfirmTransaction());
+      dispatch(showSendTokenPage());
     },
-  }
-}
+  };
+};
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(ConfirmSendToken)
+)(ConfirmSendToken);

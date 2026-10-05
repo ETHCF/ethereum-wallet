@@ -1,19 +1,19 @@
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import withRouter from '../../../helpers/higher-order-components/with-router'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums'
-import { goHome } from '../../../store/actions'
+import SignatureRequestOriginal from './signature-request-original.component';
+import { MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums';
+import { clearConfirmTransaction } from '../../../ducks/confirm-transaction/confirm-transaction.duck';
+import { getMostRecentOverviewPage } from '../../../ducks/history/history';
+import withRouter from '../../../helpers/higher-order-components/with-router';
+import { getAccountByAddress } from '../../../helpers/utils/util';
 import {
   accountsWithSendEtherInfoSelector,
   getNativeCurrency,
-} from '../../../selectors'
-import { getAccountByAddress } from '../../../helpers/utils/util'
-import { clearConfirmTransaction } from '../../../ducks/confirm-transaction/confirm-transaction.duck'
-import { getMostRecentOverviewPage } from '../../../ducks/history/history'
-import SignatureRequestOriginal from './signature-request-original.component'
+} from '../../../selectors';
+import { goHome } from '../../../store/actions';
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     requester: null,
     requesterAddress: null,
@@ -21,40 +21,43 @@ function mapStateToProps (state) {
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
     // not passed to component
     allAccounts: accountsWithSendEtherInfoSelector(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     goHome: () => dispatch(goHome()),
     clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
-  }
+  };
 }
 
-function mergeProps (stateProps, dispatchProps, ownProps) {
+function mergeProps(stateProps, dispatchProps, ownProps) {
   const {
     signPersonalMessage,
     signTypedMessage,
     cancelPersonalMessage,
     cancelTypedMessage,
     txData,
-  } = ownProps
+  } = ownProps;
 
-  const { allAccounts } = stateProps
-  delete stateProps.allAccounts
+  const { allAccounts } = stateProps;
+  delete stateProps.allAccounts;
 
-  const { type, msgParams: { from } } = txData
+  const {
+    type,
+    msgParams: { from },
+  } = txData;
 
-  const fromAccount = getAccountByAddress(allAccounts, from)
+  const fromAccount = getAccountByAddress(allAccounts, from);
 
-  let cancel
-  let sign
+  let cancel;
+  let sign;
   if (type === MESSAGE_TYPE.PERSONAL_SIGN) {
-    cancel = cancelPersonalMessage
-    sign = signPersonalMessage
+    cancel = cancelPersonalMessage;
+    sign = signPersonalMessage;
   } else if (type === MESSAGE_TYPE.ETH_SIGN_TYPED_DATA) {
-    cancel = cancelTypedMessage
-    sign = signTypedMessage
+    cancel = cancelTypedMessage;
+    sign = signTypedMessage;
   }
 
   return {
@@ -65,10 +68,10 @@ function mergeProps (stateProps, dispatchProps, ownProps) {
     txData,
     cancel,
     sign,
-  }
+  };
 }
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps, mergeProps),
-)(SignatureRequestOriginal)
+)(SignatureRequestOriginal);

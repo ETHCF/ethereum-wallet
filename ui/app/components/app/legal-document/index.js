@@ -1,1 +1,1 @@
-export { default } from './legal-document'
+export { default } from './legal-document';

@@ -1,1 +1,1 @@
-export { default as unconnectedAccount } from './unconnected-account'
+export { default as unconnectedAccount } from './unconnected-account';

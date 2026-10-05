@@ -1,31 +1,38 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
-import classnames from 'classnames'
-import { useNavigate } from 'react-router-dom'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import Button from '../../ui/button'
-import Identicon from '../../ui/identicon'
-import { I18nContext } from '../../../contexts/i18n'
-import { SEND_ROUTE } from '../../../helpers/constants/routes'
-import Tooltip from '../../ui/tooltip'
-import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
-import { showModal } from '../../../store/actions'
-import { isBalanceCached, getSelectedAccount } from '../../../selectors/selectors'
-import WalletOverview from './wallet-overview'
+import WalletOverview from './wallet-overview';
+import { I18nContext } from '../../../contexts/i18n';
+import { SEND_ROUTE } from '../../../helpers/constants/routes';
+import {
+  isBalanceCached,
+  getSelectedAccount,
+} from '../../../selectors/selectors';
+import { showModal } from '../../../store/actions';
+import Button from '../../ui/button';
+import Identicon from '../../ui/identicon';
+import Tooltip from '../../ui/tooltip';
+import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display';
 
 const EthOverview = ({ className }) => {
-  const dispatch = useDispatch()
-  const t = useContext(I18nContext)
-  const navigate = useNavigate()
-  const balanceIsCached = useSelector(isBalanceCached)
-  const selectedAccount = useSelector(getSelectedAccount)
-  const { balance } = selectedAccount
+  const dispatch = useDispatch();
+  const t = useContext(I18nContext);
+  const navigate = useNavigate();
+  const balanceIsCached = useSelector(isBalanceCached);
+  const selectedAccount = useSelector(getSelectedAccount);
+  const { balance } = selectedAccount;
 
   return (
     <WalletOverview
-      balance={(
-        <Tooltip position="top" title={t('balanceOutdated')} disabled={!balanceIsCached}>
+      balance={
+        <Tooltip
+          position="top"
+          title={t('balanceOutdated')}
+          disabled={!balanceIsCached}
+        >
           <div className="eth-overview__balance">
             <div className="eth-overview__primary-container">
               <UserPreferencedCurrencyDisplay
@@ -37,48 +44,48 @@ const EthOverview = ({ className }) => {
                 ethNumberOfDecimals={4}
                 hideTitle
               />
-              {
-                balanceIsCached ? <span className="eth-overview__cached-star">*</span> : null
-              }
+              {balanceIsCached ? (
+                <span className="eth-overview__cached-star">*</span>
+              ) : null}
             </div>
           </div>
         </Tooltip>
-      )}
-      buttons={(
+      }
+      buttons={
         <>
           <Button
             type="primary"
             className="eth-overview__button"
             onClick={() => {
-              dispatch(showModal({ name: 'ACCOUNT_DETAILS' }))
+              dispatch(showModal({ name: 'ACCOUNT_DETAILS' }));
             }}
           >
-            { t('receive') }
+            {t('receive')}
           </Button>
           <Button
             type="secondary"
             className="eth-overview__button"
             onClick={() => {
-              navigate(SEND_ROUTE)
+              navigate(SEND_ROUTE);
             }}
             data-testid="eth-overview-send"
           >
-            { t('send') }
+            {t('send')}
           </Button>
         </>
-      )}
+      }
       className={className}
       icon={<Identicon diameter={32} />}
     />
-  )
-}
+  );
+};
 
 EthOverview.propTypes = {
   className: PropTypes.string,
-}
+};
 
 EthOverview.defaultProps = {
   className: undefined,
-}
+};
 
-export default EthOverview
+export default EthOverview;

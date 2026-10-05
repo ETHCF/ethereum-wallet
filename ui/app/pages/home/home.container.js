@@ -1,42 +1,43 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import withRouter from '../../helpers/higher-order-components/with-router'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import Home from './home.component';
+import {
+  ENVIRONMENT_TYPE_NOTIFICATION,
+  ENVIRONMENT_TYPE_POPUP,
+} from '../../../../app/scripts/lib/enums';
+import { getEnvironmentType } from '../../../../app/scripts/lib/util';
+import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   unconfirmedTransactionsCountSelector,
   getFirstPermissionRequest,
   getTotalUnapprovedCount,
   getNetworkRequests,
-} from '../../selectors'
-
+} from '../../selectors';
 import {
   setConnectedStatusPopoverHasBeenShown,
   setDefaultHomeActiveTabName,
-} from '../../store/actions'
-import { getEnvironmentType } from '../../../../app/scripts/lib/util'
-import {
-  ENVIRONMENT_TYPE_NOTIFICATION,
-  ENVIRONMENT_TYPE_POPUP,
-} from '../../../../app/scripts/lib/enums'
-import Home from './home.component'
+} from '../../store/actions';
 
 const mapStateToProps = (state) => {
-  const { ecfWallet, appState } = state
+  const { ecfWallet, appState } = state;
   const {
     suggestedTokens,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
-  } = ecfWallet
-  const { forgottenPassword } = appState
-  const totalUnapprovedCount = getTotalUnapprovedCount(state)
+  } = ecfWallet;
+  const { forgottenPassword } = appState;
+  const totalUnapprovedCount = getTotalUnapprovedCount(state);
 
-  const envType = getEnvironmentType()
-  const isPopup = envType === ENVIRONMENT_TYPE_POPUP
-  const isNotification = envType === ENVIRONMENT_TYPE_NOTIFICATION
+  const envType = getEnvironmentType();
+  const isPopup = envType === ENVIRONMENT_TYPE_POPUP;
+  const isNotification = envType === ENVIRONMENT_TYPE_NOTIFICATION;
 
-  const firstPermissionsRequest = getFirstPermissionRequest(state)
-  const firstPermissionsRequestId = (firstPermissionsRequest && firstPermissionsRequest.metadata)
-    ? firstPermissionsRequest.metadata.id
-    : null
+  const firstPermissionsRequest = getFirstPermissionRequest(state);
+  const firstPermissionsRequestId =
+    firstPermissionsRequest && firstPermissionsRequest.metadata
+      ? firstPermissionsRequest.metadata.id
+      : null;
 
   return {
     forgottenPassword,
@@ -49,15 +50,16 @@ const mapStateToProps = (state) => {
     totalUnapprovedCount,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  setConnectedStatusPopoverHasBeenShown: () => dispatch(setConnectedStatusPopoverHasBeenShown()),
+  setConnectedStatusPopoverHasBeenShown: () =>
+    dispatch(setConnectedStatusPopoverHasBeenShown()),
   onTabClick: (name) => dispatch(setDefaultHomeActiveTabName(name)),
-})
+});
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Home)
+)(Home);

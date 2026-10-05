@@ -1,20 +1,24 @@
-import { connect } from 'react-redux'
-import { hideModal } from '../../../../store/actions'
-import { getSelectedIdentity } from '../../../../selectors'
-import AccountModalContainer from './account-modal-container.component'
+import { connect } from 'react-redux';
 
-function mapStateToProps (state, ownProps) {
+import AccountModalContainer from './account-modal-container.component';
+import { getSelectedIdentity } from '../../../../selectors';
+import { hideModal } from '../../../../store/actions';
+
+function mapStateToProps(state, ownProps) {
   return {
     selectedIdentity: ownProps.selectedIdentity || getSelectedIdentity(state),
-  }
+  };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: () => {
-      dispatch(hideModal())
+      dispatch(hideModal());
     },
-  }
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountModalContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AccountModalContainer);

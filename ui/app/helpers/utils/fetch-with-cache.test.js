@@ -1,120 +1,141 @@
-import assert from 'assert'
-import nock from 'nock'
-import sinon from 'sinon'
-import proxyquire from 'proxyquire'
+import assert from 'assert';
+import nock from 'nock';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
-const fakeLocalStorageHelpers = {}
+const fakeLocalStorageHelpers = {};
 const fetchWithCache = proxyquire('./fetch-with-cache', {
   '../../../lib/local-storage-helpers': fakeLocalStorageHelpers,
-}).default
+}).default;
 
 describe('Fetch with cache', function () {
   beforeEach(function () {
-    fakeLocalStorageHelpers.loadLocalStorageData = sinon.stub()
-    fakeLocalStorageHelpers.saveLocalStorageData = sinon.stub()
-  })
+    fakeLocalStorageHelpers.loadLocalStorageData = sinon.stub();
+    fakeLocalStorageHelpers.saveLocalStorageData = sinon.stub();
+  });
+
   afterEach(function () {
-    sinon.restore()
-    nock.cleanAll()
-  })
+    sinon.restore();
+    nock.cleanAll();
+  });
 
   it('fetches a url', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(200, '{"average": 1}')
+      .reply(200, '{"average": 1}');
 
-    const response = await fetchWithCache('https://fetchwithcache.ecf-wallet.test/price')
+    const response = await fetchWithCache(
+      'https://fetchwithcache.ecf-wallet.test/price',
+    );
     assert.deepEqual(response, {
       average: 1,
-    })
-  })
+    });
+  });
 
   it('returns cached response', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(200, '{"average": 2}')
+      .reply(200, '{"average": 2}');
 
     fakeLocalStorageHelpers.loadLocalStorageData.returns({
       'https://fetchwithcache.ecf-wallet.test/price': {
         cachedResponse: { average: 1 },
         cachedTime: Date.now(),
       },
-    })
+    });
 
-    const response = await fetchWithCache('https://fetchwithcache.ecf-wallet.test/price')
+    const response = await fetchWithCache(
+      'https://fetchwithcache.ecf-wallet.test/price',
+    );
     assert.deepEqual(response, {
       average: 1,
-    })
-  })
+    });
+  });
 
   it('fetches URL again after cache refresh time has passed', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(200, '{"average": 3}')
+      .reply(200, '{"average": 3}');
 
     fakeLocalStorageHelpers.loadLocalStorageData.returns({
       'https://fetchwithcache.ecf-wallet.test/cached': {
         cachedResponse: { average: 1 },
         cachedTime: Date.now() - 1000,
       },
-    })
+    });
 
-    const response = await fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', {}, { cacheRefreshTime: 123 })
+    const response = await fetchWithCache(
+      'https://fetchwithcache.ecf-wallet.test/price',
+      {},
+      { cacheRefreshTime: 123 },
+    );
     assert.deepEqual(response, {
       average: 3,
-    })
-  })
+    });
+  });
 
   it('should abort the request when the custom timeout is hit', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
       .delay(100)
-      .reply(200, '{"average": 4}')
+      .reply(200, '{"average": 4}');
 
     await assert.rejects(
-      () => fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', {}, { timeout: 20 }),
+      () =>
+        fetchWithCache(
+          'https://fetchwithcache.ecf-wallet.test/price',
+          {},
+          { timeout: 20 },
+        ),
       { name: 'AbortError', message: 'Aborted' },
-    )
-  })
+    );
+  });
 
   it('throws when the response is unsuccessful', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(500, '{"average": 6}')
+      .reply(500, '{"average": 6}');
 
-    await assert.rejects(
-      () => fetchWithCache('https://fetchwithcache.ecf-wallet.test/price'),
-    )
-  })
+    await assert.rejects(() =>
+      fetchWithCache('https://fetchwithcache.ecf-wallet.test/price'),
+    );
+  });
 
   it('throws when a POST request is attempted', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .post('/price')
-      .reply(200, '{"average": 7}')
+      .reply(200, '{"average": 7}');
 
-    await assert.rejects(
-      () => fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', { method: 'POST' }),
-    )
-  })
+    await assert.rejects(() =>
+      fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', {
+        method: 'POST',
+      }),
+    );
+  });
 
   it('throws when the request has a truthy body', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(200, '{"average": 8}')
+      .reply(200, '{"average": 8}');
 
-    await assert.rejects(
-      () => fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', { body: 1 }),
-    )
-  })
+    await assert.rejects(() =>
+      fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', {
+        body: 1,
+      }),
+    );
+  });
 
   it('throws when the request has an invalid Content-Type header', async function () {
     nock('https://fetchwithcache.ecf-wallet.test')
       .get('/price')
-      .reply(200, '{"average": 9}')
+      .reply(200, '{"average": 9}');
 
     await assert.rejects(
-      () => fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', { headers: { 'Content-Type': 'text/plain' } }),
+      () =>
+        fetchWithCache('https://fetchwithcache.ecf-wallet.test/price', {
+          headers: { 'Content-Type': 'text/plain' },
+        }),
       { message: 'fetchWithCache only supports JSON responses' },
-    )
-  })
-})
+    );
+  });
+});

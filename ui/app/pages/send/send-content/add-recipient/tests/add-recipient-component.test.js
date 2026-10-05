@@ -1,23 +1,24 @@
-import assert from 'assert'
-import React from 'react'
-import { shallow } from 'enzyme'
-import sinon from 'sinon'
-import AddRecipient from '../add-recipient.component'
-import Dialog from '../../../../../components/ui/dialog'
+import assert from 'assert';
+import { shallow } from 'enzyme';
+import React from 'react';
+import sinon from 'sinon';
+
+import Dialog from '../../../../../components/ui/dialog';
+import AddRecipient from '../add-recipient.component';
 
 const propsMethodSpies = {
   updateGas: sinon.spy(),
   updateSendTo: sinon.spy(),
   updateSendToError: sinon.spy(),
   updateSendToWarning: sinon.spy(),
-}
+};
 
 describe('AddRecipient Component', function () {
-  let wrapper
-  let instance
+  let wrapper;
+  let instance;
 
   beforeEach(function () {
-    wrapper = shallow((
+    wrapper = shallow(
       <AddRecipient
         inError={false}
         inWarning={false}
@@ -29,79 +30,111 @@ describe('AddRecipient Component', function () {
         updateSendTo={propsMethodSpies.updateSendTo}
         updateSendToError={propsMethodSpies.updateSendToError}
         updateSendToWarning={propsMethodSpies.updateSendToWarning}
-        addressBook={[{ address: '0x80F061544cC398520615B5d3e7A3BedD70cd4510', name: 'Fav 5' }]}
-        nonContacts={[{ address: '0x70F061544cC398520615B5d3e7A3BedD70cd4510', name: 'Fav 7' }]}
-        contacts={[{ address: '0x60F061544cC398520615B5d3e7A3BedD70cd4510', name: 'Fav 6' }]}
-      />
-    ), { context: { t: (str) => `${str}_t` } })
-    instance = wrapper.instance()
-  })
+        addressBook={[
+          {
+            address: '0x80F061544cC398520615B5d3e7A3BedD70cd4510',
+            name: 'Fav 5',
+          },
+        ]}
+        nonContacts={[
+          {
+            address: '0x70F061544cC398520615B5d3e7A3BedD70cd4510',
+            name: 'Fav 7',
+          },
+        ]}
+        contacts={[
+          {
+            address: '0x60F061544cC398520615B5d3e7A3BedD70cd4510',
+            name: 'Fav 6',
+          },
+        ]}
+      />,
+      { context: { t: (str) => `${str}_t` } },
+    );
+    instance = wrapper.instance();
+  });
 
   afterEach(function () {
-    propsMethodSpies.updateSendTo.resetHistory()
-    propsMethodSpies.updateSendToError.resetHistory()
-    propsMethodSpies.updateSendToWarning.resetHistory()
-    propsMethodSpies.updateGas.resetHistory()
-  })
+    propsMethodSpies.updateSendTo.resetHistory();
+    propsMethodSpies.updateSendToError.resetHistory();
+    propsMethodSpies.updateSendToWarning.resetHistory();
+    propsMethodSpies.updateGas.resetHistory();
+  });
 
   describe('selectRecipient', function () {
-
     it('should call updateSendTo', function () {
-      assert.equal(propsMethodSpies.updateSendTo.callCount, 0)
-      instance.selectRecipient('mockTo2', 'mockNickname')
-      assert.equal(propsMethodSpies.updateSendTo.callCount, 1)
-      assert.deepEqual(
-        propsMethodSpies.updateSendTo.getCall(0).args,
-        ['mockTo2', 'mockNickname'],
-      )
-    })
+      assert.equal(propsMethodSpies.updateSendTo.callCount, 0);
+      instance.selectRecipient('mockTo2', 'mockNickname');
+      assert.equal(propsMethodSpies.updateSendTo.callCount, 1);
+      assert.deepEqual(propsMethodSpies.updateSendTo.getCall(0).args, [
+        'mockTo2',
+        'mockNickname',
+      ]);
+    });
 
     it('should call updateGas if there is no to error', function () {
-      assert.equal(propsMethodSpies.updateGas.callCount, 0)
-      instance.selectRecipient(false)
-      assert.equal(propsMethodSpies.updateGas.callCount, 1)
-    })
-  })
+      assert.equal(propsMethodSpies.updateGas.callCount, 0);
+      instance.selectRecipient(false);
+      assert.equal(propsMethodSpies.updateGas.callCount, 1);
+    });
+  });
 
   describe('render', function () {
     it('should render a component', function () {
-      assert.equal(wrapper.find('.send__select-recipient-wrapper').length, 1)
-    })
+      assert.equal(wrapper.find('.send__select-recipient-wrapper').length, 1);
+    });
 
     it('should render no content if there are no recents, transfers, and contacts', function () {
       wrapper.setProps({
         ownedAccounts: [],
         addressBook: [],
-      })
+      });
 
-      assert.equal(wrapper.find('.send__select-recipient-wrapper__list__link').length, 0)
-      assert.equal(wrapper.find('.send__select-recipient-wrapper__group').length, 0)
-    })
+      assert.equal(
+        wrapper.find('.send__select-recipient-wrapper__list__link').length,
+        0,
+      );
+      assert.equal(
+        wrapper.find('.send__select-recipient-wrapper__group').length,
+        0,
+      );
+    });
 
     it('should render transfer', function () {
       wrapper.setProps({
-        ownedAccounts: [{ address: '0x123', name: '123' }, { address: '0x124', name: '124' }],
+        ownedAccounts: [
+          { address: '0x123', name: '123' },
+          { address: '0x124', name: '124' },
+        ],
         addressBook: [{ address: '0x456', name: 'test-name' }],
-      })
-      wrapper.setState({ isShowingTransfer: true })
+      });
+      wrapper.setState({ isShowingTransfer: true });
 
-      const xferLink = wrapper.find('.send__select-recipient-wrapper__list__link')
-      assert.equal(xferLink.length, 1)
+      const xferLink = wrapper.find(
+        '.send__select-recipient-wrapper__list__link',
+      );
+      assert.equal(xferLink.length, 1);
 
-      const groups = wrapper.find('RecipientGroup')
-      assert.equal(groups.shallow().find('.send__select-recipient-wrapper__group').length, 1)
-    })
+      const groups = wrapper.find('RecipientGroup');
+      assert.equal(
+        groups.shallow().find('.send__select-recipient-wrapper__group').length,
+        1,
+      );
+    });
 
     it('should render ContactList', function () {
       wrapper.setProps({
-        ownedAccounts: [{ address: '0x123', name: '123' }, { address: '0x124', name: '124' }],
+        ownedAccounts: [
+          { address: '0x123', name: '123' },
+          { address: '0x124', name: '124' },
+        ],
         addressBook: [{ address: '0x125' }],
-      })
+      });
 
-      const contactList = wrapper.find('ContactList')
+      const contactList = wrapper.find('ContactList');
 
-      assert.equal(contactList.length, 1)
-    })
+      assert.equal(contactList.length, 1);
+    });
 
     it('should render contacts', function () {
       wrapper.setProps({
@@ -110,17 +143,22 @@ describe('AddRecipient Component', function () {
           { address: '0x126', name: 'alex' },
           { address: '0x127', name: 'catherine' },
         ],
-      })
-      wrapper.setState({ isShowingTransfer: false })
+      });
+      wrapper.setState({ isShowingTransfer: false });
 
-      const xferLink = wrapper.find('.send__select-recipient-wrapper__list__link')
-      assert.equal(xferLink.length, 0)
+      const xferLink = wrapper.find(
+        '.send__select-recipient-wrapper__list__link',
+      );
+      assert.equal(xferLink.length, 0);
 
-      const groups = wrapper.find('ContactList')
-      assert.equal(groups.length, 1)
+      const groups = wrapper.find('ContactList');
+      assert.equal(groups.length, 1);
 
-      assert.equal(groups.find('.send__select-recipient-wrapper__group-item').length, 0)
-    })
+      assert.equal(
+        groups.find('.send__select-recipient-wrapper__group-item').length,
+        0,
+      );
+    });
 
     it('should render error when query has no results', function () {
       wrapper.setProps({
@@ -128,14 +166,14 @@ describe('AddRecipient Component', function () {
         toError: 'bad',
         contacts: [],
         nonContacts: [],
-      })
+      });
 
-      const dialog = wrapper.find(Dialog)
+      const dialog = wrapper.find(Dialog);
 
-      assert.equal(dialog.props().type, 'error')
-      assert.equal(dialog.props().children, 'bad_t')
-      assert.equal(dialog.length, 1)
-    })
+      assert.equal(dialog.props().type, 'error');
+      assert.equal(dialog.props().children, 'bad_t');
+      assert.equal(dialog.length, 1);
+    });
 
     it('should render error when query has ens does not resolve', function () {
       wrapper.setProps({
@@ -144,40 +182,40 @@ describe('AddRecipient Component', function () {
         ensResolutionError: 'very bad',
         contacts: [],
         nonContacts: [],
-      })
+      });
 
-      const dialog = wrapper.find(Dialog)
+      const dialog = wrapper.find(Dialog);
 
-      assert.equal(dialog.props().type, 'error')
-      assert.equal(dialog.props().children, 'very bad')
-      assert.equal(dialog.length, 1)
-    })
+      assert.equal(dialog.props().type, 'error');
+      assert.equal(dialog.props().children, 'very bad');
+      assert.equal(dialog.length, 1);
+    });
 
     it('should render warning', function () {
       wrapper.setProps({
         addressBook: [],
         query: 'yo',
         toWarning: 'watchout',
-      })
+      });
 
-      const dialog = wrapper.find(Dialog)
+      const dialog = wrapper.find(Dialog);
 
-      assert.equal(dialog.props().type, 'warning')
-      assert.equal(dialog.props().children, 'watchout_t')
-      assert.equal(dialog.length, 1)
-    })
+      assert.equal(dialog.props().type, 'warning');
+      assert.equal(dialog.props().children, 'watchout_t');
+      assert.equal(dialog.length, 1);
+    });
 
     it('should not render error when ens resolved', function () {
       wrapper.setProps({
         addressBook: [],
         toError: 'bad',
         ensResolution: '0x128',
-      })
+      });
 
-      const dialog = wrapper.find(Dialog)
+      const dialog = wrapper.find(Dialog);
 
-      assert.equal(dialog.length, 0)
-    })
+      assert.equal(dialog.length, 0);
+    });
 
     it('should not render error when query has results', function () {
       wrapper.setProps({
@@ -187,11 +225,11 @@ describe('AddRecipient Component', function () {
           { address: '0x127', name: 'catherine' },
         ],
         toError: 'bad',
-      })
+      });
 
-      const dialog = wrapper.find(Dialog)
+      const dialog = wrapper.find(Dialog);
 
-      assert.equal(dialog.length, 0)
-    })
-  })
-})
+      assert.equal(dialog.length, 0);
+    });
+  });
+});

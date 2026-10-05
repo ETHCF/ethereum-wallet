@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const LogoTrezor = ({
   width = '100%',
@@ -24,11 +24,10 @@ const LogoTrezor = ({
       <path d="m718.85 183.79c0-40.74-28.07-67-69.72-67h-95.0599v201.9h52.51v-67.9h19.92l37.12 67.9h60.68l-44.37-75.14c19-7.25 38.92-26.26 38.92-59.76zm-76.06 19.92h-36.21v-40.74h36.21c13.58 0 22.64 8.15 22.64 19.92 0 12.67-9.0601 20.82-22.6401 20.82z" />
       <path d="m366.66 115.89h163.87v47.98h-56.13v154.82h-52.52v-154.82h-55.22z" />
     </svg>
-  )
-}
+  );
+};
 
 LogoTrezor.propTypes = {
-
   /**
    * The width of the logo. Defaults to 100%
    */
@@ -48,6 +47,6 @@ LogoTrezor.propTypes = {
    * Aria label to add to the logo component
    */
   ariaLabel: PropTypes.string,
-}
+};
 
-export default LogoTrezor
+export default LogoTrezor;

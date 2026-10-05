@@ -710,9 +710,6 @@
   "memorizePhrase": {
     "message": "Запомните эту фразу."
   },
-  "memo": {
-    "message": "Мнемотик"
-  },
   "ecfWalletVersion": {
     "message": "Версия ECF Wallet"
   },

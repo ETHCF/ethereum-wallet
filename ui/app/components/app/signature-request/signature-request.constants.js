@@ -1,3 +1,3 @@
-import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../../app/scripts/lib/enums'
+import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../../app/scripts/lib/enums';
 
-export { ENVIRONMENT_TYPE_NOTIFICATION }
+export { ENVIRONMENT_TYPE_NOTIFICATION };

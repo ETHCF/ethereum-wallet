@@ -1,52 +1,54 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import Button from '../../../components/ui/button'
-import { INITIALIZE_CREATE_PASSWORD_ROUTE, INITIALIZE_SELECT_ACTION_ROUTE } from '../../../helpers/constants/routes'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import Button from '../../../components/ui/button';
+import {
+  INITIALIZE_CREATE_PASSWORD_ROUTE,
+  INITIALIZE_SELECT_ACTION_ROUTE,
+} from '../../../helpers/constants/routes';
 
 export default class Welcome extends PureComponent {
   static propTypes = {
     navigate: PropTypes.func,
     welcomeScreenSeen: PropTypes.bool,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
-  componentDidMount () {
-    const { navigate, welcomeScreenSeen } = this.props
+  componentDidMount() {
+    const { navigate, welcomeScreenSeen } = this.props;
 
     if (welcomeScreenSeen) {
-      navigate(INITIALIZE_CREATE_PASSWORD_ROUTE)
+      navigate(INITIALIZE_CREATE_PASSWORD_ROUTE);
     }
   }
 
   handleContinue = () => {
-    this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE)
-  }
+    this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE);
+  };
 
-  render () {
-    const { t } = this.context
+  render() {
+    const { t } = this.context;
 
     return (
       <div className="welcome-page__wrapper">
         <div className="welcome-page">
-          <div className="welcome-page__header">
-            { t('welcome') }
-          </div>
+          <div className="welcome-page__header">{t('welcome')}</div>
           <div className="welcome-page__description">
-            <div>{ t('ecfWalletDescription') }</div>
-            <div>{ t('happyToSeeYou') }</div>
+            <div>{t('ecfWalletDescription')}</div>
+            <div>{t('happyToSeeYou')}</div>
           </div>
           <Button
             type="primary"
             className="first-time-flow__button"
             onClick={this.handleContinue}
           >
-            { t('getStarted') }
+            {t('getStarted')}
           </Button>
         </div>
       </div>
-    )
+    );
   }
 }

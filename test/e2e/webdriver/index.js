@@ -1,38 +1,43 @@
-const { Browser } = require('selenium-webdriver')
-const Driver = require('./driver')
-const ChromeDriver = require('./chrome')
-const FirefoxDriver = require('./firefox')
+const { Browser } = require('selenium-webdriver');
 
-async function buildWebDriver ({ responsive, port } = {}) {
-  const browser = process.env.SELENIUM_BROWSER
-  const extensionPath = `dist/${browser}`
+const ChromeDriver = require('./chrome');
+const Driver = require('./driver');
+const FirefoxDriver = require('./firefox');
 
-  const { driver: seleniumDriver, extensionId, extensionUrl } = await buildBrowserWebDriver(browser, { extensionPath, responsive, port })
-  const driver = new Driver(seleniumDriver, browser, extensionUrl)
-  await driver.navigate()
+async function buildWebDriver({ responsive, port } = {}) {
+  const browser = process.env.SELENIUM_BROWSER;
+  const extensionPath = `dist/${browser}`;
 
-  await driver.delay(1000)
+  const {
+    driver: seleniumDriver,
+    extensionId,
+    extensionUrl,
+  } = await buildBrowserWebDriver(browser, { extensionPath, responsive, port });
+  const driver = new Driver(seleniumDriver, browser, extensionUrl);
+  await driver.navigate();
+
+  await driver.delay(1000);
 
   return {
     driver,
     extensionId,
-  }
+  };
 }
 
-async function buildBrowserWebDriver (browser, webDriverOptions) {
+async function buildBrowserWebDriver(browser, webDriverOptions) {
   switch (browser) {
     case Browser.CHROME: {
-      return await ChromeDriver.build(webDriverOptions)
+      return await ChromeDriver.build(webDriverOptions);
     }
     case Browser.FIREFOX: {
-      return await FirefoxDriver.build(webDriverOptions)
+      return await FirefoxDriver.build(webDriverOptions);
     }
     default: {
-      throw new Error(`Unrecognized browser: ${browser}`)
+      throw new Error(`Unrecognized browser: ${browser}`);
     }
   }
 }
 
 module.exports = {
   buildWebDriver,
-}
+};

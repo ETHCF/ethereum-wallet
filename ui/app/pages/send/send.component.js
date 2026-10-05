@@ -1,21 +1,24 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { debounce } from 'lodash'
+import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import SendContent from './send-content';
+import AddRecipient from './send-content/add-recipient';
+import {
+  getToWarningObject,
+  getToErrorObject,
+} from './send-content/add-recipient/add-recipient';
+import EnsInput from './send-content/add-recipient/ens-input';
+import SendFooter from './send-footer';
+import SendHeader from './send-header';
 import {
   getAmountErrorObject,
   getGasFeeErrorObject,
   getToAddressForGasUpdate,
   doesAmountErrorRequireUpdate,
-} from './send.utils'
-import { getToWarningObject, getToErrorObject } from './send-content/add-recipient/add-recipient'
-import SendHeader from './send-header'
-import AddRecipient from './send-content/add-recipient'
-import SendContent from './send-content'
-import SendFooter from './send-footer'
-import EnsInput from './send-content/add-recipient/ens-input'
+} from './send.utils';
 
 export default class SendTransactionScreen extends Component {
-
   static propTypes = {
     addressBook: PropTypes.arrayOf(PropTypes.object),
     amount: PropTypes.string,
@@ -45,24 +48,24 @@ export default class SendTransactionScreen extends Component {
     updateSendTo: PropTypes.func.isRequired,
     updateSendTokenBalance: PropTypes.func.isRequired,
     updateToNicknameIfNecessary: PropTypes.func.isRequired,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   state = {
     query: '',
     toError: null,
     toWarning: null,
+  };
+
+  constructor(props) {
+    super(props);
+    this.dValidate = debounce(this.validate, 1000);
   }
 
-  constructor (props) {
-    super(props)
-    this.dValidate = debounce(this.validate, 1000)
-  }
-
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const {
       amount,
       from: { address, balance },
@@ -77,18 +80,18 @@ export default class SendTransactionScreen extends Component {
       toNickname,
       addressBook,
       updateToNicknameIfNecessary,
-    } = this.props
+    } = this.props;
 
-    let updateGas = false
+    let updateGas = false;
     const {
       from: { balance: prevBalance },
       gasTotal: prevGasTotal,
       tokenBalance: prevTokenBalance,
       network: prevNetwork,
       sendToken: prevSendToken,
-    } = prevProps
+    } = prevProps;
 
-    const uninitialized = [prevBalance, prevGasTotal].every((n) => n === null)
+    const uninitialized = [prevBalance, prevGasTotal].every((n) => n === null);
 
     const amountErrorRequiresUpdate = doesAmountErrorRequireUpdate({
       balance,
@@ -98,7 +101,7 @@ export default class SendTransactionScreen extends Component {
       prevTokenBalance,
       sendToken,
       tokenBalance,
-    })
+    });
 
     if (amountErrorRequiresUpdate) {
       const amountErrorObject = getAmountErrorObject({
@@ -107,108 +110,103 @@ export default class SendTransactionScreen extends Component {
         gasTotal,
         sendToken,
         tokenBalance,
-      })
+      });
       const gasFeeErrorObject = sendToken
         ? getGasFeeErrorObject({
-          balance,
-          gasTotal,
-          sendToken,
-        })
-        : { gasFee: null }
-      updateSendErrors(Object.assign(amountErrorObject, gasFeeErrorObject))
+            balance,
+            gasTotal,
+            sendToken,
+          })
+        : { gasFee: null };
+      updateSendErrors(Object.assign(amountErrorObject, gasFeeErrorObject));
     }
 
     if (!uninitialized) {
-
       if (network !== prevNetwork && network !== 'loading') {
         updateSendTokenBalance({
           sendToken,
           tokenContract,
           address,
-        })
-        updateToNicknameIfNecessary(to, toNickname, addressBook)
-        updateGas = true
+        });
+        updateToNicknameIfNecessary(to, toNickname, addressBook);
+        updateGas = true;
       }
     }
 
-    const prevTokenAddress = prevSendToken && prevSendToken.address
-    const sendTokenAddress = sendToken && sendToken.address
+    const prevTokenAddress = prevSendToken && prevSendToken.address;
+    const sendTokenAddress = sendToken && sendToken.address;
 
     if (sendTokenAddress && prevTokenAddress !== sendTokenAddress) {
-      this.updateSendToken()
-      updateGas = true
+      this.updateSendToken();
+      updateGas = true;
     }
 
     if (updateGas) {
-      this.updateGas()
+      this.updateGas();
     }
   }
 
-  componentDidMount () {
-    this.props.fetchBasicGasEstimates()
-      .then(() => {
-        this.updateGas()
-      })
+  componentDidMount() {
+    // eslint-disable-next-line promise/catch-or-return -- fire-and-forget from componentDidMount; adding a catch would swallow errors
+    this.props.fetchBasicGasEstimates().then(() => {
+      this.updateGas();
+      return undefined;
+    });
   }
 
-  UNSAFE_componentWillMount () {
-    this.updateSendToken()
+  UNSAFE_componentWillMount() {
+    this.updateSendToken();
   }
 
-  componentWillUnmount () {
-    this.props.resetSendState()
+  componentWillUnmount() {
+    this.props.resetSendState();
   }
 
   onRecipientInputChange = (query) => {
     if (query) {
-      this.dValidate(query)
+      this.dValidate(query);
     } else {
-      this.validate(query)
+      this.validate(query);
     }
 
     this.setState({
       query,
-    })
-  }
+    });
+  };
 
-  validate (query) {
-    const {
-      hasHexData,
-      tokens,
-      sendToken,
-      network,
-    } = this.props
+  validate(query) {
+    const { hasHexData, tokens, sendToken, network } = this.props;
 
     if (!query) {
-      this.setState({ toError: '', toWarning: '' })
-      return
+      this.setState({ toError: '', toWarning: '' });
+      return;
     }
 
-    const toErrorObject = getToErrorObject(query, hasHexData, network)
-    const toWarningObject = getToWarningObject(query, tokens, sendToken)
+    const toErrorObject = getToErrorObject(query, hasHexData, network);
+    const toWarningObject = getToWarningObject(query, tokens, sendToken);
 
     this.setState({
       toError: toErrorObject.to,
       toWarning: toWarningObject.to,
-    })
+    });
   }
 
-  updateSendToken () {
+  updateSendToken() {
     const {
       from: { address },
       sendToken,
       tokenContract,
       updateSendTokenBalance,
-    } = this.props
+    } = this.props;
 
     updateSendTokenBalance({
       sendToken,
       tokenContract,
       address,
-    })
+    });
   }
 
-  updateGas ({ to: updatedToAddress, amount: value, data } = {}) {
+  updateGas({ to: updatedToAddress, amount: value, data } = {}) {
     const {
       amount,
       blockGasLimit,
@@ -219,7 +217,7 @@ export default class SendTransactionScreen extends Component {
       sendToken,
       to: currentToAddress,
       updateAndSetGasLimit,
-    } = this.props
+    } = this.props;
 
     updateAndSetGasLimit({
       blockGasLimit,
@@ -231,68 +229,71 @@ export default class SendTransactionScreen extends Component {
       to: getToAddressForGasUpdate(updatedToAddress, currentToAddress),
       value: value || amount,
       data,
-    })
+    });
   }
 
-  render () {
-    const { navigate, to } = this.props
-    let content
+  render() {
+    const { navigate, to } = this.props;
+    let content;
 
     if (to) {
-      content = this.renderSendContent()
+      content = this.renderSendContent();
     } else {
-      content = this.renderAddRecipient()
+      content = this.renderAddRecipient();
     }
 
     return (
       <div className="page-container">
         <SendHeader navigate={navigate} />
-        { this.renderInput() }
-        { content }
+        {this.renderInput()}
+        {content}
       </div>
-    )
+    );
   }
 
-  renderInput () {
+  renderInput() {
     return (
       <EnsInput
         className="send__to-row"
         onChange={this.onRecipientInputChange}
         onValidAddressTyped={(address) => this.props.updateSendTo(address, '')}
         onPaste={(text) => {
-          this.props.updateSendTo(text) && this.updateGas()
+          this.props.updateSendTo(text) && this.updateGas();
         }}
         onReset={() => this.props.updateSendTo('', '')}
         updateEnsResolution={this.props.updateSendEnsResolution}
         updateEnsResolutionError={this.props.updateSendEnsResolutionError}
       />
-    )
+    );
   }
 
-  renderAddRecipient () {
-    const { toError, toWarning } = this.state
+  renderAddRecipient() {
+    const { toError, toWarning } = this.state;
 
     return (
       <AddRecipient
-        updateGas={({ to, amount, data } = {}) => this.updateGas({ to, amount, data })}
+        updateGas={({ to, amount, data } = {}) =>
+          this.updateGas({ to, amount, data })
+        }
         query={this.state.query}
         toError={toError}
         toWarning={toWarning}
       />
-    )
+    );
   }
 
-  renderSendContent () {
-    const { navigate, showHexData } = this.props
+  renderSendContent() {
+    const { navigate, showHexData } = this.props;
 
     return [
       <SendContent
         key="send-content"
-        updateGas={({ to, amount, data } = {}) => this.updateGas({ to, amount, data })}
+        updateGas={({ to, amount, data } = {}) =>
+          this.updateGas({ to, amount, data })
+        }
         showHexData={showHexData}
       />,
       <SendFooter key="send-footer" navigate={navigate} />,
-    ]
+    ];
   }
-
 }

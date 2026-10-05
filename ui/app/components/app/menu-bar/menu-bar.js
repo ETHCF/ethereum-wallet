@@ -1,32 +1,37 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import extension from '../../../../../app/scripts/lib/extension-api'
-import SelectedAccount from '../selected-account'
-import ConnectedStatusIndicator from '../connected-status-indicator'
-import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums'
-import { CONNECTED_ACCOUNTS_ROUTE } from '../../../helpers/constants/routes'
-import { useI18nContext } from '../../../hooks/useI18nContext'
-import { getOriginOfCurrentTab } from '../../../selectors'
-import AccountOptionsMenu from './account-options-menu'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-export default function MenuBar () {
-  const t = useI18nContext()
-  const navigate = useNavigate()
-  const [accountOptionsButtonElement, setAccountOptionsButtonElement] = useState(null)
-  const [accountOptionsMenuOpen, setAccountOptionsMenuOpen] = useState(false)
-  const origin = useSelector(getOriginOfCurrentTab)
+import AccountOptionsMenu from './account-options-menu';
+import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums';
+import extension from '../../../../../app/scripts/lib/extension-api';
+import { getEnvironmentType } from '../../../../../app/scripts/lib/util';
+import { CONNECTED_ACCOUNTS_ROUTE } from '../../../helpers/constants/routes';
+import { useI18nContext } from '../../../hooks/useI18nContext';
+import { getOriginOfCurrentTab } from '../../../selectors';
+import ConnectedStatusIndicator from '../connected-status-indicator';
+import SelectedAccount from '../selected-account';
 
-  const showStatus = getEnvironmentType() === ENVIRONMENT_TYPE_POPUP && origin && origin !== extension.runtime.id
+export default function MenuBar() {
+  const t = useI18nContext();
+  const navigate = useNavigate();
+  const [accountOptionsButtonElement, setAccountOptionsButtonElement] =
+    useState(null);
+  const [accountOptionsMenuOpen, setAccountOptionsMenuOpen] = useState(false);
+  const origin = useSelector(getOriginOfCurrentTab);
+
+  const showStatus =
+    getEnvironmentType() === ENVIRONMENT_TYPE_POPUP &&
+    origin &&
+    origin !== extension.runtime.id;
 
   return (
     <div className="menu-bar">
-      {
-        showStatus
-          ? <ConnectedStatusIndicator onClick={() => navigate(CONNECTED_ACCOUNTS_ROUTE)} />
-          : null
-      }
+      {showStatus ? (
+        <ConnectedStatusIndicator
+          onClick={() => navigate(CONNECTED_ACCOUNTS_ROUTE)}
+        />
+      ) : null}
 
       <SelectedAccount />
 
@@ -36,18 +41,16 @@ export default function MenuBar () {
         ref={setAccountOptionsButtonElement}
         title={t('accountOptions')}
         onClick={() => {
-          setAccountOptionsMenuOpen(true)
+          setAccountOptionsMenuOpen(true);
         }}
       />
 
-      {
-        accountOptionsMenuOpen && (
-          <AccountOptionsMenu
-            anchorElement={accountOptionsButtonElement}
-            onClose={() => setAccountOptionsMenuOpen(false)}
-          />
-        )
-      }
+      {accountOptionsMenuOpen && (
+        <AccountOptionsMenu
+          anchorElement={accountOptionsButtonElement}
+          onClose={() => setAccountOptionsMenuOpen(false)}
+        />
+      )}
     </div>
-  )
+  );
 }

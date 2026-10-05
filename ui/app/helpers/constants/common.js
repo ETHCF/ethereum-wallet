@@ -1,13 +1,13 @@
-export const ETH = 'ETH'
-export const GWEI = 'GWEI'
-export const WEI = 'WEI'
+export const ETH = 'ETH';
+export const GWEI = 'GWEI';
+export const WEI = 'WEI';
 
 export const NETWORK_TYPES = {
   MAINNET: 'mainnet',
-}
+};
 
 export const GAS_ESTIMATE_TYPES = {
   SLOW: 'SLOW',
   AVERAGE: 'AVERAGE',
   FAST: 'FAST',
-}
+};

@@ -1,24 +1,24 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import Modal, { ModalContent } from '../../modal'
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import Modal, { ModalContent } from '../../modal';
 
 export default class ConfirmResetAccount extends PureComponent {
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
     resetAccount: PropTypes.func.isRequired,
-  }
+  };
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   handleReset = () => {
-    this.props.resetAccount()
-      .then(() => this.props.hideModal())
-  }
+    return this.props.resetAccount().then(() => this.props.hideModal());
+  };
 
-  render () {
-    const { t } = this.context
+  render() {
+    const { t } = this.context;
 
     return (
       <Modal
@@ -33,6 +33,6 @@ export default class ConfirmResetAccount extends PureComponent {
           description={t('resetAccountDescription')}
         />
       </Modal>
-    )
+    );
   }
 }

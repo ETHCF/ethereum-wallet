@@ -1,34 +1,35 @@
-import assert from 'assert'
-import React from 'react'
-import sinon from 'sinon'
-import { mountWithRouter } from '../../../../../../test/lib/render-helpers'
-import { DEFAULT_ROUTE } from '../../../../helpers/constants/routes'
-import EndOfFlowScreen from '..'
+import assert from 'assert';
+import React from 'react';
+import sinon from 'sinon';
+
+import EndOfFlowScreen from '..';
+import { mountWithRouter } from '../../../../../../test/lib/render-helpers';
+import { DEFAULT_ROUTE } from '../../../../helpers/constants/routes';
 
 describe('End of Flow Screen', function () {
-  let wrapper
+  let wrapper;
 
   const props = {
     navigate: sinon.spy(),
-  }
+  };
 
   beforeEach(function () {
-    wrapper = mountWithRouter(
-      <EndOfFlowScreen.WrappedComponent {...props} />,
-    )
-  })
+    wrapper = mountWithRouter(<EndOfFlowScreen.WrappedComponent {...props} />);
+  });
 
   it('renders', function () {
-    assert.equal(wrapper.length, 1)
-  })
+    assert.equal(wrapper.length, 1);
+  });
 
   it('should navigate to the default route on click', function (done) {
-    const endOfFlowButton = wrapper.find('.btn-primary.first-time-flow__button')
-    endOfFlowButton.simulate('click')
+    const endOfFlowButton = wrapper.find(
+      '.btn-primary.first-time-flow__button',
+    );
+    endOfFlowButton.simulate('click');
 
     setImmediate(() => {
-      assert(props.navigate.calledOnceWithExactly(DEFAULT_ROUTE))
-      done()
-    })
-  })
-})
+      assert(props.navigate.calledOnceWithExactly(DEFAULT_ROUTE));
+      done();
+    });
+  });
+});

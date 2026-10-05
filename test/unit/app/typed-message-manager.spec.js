@@ -1,116 +1,147 @@
-import assert from 'assert'
-import sinon from 'sinon'
-import NetworkController from '../../../app/scripts/controllers/network'
-import TypedMessageManager from '../../../app/scripts/lib/typed-message-manager'
+import assert from 'assert';
+import sinon from 'sinon';
+
+import NetworkController from '../../../app/scripts/controllers/network';
+import TypedMessageManager from '../../../app/scripts/lib/typed-message-manager';
 
 describe('Typed Message Manager', function () {
-  let typedMessageManager, msgParamsV1, msgParamsV3, typedMsgs, messages, msgId, numberMsgId
+  let typedMessageManager,
+    msgParamsV1,
+    msgParamsV3,
+    typedMsgs,
+    messages,
+    msgId,
+    numberMsgId;
 
-  const address = '0xc42edfcc21ed14dda456aa0756c153f7985d8813'
-  const networkController = new NetworkController()
-  sinon.stub(networkController, 'getChainId').returns('0x1')
+  const address = '0xc42edfcc21ed14dda456aa0756c153f7985d8813';
+  const networkController = new NetworkController();
+  sinon.stub(networkController, 'getChainId').returns('0x1');
 
   beforeEach(function () {
     typedMessageManager = new TypedMessageManager({
       networkController,
-    })
+    });
 
     msgParamsV1 = {
       from: address,
       data: [
         { type: 'string', name: 'unit test', value: 'hello there' },
-        { type: 'uint32', name: 'A number, but not really a number', value: '123' },
+        {
+          type: 'uint32',
+          name: 'A number, but not really a number',
+          value: '123',
+        },
       ],
-    }
+    };
 
     msgParamsV3 = {
       from: address,
       data: JSON.stringify({
-        'types': {
-          'EIP712Domain': [
-            { 'name': 'name', 'type': 'string' },
-            { 'name': 'version', 'type': 'string' },
-            { 'name': 'chainId', 'type': 'uint256' },
-            { 'name': 'verifyingContract', 'type': 'address' },
+        types: {
+          EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
           ],
-          'Person': [
-            { 'name': 'name', 'type': 'string' },
-            { 'name': 'wallet', 'type': 'address' },
+          Person: [
+            { name: 'name', type: 'string' },
+            { name: 'wallet', type: 'address' },
           ],
-          'Mail': [
-            { 'name': 'from', 'type': 'Person' },
-            { 'name': 'to', 'type': 'Person' },
-            { 'name': 'contents', 'type': 'string' },
+          Mail: [
+            { name: 'from', type: 'Person' },
+            { name: 'to', type: 'Person' },
+            { name: 'contents', type: 'string' },
           ],
         },
-        'primaryType': 'Mail',
-        'domain': {
-          'name': 'Ether Mainl',
-          'version': '1',
-          'chainId': 1,
-          'verifyingContract': '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+        primaryType: 'Mail',
+        domain: {
+          name: 'Ether Mainl',
+          version: '1',
+          chainId: 1,
+          verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         },
-        'message': {
-          'from': {
-            'name': 'Cow',
-            'wallet': '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+        message: {
+          from: {
+            name: 'Cow',
+            wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
           },
-          'to': {
-            'name': 'Bob',
-            'wallet': '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+          to: {
+            name: 'Bob',
+            wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
           },
-          'contents': 'Hello, Bob!',
+          contents: 'Hello, Bob!',
         },
       }),
-    }
+    };
 
-    typedMessageManager.addUnapprovedMessage(msgParamsV3, null, 'V3')
-    typedMsgs = typedMessageManager.getUnapprovedMsgs()
-    messages = typedMessageManager.messages
-    msgId = Object.keys(typedMsgs)[0]
-    messages[0].msgParams.ecfWalletId = parseInt(msgId, 10)
-    numberMsgId = parseInt(msgId, 10)
-  })
+    typedMessageManager.addUnapprovedMessage(msgParamsV3, null, 'V3');
+    typedMsgs = typedMessageManager.getUnapprovedMsgs();
+    messages = typedMessageManager.messages;
+    msgId = Object.keys(typedMsgs)[0];
+    messages[0].msgParams.ecfWalletId = parseInt(msgId, 10);
+    numberMsgId = parseInt(msgId, 10);
+  });
 
   it('supports version 1 of signedTypedData', function () {
-    typedMessageManager.addUnapprovedMessage(msgParamsV1, null, 'V1')
-    assert.deepEqual(messages[messages.length - 1].msgParams.data, msgParamsV1.data)
-  })
+    typedMessageManager.addUnapprovedMessage(msgParamsV1, null, 'V1');
+    assert.deepEqual(
+      messages[messages.length - 1].msgParams.data,
+      msgParamsV1.data,
+    );
+  });
 
   it('has params address', function () {
-    assert.equal(typedMsgs[msgId].msgParams.from, address)
-  })
+    assert.equal(typedMsgs[msgId].msgParams.from, address);
+  });
 
   it('adds to unapproved messages and sets status to unapproved', function () {
-    assert.equal(typedMsgs[msgId].status, 'unapproved')
-  })
+    assert.equal(typedMsgs[msgId].status, 'unapproved');
+  });
 
   it('validates params', function () {
     assert.doesNotThrow(() => {
-      typedMessageManager.validateParams(messages[0].msgParams)
-    }, 'Does not throw with valid parameters')
-  })
+      typedMessageManager.validateParams(messages[0].msgParams);
+    }, 'Does not throw with valid parameters');
+  });
+
+  it('rejects a primary type that is only an inherited property of types', function () {
+    const manager = typedMessageManager;
+    for (const primaryType of ['toString', 'constructor', '__proto__']) {
+      const data = JSON.parse(msgParamsV3.data);
+      data.primaryType = primaryType;
+      assert.throws(
+        () =>
+          manager.validateParams({
+            from: address,
+            data: JSON.stringify(data),
+            version: 'V4',
+          }),
+        { message: `Primary type of "${primaryType}" has no type definition.` },
+        primaryType,
+      );
+    }
+  });
 
   it('gets unapproved by id', function () {
-    const getMsg = typedMessageManager.getMsg(numberMsgId)
-    assert.equal(getMsg.id, numberMsgId)
-  })
+    const getMsg = typedMessageManager.getMsg(numberMsgId);
+    assert.equal(getMsg.id, numberMsgId);
+  });
 
   it('approves messages', async function () {
-    const messageEcfWalletId = messages[0].msgParams
-    typedMessageManager.approveMessage(messageEcfWalletId)
-    assert.equal(messages[0].status, 'approved')
-  })
+    const messageEcfWalletId = messages[0].msgParams;
+    typedMessageManager.approveMessage(messageEcfWalletId);
+    assert.equal(messages[0].status, 'approved');
+  });
 
   it('sets msg status to signed and adds a raw sig to message details', function () {
-    typedMessageManager.setMsgStatusSigned(numberMsgId, 'raw sig')
-    assert.equal(messages[0].status, 'signed')
-    assert.equal(messages[0].rawSig, 'raw sig')
-  })
+    typedMessageManager.setMsgStatusSigned(numberMsgId, 'raw sig');
+    assert.equal(messages[0].status, 'signed');
+    assert.equal(messages[0].rawSig, 'raw sig');
+  });
 
   it('rejects message', function () {
-    typedMessageManager.rejectMsg(numberMsgId)
-    assert.equal(messages[0].status, 'rejected')
-  })
-
-})
+    typedMessageManager.rejectMsg(numberMsgId);
+    assert.equal(messages[0].status, 'rejected');
+  });
+});

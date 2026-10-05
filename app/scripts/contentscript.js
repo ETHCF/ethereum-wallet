@@ -1,22 +1,23 @@
-import querystring from 'querystring'
-import pump from 'pump'
-import { WindowPostMessageStream } from '@metamask/post-message-stream'
-import ObjectMultiplex from '@metamask/object-multiplex'
-import extension from './lib/extension-api'
-import shouldInjectProvider from './lib/should-inject-provider'
-import ReconnectingPortStream from './lib/reconnecting-port-stream'
+import ObjectMultiplex from '@metamask/object-multiplex';
+import { WindowPostMessageStream } from '@metamask/post-message-stream';
+import pump from 'pump';
+import querystring from 'querystring';
+
+import extension from './lib/extension-api';
+import ReconnectingPortStream from './lib/reconnecting-port-stream';
+import shouldInjectProvider from './lib/should-inject-provider';
 
 if (shouldInjectProvider()) {
-  start()
+  start();
 }
 
 /**
  * Sets up the stream communication and submits site metadata
  *
  */
-async function start () {
-  await setupStreams()
-  await domIsReady()
+async function start() {
+  await setupStreams();
+  await domIsReady();
 }
 
 /**
@@ -24,51 +25,47 @@ async function start () {
  * browser extension and local per-page browser context.
  *
  */
-async function setupStreams () {
+async function setupStreams() {
   // the transport-specific streams for communication between inpage and background
   const pageStream = new WindowPostMessageStream({
     name: 'ecf-wallet-contentscript',
     target: 'ecf-wallet-inpage',
-  })
-  const extensionStream = new ReconnectingPortStream(() => extension.runtime.connect({ name: 'contentscript' }))
+  });
+  const extensionStream = new ReconnectingPortStream(() =>
+    extension.runtime.connect({ name: 'contentscript' }),
+  );
 
   // create and connect channel muxers
   // so we can handle the channels individually
-  const pageMux = new ObjectMultiplex()
-  pageMux.setMaxListeners(25)
-  const extensionMux = new ObjectMultiplex()
-  extensionMux.setMaxListeners(25)
+  const pageMux = new ObjectMultiplex();
+  pageMux.setMaxListeners(25);
+  const extensionMux = new ObjectMultiplex();
+  extensionMux.setMaxListeners(25);
 
-  pump(
-    pageMux,
-    pageStream,
-    pageMux,
-    (err) => logStreamDisconnectWarning('ecf-wallet Inpage Multiplex', err),
-  )
-  pump(
-    extensionMux,
-    extensionStream,
-    extensionMux,
-    (err) => logStreamDisconnectWarning('ecf-wallet Background Multiplex', err),
-  )
+  pump(pageMux, pageStream, pageMux, (err) =>
+    logStreamDisconnectWarning('ecf-wallet Inpage Multiplex', err),
+  );
+  pump(extensionMux, extensionStream, extensionMux, (err) =>
+    logStreamDisconnectWarning('ecf-wallet Background Multiplex', err),
+  );
 
   // forward communication across inpage-background for this channel only
-  forwardTrafficBetweenMuxers('provider', pageMux, extensionMux)
+  forwardTrafficBetweenMuxers('provider', pageMux, extensionMux);
 
   // connect "phishing" channel to warning system
-  const phishingStream = extensionMux.createStream('phishing')
-  phishingStream.once('data', redirectToPhishingWarning)
+  const phishingStream = extensionMux.createStream('phishing');
+  phishingStream.once('data', redirectToPhishingWarning);
 }
 
-function forwardTrafficBetweenMuxers (channelName, muxA, muxB) {
-  const channelA = muxA.createStream(channelName)
-  const channelB = muxB.createStream(channelName)
-  pump(
-    channelA,
-    channelB,
-    channelA,
-    (err) => logStreamDisconnectWarning(`ecf-wallet muxed traffic for channel "${channelName}" failed.`, err),
-  )
+function forwardTrafficBetweenMuxers(channelName, muxA, muxB) {
+  const channelA = muxA.createStream(channelName);
+  const channelB = muxB.createStream(channelName);
+  pump(channelA, channelB, channelA, (err) =>
+    logStreamDisconnectWarning(
+      `ecf-wallet muxed traffic for channel "${channelName}" failed.`,
+      err,
+    ),
+  );
 }
 
 /**
@@ -77,34 +74,38 @@ function forwardTrafficBetweenMuxers (channelName, muxA, muxB) {
  * @param {string} remoteLabel - Remote stream name
  * @param {Error} err - Stream connection error
  */
-function logStreamDisconnectWarning (remoteLabel, err) {
-  let warningMsg = `EcfWalletContentscript - lost connection to ${remoteLabel}`
+function logStreamDisconnectWarning(remoteLabel, err) {
+  let warningMsg = `EcfWalletContentscript - lost connection to ${remoteLabel}`;
   if (err) {
-    warningMsg += `\n${err.stack}`
+    warningMsg += `\n${err.stack}`;
   }
-  console.warn(warningMsg)
+  console.warn(warningMsg);
 }
 
 /**
  * Redirects the current page to a phishing information page
  */
-function redirectToPhishingWarning () {
-  console.log('ecf-wallet - routing to Phishing Warning component')
-  const extensionURL = extension.runtime.getURL('phishing.html')
+function redirectToPhishingWarning() {
+  console.log('ecf-wallet - routing to Phishing Warning component');
+  const extensionURL = extension.runtime.getURL('phishing.html');
   window.location.href = `${extensionURL}#${querystring.stringify({
     hostname: window.location.hostname,
     href: window.location.href,
-  })}`
+  })}`;
 }
 
 /**
  * Returns a promise that resolves when the DOM is loaded (does not wait for images to load)
+ *
+ * @returns {Promise<void>} Resolves once the document is interactive.
  */
-async function domIsReady () {
+async function domIsReady() {
   // already loaded
   if (['interactive', 'complete'].includes(document.readyState)) {
-    return undefined
+    return undefined;
   }
   // wait for load
-  return new Promise((resolve) => window.addEventListener('DOMContentLoaded', resolve, { once: true }))
+  return new Promise((resolve) =>
+    window.addEventListener('DOMContentLoaded', resolve, { once: true }),
+  );
 }

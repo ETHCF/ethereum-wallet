@@ -1,24 +1,24 @@
-import assert from 'assert'
-import React from 'react'
-import { thunk } from 'redux-thunk'
-import { Provider } from 'react-redux'
-import configureMockStore from 'redux-mock-store'
-import { mount } from 'enzyme'
-import sinon from 'sinon'
-import { MemoryRouter } from 'react-router-dom'
+import assert from 'assert';
+import { mount } from 'enzyme';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+import sinon from 'sinon';
 
-import Identicon from '../../ui/identicon'
-import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router'
-import TokenCell from '.'
+import TokenCell from '.';
+import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router';
+import Identicon from '../../ui/identicon';
 
 describe('Token Cell', function () {
-  let wrapper
+  let wrapper;
 
   const state = {
     ecfWallet: {
       currentCurrency: 'usd',
       selectedAddress: '0xAddress',
-      conversionRate: 7.00,
+      conversionRate: 7.0,
       preferences: {},
       provider: {
         chainId: '1',
@@ -31,16 +31,16 @@ describe('Token Cell', function () {
         isOpen: true,
       },
     },
-  }
+  };
 
-  const middlewares = [thunk]
-  const mockStore = configureMockStore(middlewares)
-  const store = mockStore(state)
+  const middlewares = [thunk];
+  const mockStore = configureMockStore(middlewares);
+  const store = mockStore(state);
 
-  let onClick
+  let onClick;
 
   beforeEach(function () {
-    onClick = sinon.stub()
+    onClick = sinon.stub();
     wrapper = mount(
       <Provider store={store}>
         <MemoryRouter future={ROUTER_FUTURE_FLAGS}>
@@ -54,25 +54,25 @@ describe('Token Cell', function () {
           />
         </MemoryRouter>
       </Provider>,
-    )
-  })
+    );
+  });
 
   afterEach(function () {
-    sinon.restore()
-  })
+    sinon.restore();
+  });
 
   it('renders Identicon with props from token cell', function () {
-    assert.equal(wrapper.find(Identicon).prop('address'), '0xAnotherToken')
-    assert.equal(wrapper.find(Identicon).prop('image'), './test-image')
-  })
+    assert.equal(wrapper.find(Identicon).prop('address'), '0xAnotherToken');
+    assert.equal(wrapper.find(Identicon).prop('image'), './test-image');
+  });
 
   it('renders token balance and symbol', function () {
-    assert.equal(wrapper.find('.list-item__heading').text(), '5.000 TEST')
-  })
+    assert.equal(wrapper.find('.list-item__heading').text(), '5.000 TEST');
+  });
 
   it('calls onClick when clicked', function () {
-    assert.ok(!onClick.called)
-    wrapper.simulate('click')
-    assert.ok(onClick.called)
-  })
-})
+    assert.ok(!onClick.called);
+    wrapper.simulate('click');
+    assert.ok(onClick.called);
+  });
+});

@@ -1,1 +1,1 @@
-export { default } from './srp-quiz.component'
+export { default } from './srp-quiz.component';

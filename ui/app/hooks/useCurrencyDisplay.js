@@ -1,24 +1,27 @@
-import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
-import { getValueFromWeiHex } from '../helpers/utils/confirm-tx.util'
-import { getNativeCurrency } from '../selectors'
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getValueFromWeiHex } from '../helpers/utils/confirm-tx.util';
+import { getNativeCurrency } from '../selectors';
 
 /**
  * Defines the shape of the options parameter for useCurrencyDisplay
- * @typedef {Object} UseCurrencyOptions
- * @property {string} [displayValue]     - When present is used in lieu of formatting the inputValue
- * @property {string} [prefix]           - String to prepend to the final result
+ *
+ * @typedef {object} UseCurrencyOptions
+ * @property {string} [displayValue] - When present is used in lieu of formatting the inputValue
+ * @property {string} [prefix] - String to prepend to the final result
  * @property {number} [numberOfDecimals] - Number of significant decimals to display
- * @property {string} [denomination]     - Denomination (wei, gwei) to convert to for display
- * @property {string} [currency]         - Currency label to show. Defaults to nativeCurrency
+ * @property {string} [denomination] - Denomination (wei, gwei) to convert to for display
+ * @property {string} [currency] - Currency label to show. Defaults to nativeCurrency
  */
 
 /**
  * Defines the return shape of the second value in the tuple
- * @typedef {Object} CurrencyDisplayParts
- * @property {string} [prefix]  - string to prepend to the value for display
- * @property {string} value     - string representing the value, formatted for display
- * @property {string} [suffix]  - string to append to the value for display
+ *
+ * @typedef {object} CurrencyDisplayParts
+ * @property {string} [prefix] - string to prepend to the value for display
+ * @property {string} value - string representing the value, formatted for display
+ * @property {string} [suffix] - string to append to the value for display
  */
 
 /**
@@ -27,18 +30,22 @@ import { getNativeCurrency } from '../selectors'
  * Given a hexadecimal encoded value string and an object of parameters used for formatting the
  * display, produce both a fully formed string and the pieces of that string used for displaying
  * the currency to the user
- * @param {string} inputValue          - The value to format for display
- * @param {UseCurrencyOptions} opts    - An object for options to format the inputValue
- * @return {[string, CurrencyDisplayParts]}
+ *
+ * @param {string} inputValue - The value to format for display
+ * @param {UseCurrencyOptions} opts - An object for options to format the inputValue
+ * @returns {[string, CurrencyDisplayParts]} The formatted string and its parts
  */
-export function useCurrencyDisplay (inputValue, { displayValue, prefix, numberOfDecimals, denomination, currency, ...opts }) {
-  const nativeCurrency = useSelector(getNativeCurrency)
+export function useCurrencyDisplay(
+  inputValue,
+  { displayValue, prefix, numberOfDecimals, denomination, currency, ...opts },
+) {
+  const nativeCurrency = useSelector(getNativeCurrency);
 
-  const toCurrency = currency || nativeCurrency
+  const toCurrency = currency || nativeCurrency;
 
   const value = useMemo(() => {
     if (displayValue) {
-      return displayValue
+      return displayValue;
     }
     return getValueFromWeiHex({
       value: inputValue,
@@ -46,14 +53,17 @@ export function useCurrencyDisplay (inputValue, { displayValue, prefix, numberOf
       toCurrency,
       numberOfDecimals: numberOfDecimals || 2,
       toDenomination: denomination,
-    })
-  }, [inputValue, displayValue, numberOfDecimals, denomination, toCurrency])
+    });
+  }, [inputValue, displayValue, numberOfDecimals, denomination, toCurrency]);
 
-  let suffix
+  let suffix;
 
   if (!opts.hideLabel) {
-    suffix = opts.suffix || toCurrency.toUpperCase()
+    suffix = opts.suffix || toCurrency.toUpperCase();
   }
 
-  return [`${prefix || ''}${value}${suffix ? ` ${suffix}` : ''}`, { prefix, value, suffix }]
+  return [
+    `${prefix || ''}${value}${suffix ? ` ${suffix}` : ''}`,
+    { prefix, value, suffix },
+  ];
 }

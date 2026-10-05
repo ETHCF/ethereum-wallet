@@ -1,76 +1,92 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import Button from '../../components/ui/button'
-import { useI18nContext } from '../../hooks/useI18nContext'
-import { getNetworkRequests } from '../../selectors/selectors'
-import { getMostRecentOverviewPage } from '../../ducks/history/history'
-import { getNetworkDisplayName } from '../../helpers/utils/network-display'
-import { approveNetworkRequest, rejectNetworkRequest } from '../../store/actions'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function hostOf (origin) {
+import Button from '../../components/ui/button';
+import { getMostRecentOverviewPage } from '../../ducks/history/history';
+import { getNetworkDisplayName } from '../../helpers/utils/network-display';
+import { useI18nContext } from '../../hooks/useI18nContext';
+import { getNetworkRequests } from '../../selectors/selectors';
+import {
+  approveNetworkRequest,
+  rejectNetworkRequest,
+} from '../../store/actions';
+
+function hostOf(origin) {
   try {
-    return new URL(origin).host
+    return new URL(origin).host;
   } catch (_) {
-    return origin
+    return origin;
   }
 }
 
-export default function ConfirmNetworkRequest () {
-  const t = useI18nContext()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const [request] = useSelector(getNetworkRequests)
-  const provider = useSelector((state) => state.ecfWallet.provider)
-  const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage)
-  const [error, setError] = useState(null)
-  const [submitting, setSubmitting] = useState(false)
+export default function ConfirmNetworkRequest() {
+  const t = useI18nContext();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [request] = useSelector(getNetworkRequests);
+  const provider = useSelector((state) => state.ecfWallet.provider);
+  const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!request) {
-      navigate(mostRecentOverviewPage)
+      navigate(mostRecentOverviewPage);
     }
-  }, [request, navigate, mostRecentOverviewPage])
+  }, [request, navigate, mostRecentOverviewPage]);
 
   useEffect(() => {
-    setError(null)
-  }, [request?.id])
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- clears a previous request's error when the next request is shown
+    setError(null);
+  }, [request?.id]);
 
   if (!request) {
-    return null
+    return null;
   }
 
-  const { id, origin, type, network, warnings } = request
-  const isAdd = type === 'add'
+  const { id, origin, type, network, warnings } = request;
+  const isAdd = type === 'add';
   const respond = async (action) => {
-    setSubmitting(true)
-    setError(null)
+    setSubmitting(true);
+    setError(null);
     try {
-      await dispatch(action(id))
+      await dispatch(action(id));
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   const rows = [
     [t('networkName'), network.chainName],
     [t('chainId'), `${parseInt(network.chainId, 16)} (${network.chainId})`],
     [t('symbol'), network.ticker],
     network.rpcUrl && [t('rpcUrl'), network.rpcUrl],
-    network.blockExplorerUrl && [t('blockExplorerUrl'), network.blockExplorerUrl],
+    network.blockExplorerUrl && [
+      t('blockExplorerUrl'),
+      network.blockExplorerUrl,
+    ],
     [t('networkRequestCurrentNetwork'), getNetworkDisplayName(provider, t)],
-  ].filter(Boolean)
+  ].filter(Boolean);
 
   return (
-    <div className="page-container confirm-network-request" data-testid="confirm-network-request">
+    <div
+      className="page-container confirm-network-request"
+      data-testid="confirm-network-request"
+    >
       <div className="page-container__header">
         <div className="page-container__title">
           {t(isAdd ? 'networkRequestAddTitle' : 'networkRequestSwitchTitle')}
         </div>
         <div className="page-container__subtitle">
-          {t(isAdd ? 'networkRequestAddDescription' : 'networkRequestSwitchDescription', [hostOf(origin)])}
+          {t(
+            isAdd
+              ? 'networkRequestAddDescription'
+              : 'networkRequestSwitchDescription',
+            [hostOf(origin)],
+          )}
         </div>
       </div>
       <div className="page-container__content confirm-network-request__content">
@@ -86,9 +102,11 @@ export default function ConfirmNetworkRequest () {
         {warnings.map(([key, args]) => (
           <div
             key={key}
-            className={key === 'networkRequestRpcNotice'
-              ? 'confirm-network-request__notice'
-              : 'confirm-network-request__warning'}
+            className={
+              key === 'networkRequestRpcNotice'
+                ? 'confirm-network-request__notice'
+                : 'confirm-network-request__warning'
+            }
             data-testid={`network-request-${key}`}
           >
             {t(key, args)}
@@ -116,10 +134,14 @@ export default function ConfirmNetworkRequest () {
             disabled={submitting}
             onClick={() => respond(approveNetworkRequest)}
           >
-            {t(isAdd ? 'networkRequestApproveAdd' : 'networkRequestApproveSwitch')}
+            {t(
+              isAdd
+                ? 'networkRequestApproveAdd'
+                : 'networkRequestApproveSwitch',
+            )}
           </Button>
         </footer>
       </div>
     </div>
-  )
+  );
 }

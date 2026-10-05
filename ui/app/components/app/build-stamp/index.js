@@ -1,1 +1,1 @@
-export { default } from './build-stamp'
+export { default } from './build-stamp';

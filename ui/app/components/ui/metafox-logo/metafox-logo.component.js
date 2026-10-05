@@ -1,21 +1,22 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import EcfWalletLogo from '../logo/ecf-wallet-logo'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+
+import EcfWalletLogo from '../logo/ecf-wallet-logo';
 
 export default class MetaFoxLogo extends PureComponent {
   static propTypes = {
     onClick: PropTypes.func,
     unsetIconHeight: PropTypes.bool,
-  }
+  };
 
   static defaultProps = {
     onClick: undefined,
-  }
+  };
 
-  render () {
-    const { onClick, unsetIconHeight } = this.props
-    const iconProps = unsetIconHeight ? {} : { height: 42, width: 42 }
+  render() {
+    const { onClick, unsetIconHeight } = this.props;
+    const iconProps = unsetIconHeight ? {} : { height: 42, width: 42 };
 
     return (
       <div
@@ -26,15 +27,21 @@ export default class MetaFoxLogo extends PureComponent {
       >
         <EcfWalletLogo
           height={30}
-          className={classnames('app-header__metafox-logo', 'app-header__metafox-logo--horizontal')}
+          className={classnames(
+            'app-header__metafox-logo',
+            'app-header__metafox-logo--horizontal',
+          )}
         />
         <img
           {...iconProps}
           src="/images/logo/ecf-wallet-icon.svg"
           alt="ECF Wallet"
-          className={classnames('app-header__metafox-logo', 'app-header__metafox-logo--icon')}
+          className={classnames(
+            'app-header__metafox-logo',
+            'app-header__metafox-logo--icon',
+          )}
         />
       </div>
-    )
+    );
   }
 }

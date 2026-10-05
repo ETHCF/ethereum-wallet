@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Fuse from 'fuse.js'
-import Identicon from '../../../../components/ui/identicon'
-import { isValidAddress } from '../../../../helpers/utils/util'
-import Dialog from '../../../../components/ui/dialog'
-import ContactList from '../../../../components/app/contact-list'
-import RecipientGroup from '../../../../components/app/contact-list/recipient-group/recipient-group.component'
-import Button from '../../../../components/ui/button'
+import Fuse from 'fuse.js';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import ContactList from '../../../../components/app/contact-list';
+import RecipientGroup from '../../../../components/app/contact-list/recipient-group/recipient-group.component';
+import Button from '../../../../components/ui/button';
+import Dialog from '../../../../components/ui/dialog';
+import Identicon from '../../../../components/ui/identicon';
+import { isValidAddress } from '../../../../helpers/utils/util';
 
 export default class AddRecipient extends Component {
-
   static propTypes = {
     query: PropTypes.string,
     ownedAccounts: PropTypes.array,
@@ -23,20 +23,18 @@ export default class AddRecipient extends Component {
     addressBookEntryName: PropTypes.string,
     contacts: PropTypes.array,
     nonContacts: PropTypes.array,
-  }
+  };
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.recentFuse = new Fuse(props.nonContacts, {
       shouldSort: true,
       threshold: 0.45,
       location: 0,
       distance: 100,
       minMatchCharLength: 1,
-      keys: [
-        { name: 'address', weight: 0.5 },
-      ],
-    })
+      keys: [{ name: 'address', weight: 0.5 }],
+    });
 
     this.contactFuse = new Fuse(props.contacts, {
       shouldSort: true,
@@ -48,73 +46,76 @@ export default class AddRecipient extends Component {
         { name: 'name', weight: 0.5 },
         { name: 'address', weight: 0.5 },
       ],
-    })
+    });
   }
 
   static contextTypes = {
     t: PropTypes.func,
-  }
+  };
 
   state = {
     isShowingTransfer: false,
-  }
+  };
 
   selectRecipient = (to, nickname = '') => {
-    const { updateSendTo, updateGas } = this.props
+    const { updateSendTo, updateGas } = this.props;
 
-    updateSendTo(to, nickname)
-    updateGas({ to })
-  }
+    updateSendTo(to, nickname);
+    updateGas({ to });
+  };
 
   searchForContacts = () => {
-    const { query, contacts } = this.props
+    const { query, contacts } = this.props;
 
-    let _contacts = contacts
+    let _contacts = contacts;
 
     if (query) {
-      this.contactFuse.setCollection(contacts)
-      _contacts = this.contactFuse.search(query).map(({ item }) => item)
+      this.contactFuse.setCollection(contacts);
+      _contacts = this.contactFuse.search(query).map(({ item }) => item);
     }
 
-    return _contacts
-  }
+    return _contacts;
+  };
 
   searchForRecents = () => {
-    const { query, nonContacts } = this.props
+    const { query, nonContacts } = this.props;
 
-    let _nonContacts = nonContacts
+    let _nonContacts = nonContacts;
 
     if (query) {
-      this.recentFuse.setCollection(nonContacts)
-      _nonContacts = this.recentFuse.search(query).map(({ item }) => item)
+      this.recentFuse.setCollection(nonContacts);
+      _nonContacts = this.recentFuse.search(query).map(({ item }) => item);
     }
 
-    return _nonContacts
-  }
+    return _nonContacts;
+  };
 
-  render () {
-    const { ensResolution, query, addressBookEntryName } = this.props
-    const { isShowingTransfer } = this.state
+  render() {
+    const { ensResolution, query, addressBookEntryName } = this.props;
+    const { isShowingTransfer } = this.state;
 
-    let content
+    let content;
 
     if (isValidAddress(query)) {
-      content = this.renderExplicitAddress(query)
+      content = this.renderExplicitAddress(query);
     } else if (ensResolution) {
-      content = this.renderExplicitAddress(ensResolution, addressBookEntryName || query)
+      content = this.renderExplicitAddress(
+        ensResolution,
+        addressBookEntryName || query,
+      );
     } else if (isShowingTransfer) {
-      content = this.renderTransfer()
+      content = this.renderTransfer();
     }
 
     return (
       <div className="send__select-recipient-wrapper">
-        { this.renderDialogs() }
-        { content || this.renderMain() }
+        {this.renderDialogs()}
+        {content || this.renderMain()}
       </div>
-    )
+    );
   }
 
-  renderExplicitAddress (address, name) {
+  renderExplicitAddress(address, name) {
     return (
       <div
         key={address}
@@ -126,21 +127,19 @@ export default class AddRecipient extends Component {
           <div className="send__select-recipient-wrapper__group-item__title">
             {name || address}
           </div>
-          {
-            name && (
-              <div className="send__select-recipient-wrapper__group-item__subtitle">
-                {address}
-              </div>
-            )
-          }
+          {name && (
+            <div className="send__select-recipient-wrapper__group-item__subtitle">
+              {address}
+            </div>
+          )}
         </div>
       </div>
-    )
+    );
   }
 
-  renderTransfer () {
-    const { ownedAccounts } = this.props
-    const { t } = this.context
+  renderTransfer() {
+    const { ownedAccounts } = this.props;
+    const { t } = this.context;
 
     return (
       <div className="send__select-recipient-wrapper__list">
@@ -150,7 +149,7 @@ export default class AddRecipient extends Component {
           onClick={() => this.setState({ isShowingTransfer: false })}
         >
           <div className="send__select-recipient-wrapper__list__back-caret" />
-          { t('backToAll') }
+          {t('backToAll')}
         </Button>
         <RecipientGroup
           label={t('myAccounts')}
@@ -158,12 +157,12 @@ export default class AddRecipient extends Component {
           onSelect={this.selectRecipient}
         />
       </div>
-    )
+    );
   }
 
-  renderMain () {
-    const { t } = this.context
-    const { query, ownedAccounts = [], addressBook } = this.props
+  renderMain() {
+    const { t } = this.context;
+    const { query, ownedAccounts = [], addressBook } = this.props;
 
     return (
       <div className="send__select-recipient-wrapper__list">
@@ -173,66 +172,55 @@ export default class AddRecipient extends Component {
           searchForRecents={this.searchForRecents.bind(this)}
           selectRecipient={this.selectRecipient.bind(this)}
         >
-          {
-            (ownedAccounts && ownedAccounts.length > 1) && !query && (
-              <Button
-                type="link"
-                className="send__select-recipient-wrapper__list__link"
-                onClick={() => this.setState({ isShowingTransfer: true })}
-              >
-                { t('transferBetweenAccounts') }
-              </Button>
-            )
-          }
+          {ownedAccounts && ownedAccounts.length > 1 && !query && (
+            <Button
+              type="link"
+              className="send__select-recipient-wrapper__list__link"
+              onClick={() => this.setState({ isShowingTransfer: true })}
+            >
+              {t('transferBetweenAccounts')}
+            </Button>
+          )}
         </ContactList>
       </div>
-    )
+    );
   }
 
-  renderDialogs () {
-    const { toError, toWarning, ensResolutionError, ensResolution } = this.props
-    const { t } = this.context
-    const contacts = this.searchForContacts()
-    const recents = this.searchForRecents()
+  renderDialogs() {
+    const { toError, toWarning, ensResolutionError, ensResolution } =
+      this.props;
+    const { t } = this.context;
+    const contacts = this.searchForContacts();
+    const recents = this.searchForRecents();
 
     if (contacts.length || recents.length) {
-      return null
+      return null;
     }
 
     if (ensResolutionError) {
       return (
-        <Dialog
-          type="error"
-          className="send__error-dialog"
-        >
+        <Dialog type="error" className="send__error-dialog">
           {ensResolutionError}
         </Dialog>
-      )
+      );
     }
 
     if (toError && toError !== 'required' && !ensResolution) {
       return (
-        <Dialog
-          type="error"
-          className="send__error-dialog"
-        >
+        <Dialog type="error" className="send__error-dialog">
           {t(toError)}
         </Dialog>
-      )
+      );
     }
 
     if (toWarning) {
       return (
-        <Dialog
-          type="warning"
-          className="send__error-dialog"
-        >
+        <Dialog type="warning" className="send__error-dialog">
           {t(toWarning)}
         </Dialog>
-      )
+      );
     }
 
-    return null
+    return null;
   }
-
 }
