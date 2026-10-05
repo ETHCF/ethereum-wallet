@@ -146,14 +146,6 @@ module.exports = [
   },
 
   {
-    // Reads the built manifest, which only exists after a build.
-    files: ['development/ecf-walletbot-build-announce.js'],
-    rules: {
-      'import/no-unresolved': 'off',
-    },
-  },
-
-  {
     files: ['app/scripts/migrations/*.js'],
     rules: {
       'import/no-anonymous-default-export': ['error', { 'allowObject': true }],

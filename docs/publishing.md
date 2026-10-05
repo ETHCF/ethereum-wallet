@@ -20,9 +20,7 @@ We try to ensure certain criteria are met before deploying:
 
 ## Incrementing Version & Changelog
 
-Version can be automatically incremented by creating a branch with the name `Version-vX.Y.Z`, where `X`, `Y`, and `Z` are numbers. Branches should be created off of the main branch. [Branches can be created on GitHub.](https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository)
-
-Once a version branch has been created, a build on CircleCI will create a Pull Request for the release with the app manifest and changelog versions bumped.
+Bump the version by hand in a pull request: set `version` in `app/manifest/_base.json` and add the release's section to `CHANGELOG.md` (`yarn update-changelog` drafts it from the commit history).
 
 ## Preparing for Sensitive Changes
 
@@ -32,7 +30,7 @@ In the case that a new release has sensitive changes that cannot be fully verifi
 
 While we develop on the main `develop` branch, our production version is maintained on the `master` branch.
 
-With each pull request, the CI will comment with a build of that new pull request, so after bumping the version on `develop`, open a pull request against `master`, and once the pull request is reviewed and merged, you can download those builds for publication.
+Each CI run uploads the packaged builds as the `extension-builds` artifact (kept for 7 days), so after bumping the version on `develop`, open a pull request against `master`, and once the pull request is reviewed and merged, download that run's builds for publication.
 
 ## Publishing
 
