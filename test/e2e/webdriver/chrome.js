@@ -8,8 +8,12 @@ const connectBrowser = require('./browser-cdp');
  * A wrapper around a {@code WebDriver} instance exposing Chrome-specific functionality
  */
 class ChromeDriver {
-  static async build({ extensionPath, responsive, port }) {
+  static async build({ extensionPath, responsive, port, hostResolverRules }) {
     const args = ['--enable-unsafe-extension-debugging'];
+    if (hostResolverRules) {
+      // Serves real hostnames, such as listed phishing sites, from local servers.
+      args.push(`--host-resolver-rules=${hostResolverRules}`);
+    }
     if (responsive && process.env.SELENIUM_HEADLESS === 'true') {
       // Headless Chrome shows no DevTools panel to narrow the page, so use a
       // phone-sized window instead.

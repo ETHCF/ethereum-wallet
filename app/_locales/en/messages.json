@@ -1572,6 +1572,10 @@
     "message": "This lets $1 transfer every NFT you hold in this collection, including ones you get later, until you revoke it.",
     "description": "$1 is an address"
   },
+  "alertMalformedTokenCall": {
+    "message": "This token call is not encoded the standard way. Contracts can read it differently from what is shown here, so it could move or approve more than it appears to. Do not continue unless you trust this site.",
+    "description": "Shown when transaction data for a token transfer or approval is not standard ABI encoding"
+  },
   "alertUnlimitedApproval": {
     "message": "This lets $1 spend any amount of this token until you revoke it.",
     "description": "$1 is an address"

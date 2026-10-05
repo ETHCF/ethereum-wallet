@@ -64,8 +64,34 @@ describe('On-device security checks', function () {
           .approved,
         true,
       );
+      assert.equal(approve.malformed, false);
       assert.equal(decodeCall('0xdeadbeef'), undefined);
-      assert.equal(decodeCall('0xa9059cbb1234'), undefined);
+    });
+
+    it('reads malformed calls as a contract that does not check them would', function () {
+      const standard = encode('095ea7b3', ['address', 'uint256'], [SPENDER, 1]);
+      // Dirty padding above the spender address, which older contracts mask off.
+      const dirty = decodeCall(
+        `0x095ea7b3${'ff'.repeat(12)}${standard.slice(34)}`,
+      );
+      assert.equal(dirty.malformed, true);
+      assert.equal(dirty.spender, SPENDER);
+      assert.equal(dirty.amount.toString(10), '1');
+      // Missing calldata reads as zeros on the right, so a truncated amount
+      // of 0xff is 0xff followed by 31 zero bytes to the contract.
+      const short = decodeCall(
+        encode('095ea7b3', ['address', 'uint256'], [SPENDER, MAX]).slice(
+          0,
+          10 + 64 + 2,
+        ),
+      );
+      assert.equal(short.malformed, true);
+      assert.equal(short.amount.toString(16), `ff${'0'.repeat(62)}`);
+      // Not even whole bytes: nothing can be read, but it is still malformed.
+      assert.deepEqual(decodeCall('0xa9059cbb123'), {
+        kind: 'tokenTransfer',
+        malformed: true,
+      });
     });
   });
 
@@ -177,6 +203,30 @@ describe('On-device security checks', function () {
         ...makeContext(),
       });
       assert.deepEqual(revoke, []);
+    });
+
+    it('flags token calls that are not encoded the standard way, and still checks them', async function () {
+      const standard = encode(
+        '095ea7b3',
+        ['address', 'uint256'],
+        [SPENDER, MAX],
+      );
+      const dirtyApproval = await getTransactionAlerts({
+        txParams: {
+          to: TOKEN,
+          data: `0x095ea7b3${'ff'.repeat(12)}${standard.slice(34)}`,
+        },
+        ...makeContext(),
+      });
+      assert.deepEqual(ids(dirtyApproval), [
+        'alertMalformedTokenCall',
+        'alertUnlimitedApproval',
+      ]);
+      const unreadable = await getTransactionAlerts({
+        txParams: { to: TOKEN, data: '0xa9059cbb123' },
+        ...makeContext(),
+      });
+      assert.deepEqual(ids(unreadable), ['alertMalformedTokenCall']);
     });
 
     it('flags approving a whole NFT collection', async function () {

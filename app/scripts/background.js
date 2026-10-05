@@ -15,6 +15,7 @@ import pump from 'pump';
 import ReadOnlyNetworkStore from './lib/network-store';
 import createStreamSink from './lib/createStreamSink';
 import NotificationManager from './lib/notification-manager';
+import { PHISHING_WARNING_CONTINUE } from './lib/phishing-warnings';
 import EcfWalletController from './ecf-wallet-controller';
 import rawFirstTimeState from './first-time-state';
 import ClipboardCleaner from './lib/clipboard-cleaner';
@@ -474,6 +475,24 @@ async function setupController(initState, initLangCode) {
       remotePort.sender?.url?.startsWith(extension.runtime.getURL(''));
 
     if (ecfWalletBlockedPorts.includes(remotePort.name)) {
+      return;
+    }
+
+    if (processName === PHISHING_WARNING_CONTINUE) {
+      const { sender } = remotePort;
+      const isWarningPage =
+        sender?.id === extension.runtime.id &&
+        sender.frameId === 0 &&
+        sender.tab &&
+        sender.url &&
+        new URL(sender.url).pathname === '/phishing.html' &&
+        sender.url.startsWith(extension.runtime.getURL(''));
+      if (isWarningPage) {
+        controller
+          .continueFromPhishingWarning(sender.tab.id)
+          .catch((error) => log.error('ecf-wallet - unable to continue', error))
+          .finally(() => remotePort.disconnect());
+      }
       return;
     }
 

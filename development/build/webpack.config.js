@@ -88,6 +88,11 @@ module.exports = function createWebpackConfigs({
   generatePolicy = false,
   conf = {},
 }) {
+  // The e2e tests drive extension pages with WebDriver's executeScript, which
+  // evaluates its scripts through the page's Function constructor.
+  const lockdown = testing
+    ? { ...lockdownOptions, evalTaming: 'unsafe-eval' }
+    : lockdownOptions;
   // Runs first in each sandboxed bundle. LavaMoat locks down before any module
   // runs; without it, lockdown-dev.js does.
   const sandboxed = (entry) => [
@@ -101,7 +106,7 @@ module.exports = function createWebpackConfigs({
       // Relative to the working directory, which the build scripts set to rootDir.
       policyLocation: path.join('lavamoat', 'webpack', name),
       generatePolicyOnly: generatePolicy,
-      lockdown: lockdownOptions,
+      lockdown,
       readableResourceIds: true,
       runChecks: true,
     });
@@ -153,7 +158,7 @@ module.exports = function createWebpackConfigs({
         'process.env.ECF_WALLET_DEBUG': JSON.stringify(Boolean(devMode)),
         'process.env.IN_TEST': JSON.stringify(testing ? 'true' : false),
         'process.env.CONF': JSON.stringify(devMode ? conf : {}),
-        'process.env.LOCKDOWN_OPTIONS': JSON.stringify(lockdownOptions),
+        'process.env.LOCKDOWN_OPTIONS': JSON.stringify(lockdown),
       }),
     ],
     stats: 'errors-warnings',

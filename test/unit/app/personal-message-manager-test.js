@@ -141,5 +141,11 @@ describe('Personal Message Manager', function () {
       const output = messageManager.normalizeMsgData(input);
       assert.equal(output, '0x12', 'adds prefix');
     });
+
+    it('reads odd-length hex as text, so the bytes shown are the bytes signed', function () {
+      // As hex, the keyring would sign 0x0abc and the confirmation show 0xab.
+      assert.equal(messageManager.normalizeMsgData('0xabc'), '0x3078616263');
+      assert.equal(messageManager.normalizeMsgData('abc'), '0x616263');
+    });
   });
 });

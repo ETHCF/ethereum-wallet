@@ -4,7 +4,7 @@ const ChromeDriver = require('./chrome');
 const Driver = require('./driver');
 const FirefoxDriver = require('./firefox');
 
-async function buildWebDriver({ responsive, port } = {}) {
+async function buildWebDriver({ responsive, port, hostResolverRules } = {}) {
   const browser = process.env.SELENIUM_BROWSER;
   const extensionPath = `dist/${browser}`;
 
@@ -12,7 +12,12 @@ async function buildWebDriver({ responsive, port } = {}) {
     driver: seleniumDriver,
     extensionId,
     extensionUrl,
-  } = await buildBrowserWebDriver(browser, { extensionPath, responsive, port });
+  } = await buildBrowserWebDriver(browser, {
+    extensionPath,
+    responsive,
+    port,
+    hostResolverRules,
+  });
   const driver = new Driver(seleniumDriver, browser, extensionUrl);
   await driver.navigate();
 

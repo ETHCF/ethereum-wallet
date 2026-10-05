@@ -50,8 +50,13 @@ export default class EnsInput extends Component {
     if (networkHasEnsSupport) {
       const provider = global.ethereumProvider;
       this.ens = new ENS({ provider, network });
-      this.checkName = debounce(this.lookupEnsName, 200);
     }
+    this.checkName = debounce(this.lookupEnsName, 200);
+  }
+
+  componentWillUnmount() {
+    this.checkName.cancel();
+    this.unmounted = true;
   }
 
   // If an address is sent without a nickname, meaning not from ENS or from
@@ -79,10 +84,18 @@ export default class EnsInput extends Component {
   lookupEnsName = (ensName) => {
     const recipient = ensName.trim();
 
+    // A lookup for an earlier entry, or one that finishes after a later
+    // lookup, must not attach its address to the name now in the field.
+    const isCurrent = () =>
+      !this.unmounted && this.state.input.trim() === recipient;
+
     log.info(`ENS attempting to resolve name: ${recipient}`);
     this.ens
       .lookup(recipient)
       .then((address) => {
+        if (!isCurrent()) {
+          return undefined;
+        }
         if (address === ZERO_ADDRESS) {
           throw new Error(this.context.t('noAddressForName'));
         }
@@ -93,6 +106,9 @@ export default class EnsInput extends Component {
         return undefined;
       })
       .catch((reason) => {
+        if (!isCurrent()) {
+          return;
+        }
         if (
           isValidDomainName(recipient) &&
           reason.message === 'ENS name not defined.'
@@ -128,28 +144,24 @@ export default class EnsInput extends Component {
 
     this.setState({ input }, () => onChange(input));
 
-    // Empty ENS state if input is empty
-    // maybe scan ENS
+    // Whatever the field held before no longer applies.
+    this.checkName.cancel();
+    updateEnsResolution('');
+    updateEnsResolutionError('');
 
     if (
       !networkHasEnsSupport &&
       !isValidAddress(input) &&
       !isValidAddressHead(input)
     ) {
-      updateEnsResolution('');
-      updateEnsResolutionError(
-        networkHasEnsSupport ? '' : 'Network does not support ENS',
-      );
+      updateEnsResolutionError('Network does not support ENS');
       return;
     }
 
     if (isValidDomainName(input)) {
-      this.lookupEnsName(input);
+      this.checkName(input);
     } else if (onValidAddressTyped && isValidAddress(input)) {
       onValidAddressTyped(input);
-    } else {
-      updateEnsResolution('');
-      updateEnsResolutionError('');
     }
   };
 

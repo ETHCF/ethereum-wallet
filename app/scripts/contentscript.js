@@ -1,7 +1,6 @@
 import ObjectMultiplex from '@metamask/object-multiplex';
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
-import querystring from 'querystring';
 
 import extension from './lib/extension-api';
 import ReconnectingPortStream from './lib/reconnecting-port-stream';
@@ -51,10 +50,6 @@ async function setupStreams() {
 
   // forward communication across inpage-background for this channel only
   forwardTrafficBetweenMuxers('provider', pageMux, extensionMux);
-
-  // connect "phishing" channel to warning system
-  const phishingStream = extensionMux.createStream('phishing');
-  phishingStream.once('data', redirectToPhishingWarning);
 }
 
 function forwardTrafficBetweenMuxers(channelName, muxA, muxB) {
@@ -80,18 +75,6 @@ function logStreamDisconnectWarning(remoteLabel, err) {
     warningMsg += `\n${err.stack}`;
   }
   console.warn(warningMsg);
-}
-
-/**
- * Redirects the current page to a phishing information page
- */
-function redirectToPhishingWarning() {
-  console.log('ecf-wallet - routing to Phishing Warning component');
-  const extensionURL = extension.runtime.getURL('phishing.html');
-  window.location.href = `${extensionURL}#${querystring.stringify({
-    hostname: window.location.hostname,
-    href: window.location.href,
-  })}`;
 }
 
 /**

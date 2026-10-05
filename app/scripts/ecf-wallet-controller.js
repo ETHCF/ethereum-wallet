@@ -57,6 +57,7 @@ import KeyringController from './lib/modern-keyring-controller';
 import nodeify from './lib/nodeify';
 import OriginThrottler from './lib/origin-throttler';
 import PersonalMessageManager from './lib/personal-message-manager';
+import PhishingWarnings from './lib/phishing-warnings';
 import { getTypedDataAlerts } from './lib/security-checks';
 import seedPhraseVerifier from './lib/seed-phrase-verifier';
 import selectChainId from './lib/select-chain-id';
@@ -121,6 +122,9 @@ export default class EcfWalletController extends EventEmitter {
     });
 
     this.phishingController = new PhishingController();
+    this.phishingWarnings = new PhishingWarnings(
+      opts.phishingWarningStorage ?? extension.storage?.session,
+    );
 
     // now we can initialize the RPC provider, which other controllers require
     this.initializeProvider();
@@ -507,7 +511,6 @@ export default class EcfWalletController extends EventEmitter {
       setCurrentLocale: this.setCurrentLocale.bind(this),
       markPasswordForgotten: this.markPasswordForgotten.bind(this),
       unMarkPasswordForgotten: this.unMarkPasswordForgotten.bind(this),
-      safelistPhishingDomain: this.safelistPhishingDomain.bind(this),
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
       getOpenEcfWalletTabsIds: (cb) => cb(null, this.getOpenEcfWalletTabsIds()),
 
@@ -1604,8 +1607,10 @@ export default class EcfWalletController extends EventEmitter {
     const { hostname } = new URL(sender.url);
     // Check if new connection is blocked if phishing detection is on
     if (usePhishDetect && this.phishingController.test(hostname)) {
-      log.debug('ecf-wallet - sending phishing warning for', hostname);
-      this.sendPhishingWarning(connectionStream, hostname);
+      log.debug('ecf-wallet - showing phishing warning for', hostname);
+      this.showPhishingWarning(sender, hostname).catch((error) =>
+        log.error('ecf-wallet - unable to show phishing warning', error),
+      );
       return;
     }
 
@@ -1634,18 +1639,45 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * Called when we detect a suspicious domain. Requests the browser redirects
-   * to our anti-phishing page.
+   * Replaces a flagged site with the phishing warning. The background
+   * navigates the tab itself, so websites cannot load the warning page, and
+   * remembers the site, so the page holds nothing a website could set.
    *
    * @private
-   * @param {*} connectionStream - The duplex stream to the per-page script,
-   * for sending the reload attempt to.
-   * @param {string} hostname - The hostname that triggered the suspicion.
+   * @param {MessageSender} sender - The content script of the flagged site
+   * @param {string} hostname - The flagged hostname
    */
-  sendPhishingWarning(connectionStream, hostname) {
-    const mux = setupMultiplex(connectionStream);
-    const phishingStream = mux.createStream('phishing');
-    phishingStream.write({ hostname });
+  async showPhishingWarning(sender, hostname) {
+    const tabId = sender.tab?.id;
+    if (tabId === undefined) {
+      // Another extension, not a tab: refusing the connection is enough.
+      return;
+    }
+    // A flagged site in a frame takes over the whole tab; continuing reloads
+    // the page around it.
+    const href =
+      sender.frameId === undefined || sender.frameId === 0
+        ? sender.url
+        : (sender.tab.url ?? sender.url);
+    await this.phishingWarnings.set(tabId, { hostname, href });
+    await extension.tabs.update(tabId, {
+      url: extension.runtime.getURL('phishing.html'),
+    });
+  }
+
+  /**
+   * Continues from the phishing warning in a tab to the site it was shown
+   * for, which stays allowed for the rest of the session.
+   *
+   * @param {number} tabId - The tab showing the warning
+   */
+  async continueFromPhishingWarning(tabId) {
+    const warning = await this.phishingWarnings.take(tabId);
+    if (!warning) {
+      return;
+    }
+    this.phishingController.bypass(warning.hostname);
+    await extension.tabs.update(tabId, { url: warning.href });
   }
 
   /**
@@ -2311,16 +2343,6 @@ export default class EcfWalletController extends EventEmitter {
    * @param {Function} next - next
    * @param {Function} end - end
    */
-
-  /**
-   * Adds a domain to the PhishingController safelist
-   *
-   * @param {string} hostname - the domain to safelist
-   * @returns {void}
-   */
-  safelistPhishingDomain(hostname) {
-    return this.phishingController.bypass(hostname);
-  }
 
   /**
    * Locks ecf-wallet

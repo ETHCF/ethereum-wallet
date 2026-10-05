@@ -9,10 +9,27 @@ import { obj as createThoughStream } from 'through2';
 import createTxMeta from '../../../lib/createTxMeta';
 import firstTimeState from '../../localhostState';
 
+// browser.storage.session, in memory
+const sessionStorageMock = {
+  items: {},
+  async get(key) {
+    return Object.hasOwn(this.items, key) ? { [key]: this.items[key] } : {};
+  },
+  async set(items) {
+    Object.assign(this.items, items);
+  },
+  async remove(key) {
+    delete this.items[key];
+  },
+};
+
 const ExtensionApiMock = {
   runtime: {
     id: 'fake-extension-id',
+    getURL: (path) => `chrome-extension://fake-extension-id/${path}`,
   },
+  storage: { session: sessionStorageMock },
+  tabs: { update: async () => undefined },
 };
 
 let loggerMiddlewareMock;
@@ -860,32 +877,80 @@ describe('EcfWalletController', function () {
       tearDownMockMiddlewareLog();
     });
 
-    it('sets up phishing stream for untrusted communication', async function () {
-      const phishingMessageSender = {
-        url: 'http://myethereumwalletntw.com',
-        tab: {},
-      };
+    describe('phishing warning', function () {
+      const warningUrl = 'chrome-extension://fake-extension-id/phishing.html';
+      let tabsUpdate;
 
-      const { promise, resolve } = deferredPromise();
-      const streamTest = createThoughStream((chunk, _, cb) => {
-        if (chunk.name !== 'phishing') {
-          cb();
-          return;
-        }
-        assert.equal(
-          chunk.data.hostname,
-          new URL(phishingMessageSender.url).hostname,
-        );
-        resolve();
-        cb();
+      beforeEach(function () {
+        sessionStorageMock.items = {};
+        tabsUpdate = sandbox.stub(ExtensionApiMock.tabs, 'update').resolves();
       });
 
-      ecfWalletController.setupUntrustedCommunication(
-        streamTest,
-        phishingMessageSender,
-      );
-      await promise;
-      streamTest.end();
+      async function connect(sender) {
+        const stream = createThoughStream((_chunk, _, cb) => cb());
+        ecfWalletController.setupUntrustedCommunication(stream, sender);
+        // Let the warning be recorded and the tab navigated.
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        stream.end();
+      }
+
+      it('sends a flagged tab to the warning, and continues to that site only', async function () {
+        await connect({
+          url: 'https://myethereumwalletntw.com/login?next=1',
+          tab: { id: 7 },
+          frameId: 0,
+        });
+        assert.deepStrictEqual(tabsUpdate.lastCall.args, [
+          7,
+          { url: warningUrl },
+        ]);
+        assert.equal(
+          ecfWalletController.phishingController.test(
+            'myethereumwalletntw.com',
+          ),
+          true,
+        );
+
+        await ecfWalletController.continueFromPhishingWarning(7);
+        assert.deepStrictEqual(tabsUpdate.lastCall.args, [
+          7,
+          { url: 'https://myethereumwalletntw.com/login?next=1' },
+        ]);
+        assert.equal(
+          ecfWalletController.phishingController.test(
+            'myethereumwalletntw.com',
+          ),
+          false,
+        );
+
+        // Nothing is left for a second request, or for another tab.
+        tabsUpdate.resetHistory();
+        await ecfWalletController.continueFromPhishingWarning(7);
+        await ecfWalletController.continueFromPhishingWarning(8);
+        assert.equal(tabsUpdate.callCount, 0);
+      });
+
+      it('replaces the whole tab when a frame is flagged', async function () {
+        await connect({
+          url: 'https://myethereumwalletntw.com/embed',
+          tab: { id: 9, url: 'https://news.example/article' },
+          frameId: 3,
+        });
+        assert.deepStrictEqual(tabsUpdate.lastCall.args, [
+          9,
+          { url: warningUrl },
+        ]);
+        await ecfWalletController.continueFromPhishingWarning(9);
+        assert.deepStrictEqual(tabsUpdate.lastCall.args, [
+          9,
+          { url: 'https://news.example/article' },
+        ]);
+      });
+
+      it('only refuses a flagged connection from outside a tab', async function () {
+        await connect({ url: 'https://myethereumwalletntw.com' });
+        assert.equal(tabsUpdate.callCount, 0);
+      });
     });
 
     it('adds a tabId and origin to requests', function (done) {

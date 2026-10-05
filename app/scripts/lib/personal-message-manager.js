@@ -8,7 +8,10 @@ import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
 import { detectSIWE } from './signing-utils';
 
-const hexRe = /^[0-9A-Fa-f]+$/gu;
+// Hex for whole bytes. Odd-length hex is read as text: the keyring would pad
+// it at the front while the confirmation decodes it without its last digit, so
+// the user would approve different bytes from those signed.
+const hexRe = /^(?:[0-9A-Fa-f]{2})+$/u;
 
 /**
  * Represents, and contains data about, an 'personal_sign' type signature request. These are created when a

@@ -1,7 +1,7 @@
 import * as ethUtil from '@ethereumjs/util';
 import BN from 'bn.js';
 
-import { decodeArguments } from './abi-method-decoder';
+import { readArguments } from './abi-method-decoder';
 import { toChecksumHexAddress } from './checksum-address';
 
 // Every check here runs on this device, using data the wallet already has and
@@ -93,23 +93,32 @@ const lower = (address) =>
 const checksum = (address) => toChecksumHexAddress(address);
 
 /**
- * Decodes a call this module understands.
+ * Decodes a call this module understands. Arguments that are not encoded the
+ * standard way are read as a contract that does not check them would read
+ * them, and the call is marked malformed: contracts may disagree about what
+ * such a call means.
  *
  * @param {string} data - Transaction data.
- * @returns {object | undefined} The call kind and its addresses and amounts.
+ * @returns {object | undefined} The call kind, whether it is malformed, and its
+ * addresses and amounts when they can be read at all.
  */
 export function decodeCall(data) {
   if (typeof data !== 'string' || data.length < 10) {
     return undefined;
   }
   const call = CALLS[data.slice(2, 10).toLowerCase()];
-  const values = call && decodeArguments(call.types, data.slice(10));
-  if (!values) {
+  if (!call) {
     return undefined;
   }
+  const result = readArguments(call.types, data.slice(10));
+  if (!result) {
+    return { kind: call.kind, malformed: true };
+  }
+  const { values } = result;
   const address = (index) => values[index];
   return {
     kind: call.kind,
+    malformed: !result.canonical,
     recipient:
       call.recipient === undefined ? undefined : address(call.recipient),
     spender: call.spender === undefined ? undefined : address(call.spender),
@@ -275,13 +284,17 @@ export async function getTransactionAlerts({
     );
   }
 
-  if (call?.kind === 'tokenTransfer') {
+  if (call?.malformed) {
+    alerts.push(alert('alertMalformedTokenCall', SEVERITY.DANGER));
+  }
+
+  if (call?.kind === 'tokenTransfer' && call.recipient) {
     if (lower(call.recipient) === lower(to)) {
       alerts.push(alert('alertRecipientIsTokenContract', SEVERITY.DANGER));
     } else {
       alerts.push(...checkRecipient({ ...context, recipient: call.recipient }));
     }
-  } else if (call?.kind === 'approve' && !call.amount.isZero()) {
+  } else if (call?.kind === 'approve' && call.amount && !call.amount.isZero()) {
     if (call.amount.gte(UNLIMITED)) {
       alerts.push(
         alert('alertUnlimitedApproval', SEVERITY.WARNING, [
@@ -290,7 +303,7 @@ export async function getTransactionAlerts({
       );
     }
     alerts.push(...(await checkSpender({ ...context, spender: call.spender })));
-  } else if (call?.kind === 'approveAll' && call.approved) {
+  } else if (call?.kind === 'approveAll' && call.spender && call.approved) {
     alerts.push(
       alert('alertApproveAllNfts', SEVERITY.DANGER, [checksum(call.spender)]),
     );

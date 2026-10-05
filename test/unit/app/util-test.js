@@ -34,11 +34,11 @@ describe('app utils', function () {
       assert.equal(environmentType, ENVIRONMENT_TYPE_FULLSCREEN);
     });
 
-    it('should return fullscreen type for phishing.html', function () {
+    it('does not give phishing.html a user interface type', function () {
       const environmentType = getEnvironmentType(
         'http://extension-id/phishing.html',
       );
-      assert.equal(environmentType, ENVIRONMENT_TYPE_FULLSCREEN);
+      assert.equal(environmentType, ENVIRONMENT_TYPE_BACKGROUND);
     });
 
     it('should return background type', function () {

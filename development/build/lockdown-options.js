@@ -13,10 +13,11 @@ module.exports = {
   // Let existing code assign properties that shadow frozen prototype
   // properties (for example `toString`), instead of throwing.
   overrideTaming: 'severe',
-  // The extension's content security policy already forbids eval and the
-  // Function constructor, so SES need not replace them as well. Replacing
-  // them would break tooling that evaluates code through the debugger.
-  evalTaming: 'unsafe-eval',
+  // Replace eval and the Function constructor, in every compartment, with
+  // versions that throw. The content security policy forbids them as well,
+  // but this does not depend on it, and nothing in the wallet evaluates code.
+  // Builds for the e2e tests allow it (see webpack.config.js).
+  evalTaming: 'no-eval',
   // Babel's bundled regenerator-runtime writes to the iterator prototype.
   legacyRegeneratorRuntimeTaming: 'unsafe-ignore',
   // Leave error and rejection handling to the wallet.
