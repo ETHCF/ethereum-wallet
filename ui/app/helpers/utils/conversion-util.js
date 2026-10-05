@@ -30,10 +30,16 @@ const BIG_NUMBER_WEI_MULTIPLIER = new BigNumber('1000000000000000000');
 const BIG_NUMBER_GWEI_MULTIPLIER = new BigNumber('1000000000');
 const BIG_NUMBER_ETH_MULTIPLIER = new BigNumber('1');
 
+// What BigNumber 4 read as a decimal: a number, possibly in exponent form as
+// JavaScript writes very large and very small numbers (1e+21, 5e-7), or
+// Infinity or NaN.
+const DECIMAL_NUMBER =
+  /^[+-]?(?:(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?|Infinity)$|^NaN$/iu;
+
 /**
- * Reads a value in the given base, except that a 0x-prefixed string is hex
- * whatever the base. BigNumber 4 read them that way and callers rely on it;
- * later versions reject a prefix when a base is given.
+ * Reads a value in the given base the way BigNumber 4 did, which callers rely
+ * on. Later versions reject, when a base is given, both a 0x prefix (BigNumber
+ * 4 read those as hex whatever the base) and decimal exponent form.
  *
  * @param {string|number|BigNumber} n - The value
  * @param {number} [base] - Its base
@@ -43,6 +49,14 @@ const bigNumberInBase = (n, base) => {
   if (typeof n === 'string' && /^-?0x/iu.test(n)) {
     const value = new BigNumber(n.replace(/^-?0x/iu, ''), 16);
     return n.startsWith('-') ? value.negated() : value;
+  }
+  if (base === 10 && typeof n === 'string') {
+    const decimal = n.trim();
+    if (!DECIMAL_NUMBER.test(decimal)) {
+      throw new Error(`[BigNumber Error] Not a number: ${n}`);
+    }
+    // Without a base BigNumber reads decimals, including exponent form.
+    return new BigNumber(decimal);
   }
   return new BigNumber(n, base);
 };

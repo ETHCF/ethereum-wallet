@@ -77,5 +77,19 @@ jobs:
   all-tests-pass:
     runs-on: ubuntu-latest
     needs: [lint, unit, build, e2e-chrome]
+    # Run even when a job above fails: a skipped required check counts as
+    # passing, so this job has to fail instead.
+    if: always()
     steps:
-      - run: echo "All required checks passed."
+      - name: Check that every job passed
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "A required job did not pass."
+              exit 1
+            fi
+          done
+          echo "All required checks passed."

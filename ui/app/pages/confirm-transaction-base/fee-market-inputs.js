@@ -5,6 +5,24 @@ import React, { useState, useRef } from 'react';
 import TextField from '../../components/ui/text-field';
 import { bigNumberInBase } from '../../helpers/utils/conversion-util';
 
+// A plain decimal number: no sign, separators or exponent.
+const DECIMAL_INPUT = /^(?:\d+\.?\d*|\.\d+)$/u;
+
+/**
+ * Reads a field the user typed.
+ *
+ * @param {string} text - The field's contents
+ * @param {number} scale - What to multiply the number by
+ * @returns {BigNumber|null} The scaled number, or null if the text is not a
+ * plain decimal number
+ */
+function parseField(text, scale) {
+  const trimmed = String(text).trim();
+  return DECIMAL_INPUT.test(trimmed)
+    ? new BigNumber(trimmed).times(scale)
+    : null;
+}
+
 export default function FeeMarketInputs({
   params,
   onChange,
@@ -26,13 +44,14 @@ export default function FeeMarketInputs({
     const editRevision = revision.current;
     const next = { ...values, [field]: value };
     setValues(next);
-    const cap = new BigNumber(next.maxFeePerGas).times(1e9);
-    const tip = new BigNumber(next.maxPriorityFeePerGas).times(1e9);
-    const gas = new BigNumber(next.gasLimit);
+    // Until this edit is checked and saved, the transaction may still hold
+    // the previous fees, so it must not be approved.
+    onValidityChange(false);
+    const cap = parseField(next.maxFeePerGas, 1e9);
+    const tip = parseField(next.maxPriorityFeePerGas, 1e9);
+    const gas = parseField(next.gasLimit, 1);
     const valid =
-      [cap, tip, gas].every(
-        (number) => number.isFinite() && number.isInteger() && number.gte(0),
-      ) &&
+      [cap, tip, gas].every((number) => number?.isInteger()) &&
       cap.gte(tip) &&
       gas.gte(21000) &&
       (!minimumMaxFeePerGas ||
@@ -42,7 +61,6 @@ export default function FeeMarketInputs({
         ? ''
         : 'Enter valid fees and a gas limit of at least 21000. The maximum fee must cover the priority fee and any replacement fee increase.',
     );
-    onValidityChange(false);
     if (valid) {
       // eslint-disable-next-line promise/catch-or-return -- rejections are handled by the second argument to then()
       Promise.resolve(

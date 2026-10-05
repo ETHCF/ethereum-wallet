@@ -183,8 +183,13 @@ export default class EditApprovalPermission extends PureComponent {
       return undefined;
     }
 
-    // BigNumber gives NaN for input it cannot read.
-    const customSpendLimitNumber = new BigNumber(customSpendLimit);
+    // This runs while rendering, so input BigNumber cannot read must not throw.
+    let customSpendLimitNumber;
+    try {
+      customSpendLimitNumber = new BigNumber(customSpendLimit);
+    } catch (_) {
+      return t('spendLimitInvalid');
+    }
     if (customSpendLimitNumber.isNaN() || customSpendLimitNumber.isNegative()) {
       return t('spendLimitInvalid');
     }
