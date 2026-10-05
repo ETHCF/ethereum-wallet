@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import contractMap from '@metamask/contract-metadata'
 import Fuse from 'fuse.js'
-import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '../../../components/ui/text-field'
 
 const contractList = Object.entries(contractMap)
@@ -52,12 +51,7 @@ export default class TokenSearch extends Component {
 
   renderAdornment () {
     return (
-      <InputAdornment
-        position="start"
-        style={{ marginRight: '12px' }}
-      >
-        <img src="images/search.svg" />
-      </InputAdornment>
+      <img src="images/search.svg" style={{ marginRight: '12px' }} />
     )
   }
 

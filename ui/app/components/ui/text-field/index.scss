@@ -1,0 +1,147 @@
+.text-field {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  vertical-align: top;
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &--margin-dense {
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+
+  &--margin-normal {
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  &__label {
+    color: var(--color-text-alternative);
+    font-size: 0.75rem;
+    line-height: 1.4375em;
+  }
+
+  &__input-root {
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: var(--color-text-default);
+    font-size: 1rem;
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    height: 1.4375em;
+    padding: 4px 0 5px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    outline: none;
+
+    &::placeholder {
+      color: var(--color-text-alternative);
+      opacity: 1;
+    }
+
+    &:disabled {
+      color: var(--color-text-alternative);
+      -webkit-text-fill-color: var(--color-text-alternative);
+    }
+  }
+
+  &__adornment {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    color: var(--color-icon-default);
+  }
+
+  &__helper-text {
+    margin: 3px 0 0;
+    color: var(--color-text-alternative);
+    font-size: 0.75rem;
+    line-height: 1.66;
+  }
+
+  &--error &__helper-text {
+    color: var(--color-error-default);
+  }
+
+  // A label with a field under it; the field gets a little room.
+  &--bordered &__label {
+    font-weight: 400;
+
+    &--large {
+      font-size: 1rem;
+    }
+  }
+
+  &--bordered &__input-root {
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 0;
+  }
+
+  &--bordered#{&}--with-label &__input-root {
+    margin-top: 9px;
+  }
+
+  &--bordered &__input-root:focus-within {
+    border-color: var(--color-primary-default);
+  }
+
+  // An underlined field whose label rests inside it until it is used.
+  &--material &__label,
+  &--material-white-padded &__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1rem;
+    transform: translate(0, 20px);
+    transform-origin: top left;
+    transition: transform 200ms ease-out;
+    pointer-events: none;
+
+    &--raised {
+      transform: translate(0, -1.5px) scale(0.75);
+    }
+  }
+
+  &--material#{&}--with-label &__input-root,
+  &--material-white-padded#{&}--with-label &__input-root {
+    margin-top: 16px;
+  }
+
+  &--material &__input-root,
+  &--material-white-padded &__input-root {
+    border-bottom: 1px solid var(--color-border-muted);
+
+    &:focus-within {
+      border-bottom-color: var(--color-border-default);
+    }
+  }
+
+  &--material#{&}--error &__input-root,
+  &--material-white-padded#{&}--error &__input-root {
+    border-bottom-color: var(--color-error-default);
+  }
+
+  &--material-white-padded &__input-root {
+    color: var(--color-text-alternative);
+
+    &:focus-within {
+      color: var(--color-text-default);
+    }
+  }
+
+  &--material-white-padded &__input {
+    padding: 8px;
+  }
+}

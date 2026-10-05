@@ -1,170 +1,100 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import MaterialTextField from '@mui/material/TextField'
-
-const inputLabelBase = {
-  transform: 'none',
-  transition: 'none',
-  position: 'initial',
-  color: 'var(--color-text-alternative)',
-}
-
-// Material UI 5 defaults to the outlined variant; these themes build on standard.
-const getMaterialThemeInputProps = ({ dir, startAdornment }) => ({
-  variant: 'standard',
-  InputLabelProps: {
-    sx: {
-      '&.Mui-focused': {
-        color: 'var(--color-text-alternative)',
-      },
-      '&.Mui-error': {
-        color: 'var(--color-text-alternative)',
-      },
-      fontWeight: '400',
-      color: 'var(--color-text-alternative)',
-    },
-  },
-  InputProps: {
-    startAdornment,
-    sx: {
-      '&:after': {
-        borderBottom: '1px solid var(--color-border-default)',
-      },
-    },
-    inputProps: {
-      dir,
-    },
-  },
-})
-
-const getMaterialWhitePaddedThemeInputProps = ({ dir, startAdornment }) => ({
-  variant: 'standard',
-  InputProps: {
-    startAdornment,
-    sx: {
-      color: 'var(--color-text-alternative)',
-      '&.Mui-focused': {
-        color: 'var(--color-text-default)',
-      },
-      '& .MuiInputBase-input': {
-        padding: '8px',
-        '&::placeholder': {
-          color: 'var(--color-text-alternative)',
-        },
-      },
-      '&:after': {
-        borderBottom: '1px solid var(--color-border-default)',
-      },
-    },
-    inputProps: {
-      dir,
-    },
-  },
-})
-
-const getBorderedThemeInputProps = ({ dir, largeLabel, startAdornment, inputRootClassName }) => ({
-  variant: 'standard',
-  InputLabelProps: {
-    shrink: true,
-    sx: {
-      ...inputLabelBase,
-      fontSize: largeLabel ? '1rem' : '.75rem',
-      '&.Mui-focused': {
-        color: 'var(--color-text-alternative)',
-      },
-      '&.Mui-error': {
-        color: 'var(--color-text-alternative)',
-      },
-    },
-  },
-  InputProps: {
-    startAdornment,
-    disableUnderline: true,
-    className: inputRootClassName,
-    sx: {
-      'label + &': {
-        marginTop: '9px',
-      },
-      border: '1px solid var(--color-border-default)',
-      height: '48px',
-      borderRadius: '0',
-      padding: '0 16px',
-      display: 'flex',
-      alignItems: 'center',
-      '&.Mui-focused': {
-        border: '1px solid var(--color-primary-default)',
-      },
-    },
-    inputProps: {
-      dir,
-    },
-  },
-})
-
-// Material UI 5 draws disabled text and labels in a fixed dark grey, which
-// cannot be read in dark mode. Disabled fields can still hold values the user
-// needs, such as a token's symbol filled in from its contract.
-const disabledSx = {
-  '& .MuiInputBase-input.Mui-disabled': {
-    color: 'var(--color-text-alternative)',
-    WebkitTextFillColor: 'var(--color-text-alternative)',
-  },
-  '& .MuiInputLabel-root.Mui-disabled': {
-    color: 'var(--color-text-alternative)',
-  },
-}
-
-const themeToInputProps = {
-  'material': getMaterialThemeInputProps,
-  'bordered': getBorderedThemeInputProps,
-  'material-white-padded': getMaterialWhitePaddedThemeInputProps,
-}
+import classnames from 'classnames'
 
 const TextField = ({
-  error,
+  id,
+  label,
+  error = null,
   classes,
-  theme,
+  className,
+  theme = 'bordered',
+  margin = 'none',
+  fullWidth,
   startAdornment,
   largeLabel,
-  dir,
-  sx,
-  ...textFieldProps
+  disabled,
+  onFocus,
+  onBlur,
+  dir = 'auto',
+  ...inputProps
 }) => {
-  const inputProps = themeToInputProps[theme]({
-    startAdornment,
-    largeLabel,
-    dir,
-    inputRootClassName: classes?.inputRoot,
-  })
+  const [focused, setFocused] = useState(false)
+  const helperTextId = error && id ? `${id}-helper-text` : undefined
+  // The material theme's label sits inside the empty field and moves above it
+  // once the field is focused or holds a value.
+  const hasValue = [inputProps.value, inputProps.defaultValue]
+    .some((value) => value !== undefined && value !== null && value !== '')
+  const labelRaised = theme !== 'material' || focused || hasValue
 
   return (
-    <MaterialTextField
-      error={Boolean(error)}
-      helperText={error}
-      {...inputProps}
-      {...textFieldProps}
-      sx={[disabledSx, ...(Array.isArray(sx) ? sx : [sx])]}
-    />
+    <div
+      className={classnames('text-field', `text-field--${theme}`, className, {
+        [`text-field--margin-${margin}`]: margin !== 'none',
+        'text-field--full-width': fullWidth,
+        'text-field--error': Boolean(error),
+        'text-field--disabled': disabled,
+        'text-field--with-label': Boolean(label),
+      })}
+    >
+      {label && (
+        <label
+          htmlFor={id}
+          className={classnames('text-field__label', {
+            'text-field__label--large': largeLabel,
+            'text-field__label--raised': labelRaised,
+          })}
+        >
+          {label}
+        </label>
+      )}
+      <div className={classnames('text-field__input-root', classes?.inputRoot)}>
+        {startAdornment && (
+          <span className="text-field__adornment">{startAdornment}</span>
+        )}
+        <input
+          id={id}
+          className="text-field__input"
+          dir={dir}
+          disabled={disabled}
+          aria-invalid={Boolean(error)}
+          aria-describedby={helperTextId}
+          onFocus={(event) => {
+            setFocused(true)
+            onFocus?.(event)
+          }}
+          onBlur={(event) => {
+            setFocused(false)
+            onBlur?.(event)
+          }}
+          {...inputProps}
+        />
+      </div>
+      {error && (
+        <p id={helperTextId} className="text-field__helper-text">{error}</p>
+      )}
+    </div>
   )
 }
 
-TextField.defaultProps = {
-  error: null,
-  dir: 'auto',
-  theme: 'bordered',
-}
-
 TextField.propTypes = {
+  id: PropTypes.string,
+  label: PropTypes.node,
   error: PropTypes.string,
-  // Extra class names; `inputRoot` is added to the bordered theme's input.
+  // Extra class names; `inputRoot` is added to the element wrapping the input.
   classes: PropTypes.shape({
     inputRoot: PropTypes.string,
   }),
+  className: PropTypes.string,
   dir: PropTypes.string,
   theme: PropTypes.oneOf(['bordered', 'material', 'material-white-padded']),
-  startAdornment: PropTypes.element,
+  margin: PropTypes.oneOf(['none', 'dense', 'normal']),
+  fullWidth: PropTypes.bool,
+  startAdornment: PropTypes.node,
   largeLabel: PropTypes.bool,
-  sx: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  disabled: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 }
 
 export default TextField

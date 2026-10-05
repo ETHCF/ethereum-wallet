@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
 import Fuse from 'fuse.js'
-import InputAdornment from '@mui/material/InputAdornment'
 import classnames from 'classnames'
 import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
@@ -115,16 +114,9 @@ export default class AccountMenu extends Component {
 
   renderAccountsSearch () {
     const inputAdornment = (
-      <InputAdornment
-        position="start"
-        style={{
-          maxHeight: 'none',
-          marginRight: 0,
-          marginLeft: '8px',
-        }}
-      >
+      <span style={{ display: 'flex', marginLeft: '8px' }}>
         <SearchIcon />
-      </InputAdornment>
+      </span>
     )
 
     return [

@@ -134,17 +134,3 @@ input.form-control {
   font-family: $font-family;
 }
 
-
-// Material-UI inputs set their own colors; make them follow the theme.
-// Its styles are injected after this stylesheet, so the selectors need extra specificity.
-html [class*='Mui'] {
-  font-family: $font-family;
-}
-
-html .MuiInputBase-root {
-  color: var(--color-text-default);
-}
-
-html .MuiInput-underline::before {
-  border-bottom-color: var(--color-border-muted);
-}
