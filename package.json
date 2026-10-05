@@ -40,6 +40,7 @@
     "verify-service-worker": "node ./development/verify-service-worker.js",
     "verify-build": "node ./development/verify-build.js",
     "verify-locales": "node ./development/verify-locale-strings.js",
+    "check-endpoints": "node ./development/check-endpoints.js",
     "verify-locales:fix": "node ./development/verify-locale-strings.js --fix",
     "mozilla-lint": "addons-linter dist/firefox",
     "watch": "mocha --watch --require test/env.js --require test/setup.js --reporter min --recursive \"test/unit/**/*.js\" \"ui/app/**/*.test.js\"",
