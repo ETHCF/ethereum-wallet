@@ -61,7 +61,7 @@ import { getTypedDataAlerts } from './lib/security-checks';
 import seedPhraseVerifier from './lib/seed-phrase-verifier';
 import selectChainId from './lib/select-chain-id';
 import { mnemonicToString } from './lib/software-keyrings';
-import { setupMultiplex } from './lib/stream-utils';
+import { isPrematureClose, setupMultiplex } from './lib/stream-utils';
 import TypedMessageManager from './lib/typed-message-manager';
 
 export default class EcfWalletController extends EventEmitter {
@@ -1676,7 +1676,7 @@ export default class EcfWalletController extends EventEmitter {
         this.activeControllerConnections,
       );
       // report any error
-      if (err) {
+      if (err && !isPrematureClose(err)) {
         log.error(err);
       }
     });
@@ -1729,7 +1729,7 @@ export default class EcfWalletController extends EventEmitter {
         // handle any middleware cleanup
         engine.destroy();
         connectionId && this.removeConnection(origin, connectionId);
-        if (err) {
+        if (err && !isPrematureClose(err)) {
           log.error(err);
         }
       },
