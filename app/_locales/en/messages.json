@@ -1683,5 +1683,11 @@
   },
   "verify": {
     "message": "verify"
+  },
+  "donate": {
+    "message": "Donate"
+  },
+  "donateDescription": {
+    "message": "ECF Wallet is free and open source. Donations to the Ethereum Community Foundation fund its development."
   }
 }

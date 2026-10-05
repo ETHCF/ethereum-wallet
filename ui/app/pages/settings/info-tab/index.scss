@@ -62,3 +62,32 @@
   color: var(--color-text-alternative);
   margin-bottom: 8px;
 }
+
+.info-tab__donation {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  gap: 8px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.info-tab__donation-ticker {
+  flex: 0 0 auto;
+  width: 32px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.info-tab__donation-address {
+  font-size: 11px;
+  word-break: break-all;
+  color: var(--color-text-alternative);
+}
+
+.info-tab__donation:hover .info-tab__donation-address {
+  color: var(--color-text-default);
+}

@@ -1,3 +1,4 @@
+import copyToClipboard from 'copy-to-clipboard';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
@@ -6,11 +7,25 @@ import EcfWalletLogo from '../../../components/ui/logo/ecf-wallet-logo';
 import { getPrivacyPolicyUrl } from '../../../helpers/constants/privacy-policy';
 import { getTermsOfUseUrl } from '../../../helpers/constants/terms-of-use';
 
+// The Ethereum Community Foundation's donation addresses. They sit in the
+// source so the build hash covers them: a tampered build shows a different
+// hash on this same screen. The Ethereum one is EIP-55 checksummed, so a
+// single altered character fails validation in any wallet that checks.
+const DONATION_ADDRESSES = [
+  { ticker: 'ETH', address: '0x7f52d23E15434E2026A019d22C713b30a2E47730' },
+  {
+    ticker: 'XMR',
+    address:
+      '8A38ji4rLujF1AGAe2hZRuZeBR1zPiCVfCaq5xRt9rjXZ8aH12ozUxbi4ViZRHALUQ2Q8dsdmNuvE72NaMnnT4QQGJD38kB',
+  },
+];
+
 export default class InfoTab extends PureComponent {
   state = {
     version: global.platform.getVersion(),
     buildHash: null,
     buildCommit: null,
+    copiedTicker: null,
   };
 
   componentDidMount() {
@@ -23,6 +38,43 @@ export default class InfoTab extends PureComponent {
         this.setState({ buildHash: hash, buildCommit: commit }),
       )
       .catch(() => undefined);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.copiedTimer);
+  }
+
+  renderDonation() {
+    const { t } = this.context;
+    const { copiedTicker } = this.state;
+
+    return (
+      <div className="info-tab__item">
+        <div className="info-tab__version-header">{t('donate')}</div>
+        <div className="info-tab__about">{t('donateDescription')}</div>
+        {DONATION_ADDRESSES.map(({ ticker, address }) => (
+          <button
+            key={ticker}
+            className="info-tab__donation"
+            title={t('copyToClipboard')}
+            onClick={() => {
+              copyToClipboard(address);
+              this.setState({ copiedTicker: ticker });
+              clearTimeout(this.copiedTimer);
+              this.copiedTimer = setTimeout(
+                () => this.setState({ copiedTicker: null }),
+                3000,
+              );
+            }}
+          >
+            <span className="info-tab__donation-ticker">{ticker}</span>
+            <span className="info-tab__donation-address">
+              {copiedTicker === ticker ? t('copiedExclamation') : address}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
   }
 
   renderBuild() {
@@ -136,6 +188,7 @@ export default class InfoTab extends PureComponent {
               <div className="info-tab__about">{t('ecfWalletDescription')}</div>
             </div>
             {this.renderBuild()}
+            {this.renderDonation()}
           </div>
           {this.renderInfoLinks()}
         </div>
