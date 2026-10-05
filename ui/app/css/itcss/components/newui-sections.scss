@@ -86,10 +86,6 @@ $sub-mid-size-breakpoint-range: "screen and (min-width: #{$break-large}) and (ma
   }
 }
 
-.fiat-amount {
-  text-transform: uppercase;
-}
-
 .token-balance__amount {
   padding: 0 6px;
 }
@@ -115,24 +111,6 @@ $sub-mid-size-breakpoint-range: "screen and (min-width: #{$break-large}) and (ma
   @media screen and (min-width: 1281px) {
     width: 62vw;
   }
-}
-
-.unlock-screen-container {
-  z-index: $main-container-z-index;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1 0 auto;
-  background: var(--color-background-alternative);
-  width: 100%;
-}
-
-.unlock-screen {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1 0 auto;
 }
 
 .first-view-main-wrapper {

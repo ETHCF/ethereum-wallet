@@ -33,10 +33,20 @@
 
 .token-options {
   &__button {
+    // The button has no children; the mark is drawn here. Three dots rather
+    // than the account bar's caret, because this opens actions, not a list of
+    // things to pick from.
     font-size: 20px;
+    line-height: 1;
     color: var(--color-text-default);
     background-color: inherit;
+    border: none;
+    cursor: pointer;
     padding: 2px 8px;
+
+    &::before {
+      content: '...';
+    }
   }
 
   &__icon {
