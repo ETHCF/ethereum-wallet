@@ -137,7 +137,10 @@ async function checkSpender ({ spender, getCode, ownAccounts }) {
     }
     return []
   } catch (_) {
-    return [alert('alertCodeCheckFailed', SEVERITY.INFO, [checksum(spender)])]
+    // A spender that could not be checked is not known to be safe. The check
+    // this replaces is a DANGER alert, so burying its absence in an INFO note
+    // would quietly remove a safeguard whenever the network is unreachable.
+    return [alert('alertCodeCheckFailed', SEVERITY.WARNING, [checksum(spender)])]
   }
 }
 
@@ -177,7 +180,7 @@ export async function getTransactionAlerts ({ txParams, getCode, ownAccounts, kn
       alerts.push(alert('alertDataToNonContract', SEVERITY.WARNING, [checksum(to)]))
     }
   } catch (_) {
-    alerts.push(alert('alertCodeCheckFailed', SEVERITY.INFO, [checksum(to)]))
+    alerts.push(alert('alertCodeCheckFailed', SEVERITY.WARNING, [checksum(to)]))
   }
 
   if (call?.kind === 'tokenTransfer') {

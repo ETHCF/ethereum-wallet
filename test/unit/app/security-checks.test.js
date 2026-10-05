@@ -111,6 +111,28 @@ describe('On-device security checks', function () {
       })
       assert.deepEqual(ids(alerts), ['alertCodeCheckFailed', 'alertCodeCheckFailed'])
     })
+
+    it('warns rather than whispers when a check could not run', async function () {
+      const offline = async () => {
+        throw new Error('offline')
+      }
+      const approval = await getTransactionAlerts({
+        txParams: { to: TOKEN, data: encode('095ea7b3', ['address', 'uint256'], [SPENDER, 1]) },
+        ...makeContext(),
+        getCode: offline,
+      })
+      // The check it stands in for is a DANGER alert, so an unreachable network
+      // must not silently downgrade it to the quietest severity.
+      assert.deepEqual(approval.map(({ severity }) => severity), ['warning', 'warning'])
+
+      const plainData = await getTransactionAlerts({
+        txParams: { to: STRANGER, data: '0xdeadbeef' },
+        ...makeContext(),
+        getCode: offline,
+      })
+      assert.equal(plainData[0].id, 'alertCodeCheckFailed')
+      assert.equal(plainData[0].severity, 'warning')
+    })
   })
 
   describe('typed data', function () {
