@@ -1,0 +1,25 @@
+name: Set up the toolchain
+description: Node from .nvmrc, the pinned yarn, dependencies and the Anvil binary the tests need.
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: yarn
+
+    # package.json requires yarn ^1.22.22; runners do not always ship that patch.
+    - name: Pin yarn
+      shell: bash
+      run: npm install --global yarn@1.22.22
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --frozen-lockfile
+
+    # yarn install prunes node_modules/.bin/anvil, which the unit tests and the
+    # e2e suite both need, so it is reinstalled after every install.
+    - name: Install Anvil
+      shell: bash
+      run: yarn foundryup
