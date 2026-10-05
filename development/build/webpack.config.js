@@ -157,6 +157,10 @@ module.exports = function createWebpackConfigs({
       }),
     ],
     stats: 'errors-warnings',
+    // LavaMoat lists the empty stand-ins webpack builds for Node modules a
+    // package does not use in browsers (fs, crypto, ... set to false); they
+    // hold no code, so there is nothing for a policy to control.
+    ignoreWarnings: [/the following module ids can't be controlled by policy/u],
   };
 
   const extension = {
