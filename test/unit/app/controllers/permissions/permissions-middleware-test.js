@@ -1301,7 +1301,9 @@ describe('permissions middleware', function () {
 
       const long = await send('x'.repeat(10000), 'https://c.test/icon.png');
       assert.equal(long.name.length, MAX_SITE_NAME_LENGTH);
-      assert.equal(long.icon, 'https://c.test/icon.png');
+      // A remote icon is stored by its source and shown only once downloaded.
+      assert.notEqual(long.icon, 'https://c.test/icon.png');
+      assert.equal(long.iconSource, 'https://c.test/icon.png');
 
       for (const icon of [
         // eslint-disable-next-line no-script-url -- a page could send one
@@ -1318,6 +1320,72 @@ describe('permissions middleware', function () {
         (await send('Site', 'data:image/png;base64,iVBORw0KGgo=')).icon,
         'data:image/png;base64,iVBORw0KGgo=',
       );
+    });
+
+    it('downloads a remote icon once per URL, and stores only its data URL', async function () {
+      // Each download waits until the test answers it.
+      const downloads = [];
+      const fetchImage = sinon.stub().callsFake(
+        () =>
+          new Promise((resolve) => {
+            downloads.push(resolve);
+          }),
+      );
+      const controller = new PermissionsController({
+        ...getPermControllerOpts(),
+        fetchImage,
+      });
+      const cMiddleware = getPermissionsMiddleware(
+        controller,
+        DOMAINS.c.origin,
+      );
+      const send = async (icon) => {
+        await cMiddleware(
+          RPC_REQUESTS.metamask_sendDomainMetadata(DOMAINS.c.origin, 'C', icon),
+          {},
+        );
+        return controller.store.getState()[METADATA_STORE_KEY][
+          DOMAINS.c.origin
+        ];
+      };
+      const answer = async (image) => {
+        downloads.shift()(image);
+        // This block uses fake timers, so let the download's promise settle.
+        for (let i = 0; i < 10; i++) {
+          await Promise.resolve();
+        }
+        return controller.store.getState()[METADATA_STORE_KEY][
+          DOMAINS.c.origin
+        ];
+      };
+
+      assert.equal((await send('https://c.test/a.png')).icon, undefined);
+      assert.equal(
+        (await answer('data:image/png;base64,AAAA')).icon,
+        'data:image/png;base64,AAAA',
+      );
+      // Sent again on every page load: downloaded only once.
+      await send('https://c.test/a.png');
+      assert.equal(fetchImage.callCount, 1);
+
+      // A new icon replaces the old one once it is downloaded.
+      assert.equal((await send('https://c.test/b.png')).icon, undefined);
+      assert.equal(
+        (await answer('data:image/png;base64,BBBB')).icon,
+        'data:image/png;base64,BBBB',
+      );
+
+      // A download that finishes after the site named another icon is dropped.
+      await send('https://c.test/c.png');
+      await send('data:image/png;base64,CCCC');
+      const late = await answer('data:image/png;base64,LATE');
+      assert.equal(late.icon, 'data:image/png;base64,CCCC');
+      assert.equal(late.iconSource, undefined);
+
+      // A failed download leaves no icon, never the URL.
+      await send('https://c.test/missing.png');
+      assert.equal((await answer(undefined)).icon, undefined);
+      assert.equal(fetchImage.callCount, 4);
     });
 
     it('ignores metadata without a usable name', async function () {

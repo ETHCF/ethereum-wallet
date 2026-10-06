@@ -6,7 +6,36 @@ import pify from 'pify';
 import { normalizeChainId } from './network/chain-utils';
 import { addInternalMethodPrefix } from './permissions';
 import { callContract } from '../lib/contract-call';
+import {
+  fetchImageAsDataUrl,
+  isImageDataUrl,
+  MAX_IMAGE_BYTES,
+} from '../lib/remote-image';
 import { normalizeAddress } from '../lib/util';
+
+// A data URL of an image no larger than a downloaded one may be.
+const MAX_IMAGE_DATA_URL_LENGTH = Math.ceil(MAX_IMAGE_BYTES / 3) * 4 + 64;
+
+/**
+ * Splits saved token images into data URLs, which the wallet shows, and
+ * remote URLs saved by earlier versions, which it must download first.
+ *
+ * @param {object} assetImages - Token images, by token address.
+ * @returns {{ kept: object, remote: Array<[string, string]> }} The data URL
+ * images, and the address and URL of each remote one.
+ */
+function splitAssetImages(assetImages = {}) {
+  const kept = {};
+  const remote = [];
+  for (const [address, image] of Object.entries(assetImages)) {
+    if (isImageDataUrl(image)) {
+      kept[address] = image;
+    } else if (typeof image === 'string' && image) {
+      remote.push([address, image]);
+    }
+  }
+  return { kept, remote };
+}
 
 /**
  * Refuses a custom RPC without a usable chain ID. Without one, the RPC itself
@@ -74,9 +103,14 @@ export default class PreferencesController {
       // upstream's in-memory approvals, a saved one is not reloaded.
       suggestedTokens: {},
     };
+    // The wallet shows token images only from data URLs, so that showing
+    // them asks no host for anything.
+    const { kept, remote } = splitAssetImages(initState.assetImages);
+    initState.assetImages = kept;
 
     this.network = opts.network;
     this.getProvider = opts.getProvider;
+    this.fetchImage = opts.fetchImage ?? fetchImageAsDataUrl;
     this.store = new ObservableStore(initState);
     this.store.setMaxListeners(12);
     this.openPopup = opts.openPopup;
@@ -85,6 +119,8 @@ export default class PreferencesController {
     global.setPreference = (key, value) => {
       return this.setFeatureFlag(key, value);
     };
+
+    this.cachingAssetImages = this._cacheRemoteAssetImages(remote);
   }
   // PUBLIC METHODS
 
@@ -375,7 +411,9 @@ export default class PreferencesController {
    * @param {string} rawAddress - Hex address of the token contract. May or may not be a checksum address.
    * @param {string} symbol - The symbol of the token
    * @param {number} decimals - The number of decimals the token uses.
-   * @param {string} [image] - The token's image URL, stored in assetImages.
+   * @param {string} [image] - The token's image as a data URL, stored in
+   * assetImages. Any other value is dropped, so that the image never makes
+   * the wallet contact a host.
    * @returns {Promise<Array>} Promises the new array of AddedToken objects.
    */
   async addToken(rawAddress, symbol, decimals, image) {
@@ -393,7 +431,7 @@ export default class PreferencesController {
     } else {
       tokens.push(newEntry);
     }
-    assetImages[address] = image;
+    assetImages[address] = isImageDataUrl(image) ? image : undefined;
     this._updateAccountTokens(tokens, assetImages);
     return Promise.resolve(tokens);
   }
@@ -720,6 +758,7 @@ export default class PreferencesController {
       return err;
     }
     const { rawAddress } = tokenOpts;
+    tokenOpts.image = await this._cacheImage(tokenOpts.image);
     this.addSuggestedERC20Asset(tokenOpts);
     return this.openPopup().then(() => {
       const tokenAddresses = this.getTokens().filter(
@@ -727,6 +766,42 @@ export default class PreferencesController {
       );
       return tokenAddresses.length > 0;
     });
+  }
+
+  /**
+   * Turns a site's token image into a data URL, downloading it once if it is
+   * remote, so that showing the token never contacts the image's host.
+   *
+   * @param {string} [image] - A data URL or http(s) URL.
+   * @returns {Promise<string|undefined>} The data URL, or undefined.
+   */
+  async _cacheImage(image) {
+    if (isImageDataUrl(image)) {
+      return image.length <= MAX_IMAGE_DATA_URL_LENGTH ? image : undefined;
+    }
+    if (typeof image !== 'string' || !/^https?:\/\//iu.test(image)) {
+      return undefined;
+    }
+    return this.fetchImage(image);
+  }
+
+  /**
+   * Downloads, once, the remote token images an earlier version saved, and
+   * replaces each with its data URL. An image that cannot be downloaded is
+   * dropped, and the token shows its generated icon instead.
+   *
+   * @param {Array<[string, string]>} remote - Token addresses and image URLs.
+   */
+  async _cacheRemoteAssetImages(remote) {
+    for (const [address, url] of remote) {
+      const image = await this._cacheImage(url);
+      // A token added again meanwhile keeps the image it was added with.
+      if (image && !Object.hasOwn(this.getAssetImages(), address)) {
+        this.store.updateState({
+          assetImages: { ...this.getAssetImages(), [address]: image },
+        });
+      }
+    }
   }
 
   /**

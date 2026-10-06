@@ -21,6 +21,7 @@ import {
 import PermissionsLogController from './permissionsLog';
 import createPermissionsMethodMiddleware from './permissionsMethodMiddleware';
 import { createPermissionController } from '../../lib/modern-controllers-implementation';
+import { fetchImageAsDataUrl, isImageDataUrl } from '../../lib/remote-image';
 
 export class PermissionsController {
   constructor(
@@ -31,6 +32,7 @@ export class PermissionsController {
       notifyAllDomains,
       preferences,
       showPermissionRequest,
+      fetchImage = fetchImageAsDataUrl,
     } = {},
     restoredPermissions = {},
     restoredState = {},
@@ -46,6 +48,7 @@ export class PermissionsController {
     this._notifyDomain = notifyDomain;
     this._notifyAllDomains = notifyAllDomains;
     this._showPermissionRequest = showPermissionRequest;
+    this._fetchImage = fetchImage;
 
     this.permissionsLog = new PermissionsLogController({
       restrictedMethods: ['eth_accounts'],
@@ -482,6 +485,8 @@ export class PermissionsController {
   addDomainMetadata(origin, metadata) {
     const oldMetadataState = this.store.getState()[METADATA_STORE_KEY];
     const newMetadataState = { ...oldMetadataState };
+    const { icon, ...rest } = metadata;
+    const iconFields = this._iconFields(oldMetadataState[origin], icon);
 
     // delete pending metadata origin from queue, and delete its metadata if
     // it doesn't have any permissions
@@ -498,7 +503,8 @@ export class PermissionsController {
     // add new metadata to store after popping
     newMetadataState[origin] = {
       ...oldMetadataState[origin],
-      ...metadata,
+      ...rest,
+      ...iconFields,
       lastUpdated: Date.now(),
     };
 
@@ -511,6 +517,51 @@ export class PermissionsController {
 
     this._pendingSiteMetadata.add(origin);
     this._setDomainMetadata(newMetadataState);
+    if (iconFields.iconSource) {
+      this._cacheSiteIcon(origin, iconFields.iconSource).catch(log.error);
+    }
+  }
+
+  /**
+   * Works out how to store a site's icon. The wallet shows site icons only
+   * from data URLs, so that showing one asks no host for anything. A remote
+   * icon is recorded as its source and downloaded once, unless the icon from
+   * that source is already stored.
+   *
+   * @param {object} [previous] - The site's stored metadata.
+   * @param {string} [icon] - The icon the site sent: a data or http(s) URL.
+   * @returns {object} The icon fields to store.
+   */
+  _iconFields(previous, icon) {
+    if (icon === undefined) {
+      return {};
+    }
+    if (isImageDataUrl(icon)) {
+      return { icon, iconSource: undefined };
+    }
+    if (previous?.iconSource === icon) {
+      return {};
+    }
+    return { icon: undefined, iconSource: icon };
+  }
+
+  /**
+   * Downloads a site's icon and stores it as a data URL, if the site has not
+   * named another icon meanwhile.
+   *
+   * @param {string} origin - The site.
+   * @param {string} iconSource - The icon's http(s) URL.
+   */
+  async _cacheSiteIcon(origin, iconSource) {
+    const icon = await this._fetchImage(iconSource);
+    const metadataState = this.store.getState()[METADATA_STORE_KEY];
+    if (!icon || metadataState[origin]?.iconSource !== iconSource) {
+      return;
+    }
+    this._setDomainMetadata({
+      ...metadataState,
+      [origin]: { ...metadataState[origin], icon },
+    });
   }
 
   /**
@@ -525,8 +576,25 @@ export class PermissionsController {
     const metadataState = restoredState[METADATA_STORE_KEY] || {};
     const newMetadataState = this._trimDomainMetadata(metadataState);
 
+    // Earlier versions stored remote icon URLs, and a download may have
+    // failed. Show no remote icon, and try each download once more.
+    const toCache = [];
+    for (const [origin, metadata] of Object.entries(newMetadataState)) {
+      const iconSource =
+        metadata.icon && !isImageDataUrl(metadata.icon)
+          ? metadata.icon
+          : metadata.iconSource;
+      if (iconSource && !isImageDataUrl(metadata.icon)) {
+        newMetadataState[origin] = { ...metadata, icon: undefined, iconSource };
+        toCache.push([origin, iconSource]);
+      }
+    }
+
     this._pendingSiteMetadata = new Set();
     this._setDomainMetadata(newMetadataState);
+    for (const [origin, iconSource] of toCache) {
+      this._cacheSiteIcon(origin, iconSource).catch(log.error);
+    }
   }
 
   /**

@@ -443,13 +443,16 @@ describe('preferences controller', function () {
       const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
       const symbol = 'ABBR';
       const decimals = 5;
-      const image = 'someimage';
+      const image = 'https://cdn.test/abbr.png';
+      const cached = 'data:image/png;base64,AAAA';
       req.params.options = { address, symbol, decimals, image };
 
       sandbox
         .stub(preferencesController, '_validateERC20AssetParams')
         .returns(true);
       preferencesController.openPopup = async () => undefined;
+      const fetchImage = sinon.stub().resolves(cached);
+      preferencesController.fetchImage = fetchImage;
 
       await preferencesController._handleWatchAssetERC20(req.params.options);
       const suggested = preferencesController.getSuggestedTokens();
@@ -470,7 +473,79 @@ describe('preferences controller', function () {
         decimals,
         'set decimals correctly',
       );
-      assert.equal(suggested[address].image, image, 'set image correctly');
+      // The image is downloaded once and kept as a data URL.
+      assert.deepEqual(fetchImage.firstCall.args, [image]);
+      assert.equal(suggested[address].image, cached, 'set image correctly');
+    });
+
+    it('keeps a suggested image only as a data URL', async function () {
+      const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
+      preferencesController.openPopup = async () => undefined;
+      preferencesController.fetchImage = sinon.stub().resolves(undefined);
+      const suggest = async (image) => {
+        await preferencesController._handleWatchAssetERC20({
+          address,
+          symbol: 'ABC',
+          decimals: 8,
+          image,
+        });
+        return preferencesController.getSuggestedTokens()[address].image;
+      };
+
+      assert.equal(
+        await suggest('data:image/png;base64,AAAA'),
+        'data:image/png;base64,AAAA',
+      );
+      assert.equal(await suggest('https://cdn.test/missing.png'), undefined);
+      assert.equal(await suggest('ipfs://bafy'), undefined);
+      assert.equal(
+        await suggest(`data:image/png;base64,${'A'.repeat(200000)}`),
+        undefined,
+      );
+    });
+
+    it('stores a token image only as a data URL', async function () {
+      preferencesController.setAddresses(['0x7e57e2']);
+      await preferencesController.setSelectedAddress('0x7e57e2');
+      await preferencesController.addToken(
+        '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+        'ABC',
+        8,
+        'https://cdn.test/abc.png',
+      );
+      assert.equal(
+        preferencesController.getAssetImages()[
+          '0xd26114cd6ee289accf82350c8d8487fedb8a0c07'
+        ],
+        undefined,
+      );
+    });
+
+    it('downloads remote token images saved by an earlier version, and never shows their URLs', async function () {
+      const fetchImage = sinon.stub();
+      fetchImage
+        .withArgs('https://cdn.test/a.png')
+        .resolves('data:image/png;base64,AAAA');
+      fetchImage.withArgs('https://cdn.test/b.png').resolves(undefined);
+      const restored = new PreferencesController({
+        network,
+        fetchImage,
+        initState: {
+          assetImages: {
+            '0xa': 'https://cdn.test/a.png',
+            '0xb': 'https://cdn.test/b.png',
+            '0xc': 'data:image/png;base64,CCCC',
+          },
+        },
+      });
+      assert.deepEqual(restored.getAssetImages(), {
+        '0xc': 'data:image/png;base64,CCCC',
+      });
+      await restored.cachingAssetImages;
+      assert.deepEqual(restored.getAssetImages(), {
+        '0xa': 'data:image/png;base64,AAAA',
+        '0xc': 'data:image/png;base64,CCCC',
+      });
     });
 
     it('should validate ERC20 asset correctly', async function () {

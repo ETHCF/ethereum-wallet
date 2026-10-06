@@ -49,9 +49,14 @@ const getUnlockPromise = () => Promise.resolve();
  *
  * @returns {object} A PermissionsController constructor options object.
  */
+// What a site's remote icon downloads to in tests.
+export const FETCHED_ICON = 'data:image/png;base64,ZmV0Y2hlZA==';
+
 export function getPermControllerOpts() {
   return {
     showPermissionRequest: noop,
+    // Tests make no network requests.
+    fetchImage: async () => FETCHED_ICON,
     getKeyringAccounts,
     getUnlockPromise,
     notifyDomain: noop,

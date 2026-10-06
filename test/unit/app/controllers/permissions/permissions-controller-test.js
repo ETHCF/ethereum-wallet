@@ -1665,6 +1665,73 @@ describe('permissions controller', function () {
     });
   });
 
+  describe('site icons', function () {
+    const restoreWithIcon = (metadata, fetchImage) =>
+      new PermissionsController(
+        { ...getPermControllerOpts(), fetchImage },
+        {
+          subjects: {
+            [DOMAINS.a.origin]: {
+              origin: DOMAINS.a.origin,
+              permissions: {
+                eth_accounts: {
+                  id: 'foo',
+                  parentCapability: PERM_NAMES.eth_accounts,
+                  invoker: DOMAINS.a.origin,
+                  date: 1,
+                  caveats: CAVEATS.eth_accounts(ACCOUNTS.a.permitted),
+                },
+              },
+            },
+          },
+        },
+        { [METADATA_STORE_KEY]: { [DOMAINS.a.origin]: metadata } },
+      );
+    const metadataOf = (permController) =>
+      permController.store.getState()[METADATA_STORE_KEY][DOMAINS.a.origin];
+
+    it('downloads a remote icon saved by an earlier version, and never shows its URL', async function () {
+      const fetchImage = sinon.stub().resolves('data:image/png;base64,AAAA');
+      const permController = restoreWithIcon(
+        { name: 'a', icon: 'https://a.test/icon.png' },
+        fetchImage,
+      );
+      assert.equal(metadataOf(permController).icon, undefined);
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.deepEqual(fetchImage.firstCall.args, ['https://a.test/icon.png']);
+      assert.equal(
+        metadataOf(permController).icon,
+        'data:image/png;base64,AAAA',
+      );
+      assert.equal(
+        metadataOf(permController).iconSource,
+        'https://a.test/icon.png',
+      );
+    });
+
+    it('keeps a downloaded icon, and retries a failed download once on start', async function () {
+      const fetchImage = sinon.stub().resolves(undefined);
+      const kept = restoreWithIcon(
+        {
+          name: 'a',
+          icon: 'data:image/png;base64,AAAA',
+          iconSource: 'https://a.test/icon.png',
+        },
+        fetchImage,
+      );
+      assert.equal(metadataOf(kept).icon, 'data:image/png;base64,AAAA');
+      assert.equal(fetchImage.called, false);
+
+      const failed = restoreWithIcon(
+        { name: 'a', iconSource: 'https://a.test/icon.png' },
+        fetchImage,
+      );
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(fetchImage.callCount, 1);
+      assert.equal(metadataOf(failed).icon, undefined);
+    });
+  });
+
   describe('approvals shim', function () {
     let permController;
 
