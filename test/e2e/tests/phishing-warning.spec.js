@@ -70,4 +70,32 @@ describe('Phishing warning', function () {
       },
     );
   });
+
+  it('warns on a listed site that makes itself skip the provider', async function () {
+    if (process.env.SELENIUM_BROWSER !== 'chrome') {
+      this.skip();
+    }
+    await withFixtures(
+      {
+        dapp: true,
+        fixtures: 'personal-sign',
+        title: this.test.title,
+        driverOptions: {
+          hostResolverRules: 'MAP metamaskk.io 127.0.0.1',
+        },
+      },
+      async ({ driver }) => {
+        // The provider is not injected on pages whose URL names one of a few
+        // domains, so this page gets no provider and never connects.
+        await driver.driver.get(`${PHISHING_SITE}#dropbox.com`);
+        await driver.wait(
+          async () => (await driver.driver.getTitle()) === WARNING_TITLE,
+        );
+        assert.equal(
+          await driver.driver.getCurrentUrl(),
+          `${driver.extensionUrl}/phishing.html`,
+        );
+      },
+    );
+  });
 });

@@ -88,7 +88,8 @@
   },
   "externally_connectable": {
     "matches": [
-      "https://ethcf.org/*"
+      "http://*/*",
+      "https://*/*"
     ],
     "ids": [
       "*"

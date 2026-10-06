@@ -5,6 +5,13 @@
 export const PHISHING_WARNING_CONTINUE = 'phishing-warning-continue';
 
 /**
+ * The message a content script sends instead of connecting when its page does
+ * not get the provider, so that the page is still checked against the
+ * phishing list. The background checks the sender's URL, never the message.
+ */
+export const PHISHING_CHECK = 'ecf-wallet-phishing-check';
+
+/**
  * The sites tabs were sent away from by the phishing warning, so that
  * continuing from the warning goes back to the site the wallet flagged and
  * nothing else. The page itself is given nothing it could be tricked into

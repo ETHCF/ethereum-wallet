@@ -3,11 +3,19 @@ import { WindowPostMessageStream } from '@metamask/post-message-stream';
 import pump from 'pump';
 
 import extension from './lib/extension-api';
+import { PHISHING_CHECK } from './lib/phishing-warnings';
 import ReconnectingPortStream from './lib/reconnecting-port-stream';
 import shouldInjectProvider from './lib/should-inject-provider';
 
 if (shouldInjectProvider()) {
   start();
+} else {
+  // The page can make itself skip the provider, through its URL, doctype or
+  // path. Connecting is what checks it against the phishing list, so ask for
+  // that check on its own.
+  Promise.resolve(
+    extension.runtime.sendMessage({ type: PHISHING_CHECK }),
+  ).catch(() => undefined);
 }
 
 /**

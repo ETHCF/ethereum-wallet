@@ -15,7 +15,10 @@ import pump from 'pump';
 import ReadOnlyNetworkStore from './lib/network-store';
 import createStreamSink from './lib/createStreamSink';
 import NotificationManager from './lib/notification-manager';
-import { PHISHING_WARNING_CONTINUE } from './lib/phishing-warnings';
+import {
+  PHISHING_CHECK,
+  PHISHING_WARNING_CONTINUE,
+} from './lib/phishing-warnings';
 import EcfWalletController, { pageOrigin } from './ecf-wallet-controller';
 import rawFirstTimeState from './first-time-state';
 import ClipboardCleaner from './lib/clipboard-cleaner';
@@ -98,6 +101,18 @@ extension.runtime.onMessage.addListener((message, sender, respond) => {
     sender.url?.startsWith(extension.runtime.getURL(''))
   ) {
     respond(true);
+  } else if (
+    message?.type === PHISHING_CHECK &&
+    sender.id === extension.runtime.id &&
+    sender.tab &&
+    sender.url &&
+    !sender.url.startsWith(extension.runtime.getURL(''))
+  ) {
+    // A content script whose page did not get the provider. Only the
+    // browser-reported sender is used, so a page can ask only about itself.
+    initialized
+      .then(({ controller }) => controller.checkForPhishing(sender))
+      .catch(log.error);
   }
 });
 extension.alarms.onAlarm.addListener((alarm) => {

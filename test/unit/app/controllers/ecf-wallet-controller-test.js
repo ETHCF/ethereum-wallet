@@ -1070,6 +1070,41 @@ describe('EcfWalletController', function () {
         ]);
       });
 
+      it('checks a page that did not get the provider', async function () {
+        // A content script sends this when its page skipped the provider,
+        // here through a fragment naming a domain the provider avoids.
+        const flagged = ecfWalletController.checkForPhishing({
+          url: 'https://myethereumwalletntw.com/#dropbox.com',
+          tab: { id: 11 },
+          frameId: 0,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        assert.equal(flagged, true);
+        assert.deepStrictEqual(tabsUpdate.lastCall.args, [
+          11,
+          { url: warningUrl },
+        ]);
+
+        tabsUpdate.resetHistory();
+        assert.equal(
+          ecfWalletController.checkForPhishing({
+            url: 'https://ethcf.org/#dropbox.com',
+            tab: { id: 12 },
+          }),
+          false,
+        );
+        ecfWalletController.preferencesController.setUsePhishDetect(false);
+        assert.equal(
+          ecfWalletController.checkForPhishing({
+            url: 'https://myethereumwalletntw.com/',
+            tab: { id: 13 },
+          }),
+          false,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        assert.equal(tabsUpdate.callCount, 0);
+      });
+
       it('only refuses a flagged connection from outside a tab', async function () {
         await connect({ url: 'https://myethereumwalletntw.com' });
         assert.equal(tabsUpdate.callCount, 0);

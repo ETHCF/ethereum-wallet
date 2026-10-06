@@ -506,6 +506,9 @@ describe('Transaction Controller', function () {
       const result = txController.txStateManager.getTx(txMeta.id);
       const params = result.txParams;
 
+      // As in MetaMask's TransactionController, a nonce already in the params,
+      // such as one a site supplied, is used instead of the next nonce.
+      assert.equal(params.nonce, originalValue, 'nonce unmodified');
       assert.equal(params.gas, originalValue, 'gas unmodified');
       assert.equal(params.gasPrice, originalValue, 'gas price unmodified');
       assert.equal(result.hash, originalValue);
@@ -514,6 +517,42 @@ describe('Transaction Controller', function () {
         'submitted',
         'should have reached the submitted status.',
       );
+      signStub.restore();
+      pubStub.restore();
+    });
+
+    it("prefers the user's custom nonce to a supplied one", async function () {
+      txController.addTx({
+        id: '2',
+        status: 'unapproved',
+        ecfWalletNetworkId: currentNetworkId,
+        customNonceValue: '7',
+        txParams: { nonce: '0x01', gas: '0x01', gasPrice: '0x01' },
+      });
+      const lockStub = sinon
+        .stub(txController.nonceTracker, 'getNonceLock')
+        .resolves({
+          nextNonce: 3,
+          nonceDetails: {},
+          releaseLock: () => undefined,
+        });
+      const signStub = sinon
+        .stub(txController, 'signTransaction')
+        .callsFake(() => Promise.resolve());
+      const pubStub = sinon
+        .stub(txController, 'publishTransaction')
+        .callsFake(() => {
+          txController.setTxHash('2', '0x02');
+          txController.txStateManager.setTxStatusSubmitted('2');
+        });
+
+      await txController.approveTransaction('2');
+
+      assert.equal(
+        txController.txStateManager.getTx('2').txParams.nonce,
+        '0x7',
+      );
+      lockStub.restore();
       signStub.restore();
       pubStub.restore();
     });

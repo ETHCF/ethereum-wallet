@@ -1694,14 +1694,7 @@ export default class EcfWalletController extends EventEmitter {
    * @param {MessageSender} sender - The sender of the messages on this stream
    */
   setupUntrustedCommunication(connectionStream, sender) {
-    const { usePhishDetect } = this.preferencesController.store.getState();
-    const { hostname } = new URL(sender.url);
-    // Check if new connection is blocked if phishing detection is on
-    if (usePhishDetect && this.phishingController.test(hostname)) {
-      log.debug('ecf-wallet - showing phishing warning for', hostname);
-      this.showPhishingWarning(sender, hostname).catch((error) =>
-        log.error('ecf-wallet - unable to show phishing warning', error),
-      );
+    if (this.checkForPhishing(sender)) {
       return;
     }
 
@@ -1733,6 +1726,26 @@ export default class EcfWalletController extends EventEmitter {
     // connect features
     this.setupControllerConnection(mux.createStream('controller'));
     this.setupProviderConnection(mux.createStream('provider'), sender, true);
+  }
+
+  /**
+   * Checks a page against the phishing list, if phishing detection is on, and
+   * sends a flagged page's tab to the warning.
+   *
+   * @param {MessageSender} sender - The page, as the browser reported it
+   * @returns {boolean} Whether the page was flagged
+   */
+  checkForPhishing(sender) {
+    const { usePhishDetect } = this.preferencesController.store.getState();
+    const { hostname } = new URL(sender.url);
+    if (!usePhishDetect || !this.phishingController.test(hostname)) {
+      return false;
+    }
+    log.debug('ecf-wallet - showing phishing warning for', hostname);
+    this.showPhishingWarning(sender, hostname).catch((error) =>
+      log.error('ecf-wallet - unable to show phishing warning', error),
+    );
+    return true;
   }
 
   /**
