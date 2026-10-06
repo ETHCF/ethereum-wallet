@@ -31,6 +31,43 @@ function unrecognizedChainError(message) {
 const fetchRpc = fetchWithTimeout({ timeout: 10000 });
 
 /**
+ * Whether a URL points at the user's machine or private network. The wallet
+ * contacts such an endpoint only after the user approves: before that, a site
+ * could use the answers to learn which local ports and hosts respond.
+ *
+ * @param {string} rpcUrl - The endpoint.
+ * @returns {boolean} Whether it is local or private.
+ */
+export function isPrivateRpcUrl(rpcUrl) {
+  const hostname = new URL(rpcUrl).hostname.toLowerCase();
+  if (
+    hostname === 'localhost' ||
+    hostname.endsWith('.localhost') ||
+    hostname.endsWith('.local') ||
+    hostname.startsWith('[')
+  ) {
+    return true;
+  }
+  const octets = hostname.split('.').map(Number);
+  if (
+    octets.length !== 4 ||
+    octets.some((octet) => !Number.isInteger(octet) || octet < 0 || octet > 255)
+  ) {
+    return false;
+  }
+  const [a, b] = octets;
+  return (
+    a === 0 ||
+    a === 10 ||
+    a === 127 ||
+    (a === 169 && b === 254) ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168) ||
+    (a === 100 && b >= 64 && b <= 127)
+  );
+}
+
+/**
  * Asks an RPC endpoint which chain it serves.
  *
  * @param {string} rpcUrl - The endpoint.
@@ -76,6 +113,8 @@ export default class NetworkRequestController extends EventEmitter {
     this.showApprovalRequest = showApprovalRequest;
     this.getRpcChainId = getRpcChainId;
     this.pending = new Map();
+    // Sites whose request is being checked before it can be shown.
+    this.checking = new Set();
     this.memStore = new ObservableStore({ pendingNetworkRequests: {} });
   }
 
@@ -108,6 +147,36 @@ export default class NetworkRequestController extends EventEmitter {
     }
 
     this.assertNoPendingRequest(origin);
+    const checkFirst = !isPrivateRpcUrl(network.rpcUrl);
+    if (checkFirst) {
+      // Hold the site's one slot while its endpoint is checked, or several
+      // concurrent requests would all pass the check above.
+      this.checking.add(origin);
+      try {
+        await this.assertServesChain(network);
+      } finally {
+        this.checking.delete(origin);
+      }
+    }
+    return this.addRequest(origin, {
+      type: 'add',
+      network,
+      warnings: getAddChainWarnings(network, existing),
+      perform: async () => {
+        if (!checkFirst) {
+          await this.assertServesChain(network);
+        }
+        await this.addCustomNetwork(network);
+      },
+    });
+  }
+
+  /**
+   * Throws unless the network's RPC endpoint serves its chain.
+   *
+   * @param {object} network - The network to add.
+   */
+  async assertServesChain(network) {
     let rpcChainId;
     try {
       rpcChainId = await this.getRpcChainId(network.rpcUrl);
@@ -121,14 +190,6 @@ export default class NetworkRequestController extends EventEmitter {
         message: `The RPC endpoint returned a different chain ID (${rpcChainId}) than the one requested (${network.chainId}).`,
       });
     }
-    return this.addRequest(origin, {
-      type: 'add',
-      network,
-      warnings: getAddChainWarnings(network, existing),
-      perform: async () => {
-        await this.addCustomNetwork(network);
-      },
-    });
   }
 
   async switchChain(origin, params) {
@@ -190,12 +251,14 @@ export default class NetworkRequestController extends EventEmitter {
   }
 
   assertNoPendingRequest(origin) {
-    for (const { request } of this.pending.values()) {
-      if (request.origin === origin) {
-        throw rpcErrors.resourceUnavailable(
-          `A network request from ${origin} is already pending. Please wait.`,
-        );
-      }
+    const pendingOrigins = [
+      ...this.checking,
+      ...[...this.pending.values()].map(({ request }) => request.origin),
+    ];
+    if (pendingOrigins.includes(origin)) {
+      throw rpcErrors.resourceUnavailable(
+        `A network request from ${origin} is already pending. Please wait.`,
+      );
     }
   }
 

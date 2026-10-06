@@ -65,6 +65,23 @@ import { mnemonicToString } from './lib/software-keyrings';
 import { isPrematureClose, setupMultiplex } from './lib/stream-utils';
 import TypedMessageManager from './lib/typed-message-manager';
 
+/**
+ * The origin of another extension that connects to the wallet.
+ *
+ * @param {object} sender - The connecting extension's MessageSender.
+ * @returns {string} Its origin, such as chrome-extension://<id>.
+ */
+export function externalExtensionOrigin(sender) {
+  if (sender.origin && /^[a-z-]+-extension:\/\//u.test(sender.origin)) {
+    return sender.origin;
+  }
+  return `chrome-extension://${sender.id}`;
+}
+
+// Restoring from a seed phrase adds accounts while they hold a balance, up to
+// this many.
+export const MAX_RESTORED_ACCOUNTS = 100;
+
 export default class EcfWalletController extends EventEmitter {
   /**
    * Creates the controllers and wires them together.
@@ -169,7 +186,7 @@ export default class EcfWalletController extends EventEmitter {
 
     // ensure accountTracker updates balances after network change
     this.networkController.on('networkDidChange', () => {
-      this.accountTracker._updateAccounts();
+      this.accountTracker.refresh();
     });
 
     const additionalKeyrings = [TrezorKeyring, LedgerBridgeKeyring];
@@ -760,6 +777,11 @@ export default class EcfWalletController extends EventEmitter {
 
       const { keyringController } = this;
 
+      // Nothing is cleared until the new vault is sure to be created: a
+      // mistyped seed phrase must not cost the user their account names and
+      // site connections.
+      keyringController.assertRestorable(password, seed);
+
       // clear known identities
       this.preferencesController.setAddresses([]);
 
@@ -786,7 +808,7 @@ export default class EcfWalletController extends EventEmitter {
       lastBalance = await this.getBalance(
         accounts[accounts.length - 1],
         ethQuery,
-      );
+      ).catch(() => '0x0');
 
       const primaryKeyring =
         keyringController.getKeyringsByType('HD Key Tree')[0];
@@ -794,14 +816,24 @@ export default class EcfWalletController extends EventEmitter {
         throw new Error('EcfWalletController - No HD Key Tree found');
       }
 
-      // seek out the first zero balance
-      while (lastBalance !== '0x0') {
-        await keyringController.addNewAccount(primaryKeyring);
+      // Add accounts until one has no balance. The vault is already replaced,
+      // so if the network fails, or never reports an empty account, keep the
+      // accounts found so far rather than fail or loop forever.
+      try {
+        while (
+          lastBalance !== '0x0' &&
+          accounts.length < MAX_RESTORED_ACCOUNTS
+        ) {
+          await keyringController.addNewAccount(primaryKeyring);
+          accounts = await keyringController.getAccounts();
+          lastBalance = await this.getBalance(
+            accounts[accounts.length - 1],
+            ethQuery,
+          );
+        }
+      } catch (error) {
+        log.warn('ecf-wallet - stopped looking for used accounts', error);
         accounts = await keyringController.getAccounts();
-        lastBalance = await this.getBalance(
-          accounts[accounts.length - 1],
-          ethQuery,
-        );
       }
 
       // set new identities
@@ -1721,10 +1753,20 @@ export default class EcfWalletController extends EventEmitter {
    * @param {boolean} isInternal - True if this is a connection with an internal process
    */
   setupProviderConnection(outStream, sender, isInternal) {
-    const origin = isInternal ? 'ecf-wallet' : new URL(sender.url).origin;
     let extensionId;
-    if (sender.id !== extension.runtime.id) {
+    if (sender.id && sender.id !== extension.runtime.id) {
       extensionId = sender.id;
+    }
+    // Another extension is its own site, with its own permissions. Its
+    // sender.url is whatever page its script runs on, and using that would
+    // hand it the permissions the user gave that page.
+    let origin;
+    if (isInternal) {
+      origin = 'ecf-wallet';
+    } else if (extensionId) {
+      origin = externalExtensionOrigin(sender);
+    } else {
+      origin = new URL(sender.url).origin;
     }
     let tabId;
     if (sender.tab && sender.tab.id) {
@@ -2103,13 +2145,13 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<number>} The next nonce.
    */
   async getNextNonce(address) {
-    let nonceLock;
+    const nonceLock =
+      await this.txController.nonceTracker.getNonceLock(address);
     try {
-      nonceLock = await this.txController.nonceTracker.getNonceLock(address);
+      return nonceLock.nextNonce;
     } finally {
       nonceLock.releaseLock();
     }
-    return nonceLock.nextNonce;
   }
 
   //=============================================================================

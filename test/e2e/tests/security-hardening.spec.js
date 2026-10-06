@@ -129,8 +129,11 @@ describe('Security hardening', function () {
           '0x539',
         );
 
-        // Rejected before any prompt: the RPC serves a different chain.
-        const mismatch = await requestNow(driver, {
+        // A local RPC is contacted only once the user approves, so a site
+        // cannot use the wallet to probe local ports. Then the wallet finds
+        // it serves a different chain and adds nothing.
+        const mismatchDapp = await driver.driver.getWindowHandle();
+        await startRequest(driver, 'mismatch', {
           method: 'wallet_addEthereumChain',
           params: [
             {
@@ -141,8 +144,15 @@ describe('Security hardening', function () {
             },
           ],
         });
+        await respondInNotification(driver, 'network-request-approve');
+        await driver.switchToWindow(mismatchDapp);
+        const mismatch = await requestResult(driver, 'mismatch');
         assert.equal(mismatch.code, -32602);
         assert.match(mismatch.message, /different chain ID/u);
+        assert.equal(
+          (await requestNow(driver, { method: 'eth_chainId' })).result,
+          '0x539',
+        );
         const insecure = await requestNow(driver, {
           method: 'wallet_addEthereumChain',
           params: [

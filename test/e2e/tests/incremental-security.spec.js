@@ -1,15 +1,22 @@
 const assert = require('assert');
+const path = require('path');
 const webdriver = require('selenium-webdriver');
 
 const { By, until } = webdriver;
-const enLocaleMessages = require('../../app/_locales/en/messages.json');
-const Anvil = require('../anvil');
-const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const enLocaleMessages = require('../../../app/_locales/en/messages.json');
+const Anvil = require('../../anvil');
+const {
+  tinyDelayMs,
+  regularDelayMs,
+  largeDelayMs,
+  startDappServer,
+} = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const chainServer = new Anvil();
 
 describe('ecf-wallet', function () {
+  let dappServer;
   let driver;
   let publicAddress;
 
@@ -17,6 +24,10 @@ describe('ecf-wallet', function () {
   this.bail(true);
 
   before(async function () {
+    // A dapp that signs with its own key and sends through its own provider.
+    dappServer = await startDappServer(
+      path.join(__dirname, '..', 'send-eth-with-private-key-test'),
+    );
     await chainServer.start({
       accounts: [
         {
@@ -50,6 +61,7 @@ describe('ecf-wallet', function () {
   });
 
   after(async function () {
+    await new Promise((resolve) => dappServer.close(resolve));
     await chainServer.quit();
     await driver.quit();
   });

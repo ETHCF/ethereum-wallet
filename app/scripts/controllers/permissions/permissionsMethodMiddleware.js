@@ -1,6 +1,40 @@
 import { createAsyncMiddleware } from '@metamask/json-rpc-engine';
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 
+export const MAX_SITE_NAME_LENGTH = 100;
+export const MAX_ICON_URL_LENGTH = 2048;
+export const MAX_ICON_DATA_URL_LENGTH = 32 * 1024;
+
+/**
+ * Keeps the site name and icon a page sends within sizes worth storing. The
+ * metadata is persisted with the wallet's state, so a page sending large
+ * values, from many subdomains or frames, would otherwise bloat and slow every
+ * state write.
+ *
+ * @param {object} [params] - The request params: the site's name and the
+ * URL of its icon.
+ * @returns {{name: string, icon?: string} | undefined} The metadata to store,
+ * or undefined if there is no usable name.
+ */
+export function sanitizeDomainMetadata(params) {
+  const { name, icon } = params ?? {};
+  if (typeof name !== 'string' || !name.trim()) {
+    return undefined;
+  }
+  const metadata = { name: name.trim().slice(0, MAX_SITE_NAME_LENGTH) };
+  if (typeof icon === 'string') {
+    const isWebUrl =
+      /^https?:\/\//iu.test(icon) && icon.length <= MAX_ICON_URL_LENGTH;
+    const isImageData =
+      /^data:image\/[a-z0-9.+-]+[;,]/iu.test(icon) &&
+      icon.length <= MAX_ICON_DATA_URL_LENGTH;
+    if (isWebUrl || isImageData) {
+      metadata.icon = icon;
+    }
+  }
+  return metadata;
+}
+
 /**
  * Create middleware for handling certain methods and preprocessing permissions requests.
  *
@@ -128,12 +162,9 @@ export default function createPermissionsMethodMiddleware({
       // the site's name and icon, sent automatically by the inpage provider
       // when it's initialized
       case 'metamask_sendDomainMetadata': {
-        const { name, icon } = req.params || {};
-        if (typeof name === 'string') {
-          addDomainMetadata(
-            req.origin,
-            typeof icon === 'string' ? { name, icon } : { name },
-          );
+        const metadata = sanitizeDomainMetadata(req.params);
+        if (metadata) {
+          addDomainMetadata(req.origin, metadata);
         }
         res.result = true;
         return;

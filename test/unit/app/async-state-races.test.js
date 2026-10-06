@@ -193,6 +193,26 @@ describe('Asynchronous state races', function () {
     return { network, tracker, cache };
   }
 
+  it('logs a failed background balance update instead of leaving it unhandled', async function () {
+    const { tracker } = balances();
+    tracker._query = {
+      getBalance: async () => {
+        throw new Error('RPC unavailable');
+      },
+    };
+    const unhandled = [];
+    const onUnhandled = (reason) => unhandled.push(reason);
+    process.on('unhandledRejection', onUnhandled);
+    try {
+      tracker.refresh();
+      await flush();
+      await flush();
+    } finally {
+      process.off('unhandledRejection', onUnhandled);
+    }
+    assert.deepEqual(unhandled, []);
+  });
+
   it('discards old-chain balances, including a switch away and back to the same chain', async function () {
     const { network, tracker, cache } = balances();
     const old = deferred();

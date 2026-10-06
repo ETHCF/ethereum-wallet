@@ -2,14 +2,15 @@ const assert = require('assert');
 const webdriver = require('selenium-webdriver');
 
 const { By, until } = webdriver;
-const enLocaleMessages = require('../../app/_locales/en/messages.json');
-const Anvil = require('../anvil');
-const { regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const enLocaleMessages = require('../../../app/_locales/en/messages.json');
+const Anvil = require('../../anvil');
+const { regularDelayMs, largeDelayMs, startDappServer } = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const chainServer = new Anvil();
 
 describe('ecf-wallet', function () {
+  let dappServer;
   let driver;
   let publicAddress;
 
@@ -17,6 +18,7 @@ describe('ecf-wallet', function () {
   this.bail(true);
 
   before(async function () {
+    dappServer = await startDappServer();
     await chainServer.start({
       accounts: [
         {
@@ -45,6 +47,7 @@ describe('ecf-wallet', function () {
   });
 
   after(async function () {
+    await new Promise((resolve) => dappServer.close(resolve));
     await chainServer.quit();
     await driver.quit();
   });
@@ -79,7 +82,6 @@ describe('ecf-wallet', function () {
       await passwordBoxConfirm.sendKeys('correct horse battery staple');
 
       await driver.clickElement(By.css('.first-time-flow__checkbox'));
-
       await driver.clickElement(By.css('.first-time-flow__form button'));
       await driver.delay(largeDelayMs);
     });
@@ -114,7 +116,7 @@ describe('ecf-wallet', function () {
     });
   });
 
-  describe('sets permissions', function () {
+  describe('provider listening for events', function () {
     let extension;
     let popup;
     let dapp;
@@ -126,6 +128,8 @@ describe('ecf-wallet', function () {
       await driver.clickElement(
         By.xpath(`//button[contains(text(), 'Connect')]`),
       );
+
+      await driver.delay(regularDelayMs);
 
       await driver.waitUntilXWindowHandles(3);
       const windowHandles = await driver.getAllWindowHandles();
@@ -149,43 +153,44 @@ describe('ecf-wallet', function () {
       );
 
       await driver.waitUntilXWindowHandles(2);
-      await driver.switchToWindow(extension);
-      await driver.delay(regularDelayMs);
-    });
-
-    it('shows connected sites', async function () {
-      await driver.clickElement(
-        By.css('[data-testid="account-options-menu-button"]'),
-      );
-      await driver.clickElement(
-        By.css('[data-testid="account-options-menu__connected-sites"]'),
-      );
-
-      await driver.findElement(
-        By.xpath(`//h2[contains(text(), 'Connected sites')]`),
-      );
-
-      const domains = await driver.findClickableElements(
-        By.css('.connected-sites-list__domain-name'),
-      );
-      assert.equal(domains.length, 1);
-    });
-
-    it('can get accounts within the dapp', async function () {
       await driver.switchToWindow(dapp);
       await driver.delay(regularDelayMs);
+    });
+
+    it('has the local network id within the dapp', async function () {
+      const networkDiv = await driver.findElement(By.css('#network'));
+      await driver.delay(regularDelayMs);
+      assert.equal(await networkDiv.getText(), '1337');
+    });
+
+    it('changes the network', async function () {
+      await driver.switchToWindow(extension);
+
+      await driver.clickElement(By.css('.network-name'));
+      await driver.delay(regularDelayMs);
 
       await driver.clickElement(
-        By.xpath(`//button[contains(text(), 'eth_accounts')]`),
+        By.xpath(`//span[contains(text(), 'Ethereum Mainnet')]`),
       );
+      await driver.delay(largeDelayMs);
+    });
 
-      const getAccountsResult = await driver.findElement(
-        By.css('#getAccountsResult'),
-      );
-      assert.equal(
-        (await getAccountsResult.getText()).toLowerCase(),
-        publicAddress.toLowerCase(),
-      );
+    it('sets the network div within the dapp', async function () {
+      await driver.switchToWindow(dapp);
+      const networkDiv = await driver.findElement(By.css('#network'));
+      assert.equal(await networkDiv.getText(), '1');
+    });
+
+    it('sets the chainId div within the dapp', async function () {
+      await driver.switchToWindow(dapp);
+      const chainIdDiv = await driver.findElement(By.css('#chainId'));
+      assert.equal(await chainIdDiv.getText(), '0x1');
+    });
+
+    it('sets the account div within the dapp', async function () {
+      await driver.switchToWindow(dapp);
+      const accountsDiv = await driver.findElement(By.css('#accounts'));
+      assert.equal(await accountsDiv.getText(), publicAddress.toLowerCase());
     });
   });
 });

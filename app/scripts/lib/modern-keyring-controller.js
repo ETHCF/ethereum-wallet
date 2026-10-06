@@ -355,10 +355,24 @@ export default class ModernKeyringController extends EventEmitter {
   }
 
   async createNewVaultAndRestore(password, mnemonic) {
+    this.assertRestorable(password, mnemonic);
+    return this.createVault(password, mnemonic);
+  }
+
+  /**
+   * Throws if createNewVaultAndRestore would refuse these, so callers can
+   * check before they change anything.
+   *
+   * @param {string} password - The vault password
+   * @param {string} mnemonic - The seed phrase
+   */
+  assertRestorable(password, mnemonic) {
+    if (typeof password !== 'string') {
+      throw new Error('Password must be text.');
+    }
     if (!validateMnemonic(mnemonic, wordlist)) {
       throw new Error('Seed phrase is invalid.');
     }
-    return this.createVault(password, mnemonic);
   }
 
   /**

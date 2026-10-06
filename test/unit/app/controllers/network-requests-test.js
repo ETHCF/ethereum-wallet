@@ -2,6 +2,7 @@ import { strict as assert } from 'assert';
 import sinon from 'sinon';
 
 import NetworkRequestController, {
+  isPrivateRpcUrl,
   UNRECOGNIZED_CHAIN_ERROR_CODE,
 } from '../../../../app/scripts/controllers/network-requests';
 
@@ -313,6 +314,46 @@ describe('NetworkRequestController', function () {
       assert.equal(controller.pendingCount, 2);
     });
 
+    it('allows one request per site even when several arrive at once', async function () {
+      let answerChainId;
+      deps.getRpcChainId.callsFake(
+        () =>
+          new Promise((resolve) => {
+            answerChainId = resolve;
+          }),
+      );
+      const first = controller.addChain(ORIGIN, addParams());
+      await assert.rejects(
+        controller.addChain(ORIGIN, addParams()),
+        /already pending/u,
+      );
+      await assert.rejects(
+        controller.switchChain(ORIGIN, [{ chainId: '0x89' }]),
+        /already pending/u,
+      );
+      answerChainId('0x64');
+      await waitForPending();
+      assert.equal(controller.pendingCount, 1);
+      assert.equal(deps.getRpcChainId.callCount, 1);
+      controller.reject(pending()[0].id);
+      await assert.rejects(first, { code: 4001 });
+    });
+
+    it('contacts a local RPC only after the user approves', async function () {
+      deps.getRpcChainId.callsFake(async () => '0x1');
+      const request = controller.addChain(
+        ORIGIN,
+        addParams({ rpcUrls: ['http://localhost:8545'] }),
+      );
+      const [shown] = await waitForPending();
+      assert.equal(deps.getRpcChainId.callCount, 0);
+
+      // The endpoint serves another chain, which only now comes out.
+      await assert.rejects(controller.approve(shown.id), /different chain ID/u);
+      await assert.rejects(request, /different chain ID/u);
+      assert.equal(deps.addCustomNetwork.called, false);
+    });
+
     it('rejects malformed params', async function () {
       for (const params of [
         [],
@@ -349,5 +390,31 @@ describe('NetworkRequestController', function () {
     });
     assert.ok(!error);
     assert.equal(res.result, null);
+  });
+
+  it('treats loopback, private and link-local hosts as private', function () {
+    for (const url of [
+      'http://localhost:8545',
+      'http://node.localhost',
+      'https://printer.local',
+      'http://127.0.0.1:8545',
+      'http://[::1]:8545',
+      'https://10.0.0.5',
+      'https://172.20.1.1',
+      'https://192.168.1.1',
+      'https://169.254.169.254',
+      'https://100.100.1.1',
+      'https://0.0.0.0',
+    ]) {
+      assert.equal(isPrivateRpcUrl(url), true, url);
+    }
+    for (const url of [
+      'https://rpc.gnosis.test',
+      'https://8.8.8.8',
+      'https://172.32.0.1',
+      'https://192.169.0.1',
+    ]) {
+      assert.equal(isPrivateRpcUrl(url), false, url);
+    }
   });
 });

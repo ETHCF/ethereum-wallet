@@ -55,13 +55,13 @@ const createLoggerMiddlewareMock = () => (req, res, next) => {
   next();
 };
 
-const EcfWalletController = proxyquire(
+const { default: EcfWalletController, MAX_RESTORED_ACCOUNTS } = proxyquire(
   '../../../../app/scripts/ecf-wallet-controller',
   {
     './lib/extension-api': { default: ExtensionApiMock },
     './lib/createLoggerMiddleware': { default: createLoggerMiddlewareMock },
   },
-).default;
+);
 
 const currentNetworkId = '42';
 const DEFAULT_LABEL = 'Account 1';
@@ -242,15 +242,19 @@ describe('EcfWalletController', function () {
         return Promise.resolve('0x0');
       });
 
-      await ecfWalletController
-        .createNewVaultAndRestore(password, TEST_SEED.slice(0, -1))
-        .catch(() => null);
+      await assert.rejects(
+        ecfWalletController.createNewVaultAndRestore(
+          password,
+          TEST_SEED.slice(0, -1),
+        ),
+      );
       await ecfWalletController.createNewVaultAndRestore(password, TEST_SEED);
 
       assert(
         ecfWalletController.keyringController.createNewVaultAndRestore
-          .calledTwice,
+          .calledOnce,
       );
+      assert.equal(ecfWalletController.isUnlocked(), true);
     });
 
     it('should clear previous identities after vault restoration', async function () {
@@ -311,6 +315,62 @@ describe('EcfWalletController', function () {
       assert.deepEqual(secondVaultIdentities, {
         [TEST_ADDRESS_ALT]: { address: TEST_ADDRESS_ALT, name: DEFAULT_LABEL },
       });
+    });
+
+    it('keeps account names and site connections when the seed phrase is invalid', async function () {
+      sandbox.stub(ecfWalletController, 'getBalance').resolves('0x0');
+      await ecfWalletController.createNewVaultAndRestore(
+        'foobar1337',
+        TEST_SEED,
+      );
+      await ecfWalletController.preferencesController.setAccountLabel(
+        TEST_ADDRESS,
+        'Account Foo',
+      );
+      const clearPermissions = sandbox.spy(
+        ecfWalletController.permissionsController,
+        'clearPermissions',
+      );
+
+      await assert.rejects(
+        ecfWalletController.createNewVaultAndRestore(
+          'foobar1337',
+          TEST_SEED.slice(0, -1),
+        ),
+        { message: 'Seed phrase is invalid.' },
+      );
+      assert.equal(
+        ecfWalletController.getState().identities[TEST_ADDRESS].name,
+        'Account Foo',
+      );
+      assert.equal(clearPermissions.callCount, 0);
+    });
+
+    it('stops adding accounts at a limit when every account reports a balance', async function () {
+      sandbox.stub(ecfWalletController, 'getBalance').resolves('0x1');
+      await ecfWalletController.createNewVaultAndRestore(
+        'foobar1337',
+        TEST_SEED,
+      );
+      assert.equal(
+        Object.keys(ecfWalletController.getState().identities).length,
+        MAX_RESTORED_ACCOUNTS,
+      );
+    });
+
+    it('finishes the restore with the accounts found when the network fails', async function () {
+      const getBalance = sandbox.stub(ecfWalletController, 'getBalance');
+      getBalance.withArgs(TEST_ADDRESS).resolves('0x1');
+      getBalance.withArgs(TEST_ADDRESS_2).rejects(new Error('RPC unavailable'));
+      await ecfWalletController.createNewVaultAndRestore(
+        'foobar1337',
+        TEST_SEED,
+      );
+      assert.deepEqual(
+        Object.keys(ecfWalletController.getState().identities).sort(),
+        [TEST_ADDRESS, TEST_ADDRESS_2].sort(),
+      );
+      assert.equal(ecfWalletController.isUnlocked(), true);
     });
 
     it('should restore any consecutive accounts with balances', async function () {
@@ -613,6 +673,26 @@ describe('EcfWalletController', function () {
       } catch (e) {
         assert.equal(e.message, 'EcfWalletController - No HD Key Tree found');
       }
+    });
+  });
+
+  describe('#getNextNonce', function () {
+    it('returns the next nonce and releases the lock', async function () {
+      const releaseLock = sinon.spy();
+      sandbox
+        .stub(ecfWalletController.txController.nonceTracker, 'getNonceLock')
+        .resolves({ nextNonce: 7, releaseLock });
+      assert.equal(await ecfWalletController.getNextNonce('0xabc'), 7);
+      assert.equal(releaseLock.callCount, 1);
+    });
+
+    it('reports why the nonce could not be read', async function () {
+      sandbox
+        .stub(ecfWalletController.txController.nonceTracker, 'getNonceLock')
+        .rejects(new Error('RPC unavailable'));
+      await assert.rejects(ecfWalletController.getNextNonce('0xabc'), {
+        message: 'RPC unavailable',
+      });
     });
   });
 
@@ -933,6 +1013,45 @@ describe('EcfWalletController', function () {
         await connect({ url: 'https://myethereumwalletntw.com' });
         assert.equal(tabsUpdate.callCount, 0);
       });
+    });
+
+    it('gives another extension its own origin, not the page it runs on', function () {
+      const setupProviderEngine = sandbox
+        .stub(ecfWalletController, 'setupProviderEngine')
+        .returns({
+          handle: () => undefined,
+          on: () => undefined,
+          destroy: () => undefined,
+        });
+      const originFor = (sender) => {
+        const stream = createThoughStream((_chunk, _, cb) => cb());
+        ecfWalletController.setupProviderConnection(stream, sender);
+        stream.end();
+        return setupProviderEngine.lastCall.args[0].origin;
+      };
+
+      assert.equal(
+        originFor({
+          id: 'otherextension',
+          url: 'https://connected-site.test/page',
+          tab: { id: 3 },
+        }),
+        'chrome-extension://otherextension',
+      );
+      // Firefox reports the extension's own origin.
+      assert.equal(
+        originFor({
+          id: 'other@example',
+          origin: 'moz-extension://5b0c9a1e',
+          url: 'https://connected-site.test/page',
+        }),
+        'moz-extension://5b0c9a1e',
+      );
+      // A page connecting through externally_connectable keeps its origin.
+      assert.equal(
+        originFor({ url: 'https://ethcf.org/donate', tab: { id: 4 } }),
+        'https://ethcf.org',
+      );
     });
 
     it('adds a tabId and origin to requests', function (done) {

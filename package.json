@@ -245,12 +245,12 @@
     "@parcel/watcher": false,
     "@stellar/stellar-sdk": false,
     "blake-hash": false,
-    "core-js": false,
     "es5-ext": false,
     "keccak": false,
     "protobufjs": false,
     "secp256k1": false,
     "tiny-secp256k1": false,
+    "unrs-resolver": false,
     "usb": false,
     "weak-napi": false
   },

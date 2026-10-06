@@ -14,6 +14,10 @@ import {
 } from './mocks';
 import { PermissionsController } from '../../../../../app/scripts/controllers/permissions';
 import { METADATA_STORE_KEY } from '../../../../../app/scripts/controllers/permissions/enums';
+import {
+  MAX_ICON_DATA_URL_LENGTH,
+  MAX_SITE_NAME_LENGTH,
+} from '../../../../../app/scripts/controllers/permissions/permissionsMethodMiddleware';
 
 const { CAVEATS, ERRORS, PERMS, RPC_REQUESTS } = getters;
 
@@ -1272,6 +1276,68 @@ describe('permissions middleware', function () {
         },
         'metadata should have been added to store',
       );
+    });
+
+    it('stores only a bounded name and a web or image icon', async function () {
+      const cMiddleware = getPermissionsMiddleware(
+        permController,
+        DOMAINS.c.origin,
+      );
+      const send = async (name, icon) => {
+        const res = {};
+        await cMiddleware(
+          RPC_REQUESTS.metamask_sendDomainMetadata(
+            DOMAINS.c.origin,
+            name,
+            icon,
+          ),
+          res,
+        );
+        assert.ok(res.result);
+        return permController.store.getState()[METADATA_STORE_KEY][
+          DOMAINS.c.origin
+        ];
+      };
+
+      const long = await send('x'.repeat(10000), 'https://c.test/icon.png');
+      assert.equal(long.name.length, MAX_SITE_NAME_LENGTH);
+      assert.equal(long.icon, 'https://c.test/icon.png');
+
+      for (const icon of [
+        // eslint-disable-next-line no-script-url -- a page could send one
+        'javascript:alert(1)',
+        `data:image/png;base64,${'A'.repeat(MAX_ICON_DATA_URL_LENGTH)}`,
+        `https://c.test/${'a'.repeat(5000)}`,
+        { url: 'https://c.test/icon.png' },
+      ]) {
+        const stored = await send('Site', icon);
+        assert.notEqual(stored.icon, icon, String(icon).slice(0, 30));
+      }
+
+      assert.equal(
+        (await send('Site', 'data:image/png;base64,iVBORw0KGgo=')).icon,
+        'data:image/png;base64,iVBORw0KGgo=',
+      );
+    });
+
+    it('ignores metadata without a usable name', async function () {
+      const cMiddleware = getPermissionsMiddleware(
+        permController,
+        DOMAINS.c.origin,
+      );
+      for (const params of [null, [], { name: '   ' }, { name: 5 }]) {
+        const res = {};
+        await cMiddleware(
+          {
+            origin: DOMAINS.c.origin,
+            method: 'metamask_sendDomainMetadata',
+            params,
+          },
+          res,
+        );
+        assert.ok(res.result);
+      }
+      assert.deepEqual(permController.store.getState()[METADATA_STORE_KEY], {});
     });
 
     it('records domain metadata and preserves extensionId', async function () {

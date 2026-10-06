@@ -15,6 +15,10 @@ env:
   # Keeps the e2e runs from hanging the whole workflow on a flake.
   ECF_WALLET_E2E_RETRY_LIMIT: 2
 
+# The jobs only read the repository. Anything more must be granted per job.
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest

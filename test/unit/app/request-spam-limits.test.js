@@ -7,6 +7,7 @@ import createDupeReqFilterStream, {
 } from '../../../app/scripts/lib/createDupeReqFilterStream';
 import OriginThrottler, {
   BLOCK_DURATION_MS,
+  MAX_PENDING_PER_ORIGIN,
   REJECTION_WINDOW_MS,
 } from '../../../app/scripts/lib/origin-throttler';
 
@@ -59,7 +60,7 @@ describe('Request spam limits', function () {
       assert.equal((await send(tab)).result, true);
     });
 
-    it('does not count rejections spread over more than the window, or reset by an approval', async function () {
+    it('does not count rejections spread over more than the window', async function () {
       const tab = engineFor('https://site.test');
       await send(tab);
       await send(tab);
@@ -70,17 +71,50 @@ describe('Request spam limits', function () {
         4001,
         'only two rejections inside the window',
       );
+    });
 
-      rejectNext = false;
+    it('does not let a request answered without a prompt reset the count', async function () {
+      const tab = engineFor('https://site.test');
       await send(tab);
+      await send(tab);
+      // For example wallet_switchEthereumChain to the current chain, which
+      // succeeds at once.
+      rejectNext = false;
+      assert.equal(
+        (await send(tab, 'wallet_switchEthereumChain')).result,
+        true,
+      );
       rejectNext = true;
       await send(tab);
-      await send(tab);
-      assert.equal(
-        (await send(tab)).error.code,
-        4001,
-        'an approval resets the count',
+      assert.equal((await send(tab)).error.code, 4100);
+    });
+
+    it('limits how many prompts a site may have waiting', async function () {
+      const engine = new JsonRpcEngine();
+      engine.push(throttler.createMiddleware({ origin: 'https://flood.test' }));
+      const waiting = [];
+      engine.push((_req, res, _next, end) => {
+        waiting.push(() => {
+          res.result = true;
+          end();
+        });
+      });
+      const requests = Array.from({ length: MAX_PENDING_PER_ORIGIN }, () =>
+        send(engine),
       );
+      await new Promise((resolve) => setImmediate(resolve));
+      const extra = await send(engine);
+      assert.equal(extra.error.code, -32005);
+      assert.equal(waiting.length, MAX_PENDING_PER_ORIGIN);
+
+      // Answering one makes room for another.
+      waiting.shift()();
+      await requests[0];
+      send(engine);
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(waiting.length, MAX_PENDING_PER_ORIGIN);
+      waiting.forEach((answer) => answer());
+      await Promise.all(requests);
     });
   });
 

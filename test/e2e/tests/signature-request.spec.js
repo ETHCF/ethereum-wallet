@@ -3,16 +3,17 @@ const path = require('path');
 const webdriver = require('selenium-webdriver');
 
 const { By, Key, until } = webdriver;
-const Anvil = require('../anvil');
-const FixtureServer = require('./fixture-server');
-const { regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const Anvil = require('../../anvil');
+const FixtureServer = require('../fixture-server');
+const { regularDelayMs, largeDelayMs, startDappServer } = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const fixtureServer = new FixtureServer();
 
 const chainServer = new Anvil();
 
 describe('ecf-wallet', function () {
+  let dappServer;
   let driver;
   let publicAddress;
 
@@ -20,10 +21,11 @@ describe('ecf-wallet', function () {
   this.bail(true);
 
   before(async function () {
+    dappServer = await startDappServer();
     await chainServer.start();
     await fixtureServer.start();
     await fixtureServer.loadState(
-      path.join(__dirname, 'fixtures', 'imported-account'),
+      path.join(__dirname, '..', 'fixtures', 'imported-account'),
     );
     publicAddress = '0x5cfe73b6021e818b776b421b1c4db2474086a7e1';
     const result = await buildWebDriver();
@@ -45,6 +47,7 @@ describe('ecf-wallet', function () {
   });
 
   after(async function () {
+    await new Promise((resolve) => dappServer.close(resolve));
     await chainServer.quit();
     await fixtureServer.stop();
     await driver.quit();

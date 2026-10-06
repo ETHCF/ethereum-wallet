@@ -2,10 +2,10 @@ const assert = require('assert');
 const webdriver = require('selenium-webdriver');
 
 const { By, until } = webdriver;
-const enLocaleMessages = require('../../app/_locales/en/messages.json');
-const Anvil = require('../anvil');
-const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const enLocaleMessages = require('../../../app/_locales/en/messages.json');
+const Anvil = require('../../anvil');
+const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const chainServer = new Anvil();
 

@@ -11,6 +11,33 @@ const largeDelayMs = regularDelayMs * 2;
 
 const dappPort = 8080;
 
+/**
+ * Serves a dapp at http://127.0.0.1:8080.
+ *
+ * @param {string} [dappDirectory] - The dapp's files; the MetaMask test dapp
+ * by default
+ * @returns {Promise<import('http').Server>} The listening server
+ */
+async function startDappServer(
+  dappDirectory = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'node_modules',
+    '@metamask',
+    'test-dapp',
+    'dist',
+  ),
+) {
+  const server = createStaticServer(dappDirectory);
+  server.listen(dappPort);
+  await new Promise((resolve, reject) => {
+    server.on('listening', resolve);
+    server.on('error', reject);
+  });
+  return server;
+}
+
 async function withFixtures(options, callback) {
   const { dapp, fixtures, chainOptions, driverOptions, title } = options;
   const fixtureServer = new FixtureServer();
@@ -23,21 +50,7 @@ async function withFixtures(options, callback) {
     await fixtureServer.start();
     await fixtureServer.loadState(path.join(__dirname, 'fixtures', fixtures));
     if (dapp) {
-      const dappDirectory = path.resolve(
-        __dirname,
-        '..',
-        '..',
-        'node_modules',
-        '@metamask',
-        'test-dapp',
-        'dist',
-      );
-      dappServer = createStaticServer(dappDirectory);
-      dappServer.listen(dappPort);
-      await new Promise((resolve, reject) => {
-        dappServer.on('listening', resolve);
-        dappServer.on('error', reject);
-      });
+      dappServer = await startDappServer();
     }
     const { driver } = await buildWebDriver(driverOptions);
     webDriver = driver;
@@ -85,4 +98,5 @@ module.exports = {
   regularDelayMs,
   largeDelayMs,
   withFixtures,
+  startDappServer,
 };

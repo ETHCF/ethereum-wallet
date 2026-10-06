@@ -18,6 +18,13 @@ runs:
       shell: bash
       run: yarn install --frozen-lockfile
 
+    # The same review `yarn setup` does: fails on any dependency with an
+    # install script package.json "installScripts" has not reviewed, and runs
+    # the ones it allows.
+    - name: Check dependency install scripts
+      shell: bash
+      run: node development/run-allowed-install-scripts.js
+
     # yarn install prunes node_modules/.bin/anvil, which the unit tests and the
     # e2e suite both need, so it is reinstalled after every install.
     - name: Install Anvil

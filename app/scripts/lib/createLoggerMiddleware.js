@@ -16,9 +16,6 @@ export default function createLoggerMiddleware(opts) {
       if (res.error) {
         log.error('Error in RPC response:\n', res);
       }
-      if (req.isEcfWalletInternal) {
-        return;
-      }
       log.info(`RPC (${opts.origin}):`, req, '->', res);
       cb();
     });

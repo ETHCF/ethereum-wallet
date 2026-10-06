@@ -83,7 +83,7 @@ export default class AccountTracker {
     // add listener
     this._blockTracker.addListener('latest', this._updateForBlock);
     // fetch account balances
-    this._updateAccounts();
+    this.refresh();
   }
 
   stop() {
@@ -141,7 +141,15 @@ export default class AccountTracker {
     if (!this._currentBlockNumber) {
       return;
     }
-    this._updateAccounts();
+    this.refresh();
+  }
+
+  /**
+   * Updates the balances in the background. A failed update is logged: the
+   * next block or network change tries again.
+   */
+  refresh() {
+    this._updateAccounts().catch((error) => log.error(error));
   }
 
   /**

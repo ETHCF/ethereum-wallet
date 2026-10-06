@@ -2,14 +2,20 @@ const assert = require('assert');
 const webdriver = require('selenium-webdriver');
 
 const { By, Key, until } = webdriver;
-const enLocaleMessages = require('../../app/_locales/en/messages.json');
-const Anvil = require('../anvil');
-const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const enLocaleMessages = require('../../../app/_locales/en/messages.json');
+const Anvil = require('../../anvil');
+const {
+  tinyDelayMs,
+  regularDelayMs,
+  largeDelayMs,
+  startDappServer,
+} = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const chainServer = new Anvil();
 
 describe('ecf-wallet', function () {
+  let dappServer;
   let driver;
   let tokenAddress;
 
@@ -20,6 +26,7 @@ describe('ecf-wallet', function () {
   this.bail(true);
 
   before(async function () {
+    dappServer = await startDappServer();
     await chainServer.start();
     const result = await buildWebDriver();
     driver = result.driver;
@@ -40,6 +47,7 @@ describe('ecf-wallet', function () {
   });
 
   after(async function () {
+    await new Promise((resolve) => dappServer.close(resolve));
     await chainServer.quit();
     await driver.quit();
   });
@@ -236,15 +244,16 @@ describe('ecf-wallet', function () {
       await restoreSeedLink.click();
       await driver.delay(regularDelayMs);
 
-      const seedTextArea = await driver.findElement(By.css('textarea'));
+      const seedTextArea = await driver.findElement(By.css('#seed-phrase'));
       await seedTextArea.sendKeys(testSeedPhrase);
       await driver.delay(regularDelayMs);
 
-      const passwordInputs = await driver.findElements(By.css('input'));
-      await driver.delay(regularDelayMs);
-
-      await passwordInputs[0].sendKeys('correct horse battery staple');
-      await passwordInputs[1].sendKeys('correct horse battery staple');
+      await driver
+        .findElement(By.css('#password'))
+        .then((input) => input.sendKeys('correct horse battery staple'));
+      await driver
+        .findElement(By.css('#confirm-password'))
+        .then((input) => input.sendKeys('correct horse battery staple'));
       await driver.clickElement(
         By.xpath(
           `//button[contains(text(), '${enLocaleMessages.restore.message}')]`,
@@ -1038,8 +1047,10 @@ describe('ecf-wallet', function () {
       const [gasPriceInput, gasLimitInput] = await driver.findElements(
         By.css('.advanced-gas-inputs__gas-edit-row__input'),
       );
-      assert(gasPriceInput.getAttribute('value'), 20);
-      assert(gasLimitInput.getAttribute('value'), 4700000);
+      // The dapp deploys without gas settings, so the wallet proposes its own:
+      // the network's gas price, and an estimate above a plain transfer's.
+      assert(Number(await gasPriceInput.getAttribute('value')) > 0);
+      assert(Number(await gasLimitInput.getAttribute('value')) > 21000);
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Save')]`));
       await driver.delay(regularDelayMs);
@@ -1252,11 +1263,10 @@ describe('ecf-wallet', function () {
       await txListValue.click();
       await driver.delay(regularDelayMs);
 
-      const transactionAmounts = await driver.findElements(
-        By.css('.currency-display-component__text'),
+      const transactionAmount = await driver.findElement(
+        By.css('.confirm-page-container-summary__title-text'),
       );
-      const transactionAmount = transactionAmounts[0];
-      assert(await transactionAmount.getText(), '1.5 TST');
+      assert.equal(await transactionAmount.getText(), '1.5 TST');
 
       // Set the gas limit
       await driver.clickElement(
@@ -1472,10 +1482,9 @@ describe('ecf-wallet', function () {
 
       await driver.wait(until.stalenessOf(permissionModal));
 
-      const permissionInfo = await driver.findElements(
-        By.css('.confirm-approve-content__medium-text'),
+      const amountDiv = await driver.findElement(
+        By.css('[data-testid="approve-amount"]'),
       );
-      const amountDiv = permissionInfo[0];
       assert.equal(await amountDiv.getText(), '5 TST');
     });
 
@@ -1621,10 +1630,9 @@ describe('ecf-wallet', function () {
       );
       await driver.delay(regularDelayMs);
 
-      const permissionInfo = await driver.findElements(
-        By.css('.confirm-approve-content__medium-text'),
+      const recipientDiv = await driver.findElement(
+        By.css('[data-testid="approve-spender"]'),
       );
-      const recipientDiv = permissionInfo[1];
       assert.equal(
         await recipientDiv.getText(),
         '0x2f318C334780961FB129D2a6c30D0763d9a5C970',

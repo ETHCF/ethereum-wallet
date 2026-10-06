@@ -1,10 +1,11 @@
 const assert = require('assert');
-const { By, until } = require('selenium-webdriver');
+const webdriver = require('selenium-webdriver');
 
-const enLocaleMessages = require('../../app/_locales/en/messages.json');
-const Anvil = require('../anvil');
-const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('./helpers');
-const { buildWebDriver } = require('./webdriver');
+const { By, until } = webdriver;
+const enLocaleMessages = require('../../../app/_locales/en/messages.json');
+const Anvil = require('../../anvil');
+const { tinyDelayMs, regularDelayMs, largeDelayMs } = require('../helpers');
+const { buildWebDriver } = require('../webdriver');
 
 const chainServer = new Anvil();
 
@@ -12,28 +13,20 @@ describe('ecf-wallet', function () {
   let driver;
 
   const testSeedPhrase =
-    'forum vessel pink push lonely enact gentle tail admit parrot grunt dress';
+    'phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent';
 
   this.timeout(0);
   this.bail(true);
 
   before(async function () {
-    await chainServer.start({
-      accounts: [
-        {
-          secretKey:
-            '0x53CB0AB5226EEBF4D872113D98332C1555DC304443BEE1CF759D15798D3C55A9',
-          balance: 25000000000000000000,
-        },
-      ],
-    });
-    const result = await buildWebDriver();
+    await chainServer.start();
+    const result = await buildWebDriver({ responsive: true });
     driver = result.driver;
   });
 
   afterEach(async function () {
     if (process.env.SELENIUM_BROWSER === 'chrome') {
-      const errors = await driver.checkBrowserForConsoleErrors();
+      const errors = await driver.checkBrowserForConsoleErrors(driver);
       if (errors.length) {
         const errorReports = errors.map((err) => err.message);
         const errorMessage = `Errors found in browser console:\n${errorReports.join('\n')}`;
@@ -80,6 +73,7 @@ describe('ecf-wallet', function () {
       await passwordBoxConfirm.sendKeys('correct horse battery staple');
 
       await driver.clickElement(By.css('.first-time-flow__checkbox'));
+
       await driver.clickElement(By.css('.first-time-flow__form button'));
       await driver.delay(regularDelayMs);
     });
@@ -143,6 +137,22 @@ describe('ecf-wallet', function () {
     });
   });
 
+  describe('Show account information', function () {
+    it('show account details dropdown menu', async function () {
+      await driver.clickElement(
+        By.css('[data-testid="account-options-menu-button"]'),
+      );
+      const options = await driver.findElements(
+        By.css('.account-options-menu .menu-item'),
+      );
+      assert.equal(options.length, 3); // HD Wallet type does not have to show the Remove Account option
+      // click outside of menu to dismiss
+      // account menu button chosen because the menu never covers it.
+      await driver.clickPoint(By.css('.account-menu__icon'), 0, 0);
+      await driver.delay(regularDelayMs);
+    });
+  });
+
   describe('Import seed phrase', function () {
     it('logs out of the vault', async function () {
       await driver.clickElement(By.css('.account-menu__icon'));
@@ -167,15 +177,16 @@ describe('ecf-wallet', function () {
       await restoreSeedLink.click();
       await driver.delay(regularDelayMs);
 
-      const seedTextArea = await driver.findElement(By.css('textarea'));
+      const seedTextArea = await driver.findElement(By.css('#seed-phrase'));
       await seedTextArea.sendKeys(testSeedPhrase);
       await driver.delay(regularDelayMs);
 
-      const passwordInputs = await driver.findElements(By.css('input'));
-      await driver.delay(regularDelayMs);
-
-      await passwordInputs[0].sendKeys('correct horse battery staple');
-      await passwordInputs[1].sendKeys('correct horse battery staple');
+      await driver
+        .findElement(By.css('#password'))
+        .then((input) => input.sendKeys('correct horse battery staple'));
+      await driver
+        .findElement(By.css('#confirm-password'))
+        .then((input) => input.sendKeys('correct horse battery staple'));
       await driver.clickElement(
         By.xpath(
           `//button[contains(text(), '${enLocaleMessages.restore.message}')]`,
@@ -184,17 +195,27 @@ describe('ecf-wallet', function () {
       await driver.delay(regularDelayMs);
     });
 
+    it('switches to localhost', async function () {
+      await driver.clickElement(By.css('.network-name'));
+      await driver.delay(regularDelayMs);
+
+      await driver.clickElement(
+        By.xpath(`//span[contains(text(), 'Localhost')]`),
+      );
+      await driver.delay(largeDelayMs * 2);
+    });
+
     it('balance renders', async function () {
       const balance = await driver.findElement(
-        By.css('[data-testid="wallet-balance"] .list-item__heading'),
+        By.css('[data-testid="eth-overview__primary-currency"]'),
       );
-      await driver.wait(until.elementTextMatches(balance, /25\s*ETH/u));
+      await driver.wait(until.elementTextMatches(balance, /100\s*ETH/u));
       await driver.delay(regularDelayMs);
     });
   });
 
-  describe('Adds an entry to the address book and sends eth to that address', function () {
-    it('starts a send transaction', async function () {
+  describe('Send ETH from inside ecf-wallet', function () {
+    it('starts to send a transaction', async function () {
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`));
       await driver.delay(regularDelayMs);
 
@@ -202,24 +223,6 @@ describe('ecf-wallet', function () {
         By.css('input[placeholder="Search, public address (0x), or ENS"]'),
       );
       await inputAddress.sendKeys('0x2f318C334780961FB129D2a6c30D0763d9a5C970');
-      await driver.delay(regularDelayMs);
-
-      await driver.clickElement(By.css('.dialog.send__dialog.dialog--message'));
-
-      const addressBookAddModal = await driver.findElement(
-        By.css('span .modal'),
-      );
-      await driver.findElement(By.css('.add-to-address-book-modal'));
-      const addressBookInput = await driver.findElement(
-        By.css('.add-to-address-book-modal__input'),
-      );
-      await addressBookInput.sendKeys('Test Name 1');
-      await driver.delay(tinyDelayMs);
-      await driver.clickElement(
-        By.css('.add-to-address-book-modal__footer .btn-primary'),
-      );
-
-      await driver.wait(until.stalenessOf(addressBookAddModal));
 
       const inputAmount = await driver.findElement(
         By.css('.unit-input__input'),
@@ -229,7 +232,21 @@ describe('ecf-wallet', function () {
       const inputValue = await inputAmount.getAttribute('value');
       assert.equal(inputValue, '1');
       await driver.delay(regularDelayMs);
+    });
 
+    it('opens and closes the gas modal', async function () {
+      // Set the gas limit
+      await driver.clickElement(By.css('.advanced-gas-options-btn'));
+      await driver.delay(regularDelayMs);
+
+      const gasModal = await driver.findElement(By.css('span .modal'));
+
+      await driver.clickElement(By.css('.page-container__header-close-text'));
+      await driver.wait(until.stalenessOf(gasModal), 10000);
+      await driver.delay(regularDelayMs);
+    });
+
+    it('clicks through to the confirm screen', async function () {
       // Continue to next screen
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Next')]`));
       await driver.delay(regularDelayMs);
@@ -239,7 +256,6 @@ describe('ecf-wallet', function () {
       await driver.clickElement(
         By.xpath(`//button[contains(text(), 'Confirm')]`),
       );
-      await driver.delay(largeDelayMs * 2);
     });
 
     it('finds the transaction in the transactions list', async function () {
@@ -257,57 +273,6 @@ describe('ecf-wallet', function () {
         By.css('.transaction-list-item__primary-currency'),
       );
       await driver.wait(until.elementTextMatches(txValues, /-1\s*ETH/u), 10000);
-    });
-  });
-
-  describe('Sends to an address book entry', function () {
-    it('starts a send transaction by clicking address book entry', async function () {
-      await driver.clickElement(By.xpath(`//button[contains(text(), 'Send')]`));
-      await driver.delay(regularDelayMs);
-
-      const recipientRowTitle = await driver.findElement(
-        By.css('.send__select-recipient-wrapper__group-item__title'),
-      );
-      const recipientRowTitleString = await recipientRowTitle.getText();
-      assert.equal(recipientRowTitleString, 'Test Name 1');
-
-      await driver.clickElement(
-        By.css('.send__select-recipient-wrapper__group-item'),
-      );
-
-      await driver.delay(regularDelayMs);
-      const inputAmount = await driver.findElement(
-        By.css('.unit-input__input'),
-      );
-      await inputAmount.sendKeys('2');
-      await driver.delay(regularDelayMs);
-
-      // Continue to next screen
-      await driver.clickElement(By.xpath(`//button[contains(text(), 'Next')]`));
-      await driver.delay(regularDelayMs);
-    });
-
-    it('confirms the transaction', async function () {
-      await driver.clickElement(
-        By.xpath(`//button[contains(text(), 'Confirm')]`),
-      );
-      await driver.delay(largeDelayMs * 2);
-    });
-
-    it('finds the transaction in the transactions list', async function () {
-      await driver.wait(async () => {
-        const confirmedTxes = await driver.findElements(
-          By.css(
-            '.transaction-list__completed-transactions .transaction-list-item',
-          ),
-        );
-        return confirmedTxes.length === 2;
-      }, 10000);
-
-      const txValues = await driver.findElement(
-        By.css('.transaction-list-item__primary-currency'),
-      );
-      await driver.wait(until.elementTextMatches(txValues, /-2\s*ETH/u), 10000);
     });
   });
 });

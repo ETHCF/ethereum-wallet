@@ -32,6 +32,7 @@ import { closeHardwareConnections } from './lib/hardware-keyrings';
 import LocalStore from './lib/local-store';
 import Migrator from './lib/migrator';
 import readDisconnectError from './lib/read-disconnect-error';
+import restoreSession from './lib/restore-session';
 import SessionEncryptor from './lib/session-encryptor';
 import connectLiveReload from './lib/worker-live-reload';
 import migrations from './migrations';
@@ -334,18 +335,11 @@ async function setupController(initState, initLangCode) {
     controller.appStateController.store.getState();
   const sessionExpired =
     timeoutMinutes && lastActiveTime + timeoutMinutes * 60000 <= Date.now();
-  if (
-    !sessionExpired &&
-    (await encryptor.restore(
-      controller.keyringController.store.getState().vault,
-    ))
-  ) {
-    await controller.keyringController.submitPassword(
-      encryptor.sessionPassword,
-    );
-  } else {
-    await encryptor.clear();
-  }
+  await restoreSession({
+    encryptor,
+    keyringController: controller.keyringController,
+    sessionExpired,
+  });
 
   let lastDeadline;
   const scheduleAutoLock = ({
