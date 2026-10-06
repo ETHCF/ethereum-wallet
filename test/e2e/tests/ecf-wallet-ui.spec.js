@@ -1745,6 +1745,10 @@ describe('ecf-wallet', function () {
         const customRpcInput = customRpcInputs[1];
         await customRpcInput.clear();
         await customRpcInput.sendKeys(customRpcUrl);
+        // A custom network needs its chain ID: the local test chain's.
+        const chainIdInput = customRpcInputs[2];
+        await chainIdInput.clear();
+        await chainIdInput.sendKeys('1337');
 
         await driver.clickElement(
           By.css('.network-form__footer .btn-secondary'),
