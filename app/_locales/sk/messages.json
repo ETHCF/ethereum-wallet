@@ -557,9 +557,6 @@
   "rpcUrl": {
     "message": "Nová RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (voliteľné)"
-  },
   "optionalSymbol": {
     "message": "Symbol (voliteľné)"
   },

@@ -564,9 +564,6 @@
   "rpcUrl": {
     "message": "新增 RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID（选填）"
-  },
   "optionalSymbol": {
     "message": "符号（选填）"
   },

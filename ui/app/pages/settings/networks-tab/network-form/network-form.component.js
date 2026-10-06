@@ -5,6 +5,29 @@ import validUrl from 'valid-url';
 import Button from '../../../../components/ui/button';
 import TextField from '../../../../components/ui/text-field';
 
+// The background's limit: the largest chain ID that EIP-155 signing supports.
+const MAX_SAFE_CHAIN_ID = 4503599627370476;
+
+/**
+ * Whether a chain ID is a positive decimal or 0x-prefixed hex integer, the
+ * forms the background accepts for a custom RPC.
+ *
+ * @param {string} chainId - The entered chain ID
+ * @returns {boolean} Whether it is valid
+ */
+function isValidChainId(chainId) {
+  const value = String(chainId ?? '');
+  let id;
+  if (/^0x[0-9a-f]+$/iu.test(value)) {
+    id = parseInt(value, 16);
+  } else if (/^[0-9]+$/u.test(value)) {
+    id = parseInt(value, 10);
+  } else {
+    return false;
+  }
+  return id > 0 && id <= MAX_SAFE_CHAIN_ID;
+}
+
 export default class NetworkForm extends PureComponent {
   static contextTypes = {
     t: PropTypes.func.isRequired,
@@ -211,10 +234,11 @@ export default class NetworkForm extends PureComponent {
   };
 
   validateChainId = (chainId) => {
+    // An empty field is reported by the disabled Save button rather than as
+    // an error, so the form does not open with one.
     this.setErrorTo(
       'chainId',
-      // eslint-disable-next-line radix -- no radix, so a 0x-prefixed chain ID is read as hex
-      Boolean(chainId) && Number.isNaN(parseInt(chainId))
+      chainId && !isValidChainId(chainId)
         ? `${this.context.t('invalidInput')} chainId`
         : '',
     );
@@ -282,7 +306,8 @@ export default class NetworkForm extends PureComponent {
       viewOnly ||
       this.stateIsUnchanged() ||
       Object.values(errors).some((x) => x) ||
-      !rpcUrl;
+      !rpcUrl ||
+      !isValidChainId(chainId);
     const deletable =
       !networksTabIsInAddMode && !isCurrentRpcTarget && !viewOnly;
 
@@ -306,7 +331,6 @@ export default class NetworkForm extends PureComponent {
           'chainId',
           this.setStateWithValue('chainId', this.validateChainId),
           chainId,
-          'optionalChainId',
         )}
         {this.renderFormTextField(
           'symbol',

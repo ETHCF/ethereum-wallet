@@ -16,7 +16,7 @@ import ReadOnlyNetworkStore from './lib/network-store';
 import createStreamSink from './lib/createStreamSink';
 import NotificationManager from './lib/notification-manager';
 import { PHISHING_WARNING_CONTINUE } from './lib/phishing-warnings';
-import EcfWalletController from './ecf-wallet-controller';
+import EcfWalletController, { pageOrigin } from './ecf-wallet-controller';
 import rawFirstTimeState from './first-time-state';
 import ClipboardCleaner from './lib/clipboard-cleaner';
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code';
@@ -523,10 +523,9 @@ async function setupController(initState, initLangCode) {
         });
       }
     } else {
-      if (remotePort.sender && remotePort.sender.tab && remotePort.sender.url) {
+      const origin = remotePort.sender && pageOrigin(remotePort.sender);
+      if (remotePort.sender && remotePort.sender.tab && origin) {
         const tabId = remotePort.sender.tab.id;
-        const url = new URL(remotePort.sender.url);
-        const { origin } = url;
 
         remotePort.onMessage.addListener((msg) => {
           if (msg.data && msg.data.method === 'eth_requestAccounts') {

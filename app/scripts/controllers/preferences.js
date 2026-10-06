@@ -1,8 +1,25 @@
 import { isValidAddress } from '@ethereumjs/util';
+import EthQuery from '@metamask/eth-query';
 import { ObservableStore } from '@metamask/obs-store';
+import pify from 'pify';
 
+import { normalizeChainId } from './network/chain-utils';
 import { addInternalMethodPrefix } from './permissions';
+import { callContract } from '../lib/contract-call';
 import { normalizeAddress } from '../lib/util';
+
+/**
+ * Refuses a custom RPC without a usable chain ID. Without one, the RPC itself
+ * would choose the chain that transactions and typed data are signed for.
+ *
+ * @param {string} chainId - The chain ID entered for the network
+ * @throws {Error} If the chain ID is missing or invalid
+ */
+function assertCustomRpcChainId(chainId) {
+  if (!normalizeChainId(chainId)) {
+    throw new Error(`A custom RPC needs a valid chain ID, got "${chainId}"`);
+  }
+}
 
 export default class PreferencesController {
   /**
@@ -30,7 +47,6 @@ export default class PreferencesController {
       accountTokens: {},
       assetImages: {},
       tokens: [],
-      suggestedTokens: {},
       useNonceField: false,
       usePhishDetect: true,
 
@@ -54,9 +70,13 @@ export default class PreferencesController {
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link',
       ...opts.initState,
+      // A suggestion belongs to a live wallet_watchAsset request, so, like
+      // upstream's in-memory approvals, a saved one is not reloaded.
+      suggestedTokens: {},
     };
 
     this.network = opts.network;
+    this.getProvider = opts.getProvider;
     this.store = new ObservableStore(initState);
     this.store.setMaxListeners(12);
     this.openPopup = opts.openPopup;
@@ -429,7 +449,7 @@ export default class PreferencesController {
    * updates custom RPC details
    *
    * @param {string} url - The RPC url to add to frequentRpcList.
-   * @param {string} chainId - Optional chainId of the selected network.
+   * @param {string} chainId - The chainId of the network, which is required.
    * @param {string} ticker - Optional ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
    * @returns {Promise<Array>} Promise resolving to updated frequentRpcList.
@@ -443,6 +463,7 @@ export default class PreferencesController {
     if (index > -1) {
       const rpcDetail = rpcList[index];
       const updatedRpc = { ...rpcDetail, ...newRpcDetails };
+      assertCustomRpcChainId(updatedRpc.chainId);
       rpcList[index] = updatedRpc;
       this.store.updateState({ frequentRpcListDetail: rpcList });
     } else {
@@ -468,7 +489,7 @@ export default class PreferencesController {
    * Adds custom RPC url to state.
    *
    * @param {string} url - The RPC url to add to frequentRpcList.
-   * @param {string} chainId - Optional chainId of the selected network.
+   * @param {string} chainId - The chainId of the network, which is required.
    * @param {string} ticker - Optional ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
    * @param {object} [rpcPrefs] - Optional preferences for the network, such
@@ -482,6 +503,9 @@ export default class PreferencesController {
     nickname = '',
     rpcPrefs = {},
   ) {
+    if (url !== 'http://localhost:8545') {
+      assertCustomRpcChainId(chainId);
+    }
     const rpcList = this.getFrequentRpcListDetail();
     const index = rpcList.findIndex((element) => {
       return element.rpcUrl === url;
@@ -490,14 +514,9 @@ export default class PreferencesController {
       rpcList.splice(index, 1);
     }
     if (url !== 'http://localhost:8545') {
-      let checkedChainId;
-      // eslint-disable-next-line radix
-      if (Boolean(chainId) && !Number.isNaN(parseInt(chainId))) {
-        checkedChainId = chainId;
-      }
       rpcList.push({
         rpcUrl: url,
-        chainId: checkedChainId,
+        chainId,
         ticker,
         nickname,
         rpcPrefs,
@@ -688,14 +707,19 @@ export default class PreferencesController {
    * added after the user responded, or with the validation error.
    */
   async _handleWatchAssetERC20(options) {
-    const { address, symbol, decimals, image } = options;
-    const rawAddress = address;
+    const { address, symbol, decimals, image } = options ?? {};
+    let tokenOpts;
     try {
-      this._validateERC20AssetParams({ rawAddress, symbol, decimals });
+      tokenOpts = await this._resolveERC20AssetParams({
+        rawAddress: address,
+        symbol,
+        decimals,
+        image,
+      });
     } catch (err) {
       return err;
     }
-    const tokenOpts = { rawAddress, decimals, symbol, image };
+    const { rawAddress } = tokenOpts;
     this.addSuggestedERC20Asset(tokenOpts);
     return this.openPopup().then(() => {
       const tokenAddresses = this.getTokens().filter(
@@ -713,23 +737,108 @@ export default class PreferencesController {
    * doesn't fulfill requirements
    */
   _validateERC20AssetParams(opts) {
-    const { rawAddress, symbol, decimals } = opts;
+    const { rawAddress, symbol, decimals, image } = opts;
     if (!rawAddress || !symbol || typeof decimals === 'undefined') {
       throw new Error(
         `Cannot suggest token without address, symbol, and decimals`,
       );
     }
+    if (typeof symbol !== 'string') {
+      throw new Error(`Invalid symbol: not a string`);
+    }
     if (!(symbol.length < 7)) {
       throw new Error(`Invalid symbol ${symbol} more than six characters`);
     }
     const numDecimals = parseInt(decimals, 10);
-    if (isNaN(numDecimals) || numDecimals > 36 || numDecimals < 0) {
+    if (!Number.isInteger(numDecimals) || numDecimals > 36 || numDecimals < 0) {
       throw new Error(
         `Invalid decimals ${decimals} must be at least 0, and not over 36`,
       );
     }
     if (!isValidAddress(rawAddress)) {
       throw new Error(`Invalid address ${rawAddress}`);
+    }
+    if (image !== undefined && image !== null && typeof image !== 'string') {
+      throw new Error(`Invalid image: not a string`);
+    }
+  }
+
+  /**
+   * Checks a suggested ERC20 token against its contract, as upstream's
+   * TokensController.watchAsset does. The contract's symbol and decimals win
+   * over the request's, and a request that disagrees with them is refused.
+   * A value the contract does not return falls back to the request's.
+   *
+   * @param {object} opts - The suggested token
+   * @param {string} opts.rawAddress - The token contract address
+   * @param {string} [opts.symbol] - The requested symbol
+   * @param {number|string} [opts.decimals] - The requested decimals
+   * @param {string} [opts.image] - The requested image URL
+   * @returns {Promise<object>} The validated token, with numeric decimals
+   * @throws {Error} If the token is invalid or disagrees with its contract
+   */
+  async _resolveERC20AssetParams({ rawAddress, symbol, decimals, image }) {
+    if (!rawAddress || !isValidAddress(rawAddress)) {
+      throw new Error(`Invalid address ${rawAddress}`);
+    }
+    const [contractSymbol, contractDecimals] = await Promise.all([
+      this._readTokenContract(rawAddress, 'symbol()', 'string'),
+      this._readTokenContract(rawAddress, 'decimals()', 'uint256'),
+    ]);
+    if (
+      contractSymbol !== undefined &&
+      symbol !== undefined &&
+      (typeof symbol !== 'string' ||
+        symbol.toUpperCase() !== contractSymbol.toUpperCase())
+    ) {
+      throw new Error(
+        `The symbol in the request (${symbol}) does not match the symbol in the contract (${contractSymbol})`,
+      );
+    }
+    const contractDecimalsStr =
+      contractDecimals === undefined ? undefined : String(contractDecimals);
+    if (
+      contractDecimalsStr !== undefined &&
+      decimals !== undefined &&
+      String(decimals) !== contractDecimalsStr
+    ) {
+      throw new Error(
+        `The decimals in the request (${decimals}) do not match the decimals in the contract (${contractDecimalsStr})`,
+      );
+    }
+    const tokenOpts = {
+      rawAddress,
+      symbol: contractSymbol ?? symbol,
+      decimals: contractDecimalsStr ?? decimals,
+      image,
+    };
+    this._validateERC20AssetParams(tokenOpts);
+    return { ...tokenOpts, decimals: parseInt(tokenOpts.decimals, 10) };
+  }
+
+  /**
+   * Reads one value from a token contract on the current network.
+   *
+   * @param {string} address - The token contract address
+   * @param {string} signature - The function, such as 'symbol()'
+   * @param {string} outputType - The type it returns
+   * @returns {Promise<*>} The value, or undefined if it could not be read
+   */
+  async _readTokenContract(address, signature, outputType) {
+    const provider = this.getProvider?.();
+    if (!provider) {
+      return undefined;
+    }
+    try {
+      const [value] = await callContract(
+        pify(new EthQuery(provider)),
+        address,
+        signature,
+        [outputType],
+      );
+      return value;
+    } catch (_) {
+      return undefined;
     }
   }
 }

@@ -655,7 +655,10 @@ describe('EcfWalletController', function () {
 
   describe('#setCustomRpc', function () {
     it('changes the network controller rpc', async function () {
-      const rpcTarget = ecfWalletController.setCustomRpc(CUSTOM_RPC_URL);
+      const rpcTarget = ecfWalletController.setCustomRpc(
+        CUSTOM_RPC_URL,
+        '0x539',
+      );
       const networkControllerState =
         ecfWalletController.networkController.store.getState();
       assert.equal(networkControllerState.provider.rpcTarget, CUSTOM_RPC_URL);
@@ -1051,6 +1054,49 @@ describe('EcfWalletController', function () {
       assert.equal(
         originFor({ url: 'https://ethcf.org/donate', tab: { id: 4 } }),
         'https://ethcf.org',
+      );
+    });
+
+    it("uses a page's security origin and refuses an opaque one", function () {
+      const setupProviderEngine = sandbox
+        .stub(ecfWalletController, 'setupProviderEngine')
+        .returns({
+          handle: () => undefined,
+          on: () => undefined,
+          destroy: () => undefined,
+        });
+      const connect = (sender) => {
+        const stream = createThoughStream((_chunk, _, cb) => cb());
+        ecfWalletController.setupUntrustedCommunication(stream, sender);
+        stream.end();
+      };
+
+      connect({
+        url: 'https://site.test/page',
+        origin: 'https://site.test',
+        tab: { id: 1 },
+      });
+      assert.equal(
+        setupProviderEngine.lastCall.args[0].origin,
+        'https://site.test',
+      );
+
+      // A sandboxed frame, or a page with a sandbox CSP, keeps the site's URL
+      // but must not act for the site.
+      setupProviderEngine.resetHistory();
+      connect({
+        url: 'https://site.test/upload',
+        origin: 'null',
+        tab: { id: 1 },
+      });
+      assert.equal(setupProviderEngine.callCount, 0);
+      assert.throws(
+        () =>
+          ecfWalletController.setupProviderConnection(
+            createThoughStream((_chunk, _, cb) => cb()),
+            { url: 'https://site.test/upload', origin: 'null' },
+          ),
+        /no origin/u,
       );
     });
 

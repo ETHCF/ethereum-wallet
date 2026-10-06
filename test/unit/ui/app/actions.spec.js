@@ -844,10 +844,10 @@ describe('Actions', function () {
   });
 
   describe('#exportAccount', function () {
-    let submitPasswordSpy, exportAccountSpy;
+    let verifyPasswordSpy, exportAccountSpy;
 
     afterEach(function () {
-      submitPasswordSpy.restore();
+      verifyPasswordSpy.restore();
       exportAccountSpy.restore();
     });
 
@@ -863,8 +863,10 @@ describe('Actions', function () {
         },
       ];
 
-      submitPasswordSpy = sinon.spy(background, 'submitPassword');
+      verifyPasswordSpy = sinon.spy(background, 'verifyPassword');
       exportAccountSpy = sinon.spy(background, 'exportAccount');
+      // Re-unlocking would cancel any vault write still queued.
+      const submitPasswordSpy = sinon.spy(background, 'submitPassword');
 
       await store.dispatch(
         actions.exportAccount(
@@ -872,7 +874,9 @@ describe('Actions', function () {
           '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
         ),
       );
-      assert(submitPasswordSpy.calledOnce);
+      submitPasswordSpy.restore();
+      assert(submitPasswordSpy.notCalled);
+      assert(verifyPasswordSpy.calledOnce);
       assert(exportAccountSpy.calledOnce);
       assert.deepEqual(store.getActions(), expectedActions);
     });
@@ -885,8 +889,8 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'Incorrect Password.' },
       ];
 
-      submitPasswordSpy = sinon.stub(background, 'submitPassword');
-      submitPasswordSpy.callsFake((_, callback) => {
+      verifyPasswordSpy = sinon.stub(background, 'verifyPassword');
+      verifyPasswordSpy.callsFake((_, callback) => {
         callback(new Error('error'));
       });
 

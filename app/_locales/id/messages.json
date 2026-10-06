@@ -573,9 +573,6 @@
   "rpcUrl": {
     "message": "URL RPC Baru"
   },
-  "optionalChainId": {
-    "message": "ID Rantai (opsional)"
-  },
   "optionalSymbol": {
     "message": "Simbol (opsional)"
   },

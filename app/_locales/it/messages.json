@@ -799,9 +799,6 @@
   "onlyAddTrustedNetworks": {
     "message": "Una rete Ethereum malevola può mentire sullo stato della blockchain e registrare le tue azioni. Aggiungi solo reti fidate."
   },
-  "optionalChainId": {
-    "message": "ChainID (opzionale)"
-  },
   "optionalSymbol": {
     "message": "Simbolo (opzionale)"
   },

@@ -570,9 +570,6 @@
   "rpcUrl": {
     "message": "Nova URL RPC"
   },
-  "optionalChainId": {
-    "message": "ChainID (opcional)"
-  },
   "optionalSymbol": {
     "message": "Símbolo (opcional)"
   },

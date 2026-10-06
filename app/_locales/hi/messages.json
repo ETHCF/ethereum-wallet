@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "नया RPC URL"
   },
-  "optionalChainId": {
-    "message": "चैनआईडी (वैकल्पिक)"
-  },
   "optionalSymbol": {
     "message": "सिम्बल (वैकल्पिक)"
   },

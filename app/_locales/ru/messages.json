@@ -734,9 +734,6 @@
   "rpcUrl": {
     "message": "Новый RPC URL"
   },
-  "optionalChainId": {
-    "message": "ID сети (необязательно)"
-  },
   "optionalSymbol": {
     "message": "Символ  (необязательно)"
   },

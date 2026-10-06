@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "RPC URL جدید"
   },
-  "optionalChainId": {
-    "message": "آی دی زنجیره (انتخابی)"
-  },
   "optionalSymbol": {
     "message": "سمبول (انتخابی)"
   },

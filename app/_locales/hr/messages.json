@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "Novi URL RPC-a"
   },
-  "optionalChainId": {
-    "message": "Identifikacijska oznaka bloka (neobavezno)"
-  },
   "optionalSymbol": {
     "message": "Simbol (neobavezno)"
   },

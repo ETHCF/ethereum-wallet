@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "Nowy adres URL RPC"
   },
-  "optionalChainId": {
-    "message": "Identyfikator łańcucha (opcjonalnie)"
-  },
   "optionalSymbol": {
     "message": "Symbol (opcjonalnie)"
   },

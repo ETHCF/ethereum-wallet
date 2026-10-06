@@ -78,6 +78,26 @@ export function externalExtensionOrigin(sender) {
   return `chrome-extension://${sender.id}`;
 }
 
+/**
+ * The security origin of the page or frame behind a connection.
+ *
+ * sender.url is only the frame's URL. A sandboxed frame, or a page served with
+ * a sandbox CSP, keeps its site's URL but runs in an opaque origin, which
+ * sender.origin reports as "null". Such a page does not act for the site, so
+ * it has no origin here. The URL is used only where the browser does not
+ * report sender.origin.
+ *
+ * @param {object} sender - The connecting page's MessageSender.
+ * @returns {string|undefined} Its origin, or undefined if it is opaque.
+ */
+export function pageOrigin(sender) {
+  let { origin } = sender;
+  if (origin === undefined && sender.url) {
+    origin = new URL(sender.url).origin;
+  }
+  return origin && origin !== 'null' ? origin : undefined;
+}
+
 // Restoring from a seed phrase adds accounts while they hold a balance, up to
 // this many.
 export const MAX_RESTORED_ACCOUNTS = 100;
@@ -127,6 +147,8 @@ export default class EcfWalletController extends EventEmitter {
       initLangCode: opts.initLangCode,
       openPopup: opts.openPopup,
       network: this.networkController,
+      // The provider is created below, so it is read when needed.
+      getProvider: () => this.provider,
     });
 
     this.appStateController = new AppStateController({
@@ -1646,6 +1668,12 @@ export default class EcfWalletController extends EventEmitter {
       return;
     }
 
+    const isOtherExtension = sender.id && sender.id !== extension.runtime.id;
+    if (!isOtherExtension && !pageOrigin(sender)) {
+      log.debug('ecf-wallet - no provider for an opaque origin', sender.url);
+      return;
+    }
+
     // setup multiplexing
     const mux = setupMultiplex(connectionStream);
 
@@ -1766,7 +1794,10 @@ export default class EcfWalletController extends EventEmitter {
     } else if (extensionId) {
       origin = externalExtensionOrigin(sender);
     } else {
-      origin = new URL(sender.url).origin;
+      origin = pageOrigin(sender);
+      if (!origin) {
+        throw new Error('EcfWalletController - no origin for the connection');
+      }
     }
     let tabId;
     if (sender.tab && sender.tab.id) {

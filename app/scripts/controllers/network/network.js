@@ -152,12 +152,15 @@ export default class NetworkController extends EventEmitter {
           return;
         }
         // A custom RPC that reports a different chain than the one configured
-        // could get transactions signed for the wrong chain. Refuse to use it.
+        // could get transactions signed for the wrong chain. Refuse to use it,
+        // and refuse one with no configured chain, since its RPC would then
+        // pick the chain that transactions are signed for.
         const expectedChainId =
           type === 'rpc' ? this.providerStore.getState().chainId : undefined;
         if (
-          expectedChainId &&
-          normalizeChainId(expectedChainId) !== normalizeChainId(chainId)
+          type === 'rpc' &&
+          (!normalizeChainId(expectedChainId) ||
+            normalizeChainId(expectedChainId) !== normalizeChainId(chainId))
         ) {
           log.warn(
             `NetworkController - RPC returned chain ID ${chainId}, expected ${expectedChainId}`,
@@ -173,6 +176,10 @@ export default class NetworkController extends EventEmitter {
   }
 
   setRpcTarget(rpcTarget, chainId, ticker = 'ETH', nickname = '', rpcPrefs) {
+    assert(
+      normalizeChainId(chainId),
+      `NetworkController - a custom RPC needs a valid chain ID, got "${chainId}"`,
+    );
     const providerConfig = {
       type: 'rpc',
       rpcTarget,

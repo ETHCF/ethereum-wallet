@@ -566,9 +566,6 @@
   "rpcUrl": {
     "message": "URL RPC baru"
   },
-  "optionalChainId": {
-    "message": "ChainID (pilihan)"
-  },
   "optionalSymbol": {
     "message": "Simbol (pilihan)"
   },

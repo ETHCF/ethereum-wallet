@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "ಹೊಸ RPC URL"
   },
-  "optionalChainId": {
-    "message": "ಚೈನ್‌ಐಡಿ (ಐಚ್ಛಿಕ)"
-  },
   "optionalSymbol": {
     "message": "ಚಿಹ್ನೆ (ಐಚ್ಛಿಕ)"
   },

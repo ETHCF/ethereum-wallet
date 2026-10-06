@@ -43,7 +43,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "exclude_matches": ["https://connect.trezor.io/*/popup.html*"],
       "js": ["inpage.js"],
       "run_at": "document_start",
@@ -52,7 +52,6 @@
     },
     {
       "matches": [
-        "file://*/*",
         "http://*/*",
         "https://*/*"
       ],

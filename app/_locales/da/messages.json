@@ -570,9 +570,6 @@
   "rpcUrl": {
     "message": "Ny RPC-URL"
   },
-  "optionalChainId": {
-    "message": "KædeID (valgfrit)"
-  },
   "optionalSymbol": {
     "message": "Symbol (valgfrit)"
   },

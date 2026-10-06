@@ -529,9 +529,6 @@
   "rpcUrl": {
     "message": "Bagong RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (opsyonal)"
-  },
   "optionalSymbol": {
     "message": "Simbolo (opsyonal)"
   },

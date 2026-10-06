@@ -576,9 +576,6 @@
   "rpcUrl": {
     "message": "新的 RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (可選)"
-  },
   "optionalSymbol": {
     "message": "Symbol (可選)"
   },

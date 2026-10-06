@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "Uusi RPC:n URL"
   },
-  "optionalChainId": {
-    "message": "Ketjun tunnus (valinnainen)"
-  },
   "optionalSymbol": {
     "message": "Symboli (valinnainen)"
   },

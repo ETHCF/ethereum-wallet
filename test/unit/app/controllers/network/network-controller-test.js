@@ -87,6 +87,26 @@ describe('NetworkController', function () {
       assert.notEqual(networkController.getNetworkState(), 'loading');
     });
 
+    it('refuses a custom RPC with no configured chain ID', async function () {
+      // Otherwise the RPC would choose the chain transactions are signed for.
+      networkController.providerStore.putState({
+        type: 'rpc',
+        rpcTarget: 'https://rpc.test',
+      });
+      await lookup({ netVersion: '1', chainId: '0x1' });
+      assert.equal(networkController.getNetworkState(), 'loading');
+      assert.equal(networkController.getChainId(), undefined);
+
+      assert.throws(
+        () => networkController.setRpcTarget('https://rpc.test', undefined),
+        /needs a valid chain ID/u,
+      );
+      assert.throws(
+        () => networkController.setRpcTarget('https://rpc.test', '1abc'),
+        /needs a valid chain ID/u,
+      );
+    });
+
     describe('#getNetworkState', function () {
       it('should return "loading" when new', function () {
         const networkState = networkController.getNetworkState();

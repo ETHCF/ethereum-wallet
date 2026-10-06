@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "Naujas RPC URL"
   },
-  "optionalChainId": {
-    "message": "Grandinės ID (nebūtinas)"
-  },
   "optionalSymbol": {
     "message": "Simbolis (nebūtinas)"
   },

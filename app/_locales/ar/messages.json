@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "عنوان جديد لاستدعاء الإجراء عن بعد"
   },
-  "optionalChainId": {
-    "message": "هوية ChainID (اختياري)"
-  },
   "optionalSymbol": {
     "message": "الرمز (اختياري)"
   },

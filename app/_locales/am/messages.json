@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "አዲስ የ RPC URL"
   },
-  "optionalChainId": {
-    "message": "የሰንሰለት መለያ ቁጥር (አማራጭ)"
-  },
   "optionalSymbol": {
     "message": "ምልክት (አማራጭ)"
   },

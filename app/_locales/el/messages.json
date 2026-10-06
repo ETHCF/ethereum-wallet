@@ -579,9 +579,6 @@
   "rpcUrl": {
     "message": "Νέο RPC URL"
   },
-  "optionalChainId": {
-    "message": "Ταυτότητα Αλυσίδας (προαιρετικό)"
-  },
   "optionalSymbol": {
     "message": "Σύμβολο (προαιρετικό)"
   },

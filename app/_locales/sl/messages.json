@@ -567,9 +567,6 @@
   "rpcUrl": {
     "message": "Nov URL RPC"
   },
-  "optionalChainId": {
-    "message": "ChainID (nezahtevano)"
-  },
   "optionalSymbol": {
     "message": "Simbol (nezahtevano)"
   },

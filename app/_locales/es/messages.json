@@ -467,9 +467,6 @@
   "newNetwork": {
     "message": "Red Nueva"
   },
-  "optionalChainId": {
-    "message": "ChainID (opcional)"
-  },
   "optionalSymbol": {
     "message": "Símbolo (opcional)"
   },

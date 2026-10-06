@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "Jauns RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (neobligāti)"
-  },
   "optionalSymbol": {
     "message": "Simbols (neobligāti)"
   },

@@ -576,9 +576,6 @@
   "rpcUrl": {
     "message": "Novi RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (opciono)"
-  },
   "optionalSymbol": {
     "message": "Simbol (opciono)"
   },

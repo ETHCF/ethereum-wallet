@@ -576,9 +576,6 @@
   "rpcUrl": {
     "message": "Uus RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (valikuline)"
-  },
   "optionalSymbol": {
     "message": "Sümbol (valikuline)"
   },

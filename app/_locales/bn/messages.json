@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "নতুন RPC URL"
   },
-  "optionalChainId": {
-    "message": "ChainID (ঐচ্ছিক)"
-  },
   "optionalSymbol": {
     "message": "প্রতীক (ঐচ্ছিক)"
   },

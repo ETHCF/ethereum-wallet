@@ -576,9 +576,6 @@
   "rpcUrl": {
     "message": "NY RPC-URL "
   },
-  "optionalChainId": {
-    "message": "Blokkjede (vagfritt)"
-  },
   "optionalSymbol": {
     "message": "Symbol (valgfritt)"
   },

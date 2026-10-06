@@ -582,9 +582,6 @@
   "rpcUrl": {
     "message": "Нов URL адрес за RPC"
   },
-  "optionalChainId": {
-    "message": "ChainID (по избор)"
-  },
   "optionalSymbol": {
     "message": "Символ (по избор)"
   },

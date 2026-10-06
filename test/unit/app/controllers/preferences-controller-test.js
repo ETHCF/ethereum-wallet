@@ -1,3 +1,5 @@
+import { bytesToHex } from '@ethereumjs/util';
+import { encode } from '@metamask/abi-utils';
 import { ObservableStore } from '@metamask/obs-store';
 import assert from 'assert';
 import sinon from 'sinon';
@@ -438,7 +440,7 @@ describe('preferences controller', function () {
     });
 
     it('should add suggested token', async function () {
-      const address = '0xabcdef1234567';
+      const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
       const symbol = 'ABBR';
       const decimals = 5;
       const image = 'someimage';
@@ -532,6 +534,136 @@ describe('preferences controller', function () {
         () => validate({ rawAddress: '0x123', symbol: 'ABC', decimals: 0 }),
         'invalid address should fail',
       );
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: { length: 1 },
+            decimals: 0,
+          }),
+        /not a string/u,
+        'a symbol that is not a string should fail',
+      );
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: ['A', 'B'],
+            decimals: 0,
+          }),
+        /not a string/u,
+        'an array symbol should fail',
+      );
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: 'ABC',
+            decimals: 0,
+            image: { src: 'x' },
+          }),
+        /not a string/u,
+        'an image that is not a string should fail',
+      );
+    });
+
+    it('does not save a suggestion that is not a string', async function () {
+      preferencesController.openPopup = async () => undefined;
+      const result = await preferencesController._handleWatchAssetERC20({
+        address: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+        symbol: { length: 1 },
+        decimals: 18,
+      });
+      assert.ok(result instanceof Error);
+      assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+    });
+
+    it('does not reload a saved suggestion', function () {
+      const restored = new PreferencesController({
+        network,
+        initState: {
+          suggestedTokens: {
+            '0xd26114cd6ee289accf82350c8d8487fedb8a0c07': {
+              address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+              symbol: { length: 1 },
+              decimals: 18,
+            },
+          },
+        },
+      });
+      assert.deepEqual(restored.getSuggestedTokens(), {});
+    });
+
+    describe('checked against the token contract', function () {
+      const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
+
+      function useContract({ symbol, decimals }) {
+        const results = {
+          // symbol() and decimals() selectors
+          '0x95d89b41':
+            symbol === undefined
+              ? '0x'
+              : bytesToHex(encode(['string'], [symbol])),
+          '0x313ce567':
+            decimals === undefined
+              ? '0x'
+              : bytesToHex(encode(['uint256'], [BigInt(decimals)])),
+        };
+        preferencesController.getProvider = () => ({
+          sendAsync: (request, callback) =>
+            callback(null, {
+              id: request.id,
+              jsonrpc: '2.0',
+              result: results[request.params[0].data],
+            }),
+        });
+        preferencesController.openPopup = async () => undefined;
+      }
+
+      it("refuses a request that disagrees with the contract's decimals", async function () {
+        useContract({ symbol: 'USDC', decimals: 6 });
+        const result = await preferencesController._handleWatchAssetERC20({
+          address,
+          symbol: 'USDC',
+          decimals: 18,
+        });
+        assert.match(result.message, /do not match the decimals/u);
+        assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+      });
+
+      it("refuses a request that disagrees with the contract's symbol", async function () {
+        useContract({ symbol: 'USDC', decimals: 6 });
+        const result = await preferencesController._handleWatchAssetERC20({
+          address,
+          symbol: 'USDT',
+          decimals: 6,
+        });
+        assert.match(result.message, /does not match the symbol/u);
+      });
+
+      it("uses the contract's values and saves decimals as a number", async function () {
+        useContract({ symbol: 'USDC', decimals: 6 });
+        await preferencesController._handleWatchAssetERC20({
+          address,
+          symbol: 'usdc',
+          decimals: '6',
+        });
+        const suggested = preferencesController.getSuggestedTokens()[address];
+        assert.equal(suggested.symbol, 'USDC');
+        assert.strictEqual(suggested.decimals, 6);
+      });
+
+      it('falls back to the request when the contract returns nothing', async function () {
+        useContract({});
+        await preferencesController._handleWatchAssetERC20({
+          address,
+          symbol: 'ABC',
+          decimals: 8,
+        });
+        const suggested = preferencesController.getSuggestedTokens()[address];
+        assert.equal(suggested.symbol, 'ABC');
+        assert.strictEqual(suggested.decimals, 8);
+      });
     });
   });
 
@@ -593,6 +725,31 @@ describe('preferences controller', function () {
             rpcPrefs: {},
           },
         ],
+      );
+    });
+
+    it('refuses a custom RPC without a valid chain ID', function () {
+      const controller = preferencesController;
+      controller.addToFrequentRpcList('rpc_url', '0x89');
+      for (const chainId of [undefined, '', '1abc', '0']) {
+        assert.throws(
+          () => controller.addToFrequentRpcList('rpc_url', chainId),
+          /needs a valid chain ID/u,
+        );
+        assert.throws(
+          () => controller.updateRpc({ rpcUrl: 'rpc_url', chainId }),
+          /needs a valid chain ID/u,
+        );
+      }
+      // The saved entry is left as it was.
+      assert.deepEqual(
+        preferencesController.store
+          .getState()
+          .frequentRpcListDetail.map(({ rpcUrl, chainId }) => ({
+            rpcUrl,
+            chainId,
+          })),
+        [{ rpcUrl: 'rpc_url', chainId: '0x89' }],
       );
     });
 
