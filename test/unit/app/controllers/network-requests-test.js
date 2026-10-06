@@ -2,7 +2,6 @@ import { strict as assert } from 'assert';
 import sinon from 'sinon';
 
 import NetworkRequestController, {
-  isPrivateRpcUrl,
   UNRECOGNIZED_CHAIN_ERROR_CODE,
 } from '../../../../app/scripts/controllers/network-requests';
 
@@ -53,9 +52,10 @@ describe('NetworkRequestController', function () {
   }
 
   describe('wallet_addEthereumChain', function () {
-    it('validates the RPC, asks for approval, then adds and selects the network', async function () {
+    it('asks for approval, then checks the RPC and adds and selects the network', async function () {
       const result = controller.addChain(ORIGIN, addParams());
       const [request] = await waitForPending();
+      assert.equal(deps.getRpcChainId.called, false);
       assert.equal(request.origin, ORIGIN);
       assert.equal(request.type, 'add');
       assert.deepEqual(request.network, {
@@ -72,6 +72,9 @@ describe('NetworkRequestController', function () {
 
       await controller.approve(request.id);
       assert.equal(await result, null);
+      assert.deepEqual(deps.getRpcChainId.firstCall.args, [
+        'https://rpc.gnosis.test/',
+      ]);
       assert.deepEqual(
         deps.addCustomNetwork.firstCall.args[0],
         request.network,
@@ -87,20 +90,74 @@ describe('NetworkRequestController', function () {
       assert.equal(deps.addCustomNetwork.called, false);
     });
 
-    it('refuses an RPC that serves a different chain, or cannot be reached, without prompting', async function () {
+    it('contacts the RPC only after approval, and then refuses one that serves a different chain or cannot be reached', async function () {
+      // A public name can resolve to a host on the user's network, so no
+      // endpoint is contacted, and nothing is reported, before approval.
+      for (const [answer, message] of [
+        [async () => '0x1', /different chain ID \(0x1\)/u],
+        [
+          async () => {
+            throw new Error('offline');
+          },
+          /Could not fetch the chain ID/u,
+        ],
+      ]) {
+        deps.getRpcChainId.resetHistory();
+        deps.getRpcChainId.callsFake(answer);
+        const result = controller.addChain(
+          ORIGIN,
+          addParams({ rpcUrls: ['https://intranet.example.com'] }),
+        );
+        const [shown] = await waitForPending();
+        assert.equal(deps.getRpcChainId.called, false);
+
+        await assert.rejects(controller.approve(shown.id), message);
+        await assert.rejects(result, message);
+      }
+      assert.equal(deps.addCustomNetwork.called, false);
+    });
+
+    it('checks the RPC when the user asks, without answering the site', async function () {
+      let settled = false;
+      const result = controller.addChain(ORIGIN, addParams());
+      result
+        .catch(() => undefined)
+        .finally(() => {
+          settled = true;
+        });
+      const [request] = await waitForPending();
+
+      assert.equal(await controller.checkRpc(request.id), null);
       deps.getRpcChainId.callsFake(async () => '0x1');
-      await assert.rejects(
-        controller.addChain(ORIGIN, addParams()),
+      assert.match(
+        await controller.checkRpc(request.id),
         /different chain ID \(0x1\)/u,
       );
       deps.getRpcChainId.callsFake(async () => {
         throw new Error('offline');
       });
-      await assert.rejects(
-        controller.addChain(ORIGIN, addParams()),
+      assert.match(
+        await controller.checkRpc(request.id),
         /Could not fetch the chain ID/u,
       );
-      assert.equal(deps.showApprovalRequest.called, false);
+
+      // The request stays pending for the user to decide.
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(settled, false);
+      assert.equal(controller.pendingCount, 1);
+      await assert.rejects(controller.checkRpc('unknown'), /not found/u);
+      controller.reject(request.id);
+      await assert.rejects(result, { code: 4001 });
+    });
+
+    it('only checks the RPC of a request to add a network', async function () {
+      customNetworks = [{ rpcUrl: 'https://rpc.gnosis.test', chainId: '0x64' }];
+      controller
+        .switchChain(ORIGIN, [{ chainId: '0x64' }])
+        .catch(() => undefined);
+      const [request] = await waitForPending();
+      await assert.rejects(controller.checkRpc(request.id), /not found/u);
+      assert.equal(deps.getRpcChainId.called, false);
     });
 
     const invalidCases = [
@@ -315,13 +372,6 @@ describe('NetworkRequestController', function () {
     });
 
     it('allows one request per site even when several arrive at once', async function () {
-      let answerChainId;
-      deps.getRpcChainId.callsFake(
-        () =>
-          new Promise((resolve) => {
-            answerChainId = resolve;
-          }),
-      );
       const first = controller.addChain(ORIGIN, addParams());
       await assert.rejects(
         controller.addChain(ORIGIN, addParams()),
@@ -331,10 +381,9 @@ describe('NetworkRequestController', function () {
         controller.switchChain(ORIGIN, [{ chainId: '0x89' }]),
         /already pending/u,
       );
-      answerChainId('0x64');
       await waitForPending();
       assert.equal(controller.pendingCount, 1);
-      assert.equal(deps.getRpcChainId.callCount, 1);
+      assert.equal(deps.getRpcChainId.callCount, 0);
       controller.reject(pending()[0].id);
       await assert.rejects(first, { code: 4001 });
     });
@@ -390,31 +439,5 @@ describe('NetworkRequestController', function () {
     });
     assert.ok(!error);
     assert.equal(res.result, null);
-  });
-
-  it('treats loopback, private and link-local hosts as private', function () {
-    for (const url of [
-      'http://localhost:8545',
-      'http://node.localhost',
-      'https://printer.local',
-      'http://127.0.0.1:8545',
-      'http://[::1]:8545',
-      'https://10.0.0.5',
-      'https://172.20.1.1',
-      'https://192.168.1.1',
-      'https://169.254.169.254',
-      'https://100.100.1.1',
-      'https://0.0.0.0',
-    ]) {
-      assert.equal(isPrivateRpcUrl(url), true, url);
-    }
-    for (const url of [
-      'https://rpc.gnosis.test',
-      'https://8.8.8.8',
-      'https://172.32.0.1',
-      'https://192.169.0.1',
-    ]) {
-      assert.equal(isPrivateRpcUrl(url), false, url);
-    }
   });
 });

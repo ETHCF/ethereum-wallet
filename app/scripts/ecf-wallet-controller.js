@@ -580,6 +580,10 @@ export default class EcfWalletController extends EventEmitter {
         this.networkRequestController.reject,
         this.networkRequestController,
       ),
+      checkNetworkRequestRpc: nodeify(
+        this.networkRequestController.checkRpc,
+        this.networkRequestController,
+      ),
       scheduleClipboardClear: nodeify(this.scheduleClipboardClear, this),
       clearClipboard: nodeify(this.clearClipboard, this),
 

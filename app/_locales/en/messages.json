@@ -1535,6 +1535,15 @@
   "networkRequestApproveSwitch": {
     "message": "Change network"
   },
+  "networkRequestCheckRpc": {
+    "message": "Check RPC"
+  },
+  "networkRequestCheckingRpc": {
+    "message": "Checking…"
+  },
+  "networkRequestRpcOk": {
+    "message": "The RPC endpoint answered and serves this chain. The wallet contacts it only when you check it or approve."
+  },
   "networkRequestRpcNotice": {
     "message": "This site chose the RPC provider. The provider can see your IP address and which accounts you use, and it could show false balances or transaction results."
   },

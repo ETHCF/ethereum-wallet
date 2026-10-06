@@ -9,6 +9,7 @@ import { useI18nContext } from '../../hooks/useI18nContext';
 import { getNetworkRequests } from '../../selectors/selectors';
 import {
   approveNetworkRequest,
+  checkNetworkRequestRpc,
   rejectNetworkRequest,
 } from '../../store/actions';
 
@@ -29,6 +30,8 @@ export default function ConfirmNetworkRequest() {
   const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  // The result of the user's RPC check, kept with the request it was for.
+  const [rpcCheck, setRpcCheck] = useState(null);
 
   useEffect(() => {
     if (!request) {
@@ -47,6 +50,19 @@ export default function ConfirmNetworkRequest() {
 
   const { id, origin, type, network, warnings } = request;
   const isAdd = type === 'add';
+  const shownRpcCheck = rpcCheck?.id === id ? rpcCheck : null;
+  const checkingRpc = shownRpcCheck?.status === 'checking';
+  const checkRpc = async () => {
+    setRpcCheck({ id, status: 'checking' });
+    try {
+      const problem = await dispatch(checkNetworkRequestRpc(id));
+      setRpcCheck(
+        problem ? { id, status: 'problem', problem } : { id, status: 'ok' },
+      );
+    } catch (err) {
+      setRpcCheck({ id, status: 'problem', problem: err.message });
+    }
+  };
   const respond = async (action) => {
     setSubmitting(true);
     setError(null);
@@ -112,6 +128,39 @@ export default function ConfirmNetworkRequest() {
             {t(key, args)}
           </div>
         ))}
+        {isAdd && network.rpcUrl && (
+          <div className="confirm-network-request__rpc-check">
+            <Button
+              type="default"
+              className="confirm-network-request__rpc-check-button"
+              data-testid="network-request-check-rpc"
+              disabled={submitting || checkingRpc}
+              onClick={checkRpc}
+            >
+              {t(
+                checkingRpc
+                  ? 'networkRequestCheckingRpc'
+                  : 'networkRequestCheckRpc',
+              )}
+            </Button>
+            {shownRpcCheck?.status === 'ok' && (
+              <div
+                className="confirm-network-request__success"
+                data-testid="network-request-rpc-ok"
+              >
+                {t('networkRequestRpcOk')}
+              </div>
+            )}
+            {shownRpcCheck?.status === 'problem' && (
+              <div
+                className="confirm-network-request__error"
+                data-testid="network-request-rpc-problem"
+              >
+                {shownRpcCheck.problem}
+              </div>
+            )}
+          </div>
+        )}
         {error && <div className="confirm-network-request__error">{error}</div>}
       </div>
       <div className="page-container__footer">

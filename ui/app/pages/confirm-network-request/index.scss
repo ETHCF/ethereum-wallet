@@ -27,8 +27,18 @@
     }
   }
 
+  &__rpc-check {
+    margin-top: 12px;
+  }
+
+  &__rpc-check-button {
+    width: auto;
+    padding: 6px 12px;
+  }
+
   &__notice,
   &__warning,
+  &__success,
   &__error {
     margin-top: 8px;
     padding: 8px 10px;
@@ -44,6 +54,12 @@
   &__warning {
     border: 1px solid var(--color-warning-default);
     background: var(--color-warning-muted);
+  }
+
+  &__success {
+    border: 1px solid var(--color-success-default);
+    background: var(--color-success-muted);
+    color: var(--color-success-default);
   }
 
   &__error {

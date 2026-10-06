@@ -52,6 +52,20 @@ async function respondInNotification(driver, testId) {
   return text;
 }
 
+async function checkRpcInNotification(driver, resultTestId) {
+  await driver.waitUntilXWindowHandles(3);
+  await driver.switchToWindowWithTitle(
+    'ECF Wallet Notification',
+    await driver.getAllWindowHandles(),
+  );
+  await driver.clickElement(
+    By.css('[data-testid="network-request-check-rpc"]'),
+  );
+  return (
+    await driver.findElement(By.css(`[data-testid="${resultTestId}"]`))
+  ).getText();
+}
+
 describe('Security hardening', function () {
   it('runs the wallet with frozen JavaScript intrinsics', async function () {
     if (process.env.SELENIUM_BROWSER !== 'chrome') {
@@ -129,9 +143,9 @@ describe('Security hardening', function () {
           '0x539',
         );
 
-        // A local RPC is contacted only once the user approves, so a site
-        // cannot use the wallet to probe local ports. Then the wallet finds
-        // it serves a different chain and adds nothing.
+        // A requested RPC is contacted only once the user approves, so a site
+        // cannot use the wallet to probe local or internal hosts. Then the
+        // wallet finds it serves a different chain and adds nothing.
         const mismatchDapp = await driver.driver.getWindowHandle();
         await startRequest(driver, 'mismatch', {
           method: 'wallet_addEthereumChain',
@@ -144,6 +158,11 @@ describe('Security hardening', function () {
             },
           ],
         });
+        // The user can check the endpoint first; only the wallet sees why.
+        assert.match(
+          await checkRpcInNotification(driver, 'network-request-rpc-problem'),
+          /different chain ID/u,
+        );
         await respondInNotification(driver, 'network-request-approve');
         await driver.switchToWindow(mismatchDapp);
         const mismatch = await requestResult(driver, 'mismatch');
@@ -204,6 +223,10 @@ describe('Security hardening', function () {
 
         // Approving adds the network and selects it.
         await startRequest(driver, 'added', addRequest);
+        assert.match(
+          await checkRpcInNotification(driver, 'network-request-rpc-ok'),
+          /serves this chain/u,
+        );
         await respondInNotification(driver, 'network-request-approve');
         await driver.switchToWindow(dappHandle);
         assert.deepEqual(await requestResult(driver, 'added'), {

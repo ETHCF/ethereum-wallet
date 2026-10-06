@@ -229,6 +229,10 @@ export function rejectNetworkRequest(id) {
   return () => promisifiedBackground.rejectNetworkRequest(id);
 }
 
+export function checkNetworkRequestRpc(id) {
+  return () => promisifiedBackground.checkNetworkRequestRpc(id);
+}
+
 export function scheduleClipboardClear() {
   return () => promisifiedBackground.scheduleClipboardClear();
 }
