@@ -164,13 +164,16 @@ describe('Actions', function () {
       submitPasswordSpy.restore();
     });
 
-    it('calls submitPassword in background', async function () {
+    it('gets the seed phrase from the background with the password', async function () {
       const store = mockStore();
 
-      submitPasswordSpy = sinon.spy(background, 'verifySeedPhrase');
+      submitPasswordSpy = sinon.spy(background, 'getSeedPhrase');
 
-      await store.dispatch(actions.requestRevealSeedWords());
-      assert(submitPasswordSpy.calledOnce);
+      const seedWords = await store.dispatch(
+        actions.requestRevealSeedWords(password),
+      );
+      assert(submitPasswordSpy.calledOnceWith(password));
+      assert.equal(seedWords, TEST_SEED);
     });
 
     it('displays warning error message then callback in background errors', async function () {
@@ -182,13 +185,13 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ];
 
-      submitPasswordSpy = sinon.stub(background, 'verifySeedPhrase');
-      submitPasswordSpy.callsFake((callback) => {
+      submitPasswordSpy = sinon.stub(background, 'getSeedPhrase');
+      submitPasswordSpy.callsFake((_, callback) => {
         callback(new Error('error'));
       });
 
       await assert.rejects(async () => {
-        await store.dispatch(actions.requestRevealSeedWords());
+        await store.dispatch(actions.requestRevealSeedWords(password));
       });
       assert.deepEqual(store.getActions(), expectedActions);
     });
@@ -878,6 +881,7 @@ describe('Actions', function () {
       assert(submitPasswordSpy.notCalled);
       assert(verifyPasswordSpy.calledOnce);
       assert(exportAccountSpy.calledOnce);
+      assert.equal(exportAccountSpy.firstCall.args[1], password);
       assert.deepEqual(store.getActions(), expectedActions);
     });
 
@@ -917,7 +921,7 @@ describe('Actions', function () {
       ];
 
       exportAccountSpy = sinon.stub(background, 'exportAccount');
-      exportAccountSpy.callsFake((_, callback) => {
+      exportAccountSpy.callsFake((_address, _password, callback) => {
         callback(new Error('error'));
       });
 

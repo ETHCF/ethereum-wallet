@@ -8,6 +8,7 @@ import Footer from './signature-request-footer';
 import Header from './signature-request-header';
 import Message from './signature-request-message';
 import { ENVIRONMENT_TYPE_NOTIFICATION } from './signature-request.constants';
+import { getSignedTypedData } from './signed-typed-data';
 
 export default class SignatureRequest extends PureComponent {
   static propTypes = {
@@ -79,7 +80,10 @@ export default class SignatureRequest extends PureComponent {
       },
     } = this.props;
     const { address: fromAddress } = fromAccount;
-    const { message, domain = {}, primaryType, types } = JSON.parse(data);
+    const typedData = JSON.parse(data);
+    const { primaryType, types } = typedData;
+    // Show only what the signature covers.
+    const { domain, message } = getSignedTypedData(typedData);
 
     return (
       <div className="signature-request page-container">

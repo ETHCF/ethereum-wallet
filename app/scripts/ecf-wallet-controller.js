@@ -531,7 +531,6 @@ export default class EcfWalletController extends EventEmitter {
    */
   getApi() {
     const {
-      keyringController,
       networkController,
       onboardingController,
       alertController,
@@ -556,6 +555,7 @@ export default class EcfWalletController extends EventEmitter {
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
+      getSeedPhrase: nodeify(this.getSeedPhrase, this),
       resetAccount: nodeify(this.resetAccount, this),
       removeAccount: nodeify(this.removeAccount, this),
       importAccountWithStrategy: nodeify(this.importAccountWithStrategy, this),
@@ -660,10 +660,7 @@ export default class EcfWalletController extends EventEmitter {
       setLocked: nodeify(this.setLocked, this),
       createNewVaultAndKeychain: nodeify(this.createNewVaultAndKeychain, this),
       createNewVaultAndRestore: nodeify(this.createNewVaultAndRestore, this),
-      exportAccount: nodeify(
-        keyringController.exportAccount,
-        keyringController,
-      ),
+      exportAccount: nodeify(this.exportAccount, this),
 
       // txController
       cancelTransaction: nodeify(txController.cancelTransaction, txController),
@@ -770,7 +767,15 @@ export default class EcfWalletController extends EventEmitter {
     try {
       let vault;
       const accounts = await this.keyringController.getAccounts();
-      if (accounts.length > 0) {
+      const { vault: existingVault } = this.keyringController.store.getState();
+      if (existingVault && !this.isUnlocked()) {
+        // A locked wallet reports no accounts, so without this check a new
+        // vault would silently replace the user's existing one.
+        throw new Error(
+          'EcfWalletController - a vault already exists; unlock it or restore it from its seed phrase',
+        );
+      }
+      if (existingVault || accounts.length > 0) {
         vault = await this.keyringController.fullUpdate();
       } else {
         vault =
@@ -1170,11 +1175,43 @@ export default class EcfWalletController extends EventEmitter {
    *
    * Validity: seed phrase restores the accounts belonging to the current vault.
    *
-   * Called when the first account is created and on unlocking the vault.
-   *
-   * @returns {Promise<string>} Seed phrase to be confirmed by the user.
+   * Called when the first account is created and on unlocking the vault. It
+   * does not return the seed phrase; getSeedPhrase does, given the password.
    */
   async verifySeedPhrase() {
+    await this._getVerifiedSeedPhrase();
+  }
+
+  /**
+   * Returns the current vault's seed phrase, after checking the password, so
+   * that script running in a wallet page cannot read it without the password.
+   *
+   * @param {string} password - The wallet password.
+   * @returns {Promise<string>} The verified seed phrase.
+   */
+  async getSeedPhrase(password) {
+    await this.keyringController.verifyPassword(password);
+    return this._getVerifiedSeedPhrase();
+  }
+
+  /**
+   * Returns an account's private key, after checking the password.
+   *
+   * @param {string} address - The account to export.
+   * @param {string} password - The wallet password.
+   * @returns {Promise<string>} The private key.
+   */
+  async exportAccount(address, password) {
+    await this.keyringController.verifyPassword(password);
+    return this.keyringController.exportAccount(address);
+  }
+
+  /**
+   * Reads the seed phrase and checks that it restores the vault's accounts.
+   *
+   * @returns {Promise<string>} The verified seed phrase.
+   */
+  async _getVerifiedSeedPhrase() {
     const primaryKeyring =
       this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {

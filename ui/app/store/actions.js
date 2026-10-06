@@ -110,7 +110,7 @@ export function createNewVaultAndGetSeedPhrase(password) {
 
     try {
       await createNewVault(password);
-      const seedWords = await verifySeedPhrase();
+      const seedWords = await getSeedPhrase(password);
       dispatch(hideLoadingIndication());
       return seedWords;
     } catch (error) {
@@ -127,7 +127,7 @@ export function unlockAndGetSeedPhrase(password) {
 
     try {
       await submitPassword(password);
-      const seedWords = await verifySeedPhrase();
+      const seedWords = await getSeedPhrase(password);
       await forceUpdateEcfWalletState(dispatch);
       dispatch(hideLoadingIndication());
       return seedWords;
@@ -178,9 +178,9 @@ export function verifyPassword(password) {
   });
 }
 
-export function verifySeedPhrase() {
+export function getSeedPhrase(password) {
   return new Promise((resolve, reject) => {
-    background.verifySeedPhrase((error, seedWords) => {
+    background.getSeedPhrase(password, (error, seedWords) => {
       if (error) {
         reject(error);
         return;
@@ -194,11 +194,10 @@ export function verifySeedPhrase() {
 export function requestRevealSeedWords(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    log.debug(`background.verifyPassword`);
+    log.debug(`background.getSeedPhrase`);
 
     try {
-      await verifyPassword(password);
-      const seedWords = await verifySeedPhrase();
+      const seedWords = await getSeedPhrase(password);
       dispatch(hideLoadingIndication());
       return seedWords;
     } catch (error) {
@@ -1735,7 +1734,7 @@ export function exportAccount(password, address) {
           return;
         }
         log.debug(`background.exportAccount`);
-        background.exportAccount(address, function (err2, result) {
+        background.exportAccount(address, password, function (err2, result) {
           dispatch(hideLoadingIndication());
 
           if (err2) {
@@ -1767,17 +1766,21 @@ export function exportAccounts(password, addresses) {
         const accountPromises = addresses.map(
           (address) =>
             new Promise((resolve2, reject2) =>
-              background.exportAccount(address, function (err2, result) {
-                if (err2) {
-                  log.error(err2);
-                  dispatch(
-                    displayWarning('Had a problem exporting the account.'),
-                  );
-                  reject2(err2);
-                  return;
-                }
-                resolve2(result);
-              }),
+              background.exportAccount(
+                address,
+                password,
+                function (err2, result) {
+                  if (err2) {
+                    log.error(err2);
+                    dispatch(
+                      displayWarning('Had a problem exporting the account.'),
+                    );
+                    reject2(err2);
+                    return;
+                  }
+                  resolve2(result);
+                },
+              ),
             ),
         );
         // eslint-disable-next-line promise/no-promise-in-callback -- resolves the outer Promise from the background callback

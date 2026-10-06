@@ -234,6 +234,64 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('secrets need the password', function () {
+    const password = 'a-fake-password';
+
+    beforeEach(async function () {
+      sandbox.stub(ecfWalletController, 'getBalance').resolves('0x0');
+      await ecfWalletController.createNewVaultAndRestore(password, TEST_SEED);
+      sandbox
+        .stub(ecfWalletController.keyringController, 'verifyPassword')
+        .callsFake(async (attempt) => {
+          if (attempt !== password) {
+            throw new Error('Incorrect password');
+          }
+        });
+    });
+
+    it('returns the seed phrase only with the password', async function () {
+      assert.equal(await ecfWalletController.verifySeedPhrase(), undefined);
+      await assert.rejects(ecfWalletController.getSeedPhrase('wrong'), {
+        message: 'Incorrect password',
+      });
+      assert.equal(
+        await ecfWalletController.getSeedPhrase(password),
+        TEST_SEED,
+      );
+    });
+
+    it('exports a private key only with the password', async function () {
+      const [address] =
+        await ecfWalletController.keyringController.getAccounts();
+      await assert.rejects(ecfWalletController.exportAccount(address), {
+        message: 'Incorrect password',
+      });
+      await assert.rejects(
+        ecfWalletController.exportAccount(address, 'wrong'),
+        {
+          message: 'Incorrect password',
+        },
+      );
+      assert.match(
+        await ecfWalletController.exportAccount(address, password),
+        /^(0x)?[0-9a-f]{64}$/u,
+      );
+    });
+
+    it('does not replace a locked vault with a new one', async function () {
+      const { vault } = ecfWalletController.keyringController.store.getState();
+      await ecfWalletController.setLocked();
+      await assert.rejects(
+        ecfWalletController.createNewVaultAndKeychain('another-password'),
+        /a vault already exists/u,
+      );
+      assert.equal(
+        ecfWalletController.keyringController.store.getState().vault,
+        vault,
+      );
+    });
+  });
+
   describe('#createNewVaultAndRestore', function () {
     it('should be able to call newVaultAndRestore despite a mistake.', async function () {
       const password = 'what-what-what';

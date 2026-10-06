@@ -8,7 +8,6 @@ import {
   createNewVaultAndGetSeedPhrase,
   createNewVaultAndRestore,
   unlockAndGetSeedPhrase,
-  verifySeedPhrase,
 } from '../../store/actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -42,7 +41,6 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(createNewVaultAndRestore(password, seedPhrase));
     },
     unlockAccount: (password) => dispatch(unlockAndGetSeedPhrase(password)),
-    verifySeedPhrase: () => verifySeedPhrase(),
   };
 };
 

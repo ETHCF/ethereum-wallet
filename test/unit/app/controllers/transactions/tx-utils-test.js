@@ -7,6 +7,7 @@ describe('txUtils', function () {
     it('does not throw for positive values', function () {
       const sample = {
         from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
         value: '0x01',
       };
       txUtils.validateTxParams(sample);
@@ -15,6 +16,7 @@ describe('txUtils', function () {
     it('returns error for negative values', function () {
       const sample = {
         from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
         value: '-0x01',
       };
       assert.throws(
@@ -102,6 +104,33 @@ describe('txUtils', function () {
         Error,
         'Invalid recipient address',
       );
+    });
+
+    it('errors when there is neither a recipient nor contract data', function () {
+      // That would create an empty contract and lose any value sent.
+      for (const params of [
+        { value: '0x1' },
+        { to: undefined, data: '0x', value: '0x1' },
+        { to: '0x', data: '0x' },
+        { to: null, data: '' },
+      ]) {
+        assert.throws(
+          () =>
+            txUtils.validateRecipient({
+              from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+              ...params,
+            }),
+          /Invalid recipient address/u,
+        );
+      }
+    });
+
+    it('allows contract creation without a recipient', function () {
+      const txParams = txUtils.validateRecipient({
+        from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+        data: '0x6080',
+      });
+      assert.equal(txParams.data, '0x6080');
     });
   });
 

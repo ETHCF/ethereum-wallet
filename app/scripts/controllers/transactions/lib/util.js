@@ -201,13 +201,20 @@ export function validateFrom(txParams) {
  * @throws {Error} if the recipient is invalid OR there isn't tx data
  */
 export function validateRecipient(txParams) {
-  if (txParams.to === '0x' || txParams.to === null) {
-    if (txParams.data) {
+  // Without a recipient the transaction creates a contract from its data. With
+  // no data either, that contract is empty and any value sent is lost.
+  const hasData = Boolean(txParams.data) && txParams.data !== '0x';
+  if (
+    txParams.to === '0x' ||
+    txParams.to === null ||
+    txParams.to === undefined
+  ) {
+    if (hasData) {
       delete txParams.to;
     } else {
       throw new Error('Invalid recipient address');
     }
-  } else if (txParams.to !== undefined && !isValidAddress(txParams.to)) {
+  } else if (!isValidAddress(txParams.to)) {
     throw new Error('Invalid recipient address');
   }
   return txParams;

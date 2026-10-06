@@ -306,6 +306,7 @@ describe('Transaction Controller', function () {
     it('should add an unapproved transaction and return a valid txMeta', async function () {
       const txMeta = await txController.addUnapprovedTransaction({
         from: selectedAddress,
+        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
       });
       assert.ok(Reflect.has(txMeta, 'id'), 'should have a id');
       assert.ok(Reflect.has(txMeta, 'time'), 'should have a time stamp');
@@ -376,7 +377,10 @@ describe('Transaction Controller', function () {
         done();
       });
       txController
-        .addUnapprovedTransaction({ from: selectedAddress })
+        .addUnapprovedTransaction({
+          from: selectedAddress,
+          to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+        })
         // eslint-disable-next-line promise/no-callback-in-promise -- done is also called by the event listener; this only reports a rejection
         .catch(done);
     });
@@ -522,7 +526,10 @@ describe('Transaction Controller', function () {
           id: '1',
           status: 'unapproved',
           ecfWalletNetworkId: currentNetworkId,
-          txParams: { from: fromAccount.address },
+          txParams: {
+            from: fromAccount.address,
+            to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+          },
         },
         noop,
       );
