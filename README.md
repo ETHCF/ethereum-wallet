@@ -15,14 +15,12 @@ Wallet state and session keys use the browser's extension-scoped storage. ECF Wa
 
 Keep these identities stable across local rebuilds to retain ECF Wallet's storage. A prior build with another identity has separate storage and is not automatically migrated. MetaMask's wallet data is not read, copied, or overwritten. Store publishing must use a separate ECF listing; align the Chromium manifest key with that listing before distributing store builds.
 
-Upstream [MetaMask developer documentation](https://metamask.github.io/metamask-docs/) and [contributor documentation](https://github.com/MetaMask/metamask-extension/tree/develop/docs) remain available.
-
 Internal modules, Redux state, storage keys, and wallet-specific messages use
 `ecf-wallet` / `ecfWallet`. Build configuration uses `.ecf-walletrc` and
-`ECF_WALLET_*` environment variables. Upstream package coordinates, copyright
+`ECF_WALLET_*` environment variables. Package coordinates, copyright
 notices, historical release notes and terms, and links to third-party resources
 retain their original names. The four support messages use English fallback in
-locales whose previous translation directed users to the upstream support inbox.
+locales whose previous translation directed users to MetaMask's support inbox.
 
 ## Building locally
 
@@ -46,8 +44,8 @@ distribution; it cannot be loaded directly as an unpacked extension.
 
 ## Storage schema
 
-Fresh ecf-wallet storage starts at `meta.version: 0`. Historical upstream
-migrations and fixtures have been removed; upgrading an upstream wallet profile
+Fresh ecf-wallet storage starts at `meta.version: 0`. Historical MetaMask
+migrations and fixtures have been removed; upgrading a MetaMask wallet profile
 is not supported. The migration runner remains for future ecf-wallet releases.
 To add the first schema change, run `yarn generate:migration 1`, implement the
 change and its test, then register it in `app/scripts/migrations/index.js`.

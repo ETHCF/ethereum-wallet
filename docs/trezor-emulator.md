@@ -9,7 +9,7 @@ Trezor User Env for running an emulator without modifying firmware.
 Build this extension with `yarn build:test`, load the unpacked build, and choose
 Trezor in **Connect Hardware Wallet**. Keep the extension's hardware connection
 tab open. Device selection and permissions are handled by the Trezor Connect
-popup. Configure the emulator and its Bridge connection using the upstream
+popup. Configure the emulator and its Bridge connection using Trezor's
 instructions for your platform, and use a disposable test seed.
 
 This branch uses `@metamask/eth-trezor-keyring` 11 and Connect Web 9.7.3. Connect

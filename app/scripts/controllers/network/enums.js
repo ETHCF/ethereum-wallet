@@ -12,10 +12,9 @@ export const MAINNET_CHAIN_ID = '0x1';
 export const MAINNET_DISPLAY_NAME = 'Ethereum Mainnet';
 
 /**
- * The networks available out of the box: Ethereum and the EVM networks the
- * upstream wallet features, plus current testnets. Each uses a public RPC
- * endpoint that needs no API key. A network's ID (net_version) is its chain ID
- * in decimal for all of these.
+ * The networks available out of the box: Ethereum and the major EVM networks,
+ * plus current testnets. Each uses a public RPC endpoint that needs no API key.
+ * A network's ID (net_version) is its chain ID in decimal for all of these.
  */
 export const BUILT_IN_NETWORKS = {
   [MAINNET]: {
