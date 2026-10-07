@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .send-token {
   display: flex;
   flex-flow: column nowrap;
@@ -15,7 +17,7 @@
     flex-flow: column nowrap;
     flex: 1 0 auto;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       top: 0;
       width: 100%;
       box-shadow: none;
@@ -28,7 +30,7 @@
     top: -35px;
     z-index: 25;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       position: relative;
       top: 0;
       flex: 0 0 auto;
@@ -66,7 +68,7 @@
     align-items: center;
     flex: 0 0 auto;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       margin-top: 24px;
     }
 
@@ -94,7 +96,7 @@
     align-items: center;
     position: relative;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       width: 100%;
       top: 0;
       box-shadow: none;
@@ -105,7 +107,7 @@
   &__send-header-icon-container {
     z-index: 25;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       position: relative;
       top: 0;
     }
@@ -140,7 +142,7 @@
     border-radius: 50%;
     z-index: 100;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       top: 36px;
     }
   }
@@ -154,7 +156,7 @@
     justify-content: center;
     align-items: center;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       height: 59px;
       width: 100vw;
     }
@@ -169,7 +171,7 @@
     left: 178px;
     top: 75px;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       top: 46px;
       left: 0;
       right: 0;
@@ -217,7 +219,7 @@
   }
 
   &__form {
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       margin: 0;
       flex: 1 1 auto;
     }
@@ -535,7 +537,7 @@
     display: flex;
     flex-flow: column;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       width: 100vw;
       height: 100vh;
     }
@@ -548,7 +550,7 @@
       justify-content: space-between;
       font-size: 22px;
 
-      @media screen and (max-width: $break-small) {
+      @media screen and (max-width: design-system.$break-small) {
         flex: 0 0 auto;
       }
     }
@@ -575,7 +577,7 @@
       display: flex;
       margin-bottom: 24px;
 
-      @media screen and (max-width: $break-small) {
+      @media screen and (max-width: design-system.$break-small) {
         flex-flow: column;
         flex: 1 1 auto;
       }
@@ -590,7 +592,7 @@
       font-size: 22px;
       position: relative;
 
-      @media screen and (max-width: $break-small) {
+      @media screen and (max-width: design-system.$break-small) {
         flex: 0 0 auto;
       }
     }

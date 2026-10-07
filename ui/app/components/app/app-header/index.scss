@@ -1,8 +1,10 @@
+@use 'design-system';
+
 .app-header {
   align-items: center;
   background: var(--color-background-alternative);
   position: relative;
-  z-index: $header-z-index;
+  z-index: design-system.$header-z-index;
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
@@ -10,7 +12,7 @@
 
   @media screen and (max-width: 575px) {
     padding: 1rem;
-    z-index: $mobile-header-z-index;
+    z-index: design-system.$mobile-header-z-index;
   }
 
   @media screen and (min-width: 576px) {
@@ -34,13 +36,13 @@
       height: 32px;
       width: 32px;
 
-      @media screen and (min-width: $break-large) {
+      @media screen and (min-width: design-system.$break-large) {
         display: none;
       }
     }
 
     &--horizontal {
-      @media screen and (max-width: $break-small) {
+      @media screen and (max-width: design-system.$break-small) {
         display: none;
       }
     }

@@ -1,5 +1,5 @@
-@import 'breakpoints';
-@import 'colors';
-@import 'themes';
-@import 'typography';
-@import 'z-index';
+@forward 'breakpoints';
+@forward 'colors';
+@forward 'themes';
+@forward 'typography';
+@forward 'z-index';

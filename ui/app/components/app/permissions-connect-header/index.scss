@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .permissions-connect-header {
   display: flex;
   flex: 0;
@@ -26,7 +28,7 @@
   }
 
   &__title {
-    @include H3;
+    @include design-system.H3;
 
     text-align: center;
     color: var(--color-text-default);
@@ -35,7 +37,7 @@
 
   &__text,
   &__subtitle {
-    @include H6;
+    @include design-system.H6;
 
     text-align: center;
     color: var(--color-text-alternative);

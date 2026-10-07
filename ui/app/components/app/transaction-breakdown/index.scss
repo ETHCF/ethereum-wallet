@@ -1,4 +1,4 @@
-@import 'transaction-breakdown-row/index';
+@use 'transaction-breakdown-row/index' as *;
 
 .transaction-breakdown {
   &__title {

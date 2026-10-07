@@ -1,5 +1,6 @@
-@import 'choose-account/index';
-@import 'redirect/index';
+@use 'design-system';
+@use 'choose-account/index' as *;
+@use 'redirect/index' as *;
 
 .permissions-connect {
   width: 100%;
@@ -24,7 +25,7 @@
   }
 
   &__back {
-    @include H6;
+    @include design-system.H6;
 
     color: var(--color-text-alternative);
     cursor: pointer;
@@ -35,7 +36,7 @@
   }
 
   &__page-count {
-    @include H7;
+    @include design-system.H7;
 
     color: var(--color-text-alternative);
     grid-column: 2;

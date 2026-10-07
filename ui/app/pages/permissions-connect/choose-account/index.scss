@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .permissions-connect-choose-account {
   display: flex;
   flex-direction: column;
@@ -24,13 +26,13 @@
 
 
   &__title {
-    @include H4;
+    @include design-system.H4;
   }
 
   &__text,
   &__text-blue,
   &__text-grey {
-    @include H6;
+    @include design-system.H6;
   }
 
   &__text-blue {
@@ -120,7 +122,7 @@
     }
 
     &__label {
-      @include H6;
+      @include design-system.H6;
 
       color: var(--color-text-default);
       text-overflow: ellipsis;
@@ -129,13 +131,13 @@
     }
 
     &__balance {
-      @include H7;
+      @include design-system.H7;
 
       color: var(--color-text-alternative);
     }
 
     &__last-connected {
-      @include H8;
+      @include design-system.H8;
 
       display: flex;
       flex-direction: column;

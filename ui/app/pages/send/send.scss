@@ -1,4 +1,6 @@
-@import './send-content/send-gas-row/send-gas-row';
+@use 'design-system';
+@use 'itcss/settings/variables';
+@use 'send-content/send-gas-row/send-gas-row' as *;
 
 .send {
   &__header {
@@ -8,7 +10,7 @@
     padding: 14px 0 3px 0;
 
     .page-container__title {
-      @include H4;
+      @include design-system.H4;
 
       text-align: center;
     }
@@ -92,7 +94,7 @@
     }
 
     &__group-label {
-      @include H8;
+      @include design-system.H8;
 
       background-color: var(--color-background-alternative);
       color: var(--color-text-alternative);
@@ -138,7 +140,7 @@
       }
 
       &__subtitle {
-        @include H8;
+        @include design-system.H8;
 
         color: var(--color-text-alternative);
         word-break: break-all;
@@ -189,7 +191,7 @@
     }
 
     &__input {
-      @include H6;
+      @include design-system.H6;
 
       flex: 1 1 auto;
       width: 0;

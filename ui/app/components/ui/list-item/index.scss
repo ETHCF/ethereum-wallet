@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .list-item {
   width: 100%;
   min-height: 86px;
@@ -5,7 +7,7 @@
   background: var(--color-background-default);
   padding: 24px 16px;
 
-  @include Paragraph;
+  @include design-system.Paragraph;
 
   border-top: 1px solid var(--color-border-muted);
   border-bottom: 1px solid var(--color-border-muted);

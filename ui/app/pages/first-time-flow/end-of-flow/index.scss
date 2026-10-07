@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .end-of-flow {
   color: var(--color-text-default);
   font-style: normal;
@@ -6,7 +8,7 @@
     width: 742px;
     margin-top: 3%;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       width: 100%;
     }
   }
@@ -28,7 +30,7 @@
     margin-top: 2px;
     margin-bottom: 2px;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       margin-bottom: 16px;
       font-size: 0.875rem;
     }

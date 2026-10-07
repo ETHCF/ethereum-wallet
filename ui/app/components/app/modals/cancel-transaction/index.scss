@@ -1,4 +1,4 @@
-@import 'cancel-transaction-gas-fee/index';
+@use 'cancel-transaction-gas-fee/index' as *;
 
 .cancel-transaction {
   &__title {

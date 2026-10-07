@@ -1,14 +1,14 @@
-@import 'account-details-modal/index';
-@import 'account-modal-container/index';
-@import 'add-to-addressbook-modal/index';
-@import 'cancel-transaction/index';
-@import 'confirm-remove-account/index';
-@import 'edit-approval-permission/index';
-@import 'export-private-key-modal/index';
-@import 'hide-token-confirmation-modal/index';
-@import 'new-account-modal/index';
-@import 'notification-modal/index';
-@import 'transaction-confirmed/index';
+@use 'account-details-modal/index' as *;
+@use 'account-modal-container/index' as *;
+@use 'add-to-addressbook-modal/index' as *;
+@use 'cancel-transaction/index' as *;
+@use 'confirm-remove-account/index' as *;
+@use 'edit-approval-permission/index' as *;
+@use 'export-private-key-modal/index' as *;
+@use 'hide-token-confirmation-modal/index' as *;
+@use 'new-account-modal/index' as *;
+@use 'notification-modal/index' as *;
+@use 'transaction-confirmed/index' as *;
 
 .modal {
   z-index: 1050;

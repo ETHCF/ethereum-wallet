@@ -1,2 +1,2 @@
-@import './gas-modal-page-container/index';
-@import './advanced-gas-inputs/index';
+@use 'gas-modal-page-container/index' as *;
+@use 'advanced-gas-inputs/index' as *;

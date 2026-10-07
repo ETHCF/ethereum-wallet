@@ -52,7 +52,7 @@ function createStyleTasks({ livereload }) {
           // pre-process
           gulp.src(src),
           devMode && sourcemaps.init(),
-          sass().on('error', sass.logError),
+          sass({ loadPaths: ['ui/app/css'] }).on('error', sass.logError),
           devMode && sourcemaps.write(),
           autoprefixer(),
           // standard

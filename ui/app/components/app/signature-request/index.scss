@@ -1,6 +1,6 @@
-@import 'signature-request-footer/index';
-@import 'signature-request-header/index';
-@import 'signature-request-message/index';
+@use 'signature-request-footer/index' as *;
+@use 'signature-request-header/index' as *;
+@use 'signature-request-message/index' as *;
 
 .signature-request {
   display: flex;

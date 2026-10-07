@@ -1,3 +1,5 @@
+@use 'design-system';
+
 /*
   Buttons
 
@@ -7,9 +9,9 @@
  */
 
 .button {
-  @include H6;
+  @include design-system.H6;
 
-  font-family: $font-family;
+  font-family: design-system.$font-family;
   font-weight: normal;
   line-height: 1.25rem;
   padding: 0.5rem 1rem;
@@ -127,7 +129,7 @@
 }
 
 .btn-link {
-  @include H4;
+  @include design-system.H4;
 
   color: var(--color-link-default);
   line-height: 1.25rem;

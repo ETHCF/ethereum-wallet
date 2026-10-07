@@ -1,4 +1,5 @@
-@import 'sidebar-content';
+@use 'design-system';
+@use 'sidebar-content' as *;
 
 .sidebar-right-enter {
   transition: transform 300ms ease-in-out;
@@ -43,7 +44,7 @@
 .sidebar-left {
   flex: 1 0 230px;
   background: var(--color-background-alternative);
-  z-index: $sidebar-z-index;
+  z-index: design-system.$sidebar-z-index;
   position: fixed;
   left: 15%;
   right: 0;
@@ -61,14 +62,14 @@
     left: calc(100% - 408px);
   }
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: design-system.$break-small) {
     width: 100%;
     left: 0%;
   }
 }
 
 .sidebar-overlay {
-  z-index: $sidebar-overlay-z-index;
+  z-index: design-system.$sidebar-overlay-z-index;
   position: fixed;
   height: 100%;
   width: 100%;

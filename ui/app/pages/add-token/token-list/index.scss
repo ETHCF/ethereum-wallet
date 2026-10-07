@@ -1,4 +1,4 @@
-@import 'token-list-placeholder/index';
+@use 'token-list-placeholder/index' as *;
 
 .token-list {
   &__title {

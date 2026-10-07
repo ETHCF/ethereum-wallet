@@ -1,4 +1,4 @@
-@import 'modal-content/index';
+@use 'modal-content/index' as *;
 
 .modal-container {
   width: 100%;

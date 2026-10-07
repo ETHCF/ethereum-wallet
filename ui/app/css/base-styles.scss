@@ -1,3 +1,5 @@
+@use 'design-system';
+
 
 
 * {
@@ -60,7 +62,7 @@ html {
   flex-direction: column;
   background: var(--color-background-alternative);
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: design-system.$break-small) {
     background-color: var(--color-background-default);
   }
 }
@@ -131,6 +133,6 @@ input.form-control {
 
 /** Default Typography on base elements **/
 * {
-  font-family: $font-family;
+  font-family: design-system.$font-family;
 }
 

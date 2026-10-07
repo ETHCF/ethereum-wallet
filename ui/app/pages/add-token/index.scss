@@ -1,4 +1,4 @@
-@import 'token-list/index';
+@use 'token-list/index' as *;
 
 .add-token {
   &__custom-token-form {

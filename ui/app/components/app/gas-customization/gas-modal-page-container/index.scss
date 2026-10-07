@@ -1,5 +1,6 @@
-@import './advanced-tab-content/index';
-@import './basic-tab-content/index';
+@use 'design-system';
+@use 'advanced-tab-content/index' as *;
+@use 'basic-tab-content/index' as *;
 
 .gas-modal-page-container {
   .page-container {
@@ -7,7 +8,7 @@
     min-height: 585px;
     overflow-y: initial;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       &__content {
         display: flex;
         overflow-y: initial;
@@ -77,7 +78,7 @@
 }
 
 .gas-modal-content {
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: design-system.$break-small) {
     width: 100%;
   }
 
@@ -96,7 +97,7 @@
     color: var(--color-text-alternative);
     font-size: 12px;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       padding: 4px 21px;
     }
 
@@ -112,7 +113,7 @@
       &__label {
         font-size: 16px;
 
-        @media screen and (max-width: $break-small) {
+        @media screen and (max-width: design-system.$break-small) {
           font-size: 14px;
         }
       }
@@ -121,7 +122,7 @@
         font-size: 16px;
         font-weight: bold;
 
-        @media screen and (max-width: $break-small) {
+        @media screen and (max-width: design-system.$break-small) {
           font-size: 14px;
         }
       }

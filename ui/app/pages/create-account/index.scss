@@ -1,5 +1,5 @@
-@import 'connect-hardware/index';
-@import 'import-account/index';
+@use 'connect-hardware/index' as *;
+@use 'import-account/index' as *;
 
 .new-account {
   width: 375px;

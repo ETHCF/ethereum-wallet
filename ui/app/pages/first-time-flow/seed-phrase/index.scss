@@ -1,15 +1,16 @@
-@import 'confirm-seed-phrase/index';
-@import 'reveal-seed-phrase/index';
+@use 'design-system';
+@use 'confirm-seed-phrase/index' as *;
+@use 'reveal-seed-phrase/index' as *;
 
 .seed-phrase {
   &__sections {
     display: flex;
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: design-system.$break-large) {
       flex-direction: row;
     }
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       flex-direction: column;
     }
   }
@@ -23,11 +24,11 @@
     flex: 2;
     min-width: 0;
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: design-system.$break-large) {
       margin-left: 81px;
     }
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: design-system.$break-small) {
       margin-top: 24px;
     }
 

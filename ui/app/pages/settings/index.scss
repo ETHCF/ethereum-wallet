@@ -1,6 +1,6 @@
-@import 'info-tab/index';
-@import 'networks-tab/index';
-@import 'settings-tab/index';
+@use 'info-tab/index' as *;
+@use 'networks-tab/index' as *;
+@use 'settings-tab/index' as *;
 
 .settings-page {
   position: relative;

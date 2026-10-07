@@ -1,5 +1,5 @@
-@import 'confirm-page-container-warning/index';
-@import 'confirm-page-container-summary/index';
+@use 'confirm-page-container-warning/index' as *;
+@use 'confirm-page-container-summary/index' as *;
 
 .confirm-page-container-content {
   overflow-y: auto;

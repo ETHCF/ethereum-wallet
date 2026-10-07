@@ -1,7 +1,9 @@
+@use 'design-system';
+
 .asset-list-item {
   &__chevron-right {
     color: var(--color-text-alternative);
-    font-family: $font-family;
+    font-family: design-system.$font-family;
   }
 
   .list-item__right-content {

@@ -1,3 +1,5 @@
+@use 'design-system';
+
 .gas-price-button-group {
   margin-top: 22px;
   display: flex;
@@ -63,7 +65,7 @@
   justify-content: stretch;
   height: 54px;
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: design-system.$break-small) {
     max-width: 260px;
   }
 
