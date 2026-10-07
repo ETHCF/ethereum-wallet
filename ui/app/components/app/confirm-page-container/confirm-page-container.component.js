@@ -178,7 +178,7 @@ export default class ConfirmPageContainer extends Component {
             cancelText={this.context.t('reject')}
             onSubmit={onSubmit}
             submitText={this.context.t('confirm')}
-            submitButtonType="confirm"
+            submitButtonType="primary"
             disabled={disabled}
           >
             {unapprovedTxCount > 1 && (

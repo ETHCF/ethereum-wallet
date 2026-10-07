@@ -17,6 +17,7 @@ import {
   getSendEditingTransactionId,
   getSendFromObject,
   getSendTo,
+  getSendToNickname,
   getSendToAccounts,
   getSendHexData,
   getTokenBalance,
@@ -62,6 +63,7 @@ function mapStateToProps(state) {
     inError: isSendFormInError(state),
     sendToken: getSendToken(state),
     to: getSendTo(state),
+    toNickname: getSendToNickname(state),
     toAccounts: getSendToAccounts(state),
     tokenBalance: getTokenBalance(state),
     unapprovedTxs: getUnapprovedTxs(state),
@@ -131,7 +133,6 @@ function mapDispatchToProps(dispatch) {
     addToAddressBookIfNew: (newAddress, toAccounts, nickname = '') => {
       const hexPrefixedAddress = ethUtil.addHexPrefix(newAddress);
       if (addressIsNew(toAccounts, hexPrefixedAddress)) {
-        // TODO: nickname, i.e. addToAddressBook(recipient, nickname)
         dispatch(addToAddressBook(hexPrefixedAddress, nickname));
       }
     },

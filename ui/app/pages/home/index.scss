@@ -22,13 +22,14 @@
     flex: 0 0 auto;
   }
 
-  // TODO: fix style import order so this isn't required to override specificity of `tab` class
-  &__main-view &__tabs {
+  // pages.scss loads after ui-components.scss, so these override the
+  // `tabs__list` and `tab` styles at equal specificity
+  &__tabs {
     border: none;
     box-shadow: none;
   }
 
-  &__main-view &__tab {
+  &__tab {
     flex-grow: 1;
     color: var(--color-text-alternative);
     padding: 16px 8px;
@@ -37,7 +38,7 @@
     line-height: 130%;
   }
 
-  &__main-view &__tab--active {
+  &__tab--active {
     color: var(--color-primary-default);
   }
 

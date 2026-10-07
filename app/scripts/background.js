@@ -175,7 +175,7 @@ function queueConnection(port, handler) {
  * @property {number} time - Time the tx was first suggested, in unix epoch time (ms).
  * @property {string} status - The current transaction status (unapproved, signed, submitted, dropped, failed, rejected), as defined in `tx-state-manager.js`.
  * @property {string} ecfWalletNetworkId - The transaction's network ID, used for EIP-155 compliance.
- * @property {boolean} loadingDefaults - TODO: Document
+ * @property {boolean} loadingDefaults - Whether the tx's gas defaults are still being calculated; the UI waits until this is false.
  * @property {object} txParams - The tx params as passed to the network provider.
  * @property {object[]} history - A history of mutations to this TransactionMeta object.
  * @property {string} origin - A string representing the interface that suggested the transaction.
@@ -198,7 +198,7 @@ function queueConnection(port, handler) {
  * @property {Array} frequentRpcList - A list of frequently used RPCs, including custom user-provided ones.
  * @property {Array} addressBook - A list of previously sent to addresses.
  * @property {Array} tokens - Tokens held by the current user, including their balances.
- * @property {object} send - TODO: Document
+ * @property {object} send - The draft transaction on the Send screen (recipient, amount, gas, errors and the ID of any transaction being edited). This is UI-only state kept in Redux, not persisted by the controller.
  * @property {object} featureFlags - An object for optional feature flags.
  * @property {boolean} welcomeScreen - True if welcome screen should be shown.
  * @property {string} currentLocale - A locale string matching the user's preferred display language.
@@ -451,14 +451,6 @@ async function setupController(initState, initLangCode) {
 
   const ecfWalletBlockedPorts = ['trezor-connect'];
 
-  const isClientOpenStatus = () => {
-    return (
-      popupIsOpen ||
-      Boolean(Object.keys(openEcfWalletTabsIDs).length) ||
-      notificationIsOpen
-    );
-  };
-
   /**
    * A runtime.Port object, as provided by the browser:
    *
@@ -506,7 +498,6 @@ async function setupController(initState, initLangCode) {
 
     if (isEcfWalletInternalProcess) {
       // communication with popup
-      controller.isClientOpen = true;
       controller.setupTrustedCommunication(portStream, remotePort.sender);
 
       if (processName === ENVIRONMENT_TYPE_POPUP) {
@@ -514,7 +505,6 @@ async function setupController(initState, initLangCode) {
 
         endOfStream(portStream, () => {
           popupIsOpen = false;
-          controller.isClientOpen = isClientOpenStatus();
         });
       }
 
@@ -523,7 +513,6 @@ async function setupController(initState, initLangCode) {
 
         endOfStream(portStream, () => {
           notificationIsOpen = false;
-          controller.isClientOpen = isClientOpenStatus();
         });
       }
 
@@ -533,7 +522,6 @@ async function setupController(initState, initLangCode) {
 
         endOfStream(portStream, () => {
           delete openEcfWalletTabsIDs[tabId];
-          controller.isClientOpen = isClientOpenStatus();
         });
       }
     } else {

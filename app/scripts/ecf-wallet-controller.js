@@ -185,13 +185,16 @@ export default class EcfWalletController extends EventEmitter {
       network: this.networkController,
     });
 
-    // start and stop polling for balances based on activeControllerConnections
+    // start and stop polling for balances and token detection based on
+    // whether any ecf-wallet UI is connected
     this.on('controllerConnectionChanged', (activeControllerConnections) => {
-      if (activeControllerConnections > 0) {
+      const isClientOpen = activeControllerConnections > 0;
+      if (isClientOpen) {
         this.accountTracker.start();
       } else {
         this.accountTracker.stop();
       }
+      this.detectTokensController.isOpen = isClientOpen;
     });
 
     this.cachedBalancesController = new CachedBalancesController({
@@ -2463,18 +2466,6 @@ export default class EcfWalletController extends EventEmitter {
         date: Date.now(),
       };
     }
-  }
-
-  // TODO: Replace isClientOpen methods with `controllerConnectionChanged` events.
-  /**
-   * A method for recording whether the ecf-wallet user interface is open or not.
-   *
-   * @private
-   * @param {boolean} open - Whether the user interface is open.
-   */
-  set isClientOpen(open) {
-    this._isClientOpen = open;
-    this.detectTokensController.isOpen = open;
   }
 
   /**

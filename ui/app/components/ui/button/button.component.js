@@ -5,7 +5,6 @@ import React from 'react';
 const CLASSNAME_DEFAULT = 'btn-default';
 const CLASSNAME_PRIMARY = 'btn-primary';
 const CLASSNAME_SECONDARY = 'btn-secondary';
-const CLASSNAME_CONFIRM = 'btn-primary';
 const CLASSNAME_RAISED = 'btn-raised';
 const CLASSNAME_LARGE = 'btn--large';
 const CLASSNAME_ROUNDED = 'btn--rounded';
@@ -19,8 +18,6 @@ const typeHash = {
   danger: 'btn-danger',
   'danger-primary': 'btn-danger-primary',
   link: 'btn-link',
-  // TODO: Legacy button type to be deprecated
-  confirm: CLASSNAME_CONFIRM,
   raised: CLASSNAME_RAISED,
   'first-time': CLASSNAME_FIRST_TIME,
 };

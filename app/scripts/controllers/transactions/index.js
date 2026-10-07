@@ -631,16 +631,29 @@ export default class TransactionController extends EventEmitter {
    * @param {number} txId - the tx's Id
    */
   async approveTransaction(txId) {
-    const { networkGeneration } = this;
-    // TODO: Move this safety out of this function.
-    // Since this transaction is async,
-    // we need to keep track of what is currently being signed,
-    // So that we do not increment nonce + resubmit something
-    // that is already being incremented & signed.
+    // Approval is async, so track what is currently being signed so that a
+    // repeated approval does not increment the nonce and resubmit a
+    // transaction that is already being incremented and signed.
     if (this.inProcessOfSigning.has(txId)) {
       return;
     }
     this.inProcessOfSigning.add(txId);
+    try {
+      await this._approveTransaction(txId);
+    } finally {
+      this.inProcessOfSigning.delete(txId);
+    }
+  }
+
+  /**
+   * Approves, signs and publishes a transaction; see `approveTransaction`.
+   * Callers must ensure the transaction is not already being approved.
+   *
+   * @private
+   * @param {number} txId - the tx's Id
+   */
+  async _approveTransaction(txId) {
+    const { networkGeneration } = this;
     let nonceLock;
     try {
       // approve
@@ -687,8 +700,6 @@ export default class TransactionController extends EventEmitter {
       }
       // continue with error chain
       throw err;
-    } finally {
-      this.inProcessOfSigning.delete(txId);
     }
   }
 

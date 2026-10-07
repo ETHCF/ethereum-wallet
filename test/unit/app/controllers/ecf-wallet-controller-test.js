@@ -1297,6 +1297,16 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('controllerConnectionChanged', function () {
+    it('runs token detection only while a UI connection is open', function () {
+      ecfWalletController.emit('controllerConnectionChanged', 1);
+      assert.equal(ecfWalletController.detectTokensController.isOpen, true);
+
+      ecfWalletController.emit('controllerConnectionChanged', 0);
+      assert.equal(ecfWalletController.detectTokensController.isOpen, false);
+    });
+  });
+
   describe('#markPasswordForgotten', function () {
     it('adds and sets forgottenPassword to config data to true', function () {
       ecfWalletController.markPasswordForgotten(noop);

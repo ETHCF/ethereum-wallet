@@ -117,7 +117,7 @@ export default class ConfirmPageContainerContent extends Component {
           cancelText={cancelText}
           onSubmit={onSubmit}
           submitText={submitText}
-          submitButtonType="confirm"
+          submitButtonType="primary"
           disabled={disabled}
         >
           {unapprovedTxCount > 1 && <a onClick={onCancelAll}>{rejectNText}</a>}

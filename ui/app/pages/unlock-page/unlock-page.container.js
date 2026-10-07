@@ -40,7 +40,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { navigate, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps;
 
   const onImport = async () => {
-    await markPasswordForgotten();
+    try {
+      await markPasswordForgotten();
+    } catch (_) {
+      // The action has displayed the error; stay on the unlock page.
+      return;
+    }
     navigate(RESTORE_VAULT_ROUTE);
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_POPUP) {

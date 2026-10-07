@@ -70,7 +70,6 @@ export default class ConfirmApproveContent extends Component {
     );
   }
 
-  // TODO: Add "Learn Why" with link to the feeAssociatedRequest text
   renderTransactionDetailsContent() {
     const { t } = this.context;
     const { nativeCurrency, ethTransactionTotal } = this.props;

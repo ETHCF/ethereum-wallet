@@ -1026,12 +1026,14 @@ export function markPasswordForgotten() {
           resolve();
         });
       });
+    } catch (error) {
+      dispatch(displayWarning(error.message));
+      throw error;
     } finally {
-      // TODO: handle errors
       dispatch(hideLoadingIndication());
-      dispatch(forgotPassword());
-      await forceUpdateEcfWalletState(dispatch);
     }
+    dispatch(forgotPassword());
+    await forceUpdateEcfWalletState(dispatch);
   };
 }
 

@@ -1054,6 +1054,24 @@ describe('Actions', function () {
       assert.ok(markPasswordForgottenSpy.calledOnce);
       markPasswordForgottenSpy.restore();
     });
+
+    it('displays the error and does not enter the forgot-password flow when the background fails', async function () {
+      const store = mockStore();
+      const markPasswordForgottenStub = sinon
+        .stub(background, 'markPasswordForgotten')
+        .callsArgWith(0, new Error('error'));
+
+      await assert.rejects(
+        store.dispatch(actions.markPasswordForgotten()),
+        /error/u,
+      );
+
+      assert.deepEqual(store.getActions(), [
+        { type: 'DISPLAY_WARNING', value: 'error' },
+        { type: 'HIDE_LOADING_INDICATION' },
+      ]);
+      markPasswordForgottenStub.restore();
+    });
   });
 
   describe('#unMarkPasswordForgotten', function () {

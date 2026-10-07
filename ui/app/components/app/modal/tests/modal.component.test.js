@@ -54,14 +54,14 @@ describe('Modal Component', function () {
         cancelType="secondary"
         onSubmit={() => undefined}
         submitText="Submit"
-        submitType="confirm"
+        submitType="primary"
       />,
     );
 
     const buttons = wrapper.find(Button);
     assert.equal(buttons.length, 2);
     assert.equal(buttons.at(0).props().type, 'secondary');
-    assert.equal(buttons.at(1).props().type, 'confirm');
+    assert.equal(buttons.at(1).props().type, 'primary');
   });
 
   it('should render a modal with a header', function () {

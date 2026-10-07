@@ -21,6 +21,7 @@ export default class SendFooter extends Component {
     sendToken: PropTypes.object,
     sign: PropTypes.func,
     to: PropTypes.string,
+    toNickname: PropTypes.string,
     toAccounts: PropTypes.array,
     tokenBalance: PropTypes.string,
     unapprovedTxs: PropTypes.object,
@@ -53,6 +54,7 @@ export default class SendFooter extends Component {
       sendToken,
       sign,
       to,
+      toNickname,
       unapprovedTxs,
       // updateTx,
       update,
@@ -67,8 +69,7 @@ export default class SendFooter extends Component {
     //   return
     // }
 
-    // TODO: add nickname functionality
-    await addToAddressBookIfNew(to, toAccounts);
+    await addToAddressBookIfNew(to, toAccounts, toNickname);
     const promise = editingTransactionId
       ? update({
           amount,

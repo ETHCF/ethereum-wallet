@@ -18,8 +18,7 @@ Keep these identities stable across local rebuilds to retain ECF Wallet's storag
 Internal modules, Redux state, storage keys, and wallet-specific messages use
 `ecf-wallet` / `ecfWallet`. Build configuration uses `.ecf-walletrc` and
 `ECF_WALLET_*` environment variables. Package coordinates, copyright
-notices, historical release notes and terms, and links to third-party resources
-retain their original names. The four support messages use English fallback in
+notices, and links to third-party resources retain their original names. The four support messages use English fallback in
 locales whose previous translation directed users to MetaMask's support inbox.
 
 ## Building locally

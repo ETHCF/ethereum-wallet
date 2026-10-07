@@ -43,6 +43,7 @@ describe('SendFooter Component', function () {
         sendToken={{ mockProp: 'mockSendTokenProp' }}
         sign={propsMethodSpies.sign}
         to="mockTo"
+        toNickname="mockToNickname"
         toAccounts={['mockAccount']}
         tokenBalance="mockTokenBalance"
         unapprovedTxs={{}}
@@ -140,6 +141,7 @@ describe('SendFooter Component', function () {
       assert.deepEqual(propsMethodSpies.addToAddressBookIfNew.getCall(0).args, [
         'mockTo',
         ['mockAccount'],
+        'mockToNickname',
       ]);
     });
 
