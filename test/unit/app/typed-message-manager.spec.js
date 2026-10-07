@@ -123,6 +123,68 @@ describe('Typed Message Manager', function () {
     }
   });
 
+  it('rejects addresses the encoder would read as a different value than shown', function () {
+    const manager = typedMessageManager;
+    const spender = '0x0abcdef0abcdef0abcdef0abcdef0abcdef0abcd';
+    for (const wallet of [
+      `0x${spender.slice(3)}`,
+      `0X${spender.slice(2)}`,
+      BigInt(spender).toString(10),
+    ]) {
+      const data = JSON.parse(msgParamsV3.data);
+      data.message.to.wallet = wallet;
+      assert.throws(
+        () =>
+          manager.addUnapprovedMessage(
+            { from: address, data: JSON.stringify(data) },
+            null,
+            'V4',
+          ),
+        /Invalid address value/u,
+        wallet,
+      );
+    }
+  });
+
+  it('stores bools as booleans, so every signer encodes what is shown', function () {
+    const data = {
+      types: {
+        EIP712Domain: [{ name: 'chainId', type: 'uint256' }],
+        Permit: [
+          { name: 'spender', type: 'address' },
+          { name: 'allowed', type: 'bool' },
+          { name: 'flags', type: 'bool[]' },
+        ],
+      },
+      primaryType: 'Permit',
+      domain: { chainId: 1 },
+      message: {
+        spender: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+        allowed: 'false',
+        flags: ['true', false],
+      },
+    };
+    typedMessageManager.addUnapprovedMessage(
+      { from: address, data: JSON.stringify(data) },
+      null,
+      'V4',
+    );
+    const stored = JSON.parse(messages[messages.length - 1].msgParams.data);
+    assert.strictEqual(stored.message.allowed, false);
+    assert.deepStrictEqual(stored.message.flags, [true, false]);
+
+    data.message.allowed = 'no';
+    assert.throws(
+      () =>
+        typedMessageManager.addUnapprovedMessage(
+          { from: address, data },
+          null,
+          'V4',
+        ),
+      /Invalid bool value/u,
+    );
+  });
+
   it('gets unapproved by id', function () {
     const getMsg = typedMessageManager.getMsg(numberMsgId);
     assert.equal(getMsg.id, numberMsgId);

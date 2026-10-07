@@ -14,6 +14,7 @@ import {
   TRANSACTION_TYPE_CANCEL,
   TRANSACTION_TYPE_RETRY,
   TRANSACTION_TYPE_STANDARD,
+  TRANSACTION_STATUS_UNAPPROVED,
   TRANSACTION_STATUS_APPROVED,
 } from './enums';
 import * as txUtils from './lib/util';
@@ -595,15 +596,19 @@ export default class TransactionController extends EventEmitter {
    */
   async updateTransaction(txMeta) {
     txUtils.validateTxParams(txMeta.txParams);
-    const stored = this.txStateManager.getTx(txMeta.id);
+    const stored = this._getUnapprovedTx(txMeta.id);
+    let { securityAlerts } = stored;
     if (
-      stored &&
-      (stored.txParams.to !== txMeta.txParams.to ||
-        stored.txParams.data !== txMeta.txParams.data)
+      stored.txParams.to !== txMeta.txParams.to ||
+      stored.txParams.data !== txMeta.txParams.data
     ) {
-      txMeta.securityAlerts = await this._getSecurityAlerts(txMeta.txParams);
+      securityAlerts = await this._getSecurityAlerts(txMeta.txParams);
     }
-    this.txStateManager.updateTx(txMeta, 'confTx: user updated transaction');
+    // The checks are async, so the transaction may have been approved since.
+    this.txStateManager.updateTx(
+      { ...this._editedTxMeta(txMeta), securityAlerts },
+      'confTx: user updated transaction',
+    );
   }
 
   /**
@@ -613,12 +618,50 @@ export default class TransactionController extends EventEmitter {
    */
   async updateAndApproveTransaction(txMeta) {
     txUtils.validateTxParams(txMeta.txParams);
-    this._assertSameCounterparties(
-      this.txStateManager.getTx(txMeta.id),
-      txMeta,
+    this._assertSameCounterparties(this._getUnapprovedTx(txMeta.id), txMeta);
+    // Nothing is awaited between the status check and approveTransaction
+    // setting the status to approved, so a second approval fails the check.
+    this.txStateManager.updateTx(
+      this._editedTxMeta(txMeta),
+      'confTx: user approved transaction',
     );
-    this.txStateManager.updateTx(txMeta, 'confTx: user approved transaction');
     await this.approveTransaction(txMeta.id);
+  }
+
+  /**
+   * Returns a stored transaction that is still awaiting the user's approval.
+   *
+   * @private
+   * @param {number} txId - The transaction's id.
+   * @returns {object} The stored transaction metadata.
+   * @throws If the transaction is unknown or no longer unapproved.
+   */
+  _getUnapprovedTx(txId) {
+    const stored = this.txStateManager.getTx(txId);
+    if (!stored || stored.status !== TRANSACTION_STATUS_UNAPPROVED) {
+      throw new Error(`Transaction ${txId} is not awaiting approval`);
+    }
+    return stored;
+  }
+
+  /**
+   * Applies the user's edits to a stored unapproved transaction. A UI copy
+   * may be stale, so the fields the wallet owns come from the stored copy.
+   *
+   * @private
+   * @param {object} txMeta - The transaction metadata, as edited by the user.
+   * @returns {object} The transaction metadata to store.
+   */
+  _editedTxMeta(txMeta) {
+    const stored = this._getUnapprovedTx(txMeta.id);
+    return {
+      ...txMeta,
+      status: stored.status,
+      origin: stored.origin,
+      signingChainId: stored.signingChainId,
+      securityAlerts: stored.securityAlerts,
+      history: stored.history,
+    };
   }
 
   /**

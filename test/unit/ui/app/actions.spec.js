@@ -660,7 +660,12 @@ describe('Actions', function () {
     };
 
     beforeEach(async function () {
-      await ecfWalletController.txController.txStateManager.addTx(txData);
+      const { txStateManager } = ecfWalletController.txController;
+      // The background edits only transactions on the selected network.
+      await txStateManager.addTx({
+        ...txData,
+        ecfWalletNetworkId: txStateManager.getNetwork(),
+      });
     });
 
     afterEach(function () {

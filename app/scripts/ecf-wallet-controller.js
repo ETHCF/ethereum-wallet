@@ -64,7 +64,9 @@ import seedPhraseVerifier from './lib/seed-phrase-verifier';
 import selectChainId from './lib/select-chain-id';
 import { mnemonicToString } from './lib/software-keyrings';
 import { isPrematureClose, setupMultiplex } from './lib/stream-utils';
-import TypedMessageManager from './lib/typed-message-manager';
+import TypedMessageManager, {
+  canonicalizeTypedMessage,
+} from './lib/typed-message-manager';
 
 /**
  * The origin of another extension that connects to the wallet.
@@ -990,11 +992,13 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * Clears the clipboard after a delay, once a secret has been copied.
+   *
+   * @returns {Promise<boolean>} Whether the clear was scheduled.
    */
   async scheduleClipboardClear() {
-    if (this.opts.clipboardCleaner) {
-      this.opts.clipboardCleaner.schedule();
-    }
+    return this.opts.clipboardCleaner
+      ? this.opts.clipboardCleaner.schedule()
+      : false;
   }
 
   /**
@@ -1564,8 +1568,12 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<string>} The signature, passed back to the requesting Dapp.
    */
   async newUnsignedTypedMessage(msgParams, req, version) {
+    // Check the values that will be signed, such as a bool sent as "true".
     const securityAlerts = ['V3', 'V4'].includes(version)
-      ? await this.getTypedDataAlerts(msgParams)
+      ? await this.getTypedDataAlerts({
+          ...msgParams,
+          data: canonicalizeTypedMessage(msgParams.data, version),
+        })
       : [];
     const promise = this.typedMessageManager.addUnapprovedMessageAsync(
       msgParams,

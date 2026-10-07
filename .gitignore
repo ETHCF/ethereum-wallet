@@ -47,3 +47,4 @@ notes.txt
 
 # Anvil binary installed by `yarn foundryup`
 .metamask/
+/.gstack

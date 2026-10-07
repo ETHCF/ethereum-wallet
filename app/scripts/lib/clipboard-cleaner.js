@@ -1,12 +1,16 @@
+import { clearClipboardInDocument } from './clear-clipboard';
+
 export const CLIPBOARD_CLEAR_ALARM = 'ecf-wallet-clear-clipboard';
 export const CLIPBOARD_CLEAR_DELAY_MS = 60000;
 export const CLEAR_CLIPBOARD_MESSAGE = 'ecf-wallet-clear-clipboard';
 const OFFSCREEN_PATH = 'offscreen-clipboard.html';
 
 /**
- * Clears copied secrets from the system clipboard. The service worker has no
- * clipboard access, so the work happens in a short-lived offscreen document,
- * which keeps running after the popup that copied the secret has closed.
+ * Clears copied secrets from the system clipboard. Chrome's service worker has
+ * no clipboard access, so the work happens in a short-lived offscreen
+ * document, which keeps running after the popup that copied the secret has
+ * closed. Firefox has no offscreen documents, but its background page has a
+ * document of its own.
  */
 export default class ClipboardCleaner {
   constructor({
@@ -14,18 +18,38 @@ export default class ClipboardCleaner {
     delayMs = CLIPBOARD_CLEAR_DELAY_MS,
     now = Date.now,
     wait = defaultWait,
+    document = globalThis.document,
   }) {
     this.extension = extension;
+    this.document = document;
     this.delayMs = delayMs;
     this.now = now;
     this.wait = wait;
     this.operation = Promise.resolve();
   }
 
+  /**
+   * Whether this browser lets the background clear the clipboard.
+   *
+   * @returns {boolean} Whether a scheduled clear can succeed.
+   */
+  get canClear() {
+    return Boolean(this.extension.offscreen || this.document);
+  }
+
+  /**
+   * Schedules the clipboard to be cleared after the delay.
+   *
+   * @returns {boolean} Whether it was scheduled; false if it cannot be cleared.
+   */
   schedule() {
+    if (!this.canClear) {
+      return false;
+    }
     this.extension.alarms.create(CLIPBOARD_CLEAR_ALARM, {
       when: this.now() + this.delayMs,
     });
+    return true;
   }
 
   handleAlarm(alarm) {
@@ -50,7 +74,7 @@ export default class ClipboardCleaner {
   async _clear() {
     const { offscreen, runtime } = this.extension;
     if (!offscreen) {
-      return false;
+      return this.document ? clearClipboardInDocument(this.document) : false;
     }
     if (!(await offscreen.hasDocument())) {
       await offscreen.createDocument({

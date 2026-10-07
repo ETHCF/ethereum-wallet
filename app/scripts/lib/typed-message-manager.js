@@ -9,7 +9,45 @@ import log from 'loglevel';
 
 import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
-import { validateTypedData, typedDataSchema } from './signing-utils';
+import {
+  canonicalizeTypedData,
+  validateTypedData,
+  typedDataSchema,
+} from './signing-utils';
+
+/**
+ * Canonicalizes eth_signTypedData data as sent by a site: V1 as an array, V3
+ * and V4 as an object or a JSON string. Data that does not parse is returned
+ * unchanged, for validateParams to reject.
+ *
+ * @param {object | object[] | string} data - The typed data.
+ * @param {string} version - The typed data version: 'V1', 'V3' or 'V4'.
+ * @returns {object | object[] | string} The canonical data.
+ */
+export function canonicalizeTypedMessage(data, version) {
+  let parsed = data;
+  if (typeof data === 'string' && version !== 'V1') {
+    try {
+      parsed = JSON.parse(data);
+    } catch (_) {
+      return data;
+    }
+  }
+  if (
+    !parsed ||
+    typeof parsed !== 'object' ||
+    Array.isArray(parsed) !== (version === 'V1')
+  ) {
+    return data;
+  }
+  try {
+    return canonicalizeTypedData(parsed, version);
+  } catch (error) {
+    throw new Error(
+      `Signing data must be valid EIP-712 typed data. ${error.message}`,
+    );
+  }
+}
 
 /**
  * Represents, and contains data about, an 'eth_signTypedData' type signature request. These are created when a
@@ -133,6 +171,7 @@ export default class TypedMessageManager extends EventEmitter {
           : inputParams.data,
     };
     msgParams.version = version;
+    msgParams.data = canonicalizeTypedMessage(msgParams.data, version);
     if (['V3', 'V4'].includes(version) && typeof msgParams.data === 'object') {
       msgParams.data = JSON.stringify(msgParams.data);
     }

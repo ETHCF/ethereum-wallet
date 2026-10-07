@@ -3,6 +3,7 @@ import { createTx, createTxFromRLP } from '@ethereumjs/tx';
 import { bytesToHex } from '@ethereumjs/util';
 import { Wallet, thirdparty } from '@ethereumjs/wallet';
 import {
+  recoverTypedSignature,
   signTypedData,
   TypedDataUtils,
   typedSignatureHash,
@@ -14,7 +15,7 @@ import { ParsedMessage } from '@spruceid/siwe-parser';
 export { HdKeyring } from '@metamask/eth-hd-keyring';
 export { default as SimpleKeyring } from '@metamask/eth-simple-keyring';
 
-export { signTypedData, TYPED_MESSAGE_SCHEMA };
+export { recoverTypedSignature, signTypedData, TYPED_MESSAGE_SCHEMA };
 
 /**
  * Decrypts an EtherWallet or V3 keystore file.

@@ -21,7 +21,10 @@ export function useSensitiveClipboard() {
       copyToClipboard(text);
       setState('copied');
       try {
-        await dispatch(scheduleClipboardClear());
+        // Promise no clear that this browser cannot do.
+        if (!(await dispatch(scheduleClipboardClear()))) {
+          setState('error');
+        }
       } catch (error) {
         log.error(error);
         setState('error');

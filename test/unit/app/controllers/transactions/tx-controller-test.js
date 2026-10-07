@@ -603,6 +603,71 @@ describe('Transaction Controller', function () {
       assert.equal(tx.status, 'approved');
       await approvalPromise;
     });
+
+    function unapprovedTx(id) {
+      txController.txStateManager.addTx({
+        id,
+        status: 'unapproved',
+        origin: 'https://dapp.example',
+        securityAlerts: [{ id: 'alertExample' }],
+        txParams: {
+          from: fromAccount.address,
+          to: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+          gasPrice: '0x77359400',
+          gas: '0x7b0d',
+        },
+        ecfWalletNetworkId: currentNetworkId,
+      });
+      return txController.txStateManager.getTx(id);
+    }
+
+    it('refuses a stale copy of a transaction that was already approved', async function () {
+      const txMeta = unapprovedTx(2);
+      const staleCopy = JSON.parse(JSON.stringify(txMeta));
+      const signing = sinon.stub(txController, 'signTransaction').resolves();
+      const publishing = sinon
+        .stub(txController, 'publishTransaction')
+        .callsFake(async (txId) =>
+          txController.txStateManager.setTxStatusSubmitted(txId),
+        );
+      try {
+        await txController.updateAndApproveTransaction(
+          JSON.parse(JSON.stringify(txMeta)),
+        );
+        const submitted = txController.txStateManager.getTx(txMeta.id);
+        assert.equal(submitted.status, 'submitted');
+
+        await assert.rejects(
+          txController.updateAndApproveTransaction(staleCopy),
+          /not awaiting approval/u,
+        );
+        await assert.rejects(
+          txController.updateTransaction(staleCopy),
+          /not awaiting approval/u,
+        );
+        const stored = txController.txStateManager.getTx(txMeta.id);
+        assert.equal(stored.status, 'submitted');
+        assert.equal(stored.txParams.nonce, submitted.txParams.nonce);
+        assert.equal(signing.callCount, 1);
+      } finally {
+        signing.restore();
+        publishing.restore();
+      }
+    });
+
+    it('keeps the wallet-owned fields of the stored transaction', async function () {
+      const txMeta = unapprovedTx(3);
+      await txController.updateTransaction({
+        ...txMeta,
+        origin: 'https://other.example',
+        securityAlerts: [],
+        txParams: { ...txMeta.txParams, gas: '0x5209' },
+      });
+      const stored = txController.txStateManager.getTx(txMeta.id);
+      assert.equal(stored.txParams.gas, '0x5209');
+      assert.equal(stored.origin, txMeta.origin);
+      assert.deepEqual(stored.securityAlerts, txMeta.securityAlerts);
+    });
   });
 
   describe('#getChainId', function () {

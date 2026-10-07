@@ -2,6 +2,7 @@ import { bytesToHex, privateToAddress } from '@ethereumjs/util';
 import {
   recoverTypedSignature,
   recoverPersonalSignature,
+  signTypedData,
 } from '@metamask/eth-sig-util';
 import { strict as assert } from 'assert';
 
@@ -65,6 +66,37 @@ describe('Modern message signing', function () {
       from,
     );
     assert.throws(() => validateTypedData(data, 'V3'), /Arrays/u);
+  });
+
+  it('rejects a hardware typed-data signature over other data than was approved', async function () {
+    const hardwareKeyring = (signed) => ({
+      type: 'Trezor Hardware',
+      getAccounts: async () => [from],
+      signTypedData: async (_address, typedData, { version }) =>
+        signTypedData({ privateKey: key, data: signed(typedData), version }),
+    });
+    const controller = new KeyringController({});
+    controller.keyrings = [hardwareKeyring((typedData) => typedData)];
+    const signature = await controller.signTypedMessage(
+      { from, data },
+      { version: 'V4' },
+    );
+    assert.equal(
+      recoverTypedSignature({ data, signature, version: 'V4' }),
+      from,
+    );
+
+    // As a bundled encoder reading Boolean("false") would sign it.
+    controller.keyrings = [
+      hardwareKeyring((typedData) => ({
+        ...typedData,
+        message: { ...typedData.message, enabled: true },
+      })),
+    ];
+    await assert.rejects(
+      controller.signTypedMessage({ from, data }, { version: 'V4' }),
+      /does not match the approved typed data/u,
+    );
   });
 
   it('accepts object V4 requests, preserves reviewed bytes, and rejects payload substitution', async function () {

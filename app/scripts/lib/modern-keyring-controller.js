@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 import log from 'loglevel';
 
 import SessionEncryptor from './session-encryptor';
-import { signTypedData } from './signing-utils';
+import { assertTypedSignature, signTypedData } from './signing-utils';
 import {
   HD_KEY_TREE,
   SIMPLE_KEY_PAIR,
@@ -458,6 +458,13 @@ export default class ModernKeyringController extends EventEmitter {
         version: opts.version,
       });
     }
-    return keyring.signTypedData(address, params.data, opts);
+    const signature = await keyring.signTypedData(address, params.data, opts);
+    assertTypedSignature({
+      data: params.data,
+      signature,
+      version: opts.version,
+      from: address,
+    });
+    return signature;
   }
 }
