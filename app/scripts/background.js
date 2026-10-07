@@ -265,7 +265,6 @@ async function loadStateFromPersistence() {
   // check if somehow state is empty
   // this should never happen but new error reporting suggests that it has
   // for a small number of users
-  // https://github.com/metamask/metamask-extension/issues/3919
   if (versionedData && !versionedData.data) {
     // unable to recover, clear state
     versionedData = migrator.generateInitialState(firstTimeState);

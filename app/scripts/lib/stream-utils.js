@@ -4,7 +4,6 @@ import pump from 'pump';
 /**
  * Whether a stream pipeline failed only because the other end went away, as
  * when a popup or a site's tab closes. That is a normal disconnect, not an error.
- * See https://github.com/MetaMask/metamask-extension/issues/26337.
  *
  * @param {Error | undefined} error - The pipeline's error, if any
  * @returns {boolean} True for a premature close

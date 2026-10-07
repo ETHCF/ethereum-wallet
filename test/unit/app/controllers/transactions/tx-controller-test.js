@@ -506,7 +506,7 @@ describe('Transaction Controller', function () {
       const result = txController.txStateManager.getTx(txMeta.id);
       const params = result.txParams;
 
-      // As in MetaMask's TransactionController, a nonce already in the params,
+      // A nonce already in the params,
       // such as one a site supplied, is used instead of the next nonce.
       assert.equal(params.nonce, originalValue, 'nonce unmodified');
       assert.equal(params.gas, originalValue, 'gas unmodified');

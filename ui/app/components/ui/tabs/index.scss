@@ -1,7 +1,7 @@
 @use 'tab/index' as *;
 
 .tabs {
-  // Just for Firefox — https://github.com/MetaMask/metamask-extension/issues/8700
+  // Just for Firefox
   -moz-transform: translateZ(0);
 
   &__list {
