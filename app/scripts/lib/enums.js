@@ -17,11 +17,16 @@ const MESSAGE_TYPE = {
   PERSONAL_SIGN: 'personal_sign',
 };
 
+// The background's error for a wrong wallet password, which the UI reports as
+// such rather than as a general failure.
+const INCORRECT_PASSWORD_MESSAGE = 'Incorrect password.';
+
 export {
   ENVIRONMENT_TYPE_POPUP,
   ENVIRONMENT_TYPE_NOTIFICATION,
   ENVIRONMENT_TYPE_FULLSCREEN,
   ENVIRONMENT_TYPE_BACKGROUND,
+  INCORRECT_PASSWORD_MESSAGE,
   MESSAGE_TYPE,
   PLATFORM_BRAVE,
   PLATFORM_CHROME,

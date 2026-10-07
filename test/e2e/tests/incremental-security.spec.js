@@ -177,6 +177,17 @@ describe('ecf-wallet', function () {
       await driver.delay(regularDelayMs);
     });
 
+    it('asks for the password before showing the seed phrase', async function () {
+      const passwordBox = await driver.findElement(
+        By.css('#seed-phrase-password'),
+      );
+      await passwordBox.sendKeys('correct horse battery staple');
+      await driver.clickElement(
+        By.css('[data-testid="seed-phrase-password-submit"]'),
+      );
+      await driver.delay(regularDelayMs);
+    });
+
     let seedPhrase;
 
     it('reveals the seed phrase', async function () {

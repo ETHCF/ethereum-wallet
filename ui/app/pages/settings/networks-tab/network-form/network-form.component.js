@@ -2,31 +2,13 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import validUrl from 'valid-url';
 
+import { normalizeChainId } from '../../../../../../app/scripts/controllers/network/chain-utils';
 import Button from '../../../../components/ui/button';
 import TextField from '../../../../components/ui/text-field';
 
-// The background's limit: the largest chain ID that EIP-155 signing supports.
-const MAX_SAFE_CHAIN_ID = 4503599627370476;
-
-/**
- * Whether a chain ID is a positive decimal or 0x-prefixed hex integer, the
- * forms the background accepts for a custom RPC.
- *
- * @param {string} chainId - The entered chain ID
- * @returns {boolean} Whether it is valid
- */
-function isValidChainId(chainId) {
-  const value = String(chainId ?? '');
-  let id;
-  if (/^0x[0-9a-f]+$/iu.test(value)) {
-    id = parseInt(value, 16);
-  } else if (/^[0-9]+$/u.test(value)) {
-    id = parseInt(value, 10);
-  } else {
-    return false;
-  }
-  return id > 0 && id <= MAX_SAFE_CHAIN_ID;
-}
+// The background's rules, so the form accepts exactly the chain IDs that
+// saving a custom network accepts.
+const isValidChainId = (chainId) => Boolean(normalizeChainId(chainId));
 
 export default class NetworkForm extends PureComponent {
   static contextTypes = {

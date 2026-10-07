@@ -7,6 +7,7 @@ import { getFirstTimeFlowTypeRoute } from '../../selectors';
 import {
   createNewVaultAndGetSeedPhrase,
   createNewVaultAndRestore,
+  getSeedPhrase,
   unlockAndGetSeedPhrase,
 } from '../../store/actions';
 
@@ -41,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(createNewVaultAndRestore(password, seedPhrase));
     },
     unlockAccount: (password) => dispatch(unlockAndGetSeedPhrase(password)),
+    requestSeedPhrase: (password) => getSeedPhrase(password),
   };
 };
 

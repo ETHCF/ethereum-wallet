@@ -7,6 +7,7 @@ import sinon from 'sinon';
 
 import enLocale from '../../../../app/_locales/en/messages.json';
 import EcfWalletController from '../../../../app/scripts/ecf-wallet-controller';
+import { INCORRECT_PASSWORD_MESSAGE } from '../../../../app/scripts/lib/enums';
 import KeyringController from '../../../../app/scripts/lib/modern-keyring-controller';
 import sendReducer from '../../../../ui/app/ducks/send/send.duck';
 import {
@@ -847,14 +848,13 @@ describe('Actions', function () {
   });
 
   describe('#exportAccount', function () {
-    let verifyPasswordSpy, exportAccountSpy;
+    let exportAccountSpy;
 
     afterEach(function () {
-      verifyPasswordSpy.restore();
       exportAccountSpy.restore();
     });
 
-    it('returns expected actions for successful action', async function () {
+    it('exports with a single password check in the background', async function () {
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
@@ -866,8 +866,9 @@ describe('Actions', function () {
         },
       ];
 
-      verifyPasswordSpy = sinon.spy(background, 'verifyPassword');
       exportAccountSpy = sinon.spy(background, 'exportAccount');
+      // Checking the password again in the UI would derive the key twice.
+      const verifyPasswordSpy = sinon.spy(background, 'verifyPassword');
       // Re-unlocking would cancel any vault write still queued.
       const submitPasswordSpy = sinon.spy(background, 'submitPassword');
 
@@ -877,15 +878,16 @@ describe('Actions', function () {
           '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
         ),
       );
+      verifyPasswordSpy.restore();
       submitPasswordSpy.restore();
+      assert(verifyPasswordSpy.notCalled);
       assert(submitPasswordSpy.notCalled);
-      assert(verifyPasswordSpy.calledOnce);
       assert(exportAccountSpy.calledOnce);
       assert.equal(exportAccountSpy.firstCall.args[1], password);
       assert.deepEqual(store.getActions(), expectedActions);
     });
 
-    it('returns action errors when first func callback errors', async function () {
+    it('reports a wrong password as such', async function () {
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
@@ -893,15 +895,15 @@ describe('Actions', function () {
         { type: 'DISPLAY_WARNING', value: 'Incorrect Password.' },
       ];
 
-      verifyPasswordSpy = sinon.stub(background, 'verifyPassword');
-      verifyPasswordSpy.callsFake((_, callback) => {
-        callback(new Error('error'));
+      exportAccountSpy = sinon.stub(background, 'exportAccount');
+      exportAccountSpy.callsFake((_address, _password, callback) => {
+        callback(new Error(INCORRECT_PASSWORD_MESSAGE));
       });
 
       await assert.rejects(async () => {
         await store.dispatch(
           actions.exportAccount(
-            password,
+            'wrong',
             '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
           ),
         );
@@ -909,7 +911,7 @@ describe('Actions', function () {
       assert.deepEqual(store.getActions(), expectedActions);
     });
 
-    it('returns action errors when second func callback errors', async function () {
+    it('reports any other failure as an export problem', async function () {
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },

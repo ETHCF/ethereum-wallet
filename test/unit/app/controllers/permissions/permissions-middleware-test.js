@@ -1393,7 +1393,16 @@ describe('permissions middleware', function () {
         permController,
         DOMAINS.c.origin,
       );
-      for (const params of [null, [], { name: '   ' }, { name: 5 }]) {
+      for (const params of [
+        null,
+        [],
+        { name: '   ' },
+        { name: 5 },
+        // Could be made to read like another site's name.
+        { name: 'paws\u202ewapsinU' },
+        { name: 'Uni\u200bswap' },
+        { name: 'Site\nUniswap' },
+      ]) {
         const res = {};
         await cMiddleware(
           {

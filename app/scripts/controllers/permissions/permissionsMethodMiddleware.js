@@ -1,6 +1,8 @@
 import { createAsyncMiddleware } from '@metamask/json-rpc-engine';
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 
+import { UNSAFE_TEXT } from '../network/chain-utils';
+
 export const MAX_SITE_NAME_LENGTH = 100;
 export const MAX_ICON_URL_LENGTH = 2048;
 export const MAX_ICON_DATA_URL_LENGTH = 32 * 1024;
@@ -13,12 +15,16 @@ export const MAX_ICON_DATA_URL_LENGTH = 32 * 1024;
  *
  * @param {object} [params] - The request params: the site's name and the
  * URL of its icon.
+ * A name with control or bidirectional override characters is refused, as
+ * chain names are, since it could be made to read like another site's name.
+ * The UI then shows the site's host instead.
+ *
  * @returns {{name: string, icon?: string} | undefined} The metadata to store,
  * or undefined if there is no usable name.
  */
 export function sanitizeDomainMetadata(params) {
   const { name, icon } = params ?? {};
-  if (typeof name !== 'string' || !name.trim()) {
+  if (typeof name !== 'string' || !name.trim() || UNSAFE_TEXT.test(name)) {
     return undefined;
   }
   const metadata = { name: name.trim().slice(0, MAX_SITE_NAME_LENGTH) };

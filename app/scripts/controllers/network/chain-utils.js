@@ -92,7 +92,7 @@ export function parseSafeUrl(value, allowLocalHttp) {
 }
 
 // Names are shown in the UI; refuse control and bidirectional override characters.
-const UNSAFE_TEXT =
+export const UNSAFE_TEXT =
   // eslint-disable-next-line no-control-regex -- matching control characters is the purpose of this pattern
   /[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/u;
 

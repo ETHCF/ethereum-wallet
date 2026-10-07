@@ -4,7 +4,10 @@ import pify from 'pify';
 
 import * as actionConstants from './actionConstants';
 import { encodeCall } from '../../../app/scripts/lib/contract-call';
-import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../app/scripts/lib/enums';
+import {
+  ENVIRONMENT_TYPE_NOTIFICATION,
+  INCORRECT_PASSWORD_MESSAGE,
+} from '../../../app/scripts/lib/enums';
 import { getEnvironmentType } from '../../../app/scripts/lib/util';
 import txHelper from '../../lib/tx-helper';
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account';
@@ -1727,68 +1730,27 @@ export function exportAccount(password, address) {
   return function (dispatch) {
     dispatch(showLoadingIndication());
 
-    log.debug(`background.verifyPassword`);
+    // The background checks the password before exporting.
+    log.debug(`background.exportAccount`);
     return new Promise((resolve, reject) => {
-      background.verifyPassword(password, function (err) {
+      background.exportAccount(address, password, function (err, result) {
+        dispatch(hideLoadingIndication());
+
         if (err) {
-          log.error('Error in verifying password.');
-          dispatch(hideLoadingIndication());
-          dispatch(displayWarning('Incorrect Password.'));
-          reject(err);
-          return;
-        }
-        log.debug(`background.exportAccount`);
-        background.exportAccount(address, password, function (err2, result) {
-          dispatch(hideLoadingIndication());
-
-          if (err2) {
-            log.error(err2);
-            dispatch(displayWarning('Had a problem exporting the account.'));
-            reject(err2);
-            return;
-          }
-
-          dispatch(showPrivateKey(result));
-          resolve(result);
-        });
-      });
-    });
-  };
-}
-
-export function exportAccounts(password, addresses) {
-  return function (dispatch) {
-    log.debug(`background.verifyPassword`);
-    return new Promise((resolve, reject) => {
-      background.verifyPassword(password, function (err) {
-        if (err) {
-          log.error('Error in verifying password.');
-          reject(err);
-          return;
-        }
-        log.debug(`background.exportAccounts`);
-        const accountPromises = addresses.map(
-          (address) =>
-            new Promise((resolve2, reject2) =>
-              background.exportAccount(
-                address,
-                password,
-                function (err2, result) {
-                  if (err2) {
-                    log.error(err2);
-                    dispatch(
-                      displayWarning('Had a problem exporting the account.'),
-                    );
-                    reject2(err2);
-                    return;
-                  }
-                  resolve2(result);
-                },
-              ),
+          log.error(err);
+          dispatch(
+            displayWarning(
+              err.message === INCORRECT_PASSWORD_MESSAGE
+                ? 'Incorrect Password.'
+                : 'Had a problem exporting the account.',
             ),
-        );
-        // eslint-disable-next-line promise/no-promise-in-callback -- resolves the outer Promise from the background callback
-        resolve(Promise.all(accountPromises));
+          );
+          reject(err);
+          return;
+        }
+
+        dispatch(showPrivateKey(result));
+        resolve(result);
       });
     });
   };

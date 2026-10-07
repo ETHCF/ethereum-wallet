@@ -47,6 +47,7 @@ import createOriginMiddleware from './lib/createOriginMiddleware';
 import createTabIdMiddleware from './lib/createTabIdMiddleware';
 import DecryptMessageManager from './lib/decrypt-message-manager';
 import EncryptionPublicKeyManager from './lib/encryption-public-key-manager';
+import { INCORRECT_PASSWORD_MESSAGE } from './lib/enums';
 import extension from './lib/extension-api';
 import {
   Trezor as TrezorKeyring,
@@ -1194,7 +1195,7 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<string>} The verified seed phrase.
    */
   async getSeedPhrase(password) {
-    await this.keyringController.verifyPassword(password);
+    await this._checkPassword(password);
     return this._getVerifiedSeedPhrase();
   }
 
@@ -1206,8 +1207,22 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<string>} The private key.
    */
   async exportAccount(address, password) {
-    await this.keyringController.verifyPassword(password);
+    await this._checkPassword(password);
     return this.keyringController.exportAccount(address);
+  }
+
+  /**
+   * Checks the wallet password, failing with INCORRECT_PASSWORD_MESSAGE so
+   * that the UI can tell a wrong password from other failures.
+   *
+   * @param {string} password - The wallet password.
+   */
+  async _checkPassword(password) {
+    try {
+      await this.keyringController.verifyPassword(password);
+    } catch (_) {
+      throw new Error(INCORRECT_PASSWORD_MESSAGE);
+    }
   }
 
   /**

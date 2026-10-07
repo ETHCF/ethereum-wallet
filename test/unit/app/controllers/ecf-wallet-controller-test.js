@@ -252,7 +252,7 @@ describe('EcfWalletController', function () {
     it('returns the seed phrase only with the password', async function () {
       assert.equal(await ecfWalletController.verifySeedPhrase(), undefined);
       await assert.rejects(ecfWalletController.getSeedPhrase('wrong'), {
-        message: 'Incorrect password',
+        message: 'Incorrect password.',
       });
       assert.equal(
         await ecfWalletController.getSeedPhrase(password),
@@ -264,12 +264,12 @@ describe('EcfWalletController', function () {
       const [address] =
         await ecfWalletController.keyringController.getAccounts();
       await assert.rejects(ecfWalletController.exportAccount(address), {
-        message: 'Incorrect password',
+        message: 'Incorrect password.',
       });
       await assert.rejects(
         ecfWalletController.exportAccount(address, 'wrong'),
         {
-          message: 'Incorrect password',
+          message: 'Incorrect password.',
         },
       );
       assert.match(

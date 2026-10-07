@@ -34,6 +34,7 @@ export default class FirstTimeFlow extends PureComponent {
     nextRoute: PropTypes.string,
     showingSeedPhraseBackupAfterOnboarding: PropTypes.bool,
     seedPhraseBackedUp: PropTypes.bool,
+    requestSeedPhrase: PropTypes.func,
   };
 
   state = {
@@ -102,20 +103,31 @@ export default class FirstTimeFlow extends PureComponent {
 
   render() {
     const { seedPhrase, isImportedKeyring } = this.state;
+    const { requestSeedPhrase } = this.props;
 
     return (
       <div className="first-time-flow">
         <Routes>
           <Route
             path={`${toRelativeRoutePath(INITIALIZE_SEED_PHRASE_ROUTE, INITIALIZE_ROUTE)}/*`}
-            element={<SeedPhrase seedPhrase={seedPhrase} />}
+            element={
+              <SeedPhrase
+                seedPhrase={seedPhrase}
+                requestSeedPhrase={requestSeedPhrase}
+              />
+            }
           />
           <Route
             path={toRelativeRoutePath(
               INITIALIZE_BACKUP_SEED_PHRASE_ROUTE,
               INITIALIZE_ROUTE,
             )}
-            element={<SeedPhrase seedPhrase={seedPhrase} />}
+            element={
+              <SeedPhrase
+                seedPhrase={seedPhrase}
+                requestSeedPhrase={requestSeedPhrase}
+              />
+            }
           />
           <Route
             path={`${toRelativeRoutePath(INITIALIZE_CREATE_PASSWORD_ROUTE, INITIALIZE_ROUTE)}/*`}
