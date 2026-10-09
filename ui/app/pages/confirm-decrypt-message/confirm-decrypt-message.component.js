@@ -8,6 +8,7 @@ import ConfirmRequestLayout, {
 } from '../../components/app/confirm-request-layout';
 import Copy from '../../components/ui/icon/copy-icon.component';
 import Tooltip from '../../components/ui/tooltip';
+import { useCopiedFlag } from '../../hooks/useCopiedFlag';
 import { useI18nContext } from '../../hooks/useI18nContext';
 
 export default function ConfirmDecryptMessage({
@@ -19,7 +20,7 @@ export default function ConfirmDecryptMessage({
 }) {
   const t = useI18nContext();
   const [copyToClipboardPressed, setCopyToClipboardPressed] = useState(false);
-  const [hasCopied, setHasCopied] = useState(false);
+  const [hasCopied, markCopied] = useCopiedFlag(3000);
   const [hasDecrypted, setHasDecrypted] = useState(false);
   const [rawMessage, setRawMessage] = useState();
   const [errorMessage, setErrorMessage] = useState();
@@ -29,8 +30,7 @@ export default function ConfirmDecryptMessage({
 
   const copyMessage = () => {
     copyToClipboard(rawMessage);
-    setHasCopied(true);
-    setTimeout(() => setHasCopied(false), 3000);
+    markCopied();
   };
 
   const decryptInline = async (event) => {

@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../../app/scripts/lib/enums';
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util';
 import Identicon from '../../ui/identicon';
-import SecurityAlerts, { hasDangerAlerts } from '../security-alerts';
+import SecurityAlerts, { getAlertAcknowledgement } from '../security-alerts';
 import Footer from './signature-request-footer';
 import Header from './signature-request-header';
 import Message from './signature-request-message';
@@ -32,10 +32,11 @@ export default class SignatureRequest extends PureComponent {
     alertsAcknowledged: false,
   };
 
-  needsAlertAcknowledgement() {
-    return (
-      hasDangerAlerts(this.props.txData.securityAlerts) &&
-      !this.state.alertsAcknowledged
+  alertAcknowledgement() {
+    return getAlertAcknowledgement(
+      this.props.txData.securityAlerts,
+      this.state.alertsAcknowledged,
+      (alertsAcknowledged) => this.setState({ alertsAcknowledged }),
     );
   }
 
@@ -64,7 +65,7 @@ export default class SignatureRequest extends PureComponent {
   };
 
   handleSign = (event) => {
-    if (this.needsAlertAcknowledgement()) {
+    if (this.alertAcknowledgement().needsAcknowledgement) {
       return undefined;
     }
     // Approval can close this popup before the hardware wallet returns a signature.
@@ -84,17 +85,12 @@ export default class SignatureRequest extends PureComponent {
     const { primaryType, types } = typedData;
     // Show only what the signature covers.
     const { domain, message } = getSignedTypedData(typedData);
+    const { needsAcknowledgement, alertsProps } = this.alertAcknowledgement();
 
     return (
       <div className="signature-request page-container">
         <Header fromAccount={fromAccount} />
-        <SecurityAlerts
-          alerts={this.props.txData.securityAlerts}
-          acknowledged={this.state.alertsAcknowledged}
-          onAcknowledge={(alertsAcknowledged) =>
-            this.setState({ alertsAcknowledged })
-          }
-        />
+        <SecurityAlerts {...alertsProps} />
         <div className="signature-request-content">
           <div className="signature-request-content__title">
             {this.context.t('sigRequest')}
@@ -128,7 +124,7 @@ export default class SignatureRequest extends PureComponent {
         <Footer
           cancelAction={this.handleCancel}
           signAction={this.handleSign}
-          signDisabled={this.needsAlertAcknowledgement()}
+          signDisabled={needsAcknowledgement}
         />
       </div>
     );

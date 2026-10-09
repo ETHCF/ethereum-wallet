@@ -1,6 +1,8 @@
 import { ObservableStore } from '@metamask/obs-store';
 import EventEmitter from 'events';
 
+import { getAutoLockDeadline } from '../lib/auto-lock';
+
 export default class AppStateController extends EventEmitter {
   /**
    * Creates an AppStateController.
@@ -166,10 +168,7 @@ export default class AppStateController extends EventEmitter {
       return;
     }
 
-    const remaining =
-      this.store.getState().lastActiveTime +
-      timeoutMinutes * 60 * 1000 -
-      Date.now();
+    const remaining = getAutoLockDeadline(this.store.getState()) - Date.now();
     this.timer = setTimeout(
       () => this.onInactiveTimeout(),
       Math.max(0, remaining),

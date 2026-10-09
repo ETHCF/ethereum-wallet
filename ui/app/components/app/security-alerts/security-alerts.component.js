@@ -9,6 +9,24 @@ export function hasDangerAlerts(alerts = []) {
 }
 
 /**
+ * Derives the danger-alert acknowledgement for a confirmation that keeps the
+ * acknowledged flag in its own state (and resets it when the request changes).
+ *
+ * @param {Array<object>} [alerts] - The request's security alerts.
+ * @param {boolean} acknowledged - Whether the alerts have been acknowledged.
+ * @param {Function} onAcknowledge - Stores the new acknowledged flag.
+ * @returns {{needsAcknowledgement: boolean, alertsProps: object}} Whether
+ * confirming must wait for the acknowledgement, and the props for
+ * SecurityAlerts.
+ */
+export function getAlertAcknowledgement(alerts, acknowledged, onAcknowledge) {
+  return {
+    needsAcknowledgement: hasDangerAlerts(alerts) && !acknowledged,
+    alertsProps: { alerts, acknowledged, onAcknowledge },
+  };
+}
+
+/**
  * Shows the on-device checks for a confirmation. Danger alerts must be
  * acknowledged before the parent enables its confirm button.
  *

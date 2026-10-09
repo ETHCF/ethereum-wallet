@@ -11,7 +11,7 @@ import ConfirmPageContainer, {
 } from '../../components/app/confirm-page-container';
 import AdvancedGasInputs from '../../components/app/gas-customization/advanced-gas-inputs';
 import SecurityAlerts, {
-  hasDangerAlerts,
+  getAlertAcknowledgement,
 } from '../../components/app/security-alerts';
 import UserPreferencedCurrencyDisplay from '../../components/app/user-preferenced-currency-display';
 import {
@@ -101,10 +101,11 @@ export default class ConfirmTransactionBase extends Component {
     alertsAcknowledged: false,
   };
 
-  needsAlertAcknowledgement() {
-    return (
-      hasDangerAlerts(this.props.txData?.securityAlerts) &&
-      !this.state.alertsAcknowledged
+  alertAcknowledgement() {
+    return getAlertAcknowledgement(
+      this.props.txData?.securityAlerts,
+      this.state.alertsAcknowledged,
+      (alertsAcknowledged) => this.setState({ alertsAcknowledged }),
     );
   }
 
@@ -391,7 +392,7 @@ export default class ConfirmTransactionBase extends Component {
     } = this.props;
     const { submitting } = this.state;
 
-    if (submitting || this.needsAlertAcknowledgement()) {
+    if (submitting || this.alertAcknowledgement().needsAcknowledgement) {
       return;
     }
 
@@ -537,6 +538,7 @@ export default class ConfirmTransactionBase extends Component {
       showAccountInHeader,
     } = this.props;
     const { submitting, submitError } = this.state;
+    const alertAcknowledgement = this.alertAcknowledgement();
 
     const { name } = methodData;
     const { valid, errorKey } = this.getErrorKey();
@@ -600,16 +602,10 @@ export default class ConfirmTransactionBase extends Component {
           !propsValid ||
           !valid ||
           submitting ||
-          this.needsAlertAcknowledgement()
+          alertAcknowledgement.needsAcknowledgement
         }
         securityAlerts={
-          <SecurityAlerts
-            alerts={this.props.txData?.securityAlerts}
-            acknowledged={this.state.alertsAcknowledged}
-            onAcknowledge={(alertsAcknowledged) =>
-              this.setState({ alertsAcknowledged })
-            }
-          />
+          <SecurityAlerts {...alertAcknowledgement.alertsProps} />
         }
         onEdit={() => this.handleEdit()}
         onCancelAll={() => this.handleCancelAll()}

@@ -1,22 +1,15 @@
-import { PollingBlockTracker } from '@metamask/eth-block-tracker';
 import {
   createBlockCacheMiddleware,
   createBlockRefRewriteMiddleware,
   createBlockTrackerInspectorMiddleware,
-  createFetchMiddleware,
   createInflightCacheMiddleware,
 } from '@metamask/eth-json-rpc-middleware';
-import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider';
 import { asLegacyMiddleware } from '@metamask/json-rpc-engine/v2';
 
-import createRpcService from './rpc-service';
+import createFetchClient from './createFetchClient';
 
 export default function createJsonRpcClient({ rpcUrl }) {
-  const fetchMiddleware = createFetchMiddleware({
-    rpcService: createRpcService({ rpcUrls: [rpcUrl] }),
-  });
-  const blockProvider = providerFromMiddlewareV2(fetchMiddleware);
-  const blockTracker = new PollingBlockTracker({ provider: blockProvider });
+  const { fetchMiddleware, blockTracker } = createFetchClient([rpcUrl]);
 
   // One engine for the whole chain, so the caches see the fetched results.
   const networkMiddleware = asLegacyMiddleware(

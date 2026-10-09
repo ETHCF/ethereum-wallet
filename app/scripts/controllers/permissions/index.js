@@ -374,12 +374,8 @@ export class PermissionsController {
   async removeAllAccountPermissions(account) {
     this.validatePermittedAccounts([account]);
 
-    const connectedOrigins = Object.keys(this._getSubjects()).filter((origin) =>
-      this._getPermittedAccounts(origin)?.includes(account),
-    );
-
     await Promise.all(
-      connectedOrigins.map((origin) =>
+      this._originsWithAccount(account).map((origin) =>
         this.removePermittedAccount(origin, account),
       ),
     );
@@ -659,6 +655,18 @@ export class PermissionsController {
   }
 
   /**
+   * Returns the origins permitted to see an account.
+   *
+   * @param {string} account - The account's address.
+   * @returns {string[]} The origins.
+   */
+  _originsWithAccount(account) {
+    return Object.keys(this._getSubjects()).filter((origin) =>
+      this._getPermittedAccounts(origin)?.includes(account),
+    );
+  }
+
+  /**
    * When a new account is selected in the UI, emit accountsChanged to each origin
    * where the selected account is exposed.
    *
@@ -672,12 +680,8 @@ export class PermissionsController {
       throw new Error('Selected account should be a non-empty string.');
     }
 
-    const connectedDomains = Object.keys(this._getSubjects()).filter((origin) =>
-      this._getPermittedAccounts(origin)?.includes(account),
-    );
-
     await Promise.all(
-      connectedDomains.map(async (origin) =>
+      this._originsWithAccount(account).map(async (origin) =>
         this.notifyAccountsChanged(origin, await this.getAccounts(origin)),
       ),
     );

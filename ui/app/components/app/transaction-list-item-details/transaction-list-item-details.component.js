@@ -2,7 +2,9 @@ import copyToClipboard from 'copy-to-clipboard';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
-import { getBlockExplorerUrlForTx } from '../../../helpers/utils/transactions.util';
+import { getTxExplorerUrl } from '../../../../../app/scripts/lib/block-explorer';
+import { useCopiedFlag } from '../../../hooks/useCopiedFlag';
+import { useI18nContext } from '../../../hooks/useI18nContext';
 import Button from '../../ui/button';
 import Copy from '../../ui/icon/copy-icon.component';
 import Popover from '../../ui/popover';
@@ -11,6 +13,33 @@ import { FLAT_VARIANT } from '../../ui/sender-to-recipient/sender-to-recipient.c
 import Tooltip from '../../ui/tooltip';
 import TransactionActivityLog from '../transaction-activity-log';
 import TransactionBreakdown from '../transaction-breakdown';
+
+export function CopyTxIdButton({ hash }) {
+  const t = useI18nContext();
+  const [justCopied, markCopied] = useCopiedFlag(1000);
+
+  return (
+    <Tooltip
+      title={justCopied ? t('copiedTransactionId') : t('copyTransactionId')}
+    >
+      <Button
+        type="raised"
+        onClick={() => {
+          markCopied();
+          copyToClipboard(hash);
+        }}
+        className="transaction-list-item-details__header-button"
+        disabled={!hash}
+      >
+        <Copy size={10} color="currentColor" />
+      </Button>
+    </Tooltip>
+  );
+}
+
+CopyTxIdButton.propTypes = {
+  hash: PropTypes.string,
+};
 
 export default class TransactionListItemDetails extends PureComponent {
   static contextTypes = {
@@ -41,10 +70,6 @@ export default class TransactionListItemDetails extends PureComponent {
     recipientNickname: PropTypes.string,
   };
 
-  state = {
-    justCopied: false,
-  };
-
   handleEtherscanClick = () => {
     const {
       transactionGroup: { primaryTransaction },
@@ -53,7 +78,7 @@ export default class TransactionListItemDetails extends PureComponent {
     const { hash, ecfWalletNetworkId } = primaryTransaction;
 
     global.platform.openTab({
-      url: getBlockExplorerUrlForTx(ecfWalletNetworkId, hash, rpcPrefs),
+      url: getTxExplorerUrl(hash, ecfWalletNetworkId, rpcPrefs),
     });
   };
 
@@ -67,17 +92,6 @@ export default class TransactionListItemDetails extends PureComponent {
     const { onClose, onRetry } = this.props;
     onRetry(event);
     onClose();
-  };
-
-  handleCopyTxId = () => {
-    const { transactionGroup } = this.props;
-    const { primaryTransaction: transaction } = transactionGroup;
-    const { hash } = transaction;
-
-    this.setState({ justCopied: true }, () => {
-      copyToClipboard(hash);
-      setTimeout(() => this.setState({ justCopied: false }), 1000);
-    });
   };
 
   componentDidMount() {
@@ -122,7 +136,6 @@ export default class TransactionListItemDetails extends PureComponent {
 
   render() {
     const { t } = this.context;
-    const { justCopied } = this.state;
     const {
       transactionGroup,
       showSpeedUp,
@@ -156,20 +169,7 @@ export default class TransactionListItemDetails extends PureComponent {
                 </Button>
               )}
               {this.renderCancel()}
-              <Tooltip
-                title={
-                  justCopied ? t('copiedTransactionId') : t('copyTransactionId')
-                }
-              >
-                <Button
-                  type="raised"
-                  onClick={this.handleCopyTxId}
-                  className="transaction-list-item-details__header-button"
-                  disabled={!hash}
-                >
-                  <Copy size={10} color="currentColor" />
-                </Button>
-              </Tooltip>
+              <CopyTxIdButton hash={hash} />
               <Tooltip
                 title={
                   blockExplorerUrl

@@ -13,11 +13,16 @@ import AccountMenu from '../../components/app/account-menu';
 import Alerts from '../../components/app/alerts';
 import AppHeader from '../../components/app/app-header';
 import NetworkDropdown from '../../components/app/dropdowns/network-dropdown';
+import LegalDocument from '../../components/app/legal-document';
 import LoadingNetwork from '../../components/app/loading-network-screen';
 import { Modal } from '../../components/app/modals';
 import Sidebar from '../../components/app/sidebars';
 import Alert from '../../components/ui/alert';
 import Loading from '../../components/ui/loading-screen';
+import {
+  PRIVACY_POLICY_LAST_UPDATED,
+  PRIVACY_POLICY_SECTIONS,
+} from '../../helpers/constants/privacy-policy';
 import {
   ADD_TOKEN_ROUTE,
   ASSET_ROUTE,
@@ -40,6 +45,10 @@ import {
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
 } from '../../helpers/constants/routes';
+import {
+  TERMS_OF_USE_LAST_UPDATED,
+  TERMS_OF_USE_SECTIONS,
+} from '../../helpers/constants/terms-of-use';
 import Authenticated from '../../helpers/higher-order-components/authenticated';
 import Initialized from '../../helpers/higher-order-components/initialized';
 import { getConnectingLabel } from '../../helpers/utils/network-display';
@@ -58,10 +67,8 @@ import RestoreVaultPage from '../keychains/restore-vault';
 import RevealSeedConfirmation from '../keychains/reveal-seed';
 import Lock from '../lock';
 import PermissionsConnect from '../permissions-connect';
-import PrivacyPolicy from '../privacy-policy';
 import SendTransactionScreen from '../send';
 import Settings from '../settings';
-import TermsOfUse from '../terms-of-use';
 import UnlockPage from '../unlock-page';
 
 export default class Routes extends Component {
@@ -117,6 +124,7 @@ export default class Routes extends Component {
   }
 
   renderRoutes() {
+    const { t } = this.context;
     const { autoLockTimeLimit, setLastActiveTime } = this.props;
 
     const routes = (
@@ -124,8 +132,26 @@ export default class Routes extends Component {
         <Route path={LOCK_ROUTE} element={<Lock />} />
         <Route path={`${INITIALIZE_ROUTE}/*`} element={<FirstTimeFlow />} />
         <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
-        <Route path={TERMS_OF_USE_ROUTE} element={<TermsOfUse />} />
-        <Route path={PRIVACY_POLICY_ROUTE} element={<PrivacyPolicy />} />
+        <Route
+          path={TERMS_OF_USE_ROUTE}
+          element={
+            <LegalDocument
+              title={t('terms')}
+              lastUpdated={TERMS_OF_USE_LAST_UPDATED}
+              sections={TERMS_OF_USE_SECTIONS}
+            />
+          }
+        />
+        <Route
+          path={PRIVACY_POLICY_ROUTE}
+          element={
+            <LegalDocument
+              title={t('privacyMsg')}
+              lastUpdated={PRIVACY_POLICY_LAST_UPDATED}
+              sections={PRIVACY_POLICY_SECTIONS}
+            />
+          }
+        />
         <Route
           path={UNLOCK_ROUTE}
           element={

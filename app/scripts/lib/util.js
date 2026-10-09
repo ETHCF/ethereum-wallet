@@ -79,6 +79,28 @@ function BnMultiplyByFraction(targetBN, numerator, denominator) {
 }
 
 /**
+ * Parses a non-negative integer given as a safe integer, or as a hex
+ * (0x-prefixed) or decimal string.
+ *
+ * @param {number|string} value - The quantity
+ * @returns {BN|undefined} The quantity, or undefined if it is malformed
+ */
+function parseQuantity(value) {
+  if (typeof value === 'number') {
+    return Number.isSafeInteger(value) && value >= 0
+      ? new BN(value)
+      : undefined;
+  }
+  if (typeof value === 'string' && /^0x[0-9a-f]+$/iu.test(value)) {
+    return new BN(value.slice(2), 16);
+  }
+  if (typeof value === 'string' && /^[0-9]+$/u.test(value)) {
+    return new BN(value, 10);
+  }
+  return undefined;
+}
+
+/**
  * Lowercases an address and adds the 0x prefix, as eth-sig-util's normalize did.
  *
  * @param {string|number} input - The address, or an integer
@@ -106,4 +128,5 @@ export {
   bnToHex,
   BnMultiplyByFraction,
   normalizeAddress,
+  parseQuantity,
 };

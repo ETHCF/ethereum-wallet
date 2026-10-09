@@ -3,6 +3,7 @@ import BN from 'bn.js';
 
 import { readArguments } from './abi-method-decoder';
 import { toChecksumHexAddress } from './checksum-address';
+import { parseQuantity } from './util';
 
 // Every check here runs on this device, using data the wallet already has and
 // the user's own RPC node. Nothing is sent to an outside analysis service.
@@ -90,7 +91,6 @@ function alert(id, severity, args = []) {
 
 const lower = (address) =>
   typeof address === 'string' ? address.toLowerCase() : undefined;
-const checksum = (address) => toChecksumHexAddress(address);
 
 /**
  * Decodes a call this module understands. Arguments that are not encoded the
@@ -115,13 +115,12 @@ export function decodeCall(data) {
     return { kind: call.kind, malformed: true };
   }
   const { values } = result;
-  const address = (index) => values[index];
   return {
     kind: call.kind,
     malformed: !result.canonical,
     recipient:
-      call.recipient === undefined ? undefined : address(call.recipient),
-    spender: call.spender === undefined ? undefined : address(call.spender),
+      call.recipient === undefined ? undefined : values[call.recipient],
+    spender: call.spender === undefined ? undefined : values[call.spender],
     amount:
       call.amount === undefined
         ? undefined
@@ -195,7 +194,9 @@ function checkRecipient({
   );
   if (familiar) {
     alerts.push(
-      alert('alertLookalikeAddress', SEVERITY.DANGER, [checksum(familiar)]),
+      alert('alertLookalikeAddress', SEVERITY.DANGER, [
+        toChecksumHexAddress(familiar),
+      ]),
     );
   } else if (!knownAddresses.has(address)) {
     alerts.push(alert('alertFirstTimeRecipient', SEVERITY.INFO));
@@ -219,7 +220,9 @@ async function checkSpender({ spender, getCode, ownAccounts }) {
   try {
     if (!(await hasCode(getCode, spender))) {
       return [
-        alert('alertSpenderNotContract', SEVERITY.DANGER, [checksum(spender)]),
+        alert('alertSpenderNotContract', SEVERITY.DANGER, [
+          toChecksumHexAddress(spender),
+        ]),
       ];
     }
     return [];
@@ -228,7 +231,9 @@ async function checkSpender({ spender, getCode, ownAccounts }) {
     // this replaces is a DANGER alert, so burying its absence in an INFO note
     // would quietly remove a safeguard whenever the network is unreachable.
     return [
-      alert('alertCodeCheckFailed', SEVERITY.WARNING, [checksum(spender)]),
+      alert('alertCodeCheckFailed', SEVERITY.WARNING, [
+        toChecksumHexAddress(spender),
+      ]),
     ];
   }
 }
@@ -275,12 +280,16 @@ export async function getTransactionAlerts({
   try {
     if (!(await hasCode(getCode, to))) {
       alerts.push(
-        alert('alertDataToNonContract', SEVERITY.WARNING, [checksum(to)]),
+        alert('alertDataToNonContract', SEVERITY.WARNING, [
+          toChecksumHexAddress(to),
+        ]),
       );
     }
   } catch (_) {
     alerts.push(
-      alert('alertCodeCheckFailed', SEVERITY.WARNING, [checksum(to)]),
+      alert('alertCodeCheckFailed', SEVERITY.WARNING, [
+        toChecksumHexAddress(to),
+      ]),
     );
   }
 
@@ -298,31 +307,20 @@ export async function getTransactionAlerts({
     if (call.amount.gte(UNLIMITED)) {
       alerts.push(
         alert('alertUnlimitedApproval', SEVERITY.WARNING, [
-          checksum(call.spender),
+          toChecksumHexAddress(call.spender),
         ]),
       );
     }
     alerts.push(...(await checkSpender({ ...context, spender: call.spender })));
   } else if (call?.kind === 'approveAll' && call.spender && call.approved) {
     alerts.push(
-      alert('alertApproveAllNfts', SEVERITY.DANGER, [checksum(call.spender)]),
+      alert('alertApproveAllNfts', SEVERITY.DANGER, [
+        toChecksumHexAddress(call.spender),
+      ]),
     );
     alerts.push(...(await checkSpender({ ...context, spender: call.spender })));
   }
   return sortAlerts(alerts);
-}
-
-function toBN(value) {
-  if (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0) {
-    return new BN(value);
-  }
-  if (typeof value === 'string' && /^0x[0-9a-f]+$/iu.test(value)) {
-    return new BN(value.slice(2), 16);
-  }
-  if (typeof value === 'string' && /^[0-9]+$/u.test(value)) {
-    return new BN(value, 10);
-  }
-  return undefined;
 }
 
 const isAddress = (value) =>
@@ -348,24 +346,24 @@ export function decodePermit(typedData) {
         return {
           spender,
           unlimited: message.allowed === true,
-          expiry: toBN(message.expiry),
+          expiry: parseQuantity(message.expiry),
           revokes: message.allowed === false,
         };
       }
       return {
         spender,
-        amounts: [toBN(message.value)],
-        expiry: toBN(message.deadline),
+        amounts: [parseQuantity(message.value)],
+        expiry: parseQuantity(message.deadline),
       };
     case 'PermitSingle':
     case 'PermitBatch': {
       const details = [].concat(message.details || []);
       return {
         spender,
-        amounts: details.map((detail) => toBN(detail?.amount)),
+        amounts: details.map((detail) => parseQuantity(detail?.amount)),
         expiry: [
-          toBN(message.sigDeadline),
-          ...details.map((detail) => toBN(detail?.expiration)),
+          parseQuantity(message.sigDeadline),
+          ...details.map((detail) => parseQuantity(detail?.expiration)),
         ].reduce(
           (latest, value) =>
             value && (!latest || value.gt(latest)) ? value : latest,
@@ -381,8 +379,8 @@ export function decodePermit(typedData) {
         spender,
         amounts: []
           .concat(message.permitted || [])
-          .map((permitted) => toBN(permitted?.amount)),
-        expiry: toBN(message.deadline),
+          .map((permitted) => parseQuantity(permitted?.amount)),
+        expiry: parseQuantity(message.deadline),
       };
     default:
       return undefined;
@@ -414,7 +412,7 @@ export async function getTypedDataAlerts({
   if (!permit || permit.revokes) {
     return [];
   }
-  const spender = checksum(permit.spender);
+  const spender = toChecksumHexAddress(permit.spender);
   const alerts = [alert('alertPermitSignature', SEVERITY.WARNING, [spender])];
   if (
     permit.unlimited ||

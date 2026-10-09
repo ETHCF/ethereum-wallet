@@ -6,6 +6,27 @@ import {
   constructPermission,
 } from '@metamask/permission-controller';
 
+import { CAVEAT_TYPES } from '../controllers/permissions/enums';
+
+/**
+ * An ObservableStore-like view of a controller's state, for
+ * ComposableObservableStore.
+ *
+ * @param {object} controller - The controller
+ * @param {Messenger} messenger - The controller's messenger
+ * @param {string} namespace - The controller's messenger namespace
+ * @returns {object} The store view
+ */
+function stateStore(controller, messenger, namespace) {
+  return {
+    getState: () => controller.state,
+    subscribe: (listener) =>
+      messenger.subscribe(`${namespace}:stateChange`, (nextState) =>
+        listener(nextState),
+      ),
+  };
+}
+
 /**
  * Creates the AddressBookController.
  *
@@ -18,17 +39,9 @@ export function createAddressBookController(state) {
   const controller = new AddressBookController({ messenger, state });
   return {
     controller,
-    store: {
-      getState: () => controller.state,
-      subscribe: (listener) =>
-        messenger.subscribe('AddressBookController:stateChange', (nextState) =>
-          listener(nextState),
-        ),
-    },
+    store: stateStore(controller, messenger, 'AddressBookController'),
   };
 }
-
-export const RESTRICT_RETURNED_ACCOUNTS = 'restrictReturnedAccounts';
 
 const APPROVAL_ACTIONS = [
   'addRequest',
@@ -88,8 +101,8 @@ export function createPermissionController({
     state,
     unrestrictedMethods,
     caveatSpecifications: {
-      [RESTRICT_RETURNED_ACCOUNTS]: {
-        type: RESTRICT_RETURNED_ACCOUNTS,
+      [CAVEAT_TYPES.restrictReturnedAccounts]: {
+        type: CAVEAT_TYPES.restrictReturnedAccounts,
         // Sites see only the primary (most recently selected) permitted account.
         decorator: (method, caveat) => async (args) => {
           const accounts = await method(args);
@@ -108,7 +121,7 @@ export function createPermissionController({
       eth_accounts: {
         permissionType: PermissionType.RestrictedMethod,
         targetName: 'eth_accounts',
-        allowedCaveats: [RESTRICT_RETURNED_ACCOUNTS],
+        allowedCaveats: [CAVEAT_TYPES.restrictReturnedAccounts],
         factory: (permissionOptions, requestData) => {
           // Granted directly (not through a request): the caveat is supplied,
           // and the validator below requires it.
@@ -124,7 +137,7 @@ export function createPermissionController({
             ...permissionOptions,
             caveats: [
               {
-                type: RESTRICT_RETURNED_ACCOUNTS,
+                type: CAVEAT_TYPES.restrictReturnedAccounts,
                 value: requestData.approvedAccounts,
               },
             ],
@@ -158,10 +171,10 @@ export function createPermissionController({
           if (
             !caveats ||
             caveats.length !== 1 ||
-            caveats[0].type !== RESTRICT_RETURNED_ACCOUNTS
+            caveats[0].type !== CAVEAT_TYPES.restrictReturnedAccounts
           ) {
             throw new Error(
-              `eth_accounts error: Invalid caveats. There must be a single caveat of type "${RESTRICT_RETURNED_ACCOUNTS}".`,
+              `eth_accounts error: Invalid caveats. There must be a single caveat of type "${CAVEAT_TYPES.restrictReturnedAccounts}".`,
             );
           }
         },
@@ -171,12 +184,6 @@ export function createPermissionController({
 
   return {
     controller,
-    store: {
-      getState: () => controller.state,
-      subscribe: (listener) =>
-        messenger.subscribe('PermissionController:stateChange', (nextState) =>
-          listener(nextState),
-        ),
-    },
+    store: stateStore(controller, messenger, 'PermissionController'),
   };
 }

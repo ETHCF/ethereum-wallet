@@ -10,11 +10,8 @@ type any more, so the wallet would have no name, ticker or RPC endpoint.
 
 import { cloneDeep } from 'lodash';
 
-import {
-  BUILT_IN_NETWORKS,
-  MAINNET,
-  REMOVED_NETWORK_TYPES,
-} from '../controllers/network/enums';
+import moveProviderOffNetworks from './move-provider';
+import { MAINNET, REMOVED_NETWORK_TYPES } from '../controllers/network/enums';
 
 const version = 3;
 
@@ -32,14 +29,5 @@ export default {
 };
 
 function transformState(state) {
-  const provider = state.NetworkController?.provider;
-  if (provider && REMOVED_NETWORK_TYPES.includes(provider.type)) {
-    state.NetworkController.provider = {
-      type: MAINNET,
-      rpcTarget: '',
-      ticker: BUILT_IN_NETWORKS[MAINNET].ticker,
-      nickname: '',
-    };
-  }
-  return state;
+  return moveProviderOffNetworks(state, REMOVED_NETWORK_TYPES, MAINNET);
 }

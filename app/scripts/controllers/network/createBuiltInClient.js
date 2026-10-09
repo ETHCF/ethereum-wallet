@@ -1,20 +1,17 @@
-import { PollingBlockTracker } from '@metamask/eth-block-tracker';
 import {
   createBlockCacheMiddleware,
   createBlockRefMiddleware,
   createBlockTrackerInspectorMiddleware,
-  createFetchMiddleware,
   createInflightCacheMiddleware,
   createRetryOnEmptyMiddleware,
 } from '@metamask/eth-json-rpc-middleware';
-import { providerFromMiddlewareV2 } from '@metamask/eth-json-rpc-provider';
 import {
   asLegacyMiddleware,
   createScaffoldMiddleware,
 } from '@metamask/json-rpc-engine/v2';
 
+import createFetchClient from './createFetchClient';
 import { BUILT_IN_NETWORKS } from './enums';
-import createRpcService from './rpc-service';
 
 /**
  * Creates a client for a built-in network. Its chain and network IDs are
@@ -32,11 +29,8 @@ export default function createBuiltInClient({ network }) {
     throw new Error(`createBuiltInClient - unknown network "${network}"`);
   }
   const rpcUrls = [config.rpcUrl, ...(config.fallbackRpcUrls || [])];
-  const fetchMiddleware = createFetchMiddleware({
-    rpcService: createRpcService({ rpcUrls }),
-  });
-  const fetchProvider = providerFromMiddlewareV2(fetchMiddleware);
-  const blockTracker = new PollingBlockTracker({ provider: fetchProvider });
+  const { fetchMiddleware, provider, blockTracker } =
+    createFetchClient(rpcUrls);
 
   // One engine for the whole chain, so the caches see the fetched results.
   const networkMiddleware = asLegacyMiddleware(
@@ -46,8 +40,8 @@ export default function createBuiltInClient({ network }) {
     }),
     createBlockCacheMiddleware({ blockTracker }),
     createInflightCacheMiddleware(),
-    createBlockRefMiddleware({ blockTracker, provider: fetchProvider }),
-    createRetryOnEmptyMiddleware({ blockTracker, provider: fetchProvider }),
+    createBlockRefMiddleware({ blockTracker, provider }),
+    createRetryOnEmptyMiddleware({ blockTracker, provider }),
     createBlockTrackerInspectorMiddleware({ blockTracker }),
     fetchMiddleware,
   );

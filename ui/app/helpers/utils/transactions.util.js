@@ -10,7 +10,6 @@ import {
   TRANSACTION_STATUS_CONFIRMED,
 } from '../../../../app/scripts/controllers/transactions/enums';
 import createMethodDecoder from '../../../../app/scripts/lib/abi-method-decoder';
-import { getTxExplorerUrl } from '../../../../app/scripts/lib/block-explorer';
 import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums';
 import {
   TOKEN_METHOD_TRANSFER,
@@ -197,17 +196,4 @@ export function getStatusKey(transaction) {
   }
 
   return transaction.status;
-}
-
-/**
- * Returns an external block explorer URL at which a transaction can be viewed.
- *
- * @param {number} networkId - The network the transaction is on.
- * @param {string} hash - The transaction hash.
- * @param {object} rpcPrefs - The network's RPC preferences, which may include
- * a block explorer URL.
- * @returns {string} The explorer URL, or an empty string if there is none.
- */
-export function getBlockExplorerUrlForTx(networkId, hash, rpcPrefs = {}) {
-  return getTxExplorerUrl(hash, networkId, rpcPrefs);
 }

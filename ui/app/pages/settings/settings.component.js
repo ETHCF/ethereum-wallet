@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { Route, Routes, matchPath } from 'react-router-dom';
 
-import AdvancedTab from './advanced-tab';
 import InfoTab from './info-tab';
 import NetworksTab from './networks-tab';
 import SecurityTab from './security-tab';
@@ -117,15 +116,6 @@ class SettingsPage extends PureComponent {
     return (
       <Routes>
         <Route
-          path={toRelativeRoutePath(GENERAL_ROUTE, SETTINGS_ROUTE)}
-          element={
-            <>
-              <SettingsTab />
-              <AdvancedTab />
-            </>
-          }
-        />
-        <Route
           path={toRelativeRoutePath(ABOUT_US_ROUTE, SETTINGS_ROUTE)}
           element={<InfoTab />}
         />
@@ -137,15 +127,7 @@ class SettingsPage extends PureComponent {
           path={toRelativeRoutePath(SECURITY_ROUTE, SETTINGS_ROUTE)}
           element={<SecurityTab />}
         />
-        <Route
-          path="*"
-          element={
-            <>
-              <SettingsTab />
-              <AdvancedTab />
-            </>
-          }
-        />
+        <Route path="*" element={<SettingsTab />} />
       </Routes>
     );
   }

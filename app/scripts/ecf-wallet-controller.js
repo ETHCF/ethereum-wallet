@@ -74,7 +74,7 @@ import TypedMessageManager, {
  * @param {object} sender - The connecting extension's MessageSender.
  * @returns {string} Its origin, such as chrome-extension://<id>.
  */
-export function externalExtensionOrigin(sender) {
+function externalExtensionOrigin(sender) {
   if (sender.origin && /^[a-z-]+-extension:\/\//u.test(sender.origin)) {
     return sender.origin;
   }
@@ -868,11 +868,7 @@ export default class EcfWalletController extends EventEmitter {
         ethQuery,
       ).catch(() => '0x0');
 
-      const primaryKeyring =
-        keyringController.getKeyringsByType('HD Key Tree')[0];
-      if (!primaryKeyring) {
-        throw new Error('EcfWalletController - No HD Key Tree found');
-      }
+      const primaryKeyring = this._getPrimaryKeyring();
 
       // Add accounts until one has no balance. The vault is already replaced,
       // so if the network fails, or never reports an empty account, keep the
@@ -1150,24 +1146,10 @@ export default class EcfWalletController extends EventEmitter {
     const keyring = await this.getKeyringForDevice(deviceName, hdPath);
 
     keyring.setAccountToUnlock(index);
-    const oldAccounts = await this.keyringController.getAccounts();
-    const keyState = await this.keyringController.addNewAccount(keyring);
-    const newAccounts = await this.keyringController.getAccounts();
-    this.preferencesController.setAddresses(newAccounts);
-    newAccounts.forEach((address) => {
-      if (!oldAccounts.includes(address)) {
-        // Set the account label to Trezor 1 /  Ledger 1, etc
-        this.preferencesController.setAccountLabel(
-          address,
-          `${deviceName[0].toUpperCase()}${deviceName.slice(1)} ${parseInt(index, 10) + 1}`,
-        );
-        // Select the account
-        this.preferencesController.setSelectedAddress(address);
-      }
+    return this._addAccount(keyring, {
+      // Label the account Trezor 1 / Ledger 1, etc
+      label: `${deviceName[0].toUpperCase()}${deviceName.slice(1)} ${parseInt(index, 10) + 1}`,
     });
-
-    const { identities } = this.preferencesController.store.getState();
-    return { ...keyState, identities };
   }
 
   //
@@ -1180,27 +1162,57 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<object>} keyState
    */
   async addNewAccount() {
+    return this._addAccount(this._getPrimaryKeyring(), {
+      verifySeedPhrase: true,
+    });
+  }
+
+  /**
+   * Adds an account to a keyring, records it in preferences and selects it.
+   *
+   * @param {object} keyring - The keyring to add the account to.
+   * @param {object} [options] - Options.
+   * @param {string} [options.label] - A label for the new account.
+   * @param {boolean} [options.verifySeedPhrase] - Whether to check the seed
+   * phrase before the new account is recorded.
+   * @returns {Promise<object>} keyState
+   */
+  async _addAccount(keyring, { label, verifySeedPhrase = false } = {}) {
+    const { keyringController, preferencesController } = this;
+    const oldAccounts = await keyringController.getAccounts();
+    const keyState = await keyringController.addNewAccount(keyring);
+    const newAccounts = await keyringController.getAccounts();
+
+    if (verifySeedPhrase) {
+      await this.verifySeedPhrase();
+    }
+
+    preferencesController.setAddresses(newAccounts);
+    newAccounts.forEach((address) => {
+      if (!oldAccounts.includes(address)) {
+        if (label) {
+          preferencesController.setAccountLabel(address, label);
+        }
+        preferencesController.setSelectedAddress(address);
+      }
+    });
+
+    const { identities } = preferencesController.store.getState();
+    return { ...keyState, identities };
+  }
+
+  /**
+   * Returns the first HD seed phrase keyring.
+   *
+   * @returns {object} The primary keyring.
+   */
+  _getPrimaryKeyring() {
     const primaryKeyring =
       this.keyringController.getKeyringsByType('HD Key Tree')[0];
     if (!primaryKeyring) {
       throw new Error('EcfWalletController - No HD Key Tree found');
     }
-    const { keyringController } = this;
-    const oldAccounts = await keyringController.getAccounts();
-    const keyState = await keyringController.addNewAccount(primaryKeyring);
-    const newAccounts = await keyringController.getAccounts();
-
-    await this.verifySeedPhrase();
-
-    this.preferencesController.setAddresses(newAccounts);
-    newAccounts.forEach((address) => {
-      if (!oldAccounts.includes(address)) {
-        this.preferencesController.setSelectedAddress(address);
-      }
-    });
-
-    const { identities } = this.preferencesController.store.getState();
-    return { ...keyState, identities };
+    return primaryKeyring;
   }
 
   /**
@@ -1259,11 +1271,7 @@ export default class EcfWalletController extends EventEmitter {
    * @returns {Promise<string>} The verified seed phrase.
    */
   async _getVerifiedSeedPhrase() {
-    const primaryKeyring =
-      this.keyringController.getKeyringsByType('HD Key Tree')[0];
-    if (!primaryKeyring) {
-      throw new Error('EcfWalletController - No HD Key Tree found');
-    }
+    const primaryKeyring = this._getPrimaryKeyring();
 
     const serialized = await primaryKeyring.serialize();
     // The keyring serializes its mnemonic as UTF-8 bytes.

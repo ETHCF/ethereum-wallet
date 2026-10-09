@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/ui/button';
+import PageContainerFooter from '../../components/ui/page-container/page-container-footer';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import { getNetworkDisplayName } from '../../helpers/utils/network-display';
 import { useI18nContext } from '../../hooks/useI18nContext';
@@ -163,34 +164,19 @@ export default function ConfirmNetworkRequest() {
         )}
         {error && <div className="confirm-network-request__error">{error}</div>}
       </div>
-      <div className="page-container__footer">
-        <footer>
-          <Button
-            type="default"
-            large
-            className="page-container__footer-button"
-            data-testid="network-request-reject"
-            disabled={submitting}
-            onClick={() => respond(rejectNetworkRequest)}
-          >
-            {t('reject')}
-          </Button>
-          <Button
-            type="secondary"
-            large
-            className="page-container__footer-button"
-            data-testid="network-request-approve"
-            disabled={submitting}
-            onClick={() => respond(approveNetworkRequest)}
-          >
-            {t(
-              isAdd
-                ? 'networkRequestApproveAdd'
-                : 'networkRequestApproveSwitch',
-            )}
-          </Button>
-        </footer>
-      </div>
+      <PageContainerFooter
+        onCancel={() => respond(rejectNetworkRequest)}
+        onSubmit={() => respond(approveNetworkRequest)}
+        cancelText={t('reject')}
+        submitText={t(
+          isAdd ? 'networkRequestApproveAdd' : 'networkRequestApproveSwitch',
+        )}
+        disabled={submitting}
+        cancelDisabled={submitting}
+        cancelTestId="network-request-reject"
+        submitTestId="network-request-approve"
+        buttonSizeLarge
+      />
     </div>
   );
 }

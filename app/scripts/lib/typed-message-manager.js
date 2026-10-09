@@ -1,6 +1,5 @@
 import { isValidAddress } from '@ethereumjs/util';
 import assert from 'assert';
-import BN from 'bn.js';
 import jsonschema from 'jsonschema';
 import log from 'loglevel';
 
@@ -12,6 +11,7 @@ import {
   canonicalizeTypedData,
   validateTypedData,
 } from './signing-utils';
+import { parseQuantity } from './util';
 
 /**
  * Canonicalizes eth_signTypedData data as sent by a site: V1 as an array, V3
@@ -205,16 +205,9 @@ export default class TypedMessageManager extends BaseMessageManager {
         const activeChainId = this.getChainId();
         if (chainId !== undefined) {
           const chainQuantity = (value) => {
-            const text = String(value);
-            assert.ok(
-              (typeof value === 'string' || Number.isSafeInteger(value)) &&
-                /^(?:0x[0-9a-f]+|[0-9]+)$/iu.test(text),
-              'Invalid chain ID',
-            );
-            return new BN(
-              text.replace(/^0x/iu, ''),
-              /^0x/iu.test(text) ? 16 : 10,
-            );
+            const quantity = parseQuantity(value);
+            assert.ok(quantity, 'Invalid chain ID');
+            return quantity;
           };
           assert.ok(
             chainQuantity(chainId).eq(chainQuantity(activeChainId)),

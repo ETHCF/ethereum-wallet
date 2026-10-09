@@ -8,6 +8,28 @@ export const MAX_ICON_URL_LENGTH = 2048;
 export const MAX_ICON_DATA_URL_LENGTH = 32 * 1024;
 
 /**
+ * Returns a request's first param, which must be a plain object.
+ *
+ * @param {Array} [params] - The request params.
+ * @param {string} message - The error message if the param is invalid.
+ * @param {object} [options] - Options.
+ * @param {boolean} [options.nonEmpty] - Whether the object needs a key.
+ * @returns {object} The first param.
+ */
+function firstObjectParam(params, message, { nonEmpty = false } = {}) {
+  const [value] = Array.isArray(params) ? params : [];
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    Array.isArray(value) ||
+    (nonEmpty && Object.keys(value).length === 0)
+  ) {
+    throw rpcErrors.invalidParams({ message, data: params });
+  }
+  return value;
+}
+
+/**
  * Keeps the site name and icon a page sends within sizes worth storing. The
  * metadata is persisted with the wallet's state, so a page sending large
  * values, from many subdomains or frames, would otherwise bloat and slow every
@@ -175,17 +197,10 @@ export default function createPermissionsMethodMiddleware({
 
       // EIP-2255. Only eth_accounts can be requested.
       case 'wallet_requestPermissions': {
-        const [requested] = Array.isArray(req.params) ? req.params : [];
-        if (
-          !requested ||
-          typeof requested !== 'object' ||
-          Array.isArray(requested)
-        ) {
-          throw rpcErrors.invalidParams({
-            message: 'Expected an object of requested permissions.',
-            data: req.params,
-          });
-        }
+        const requested = firstObjectParam(
+          req.params,
+          'Expected an object of requested permissions.',
+        );
         res.result = await requestPermissions(requested);
         notifyAccountsChanged(await getAccounts());
         return;
@@ -193,18 +208,11 @@ export default function createPermissionsMethodMiddleware({
 
       // A site giving up permissions it holds, such as when it disconnects.
       case 'wallet_revokePermissions': {
-        const [revoked] = Array.isArray(req.params) ? req.params : [];
-        if (
-          !revoked ||
-          typeof revoked !== 'object' ||
-          Array.isArray(revoked) ||
-          Object.keys(revoked).length === 0
-        ) {
-          throw rpcErrors.invalidParams({
-            message: 'Expected a non-empty object of permissions to revoke.',
-            data: req.params,
-          });
-        }
+        const revoked = firstObjectParam(
+          req.params,
+          'Expected a non-empty object of permissions to revoke.',
+          { nonEmpty: true },
+        );
         revokePermissions(Object.keys(revoked));
         res.result = null;
         return;

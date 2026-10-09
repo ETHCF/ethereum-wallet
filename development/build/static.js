@@ -59,28 +59,20 @@ const copyTargets = [
 ];
 
 function createStaticAssetTasks({ livereload, browserPlatforms }) {
-  const prod = createTask(
-    'static:prod',
-    composeSeries(
-      ...copyTargets.map((target) => {
-        return async function copyStaticAssets() {
-          await performCopy(target);
-        };
-      }),
-    ),
-  );
-  const dev = createTask(
-    'static:dev',
-    composeSeries(
-      ...copyTargets.map((target) => {
-        return async function copyStaticAssets() {
-          await setupLiveCopy(target);
-        };
-      }),
-    ),
-  );
+  const prod = createTask('static:prod', copyEachTarget(performCopy));
+  const dev = createTask('static:dev', copyEachTarget(setupLiveCopy));
 
   return { dev, prod };
+
+  function copyEachTarget(copy) {
+    return composeSeries(
+      ...copyTargets.map((target) => {
+        return async function copyStaticAssets() {
+          await copy(target);
+        };
+      }),
+    );
+  }
 
   async function setupLiveCopy(target) {
     const pattern = target.pattern || '/**/*';

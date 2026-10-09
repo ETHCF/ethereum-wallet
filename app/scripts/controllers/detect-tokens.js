@@ -32,10 +32,36 @@ export default class DetectTokensController {
     network,
     keyringMemStore,
   } = {}) {
-    this.preferences = preferences;
+    this._preferences = preferences;
+    this._network = network;
+    if (preferences) {
+      const currentTokens = preferences.store.getState().tokens;
+      this.tokenAddresses = currentTokens
+        ? currentTokens.map((token) => token.address)
+        : [];
+      preferences.store.subscribe(({ tokens = [] }) => {
+        this.tokenAddresses = tokens.map((token) => {
+          return token.address;
+        });
+      });
+      // When selectedAddress changes, detectNewTokens and restart polling.
+      preferences.store.subscribe(({ selectedAddress }) => {
+        if (this.selectedAddress !== selectedAddress) {
+          this.selectedAddress = selectedAddress;
+          this.restartTokenDetection();
+        }
+      });
+    }
     this.interval = interval;
-    this.network = network;
-    this.keyringMemStore = keyringMemStore;
+    // When the wallet unlocks, detectNewTokens and restart polling.
+    keyringMemStore?.subscribe(({ isUnlocked }) => {
+      if (this.isUnlocked !== isUnlocked) {
+        this.isUnlocked = isUnlocked;
+        if (isUnlocked) {
+          this.restartTokenDetection();
+        }
+      }
+    });
   }
 
   /**
@@ -118,64 +144,6 @@ export default class DetectTokensController {
     this._handle = setInterval(() => {
       this.detectNewTokens();
     }, interval);
-  }
-
-  /**
-   * In setter when selectedAddress is changed, detectNewTokens and restart polling
-   *
-   * @type {object}
-   */
-  set preferences(preferences) {
-    if (!preferences) {
-      return;
-    }
-    this._preferences = preferences;
-    const currentTokens = preferences.store.getState().tokens;
-    this.tokenAddresses = currentTokens
-      ? currentTokens.map((token) => token.address)
-      : [];
-    preferences.store.subscribe(({ tokens = [] }) => {
-      this.tokenAddresses = tokens.map((token) => {
-        return token.address;
-      });
-    });
-    preferences.store.subscribe(({ selectedAddress }) => {
-      if (this.selectedAddress !== selectedAddress) {
-        this.selectedAddress = selectedAddress;
-        this.restartTokenDetection();
-      }
-    });
-  }
-
-  /**
-   * Sets the network controller used to check the current network.
-   *
-   * @type {object}
-   */
-  set network(network) {
-    if (!network) {
-      return;
-    }
-    this._network = network;
-  }
-
-  /**
-   * In setter when isUnlocked is updated to true, detectNewTokens and restart polling
-   *
-   * @type {object}
-   */
-  set keyringMemStore(keyringMemStore) {
-    if (!keyringMemStore) {
-      return;
-    }
-    keyringMemStore.subscribe(({ isUnlocked }) => {
-      if (this.isUnlocked !== isUnlocked) {
-        this.isUnlocked = isUnlocked;
-        if (isUnlocked) {
-          this.restartTokenDetection();
-        }
-      }
-    });
   }
 
   /**

@@ -95,12 +95,16 @@ export default class ModernKeyringController extends EventEmitter {
     return this.fullUpdate();
   }
 
-  async verifyPassword(password) {
+  _getVault() {
     const { vault } = this.store.getState();
     if (!vault) {
       throw new Error('Cannot unlock without a previous vault.');
     }
-    await this.encryptor.decrypt(password, vault);
+    return vault;
+  }
+
+  async verifyPassword(password) {
+    await this.encryptor.decrypt(password, this._getVault());
   }
 
   getKeyringClassForType(type) {
@@ -208,11 +212,7 @@ export default class ModernKeyringController extends EventEmitter {
     const generation = this.vaultGeneration;
     await this.vaultWrites;
     this.assertVaultGeneration(generation);
-    const { vault } = this.store.getState();
-    if (!vault) {
-      throw new Error('Cannot unlock without a previous vault.');
-    }
-    const serialized = await this.encryptor.decrypt(password, vault);
+    const serialized = await this.encryptor.decrypt(password, this._getVault());
     this.assertVaultGeneration(generation);
     const keyrings = await Promise.all(
       serialized.map(async ({ type, data }) => {
@@ -243,13 +243,12 @@ export default class ModernKeyringController extends EventEmitter {
 
   async checkForDuplicate(type, newAccounts) {
     if (type !== SIMPLE_KEY_PAIR) {
-      return newAccounts;
+      return;
     }
     const accounts = await this.getAccounts();
     if (accounts.includes(normalizeAddress(newAccounts[0]))) {
       throw new Error("The account you're are trying to import is a duplicate");
     }
-    return newAccounts;
   }
 
   displayForKeyring(keyring) {

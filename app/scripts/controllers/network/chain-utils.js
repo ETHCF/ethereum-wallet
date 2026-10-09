@@ -3,14 +3,14 @@ import { rpcErrors } from '@metamask/rpc-errors';
 import { BUILT_IN_NETWORKS, BUILT_IN_NETWORK_TYPES } from './enums';
 
 // Chain IDs larger than this cannot be represented in all Ethereum tooling.
-export const MAX_SAFE_CHAIN_ID = 4503599627370476;
+const MAX_SAFE_CHAIN_ID = 4503599627370476;
 
 /**
  * Well-known networks that are not built in, used only to warn when a site
  * describes one of them with a different currency. Nothing here is fetched
  * from the network.
  */
-export const KNOWN_CHAINS = {
+const KNOWN_CHAINS = {
   '0x64': { name: 'Gnosis', symbols: ['XDAI', 'xDAI'] },
   '0xfa': { name: 'Fantom', symbols: ['FTM', 'S'] },
   '0xa4ba': { name: 'Arbitrum Nova', symbols: ['ETH'] },
@@ -68,7 +68,7 @@ const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '[::1]']);
  * @param {boolean} allowLocalHttp - Whether http://localhost is acceptable.
  * @returns {URL|undefined} The parsed URL, if acceptable.
  */
-export function parseSafeUrl(value, allowLocalHttp) {
+function parseSafeUrl(value, allowLocalHttp) {
   if (typeof value !== 'string' || value.length > 2048) {
     return undefined;
   }

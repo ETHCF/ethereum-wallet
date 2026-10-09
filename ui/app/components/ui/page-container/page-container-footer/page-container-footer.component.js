@@ -12,6 +12,9 @@ export default class PageContainerFooter extends Component {
     onSubmit: PropTypes.func,
     submitText: PropTypes.string,
     disabled: PropTypes.bool,
+    cancelDisabled: PropTypes.bool,
+    cancelTestId: PropTypes.string,
+    submitTestId: PropTypes.string,
     submitButtonType: PropTypes.string,
     hideCancel: PropTypes.bool,
     buttonSizeLarge: PropTypes.bool,
@@ -29,6 +32,9 @@ export default class PageContainerFooter extends Component {
       onSubmit,
       submitText,
       disabled,
+      cancelDisabled,
+      cancelTestId = 'page-container-footer-cancel',
+      submitTestId = 'page-container-footer-next',
       submitButtonType,
       hideCancel,
       cancelButtonType,
@@ -43,8 +49,9 @@ export default class PageContainerFooter extends Component {
               type={cancelButtonType || 'default'}
               large={buttonSizeLarge}
               className="page-container__footer-button"
+              disabled={cancelDisabled}
               onClick={(e) => onCancel(e)}
-              data-testid="page-container-footer-cancel"
+              data-testid={cancelTestId}
             >
               {cancelText || this.context.t('cancel')}
             </Button>
@@ -56,7 +63,7 @@ export default class PageContainerFooter extends Component {
             className="page-container__footer-button"
             disabled={disabled}
             onClick={(e) => onSubmit(e)}
-            data-testid="page-container-footer-next"
+            data-testid={submitTestId}
           >
             {submitText || this.context.t('next')}
           </Button>

@@ -2,7 +2,7 @@ const { promises: fs } = require('fs');
 const { merge, cloneDeep } = require('lodash');
 const path = require('path');
 
-const { createTask, composeSeries } = require('./task');
+const { createTask } = require('./task');
 const baseManifest = require('../../app/manifest/_base.json');
 
 module.exports = createManifestTasks;
@@ -31,12 +31,9 @@ function createManifestTasks({ browserPlatforms }) {
   };
 
   // high level manifest tasks
-  const dev = createTask('manifest:dev', composeSeries(prepPlatforms));
-
-  const testDev = createTask('manifest:testDev', composeSeries(prepPlatforms));
-
-  const test = createTask('manifest:test', composeSeries(prepPlatforms));
-
+  const dev = createTask('manifest:dev', prepPlatforms);
+  const testDev = createTask('manifest:testDev', prepPlatforms);
+  const test = createTask('manifest:test', prepPlatforms);
   const prod = createTask('manifest:prod', prepPlatforms);
 
   return { prod, dev, testDev, test };

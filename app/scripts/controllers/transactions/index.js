@@ -38,6 +38,7 @@ import {
   isFeeMarketTransaction,
   replacementFees,
 } from '../../lib/transaction-fees';
+import { bnToHex, hexToBn } from '../../lib/util';
 
 const decodeTokenMethod = createMethodDecoder(abi);
 
@@ -47,6 +48,21 @@ const SIMPLE_GAS_COST = '0x5208'; // Hex for 21000, cost of a simple send.
 const FEE_HISTORY_BLOCKS = 5;
 const PRIORITY_FEE_PERCENTILE = 20;
 const MAX_MEMSTORE_TX_LIST_SIZE = 100; // Number of transactions (by unique nonces) to keep in memory
+
+/**
+ * Applies default fees to tx params; fee-market params drop any gas price.
+ *
+ * @param {object} txParams - The tx params, modified in place
+ * @param {object} fees - The fee fields to apply
+ * @returns {object} The tx params
+ */
+function applyFees(txParams, fees) {
+  Object.assign(txParams, fees);
+  if (isFeeMarketTransaction(txParams)) {
+    delete txParams.gasPrice;
+  }
+  return txParams;
+}
 
 /**
  * Transaction Controller is an aggregate of sub-controllers and trackers
@@ -324,20 +340,14 @@ export default class TransactionController extends EventEmitter {
    */
   async addTxGasDefaults(txMeta, getCodeResponse) {
     const fees = await this._getDefaultFees(txMeta);
-    txMeta.txParams = { ...txMeta.txParams, ...fees };
-    if (isFeeMarketTransaction(txMeta.txParams)) {
-      delete txMeta.txParams.gasPrice;
-    }
+    txMeta.txParams = applyFees({ ...txMeta.txParams }, fees);
     txUtils.validateTxParams(txMeta.txParams);
     const { gasLimit: defaultGasLimit, simulationFails } =
       await this._getDefaultGasLimit(txMeta, getCodeResponse);
 
     // eslint-disable-next-line no-param-reassign
     txMeta = this.txStateManager.getTx(txMeta.id);
-    Object.assign(txMeta.txParams, fees);
-    if (isFeeMarketTransaction(txMeta.txParams)) {
-      delete txMeta.txParams.gasPrice;
-    }
+    applyFees(txMeta.txParams, fees);
     if (simulationFails) {
       txMeta.simulationFails = simulationFails;
     }
@@ -350,8 +360,8 @@ export default class TransactionController extends EventEmitter {
   async _getDefaultFees({ txParams: params, origin }) {
     const requestedType =
       params.type === undefined ? undefined : Number(params.type);
-    const feeMarket =
-      isFeeMarketTransaction(params) || params.authorizationList !== undefined;
+    // Normalization types an authorization list as 0x4, which is fee market.
+    const feeMarket = isFeeMarketTransaction(params);
     // An explicit legacy envelope/price remains a supported choice. The send
     // form's suggested legacy price is replaced by caps on London networks.
     if (
@@ -359,14 +369,10 @@ export default class TransactionController extends EventEmitter {
       ([0, 1].includes(requestedType) ||
         (params.gasPrice && origin !== 'ecf-wallet'))
     ) {
-      return {
-        gasPrice:
-          params.gasPrice ||
-          (await this._getDefaultGasPrice({ txParams: params })),
-        ...(params.accessList && requestedType === undefined
-          ? { type: '0x1' }
-          : {}),
-      };
+      return this._getLegacyFees(
+        params,
+        params.accessList && requestedType === undefined,
+      );
     }
     const block = await this.query.getBlockByNumber('latest', false);
     if (!block || block.baseFeePerGas === undefined) {
@@ -375,38 +381,42 @@ export default class TransactionController extends EventEmitter {
           'The selected network does not support EIP-1559 transactions',
         );
       }
-      return {
-        gasPrice:
-          params.gasPrice ||
-          (await this._getDefaultGasPrice({ txParams: params })),
-        ...(params.accessList ? { type: '0x1' } : {}),
-      };
+      return this._getLegacyFees(params, params.accessList);
     }
-    if (
-      (requestedType === 4 || params.authorizationList) &&
-      !block.requestsHash
-    ) {
+    if (requestedType === 4 && !block.requestsHash) {
       throw new Error('EIP-7702 requires a network with Prague support');
     }
-    const baseFee = new BN(block.baseFeePerGas.replace(/^0x/u, ''), 16);
+    const baseFee = hexToBn(block.baseFeePerGas);
     let priority = params.maxPriorityFeePerGas;
     if (!priority) {
       priority = await this._getSuggestedPriorityFee(baseFee);
 
       // A dapp may supply just a cap, including a cap below the suggested tip.
       if (params.maxFeePerGas) {
-        priority = `0x${BN.min(new BN(priority.slice(2), 16), new BN(params.maxFeePerGas.slice(2), 16)).toString(16)}`;
+        priority = bnToHex(
+          BN.min(hexToBn(priority), hexToBn(params.maxFeePerGas)),
+        );
       }
     }
     return {
-      type: requestedType === 4 || params.authorizationList ? '0x4' : '0x2',
+      type: requestedType === 4 ? '0x4' : '0x2',
       maxPriorityFeePerGas: priority,
       maxFeePerGas:
-        params.maxFeePerGas ||
-        `0x${baseFee
-          .muln(2)
-          .add(new BN(priority.slice(2), 16))
-          .toString(16)}`,
+        params.maxFeePerGas || bnToHex(baseFee.muln(2).add(hexToBn(priority))),
+    };
+  }
+
+  /**
+   * Legacy fees: the requested gas price, or the node's suggestion.
+   *
+   * @param {object} params - The transaction params
+   * @param {boolean} accessListType - Whether to mark the envelope as type 0x1
+   * @returns {Promise<object>} The fee fields
+   */
+  async _getLegacyFees(params, accessListType) {
+    return {
+      gasPrice: params.gasPrice || (await this.query.gasPrice()),
+      ...(accessListType ? { type: '0x1' } : {}),
     };
   }
 
@@ -422,7 +432,7 @@ export default class TransactionController extends EventEmitter {
   async _getSuggestedPriorityFee(baseFee) {
     const toBN = (hex) => {
       txUtils.validateEnvelope({ maxPriorityFeePerGas: hex });
-      return new BN(hex.slice(2), 16);
+      return hexToBn(hex);
     };
     const suggestions = await Promise.all([
       this._sendRpc('eth_maxPriorityFeePerGas', [])
@@ -444,10 +454,10 @@ export default class TransactionController extends EventEmitter {
     ]);
     const valid = suggestions.filter(Boolean);
     if (valid.length) {
-      return `0x${valid.reduce((a, b) => BN.max(a, b)).toString(16)}`;
+      return bnToHex(valid.reduce((a, b) => BN.max(a, b)));
     }
     const price = await this.query.gasPrice();
-    return `0x${BN.max(new BN(price.replace(/^0x/u, ''), 16).sub(baseFee), new BN(1000000000)).toString(16)}`;
+    return bnToHex(BN.max(hexToBn(price).sub(baseFee), new BN(1000000000)));
   }
 
   _sendRpc(method, params) {
@@ -472,19 +482,6 @@ export default class TransactionController extends EventEmitter {
       getConfirmedTransactions:
         this.txStateManager.getConfirmedTransactions.bind(this.txStateManager),
     });
-  }
-
-  /**
-   * Gets default gas price, or returns `undefined` if gas price is already set
-   *
-   * @param {object} txMeta - The txMeta object
-   * @returns {Promise<string|undefined>} The default gas price
-   */
-  async _getDefaultGasPrice(txMeta) {
-    if (txMeta.txParams.gasPrice) {
-      return undefined;
-    }
-    return await this.query.gasPrice();
   }
 
   /**

@@ -1,10 +1,8 @@
 import { stripHexPrefix } from '@ethereumjs/util';
-import { encode } from '@metamask/abi-utils';
 import BN from 'bn.js';
 
-import { decodeArguments, functionSelector } from './abi-method-decoder';
-
-const BALANCES_SELECTOR = functionSelector('balances(address[],address[])');
+import { decodeArguments } from './abi-method-decoder';
+import { encodeCall } from './contract-call';
 
 /**
  * Reads balances from a deployed single-call balance checker contract.
@@ -22,11 +20,11 @@ export default async function getSingleCallBalances(
   users,
   tokens,
 ) {
-  const args = Buffer.from(
-    encode(['address[]', 'address[]'], [users, tokens]),
-  ).toString('hex');
   const result = await query.call(
-    { to: contractAddress, data: `0x${BALANCES_SELECTOR}${args}` },
+    {
+      to: contractAddress,
+      data: encodeCall('balances(address[],address[])', [users, tokens]),
+    },
     'latest',
   );
   const [balances = []] =

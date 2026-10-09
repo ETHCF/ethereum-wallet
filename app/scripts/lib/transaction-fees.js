@@ -1,5 +1,7 @@
 import BN from 'bn.js';
 
+import { bnToHex, hexToBn } from './util';
+
 export function gasPriceForTransaction(params = {}, receipt = {}) {
   return (
     receipt.effectiveGasPrice || params.maxFeePerGas || params.gasPrice || '0x0'
@@ -15,9 +17,9 @@ export function isFeeMarketTransaction(params = {}) {
 }
 
 export function bumpFee(hex) {
-  const value = new BN(hex.replace(/^0x/u, ''), 16);
+  const value = hexToBn(hex);
   // Round up; zero also needs a nonzero bump for replacement transactions.
-  return `0x${BN.max(value.muln(11).addn(9).divn(10), value.addn(1)).toString(16)}`;
+  return bnToHex(BN.max(value.muln(11).addn(9).divn(10), value.addn(1)));
 }
 
 export function replacementFees(params, customFee) {
@@ -27,12 +29,8 @@ export function replacementFees(params, customFee) {
   const maxPriorityFeePerGas = bumpFee(params.maxPriorityFeePerGas);
   const minimum = bumpFee(params.maxFeePerGas);
   const maxFeePerGas = customFee || minimum;
-  if (
-    new BN(maxFeePerGas.slice(2), 16).lt(new BN(minimum.slice(2), 16)) ||
-    new BN(maxFeePerGas.slice(2), 16).lt(
-      new BN(maxPriorityFeePerGas.slice(2), 16),
-    )
-  ) {
+  const maxFee = hexToBn(maxFeePerGas);
+  if (maxFee.lt(hexToBn(minimum)) || maxFee.lt(hexToBn(maxPriorityFeePerGas))) {
     throw new Error(
       'Replacement maximum fee must cover the increased fee cap and priority fee.',
     );

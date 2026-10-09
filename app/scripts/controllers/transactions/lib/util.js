@@ -1,7 +1,7 @@
 import { addHexPrefix, isValidAddress } from '@ethereumjs/util';
-import BN from 'bn.js';
 
 import { isFeeMarketTransaction } from '../../../lib/transaction-fees';
+import { hexToBn } from '../../../lib/util';
 
 const normalizers = {
   from: (from) => addHexPrefix(from),
@@ -12,13 +12,17 @@ const normalizers = {
   data: (data) => addHexPrefix(data),
   gas: (gas) => addHexPrefix(gas),
   gasPrice: (gasPrice) => addHexPrefix(gasPrice),
-  type: (value) => value,
-  chainId: (value) => value,
-  maxFeePerGas: (value) => value,
-  maxPriorityFeePerGas: (value) => value,
-  accessList: (value) => value,
-  authorizationList: (value) => value,
 };
+
+// Copied as-is, even when falsy, for validateEnvelope to check.
+const PASSTHROUGH_FIELDS = [
+  'type',
+  'chainId',
+  'maxFeePerGas',
+  'maxPriorityFeePerGas',
+  'accessList',
+  'authorizationList',
+];
 
 /**
  * Normalizes the given txParams
@@ -41,22 +45,16 @@ export function normalizeTxParams(txParams, lowerCase = true) {
       throw new Error('Blob transactions are not supported');
     }
   }
-  // apply only keys in the normalizers
+  // apply only known keys
   const normalizedTxParams = {};
   for (const key in normalizers) {
-    if (
-      txParams[key] !== undefined &&
-      (txParams[key] ||
-        [
-          'type',
-          'chainId',
-          'maxFeePerGas',
-          'maxPriorityFeePerGas',
-          'accessList',
-          'authorizationList',
-        ].includes(key))
-    ) {
+    if (txParams[key]) {
       normalizedTxParams[key] = normalizers[key](txParams[key], lowerCase);
+    }
+  }
+  for (const key of PASSTHROUGH_FIELDS) {
+    if (txParams[key] !== undefined) {
+      normalizedTxParams[key] = txParams[key];
     }
   }
   if (normalizedTxParams.type === undefined) {
@@ -130,9 +128,7 @@ export function validateEnvelope(params) {
   if (
     params.maxFeePerGas &&
     params.maxPriorityFeePerGas &&
-    new BN(params.maxFeePerGas.slice(2), 16).lt(
-      new BN(params.maxPriorityFeePerGas.slice(2), 16),
-    )
+    hexToBn(params.maxFeePerGas).lt(hexToBn(params.maxPriorityFeePerGas))
   ) {
     throw new Error('Maximum fee must be at least the priority fee');
   }

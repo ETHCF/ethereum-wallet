@@ -21,6 +21,7 @@ import {
 } from './lib/phishing-warnings';
 import EcfWalletController from './ecf-wallet-controller';
 import rawFirstTimeState from './first-time-state';
+import { getAutoLockDeadline } from './lib/auto-lock';
 import ClipboardCleaner from './lib/clipboard-cleaner';
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code';
 import setupEnsIpfsResolver from './lib/ens-ipfs/setup';
@@ -141,18 +142,6 @@ function isOwnExtensionPage(sender) {
     sender?.id === extension.runtime.id &&
     sender.url?.startsWith(extension.runtime.getURL('')),
   );
-}
-
-/**
- * When the wallet locks itself after being left inactive.
- *
- * @param {object} appState - The AppStateController state.
- * @param {number} [appState.timeoutMinutes] - The auto-lock timeout, if set.
- * @param {number} appState.lastActiveTime - When the user was last active.
- * @returns {number | null} The time to lock at, or null if auto-lock is off.
- */
-function getAutoLockDeadline({ timeoutMinutes, lastActiveTime }) {
-  return timeoutMinutes ? lastActiveTime + timeoutMinutes * 60000 : null;
 }
 
 /**

@@ -8,8 +8,8 @@ Goerli) to Sepolia, since those networks are no longer built in.
 
 import { cloneDeep } from 'lodash';
 
+import moveProviderOffNetworks from './move-provider';
 import {
-  BUILT_IN_NETWORKS,
   DEPRECATED_NETWORK_TYPES,
   SEPOLIA,
 } from '../controllers/network/enums';
@@ -30,14 +30,5 @@ export default {
 };
 
 function transformState(state) {
-  const provider = state.NetworkController?.provider;
-  if (provider && DEPRECATED_NETWORK_TYPES.includes(provider.type)) {
-    state.NetworkController.provider = {
-      type: SEPOLIA,
-      rpcTarget: '',
-      ticker: BUILT_IN_NETWORKS[SEPOLIA].ticker,
-      nickname: '',
-    };
-  }
-  return state;
+  return moveProviderOffNetworks(state, DEPRECATED_NETWORK_TYPES, SEPOLIA);
 }

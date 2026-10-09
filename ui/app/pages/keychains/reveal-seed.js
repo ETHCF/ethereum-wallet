@@ -7,6 +7,7 @@ import SrpQuiz from '../../components/app/srp-quiz';
 import Button from '../../components/ui/button';
 import ExportTextContainer from '../../components/ui/export-text-container';
 import HoldToRevealButton from '../../components/ui/hold-to-reveal-button';
+import PageContainerFooter from '../../components/ui/page-container/page-container-footer';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import withRouter from '../../helpers/higher-order-components/with-router';
 import { requestRevealSeedWords } from '../../store/actions';
@@ -137,29 +138,12 @@ class RevealSeedPage extends Component {
 
   renderPasswordPromptFooter() {
     return (
-      <div className="page-container__footer">
-        <footer>
-          <Button
-            type="default"
-            large
-            className="page-container__footer-button"
-            onClick={() =>
-              this.props.navigate(this.props.mostRecentOverviewPage)
-            }
-          >
-            {this.context.t('cancel')}
-          </Button>
-          <Button
-            type="secondary"
-            large
-            className="page-container__footer-button"
-            onClick={(event) => this.handleSubmit(event)}
-            disabled={this.state.password === ''}
-          >
-            {this.context.t('next')}
-          </Button>
-        </footer>
-      </div>
+      <PageContainerFooter
+        onCancel={() => this.props.navigate(this.props.mostRecentOverviewPage)}
+        onSubmit={(event) => this.handleSubmit(event)}
+        disabled={this.state.password === ''}
+        buttonSizeLarge
+      />
     );
   }
 

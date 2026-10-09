@@ -42,6 +42,18 @@ describe('Page Footer', function () {
     assert.equal(buttons.last().prop('disabled'), false);
   });
 
+  it('disables the cancel button and sets custom test ids when asked', function () {
+    wrapper.setProps({
+      cancelDisabled: true,
+      cancelTestId: 'custom-cancel',
+      submitTestId: 'custom-submit',
+    });
+    const buttons = wrapper.find('.page-container__footer-button');
+    assert.equal(buttons.first().prop('disabled'), true);
+    assert.equal(buttons.first().prop('data-testid'), 'custom-cancel');
+    assert.equal(buttons.last().prop('data-testid'), 'custom-submit');
+  });
+
   describe('Cancel Button', function () {
     it('should call cancel when click is simulated', function () {
       wrapper.find('.page-container__footer-button').first().prop('onClick')();

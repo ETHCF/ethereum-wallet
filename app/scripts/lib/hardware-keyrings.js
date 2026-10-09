@@ -25,10 +25,6 @@ function lockedError() {
   );
 }
 
-function tabsCall(method, ...args) {
-  return extension.tabs[method](...args);
-}
-
 async function openTransportTab() {
   const url = extension.runtime.getURL('hardware.html');
   const contexts = await extension.runtime.getContexts({
@@ -36,8 +32,8 @@ async function openTransportTab() {
     documentUrls: [url],
   });
   const tab = contexts.length
-    ? await tabsCall('get', contexts[0].tabId)
-    : await tabsCall('create', { url, active: false });
+    ? await extension.tabs.get(contexts[0].tabId)
+    : await extension.tabs.create({ url, active: false });
   if (tab.status === 'complete') {
     return;
   }
@@ -71,7 +67,7 @@ async function openTransportTab() {
     extension.tabs.onRemoved.addListener(removed);
     // Cover completion between tabs.create and listener registration.
     // eslint-disable-next-line promise/catch-or-return -- the rejection handler is the second argument to then()
-    tabsCall('get', tab.id).then(
+    extension.tabs.get(tab.id).then(
       (current) => updated(tab.id, current),
       () => removed(tab.id),
     );
@@ -136,7 +132,7 @@ function closeTransportTabs() {
         documentUrls: [extension.runtime.getURL('hardware.html')],
       });
       await Promise.all(
-        contexts.map((context) => tabsCall('remove', context.tabId)),
+        contexts.map((context) => extension.tabs.remove(context.tabId)),
       );
     })().finally(() => {
       closingTab = null;

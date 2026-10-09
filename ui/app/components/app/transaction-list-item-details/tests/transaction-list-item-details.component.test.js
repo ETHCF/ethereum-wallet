@@ -6,7 +6,9 @@ import Button from '../../../ui/button';
 import SenderToRecipient from '../../../ui/sender-to-recipient';
 import TransactionActivityLog from '../../transaction-activity-log';
 import TransactionBreakdown from '../../transaction-breakdown';
-import TransactionListItemDetails from '../transaction-list-item-details.component';
+import TransactionListItemDetails, {
+  CopyTxIdButton,
+} from '../transaction-list-item-details.component';
 
 describe('TransactionListItemDetails Component', function () {
   it('should render properly', function () {
@@ -44,7 +46,8 @@ describe('TransactionListItemDetails Component', function () {
     );
     const child = wrapper.childAt(0);
     assert.ok(child.hasClass('transaction-list-item-details'));
-    assert.equal(child.find(Button).length, 2);
+    assert.equal(child.find(Button).length, 1);
+    assert.equal(child.find(CopyTxIdButton).length, 1);
     assert.equal(child.find(SenderToRecipient).length, 1);
     assert.equal(child.find(TransactionBreakdown).length, 1);
     assert.equal(child.find(TransactionActivityLog).length, 1);
@@ -90,7 +93,8 @@ describe('TransactionListItemDetails Component', function () {
     const child = wrapper.childAt(0);
 
     assert.ok(child.hasClass('transaction-list-item-details'));
-    assert.equal(child.find(Button).length, 3);
+    assert.equal(child.find(Button).length, 2);
+    assert.equal(child.find(CopyTxIdButton).length, 1);
   });
 
   it('should disable the Copy Tx ID and View In Etherscan buttons when tx hash is missing', function () {
@@ -129,9 +133,9 @@ describe('TransactionListItemDetails Component', function () {
     const child = wrapper.childAt(0);
 
     assert.ok(child.hasClass('transaction-list-item-details'));
-    const buttons = child.find(Button);
-    assert.strictEqual(buttons.at(0).prop('disabled'), true);
-    assert.strictEqual(buttons.at(1).prop('disabled'), true);
+    const copyButton = child.find(CopyTxIdButton).dive().find(Button);
+    assert.strictEqual(copyButton.prop('disabled'), true);
+    assert.strictEqual(child.find(Button).prop('disabled'), true);
   });
 
   it('should render functional Copy Tx ID and View In Etherscan buttons when tx hash exists', function () {
@@ -171,8 +175,8 @@ describe('TransactionListItemDetails Component', function () {
     const child = wrapper.childAt(0);
 
     assert.ok(child.hasClass('transaction-list-item-details'));
-    const buttons = child.find(Button);
-    assert.strictEqual(buttons.at(0).prop('disabled'), false);
-    assert.strictEqual(buttons.at(1).prop('disabled'), false);
+    const copyButton = child.find(CopyTxIdButton).dive().find(Button);
+    assert.strictEqual(copyButton.prop('disabled'), false);
+    assert.strictEqual(child.find(Button).prop('disabled'), false);
   });
 });

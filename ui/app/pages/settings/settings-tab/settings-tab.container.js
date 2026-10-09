@@ -5,6 +5,7 @@ import { getPreferences } from '../../../selectors';
 import {
   updateCurrentLocale,
   setThemePreference,
+  setAutoLockTimeLimit,
 } from '../../../store/actions';
 
 const mapStateToProps = (state) => {
@@ -13,11 +14,13 @@ const mapStateToProps = (state) => {
     ecfWallet,
   } = state;
   const { currentLocale } = ecfWallet;
+  const { theme, autoLockTimeLimit } = getPreferences(state);
 
   return {
     warning,
     currentLocale,
-    theme: getPreferences(state).theme,
+    theme,
+    autoLockTimeLimit,
   };
 };
 
@@ -25,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateCurrentLocale: (key) => dispatch(updateCurrentLocale(key)),
     setThemePreference: (value) => dispatch(setThemePreference(value)),
+    setAutoLockTimeLimit: (value) => dispatch(setAutoLockTimeLimit(value)),
   };
 };
 
