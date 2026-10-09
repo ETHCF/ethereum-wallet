@@ -42,6 +42,10 @@ import {
 const decodeTokenMethod = createMethodDecoder(abi);
 
 const SIMPLE_GAS_COST = '0x5208'; // Hex for 21000, cost of a simple send.
+// Priority fee estimate: median of the 20th-percentile tip over recent blocks,
+// matching upstream MetaMask's "medium" fee-history estimate.
+const FEE_HISTORY_BLOCKS = 5;
+const PRIORITY_FEE_PERCENTILE = 20;
 const MAX_MEMSTORE_TX_LIST_SIZE = 100; // Number of transactions (by unique nonces) to keep in memory
 
 /**
@@ -387,29 +391,8 @@ export default class TransactionController extends EventEmitter {
     const baseFee = new BN(block.baseFeePerGas.replace(/^0x/u, ''), 16);
     let priority = params.maxPriorityFeePerGas;
     if (!priority) {
-      try {
-        priority = await new Promise((resolve, reject) =>
-          this.provider.sendAsync(
-            {
-              id: Date.now(),
-              jsonrpc: '2.0',
-              method: 'eth_maxPriorityFeePerGas',
-              params: [],
-            },
-            (error, response) =>
-              error || response.error
-                ? reject(error || new Error(response.error.message))
-                : resolve(response.result),
-          ),
-        );
-        txUtils.validateEnvelope({ maxPriorityFeePerGas: priority });
-        if (!priority) {
-          throw new Error('No priority fee estimate');
-        }
-      } catch (_) {
-        const price = await this.query.gasPrice();
-        priority = `0x${BN.max(new BN(price.replace(/^0x/u, ''), 16).sub(baseFee), new BN(1000000000)).toString(16)}`;
-      }
+      priority = await this._getSuggestedPriorityFee(baseFee);
+
       // A dapp may supply just a cap, including a cap below the suggested tip.
       if (params.maxFeePerGas) {
         priority = `0x${BN.min(new BN(priority.slice(2), 16), new BN(params.maxFeePerGas.slice(2), 16)).toString(16)}`;
@@ -425,6 +408,58 @@ export default class TransactionController extends EventEmitter {
           .add(new BN(priority.slice(2), 16))
           .toString(16)}`,
     };
+  }
+
+  /**
+   * Suggests a priority fee from the node's own suggestion and the rewards paid
+   * in recent blocks, taking the higher of the two. Some public RPCs answer
+   * eth_maxPriorityFeePerGas with 0 even on networks where a tip is needed,
+   * so that answer is not trusted on its own.
+   *
+   * @param {BN} baseFee - The latest block's base fee
+   * @returns {Promise<string>} The suggested priority fee, as a hex quantity
+   */
+  async _getSuggestedPriorityFee(baseFee) {
+    const toBN = (hex) => {
+      txUtils.validateEnvelope({ maxPriorityFeePerGas: hex });
+      return new BN(hex.slice(2), 16);
+    };
+    const suggestions = await Promise.all([
+      this._sendRpc('eth_maxPriorityFeePerGas', [])
+        .then(toBN)
+        .catch(() => null),
+      this._sendRpc('eth_feeHistory', [
+        `0x${FEE_HISTORY_BLOCKS.toString(16)}`,
+        'latest',
+        [PRIORITY_FEE_PERCENTILE],
+      ])
+        .then(({ reward }) => {
+          const rewards = reward.map(([value]) => toBN(value)).sort(BN.cmp);
+          if (!rewards.length) {
+            throw new Error('No fee history');
+          }
+          return rewards[Math.floor(rewards.length / 2)];
+        })
+        .catch(() => null),
+    ]);
+    const valid = suggestions.filter(Boolean);
+    if (valid.length) {
+      return `0x${valid.reduce((a, b) => BN.max(a, b)).toString(16)}`;
+    }
+    const price = await this.query.gasPrice();
+    return `0x${BN.max(new BN(price.replace(/^0x/u, ''), 16).sub(baseFee), new BN(1000000000)).toString(16)}`;
+  }
+
+  _sendRpc(method, params) {
+    return new Promise((resolve, reject) =>
+      this.provider.sendAsync(
+        { id: Date.now(), jsonrpc: '2.0', method, params },
+        (error, response) =>
+          error || response.error
+            ? reject(error || new Error(response.error.message))
+            : resolve(response.result),
+      ),
+    );
   }
 
   _createNonceTracker() {

@@ -50,6 +50,7 @@ function controller() {
     },
     eth_gasPrice: '0x78',
     eth_maxPriorityFeePerGas: '0x2',
+    eth_feeHistory: { reward: [['0x1'], ['0x1'], ['0x1']] },
     eth_estimateGas: '0x7530',
     eth_getCode: '0x',
   };
@@ -118,6 +119,42 @@ describe('Modern transaction pipeline', function () {
     );
     assert.equal(legacy.txParams.gasPrice, '0x78');
     assert.equal(legacy.txParams.maxFeePerGas, undefined);
+  });
+
+  it('does not trust a zero priority fee suggestion over recent block rewards', async function () {
+    const { tx, scaffold } = controller();
+    scaffold.eth_maxPriorityFeePerGas = '0x0';
+    scaffold.eth_feeHistory = {
+      reward: [['0x5'], ['0x1'], ['0x9'], ['0x3'], ['0x7']],
+    };
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet');
+    assert.equal(meta.txParams.maxPriorityFeePerGas, '0x5', 'median reward');
+    assert.equal(meta.txParams.maxFeePerGas, '0xcd');
+  });
+
+  it('uses the node suggestion when it exceeds recent block rewards', async function () {
+    const { tx, scaffold } = controller();
+    scaffold.eth_maxPriorityFeePerGas = '0x20';
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet');
+    assert.equal(meta.txParams.maxPriorityFeePerGas, '0x20');
+  });
+
+  it('keeps a zero priority fee when every source agrees on zero', async function () {
+    const { tx, scaffold } = controller();
+    scaffold.eth_maxPriorityFeePerGas = '0x0';
+    scaffold.eth_feeHistory = { reward: [['0x0'], ['0x0']] };
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet');
+    assert.equal(meta.txParams.maxPriorityFeePerGas, '0x0');
+  });
+
+  it('falls back to the gas price when no priority fee source answers', async function () {
+    const { tx, scaffold } = controller();
+    scaffold.eth_maxPriorityFeePerGas = () => {
+      throw new Error('unsupported');
+    };
+    scaffold.eth_feeHistory = { reward: [['not hex']] };
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet');
+    assert.equal(meta.txParams.maxPriorityFeePerGas, '0x3b9aca00');
   });
 
   it('falls back on pre-London networks and rejects explicitly requested fee-market transactions', async function () {
