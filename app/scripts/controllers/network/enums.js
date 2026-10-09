@@ -116,17 +116,6 @@ export const REMOVED_NETWORK_TYPES = [
   'monad-testnet',
 ];
 
-export const NETWORK_TO_NAME_MAP = Object.fromEntries(
-  BUILT_IN_NETWORK_TYPES.flatMap((type) => {
-    const { name, networkId, chainId } = BUILT_IN_NETWORKS[type];
-    return [
-      [type, name],
-      [networkId, name],
-      [chainId, name],
-    ];
-  }),
-);
-
 /**
  * Finds a built-in network by its network ID.
  *

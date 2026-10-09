@@ -61,7 +61,6 @@ export default class PreferencesController {
    * @property {Array} store.tokens The tokens the user wants display in their token lists
    * @property {object} store.accountTokens The tokens stored per account and then per network type
    * @property {object} store.assetImages Contains assets objects related to assets added
-   * @property {boolean} store.useNonceField The users preference for nonce field within the UI
    * @property {object} store.featureFlags A key-boolean map, where keys refer to features and booleans to whether the
    * user wishes to see that feature.
    *
@@ -76,7 +75,6 @@ export default class PreferencesController {
       accountTokens: {},
       assetImages: {},
       tokens: [],
-      useNonceField: false,
       usePhishDetect: true,
 
       // WARNING: Do not use feature flags for security-sensitive things.
@@ -88,8 +86,6 @@ export default class PreferencesController {
       firstTimeFlowType: null,
       currentLocale: opts.initLangCode,
       identities: {},
-      lostIdentities: {},
-      forgottenPassword: false,
       preferences: {
         autoLockTimeLimit: undefined,
         theme: 'os',
@@ -125,24 +121,6 @@ export default class PreferencesController {
   // PUBLIC METHODS
 
   /**
-   * Sets the {@code forgottenPassword} state property
-   *
-   * @param {boolean} forgottenPassword - whether or not the user has forgotten their password
-   */
-  setPasswordForgotten(forgottenPassword) {
-    this.store.updateState({ forgottenPassword });
-  }
-
-  /**
-   * Setter for the `useNonceField` property
-   *
-   * @param {boolean} val - Whether or not the user prefers to set nonce
-   */
-  setUseNonceField(val) {
-    this.store.updateState({ useNonceField: val });
-  }
-
-  /**
    * Setter for the `usePhishDetect` property
    *
    * @param {boolean} val - Whether or not the user prefers phishing domain protection
@@ -166,16 +144,6 @@ export default class PreferencesController {
 
   getAssetImages() {
     return this.store.getState().assetImages;
-  }
-
-  addSuggestedERC20Asset(tokenOpts) {
-    this._validateERC20AssetParams(tokenOpts);
-    const suggested = this.getSuggestedTokens();
-    const { rawAddress, symbol, decimals, image } = tokenOpts;
-    const address = normalizeAddress(rawAddress);
-    const newEntry = { address, symbol, decimals, image };
-    suggested[address] = newEntry;
-    this.store.updateState({ suggestedTokens: suggested });
   }
 
   /**
@@ -322,25 +290,15 @@ export default class PreferencesController {
       throw new Error('Expected non-empty array of addresses.');
     }
 
-    const { identities, lostIdentities } = this.store.getState();
+    const { identities } = this.store.getState();
 
-    const newlyLost = {};
     Object.keys(identities).forEach((identity) => {
       if (!addresses.includes(identity)) {
-        newlyLost[identity] = identities[identity];
         delete identities[identity];
       }
     });
 
-    // Identities are no longer present.
-    if (Object.keys(newlyLost).length > 0) {
-      // store lost accounts
-      Object.keys(newlyLost).forEach((key) => {
-        lostIdentities[key] = newlyLost[key];
-      });
-    }
-
-    this.store.updateState({ identities, lostIdentities });
+    this.store.updateState({ identities });
     this.addAddresses(addresses);
 
     // If the selected account is no longer valid,
@@ -658,17 +616,6 @@ export default class PreferencesController {
     return this.store.getState().ipfsGateway;
   }
 
-  /**
-   * A setter for the `ipfsGateway` property
-   *
-   * @param {string} domain - The new IPFS gateway domain
-   * @returns {Promise<string>} A promise of the update IPFS gateway domain
-   */
-  setIpfsGateway(domain) {
-    this.store.updateState({ ipfsGateway: domain });
-    return Promise.resolve(domain);
-  }
-
   //
   // PRIVATE METHODS
   //
@@ -757,15 +704,19 @@ export default class PreferencesController {
     } catch (err) {
       return err;
     }
-    const { rawAddress } = tokenOpts;
-    tokenOpts.image = await this._cacheImage(tokenOpts.image);
-    this.addSuggestedERC20Asset(tokenOpts);
-    return this.openPopup().then(() => {
-      const tokenAddresses = this.getTokens().filter(
-        (token) => token.address === normalizeAddress(rawAddress),
-      );
-      return tokenAddresses.length > 0;
-    });
+    const tokenAddress = normalizeAddress(tokenOpts.rawAddress);
+    const cachedImage = await this._cacheImage(tokenOpts.image);
+    const suggested = this.getSuggestedTokens();
+    suggested[tokenAddress] = {
+      address: tokenAddress,
+      symbol: tokenOpts.symbol,
+      decimals: tokenOpts.decimals,
+      image: cachedImage,
+    };
+    this.store.updateState({ suggestedTokens: suggested });
+    return this.openPopup().then(() =>
+      this.getTokens().some((token) => token.address === tokenAddress),
+    );
   }
 
   /**

@@ -742,22 +742,6 @@ describe('preferences controller', function () {
     });
   });
 
-  describe('setPasswordForgotten', function () {
-    it('should set the forgottenPassword property in state', function () {
-      assert.equal(
-        preferencesController.store.getState().forgottenPassword,
-        false,
-      );
-
-      preferencesController.setPasswordForgotten(true);
-
-      assert.equal(
-        preferencesController.store.getState().forgottenPassword,
-        true,
-      );
-    });
-  });
-
   describe('#updateRpc', function () {
     it('should update the rpcDetails properly', function () {
       preferencesController.store.updateState({

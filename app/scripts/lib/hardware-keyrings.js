@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import log from 'loglevel';
 
+import { HARDWARE_KEYRING_METHODS } from './enums';
 import extension from './extension-api';
 import { transactionData, decodeTransaction } from './transaction-codec';
 
@@ -12,12 +13,17 @@ let connectionGeneration = 0;
 const completedMethods = new Set([
   'addAccounts',
   'signTransaction',
-  'signMessage',
   'signPersonalMessage',
   'signTypedData',
   'exportAccount',
   'forgetDevice',
 ]);
+
+function lockedError() {
+  return new Error(
+    'Hardware wallet request cancelled because the wallet was locked.',
+  );
+}
 
 function tabsCall(method, ...args) {
   return extension.tabs[method](...args);
@@ -79,9 +85,7 @@ async function requestHardware(request) {
     // A new request must not reuse a tab that is still being removed.
     await closingTab;
     if (generation !== connectionGeneration) {
-      throw new Error(
-        'Hardware wallet request cancelled because the wallet was locked.',
-      );
+      throw lockedError();
     }
     if (!creatingTab) {
       creatingTab = openTransportTab().finally(() => {
@@ -90,9 +94,7 @@ async function requestHardware(request) {
     }
     await creatingTab;
     if (generation !== connectionGeneration) {
-      throw new Error(
-        'Hardware wallet request cancelled because the wallet was locked.',
-      );
+      throw lockedError();
     }
     const response = await extension.runtime.sendMessage({
       type: 'ecf-wallet-hardware-request',
@@ -223,9 +225,7 @@ export function createRemoteKeyring(type, send = requestHardware) {
       }
       const operation = this.queue.then(async () => {
         if (this.generation !== connectionGeneration) {
-          throw new Error(
-            'Hardware wallet request cancelled because the wallet was locked.',
-          );
+          throw lockedError();
         }
         const state = JSON.parse(
           JSON.stringify({ ...this.state, ...settings }),
@@ -239,9 +239,7 @@ export function createRemoteKeyring(type, send = requestHardware) {
           network: this.network,
         });
         if (this.generation !== connectionGeneration) {
-          throw new Error(
-            'Hardware wallet request cancelled because the wallet was locked.',
-          );
+          throw lockedError();
         }
         const updated = { ...response.state };
         for (const [field, changedAt] of Object.entries(
@@ -279,17 +277,10 @@ export function createRemoteKeyring(type, send = requestHardware) {
       return decodeTransaction(signed, Number(data.chainId));
     }
   }
-  for (const method of [
-    'unlock',
-    'addAccounts',
-    'getFirstPage',
-    'getNextPage',
-    'getPreviousPage',
-    'signMessage',
-    'signPersonalMessage',
-    'signTypedData',
-    'exportAccount',
-  ]) {
+  // Forward the transport methods the class does not implement itself.
+  for (const method of HARDWARE_KEYRING_METHODS.filter(
+    (name) => !Object.hasOwn(RemoteKeyring.prototype, name),
+  )) {
     RemoteKeyring.prototype[method] = function (...args) {
       return this.call(method, args);
     };

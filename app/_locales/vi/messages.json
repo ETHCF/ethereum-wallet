@@ -73,9 +73,6 @@
   "defaultNetwork": {
     "message": "Mạng lưới mặc định dùng cho các giao dịch $ETH là Mainnet (tiền ETH thật)."
   },
-  "deposit": {
-    "message": "Ký gửi/nạp tiền"
-  },
   "details": {
     "message": "Chi tiết"
   },
@@ -204,9 +201,6 @@
   },
   "privateKeyWarning": {
     "message": "Cảnh báo: Không bao giờ được tiết lộ khóa này. Bất kỳ ai có Khóa Bí Mật của bạn đều có thể đánh cắp tài sản được giữ trong tài khoản của bạn."
-  },
-  "privateNetwork": {
-    "message": "Mạng lưới riêng"
   },
   "readdToken": {
     "message": "Bạn có thể thêm trở lại mã token này bằng cách nhấn \"Thêm mã token\" trong menu tùy chọn trong tài khoản của bạn."

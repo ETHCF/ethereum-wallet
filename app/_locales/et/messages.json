@@ -251,9 +251,6 @@
   "delete": {
     "message": "Kustuta"
   },
-  "deposit": {
-    "message": "Sissemakse"
-  },
   "details": {
     "message": "Üksikasjad"
   },
@@ -641,9 +638,6 @@
   "privateKeyWarning": {
     "message": "Hoiatus: ärge seda võtit kellelegi avaldage. Suvaline isik, kes teab teie privaatvõtmeid, võib teie kontolt varasid varastada."
   },
-  "privateNetwork": {
-    "message": "Privaatvõrk"
-  },
   "queue": {
     "message": "Järjekord"
   },
@@ -673,12 +667,6 @@
   },
   "reset": {
     "message": "Lähtesta"
-  },
-  "resetAccount": {
-    "message": "Lähtesta konto"
-  },
-  "resetAccountDescription": {
-    "message": "Konto lähtestamine tühjendab tehingute ajaloo."
   },
   "deleteNetwork": {
     "message": "Võrk kustutada?"

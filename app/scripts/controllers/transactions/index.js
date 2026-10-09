@@ -166,15 +166,6 @@ export default class TransactionController extends EventEmitter {
   }
 
   /**
-   * Wipes the transactions for a given account
-   *
-   * @param {string} address - hex string of the from address for txs being removed
-   */
-  wipeTransactions(address) {
-    this.txStateManager.wipeTransactions(address);
-  }
-
-  /**
    * Add a new unapproved transaction to the pipeline
    *
    * @returns {Promise<string>} the hash of the transaction after being submitted to the network
@@ -515,35 +506,19 @@ export default class TransactionController extends EventEmitter {
    * @returns {Promise<object>} Resolves with the cancel txMeta.
    */
   async createCancelTransaction(originalTxId, customGasPrice) {
-    const originalTxMeta = this.txStateManager.getTx(originalTxId);
-    const { txParams } = originalTxMeta;
-    const { gasPrice: lastGasPrice, from, nonce } = txParams;
-
-    const fees = replacementFees(txParams, customGasPrice);
-    const newTxMeta = this.txStateManager.generateTxMeta({
-      txParams: {
-        from,
-        to: from,
-        nonce,
+    return this._createReplacementTransaction(
+      originalTxId,
+      customGasPrice,
+      TRANSACTION_TYPE_CANCEL,
+      (txParams) => ({
+        from: txParams.from,
+        to: txParams.from,
+        nonce: txParams.nonce,
         gas: '0x5208',
         value: '0x0',
         ...(isFeeMarketTransaction(txParams) ? { type: '0x2' } : {}),
-        ...fees,
-      },
-      lastGasPrice,
-      origin: originalTxMeta.origin,
-      signingChainId: originalTxMeta.signingChainId,
-      ...(txParams.maxFeePerGas
-        ? { lastMaxFeePerGas: txParams.maxFeePerGas }
-        : {}),
-      loadingDefaults: false,
-      status: TRANSACTION_STATUS_APPROVED,
-      type: TRANSACTION_TYPE_CANCEL,
-    });
-
-    this.addTx(newTxMeta);
-    await this.approveTransaction(newTxMeta.id);
-    return newTxMeta;
+      }),
+    );
   }
 
   /**
@@ -558,31 +533,50 @@ export default class TransactionController extends EventEmitter {
    * @returns {Promise<object>} Resolves with the speed-up txMeta.
    */
   async createSpeedUpTransaction(originalTxId, customGasPrice, customGasLimit) {
+    return this._createReplacementTransaction(
+      originalTxId,
+      customGasPrice,
+      TRANSACTION_TYPE_RETRY,
+      (txParams) => ({
+        ...txParams,
+        ...(customGasLimit ? { gas: customGasLimit } : {}),
+      }),
+    );
+  }
+
+  /**
+   * Creates, approves and submits a transaction that replaces a previously
+   * submitted one, reusing its nonce with higher fees.
+   *
+   * @private
+   * @param {number} originalTxId - the id of the txMeta being replaced
+   * @param {string} [customGasPrice] - the new custom gas price, in hex
+   * @param {string} type - the replacement transaction type
+   * @param {Function} getTxParams - builds the replacement txParams, without
+   * fees, from the original txParams
+   * @returns {Promise<object>} Resolves with the replacement txMeta.
+   */
+  async _createReplacementTransaction(
+    originalTxId,
+    customGasPrice,
+    type,
+    getTxParams,
+  ) {
     const originalTxMeta = this.txStateManager.getTx(originalTxId);
     const { txParams } = originalTxMeta;
-    const { gasPrice: lastGasPrice } = txParams;
-
-    const fees = replacementFees(txParams, customGasPrice);
 
     const newTxMeta = this.txStateManager.generateTxMeta({
       txParams: {
-        ...txParams,
-        ...fees,
+        ...getTxParams(txParams),
+        ...replacementFees(txParams, customGasPrice),
       },
-      lastGasPrice,
+      lastGasPrice: txParams.gasPrice,
       origin: originalTxMeta.origin,
       signingChainId: originalTxMeta.signingChainId,
-      ...(txParams.maxFeePerGas
-        ? { lastMaxFeePerGas: txParams.maxFeePerGas }
-        : {}),
       loadingDefaults: false,
       status: TRANSACTION_STATUS_APPROVED,
-      type: TRANSACTION_TYPE_RETRY,
+      type,
     });
-
-    if (customGasLimit) {
-      newTxMeta.txParams.gas = customGasLimit;
-    }
 
     this.addTx(newTxMeta);
     await this.approveTransaction(newTxMeta.id);
@@ -705,8 +699,6 @@ export default class TransactionController extends EventEmitter {
       const txMeta = this.txStateManager.getTx(txId);
       const fromAddress = txMeta.txParams.from;
       // wait for a nonce
-      let { customNonceValue } = txMeta;
-      customNonceValue = Number(customNonceValue);
       nonceLock = await this.nonceTracker.getNonceLock(fromAddress);
       this.assertNetworkGeneration(networkGeneration);
       // add nonce to txParams
@@ -715,15 +707,10 @@ export default class TransactionController extends EventEmitter {
         txMeta.txParams.nonce === undefined
           ? nonceLock.nextNonce
           : txMeta.txParams.nonce;
-      const customOrNonce =
-        customNonceValue === 0 ? customNonceValue : customNonceValue || nonce;
 
-      txMeta.txParams.nonce = ethUtil.addHexPrefix(customOrNonce.toString(16));
+      txMeta.txParams.nonce = ethUtil.addHexPrefix(nonce.toString(16));
       // add nonce debugging information to txMeta
       txMeta.nonceDetails = nonceLock.nonceDetails;
-      if (customNonceValue) {
-        txMeta.nonceDetails.customNonceValue = customNonceValue;
-      }
       this.txStateManager.updateTx(txMeta, 'transactions#approveTransaction');
       // sign transaction
       const rawTx = await this.signTransaction(txId);
@@ -965,15 +952,6 @@ export default class TransactionController extends EventEmitter {
       Object.keys(this.txStateManager.getUnapprovedTxList()).length;
 
     /**
-     * Counts the pending transactions for an account.
-     *
-     * @param {string} account - hex prefixed account
-     * @returns {number} number of transactions that have the status submitted
-     */
-    this.getPendingTxCount = (account) =>
-      this.txStateManager.getPendingTransactions(account).length;
-
-    /**
      * see txStateManager
      *
      * @param {object} opts - The filter options, passed to txStateManager.
@@ -1202,17 +1180,14 @@ export default class TransactionController extends EventEmitter {
     const txMeta = this.txStateManager.getTx(txId);
     const { nonce, from } = txMeta.txParams;
     const sameNonceTxs = this.txStateManager.getFilteredTxList({ nonce, from });
-    if (!sameNonceTxs.length) {
-      return;
-    }
-    // mark all same nonce transactions as dropped and give i a replacedBy hash
+    // mark all same nonce transactions as dropped and give them a replacedBy hash
     sameNonceTxs.forEach((otherTxMeta) => {
       if (otherTxMeta.id === txId) {
         return;
       }
       otherTxMeta.replacedBy = txMeta.hash;
       this.txStateManager.updateTx(
-        txMeta,
+        otherTxMeta,
         'transactions/pending-tx-tracker#event: tx:confirmed reference to confirmed txHash with same nonce',
       );
       this.txStateManager.setTxStatusDropped(otherTxMeta.id);

@@ -94,9 +94,6 @@
   "defaultNetwork": {
     "message": "Výchozí síť pro $ETH transakce je Mainnet."
   },
-  "deposit": {
-    "message": "Vklad"
-  },
   "details": {
     "message": "Podrobnosti"
   },
@@ -273,9 +270,6 @@
   "privateKeyWarning": {
     "message": "Upozornění: Nikdy nezveřejněte tento klíč. Kdokoli může s vaším privátním klíčem odcizit vaše aktiva z účtu."
   },
-  "privateNetwork": {
-    "message": "Soukromá síť"
-  },
   "readdToken": {
     "message": "Tento token můžete v budoucnu přidat zpět s „Přidat token“ v nastavení účtu."
   },
@@ -284,9 +278,6 @@
   },
   "rejected": {
     "message": "Odmítnuto"
-  },
-  "resetAccount": {
-    "message": "Resetovat účet"
   },
   "restoreFromSeed": {
     "message": "Obnovit z seed fráze"

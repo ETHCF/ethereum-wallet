@@ -31,7 +31,6 @@ import {
 } from '../../../../pages/send/send.utils';
 import {
   getCurrentEthBalance,
-  getIsMainnet,
   getSendToken,
   getBasicGasEstimateLoadingStatus,
   getCustomGasLimit,
@@ -47,7 +46,6 @@ import {
   hideModal,
   setGasLimit,
   setGasPrice,
-  createRetryTransaction,
   createSpeedUpTransaction,
   hideSidebar,
   updateSend,
@@ -99,8 +97,6 @@ const mapStateToProps = (state, ownProps) => {
   const maxModeOn = getSendMaxModeState(state);
 
   const balance = getCurrentEthBalance(state);
-
-  const isMainnet = getIsMainnet(state);
 
   const isSendTokenSet = Boolean(sendToken);
 
@@ -158,7 +154,6 @@ const mapStateToProps = (state, ownProps) => {
       gasButtonInfo,
     },
     infoRowProps: {
-      originalTotalEth: addHexWEIsToRenderableEth(value, customGasTotal),
       newTotalEth,
       transactionFee: addHexWEIsToRenderableEth('0x0', customGasTotal),
       sendAmount,
@@ -168,7 +163,6 @@ const mapStateToProps = (state, ownProps) => {
     isRetry: transaction.status === 'failed',
     txId: transaction.id,
     insufficientBalance,
-    isMainnet,
     sendToken,
     balance,
     tokenBalance: getTokenBalance(state),
@@ -199,9 +193,6 @@ const mapDispatchToProps = (dispatch) => {
       updateCustomGasPrice(gasPrice);
       dispatch(setCustomGasLimit(addHexPrefix(gasLimit.toString(16))));
       return dispatch(updateTransaction(updatedTx));
-    },
-    createRetryTransaction: (txId, gasPrice, gasLimit) => {
-      return dispatch(createRetryTransaction(txId, gasPrice, gasLimit));
     },
     createSpeedUpTransaction: (txId, gasPrice, gasLimit) => {
       return dispatch(createSpeedUpTransaction(txId, gasPrice, gasLimit));
@@ -240,7 +231,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setGasData: dispatchSetGasData,
     updateConfirmTxGasAndCalculate: dispatchUpdateConfirmTxGasAndCalculate,
     createSpeedUpTransaction: dispatchCreateSpeedUpTransaction,
-    createRetryTransaction: dispatchCreateRetryTransaction,
     hideSidebar: dispatchHideSidebar,
     cancelAndClose: dispatchCancelAndClose,
     hideModal: dispatchHideModal,
@@ -263,12 +253,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         };
         dispatchUpdateConfirmTxGasAndCalculate(gasLimit, gasPrice, updatedTx);
         dispatchHideModal();
-      } else if (isSpeedUp) {
+      } else if (isSpeedUp || isRetry) {
+        // A failed transaction is retried the same way a pending one is sped
+        // up: by a replacement with the same nonce and a higher gas price.
         dispatchCreateSpeedUpTransaction(txId, gasPrice, gasLimit);
-        dispatchHideSidebar();
-        dispatchCancelAndClose();
-      } else if (isRetry) {
-        dispatchCreateRetryTransaction(txId, gasPrice, gasLimit);
         dispatchHideSidebar();
         dispatchCancelAndClose();
       } else {

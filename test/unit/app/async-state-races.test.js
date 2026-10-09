@@ -24,7 +24,7 @@ const address = `0x${'1'.repeat(40)}`;
 describe('Asynchronous state races', function () {
   it('keeps the original typed-signature request alive when another UI approves it again', async function () {
     const manager = new TypedMessageManager({
-      networkController: { getChainId: () => '0x1' },
+      getChainId: () => '0x1',
     });
     let settled = false;
     const response = manager

@@ -1,5 +1,4 @@
 import * as ethUtil from '@ethereumjs/util';
-import assert from 'assert';
 import BN from 'bn.js';
 import { memoize } from 'lodash';
 
@@ -9,11 +8,6 @@ import {
   ENVIRONMENT_TYPE_NOTIFICATION,
   ENVIRONMENT_TYPE_FULLSCREEN,
   ENVIRONMENT_TYPE_BACKGROUND,
-  PLATFORM_FIREFOX,
-  PLATFORM_OPERA,
-  PLATFORM_CHROME,
-  PLATFORM_EDGE,
-  PLATFORM_BRAVE,
 } from './enums';
 
 /**
@@ -46,65 +40,6 @@ const getEnvironmentTypeMemo = memoize((url) => {
  */
 const getEnvironmentType = (url = browserGlobal.location.href) =>
   getEnvironmentTypeMemo(url);
-
-/**
- * Returns the platform (browser) where the extension is running.
- *
- * @param {*} _ - Unused.
- * @returns {string} the platform ENUM
- */
-const getPlatform = (_) => {
-  const ua = browserGlobal.navigator.userAgent;
-  if (ua.search('Firefox') === -1) {
-    if (
-      browserGlobal &&
-      browserGlobal.chrome &&
-      browserGlobal.chrome.ipcRenderer
-    ) {
-      return PLATFORM_BRAVE;
-    }
-    if (ua.search('Edge') !== -1) {
-      return PLATFORM_EDGE;
-    }
-    if (ua.search('OPR') !== -1) {
-      return PLATFORM_OPERA;
-    }
-    return PLATFORM_CHROME;
-  }
-  return PLATFORM_FIREFOX;
-};
-
-/**
- * Checks whether a given balance of ETH, represented as a hex string, is sufficient to pay a value plus a gas fee
- *
- * @param {object} txParams - Contains data about a transaction
- * @param {string} txParams.gas - The gas for a transaction
- * @param {string} txParams.gasPrice - The price per gas for the transaction
- * @param {string} txParams.value - The value of ETH to send
- * @param {string} hexBalance - A balance of ETH represented as a hex string
- * @returns {boolean} Whether the balance is greater than or equal to the value plus the value of gas times gasPrice
- */
-function sufficientBalance(txParams, hexBalance) {
-  // validate hexBalance is a hex string
-  assert.equal(
-    typeof hexBalance,
-    'string',
-    'sufficientBalance - hexBalance is not a hex string',
-  );
-  assert.equal(
-    hexBalance.slice(0, 2),
-    '0x',
-    'sufficientBalance - hexBalance is not a hex string',
-  );
-
-  const balance = hexToBn(hexBalance);
-  const value = hexToBn(txParams.value);
-  const gasLimit = hexToBn(txParams.gas);
-  const gasPrice = hexToBn(txParams.gasPrice);
-
-  const maxCost = value.add(gasLimit.mul(gasPrice));
-  return balance.gte(maxCost);
-}
 
 /**
  * Converts a BN object to a hex string with a '0x' prefix
@@ -166,9 +101,7 @@ function normalizeAddress(input) {
 }
 
 export {
-  getPlatform,
   getEnvironmentType,
-  sufficientBalance,
   hexToBn,
   bnToHex,
   BnMultiplyByFraction,

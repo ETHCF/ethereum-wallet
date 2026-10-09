@@ -22,11 +22,8 @@ import {
   getSendHexData,
   getTokenBalance,
   getUnapprovedTxs,
-  getSendErrors,
   isSendFormInError,
   getGasIsLoading,
-  getRenderableEstimateDataForSmallButtonsFromGWEI,
-  getDefaultActiveButtonIndex,
 } from '../../../selectors';
 import {
   addToAddressBook,
@@ -39,16 +36,6 @@ import {
 export default connect(mapStateToProps, mapDispatchToProps)(SendFooter);
 
 function mapStateToProps(state) {
-  const gasButtonInfo = getRenderableEstimateDataForSmallButtonsFromGWEI(state);
-  const gasPrice = getGasPrice(state);
-  const activeButtonIndex = getDefaultActiveButtonIndex(
-    gasButtonInfo,
-    gasPrice,
-  );
-  const gasEstimateType =
-    activeButtonIndex >= 0
-      ? gasButtonInfo[activeButtonIndex].gasEstimateType
-      : 'custom';
   const editingTransactionId = getSendEditingTransactionId(state);
 
   return {
@@ -67,8 +54,6 @@ function mapStateToProps(state) {
     toAccounts: getSendToAccounts(state),
     tokenBalance: getTokenBalance(state),
     unapprovedTxs: getUnapprovedTxs(state),
-    sendErrors: getSendErrors(state),
-    gasEstimateType,
     gasIsLoading: getGasIsLoading(state),
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   };

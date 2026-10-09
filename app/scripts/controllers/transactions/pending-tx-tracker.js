@@ -46,7 +46,6 @@ export default class PendingTransactionTracker extends EventEmitter {
     this.getCompletedTransactions = config.getCompletedTransactions;
     this.publishTransaction = config.publishTransaction;
     this.approveTransaction = config.approveTransaction;
-    this.confirmTransaction = config.confirmTransaction;
   }
 
   /**
@@ -77,11 +76,7 @@ export default class PendingTransactionTracker extends EventEmitter {
    * @returns {Promise<void>}
    */
   async resubmitPendingTxs(blockNumber) {
-    const pending = this.getPendingTransactions();
-    if (!pending.length) {
-      return;
-    }
-    for (const txMeta of pending) {
+    for (const txMeta of this.getPendingTransactions()) {
       try {
         await this._resubmitTx(txMeta, blockNumber);
       } catch (err) {
@@ -99,9 +94,9 @@ export default class PendingTransactionTracker extends EventEmitter {
           // other
           errorMessage.includes('gateway timeout') ||
           errorMessage.includes('nonce too low');
-        // ignore resubmit warnings, return early
+        // ignore resubmit warnings and move on to the next transaction
         if (isKnownTx) {
-          return;
+          continue;
         }
         // encountered real error - transition to error state
         txMeta.warning = {

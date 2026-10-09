@@ -6,7 +6,6 @@ import { ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums';
 import { getEnvironmentType } from '../../../../app/scripts/lib/util';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import {
-  CONNECTIONS_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
   ABOUT_US_ROUTE,
@@ -16,7 +15,6 @@ import withRouter from '../../helpers/higher-order-components/with-router';
 
 const ROUTES_TO_I18N_KEYS = {
   [GENERAL_ROUTE]: 'general',
-  [CONNECTIONS_ROUTE]: 'connections',
   [SECURITY_ROUTE]: 'securityAndPrivacy',
   [ABOUT_US_ROUTE]: 'about',
 };

@@ -15,8 +15,6 @@ export default function createEcfWalletMiddleware({
   getAccounts,
   processTransaction,
   processTypedMessage,
-  processTypedMessageV3,
-  processTypedMessageV4,
   processPersonalMessage,
   processDecryptMessage,
   processEncryptionPublicKey,
@@ -30,6 +28,13 @@ export default function createEcfWalletMiddleware({
     origin: context.get('origin'),
   });
 
+  const processTypedMessageWithOrigin = (
+    msgParams,
+    request,
+    context,
+    msgVersion,
+  ) => processTypedMessage(msgParams, withOrigin(request, context), msgVersion);
+
   const ecfWalletMiddleware = mergeMiddleware([
     createScaffoldMiddleware({
       // staticSubprovider
@@ -41,24 +46,10 @@ export default function createEcfWalletMiddleware({
         getAccounts: (origin) => getAccounts({ origin }),
         processTransaction: (txParams, request, context) =>
           processTransaction(txParams, withOrigin(request, context)),
-        processTypedMessage: (msgParams, request, context, msgVersion) =>
-          processTypedMessage(
-            msgParams,
-            withOrigin(request, context),
-            msgVersion,
-          ),
-        processTypedMessageV3: (msgParams, request, context, msgVersion) =>
-          processTypedMessageV3(
-            msgParams,
-            withOrigin(request, context),
-            msgVersion,
-          ),
-        processTypedMessageV4: (msgParams, request, context, msgVersion) =>
-          processTypedMessageV4(
-            msgParams,
-            withOrigin(request, context),
-            msgVersion,
-          ),
+        // The middleware passes the version ('V1', 'V3' or 'V4') on.
+        processTypedMessage: processTypedMessageWithOrigin,
+        processTypedMessageV3: processTypedMessageWithOrigin,
+        processTypedMessageV4: processTypedMessageWithOrigin,
         processPersonalMessage: (msgParams, request, context) =>
           processPersonalMessage(msgParams, withOrigin(request, context)),
         // These two already receive the origin with the request.

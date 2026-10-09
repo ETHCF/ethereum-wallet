@@ -7,10 +7,6 @@ export default class ExtensionPlatform {
   //
   // Public
   //
-  reload() {
-    extension.runtime.reload();
-  }
-
   openTab(options) {
     return extension.tabs.create(options);
   }
@@ -21,10 +17,6 @@ export default class ExtensionPlatform {
 
   async focusWindow(windowId) {
     await extension.windows.update(windowId, { focused: true });
-  }
-
-  async updateWindowPosition(windowId, left, top) {
-    await extension.windows.update(windowId, { left, top });
   }
 
   getLastFocusedWindow() {
@@ -90,14 +82,6 @@ export default class ExtensionPlatform {
 
   currentTab() {
     return extension.tabs.getCurrent();
-  }
-
-  switchToTab(tabId) {
-    return extension.tabs.update(tabId, { highlighted: true });
-  }
-
-  async closeTab(tabId) {
-    await extension.tabs.remove(tabId);
   }
 
   _showConfirmedTransaction(txMeta) {

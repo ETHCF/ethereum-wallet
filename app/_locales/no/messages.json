@@ -248,9 +248,6 @@
   "delete": {
     "message": "Slett"
   },
-  "deposit": {
-    "message": "Innskudd"
-  },
   "details": {
     "message": "Detaljer"
   },
@@ -641,9 +638,6 @@
   "privateKeyWarning": {
     "message": "Advarsel: aldri gjør kjent denne nøkkelen. Alle som har tilgang til dine private nøkler kan stjele midlene dine som er på konto."
   },
-  "privateNetwork": {
-    "message": "Privat nettverk "
-  },
   "queue": {
     "message": "Kø"
   },
@@ -673,12 +667,6 @@
   },
   "reset": {
     "message": "Tilbakestill"
-  },
-  "resetAccount": {
-    "message": "Tilbakestill konto"
-  },
-  "resetAccountDescription": {
-    "message": "Hvis du tilbakestiller kontoen din vil transaksjonshistorien din slettes. "
   },
   "deleteNetwork": {
     "message": "Slette nettverk? "

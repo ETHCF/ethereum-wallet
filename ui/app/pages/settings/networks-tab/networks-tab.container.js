@@ -7,7 +7,6 @@ import withRouter from '../../../helpers/higher-order-components/with-router';
 import {
   setSelectedSettingsRpcUrl,
   updateAndSetCustomRpc,
-  displayWarning,
   setNetworksTabAddMode,
   editRpc,
   showModal,
@@ -82,7 +81,6 @@ const mapDispatchToProps = (dispatch) => {
         showModal({ name: 'CONFIRM_DELETE_NETWORK', target, onConfirm }),
       );
     },
-    displayWarning: (warning) => dispatch(displayWarning(warning)),
     setNetworksTabAddMode: (isInAddMode) =>
       dispatch(setNetworksTabAddMode(isInAddMode)),
     editRpc: (oldRpc, newRpc, chainId, ticker, nickname, rpcPrefs) => {

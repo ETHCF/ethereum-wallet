@@ -248,9 +248,6 @@
   "delete": {
     "message": "刪除"
   },
-  "deposit": {
-    "message": "存入"
-  },
   "details": {
     "message": "詳情"
   },
@@ -635,9 +632,6 @@
   "privateKeyWarning": {
     "message": "注意：永遠不要公開這個私鑰。任何取得這把私鑰的人都可以竊取這個帳戶中的所有資產。"
   },
-  "privateNetwork": {
-    "message": "私有網路"
-  },
   "queue": {
     "message": "佇列"
   },
@@ -667,12 +661,6 @@
   },
   "reset": {
     "message": "重置"
-  },
-  "resetAccount": {
-    "message": "重置帳戶"
-  },
-  "resetAccountDescription": {
-    "message": "重置帳戶將清除您的交易紀錄"
   },
   "deleteNetwork": {
     "message": "刪除網路？"

@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import {
   unconfirmedTransactionsCountSelector,
+  unconfirmedTransactionsListSelector,
   sendTokenTokenAmountAndToAddressSelector,
 } from '../confirm-transaction';
 
@@ -17,7 +18,7 @@ describe('Confirm Transaction Selector', function () {
             metmaskNetworkId: 'other network',
           },
         },
-        unapprovedMsgCount: 1,
+        unapprovedDecryptMsgCount: 1,
         unapprovedPersonalMsgCount: 1,
         unapprovedTypedMessagesCount: 1,
         network: 'test',
@@ -26,6 +27,27 @@ describe('Confirm Transaction Selector', function () {
 
     it('returns number of txs in unapprovedTxs state with the same network plus unapproved signing method counts', function () {
       assert.equal(unconfirmedTransactionsCountSelector(state), 4);
+    });
+  });
+
+  describe('unconfirmedTransactionsListSelector', function () {
+    it('lists current-network txs and pending messages, oldest first', function () {
+      const state = {
+        ecfWallet: {
+          unapprovedTxs: {
+            1: { id: 1, ecfWalletNetworkId: 'test', time: 3 },
+            2: { id: 2, ecfWalletNetworkId: 'other network', time: 1 },
+          },
+          unapprovedPersonalMsgs: { 3: { id: 3, time: 2 } },
+          unapprovedTypedMessages: { 4: { id: 4, time: 4 } },
+          network: 'test',
+        },
+      };
+
+      assert.deepEqual(
+        unconfirmedTransactionsListSelector(state).map(({ id }) => id),
+        [3, 1, 4],
+      );
     });
   });
 

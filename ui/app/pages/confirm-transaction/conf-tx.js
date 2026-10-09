@@ -5,36 +5,24 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { MESSAGE_TYPE } from '../../../../app/scripts/lib/enums';
-import txHelper from '../../../lib/tx-helper';
 import SignatureRequest from '../../components/app/signature-request';
 import SignatureRequestOriginal from '../../components/app/signature-request-original';
 import Loading from '../../components/ui/loading-screen';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import withRouter from '../../helpers/higher-order-components/with-router';
+import { unconfirmedTransactionsListSelector } from '../../selectors';
 import * as actions from '../../store/actions';
 
 function mapStateToProps(state) {
   const { ecfWallet, appState } = state;
-  const {
-    unapprovedMsgCount,
-    unapprovedPersonalMsgCount,
-    unapprovedTypedMessagesCount,
-  } = ecfWallet;
+  const { unapprovedPersonalMsgCount, unapprovedTypedMessagesCount } =
+    ecfWallet;
   const { txId } = appState;
 
   return {
-    identities: state.ecfWallet.identities,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-    unapprovedTxs: state.ecfWallet.unapprovedTxs,
-    unapprovedMsgs: state.ecfWallet.unapprovedMsgs,
-    unapprovedPersonalMsgs: state.ecfWallet.unapprovedPersonalMsgs,
-    unapprovedTypedMessages: state.ecfWallet.unapprovedTypedMessages,
+    unconfirmedTransactions: unconfirmedTransactionsListSelector(state),
     index: txId,
-    warning: state.appState.warning,
-    network: state.ecfWallet.network,
-    provider: state.ecfWallet.provider,
-    blockGasLimit: state.ecfWallet.currentBlockGasLimit,
-    unapprovedMsgCount,
     unapprovedPersonalMsgCount,
     unapprovedTypedMessagesCount,
     send: state.ecfWallet.send,
@@ -42,26 +30,25 @@ function mapStateToProps(state) {
   };
 }
 
+// Unapproved transactions (as opposed to signature/decrypt/encryption-key
+// messages, which all carry msgParams) for the current network.
+function getTransactionsOnly(unconfirmedTransactions = []) {
+  return unconfirmedTransactions.filter(({ msgParams }) => !msgParams);
+}
+
 class ConfirmTxScreen extends Component {
   static propTypes = {
     mostRecentOverviewPage: PropTypes.string.isRequired,
-    unapprovedMsgCount: PropTypes.number,
     unapprovedPersonalMsgCount: PropTypes.number,
     unapprovedTypedMessagesCount: PropTypes.number,
-    network: PropTypes.string,
     index: PropTypes.number,
-    unapprovedTxs: PropTypes.object,
-    unapprovedMsgs: PropTypes.object,
-    unapprovedPersonalMsgs: PropTypes.object,
-    unapprovedTypedMessages: PropTypes.object,
+    unconfirmedTransactions: PropTypes.array,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
 
     currentNetworkTxList: PropTypes.array,
-    blockGasLimit: PropTypes.string,
     navigate: PropTypes.func,
-    identities: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     send: PropTypes.shape({
       to: PropTypes.string,
@@ -69,37 +56,18 @@ class ConfirmTxScreen extends Component {
   };
 
   getUnapprovedMessagesTotal() {
-    const {
-      unapprovedMsgCount = 0,
-      unapprovedPersonalMsgCount = 0,
-      unapprovedTypedMessagesCount = 0,
-    } = this.props;
+    const { unapprovedPersonalMsgCount = 0, unapprovedTypedMessagesCount = 0 } =
+      this.props;
 
-    return (
-      unapprovedTypedMessagesCount +
-      unapprovedMsgCount +
-      unapprovedPersonalMsgCount
-    );
+    return unapprovedTypedMessagesCount + unapprovedPersonalMsgCount;
   }
 
   getTxData() {
     const {
-      network,
       index,
-      unapprovedTxs,
-      unapprovedMsgs,
-      unapprovedPersonalMsgs,
-      unapprovedTypedMessages,
+      unconfirmedTransactions: unconfTxList = [],
       params: { id: transactionId } = {},
     } = this.props;
-
-    const unconfTxList = txHelper(
-      unapprovedTxs,
-      unapprovedMsgs,
-      unapprovedPersonalMsgs,
-      unapprovedTypedMessages,
-      network,
-    );
 
     log.info(`rendering a combined ${unconfTxList.length} unconf msgs & txs`);
 
@@ -155,14 +123,9 @@ class ConfirmTxScreen extends Component {
   }
 
   componentDidMount() {
-    const {
-      unapprovedTxs = {},
-      navigate,
-      mostRecentOverviewPage,
-      network,
-      send,
-    } = this.props;
-    const unconfTxList = txHelper(unapprovedTxs, {}, {}, {}, network);
+    const { unconfirmedTransactions, navigate, mostRecentOverviewPage, send } =
+      this.props;
+    const unconfTxList = getTransactionsOnly(unconfirmedTransactions);
 
     if (
       unconfTxList.length === 0 &&
@@ -175,8 +138,7 @@ class ConfirmTxScreen extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      unapprovedTxs = {},
-      network,
+      unconfirmedTransactions,
       currentNetworkTxList,
       send,
       navigate,
@@ -189,14 +151,17 @@ class ConfirmTxScreen extends Component {
     if (transactionId) {
       prevTx = currentNetworkTxList.find(({ id }) => `${id}` === transactionId);
     } else {
-      const { index: prevIndex, unapprovedTxs: prevUnapprovedTxs } = prevProps;
-      const prevUnconfTxList = txHelper(prevUnapprovedTxs, {}, {}, {}, network);
+      const {
+        index: prevIndex,
+        unconfirmedTransactions: prevUnconfirmedTransactions,
+      } = prevProps;
+      const prevUnconfTxList = getTransactionsOnly(prevUnconfirmedTransactions);
       const prevTxData = prevUnconfTxList[prevIndex] || {};
       prevTx =
         currentNetworkTxList.find(({ id }) => id === prevTxData.id) || {};
     }
 
-    const unconfTxList = txHelper(unapprovedTxs, {}, {}, {}, network);
+    const unconfTxList = getTransactionsOnly(unconfirmedTransactions);
 
     if (prevTx && prevTx.status === 'dropped') {
       this.props.dispatch(
@@ -219,8 +184,6 @@ class ConfirmTxScreen extends Component {
   }
 
   render() {
-    const { blockGasLimit } = this.props;
-
     const txData = this.getTxData() || {};
     const {
       msgParams,
@@ -238,8 +201,6 @@ class ConfirmTxScreen extends Component {
       <SigComponent
         txData={txData}
         key={txData.id}
-        identities={this.props.identities}
-        blockGasLimit={blockGasLimit}
         signPersonalMessage={this.signPersonalMessage.bind(this, txData)}
         signTypedMessage={this.signTypedMessage.bind(this, txData)}
         cancelPersonalMessage={this.cancelPersonalMessage.bind(this, txData)}

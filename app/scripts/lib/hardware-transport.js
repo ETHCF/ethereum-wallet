@@ -11,6 +11,8 @@ import {
   TrezorConnectBridge,
 } from '@metamask/eth-trezor-keyring';
 
+import { HARDWARE_KEYRING_METHODS } from './enums';
+
 // The upstream transport bridge also accepts desktop transports. Open only a
 // device already authorized by the wallet's Connect button (a user gesture).
 export class LedgerWebHIDBridge extends LedgerMobileBridge {
@@ -57,19 +59,7 @@ export function createHardwareRequestHandler({
     ['Trezor Hardware', trezor],
     ['Ledger Hardware', ledger],
   ]);
-  const methods = new Set([
-    'unlock',
-    'addAccounts',
-    'getFirstPage',
-    'getNextPage',
-    'getPreviousPage',
-    'signTransaction',
-    'signMessage',
-    'signPersonalMessage',
-    'signTypedData',
-    'exportAccount',
-    'forgetDevice',
-  ]);
+  const methods = new Set(HARDWARE_KEYRING_METHODS);
 
   return async function performRequest({
     id,
@@ -172,11 +162,9 @@ export function createHardwareRequestHandler({
     }
     let callArgs = args;
     if (method === 'signTransaction') {
+      // The type was checked when the request arrived.
       const params = args[1];
       const type = Number(params.type || 0);
-      if (![0, 1, 2].includes(type)) {
-        throw new Error('Unsupported hardware transaction type');
-      }
       const tx = TransactionFactory.fromTxData(
         { ...params, type },
         {

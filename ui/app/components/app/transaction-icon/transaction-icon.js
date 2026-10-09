@@ -6,7 +6,6 @@ import {
   TRANSACTION_CATEGORY_SIGNATURE_REQUEST,
   TRANSACTION_CATEGORY_INTERACTION,
   TRANSACTION_CATEGORY_SEND,
-  TRANSACTION_CATEGORY_RECEIVE,
   UNAPPROVED_STATUS,
   FAILED_STATUS,
   REJECTED_STATUS,
@@ -17,7 +16,6 @@ import {
 } from '../../../helpers/constants/transactions';
 import Approve from '../../ui/icon/approve-icon.component';
 import Interaction from '../../ui/icon/interaction-icon.component';
-import Receive from '../../ui/icon/receive-icon.component';
 import Send from '../../ui/icon/send-icon.component';
 import Sign from '../../ui/icon/sign-icon.component';
 
@@ -26,7 +24,6 @@ const ICON_MAP = {
   [TRANSACTION_CATEGORY_INTERACTION]: Interaction,
   [TRANSACTION_CATEGORY_SEND]: Send,
   [TRANSACTION_CATEGORY_SIGNATURE_REQUEST]: Sign,
-  [TRANSACTION_CATEGORY_RECEIVE]: Receive,
 };
 
 const FAIL_COLOR = 'var(--color-error-default)';

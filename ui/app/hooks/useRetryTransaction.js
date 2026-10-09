@@ -33,19 +33,13 @@ export function useRetryTransaction(transactionGroup) {
       if (!isFeeMarketTransaction(primaryTransaction.txParams)) {
         await dispatch(fetchBasicGasEstimates());
       }
-      const transaction = primaryTransaction;
-      const increasedGasPrice = increaseLastGasPrice(gasPrice);
-      dispatch(
-        setCustomGasPriceForRetry(
-          increasedGasPrice || gasPriceForTransaction(transaction.txParams),
-        ),
-      );
-      dispatch(setCustomGasLimit(transaction.txParams.gas));
+      dispatch(setCustomGasPriceForRetry(increaseLastGasPrice(gasPrice)));
+      dispatch(setCustomGasLimit(primaryTransaction.txParams.gas));
       dispatch(
         showSidebar({
           transitionName: 'sidebar-left',
           type: 'customize-gas',
-          props: { transaction },
+          props: { transaction: primaryTransaction },
         }),
       );
     },

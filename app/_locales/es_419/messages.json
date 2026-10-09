@@ -248,9 +248,6 @@
   "delete": {
     "message": "Borrar"
   },
-  "deposit": {
-    "message": "Depósito"
-  },
   "details": {
     "message": "Detalles"
   },
@@ -635,9 +632,6 @@
   "privateKeyWarning": {
     "message": "Advertencia: Nunca reveles esta clave. Cualquier persona con acceso a tus claves privadas puede robar cualquier activo que se encuentre en tu cuenta."
   },
-  "privateNetwork": {
-    "message": "Red privada"
-  },
   "queue": {
     "message": "Cola"
   },
@@ -667,12 +661,6 @@
   },
   "reset": {
     "message": "Restablecer"
-  },
-  "resetAccount": {
-    "message": "Restablecer cuenta"
-  },
-  "resetAccountDescription": {
-    "message": "Si restableces tu cuenta, se eliminará el historial de transacciones."
   },
   "deleteNetwork": {
     "message": "¿Eliminar red?"

@@ -16,8 +16,6 @@ export default class PermissionConnect extends Component {
   static propTypes = {
     approvePermissionsRequest: PropTypes.func.isRequired,
     rejectPermissionsRequest: PropTypes.func.isRequired,
-    getRequestAccountTabIds: PropTypes.func.isRequired,
-    getCurrentWindowTab: PropTypes.func.isRequired,
     accounts: PropTypes.array.isRequired,
     currentAddress: PropTypes.string.isRequired,
     origin: PropTypes.string,
@@ -77,14 +75,7 @@ export default class PermissionConnect extends Component {
   };
 
   componentDidMount() {
-    const {
-      getCurrentWindowTab,
-      getRequestAccountTabIds,
-      permissionsRequest,
-      navigate,
-    } = this.props;
-    getCurrentWindowTab();
-    getRequestAccountTabIds();
+    const { permissionsRequest, navigate } = this.props;
 
     if (!permissionsRequest) {
       navigate(DEFAULT_ROUTE);

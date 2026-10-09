@@ -97,9 +97,6 @@
   "defaultNetwork": {
     "message": "$ETH işlemleri için varsayılan ağ Mainnet."
   },
-  "deposit": {
-    "message": "Yatır"
-  },
   "details": {
     "message": "Ayrıntılar"
   },
@@ -286,9 +283,6 @@
   "privateKeyWarning": {
     "message": "Uyarı: Bu anahtarı kimse ile paylaşmayın. Özel anahtarlarınıza sahip herkes hesaplarınızıdaki tüm varlığınızı çalabilir."
   },
-  "privateNetwork": {
-    "message": "Özel Ağ"
-  },
   "readdToken": {
     "message": "Gelecekte Bu jetonu hesap seçenekleri menüsünde “Jeton ekle”'ye giderek geri ekleyebilirsiniz."
   },
@@ -297,9 +291,6 @@
   },
   "rejected": {
     "message": "Rededildi"
-  },
-  "resetAccount": {
-    "message": "Hesabı sıfıla"
   },
   "restoreFromSeed": {
     "message": "Kaynak ifadeden geri getir. Restore from seed phrase"

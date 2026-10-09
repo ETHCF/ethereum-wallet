@@ -9,7 +9,6 @@ import {
   INCORRECT_PASSWORD_MESSAGE,
 } from '../../../app/scripts/lib/enums';
 import { getEnvironmentType } from '../../../app/scripts/lib/util';
-import txHelper from '../../lib/tx-helper';
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account';
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/ecf-wallet/ecf-wallet';
 import { setCustomGasLimit } from '../ducks/gas/gas.duck';
@@ -24,6 +23,7 @@ import { calcTokenBalance, estimateGas } from '../pages/send/send.utils';
 import {
   getPermittedAccountsForCurrentTab,
   getSelectedAddress,
+  unconfirmedTransactionsListSelector,
 } from '../selectors';
 
 let background = null;
@@ -31,6 +31,42 @@ let promisifiedBackground = null;
 export function _setBackgroundConnection(backgroundConnection) {
   background = backgroundConnection;
   promisifiedBackground = pify(background);
+}
+
+/**
+ * Runs `fn` behind the loading overlay, and hides the overlay once `fn`
+ * settles, whether or not it threw. Leaving the overlay up would block every
+ * click on the page.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {Function} fn - The work to do; it may return a promise.
+ * @returns {Promise<*>} Whatever `fn` returns.
+ */
+async function withLoading(dispatch, fn) {
+  dispatch(showLoadingIndication());
+  try {
+    return await fn();
+  } finally {
+    dispatch(hideLoadingIndication());
+  }
+}
+
+/**
+ * Like {@link withLoading}, but also logs and displays the error, then
+ * rethrows it.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {Function} fn - The work to do; it may return a promise.
+ * @returns {Promise<*>} Whatever `fn` returns.
+ */
+async function withLoadingAndWarning(dispatch, fn) {
+  try {
+    return await withLoading(dispatch, fn);
+  } catch (error) {
+    log.error(error);
+    dispatch(displayWarning(error.message));
+    throw error;
+  }
 }
 
 export function goHome() {
@@ -44,15 +80,10 @@ export function goHome() {
 export function tryUnlockEcfWallet(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-    dispatch(unlockInProgress());
     log.debug(`background.submitPassword`);
 
     try {
-      await new Promise((resolve, reject) => {
-        background.submitPassword(password, (error) =>
-          error ? reject(error) : resolve(),
-        );
-      });
+      await submitPassword(password);
     } catch (error) {
       log.error('ecf-wallet - submitPassword failed', error);
       dispatch(unlockFailed(error.message));
@@ -67,9 +98,7 @@ export function tryUnlockEcfWallet(password) {
     // unlock failed, so they must not reject.
     try {
       await forceUpdateEcfWalletState(dispatch);
-      await new Promise((resolve, reject) => {
-        background.verifySeedPhrase((err) => (err ? reject(err) : resolve()));
-      });
+      await promisifiedBackground.verifySeedPhrase();
     } catch (error) {
       log.error('ecf-wallet - unlocked, but could not finish loading', error);
     }
@@ -79,148 +108,92 @@ export function tryUnlockEcfWallet(password) {
 }
 
 export function createNewVaultAndRestore(password, seed) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication());
     log.debug(`background.createNewVaultAndRestore`);
+
     let vault;
-    return new Promise((resolve, reject) => {
-      background.createNewVaultAndRestore(password, seed, (err, _vault) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        vault = _vault;
-        resolve();
-      });
-    })
-      .then(() => dispatch(unMarkPasswordForgotten()))
-      .then(() => {
-        dispatch(showAccountsPage());
-        dispatch(hideLoadingIndication());
-        return vault;
-      })
-      .catch((err) => {
-        dispatch(displayWarning(err.message));
-        dispatch(hideLoadingIndication());
-        throw err;
-      });
+    try {
+      vault = await promisifiedBackground.createNewVaultAndRestore(
+        password,
+        seed,
+      );
+      dispatch(forgotPassword(false));
+      await forceUpdateEcfWalletState(dispatch);
+    } catch (err) {
+      dispatch(displayWarning(err.message));
+      dispatch(hideLoadingIndication());
+      throw err;
+    }
+
+    dispatch(showAccountsPage());
+    dispatch(hideLoadingIndication());
+    return vault;
   };
+}
+
+/**
+ * Runs `fn` behind the loading overlay, displaying any error and rethrowing
+ * it as a plain Error.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {Function} fn - Resolves with the seed phrase.
+ * @returns {Promise<string>} The seed phrase.
+ */
+async function withSeedPhraseLoading(dispatch, fn) {
+  try {
+    return await withLoading(dispatch, fn);
+  } catch (error) {
+    dispatch(displayWarning(error.message));
+    throw new Error(error.message);
+  }
 }
 
 export function createNewVaultAndGetSeedPhrase(password) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    try {
+  return (dispatch) =>
+    withSeedPhraseLoading(dispatch, async () => {
       await createNewVault(password);
-      const seedWords = await getSeedPhrase(password);
-      dispatch(hideLoadingIndication());
-      return seedWords;
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      dispatch(displayWarning(error.message));
-      throw new Error(error.message);
-    }
-  };
+      return getSeedPhrase(password);
+    });
 }
 
 export function unlockAndGetSeedPhrase(password) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    try {
+  return (dispatch) =>
+    withSeedPhraseLoading(dispatch, async () => {
       await submitPassword(password);
       const seedWords = await getSeedPhrase(password);
       await forceUpdateEcfWalletState(dispatch);
-      dispatch(hideLoadingIndication());
       return seedWords;
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      dispatch(displayWarning(error.message));
-      throw new Error(error.message);
-    }
-  };
+    });
 }
 
-export function submitPassword(password) {
-  return new Promise((resolve, reject) => {
-    background.submitPassword(password, (error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve();
-    });
-  });
+export async function submitPassword(password) {
+  await promisifiedBackground.submitPassword(password);
 }
 
-export function createNewVault(password) {
-  return new Promise((resolve, reject) => {
-    background.createNewVaultAndKeychain(password, (error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve(true);
-    });
-  });
-}
-
-export function verifyPassword(password) {
-  return new Promise((resolve, reject) => {
-    background.verifyPassword(password, (error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve(true);
-    });
-  });
+export async function createNewVault(password) {
+  await promisifiedBackground.createNewVaultAndKeychain(password);
+  return true;
 }
 
 export function getSeedPhrase(password) {
-  return new Promise((resolve, reject) => {
-    background.getSeedPhrase(password, (error, seedWords) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      resolve(seedWords);
-    });
-  });
+  return promisifiedBackground.getSeedPhrase(password);
 }
 
 export function requestRevealSeedWords(password) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
+  return (dispatch) => {
     log.debug(`background.getSeedPhrase`);
-
-    try {
-      const seedWords = await getSeedPhrase(password);
-      dispatch(hideLoadingIndication());
-      return seedWords;
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      dispatch(displayWarning(error.message));
-      throw new Error(error.message);
-    }
+    return withSeedPhraseLoading(dispatch, () => getSeedPhrase(password));
   };
 }
 
 export function tryReverseResolveAddress(address) {
-  return () => {
-    return new Promise((resolve) => {
-      background.tryReverseResolveAddress(address, (err) => {
-        if (err) {
-          log.error(err);
-        }
-        resolve();
-      });
-    });
+  return async () => {
+    try {
+      await promisifiedBackground.tryReverseResolveAddress(address);
+    } catch (err) {
+      log.error(err);
+    }
   };
 }
 
@@ -244,41 +217,12 @@ export function clearClipboard() {
   return () => promisifiedBackground.clearClipboard();
 }
 
-export function resetAccount() {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    return new Promise((resolve, reject) => {
-      background.resetAccount((err, account) => {
-        dispatch(hideLoadingIndication());
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-
-        log.info(`Transaction history reset for ${account}`);
-        dispatch(showAccountsPage());
-        resolve(account);
-      });
-    });
-  };
-}
-
 export function removeAccount(address) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
 
     try {
-      await new Promise((resolve, reject) => {
-        background.removeAccount(address, (error, account) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(account);
-        });
-      });
+      await promisifiedBackground.removeAccount(address);
       await forceUpdateEcfWalletState(dispatch);
     } catch (error) {
       dispatch(displayWarning(error.message));
@@ -324,20 +268,14 @@ export function addNewAccount() {
   log.debug(`background.addNewAccount`);
   return async (dispatch, getState) => {
     const oldIdentities = getState().ecfWallet.identities;
-    dispatch(showLoadingIndication());
 
-    let newIdentities;
-    try {
-      const { identities } = await promisifiedBackground.addNewAccount();
-      newIdentities = identities;
-    } catch (error) {
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
+    const { identities: newIdentities } = await withLoadingAndWarning(
+      dispatch,
+      () => promisifiedBackground.addNewAccount(),
+    );
     const newAccountAddress = Object.keys(newIdentities).find(
       (address) => !oldIdentities[address],
     );
-    dispatch(hideLoadingIndication());
     await forceUpdateEcfWalletState(dispatch);
     return newAccountAddress;
   };
@@ -346,23 +284,9 @@ export function addNewAccount() {
 export function checkHardwareStatus(deviceName, hdPath) {
   log.debug(`background.checkHardwareStatus`, deviceName, hdPath);
   return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let unlocked;
-    try {
-      unlocked = await promisifiedBackground.checkHardwareStatus(
-        deviceName,
-        hdPath,
-      );
-    } catch (error) {
-      // Leaving the loading overlay up would block every click on the page.
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-
-    dispatch(hideLoadingIndication());
+    const unlocked = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.checkHardwareStatus(deviceName, hdPath),
+    );
     await forceUpdateEcfWalletState(dispatch);
     return unlocked;
   };
@@ -371,18 +295,9 @@ export function checkHardwareStatus(deviceName, hdPath) {
 export function forgetDevice(deviceName) {
   log.debug(`background.forgetDevice`, deviceName);
   return async (dispatch) => {
-    dispatch(showLoadingIndication());
-    try {
-      await promisifiedBackground.forgetDevice(deviceName);
-    } catch (error) {
-      // Leaving the loading overlay up would block every click on the page.
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-
-    dispatch(hideLoadingIndication());
+    await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.forgetDevice(deviceName),
+    );
     await forceUpdateEcfWalletState(dispatch);
   };
 }
@@ -390,24 +305,10 @@ export function forgetDevice(deviceName) {
 export function connectHardware(deviceName, page, hdPath) {
   log.debug(`background.connectHardware`, deviceName, page, hdPath);
   return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let accounts;
-    try {
-      accounts = await promisifiedBackground.connectHardware(
-        deviceName,
-        page,
-        hdPath,
-      );
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-    dispatch(hideLoadingIndication());
+    const accounts = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.connectHardware(deviceName, page, hdPath),
+    );
     await forceUpdateEcfWalletState(dispatch);
-
     return accounts;
   };
 }
@@ -419,51 +320,65 @@ export function unlockHardwareWalletAccount(index, deviceName, hdPath) {
     deviceName,
     hdPath,
   );
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.unlockHardwareWalletAccount(
+  return async (dispatch) => {
+    await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.unlockHardwareWalletAccount(
         index,
         deviceName,
         hdPath,
-        (err) => {
-          dispatch(hideLoadingIndication());
-          if (err) {
-            log.error(err);
-            dispatch(displayWarning(err.message));
-            reject(err);
-            return;
-          }
-
-          resolve();
-        },
-      );
-    });
+      ),
+    );
   };
 }
 
-export function signPersonalMsg(msgData) {
-  log.debug('action - signPersonalMsg');
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`actions calling background.signPersonalMessage`);
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.signPersonalMessage(msgData);
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-    dispatch(hideLoadingIndication());
+/**
+ * Builds the action creator that approves a pending message request.
+ *
+ * @param {string} backgroundMethod - The background method that approves it.
+ * @returns {Function} An action creator taking the message data.
+ */
+function approveMessage(backgroundMethod) {
+  return (msgData) => async (dispatch) => {
+    log.debug(`actions calling background.${backgroundMethod}`);
+    const newState = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground[backgroundMethod](msgData),
+    );
     dispatch(updateEcfWalletState(newState));
     dispatch(completedTx(msgData.ecfWalletId));
     dispatch(closeCurrentNotificationWindow());
     return msgData;
   };
 }
+
+/**
+ * Builds the action creator that rejects a pending message request.
+ *
+ * @param {string} backgroundMethod - The background method that rejects it.
+ * @returns {Function} An action creator taking the message data.
+ */
+function cancelMessage(backgroundMethod) {
+  return (msgData) => async (dispatch) => {
+    const newState = await withLoading(dispatch, () =>
+      promisifiedBackground[backgroundMethod](msgData.id),
+    );
+    dispatch(updateEcfWalletState(newState));
+    dispatch(completedTx(msgData.id));
+    dispatch(closeCurrentNotificationWindow());
+    return msgData;
+  };
+}
+
+export const signPersonalMsg = approveMessage('signPersonalMessage');
+export const decryptMsg = approveMessage('decryptMessage');
+export const encryptionPublicKeyMsg = approveMessage('encryptionPublicKey');
+export const signTypedMsg = approveMessage('signTypedMessage');
+
+export const cancelPersonalMsg = cancelMessage('cancelPersonalMessage');
+export const cancelDecryptMsg = cancelMessage('cancelDecryptMessage');
+export const cancelEncryptionPublicKeyMsg = cancelMessage(
+  'cancelEncryptionPublicKey',
+);
+export const cancelTypedMsg = cancelMessage('cancelTypedMessage');
 
 export function decryptMsgInline(decryptedMsgData) {
   log.debug('action - decryptMsgInline');
@@ -482,75 +397,6 @@ export function decryptMsgInline(decryptedMsgData) {
 
     dispatch(updateEcfWalletState(newState));
     return newState.unapprovedDecryptMsgs[decryptedMsgData.ecfWalletId];
-  };
-}
-
-export function decryptMsg(decryptedMsgData) {
-  log.debug('action - decryptMsg');
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`actions calling background.decryptMessage`);
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.decryptMessage(decryptedMsgData);
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-    dispatch(hideLoadingIndication());
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(decryptedMsgData.ecfWalletId));
-    dispatch(closeCurrentNotificationWindow());
-    return decryptedMsgData;
-  };
-}
-
-export function encryptionPublicKeyMsg(msgData) {
-  log.debug('action - encryptionPublicKeyMsg');
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`actions calling background.encryptionPublicKey`);
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.encryptionPublicKey(msgData);
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-    dispatch(hideLoadingIndication());
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.ecfWalletId));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
-  };
-}
-
-export function signTypedMsg(msgData) {
-  log.debug('action - signTypedMsg');
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`actions calling background.signTypedMessage`);
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.signTypedMessage(msgData);
-    } catch (error) {
-      dispatch(hideLoadingIndication());
-      log.error(error);
-      dispatch(displayWarning(error.message));
-      throw error;
-    }
-    dispatch(hideLoadingIndication());
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.ecfWalletId));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
   };
 }
 
@@ -684,13 +530,6 @@ export function updateSendAmount(amount) {
   };
 }
 
-export function updateCustomNonce(value) {
-  return {
-    type: actionConstants.UPDATE_CUSTOM_NONCE,
-    value,
-  };
-}
-
 export function setMaxModeTo(bool) {
   return {
     type: actionConstants.UPDATE_MAX_MODE,
@@ -752,106 +591,73 @@ export function signTokenTx(tokenAddress, toAddress, amount, txData) {
   };
 }
 
-const updateEcfWalletStateFromBackground = () => {
-  log.debug(`background.getState`);
+/**
+ * Sends the edited transaction to the background. The UI keeps the edited
+ * params whether or not the background accepted them; on failure it goes
+ * home and rethrows.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {string} backgroundMethod - The background method to call.
+ * @param {object} txData - The edited transaction.
+ * @param {object} [options] - Optional settings.
+ * @param {boolean} [options.clearSendForm] - Whether to also clear the send
+ * form once the background has answered.
+ */
+async function submitEditedTx(
+  dispatch,
+  backgroundMethod,
+  txData,
+  { clearSendForm = false } = {},
+) {
+  let error;
+  try {
+    await promisifiedBackground[backgroundMethod](txData);
+  } catch (err) {
+    error = err;
+  }
 
-  return new Promise((resolve, reject) => {
-    background.getState((error, newState) => {
-      if (error) {
-        reject(error);
-        return;
-      }
+  dispatch(updateTransactionParams(txData.id, txData.txParams));
+  if (clearSendForm) {
+    dispatch(clearSend());
+  }
 
-      resolve(newState);
-    });
-  });
-};
+  if (error) {
+    dispatch(goHome());
+    log.error(error.message);
+    throw error;
+  }
+}
 
 export function updateTransaction(txData) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    return new Promise((resolve, reject) => {
-      background.updateTransaction(txData, (err) => {
-        dispatch(updateTransactionParams(txData.id, txData.txParams));
-        if (err) {
-          dispatch(txError(err));
-          dispatch(goHome());
-          log.error(err.message);
-          reject(err);
-          return;
-        }
-
-        resolve(txData);
-      });
-    })
-      .then(() => updateEcfWalletStateFromBackground())
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => {
-        dispatch(showConfTxPage({ id: txData.id }));
-        dispatch(hideLoadingIndication());
-        return txData;
-      });
-  };
+  return (dispatch) =>
+    withLoading(dispatch, async () => {
+      await submitEditedTx(dispatch, 'updateTransaction', txData);
+      await forceUpdateEcfWalletState(dispatch);
+      dispatch(showConfTxPage({ id: txData.id }));
+      return txData;
+    });
 }
 
 export function updateAndApproveTx(txData) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.updateAndApproveTransaction(txData, (err) => {
-        dispatch(updateTransactionParams(txData.id, txData.txParams));
-        dispatch(clearSend());
-
-        if (err) {
-          dispatch(txError(err));
-          dispatch(goHome());
-          log.error(err.message);
-          reject(err);
-          return;
-        }
-
-        resolve(txData);
+  return async (dispatch) => {
+    await withLoading(dispatch, async () => {
+      await submitEditedTx(dispatch, 'updateAndApproveTransaction', txData, {
+        clearSendForm: true,
       });
-    })
-      .then(() => updateEcfWalletStateFromBackground())
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => {
-        dispatch(clearSend());
-        dispatch(completedTx(txData.id));
-        dispatch(hideLoadingIndication());
-        dispatch(updateCustomNonce(''));
-        dispatch(closeCurrentNotificationWindow());
-
-        return txData;
-      })
-      .catch((err) => {
-        dispatch(hideLoadingIndication());
-        throw err;
-      });
+      await forceUpdateEcfWalletState(dispatch);
+      dispatch(clearSend());
+      dispatch(completedTx(txData.id));
+    });
+    dispatch(closeCurrentNotificationWindow());
+    return txData;
   };
 }
 
 export function completedTx(id) {
   return (dispatch, getState) => {
-    const state = getState();
-    const {
-      unapprovedTxs,
-      unapprovedMsgs,
-      unapprovedPersonalMsgs,
-      unapprovedTypedMessages,
-      network,
-    } = state.ecfWallet;
-    const unconfirmedActions = txHelper(
-      unapprovedTxs,
-      unapprovedMsgs,
-      unapprovedPersonalMsgs,
-      unapprovedTypedMessages,
-      network,
-    );
-    const otherUnconfirmedActions = unconfirmedActions.filter(
-      (tx) => tx.id !== id,
-    );
+    const otherUnconfirmedActions = unconfirmedTransactionsListSelector(
+      getState(),
+    ).filter((tx) => tx.id !== id);
     dispatch({
       type: actionConstants.COMPLETED_TX,
       value: {
@@ -870,106 +676,16 @@ export function updateTransactionParams(id, txParams) {
   };
 }
 
-export function txError(err) {
-  return {
-    type: actionConstants.TRANSACTION_ERROR,
-    message: err.message,
-  };
-}
-
-export function cancelPersonalMsg(msgData) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.cancelPersonalMessage(msgData.id);
-    } finally {
-      dispatch(hideLoadingIndication());
-    }
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.id));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
-  };
-}
-
-export function cancelDecryptMsg(msgData) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.cancelDecryptMessage(msgData.id);
-    } finally {
-      dispatch(hideLoadingIndication());
-    }
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.id));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
-  };
-}
-
-export function cancelEncryptionPublicKeyMsg(msgData) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.cancelEncryptionPublicKey(
-        msgData.id,
-      );
-    } finally {
-      dispatch(hideLoadingIndication());
-    }
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.id));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
-  };
-}
-
-export function cancelTypedMsg(msgData) {
-  return async (dispatch) => {
-    dispatch(showLoadingIndication());
-
-    let newState;
-    try {
-      newState = await promisifiedBackground.cancelTypedMessage(msgData.id);
-    } finally {
-      dispatch(hideLoadingIndication());
-    }
-    dispatch(updateEcfWalletState(newState));
-    dispatch(completedTx(msgData.id));
-    dispatch(closeCurrentNotificationWindow());
-    return msgData;
-  };
-}
-
 export function cancelTx(txData) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.cancelTransaction(txData.id, (err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve();
-      });
-    })
-      .then(() => updateEcfWalletStateFromBackground())
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => {
-        dispatch(clearSend());
-        dispatch(completedTx(txData.id));
-        dispatch(hideLoadingIndication());
-        dispatch(closeCurrentNotificationWindow());
-
-        return txData;
-      });
+  return async (dispatch) => {
+    await withLoading(dispatch, async () => {
+      await promisifiedBackground.cancelTransaction(txData.id);
+      await forceUpdateEcfWalletState(dispatch);
+      dispatch(clearSend());
+      dispatch(completedTx(txData.id));
+    });
+    dispatch(closeCurrentNotificationWindow());
+    return txData;
   };
 }
 
@@ -981,32 +697,17 @@ export function cancelTx(txData) {
  */
 export function cancelTxs(txDataList) {
   return async (dispatch) => {
-    dispatch(showLoadingIndication());
     const txIds = txDataList.map(({ id }) => id);
-    const cancellations = txIds.map(
-      (id) =>
-        new Promise((resolve, reject) => {
-          background.cancelTransaction(id, (err) => {
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            resolve();
-          });
-        }),
-    );
-
-    await Promise.all(cancellations);
-    const newState = await updateEcfWalletStateFromBackground();
-    dispatch(updateEcfWalletState(newState));
-    dispatch(clearSend());
-
-    txIds.forEach((id) => {
-      dispatch(completedTx(id));
+    await withLoading(dispatch, async () => {
+      await Promise.all(
+        txIds.map((id) => promisifiedBackground.cancelTransaction(id)),
+      );
+      await forceUpdateEcfWalletState(dispatch);
+      dispatch(clearSend());
+      txIds.forEach((id) => {
+        dispatch(completedTx(id));
+      });
     });
-
-    dispatch(hideLoadingIndication());
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
       global.platform.closeCurrentWindow();
@@ -1015,37 +716,11 @@ export function cancelTxs(txDataList) {
 }
 
 export function markPasswordForgotten() {
-  return async (dispatch) => {
-    try {
-      await new Promise((resolve, reject) => {
-        return background.markPasswordForgotten((error) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve();
-        });
-      });
-    } catch (error) {
-      dispatch(displayWarning(error.message));
-      throw error;
-    } finally {
-      dispatch(hideLoadingIndication());
-    }
-    dispatch(forgotPassword());
-    await forceUpdateEcfWalletState(dispatch);
-  };
+  return forgotPassword(true);
 }
 
 export function unMarkPasswordForgotten() {
-  return (dispatch) => {
-    return new Promise((resolve) => {
-      background.unMarkPasswordForgotten(() => {
-        dispatch(forgotPassword(false));
-        resolve();
-      });
-    }).then(() => forceUpdateEcfWalletState(dispatch));
-  };
+  return forgotPassword(false);
 }
 
 export function forgotPassword(forgotPasswordState = true) {
@@ -1055,21 +730,9 @@ export function forgotPassword(forgotPasswordState = true) {
   };
 }
 
-export function closeWelcomeScreen() {
-  return {
-    type: actionConstants.CLOSE_WELCOME_SCREEN,
-  };
-}
-
 //
 // unlock screen
 //
-
-export function unlockInProgress() {
-  return {
-    type: actionConstants.UNLOCK_IN_PROGRESS,
-  };
-}
 
 export function unlockFailed(message) {
   return {
@@ -1107,40 +770,24 @@ export function updateEcfWalletState(newState) {
   };
 }
 
-const backgroundSetLocked = () => {
-  return new Promise((resolve, reject) => {
-    background.setLocked((error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      resolve();
-    });
-  });
-};
-
 export function lockEcfWallet() {
   log.debug(`background.setLocked`);
 
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication());
 
-    return backgroundSetLocked()
-      .then(() => updateEcfWalletStateFromBackground())
-      .catch((error) => {
-        dispatch(displayWarning(error.message));
-        throw error;
-      })
-      .then((newState) => {
-        dispatch(updateEcfWalletState(newState));
-        dispatch(hideLoadingIndication());
-        dispatch({ type: actionConstants.LOCK_ECF_WALLET });
-        return undefined;
-      })
-      .catch(() => {
-        dispatch(hideLoadingIndication());
-        dispatch({ type: actionConstants.LOCK_ECF_WALLET });
-      });
+    // The UI locks even when the background could not.
+    try {
+      await promisifiedBackground.setLocked();
+      log.debug(`background.getState`);
+      const newState = await promisifiedBackground.getState();
+      dispatch(updateEcfWalletState(newState));
+    } catch (error) {
+      dispatch(displayWarning(error.message));
+    }
+
+    dispatch(hideLoadingIndication());
+    dispatch({ type: actionConstants.LOCK_ECF_WALLET });
   };
 }
 
@@ -1211,30 +858,14 @@ export function showAccountDetail(address) {
 
 export function addPermittedAccount(origin, address) {
   return async (dispatch) => {
-    await new Promise((resolve, reject) => {
-      background.addPermittedAccount(origin, address, (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
+    await promisifiedBackground.addPermittedAccount(origin, address);
     await forceUpdateEcfWalletState(dispatch);
   };
 }
 
 export function removePermittedAccount(origin, address) {
   return async (dispatch) => {
-    await new Promise((resolve, reject) => {
-      background.removePermittedAccount(origin, address, (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
+    await promisifiedBackground.removePermittedAccount(origin, address);
     await forceUpdateEcfWalletState(dispatch);
   };
 }
@@ -1253,38 +884,22 @@ export function showConfTxPage({ id } = {}) {
 }
 
 export function addToken(address, symbol, decimals, image) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.addToken(address, symbol, decimals, image, (err, tokens) => {
-        dispatch(hideLoadingIndication());
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-        dispatch(updateTokens(tokens));
-        resolve(tokens);
-      });
-    });
+  return async (dispatch) => {
+    const tokens = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.addToken(address, symbol, decimals, image),
+    );
+    dispatch(updateTokens(tokens));
+    return tokens;
   };
 }
 
 export function removeToken(address) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.removeToken(address, (err, tokens) => {
-        dispatch(hideLoadingIndication());
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-        dispatch(updateTokens(tokens));
-        resolve(tokens);
-      });
-    });
+  return async (dispatch) => {
+    const tokens = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.removeToken(address),
+    );
+    dispatch(updateTokens(tokens));
+    return tokens;
   };
 }
 
@@ -1306,32 +921,20 @@ export function addTokens(tokens) {
 }
 
 export function removeSuggestedTokens() {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve) => {
-      background.removeSuggestedTokens((err, suggestedTokens) => {
-        dispatch(hideLoadingIndication());
-        if (err) {
-          dispatch(displayWarning(err.message));
-        }
-        dispatch(clearPendingTokens());
-        if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-          global.platform.closeCurrentWindow();
-          return;
-        }
-        resolve(suggestedTokens);
-      });
-    })
-      .then(() => updateEcfWalletStateFromBackground())
-      .then((suggestedTokens) =>
-        dispatch(updateEcfWalletState({ ...suggestedTokens })),
+  return async (dispatch) => {
+    try {
+      await withLoading(dispatch, () =>
+        promisifiedBackground.removeSuggestedTokens(),
       );
-  };
-}
-
-export function addKnownMethodData(fourBytePrefix, methodData) {
-  return () => {
-    background.addKnownMethodData(fourBytePrefix, methodData);
+    } catch (err) {
+      dispatch(displayWarning(err.message));
+    }
+    dispatch(clearPendingTokens());
+    if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
+      global.platform.closeCurrentWindow();
+      return;
+    }
+    await forceUpdateEcfWalletState(dispatch);
   };
 }
 
@@ -1348,88 +951,55 @@ export function clearPendingTokens() {
   };
 }
 
+/**
+ * Calls a background method that adds a replacement transaction, and
+ * dispatches the resulting state.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {string} backgroundMethod - The background method to call.
+ * @param {...*} args - The arguments for the background method.
+ * @returns {Promise<object>} The replacement transaction.
+ */
+async function createReplacementTx(dispatch, backgroundMethod, ...args) {
+  let newState;
+  try {
+    newState = await promisifiedBackground[backgroundMethod](...args);
+  } catch (err) {
+    dispatch(displayWarning(err.message));
+    throw err;
+  }
+
+  const { currentNetworkTxList } = newState;
+  const newTx = currentNetworkTxList[currentNetworkTxList.length - 1];
+  dispatch(updateEcfWalletState(newState));
+  return newTx;
+}
+
 export function createCancelTransaction(txId, customGasPrice) {
   log.debug('background.cancelTransaction');
-  let newTxId;
 
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.createCancelTransaction(
-        txId,
-        customGasPrice,
-        (err, newState) => {
-          if (err) {
-            dispatch(displayWarning(err.message));
-            reject(err);
-            return;
-          }
-
-          const { currentNetworkTxList } = newState;
-          const { id } = currentNetworkTxList[currentNetworkTxList.length - 1];
-          newTxId = id;
-          resolve(newState);
-        },
-      );
-    })
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => newTxId);
+  return async (dispatch) => {
+    const { id } = await createReplacementTx(
+      dispatch,
+      'createCancelTransaction',
+      txId,
+      customGasPrice,
+    );
+    return id;
   };
 }
 
 export function createSpeedUpTransaction(txId, customGasPrice, customGasLimit) {
   log.debug('background.createSpeedUpTransaction');
-  let newTx;
 
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.createSpeedUpTransaction(
-        txId,
-        customGasPrice,
-        customGasLimit,
-        (err, newState) => {
-          if (err) {
-            dispatch(displayWarning(err.message));
-            reject(err);
-            return;
-          }
-
-          const { currentNetworkTxList } = newState;
-          newTx = currentNetworkTxList[currentNetworkTxList.length - 1];
-          resolve(newState);
-        },
-      );
-    })
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => newTx);
-  };
-}
-
-export function createRetryTransaction(txId, customGasPrice, customGasLimit) {
-  log.debug('background.createRetryTransaction');
-  let newTx;
-
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.createSpeedUpTransaction(
-        txId,
-        customGasPrice,
-        customGasLimit,
-        (err, newState) => {
-          if (err) {
-            dispatch(displayWarning(err.message));
-            reject(err);
-            return;
-          }
-
-          const { currentNetworkTxList } = newState;
-          newTx = currentNetworkTxList[currentNetworkTxList.length - 1];
-          resolve(newState);
-        },
-      );
-    })
-      .then((newState) => dispatch(updateEcfWalletState(newState)))
-      .then(() => newTx);
-  };
+  return (dispatch) =>
+    createReplacementTx(
+      dispatch,
+      'createSpeedUpTransaction',
+      txId,
+      customGasPrice,
+      customGasLimit,
+    );
 }
 
 //
@@ -1511,7 +1081,7 @@ export function editRpc(
   return async (dispatch) => {
     log.debug(`background.delRpcTarget: ${oldRpc}`);
     try {
-      promisifiedBackground.delCustomRpc(oldRpc);
+      await promisifiedBackground.delCustomRpc(oldRpc);
     } catch (error) {
       log.error(error);
       dispatch(displayWarning('Had a problem removing network!'));
@@ -1560,19 +1130,15 @@ export function setRpcTarget(newRpc, chainId, ticker = 'ETH', nickname) {
 }
 
 export function delRpcTarget(oldRpc) {
-  return (dispatch) => {
+  return async (dispatch) => {
     log.debug(`background.delRpcTarget: ${oldRpc}`);
-    return new Promise((resolve, reject) => {
-      background.delCustomRpc(oldRpc, (err) => {
-        if (err) {
-          log.error(err);
-          dispatch(displayWarning('Had a problem removing network!'));
-          reject(err);
-          return;
-        }
-        resolve();
-      });
-    });
+    try {
+      await promisifiedBackground.delCustomRpc(oldRpc);
+    } catch (err) {
+      log.error(err);
+      dispatch(displayWarning('Had a problem removing network!'));
+      throw err;
+    }
   };
 }
 
@@ -1599,24 +1165,6 @@ export function addToAddressBook(recipient, nickname = '', memo = '') {
     if (!set) {
       dispatch(displayWarning('Address book failed to update'));
     }
-  };
-}
-
-/**
- * Calls the addressBookController to remove an existing address.
- *
- * @param {string} chainId - The chain ID of the address book entry.
- * @param {string} addressToRemove - Address of the entry to remove from the address book
- * @returns {Function} A thunk that removes the entry.
- */
-export function removeFromAddressBook(chainId, addressToRemove) {
-  log.debug(`background.removeFromAddressBook`);
-
-  return async () => {
-    await promisifiedBackground.removeFromAddressBook(
-      chainId,
-      checksumAddress(addressToRemove),
-    );
   };
 }
 
@@ -1647,21 +1195,13 @@ export function hideModal(payload) {
 }
 
 export function closeCurrentNotificationWindow() {
-  return (dispatch, getState) => {
+  return (_dispatch, getState) => {
     if (
       getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION &&
       !hasUnconfirmedTransactions(getState())
     ) {
       global.platform.closeCurrentWindow();
-
-      dispatch(closeNotificationWindow());
     }
-  };
-}
-
-export function closeNotificationWindow() {
-  return {
-    type: actionConstants.CLOSE_NOTIFICATION_WINDOW,
   };
 }
 
@@ -1729,32 +1269,28 @@ export function hideWarning() {
 }
 
 export function exportAccount(password, address) {
-  return function (dispatch) {
-    dispatch(showLoadingIndication());
-
+  return async (dispatch) => {
     // The background checks the password before exporting.
     log.debug(`background.exportAccount`);
-    return new Promise((resolve, reject) => {
-      background.exportAccount(address, password, function (err, result) {
-        dispatch(hideLoadingIndication());
+    let result;
+    try {
+      result = await withLoading(dispatch, () =>
+        promisifiedBackground.exportAccount(address, password),
+      );
+    } catch (err) {
+      log.error(err);
+      dispatch(
+        displayWarning(
+          err.message === INCORRECT_PASSWORD_MESSAGE
+            ? 'Incorrect Password.'
+            : 'Had a problem exporting the account.',
+        ),
+      );
+      throw err;
+    }
 
-        if (err) {
-          log.error(err);
-          dispatch(
-            displayWarning(
-              err.message === INCORRECT_PASSWORD_MESSAGE
-                ? 'Incorrect Password.'
-                : 'Had a problem exporting the account.',
-            ),
-          );
-          reject(err);
-          return;
-        }
-
-        dispatch(showPrivateKey(result));
-        resolve(result);
-      });
-    });
+    dispatch(showPrivateKey(result));
+    return result;
   };
 }
 
@@ -1766,27 +1302,16 @@ export function showPrivateKey(key) {
 }
 
 export function setAccountLabel(account, label) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
+  return async (dispatch) => {
     log.debug(`background.setAccountLabel`);
-
-    return new Promise((resolve, reject) => {
-      background.setAccountLabel(account, label, (err) => {
-        dispatch(hideLoadingIndication());
-
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-
-        dispatch({
-          type: actionConstants.SET_ACCOUNT_LABEL,
-          value: { account, label },
-        });
-        resolve(account);
-      });
+    await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.setAccountLabel(account, label),
+    );
+    dispatch({
+      type: actionConstants.SET_ACCOUNT_LABEL,
+      value: { account, label },
     });
+    return account;
   };
 }
 
@@ -1803,25 +1328,15 @@ export function showSendTokenPage() {
 }
 
 export function setFeatureFlag(feature, activated, notificationType) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.setFeatureFlag(
-        feature,
-        activated,
-        (err, updatedFeatureFlags) => {
-          dispatch(hideLoadingIndication());
-          if (err) {
-            dispatch(displayWarning(err.message));
-            reject(err);
-            return;
-          }
-          dispatch(updateFeatureFlags(updatedFeatureFlags));
-          notificationType && dispatch(showModal({ name: notificationType }));
-          resolve(updatedFeatureFlags);
-        },
-      );
-    });
+  return async (dispatch) => {
+    const updatedFeatureFlags = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.setFeatureFlag(feature, activated),
+    );
+    dispatch(updateFeatureFlags(updatedFeatureFlags));
+    if (notificationType) {
+      dispatch(showModal({ name: notificationType }));
+    }
+    return updatedFeatureFlags;
   };
 }
 
@@ -1833,22 +1348,12 @@ export function updateFeatureFlags(updatedFeatureFlags) {
 }
 
 export function setPreference(preference, value) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    return new Promise((resolve, reject) => {
-      background.setPreference(preference, value, (err, updatedPreferences) => {
-        dispatch(hideLoadingIndication());
-
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-
-        dispatch(updatePreferences(updatedPreferences));
-        resolve(updatedPreferences);
-      });
-    });
+  return async (dispatch) => {
+    const updatedPreferences = await withLoadingAndWarning(dispatch, () =>
+      promisifiedBackground.setPreference(preference, value),
+    );
+    dispatch(updatePreferences(updatedPreferences));
+    return updatedPreferences;
   };
 }
 
@@ -1923,23 +1428,6 @@ export function toggleAccountMenu() {
   };
 }
 
-export function setUseNonceField(val) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`background.setUseNonceField`);
-    background.setUseNonceField(val, (err) => {
-      dispatch(hideLoadingIndication());
-      if (err) {
-        dispatch(displayWarning(err.message));
-      }
-    });
-    dispatch({
-      type: actionConstants.SET_USE_NONCEFIELD,
-      value: val,
-    });
-  };
-}
-
 export function setUsePhishDetect(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
@@ -1953,41 +1441,23 @@ export function setUsePhishDetect(val) {
   };
 }
 
-export function setIpfsGateway(val) {
-  return (dispatch) => {
-    dispatch(showLoadingIndication());
-    log.debug(`background.setIpfsGateway`);
-    background.setIpfsGateway(val, (err) => {
-      dispatch(hideLoadingIndication());
-      if (err) {
-        dispatch(displayWarning(err.message));
-      } else {
-        dispatch({
-          type: actionConstants.SET_IPFS_GATEWAY,
-          value: val,
-        });
-      }
-    });
-  };
-}
-
 export function updateCurrentLocale(key) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication());
-    return fetchLocale(key).then((localeMessages) => {
-      log.debug(`background.setCurrentLocale`);
-      background.setCurrentLocale(key, (err, textDirection) => {
-        if (err) {
-          dispatch(hideLoadingIndication());
-          dispatch(displayWarning(err.message));
-          return;
-        }
-        switchDirection(textDirection);
-        dispatch(setCurrentLocale(key, localeMessages));
-        dispatch(hideLoadingIndication());
-      });
-      return undefined;
-    });
+    const localeMessages = await fetchLocale(key);
+
+    log.debug(`background.setCurrentLocale`);
+    let textDirection;
+    try {
+      textDirection = await promisifiedBackground.setCurrentLocale(key);
+    } catch (err) {
+      dispatch(hideLoadingIndication());
+      dispatch(displayWarning(err.message));
+      return;
+    }
+    switchDirection(textDirection);
+    dispatch(setCurrentLocale(key, localeMessages));
+    dispatch(hideLoadingIndication());
   };
 }
 
@@ -2040,6 +1510,24 @@ export function approvePermissionsRequest(request, accounts) {
 }
 
 /**
+ * Calls a background method, displaying and rethrowing any error, then
+ * refreshes the UI state.
+ *
+ * @param {Function} dispatch - The redux dispatch function.
+ * @param {Function} fn - Calls the background.
+ * @returns {Promise<object>} The refreshed background state.
+ */
+async function callAndRefreshState(dispatch, fn) {
+  try {
+    await fn();
+  } catch (err) {
+    dispatch(displayWarning(err.message));
+    throw err;
+  }
+  return await forceUpdateEcfWalletState(dispatch);
+}
+
+/**
  * Rejects the permissions request with the given ID.
  *
  * @param {string} requestId - The id of the request to be rejected
@@ -2047,19 +1535,10 @@ export function approvePermissionsRequest(request, accounts) {
  * state has been updated.
  */
 export function rejectPermissionsRequest(requestId) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      background.rejectPermissionsRequest(requestId, (err) => {
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-        // eslint-disable-next-line promise/no-promise-in-callback -- settles the outer Promise from the background callback
-        forceUpdateEcfWalletState(dispatch).then(resolve).catch(reject);
-      });
-    });
-  };
+  return (dispatch) =>
+    callAndRefreshState(dispatch, () =>
+      promisifiedBackground.rejectPermissionsRequest(requestId),
+    );
 }
 
 /**
@@ -2072,17 +1551,6 @@ export function rejectPermissionsRequest(requestId) {
 export function removePermissionsFor(domains) {
   return () => {
     background.removePermissionsFor(domains);
-  };
-}
-
-/**
- * Clears all permissions for all domains.
- *
- * @returns {Function} A thunk that clears the permissions.
- */
-export function clearPermissions() {
-  return () => {
-    background.clearPermissions();
   };
 }
 
@@ -2145,20 +1613,8 @@ export async function setUnconnectedAccountAlertShown(origin) {
   await promisifiedBackground.setUnconnectedAccountAlertShown(origin);
 }
 
-export function loadingMethodDataStarted() {
-  return {
-    type: actionConstants.LOADING_METHOD_DATA_STARTED,
-  };
-}
-
-export function loadingMethodDataFinished() {
-  return {
-    type: actionConstants.LOADING_METHOD_DATA_FINISHED,
-  };
-}
-
 export function getContractMethodData(data = '') {
-  return (dispatch, getState) => {
+  return (_dispatch, getState) => {
     const prefixedData = ethUtil.addHexPrefix(data);
     const fourBytePrefix = prefixedData.slice(0, 10);
     const { knownMethodData } = getState().ecfWallet;
@@ -2172,33 +1628,18 @@ export function getContractMethodData(data = '') {
       return Promise.resolve(knownMethodData[fourBytePrefix]);
     }
 
-    dispatch(loadingMethodDataStarted());
     log.debug(`loadingMethodData`);
 
     return getMethodDataAsync(fourBytePrefix).then(({ name, params }) => {
-      dispatch(loadingMethodDataFinished());
       background.addKnownMethodData(fourBytePrefix, { name, params });
       return { name, params };
     });
   };
 }
 
-export function loadingTokenParamsStarted() {
-  return {
-    type: actionConstants.LOADING_TOKEN_PARAMS_STARTED,
-  };
-}
-
-export function loadingTokenParamsFinished() {
-  return {
-    type: actionConstants.LOADING_TOKEN_PARAMS_FINISHED,
-  };
-}
-
 export function getTokenParams(tokenAddress) {
   return (dispatch, getState) => {
-    const existingTokens = getState().ecfWallet.tokens;
-    const existingToken = existingTokens.find(
+    const existingToken = getState().ecfWallet.tokens.find(
       ({ address }) => tokenAddress === address,
     );
 
@@ -2209,72 +1650,21 @@ export function getTokenParams(tokenAddress) {
       });
     }
 
-    dispatch(loadingTokenParamsStarted());
     log.debug(`loadingTokenParams`);
 
-    return fetchSymbolAndDecimals(tokenAddress, existingTokens).then(
-      ({ symbol, decimals }) => {
-        dispatch(addToken(tokenAddress, symbol, Number(decimals)));
-        dispatch(loadingTokenParamsFinished());
-        return undefined;
-      },
-    );
+    return fetchSymbolAndDecimals(tokenAddress).then(({ symbol, decimals }) => {
+      dispatch(addToken(tokenAddress, symbol, Number(decimals)));
+      return undefined;
+    });
   };
 }
 
 export function setSeedPhraseBackedUp(seedPhraseBackupState) {
   return (dispatch) => {
     log.debug(`background.setSeedPhraseBackedUp`);
-    return new Promise((resolve, reject) => {
-      background.setSeedPhraseBackedUp(seedPhraseBackupState, (err) => {
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-        // eslint-disable-next-line promise/no-promise-in-callback -- settles the outer Promise from the background callback
-        forceUpdateEcfWalletState(dispatch).then(resolve).catch(reject);
-      });
-    });
-  };
-}
-
-export function setNextNonce(nextNonce) {
-  return {
-    type: actionConstants.SET_NEXT_NONCE,
-    value: nextNonce,
-  };
-}
-
-export function getNextNonce() {
-  return (dispatch, getState) => {
-    const address = getState().ecfWallet.selectedAddress;
-    return new Promise((resolve, reject) => {
-      background.getNextNonce(address, (err, nextNonce) => {
-        if (err) {
-          dispatch(displayWarning(err.message));
-          reject(err);
-          return;
-        }
-        dispatch(setNextNonce(nextNonce));
-        resolve(nextNonce);
-      });
-    });
-  };
-}
-
-export function setRequestAccountTabIds(requestAccountTabIds) {
-  return {
-    type: actionConstants.SET_REQUEST_ACCOUNT_TABS,
-    value: requestAccountTabIds,
-  };
-}
-
-export function getRequestAccountTabIds() {
-  return async (dispatch) => {
-    const requestAccountTabIds =
-      await promisifiedBackground.getRequestAccountTabIds();
-    dispatch(setRequestAccountTabIds(requestAccountTabIds));
+    return callAndRefreshState(dispatch, () =>
+      promisifiedBackground.setSeedPhraseBackedUp(seedPhraseBackupState),
+    );
   };
 }
 
@@ -2290,19 +1680,5 @@ export function getOpenEcfWalletTabsIds() {
     const openEcfWalletTabIDs =
       await promisifiedBackground.getOpenEcfWalletTabsIds();
     dispatch(setOpenEcfWalletTabsIDs(openEcfWalletTabIDs));
-  };
-}
-
-export function setCurrentWindowTab(currentWindowTab) {
-  return {
-    type: actionConstants.SET_CURRENT_WINDOW_TAB,
-    value: currentWindowTab,
-  };
-}
-
-export function getCurrentWindowTab() {
-  return async (dispatch) => {
-    const currentWindowTab = await global.platform.currentTab();
-    dispatch(setCurrentWindowTab(currentWindowTab));
   };
 }

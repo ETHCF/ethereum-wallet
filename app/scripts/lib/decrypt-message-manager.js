@@ -1,13 +1,8 @@
-import * as ethUtil from '@ethereumjs/util';
-import { ObservableStore } from '@metamask/obs-store';
-import { providerErrors } from '@metamask/rpc-errors';
-import EventEmitter from 'events';
 import log from 'loglevel';
 
+import BaseMessageManager, { normalizeMsgData } from './base-message-manager';
 import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
-
-const hexRe = /^[0-9A-Fa-f]+$/gu;
 
 /**
  * Represents, and contains data about, an 'eth_decrypt' type decryption request. These are created when a
@@ -20,125 +15,79 @@ const hexRe = /^[0-9A-Fa-f]+$/gu;
  * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the decryption request
  * @property {number} time The epoch time at which the this message was created
- * @property {string} status Indicates whether the decryption request is 'unapproved', 'approved', 'decrypted' or 'rejected'
+ * @property {string} status Indicates whether the decryption request is 'unapproved', 'approved', 'decrypted', 'rejected' or 'errored'
  * @property {string} type The json-prc decryption method for which a decryption request has been made. A 'Message' will
  * always have a 'eth_decrypt' type.
  */
 
-export default class DecryptMessageManager extends EventEmitter {
+export default class DecryptMessageManager extends BaseMessageManager {
   /**
    * Controller in charge of managing - storing, adding, removing, updating - DecryptMessage.
-   *
-   * @typedef {object} DecryptMessageManager
-   * @property {object} memStore The observable store where DecryptMessage are saved.
-   * @property {object} memStore.unapprovedDecryptMsgs A collection of all DecryptMessages in the 'unapproved' state
-   * @property {number} memStore.unapprovedDecryptMsgCount The count of all DecryptMessages in this.memStore.unapprovedDecryptMsgs
-   * @property {Array} messages Holds all messages that have been created by this DecryptMessageManager
    */
   constructor() {
-    super();
-    this.memStore = new ObservableStore({
-      unapprovedDecryptMsgs: {},
-      unapprovedDecryptMsgCount: 0,
+    super({
+      name: 'DecryptMessageManager',
+      stateKey: 'unapprovedDecryptMsgs',
+      countKey: 'unapprovedDecryptMsgCount',
+      successStatus: 'decrypted',
+      resultKey: 'rawData',
+      label: 'Decryption request',
+      errorPrefix: 'ecf-wallet Decryption',
+      rejectedMessage: 'User denied message decryption.',
+      erroredMessage: () => 'This message cannot be decrypted',
     });
-    this.messages = [];
   }
 
   /**
-   * A getter for the number of 'unapproved' DecryptMessages in this.messages
+   * The number of DecryptMessages waiting for the user.
    *
    * @returns {number} The number of 'unapproved' DecryptMessages in this.messages
    */
   get unapprovedDecryptMsgCount() {
-    return Object.keys(this.getUnapprovedMsgs()).length;
+    return this.getUnapprovedMsgCount();
   }
 
   /**
-   * A getter for the 'unapproved' DecryptMessages in this.messages
-   *
-   * @returns {object} An index of DecryptMessage ids to DecryptMessages, for all 'unapproved' DecryptMessages in
-   * this.messages
-   */
-  getUnapprovedMsgs() {
-    return this.messages
-      .filter((msg) => msg.status === 'unapproved')
-      .reduce((result, msg) => {
-        result[msg.id] = msg;
-        return result;
-      }, {});
-  }
-
-  /**
-   * Creates a new DecryptMessage with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new DecryptMessage to this.messages, and to save the unapproved DecryptMessages from that list to
-   * this.memStore.
+   * Creates a new unapproved DecryptMessage and settles when it is decrypted, rejected or errored.
    *
    * @param {object} msgParams - The params for the eth_decrypt call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
    * @returns {Promise<string>} The raw decrypted message contents
    */
   addUnapprovedMessageAsync(msgParams, req) {
-    return new Promise((resolve, reject) => {
-      if (!msgParams.from) {
-        reject(new Error('ecf-wallet Decryption: from field is required.'));
-        return;
-      }
-      const msgId = this.addUnapprovedMessage(msgParams, req);
-      this.once(`${msgId}:finished`, (data) => {
-        switch (data.status) {
-          case 'decrypted':
-            resolve(data.rawData);
-            return;
-          case 'rejected':
-            reject(
-              providerErrors.userRejectedRequest(
-                'ecf-wallet Decryption: User denied message decryption.',
-              ),
-            );
-            return;
-          case 'errored':
-            reject(new Error('This message cannot be decrypted'));
-            return;
-          default:
-            reject(
-              new Error(
-                `ecf-wallet Decryption: Unknown problem: ${JSON.stringify(msgParams)}`,
-              ),
-            );
-        }
-      });
-    });
+    if (!msgParams.from) {
+      return Promise.reject(
+        new Error(`${this.errorPrefix}: from field is required.`),
+      );
+    }
+    return super.addUnapprovedMessageAsync(msgParams, req);
   }
 
   /**
-   * Creates a new DecryptMessage with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new DecryptMessage to this.messages, and to save the unapproved DecryptMessages from that list to
-   * this.memStore.
+   * Creates a new DecryptMessage with an 'unapproved' status using the passed msgParams.
    *
-   * @param {object} msgParams - The params for the eth_decryptMsg call to be made after the message is approved.
+   * @param {object} inputParams - The params for the eth_decrypt call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
    * @returns {number} The id of the newly created DecryptMessage.
    */
-  addUnapprovedMessage(msgParams, req) {
+  addUnapprovedMessage(inputParams, req) {
     log.debug(
-      `DecryptMessageManager addUnapprovedMessage: ${JSON.stringify(msgParams)}`,
+      `DecryptMessageManager addUnapprovedMessage: ${JSON.stringify(inputParams)}`,
     );
+    const msgParams = { ...inputParams };
     // add origin from request
     if (req) {
       msgParams.origin = req.origin;
     }
-    msgParams.data = this.normalizeMsgData(msgParams.data);
-    // create txData obj with parameters and meta data
-    const time = new Date().getTime();
+    msgParams.data = normalizeMsgData(msgParams.data);
     const msgId = createId();
-    const msgData = {
+    this.addMsg({
       id: msgId,
       msgParams,
-      time,
+      time: new Date().getTime(),
       status: 'unapproved',
       type: MESSAGE_TYPE.ETH_DECRYPT,
-    };
-    this.addMsg(msgData);
+    });
 
     // signal update
     this.emit('update');
@@ -146,175 +95,22 @@ export default class DecryptMessageManager extends EventEmitter {
   }
 
   /**
-   * Adds a passed DecryptMessage to this.messages, and calls this._saveMsgList() to save the unapproved DecryptMessages from that
-   * list to this.memStore.
-   *
-   * @param {DecryptMessage} msg - The DecryptMessage to add to this.messages
-   */
-  addMsg(msg) {
-    this.messages.push(msg);
-    this._saveMsgList();
-  }
-
-  /**
-   * Returns a specified DecryptMessage.
-   *
-   * @param {number} msgId - The id of the DecryptMessage to get
-   * @returns {DecryptMessage|undefined} The DecryptMessage with the id that matches the passed msgId, or undefined
-   * if no DecryptMessage has that id.
-   */
-  getMsg(msgId) {
-    return this.messages.find((msg) => msg.id === msgId);
-  }
-
-  /**
-   * Approves a DecryptMessage. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
-   * with the message params modified for proper decryption.
-   *
-   * @param {object} msgParams - The msgParams to be used when eth_decryptMsg is called, plus data added by ecf-wallet.
-   * @param {object} msgParams.ecfWalletId - Added to msgParams for tracking and identification within ecf-wallet.
-   * @returns {Promise<object>} Promises the msgParams object with ecfWalletId removed.
-   */
-  approveMessage(msgParams) {
-    this.setMsgStatusApproved(msgParams.ecfWalletId);
-    return this.prepMsgForDecryption(msgParams);
-  }
-
-  /**
-   * Sets a DecryptMessage status to 'approved' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the DecryptMessage to approve.
-   */
-  setMsgStatusApproved(msgId) {
-    this._setMsgStatus(msgId, 'approved');
-  }
-
-  /**
-   * Sets a DecryptMessage status to 'decrypted' via a call to this._setMsgStatus and updates that DecryptMessage in
-   * this.messages by adding the raw decryption data of the decryption request to the DecryptMessage
+   * Sets a DecryptMessage status to 'decrypted' and stores the decrypted data.
    *
    * @param {number} msgId - The id of the DecryptMessage to decrypt.
    * @param {string} rawData - The raw data of the message request
    */
   setMsgStatusDecrypted(msgId, rawData) {
-    const msg = this.getMsg(msgId);
-    msg.rawData = rawData;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'decrypted');
+    this._setMsgResult(msgId, rawData);
   }
 
   /**
-   * Removes the ecfWalletId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the ecfWalletId property from passed msgParams.
    *
    * @param {object} msgParams - The msgParams to modify
    * @returns {Promise<object>} Promises the msgParams with the ecfWalletId property removed
    */
   prepMsgForDecryption(msgParams) {
-    delete msgParams.ecfWalletId;
-    return Promise.resolve(msgParams);
-  }
-
-  /**
-   * Sets a DecryptMessage status to 'rejected' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the DecryptMessage to reject.
-   */
-  rejectMsg(msgId) {
-    this._setMsgStatus(msgId, 'rejected');
-  }
-
-  /**
-   * Sets a TypedMessage status to 'errored' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the TypedMessage to error
-   * @param {Error} error - The error that occurred.
-   */
-  errorMessage(msgId, error) {
-    const msg = this.getMsg(msgId);
-    msg.error = error;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'errored');
-  }
-
-  /**
-   * Updates the status of a DecryptMessage in this.messages via a call to this._updateMsg.
-   * Fires an event with a name equal to `${msgId}:${status}`, along with the DecryptMessage.
-   * If status is 'rejected', 'decrypted' or 'errored', an event with a name equal to `${msgId}:finished` is fired along
-   * with the DecryptMessage.
-   *
-   * @private
-   * @param {number} msgId - The id of the DecryptMessage to update.
-   * @param {string} status - The new status of the DecryptMessage.
-   * @throws A 'DecryptMessageManager - DecryptMessage not found for id: "${msgId}".' if there is no DecryptMessage
-   * in this.messages with an id equal to the passed msgId
-   */
-  _setMsgStatus(msgId, status) {
-    const msg = this.getMsg(msgId);
-    if (!msg) {
-      throw new Error(
-        `DecryptMessageManager - Message not found for id: "${msgId}".`,
-      );
-    }
-    msg.status = status;
-    this._updateMsg(msg);
-    this.emit(`${msgId}:${status}`, msg);
-    if (
-      status === 'rejected' ||
-      status === 'decrypted' ||
-      status === 'errored'
-    ) {
-      this.emit(`${msgId}:finished`, msg);
-    }
-  }
-
-  /**
-   * Sets a DecryptMessage in this.messages to the passed DecryptMessage if the ids are equal. Then saves the
-   * unapprovedDecryptMsgs index to storage via this._saveMsgList
-   *
-   * @private
-   * @param {DecryptMessage} msg - A DecryptMessage that will replace an existing DecryptMessage (with the same
-   * id) in this.messages
-   */
-  _updateMsg(msg) {
-    const index = this.messages.findIndex((message) => message.id === msg.id);
-    if (index !== -1) {
-      this.messages[index] = msg;
-    }
-    this._saveMsgList();
-  }
-
-  /**
-   * Saves the unapproved DecryptMessages, and their count, to this.memStore
-   *
-   * @private
-   * @fires 'updateBadge'
-   */
-  _saveMsgList() {
-    const unapprovedDecryptMsgs = this.getUnapprovedMsgs();
-    const unapprovedDecryptMsgCount = Object.keys(unapprovedDecryptMsgs).length;
-    this.memStore.updateState({
-      unapprovedDecryptMsgs,
-      unapprovedDecryptMsgCount,
-    });
-    this.emit('updateBadge');
-  }
-
-  /**
-   * A helper function that converts raw buffer data to a hex, or just returns the data if it is already formatted as a hex.
-   *
-   * @param {any} data - The buffer data to convert to a hex
-   * @returns {string} A hex string conversion of the buffer data
-   */
-  normalizeMsgData(data) {
-    try {
-      const stripped = ethUtil.stripHexPrefix(data);
-      if (stripped.match(hexRe)) {
-        return ethUtil.addHexPrefix(stripped);
-      }
-    } catch (e) {
-      log.debug(`Message was not hex encoded, interpreting as utf8.`);
-    }
-
-    return ethUtil.bytesToHex(Buffer.from(data, 'utf8'));
+    return this.prepMsg(msgParams);
   }
 }

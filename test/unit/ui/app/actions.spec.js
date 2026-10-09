@@ -92,7 +92,6 @@ describe('Actions', function () {
 
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'UNLOCK_IN_PROGRESS' },
         { type: 'UNLOCK_FAILED', value: 'error in submitPassword' },
         { type: 'HIDE_LOADING_INDICATION' },
       ];
@@ -251,50 +250,6 @@ describe('Actions', function () {
     });
   });
 
-  describe('#resetAccount', function () {
-    let resetAccountSpy;
-
-    afterEach(function () {
-      resetAccountSpy.restore();
-    });
-
-    it('resets account', async function () {
-      const store = mockStore();
-
-      const expectedActions = [
-        { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'SHOW_ACCOUNTS_PAGE' },
-      ];
-
-      resetAccountSpy = sinon.spy(background, 'resetAccount');
-
-      await store.dispatch(actions.resetAccount());
-      assert(resetAccountSpy.calledOnce);
-      assert.deepEqual(store.getActions(), expectedActions);
-    });
-
-    it('throws if resetAccount throws', async function () {
-      const store = mockStore();
-
-      const expectedActions = [
-        { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'DISPLAY_WARNING', value: 'error' },
-      ];
-
-      resetAccountSpy = sinon.stub(background, 'resetAccount');
-      resetAccountSpy.callsFake((callback) => {
-        callback(new Error('error'));
-      });
-
-      await assert.rejects(async () => {
-        await store.dispatch(actions.resetAccount());
-      });
-      assert.deepEqual(store.getActions(), expectedActions);
-    });
-  });
-
   describe('#importNewAccount', function () {
     let importAccountWithStrategySpy;
 
@@ -353,6 +308,24 @@ describe('Actions', function () {
 
       await store.dispatch(actions.addNewAccount());
       assert(addNewAccountSpy.calledOnce);
+      addNewAccountSpy.restore();
+    });
+
+    it('clears the loading indicator and displays the error when it fails', async function () {
+      const store = mockStore({ ecfWallet: { identities: {} } });
+      const addNewAccountStub = sinon
+        .stub(background, 'addNewAccount')
+        .callsArgWith(0, new Error('error'));
+
+      await assert.rejects(store.dispatch(actions.addNewAccount()), {
+        message: 'error',
+      });
+      assert.deepEqual(store.getActions(), [
+        { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
+        { type: 'DISPLAY_WARNING', value: 'error' },
+      ]);
+      addNewAccountStub.restore();
     });
   });
 
@@ -1043,58 +1016,66 @@ describe('Actions', function () {
   });
 
   describe('#markPasswordForgotten', function () {
-    it('calls markPasswordForgotten', async function () {
-      const store = mockStore();
-      const markPasswordForgottenSpy = sinon
-        .stub(background, 'markPasswordForgotten')
-        .callsArg(0);
-
-      await store.dispatch(actions.markPasswordForgotten());
-
-      const resultantActions = store.getActions();
-      assert.deepEqual(resultantActions[1], {
+    it('enters the forgot-password flow', function () {
+      assert.deepEqual(actions.markPasswordForgotten(), {
         type: 'FORGOT_PASSWORD',
         value: true,
       });
-      assert.ok(markPasswordForgottenSpy.calledOnce);
-      markPasswordForgottenSpy.restore();
-    });
-
-    it('displays the error and does not enter the forgot-password flow when the background fails', async function () {
-      const store = mockStore();
-      const markPasswordForgottenStub = sinon
-        .stub(background, 'markPasswordForgotten')
-        .callsArgWith(0, new Error('error'));
-
-      await assert.rejects(
-        store.dispatch(actions.markPasswordForgotten()),
-        /error/u,
-      );
-
-      assert.deepEqual(store.getActions(), [
-        { type: 'DISPLAY_WARNING', value: 'error' },
-        { type: 'HIDE_LOADING_INDICATION' },
-      ]);
-      markPasswordForgottenStub.restore();
     });
   });
 
   describe('#unMarkPasswordForgotten', function () {
-    it('calls unMarkPasswordForgotten', async function () {
-      const store = mockStore();
-      const unMarkPasswordForgottenSpy = sinon
-        .stub(background, 'unMarkPasswordForgotten')
-        .callsArg(0);
-
-      await store.dispatch(actions.unMarkPasswordForgotten());
-
-      const resultantActions = store.getActions();
-      assert.deepEqual(resultantActions[0], {
+    it('leaves the forgot-password flow', function () {
+      assert.deepEqual(actions.unMarkPasswordForgotten(), {
         type: 'FORGOT_PASSWORD',
         value: false,
       });
-      assert.ok(unMarkPasswordForgottenSpy.calledOnce);
-      unMarkPasswordForgottenSpy.restore();
+    });
+  });
+
+  describe('#editRpc', function () {
+    it('stops and displays a warning when the old network cannot be removed', async function () {
+      const store = mockStore();
+      const delCustomRpcStub = sinon
+        .stub(background, 'delCustomRpc')
+        .callsArgWith(1, new Error('error'));
+      const updateAndSetCustomRpcSpy = sinon.spy(
+        background,
+        'updateAndSetCustomRpc',
+      );
+
+      await store.dispatch(
+        actions.editRpc('http://old.test', 'http://new.test', '0x1'),
+      );
+      delCustomRpcStub.restore();
+      updateAndSetCustomRpcSpy.restore();
+
+      assert(updateAndSetCustomRpcSpy.notCalled);
+      assert.deepEqual(store.getActions(), [
+        { type: 'DISPLAY_WARNING', value: 'Had a problem removing network!' },
+      ]);
+    });
+  });
+
+  describe('#completedTx', function () {
+    it('counts the other pending approvals', function () {
+      const store = mockStore({
+        ecfWallet: {
+          network: '1',
+          unapprovedTxs: {
+            1: { id: 1, time: 1, ecfWalletNetworkId: '1' },
+            2: { id: 2, time: 2, ecfWalletNetworkId: '1' },
+            3: { id: 3, time: 3, ecfWalletNetworkId: '2' },
+          },
+          unapprovedPersonalMsgs: { 4: { id: 4, time: 4 } },
+          unapprovedTypedMessages: { 5: { id: 5, time: 5 } },
+        },
+      });
+
+      store.dispatch(actions.completedTx(1));
+      assert.deepEqual(store.getActions(), [
+        { type: 'COMPLETED_TX', value: { id: 1, unconfirmedActionsCount: 3 } },
+      ]);
     });
   });
 });

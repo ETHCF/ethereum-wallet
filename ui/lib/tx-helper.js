@@ -2,60 +2,51 @@ import log from 'loglevel';
 
 import { valuesFor } from '../app/helpers/utils/util';
 
+/**
+ * Flattens the pending approval maps into one list, oldest first.
+ * Transactions are limited to `network` when it is given; signature,
+ * decryption and encryption-key requests are not network specific.
+ *
+ * @param {object} unapprovedTxs - Unapproved transactions keyed by id.
+ * @param {object} personalMsgs - Unapproved personal_sign requests keyed by id.
+ * @param {object} decryptMsgs - Unapproved eth_decrypt requests keyed by id.
+ * @param {object} encryptionPublicKeyMsgs - Unapproved eth_getEncryptionPublicKey requests keyed by id.
+ * @param {object} typedMessages - Unapproved eth_signTypedData requests keyed by id.
+ * @param {string} [network] - The current network id.
+ * @returns {object[]} The pending items sorted by time, oldest first.
+ */
 export default function txHelper(
   unapprovedTxs,
-  unapprovedMsgs,
   personalMsgs,
   decryptMsgs,
   encryptionPublicKeyMsgs,
   typedMessages,
   network,
 ) {
-  log.debug('tx-helper called with params:');
-  log.debug({
-    unapprovedTxs,
-    unapprovedMsgs,
-    personalMsgs,
-    decryptMsgs,
-    encryptionPublicKeyMsgs,
-    typedMessages,
-    network,
-  });
-
   const txValues = network
     ? valuesFor(unapprovedTxs).filter(
         (txMeta) => txMeta.ecfWalletNetworkId === network,
       )
     : valuesFor(unapprovedTxs);
-  log.debug(`tx helper found ${txValues.length} unapproved txs`);
-
-  const msgValues = valuesFor(unapprovedMsgs);
-  log.debug(`tx helper found ${msgValues.length} unsigned messages`);
-  let allValues = txValues.concat(msgValues);
-
   const personalValues = valuesFor(personalMsgs);
-  log.debug(
-    `tx helper found ${personalValues.length} unsigned personal messages`,
-  );
-  allValues = allValues.concat(personalValues);
-
   const decryptValues = valuesFor(decryptMsgs);
-  log.debug(`tx helper found ${decryptValues.length} decrypt requests`);
-  allValues = allValues.concat(decryptValues);
-
   const encryptionPublicKeyValues = valuesFor(encryptionPublicKeyMsgs);
-  log.debug(
-    `tx helper found ${encryptionPublicKeyValues.length} encryptionPublicKey requests`,
-  );
-  allValues = allValues.concat(encryptionPublicKeyValues);
-
   const typedValues = valuesFor(typedMessages);
-  log.debug(`tx helper found ${typedValues.length} unsigned typed messages`);
-  allValues = allValues.concat(typedValues);
 
-  allValues = allValues.sort((a, b) => {
-    return a.time - b.time;
-  });
+  log.debug(
+    `tx helper found ${txValues.length} unapproved txs, ` +
+      `${personalValues.length} personal messages, ` +
+      `${decryptValues.length} decrypt requests, ` +
+      `${encryptionPublicKeyValues.length} encryptionPublicKey requests, ` +
+      `${typedValues.length} typed messages`,
+  );
 
-  return allValues;
+  return txValues
+    .concat(
+      personalValues,
+      decryptValues,
+      encryptionPublicKeyValues,
+      typedValues,
+    )
+    .sort((a, b) => a.time - b.time);
 }

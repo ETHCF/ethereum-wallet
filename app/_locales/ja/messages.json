@@ -145,9 +145,6 @@
   "defaultNetwork": {
     "message": "デフォルトのEther送受信ネットワークはメインネットです。"
   },
-  "deposit": {
-    "message": "振込"
-  },
   "details": {
     "message": "詳細"
   },
@@ -313,9 +310,6 @@
   "privateKeyWarning": {
     "message": "警告: この鍵は絶対に公開しないで下さい。公開すると、誰でもあなたのアカウント内の資産を盗むことができてしまいます。"
   },
-  "privateNetwork": {
-    "message": "プライベート・ネットワーク"
-  },
   "readdToken": {
     "message": "アカウントのオプションメニューから「トークンを追加」すれば、将来このトークンを追加し直すことができます。"
   },
@@ -324,9 +318,6 @@
   },
   "rejected": {
     "message": "拒否されました"
-  },
-  "resetAccount": {
-    "message": "アカウントをリセット"
   },
   "restoreFromSeed": {
     "message": "パスフレーズから復元する"

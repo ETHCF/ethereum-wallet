@@ -15,36 +15,26 @@ const casedContractMap = Object.keys(contractMap).reduce((acc, base) => {
 const DEFAULT_SYMBOL = '';
 const DEFAULT_DECIMALS = '0';
 
-async function getSymbolFromContract(tokenAddress) {
+/**
+ * Calls a no-argument ERC-20 getter (such as `symbol()`) on a token contract.
+ *
+ * @param {string} tokenAddress - The token contract address.
+ * @param {string} signature - The getter's function signature.
+ * @param {string} outputType - The ABI type of the getter's return value.
+ * @returns {Promise<*>} The returned value, or undefined if the call failed.
+ */
+async function callTokenGetter(tokenAddress, signature, outputType) {
   try {
-    const [symbol] = await callContract(
+    const [value] = await callContract(
       pify(global.ethQuery),
       tokenAddress,
-      'symbol()',
-      ['string'],
+      signature,
+      [outputType],
     );
-    return symbol;
+    return value;
   } catch (error) {
     log.warn(
-      `symbol() call for token at address ${tokenAddress} resulted in error:`,
-      error,
-    );
-    return undefined;
-  }
-}
-
-async function getDecimalsFromContract(tokenAddress) {
-  try {
-    const [decimals] = await callContract(
-      pify(global.ethQuery),
-      tokenAddress,
-      'decimals()',
-      ['uint8'],
-    );
-    return decimals.toString();
-  } catch (error) {
-    log.warn(
-      `decimals() call for token at address ${tokenAddress} resulted in error:`,
+      `${signature} call for token at address ${tokenAddress} resulted in error:`,
       error,
     );
     return undefined;
@@ -78,64 +68,21 @@ function getContractMetadata(tokenAddress) {
 }
 
 async function getSymbol(tokenAddress) {
-  let symbol = await getSymbolFromContract(tokenAddress);
-
-  if (!symbol) {
-    const contractMetadataInfo = getContractMetadata(tokenAddress);
-
-    if (contractMetadataInfo) {
-      symbol = contractMetadataInfo.symbol;
-    }
-  }
-
-  return symbol;
+  const symbol = await callTokenGetter(tokenAddress, 'symbol()', 'string');
+  return symbol || getContractMetadata(tokenAddress)?.symbol;
 }
 
 async function getDecimals(tokenAddress) {
-  let decimals = await getDecimalsFromContract(tokenAddress);
-
-  if (!decimals || decimals === '0') {
-    const contractMetadataInfo = getContractMetadata(tokenAddress);
-
-    if (contractMetadataInfo) {
-      decimals = contractMetadataInfo.decimals;
-    }
+  const decimals = (
+    await callTokenGetter(tokenAddress, 'decimals()', 'uint8')
+  )?.toString();
+  if (decimals && decimals !== '0') {
+    return decimals;
   }
-
-  return decimals;
+  return getContractMetadata(tokenAddress)?.decimals ?? decimals;
 }
 
 export async function fetchSymbolAndDecimals(tokenAddress) {
-  let symbol, decimals;
-
-  try {
-    symbol = await getSymbol(tokenAddress);
-    decimals = await getDecimals(tokenAddress);
-  } catch (error) {
-    log.warn(
-      `symbol() and decimal() calls for token at address ${tokenAddress} resulted in error:`,
-      error,
-    );
-  }
-
-  return {
-    symbol: symbol || DEFAULT_SYMBOL,
-    decimals: decimals || DEFAULT_DECIMALS,
-  };
-}
-
-export async function getSymbolAndDecimals(tokenAddress, existingTokens = []) {
-  const existingToken = existingTokens.find(
-    ({ address }) => tokenAddress === address,
-  );
-
-  if (existingToken) {
-    return {
-      symbol: existingToken.symbol,
-      decimals: existingToken.decimals,
-    };
-  }
-
   let symbol, decimals;
 
   try {
@@ -162,7 +109,7 @@ export function tokenInfoGetter() {
       return tokens[address];
     }
 
-    tokens[address] = await getSymbolAndDecimals(address);
+    tokens[address] = await fetchSymbolAndDecimals(address);
 
     return tokens[address];
   };

@@ -1,3 +1,6 @@
+// The message that asks Chrome's offscreen document to clear the clipboard.
+export const CLEAR_CLIPBOARD_MESSAGE = 'ecf-wallet-clear-clipboard';
+
 /**
  * Replaces the clipboard contents with an empty string, from a document that
  * may use the clipboard: Chrome's offscreen document or Firefox's background

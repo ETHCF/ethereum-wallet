@@ -3,7 +3,6 @@ import './lib/freezeGlobals';
 
 import EthQuery from '@metamask/eth-query';
 import { getUniqueId } from '@metamask/json-rpc-engine';
-import { JsonRpcError } from '@metamask/rpc-errors';
 import Dnode from 'dnode';
 import { EventEmitter } from 'events';
 import { ExtensionPortStream } from 'extension-port-stream';
@@ -11,6 +10,7 @@ import log from 'loglevel';
 import StreamProvider from 'web3-stream-provider';
 
 import launchEcfWalletUi from '../../ui';
+import deserializeRpcError from './lib/deserialize-rpc-error';
 import {
   ENVIRONMENT_TYPE_FULLSCREEN,
   ENVIRONMENT_TYPE_POPUP,
@@ -146,15 +146,7 @@ function setupWeb3Connection(connectionStream) {
         (error, response) => {
           const rpcError = error || response?.error;
           if (rpcError) {
-            reject(
-              Number.isInteger(rpcError.code) && rpcError.message
-                ? new JsonRpcError(
-                    rpcError.code,
-                    rpcError.message,
-                    rpcError.data,
-                  )
-                : rpcError,
-            );
+            reject(deserializeRpcError(rpcError) ?? rpcError);
           } else {
             resolve(response.result);
           }

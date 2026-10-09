@@ -20,7 +20,6 @@ describe('App Header', function () {
     disabled: false,
     hideNetworkIndicator: false,
     networkDropdownOpen: false,
-    isAccountMenuOpen: false,
     isUnlocked: true,
   };
 

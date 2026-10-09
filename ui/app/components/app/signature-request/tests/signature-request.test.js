@@ -38,9 +38,7 @@ describe('Signature Request Component', function () {
     });
 
     function createRequest(version = 'V4') {
-      manager = new TypedMessageManager({
-        networkController: { getChainId: () => '0x1' },
-      });
+      manager = new TypedMessageManager({ getChainId: () => '0x1' });
       response = manager
         .addUnapprovedMessageAsync(
           {

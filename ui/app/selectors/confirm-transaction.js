@@ -1,6 +1,14 @@
 import { createSelector } from 'reselect';
 
 import { getNativeCurrency } from '.';
+import {
+  networkSelector,
+  unapprovedDecryptMsgsSelector,
+  unapprovedEncryptionPublicKeyMsgsSelector,
+  unapprovedPersonalMsgsSelector,
+  unapprovedTxsSelector,
+  unapprovedTypedMessagesSelector,
+} from './transactions';
 import { gasPriceForTransaction } from '../../../app/scripts/lib/transaction-fees';
 import txHelper from '../../lib/tx-helper';
 import {
@@ -13,21 +21,8 @@ import {
 import { calcTokenAmount } from '../helpers/utils/token-util';
 import { sumHexes } from '../helpers/utils/transactions.util';
 
-const unapprovedTxsSelector = (state) => state.ecfWallet.unapprovedTxs;
-const unapprovedMsgsSelector = (state) => state.ecfWallet.unapprovedMsgs;
-const unapprovedPersonalMsgsSelector = (state) =>
-  state.ecfWallet.unapprovedPersonalMsgs;
-const unapprovedDecryptMsgsSelector = (state) =>
-  state.ecfWallet.unapprovedDecryptMsgs;
-const unapprovedEncryptionPublicKeyMsgsSelector = (state) =>
-  state.ecfWallet.unapprovedEncryptionPublicKeyMsgs;
-const unapprovedTypedMessagesSelector = (state) =>
-  state.ecfWallet.unapprovedTypedMessages;
-const networkSelector = (state) => state.ecfWallet.network;
-
 export const unconfirmedTransactionsListSelector = createSelector(
   unapprovedTxsSelector,
-  unapprovedMsgsSelector,
   unapprovedPersonalMsgsSelector,
   unapprovedDecryptMsgsSelector,
   unapprovedEncryptionPublicKeyMsgsSelector,
@@ -35,7 +30,6 @@ export const unconfirmedTransactionsListSelector = createSelector(
   networkSelector,
   (
     unapprovedTxs = {},
-    unapprovedMsgs = {},
     unapprovedPersonalMsgs = {},
     unapprovedDecryptMsgs = {},
     unapprovedEncryptionPublicKeyMsgs = {},
@@ -44,18 +38,16 @@ export const unconfirmedTransactionsListSelector = createSelector(
   ) =>
     txHelper(
       unapprovedTxs,
-      unapprovedMsgs,
       unapprovedPersonalMsgs,
       unapprovedDecryptMsgs,
       unapprovedEncryptionPublicKeyMsgs,
       unapprovedTypedMessages,
       network,
-    ) || [],
+    ),
 );
 
 export const unconfirmedTransactionsHashSelector = createSelector(
   unapprovedTxsSelector,
-  unapprovedMsgsSelector,
   unapprovedPersonalMsgsSelector,
   unapprovedDecryptMsgsSelector,
   unapprovedEncryptionPublicKeyMsgsSelector,
@@ -63,7 +55,6 @@ export const unconfirmedTransactionsHashSelector = createSelector(
   networkSelector,
   (
     unapprovedTxs = {},
-    unapprovedMsgs = {},
     unapprovedPersonalMsgs = {},
     unapprovedDecryptMsgs = {},
     unapprovedEncryptionPublicKeyMsgs = {},
@@ -86,7 +77,6 @@ export const unconfirmedTransactionsHashSelector = createSelector(
 
     return {
       ...filteredUnapprovedTxs,
-      ...unapprovedMsgs,
       ...unapprovedPersonalMsgs,
       ...unapprovedDecryptMsgs,
       ...unapprovedEncryptionPublicKeyMsgs,
@@ -95,8 +85,6 @@ export const unconfirmedTransactionsHashSelector = createSelector(
   },
 );
 
-const unapprovedMsgCountSelector = (state) =>
-  state.ecfWallet.unapprovedMsgCount;
 const unapprovedPersonalMsgCountSelector = (state) =>
   state.ecfWallet.unapprovedPersonalMsgCount;
 const unapprovedDecryptMsgCountSelector = (state) =>
@@ -108,7 +96,6 @@ const unapprovedTypedMessagesCountSelector = (state) =>
 
 export const unconfirmedTransactionsCountSelector = createSelector(
   unapprovedTxsSelector,
-  unapprovedMsgCountSelector,
   unapprovedPersonalMsgCountSelector,
   unapprovedDecryptMsgCountSelector,
   unapprovedEncryptionPublicKeyMsgCountSelector,
@@ -116,7 +103,6 @@ export const unconfirmedTransactionsCountSelector = createSelector(
   networkSelector,
   (
     unapprovedTxs = {},
-    unapprovedMsgCount = 0,
     unapprovedPersonalMsgCount = 0,
     unapprovedDecryptMsgCount = 0,
     unapprovedEncryptionPublicKeyMsgCount = 0,
@@ -133,7 +119,6 @@ export const unconfirmedTransactionsCountSelector = createSelector(
     return (
       filteredUnapprovedTxIds.length +
       unapprovedTypedMessagesCount +
-      unapprovedMsgCount +
       unapprovedPersonalMsgCount +
       unapprovedDecryptMsgCount +
       unapprovedEncryptionPublicKeyMsgCount

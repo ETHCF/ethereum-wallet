@@ -8,8 +8,7 @@ import * as actions from '../../../store/actions';
 const mapStateToProps = (state) => {
   const { appState, ecfWallet } = state;
   const { networkDropdownOpen } = appState;
-  const { network, provider, selectedAddress, isUnlocked, isAccountMenuOpen } =
-    ecfWallet;
+  const { network, provider, selectedAddress, isUnlocked } = ecfWallet;
 
   return {
     networkDropdownOpen,
@@ -17,7 +16,6 @@ const mapStateToProps = (state) => {
     provider,
     selectedAddress,
     isUnlocked,
-    isAccountMenuOpen,
   };
 };
 

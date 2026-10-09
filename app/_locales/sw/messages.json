@@ -245,9 +245,6 @@
   "delete": {
     "message": "Futa"
   },
-  "deposit": {
-    "message": "Fedha zilizopo kwenye akaunti"
-  },
   "details": {
     "message": "Maelezo"
   },
@@ -632,9 +629,6 @@
   "privateKeyWarning": {
     "message": "Onyo: Kamwe usifichue ufunguo huu. Mtu yeyote mwenye funguo zako binafsi anaweza kuiba rasilimali yoyote iliyopo kwenye akaunti yako."
   },
-  "privateNetwork": {
-    "message": "Mtandao Binafsi"
-  },
   "queue": {
     "message": "Foleni"
   },
@@ -664,12 +658,6 @@
   },
   "reset": {
     "message": "Weka upya"
-  },
-  "resetAccount": {
-    "message": "Futa Akaunti"
-  },
-  "resetAccountDescription": {
-    "message": "Kufuta Akaunti yako kutafuta histori ya akaunti yako."
   },
   "deleteNetwork": {
     "message": "Futa Mtandao?"

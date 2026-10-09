@@ -631,9 +631,6 @@
   "privateKeyWarning": {
     "message": "Amaran: Jangan sekali-kali dedahkan kunci ini. Sesiapa sahaja dengan kunci persendirian anda boleh mencuri sebarang aset yang tersimpan di dalam akaun anda."
   },
-  "privateNetwork": {
-    "message": "Rangkaian Persendirian"
-  },
   "queue": {
     "message": "Baris Gilir"
   },
@@ -663,12 +660,6 @@
   },
   "reset": {
     "message": "Tetapkan semula"
-  },
-  "resetAccount": {
-    "message": "Tetapkan Semula Akaun"
-  },
-  "resetAccountDescription": {
-    "message": "Menetapkan semula akaun anda akan mengosongkan sejarah transaksi anda."
   },
   "deleteNetwork": {
     "message": "Padamkan Rangkaian?"

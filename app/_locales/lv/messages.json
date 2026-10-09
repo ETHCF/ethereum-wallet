@@ -251,9 +251,6 @@
   "delete": {
     "message": "Dzēst"
   },
-  "deposit": {
-    "message": "Iemaksa"
-  },
   "details": {
     "message": "Informācija"
   },
@@ -647,9 +644,6 @@
   "privateKeyWarning": {
     "message": "Brīdinājums! Nekad neizpaudiet šo atslēgu. Ikviens, kuram ir Jūsu privātās atslēgas, var nozagt jebkuru jūsu kontā esošo aktīvu."
   },
-  "privateNetwork": {
-    "message": "Privātais tīkls"
-  },
   "queue": {
     "message": "Rinda"
   },
@@ -679,12 +673,6 @@
   },
   "reset": {
     "message": "Atiestatīt"
-  },
-  "resetAccount": {
-    "message": "Atiestatīt kontu"
-  },
-  "resetAccountDescription": {
-    "message": "Konta atiestatīšana izdzēsīs darījumu vēsturi."
   },
   "deleteNetwork": {
     "message": "Dzēst tīklu?"

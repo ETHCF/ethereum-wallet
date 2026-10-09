@@ -2,6 +2,8 @@ import { getUniqueId } from '@metamask/json-rpc-engine';
 import { JsonRpcError } from '@metamask/rpc-errors';
 import SafeEventEmitter from '@metamask/safe-event-emitter';
 
+import deserializeRpcError from '../../lib/deserialize-rpc-error';
+
 /**
  * Wraps a JSON-RPC engine as a provider. Unlike the provider in
  * `@metamask/eth-json-rpc-provider`, it passes each request on whole, so
@@ -28,18 +30,15 @@ export default function providerFromEngine(engine) {
     });
     if (res.error) {
       // The engine serializes errors; rethrow one that serializes the same
-      // way. serializeError() passes a plain Error with these fields through
-      // unchanged, and its message, not being enumerable, is then lost when
-      // the response crosses to the page as JSON.
-      const { code, message, data, stack } = res.error;
+      // way.
+      const { message, stack } = res.error;
       const error =
-        Number.isInteger(code) && message
-          ? new JsonRpcError(code, message, data)
-          : new JsonRpcError(
-              -32603,
-              message || 'Internal JSON-RPC error.',
-              res.error,
-            );
+        deserializeRpcError(res.error) ??
+        new JsonRpcError(
+          -32603,
+          message || 'Internal JSON-RPC error.',
+          res.error,
+        );
       throw Object.assign(error, stack ? { stack } : {});
     }
     return res.result;

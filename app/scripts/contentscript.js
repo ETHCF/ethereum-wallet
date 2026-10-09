@@ -8,7 +8,7 @@ import ReconnectingPortStream from './lib/reconnecting-port-stream';
 import shouldInjectProvider from './lib/should-inject-provider';
 
 if (shouldInjectProvider()) {
-  start();
+  setupStreams();
 } else {
   // The page can make itself skip the provider, through its URL, doctype or
   // path. Connecting is what checks it against the phishing list, so ask for
@@ -19,20 +19,11 @@ if (shouldInjectProvider()) {
 }
 
 /**
- * Sets up the stream communication and submits site metadata
- *
- */
-async function start() {
-  await setupStreams();
-  await domIsReady();
-}
-
-/**
  * Sets up two-way communication streams between the
  * browser extension and local per-page browser context.
  *
  */
-async function setupStreams() {
+function setupStreams() {
   // the transport-specific streams for communication between inpage and background
   const pageStream = new WindowPostMessageStream({
     name: 'ecf-wallet-contentscript',
@@ -83,20 +74,4 @@ function logStreamDisconnectWarning(remoteLabel, err) {
     warningMsg += `\n${err.stack}`;
   }
   console.warn(warningMsg);
-}
-
-/**
- * Returns a promise that resolves when the DOM is loaded (does not wait for images to load)
- *
- * @returns {Promise<void>} Resolves once the document is interactive.
- */
-async function domIsReady() {
-  // already loaded
-  if (['interactive', 'complete'].includes(document.readyState)) {
-    return undefined;
-  }
-  // wait for load
-  return new Promise((resolve) =>
-    window.addEventListener('DOMContentLoaded', resolve, { once: true }),
-  );
 }

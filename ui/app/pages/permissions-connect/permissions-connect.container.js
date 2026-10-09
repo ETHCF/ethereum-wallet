@@ -20,8 +20,6 @@ import {
   approvePermissionsRequest,
   rejectPermissionsRequest,
   showModal,
-  getCurrentWindowTab,
-  getRequestAccountTabIds,
 } from '../../store/actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -112,8 +110,6 @@ const mapDispatchToProps = (dispatch) => {
         }),
       );
     },
-    getRequestAccountTabIds: () => dispatch(getRequestAccountTabIds()),
-    getCurrentWindowTab: () => dispatch(getCurrentWindowTab()),
   };
 };
 

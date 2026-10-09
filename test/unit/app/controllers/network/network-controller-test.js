@@ -2,7 +2,6 @@ import assert from 'assert';
 import nock from 'nock';
 
 import NetworkController from '../../../../../app/scripts/controllers/network';
-import { getNetworkDisplayName } from '../../../../../app/scripts/controllers/network/util';
 
 describe('NetworkController', function () {
   describe('controller', function () {
@@ -140,26 +139,6 @@ describe('NetworkController', function () {
         const loading = networkController.isNetworkLoading();
         assert.ok(loading, 'network is loading');
       });
-    });
-  });
-
-  describe('utils', function () {
-    it('getNetworkDisplayName should return the correct network name', function () {
-      const tests = [
-        { input: '1', expected: 'Ethereum Mainnet' },
-        { input: '0x1', expected: 'Ethereum Mainnet' },
-        { input: 'mainnet', expected: 'Ethereum Mainnet' },
-        { input: '8453', expected: 'Base' },
-        { input: '0x89', expected: 'Polygon' },
-        { input: 'sepolia', expected: 'Sepolia' },
-        { input: '11155111', expected: 'Sepolia' },
-        { input: 'rinkeby', expected: undefined },
-        { input: '4', expected: undefined },
-      ];
-
-      tests.forEach(({ input, expected }) =>
-        assert.equal(getNetworkDisplayName(input), expected),
-      );
     });
   });
 });

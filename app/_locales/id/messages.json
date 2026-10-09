@@ -638,9 +638,6 @@
   "privateKeyWarning": {
     "message": "PERINGATAN: Jangan pernah mengungkap kunci ini. Siapa saja dapat mencuri aset yang tersimpan di akun Anda dengan kunci pribadi Anda."
   },
-  "privateNetwork": {
-    "message": "Jaringan Privat"
-  },
   "queue": {
     "message": "Antrean"
   },
@@ -670,12 +667,6 @@
   },
   "reset": {
     "message": "Setel ulang"
-  },
-  "resetAccount": {
-    "message": "Reset Akun"
-  },
-  "resetAccountDescription": {
-    "message": "Mengatur ulang akun akan membersihkan riwayat transaksi Anda."
   },
   "deleteNetwork": {
     "message": "Hapus Jaringan?"

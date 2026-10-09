@@ -22,7 +22,6 @@ export default class GasModalPageContainer extends Component {
     fetchBasicGasEstimates: PropTypes.func,
     gasPriceButtonGroupProps: PropTypes.object,
     infoRowProps: PropTypes.shape({
-      originalTotalEth: PropTypes.string,
       newTotalEth: PropTypes.string,
       sendAmount: PropTypes.string,
       transactionFee: PropTypes.string,

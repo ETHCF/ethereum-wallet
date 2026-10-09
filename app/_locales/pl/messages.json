@@ -248,9 +248,6 @@
   "delete": {
     "message": "Usuń"
   },
-  "deposit": {
-    "message": "Zdeponuj"
-  },
   "details": {
     "message": "Szczegóły"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "Uwaga: Nie ujawniaj nikomu tego klucza. Ktokolwiek posiadający Twoje prywatne klucze może użyć środków znajdujących się na Twoim koncie."
   },
-  "privateNetwork": {
-    "message": "Sieć prywatna"
-  },
   "queue": {
     "message": "Kolejka"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "Resetuj"
-  },
-  "resetAccount": {
-    "message": "Resetuj konto"
-  },
-  "resetAccountDescription": {
-    "message": "Zresetowanie konta wyczyści Twoją historię transakcji."
   },
   "deleteNetwork": {
     "message": "Usunąć sieć?"

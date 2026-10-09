@@ -1,5 +1,35 @@
 import { ALERT_TYPES } from '../../../../app/scripts/controllers/alert';
-import * as actionConstants from '../../store/actionConstants';
+import {
+  CLEAR_PENDING_TOKENS,
+  CLEAR_SEND,
+  COMPLETE_ONBOARDING,
+  LOCK_ECF_WALLET,
+  SET_ACCOUNT_LABEL,
+  SET_CURRENT_LOCALE,
+  SET_FIRST_TIME_FLOW_TYPE,
+  SET_PENDING_TOKENS,
+  SET_PROVIDER_TYPE,
+  SET_RPC_TARGET,
+  SHOW_ACCOUNT_DETAIL,
+  TOGGLE_ACCOUNT_MENU,
+  UPDATE_ECF_WALLET_STATE,
+  UPDATE_FEATURE_FLAGS,
+  UPDATE_GAS_LIMIT,
+  UPDATE_GAS_PRICE,
+  UPDATE_GAS_TOTAL,
+  UPDATE_MAX_MODE,
+  UPDATE_PREFERENCES,
+  UPDATE_SEND,
+  UPDATE_SEND_AMOUNT,
+  UPDATE_SEND_ENS_RESOLUTION,
+  UPDATE_SEND_ENS_RESOLUTION_ERROR,
+  UPDATE_SEND_HEX_DATA,
+  UPDATE_SEND_TO,
+  UPDATE_SEND_TOKEN,
+  UPDATE_SEND_TOKEN_BALANCE,
+  UPDATE_TOKENS,
+  UPDATE_TRANSACTION_PARAMS,
+} from '../../store/actionConstants';
 
 export default function reduceEcfWallet(state = {}, action) {
   const ecfWalletState = {
@@ -12,7 +42,6 @@ export default function reduceEcfWallet(state = {}, action) {
     addressBook: [],
     tokens: [],
     pendingTokens: {},
-    customNonceValue: '',
     send: {
       gasLimit: null,
       gasPrice: null,
@@ -32,7 +61,6 @@ export default function reduceEcfWallet(state = {}, action) {
       ensResolutionError: '',
     },
     featureFlags: {},
-    welcomeScreenSeen: false,
     currentLocale: '',
     preferences: {
       autoLockTimeLimit: undefined,
@@ -41,21 +69,20 @@ export default function reduceEcfWallet(state = {}, action) {
     firstTimeFlowType: null,
     completedOnboarding: false,
     knownMethodData: {},
-    nextNonce: null,
     ...state,
   };
 
   switch (action.type) {
-    case actionConstants.UPDATE_ECF_WALLET_STATE:
+    case UPDATE_ECF_WALLET_STATE:
       return { ...ecfWalletState, ...action.value };
 
-    case actionConstants.LOCK_ECF_WALLET:
+    case LOCK_ECF_WALLET:
       return {
         ...ecfWalletState,
         isUnlocked: false,
       };
 
-    case actionConstants.SET_RPC_TARGET:
+    case SET_RPC_TARGET:
       return {
         ...ecfWalletState,
         provider: {
@@ -64,7 +91,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.SET_PROVIDER_TYPE:
+    case SET_PROVIDER_TYPE:
       return {
         ...ecfWalletState,
         provider: {
@@ -72,7 +99,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.SHOW_ACCOUNT_DETAIL:
+    case SHOW_ACCOUNT_DETAIL:
       return {
         ...ecfWalletState,
         isUnlocked: true,
@@ -80,7 +107,7 @@ export default function reduceEcfWallet(state = {}, action) {
         selectedAddress: action.value,
       };
 
-    case actionConstants.SET_ACCOUNT_LABEL: {
+    case SET_ACCOUNT_LABEL: {
       const { account } = action.value;
       const name = action.value.label;
       const id = {};
@@ -89,14 +116,14 @@ export default function reduceEcfWallet(state = {}, action) {
       return Object.assign(ecfWalletState, { identities });
     }
 
-    case actionConstants.UPDATE_TOKENS:
+    case UPDATE_TOKENS:
       return {
         ...ecfWalletState,
         tokens: action.newTokens,
       };
 
     // ecf-wallet.send
-    case actionConstants.UPDATE_GAS_LIMIT:
+    case UPDATE_GAS_LIMIT:
       return {
         ...ecfWalletState,
         send: {
@@ -104,12 +131,7 @@ export default function reduceEcfWallet(state = {}, action) {
           gasLimit: action.value,
         },
       };
-    case actionConstants.UPDATE_CUSTOM_NONCE:
-      return {
-        ...ecfWalletState,
-        customNonceValue: action.value,
-      };
-    case actionConstants.UPDATE_GAS_PRICE:
+    case UPDATE_GAS_PRICE:
       return {
         ...ecfWalletState,
         send: {
@@ -118,13 +140,13 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.TOGGLE_ACCOUNT_MENU:
+    case TOGGLE_ACCOUNT_MENU:
       return {
         ...ecfWalletState,
         isAccountMenuOpen: !ecfWalletState.isAccountMenuOpen,
       };
 
-    case actionConstants.UPDATE_GAS_TOTAL:
+    case UPDATE_GAS_TOTAL:
       return {
         ...ecfWalletState,
         send: {
@@ -133,7 +155,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND_TOKEN_BALANCE:
+    case UPDATE_SEND_TOKEN_BALANCE:
       return {
         ...ecfWalletState,
         send: {
@@ -142,7 +164,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND_HEX_DATA:
+    case UPDATE_SEND_HEX_DATA:
       return {
         ...ecfWalletState,
         send: {
@@ -151,7 +173,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND_TO:
+    case UPDATE_SEND_TO:
       return {
         ...ecfWalletState,
         send: {
@@ -161,7 +183,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND_AMOUNT:
+    case UPDATE_SEND_AMOUNT:
       return {
         ...ecfWalletState,
         send: {
@@ -170,7 +192,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_MAX_MODE:
+    case UPDATE_MAX_MODE:
       return {
         ...ecfWalletState,
         send: {
@@ -179,7 +201,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND:
+    case UPDATE_SEND:
       return Object.assign(ecfWalletState, {
         send: {
           ...ecfWalletState.send,
@@ -187,7 +209,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       });
 
-    case actionConstants.UPDATE_SEND_TOKEN: {
+    case UPDATE_SEND_TOKEN: {
       const newSend = {
         ...ecfWalletState.send,
         token: action.value,
@@ -218,7 +240,7 @@ export default function reduceEcfWallet(state = {}, action) {
       });
     }
 
-    case actionConstants.UPDATE_SEND_ENS_RESOLUTION:
+    case UPDATE_SEND_ENS_RESOLUTION:
       return {
         ...ecfWalletState,
         send: {
@@ -228,7 +250,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_SEND_ENS_RESOLUTION_ERROR:
+    case UPDATE_SEND_ENS_RESOLUTION_ERROR:
       return {
         ...ecfWalletState,
         send: {
@@ -238,7 +260,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.CLEAR_SEND:
+    case CLEAR_SEND:
       return {
         ...ecfWalletState,
         send: {
@@ -258,7 +280,7 @@ export default function reduceEcfWallet(state = {}, action) {
         },
       };
 
-    case actionConstants.UPDATE_TRANSACTION_PARAMS: {
+    case UPDATE_TRANSACTION_PARAMS: {
       const { id: txId, value } = action;
       let { currentNetworkTxList } = ecfWalletState;
       currentNetworkTxList = currentNetworkTxList.map((tx) => {
@@ -276,65 +298,52 @@ export default function reduceEcfWallet(state = {}, action) {
       };
     }
 
-    case actionConstants.UPDATE_FEATURE_FLAGS:
+    case UPDATE_FEATURE_FLAGS:
       return {
         ...ecfWalletState,
         featureFlags: action.value,
       };
 
-    case actionConstants.CLOSE_WELCOME_SCREEN:
-      return {
-        ...ecfWalletState,
-        welcomeScreenSeen: true,
-      };
-
-    case actionConstants.SET_CURRENT_LOCALE:
+    case SET_CURRENT_LOCALE:
       return {
         ...ecfWalletState,
         currentLocale: action.value.locale,
       };
 
-    case actionConstants.SET_PENDING_TOKENS:
+    case SET_PENDING_TOKENS:
       return {
         ...ecfWalletState,
         pendingTokens: { ...action.payload },
       };
 
-    case actionConstants.CLEAR_PENDING_TOKENS: {
+    case CLEAR_PENDING_TOKENS: {
       return {
         ...ecfWalletState,
         pendingTokens: {},
       };
     }
 
-    case actionConstants.UPDATE_PREFERENCES: {
+    case UPDATE_PREFERENCES: {
       return {
         ...ecfWalletState,
         preferences: {
           ...ecfWalletState.preferences,
-          ...action.payload,
+          ...action.value,
         },
       };
     }
 
-    case actionConstants.COMPLETE_ONBOARDING: {
+    case COMPLETE_ONBOARDING: {
       return {
         ...ecfWalletState,
         completedOnboarding: true,
       };
     }
 
-    case actionConstants.SET_FIRST_TIME_FLOW_TYPE: {
+    case SET_FIRST_TIME_FLOW_TYPE: {
       return {
         ...ecfWalletState,
         firstTimeFlowType: action.value,
-      };
-    }
-
-    case actionConstants.SET_NEXT_NONCE: {
-      return {
-        ...ecfWalletState,
-        nextNonce: action.value,
       };
     }
 

@@ -157,7 +157,6 @@ describe('App State', function () {
 
     assert.equal(state.isLoading, false);
     assert.equal(state.warning, null);
-    assert.equal(state.scrollToBottom, false);
     assert.equal(state.forgottenPassword, false);
   });
 

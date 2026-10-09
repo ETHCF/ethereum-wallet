@@ -12,8 +12,8 @@ const SINGLE_CALL_BALANCES_ADDRESS =
   '0xb1f8e55c7f64d203c1400b9d8555d050f94adf39';
 
 /**
- * A controller that polls for token exchange
- * rates based on a user's current token list
+ * A controller that polls, on mainnet, for the selected account's balances of
+ * the known ERC20 tokens, and adds any token with a balance to its token list
  */
 export default class DetectTokensController {
   /**
@@ -168,8 +168,7 @@ export default class DetectTokensController {
     if (!keyringMemStore) {
       return;
     }
-    this._keyringMemStore = keyringMemStore;
-    this._keyringMemStore.subscribe(({ isUnlocked }) => {
+    keyringMemStore.subscribe(({ isUnlocked }) => {
       if (this.isUnlocked !== isUnlocked) {
         this.isUnlocked = isUnlocked;
         if (isUnlocked) {

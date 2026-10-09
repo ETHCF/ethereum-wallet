@@ -245,9 +245,6 @@
   "delete": {
     "message": "Excluir"
   },
-  "deposit": {
-    "message": "Depósito"
-  },
   "details": {
     "message": "Detalhes"
   },
@@ -635,9 +632,6 @@
   "privateKeyWarning": {
     "message": "Aviso: nunca divulgue esta chave. Qualquer pessoa com suas chaves privadas pode roubar quaisquer ativos mantidos em sua conta."
   },
-  "privateNetwork": {
-    "message": "Rede Particular"
-  },
   "queue": {
     "message": "Fila"
   },
@@ -667,12 +661,6 @@
   },
   "reset": {
     "message": "Redefinir"
-  },
-  "resetAccount": {
-    "message": "Redefinir Conta"
-  },
-  "resetAccountDescription": {
-    "message": "Restabelecer a sua conta limpará todo o seu histórico de transações."
   },
   "deleteNetwork": {
     "message": "Excluir Rede?"

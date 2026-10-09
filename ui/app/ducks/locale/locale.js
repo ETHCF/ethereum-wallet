@@ -1,8 +1,8 @@
-import * as actionConstants from '../../store/actionConstants';
+import { SET_CURRENT_LOCALE } from '../../store/actionConstants';
 
 export default function reduceLocaleMessages(state = {}, { type, value }) {
   switch (type) {
-    case actionConstants.SET_CURRENT_LOCALE:
+    case SET_CURRENT_LOCALE:
       return {
         ...state,
         current: value.messages,

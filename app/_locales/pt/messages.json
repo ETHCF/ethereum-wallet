@@ -85,9 +85,6 @@
   "defaultNetwork": {
     "message": "A rede pré definida para transações em $ETH é a Mainnet."
   },
-  "deposit": {
-    "message": "Depósito"
-  },
   "details": {
     "message": "Detalhes"
   },
@@ -256,9 +253,6 @@
   "privateKeyWarning": {
     "message": "Atenção: Nunca revele esta chave. Qualquer pessoa com acesso à sua chave privada pode roubar os bens que esta contém."
   },
-  "privateNetwork": {
-    "message": "Rede Privada"
-  },
   "readdToken": {
     "message": "Pode adicionar este token de novo clicando na opção “Adicionar token” no menu de opções da sua conta."
   },
@@ -267,9 +261,6 @@
   },
   "rejected": {
     "message": "Rejeitado"
-  },
-  "resetAccount": {
-    "message": "Reinicializar Conta"
   },
   "restoreFromSeed": {
     "message": "Restaurar a partir da frase seed"

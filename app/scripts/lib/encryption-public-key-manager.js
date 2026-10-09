@@ -1,8 +1,6 @@
-import { ObservableStore } from '@metamask/obs-store';
-import { providerErrors } from '@metamask/rpc-errors';
-import EventEmitter from 'events';
 import log from 'loglevel';
 
+import BaseMessageManager from './base-message-manager';
 import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
 
@@ -12,102 +10,58 @@ import createId from './random-id';
  *
  * @typedef {object} EncryptionPublicKey
  * @property {number} id An id to track and identify the message object
- * @property {object} msgParams The parameters to pass to the encryptionPublicKey method once the request is
- * approved.
- * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
- * @property {string} msgParams.data A hex string conversion of the raw buffer data of the request
+ * @property {string} msgParams The address whose encryption public key is requested.
+ * @property {string} [origin] The origin of the request.
  * @property {number} time The epoch time at which the this message was created
- * @property {string} status Indicates whether the request is 'unapproved', 'approved', 'received' or 'rejected'
+ * @property {string} status Indicates whether the request is 'unapproved', 'approved', 'received', 'rejected' or 'errored'
  * @property {string} type The json-prc method for which a request has been made. A 'Message' will
  * always have a 'eth_getEncryptionPublicKey' type.
  */
 
-export default class EncryptionPublicKeyManager extends EventEmitter {
+export default class EncryptionPublicKeyManager extends BaseMessageManager {
   /**
    * Controller in charge of managing - storing, adding, removing, updating - EncryptionPublicKey.
-   *
-   * @typedef {object} EncryptionPublicKeyManager
-   * @property {object} memStore The observable store where EncryptionPublicKey are saved with persistance.
-   * @property {object} memStore.unapprovedEncryptionPublicKeyMsgs A collection of all EncryptionPublicKeys in the 'unapproved' state
-   * @property {number} memStore.unapprovedEncryptionPublicKeyMsgCount The count of all EncryptionPublicKeys in this.memStore.unapprobedMsgs
-   * @property {Array} messages Holds all messages that have been created by this EncryptionPublicKeyManager
    */
   constructor() {
-    super();
-    this.memStore = new ObservableStore({
-      unapprovedEncryptionPublicKeyMsgs: {},
-      unapprovedEncryptionPublicKeyMsgCount: 0,
+    super({
+      name: 'EncryptionPublicKeyManager',
+      stateKey: 'unapprovedEncryptionPublicKeyMsgs',
+      countKey: 'unapprovedEncryptionPublicKeyMsgCount',
+      successStatus: 'received',
+      resultKey: 'rawData',
+      label: 'Encryption public key request',
+      errorPrefix: 'ecf-wallet EncryptionPublicKey',
+      rejectedMessage: 'User denied message EncryptionPublicKey.',
     });
-    this.messages = [];
   }
 
   /**
-   * A getter for the number of 'unapproved' EncryptionPublicKeys in this.messages
+   * The number of EncryptionPublicKeys waiting for the user.
    *
    * @returns {number} The number of 'unapproved' EncryptionPublicKeys in this.messages
    */
   get unapprovedEncryptionPublicKeyMsgCount() {
-    return Object.keys(this.getUnapprovedMsgs()).length;
+    return this.getUnapprovedMsgCount();
   }
 
   /**
-   * A getter for the 'unapproved' EncryptionPublicKeys in this.messages
+   * Creates a new unapproved EncryptionPublicKey and settles when it is received, rejected or errored.
    *
-   * @returns {object} An index of EncryptionPublicKey ids to EncryptionPublicKeys, for all 'unapproved' EncryptionPublicKeys in
-   * this.messages
-   */
-  getUnapprovedMsgs() {
-    return this.messages
-      .filter((msg) => msg.status === 'unapproved')
-      .reduce((result, msg) => {
-        result[msg.id] = msg;
-        return result;
-      }, {});
-  }
-
-  /**
-   * Creates a new EncryptionPublicKey with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new EncryptionPublicKey to this.messages, and to save the unapproved EncryptionPublicKeys from that list to
-   * this.memStore.
-   *
-   * @param {object} address - The param for the eth_getEncryptionPublicKey call to be made after the message is approved.
+   * @param {string} address - The param for the eth_getEncryptionPublicKey call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
    * @returns {Promise<string>} The raw public key contents
    */
   addUnapprovedMessageAsync(address, req) {
-    return new Promise((resolve, reject) => {
-      if (!address) {
-        reject(new Error('ecf-wallet Message: address field is required.'));
-        return;
-      }
-      const msgId = this.addUnapprovedMessage(address, req);
-      this.once(`${msgId}:finished`, (data) => {
-        switch (data.status) {
-          case 'received':
-            resolve(data.rawData);
-            return;
-          case 'rejected':
-            reject(
-              providerErrors.userRejectedRequest(
-                'ecf-wallet EncryptionPublicKey: User denied message EncryptionPublicKey.',
-              ),
-            );
-            return;
-          default:
-            reject(
-              new Error(
-                `ecf-wallet EncryptionPublicKey: Unknown problem: ${JSON.stringify(address)}`,
-              ),
-            );
-        }
-      });
-    });
+    if (!address) {
+      return Promise.reject(
+        new Error('ecf-wallet Message: address field is required.'),
+      );
+    }
+    return super.addUnapprovedMessageAsync(address, req);
   }
 
   /**
-   * Creates a new EncryptionPublicKey with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new EncryptionPublicKey to this.messages, and to save the unapproved EncryptionPublicKeys from that list to
-   * this.memStore.
+   * Creates a new EncryptionPublicKey with an 'unapproved' status for the passed address.
    *
    * @param {string} address - The param for the eth_getEncryptionPublicKey call to be made after the message is approved.
    * @param {object} [req] - The original request object possibly containing the origin
@@ -115,13 +69,11 @@ export default class EncryptionPublicKeyManager extends EventEmitter {
    */
   addUnapprovedMessage(address, req) {
     log.debug(`EncryptionPublicKeyManager addUnapprovedMessage: address`);
-    // create txData obj with parameters and meta data
-    const time = new Date().getTime();
     const msgId = createId();
     const msgData = {
       id: msgId,
       msgParams: address,
-      time,
+      time: new Date().getTime(),
       status: 'unapproved',
       type: MESSAGE_TYPE.ETH_GET_ENCRYPTION_PUBLIC_KEY,
     };
@@ -138,154 +90,32 @@ export default class EncryptionPublicKeyManager extends EventEmitter {
   }
 
   /**
-   * Adds a passed EncryptionPublicKey to this.messages, and calls this._saveMsgList() to save the unapproved EncryptionPublicKeys from that
-   * list to this.memStore.
+   * The stored msgParams is the address; it is returned as `data`, the shape the UI sends.
    *
-   * @param {EncryptionPublicKey} msg - The EncryptionPublicKey to add to this.messages
+   * @param {EncryptionPublicKey} stored - The stored message.
+   * @returns {object} The params to act on.
    */
-  addMsg(msg) {
-    this.messages.push(msg);
-    this._saveMsgList();
+  _approvalParams(stored) {
+    return { data: stored.msgParams };
   }
 
   /**
-   * Returns a specified EncryptionPublicKey.
-   *
-   * @param {number} msgId - The id of the EncryptionPublicKey to get
-   * @returns {EncryptionPublicKey|undefined} The EncryptionPublicKey with the id that matches the passed msgId, or undefined
-   * if no EncryptionPublicKey has that id.
-   */
-  getMsg(msgId) {
-    return this.messages.find((msg) => msg.id === msgId);
-  }
-
-  /**
-   * Approves a EncryptionPublicKey. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
-   * with any the message params modified for proper providing.
-   *
-   * @param {object} msgParams - The msgParams to be used when eth_getEncryptionPublicKey is called, plus data added by ecf-wallet.
-   * @param {object} msgParams.ecfWalletId - Added to msgParams for tracking and identification within ecf-wallet.
-   * @returns {Promise<object>} Promises the msgParams object with ecfWalletId removed.
-   */
-  approveMessage(msgParams) {
-    this.setMsgStatusApproved(msgParams.ecfWalletId);
-    return this.prepMsgForEncryptionPublicKey(msgParams);
-  }
-
-  /**
-   * Sets a EncryptionPublicKey status to 'approved' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the EncryptionPublicKey to approve.
-   */
-  setMsgStatusApproved(msgId) {
-    this._setMsgStatus(msgId, 'approved');
-  }
-
-  /**
-   * Sets a EncryptionPublicKey status to 'received' via a call to this._setMsgStatus and updates that EncryptionPublicKey in
-   * this.messages by adding the raw data of request to the EncryptionPublicKey
+   * Sets a EncryptionPublicKey status to 'received' and stores the public key.
    *
    * @param {number} msgId - The id of the EncryptionPublicKey.
    * @param {string} rawData - The raw data of the message request
    */
   setMsgStatusReceived(msgId, rawData) {
-    const msg = this.getMsg(msgId);
-    msg.rawData = rawData;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'received');
+    this._setMsgResult(msgId, rawData);
   }
 
   /**
-   * Removes the ecfWalletId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the ecfWalletId property from passed msgParams.
    *
    * @param {object} msgParams - The msgParams to modify
    * @returns {Promise<object>} Promises the msgParams with the ecfWalletId property removed
    */
   prepMsgForEncryptionPublicKey(msgParams) {
-    delete msgParams.ecfWalletId;
-    return Promise.resolve(msgParams);
-  }
-
-  /**
-   * Sets a EncryptionPublicKey status to 'rejected' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the EncryptionPublicKey to reject.
-   */
-  rejectMsg(msgId) {
-    this._setMsgStatus(msgId, 'rejected');
-  }
-
-  /**
-   * Sets a TypedMessage status to 'errored' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the TypedMessage to error
-   * @param {Error} error - The error that occurred.
-   */
-  errorMessage(msgId, error) {
-    const msg = this.getMsg(msgId);
-    msg.error = error;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'errored');
-  }
-
-  /**
-   * Updates the status of a EncryptionPublicKey in this.messages via a call to this._updateMsg.
-   * Fires an event with a name equal to `${msgId}:${status}`, along with the EncryptionPublicKey.
-   * If status is 'rejected' or 'received', an event with a name equal to `${msgId}:finished` is fired along
-   * with the EncryptionPublicKey.
-   *
-   * @private
-   * @param {number} msgId - The id of the EncryptionPublicKey to update.
-   * @param {string} status - The new status of the EncryptionPublicKey.
-   * @throws A 'EncryptionPublicKeyManager - EncryptionPublicKey not found for id: "${msgId}".' if there is no EncryptionPublicKey
-   * in this.messages with an id equal to the passed msgId
-   */
-  _setMsgStatus(msgId, status) {
-    const msg = this.getMsg(msgId);
-    if (!msg) {
-      throw new Error(
-        `EncryptionPublicKeyManager - Message not found for id: "${msgId}".`,
-      );
-    }
-    msg.status = status;
-    this._updateMsg(msg);
-    this.emit(`${msgId}:${status}`, msg);
-    if (status === 'rejected' || status === 'received') {
-      this.emit(`${msgId}:finished`, msg);
-    }
-  }
-
-  /**
-   * Sets a EncryptionPublicKey in this.messages to the passed EncryptionPublicKey if the ids are equal. Then saves the
-   * unapprovedEncryptionPublicKeyMsgs index to storage via this._saveMsgList
-   *
-   * @private
-   * @param {EncryptionPublicKey} msg - A EncryptionPublicKey that will replace an existing EncryptionPublicKey (with the same
-   * id) in this.messages
-   */
-  _updateMsg(msg) {
-    const index = this.messages.findIndex((message) => message.id === msg.id);
-    if (index !== -1) {
-      this.messages[index] = msg;
-    }
-    this._saveMsgList();
-  }
-
-  /**
-   * Saves the unapproved EncryptionPublicKeys, and their count, to this.memStore
-   *
-   * @private
-   * @fires 'updateBadge'
-   */
-  _saveMsgList() {
-    const unapprovedEncryptionPublicKeyMsgs = this.getUnapprovedMsgs();
-    const unapprovedEncryptionPublicKeyMsgCount = Object.keys(
-      unapprovedEncryptionPublicKeyMsgs,
-    ).length;
-    this.memStore.updateState({
-      unapprovedEncryptionPublicKeyMsgs,
-      unapprovedEncryptionPublicKeyMsgCount,
-    });
-    this.emit('updateBadge');
+    return this.prepMsg(msgParams);
   }
 }

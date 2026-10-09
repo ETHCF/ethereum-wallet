@@ -13,10 +13,6 @@ describe('Welcome', function () {
 
   const store = configureMockStore()(mockStore);
 
-  after(function () {
-    sinon.restore();
-  });
-
   it('routes to select action for a new user', function () {
     const props = {
       navigate: sinon.spy(),
@@ -34,27 +30,6 @@ describe('Welcome', function () {
     assert.equal(
       props.navigate.getCall(0).args[0],
       '/initialize/select-action',
-    );
-  });
-
-  it('routes to correct password after the welcome screen has been seen', function () {
-    const props = {
-      welcomeScreenSeen: true,
-      navigate: sinon.spy(),
-    };
-
-    const wrapper = mountWithRouter(
-      <Welcome.WrappedComponent {...props} />,
-      store,
-    );
-
-    const getStartedButton = wrapper.find(
-      '.btn-primary.first-time-flow__button',
-    );
-    getStartedButton.simulate('click');
-    assert.equal(
-      props.navigate.getCall(0).args[0],
-      '/initialize/create-password',
     );
   });
 });

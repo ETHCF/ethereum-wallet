@@ -1,11 +1,14 @@
 import { toChecksumAddress } from '@ethereumjs/util';
 
 import {
-  TYPED_MESSAGE_SCHEMA,
   parseSIWE,
   recoverTypedSignature,
-  signTypedData as signTypedDataWithKey,
-  validateTypedData as validateTypedDataVersion,
+} from './transaction-codec-implementation';
+
+export {
+  TYPED_MESSAGE_SCHEMA,
+  signTypedData,
+  validateTypedData,
 } from './transaction-codec-implementation';
 
 const CANONICAL_ADDRESS = /^0x[0-9a-fA-F]{40}$/u;
@@ -92,10 +95,6 @@ export function canonicalizeTypedData(data, version) {
   return result;
 }
 
-export function validateTypedData(data, version) {
-  return validateTypedDataVersion(data, version);
-}
-
 /**
  * Throws unless a typed-data signature is by the given account over the data
  * as the wallet encodes it. Hardware keyrings bundle their own encoder.
@@ -111,14 +110,6 @@ export function assertTypedSignature({ data, signature, version, from }) {
   if (signer.toLowerCase() !== from.toLowerCase()) {
     throw new Error('The signature does not match the approved typed data');
   }
-}
-
-export function typedDataSchema() {
-  return TYPED_MESSAGE_SCHEMA;
-}
-
-export function signTypedData(params) {
-  return signTypedDataWithKey(params);
 }
 
 // Parse without changing the bytes that will be signed. As in the reference

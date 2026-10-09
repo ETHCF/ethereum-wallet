@@ -1,12 +1,7 @@
-import {
-  createTypedTransaction,
-  decodeTypedTransaction,
-} from './transaction-codec-implementation';
+import { decodeTypedTransaction } from './transaction-codec-implementation';
 
 // Hardware SDKs use their own compatible EthereumJS version (see hardware-transport.js).
-export function createTransaction(params, chainId) {
-  return createTypedTransaction(params, chainId);
-}
+export { createTypedTransaction as createTransaction } from './transaction-codec-implementation';
 
 export function decodeTransaction(hex, chainId) {
   const bytes = Buffer.from(hex.replace(/^0x/u, ''), 'hex');

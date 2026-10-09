@@ -239,9 +239,6 @@
   "delete": {
     "message": "Löschen"
   },
-  "deposit": {
-    "message": "Einzahlen"
-  },
   "done": {
     "message": "Fertig"
   },
@@ -616,9 +613,6 @@
   "privateKeyWarning": {
     "message": "Warnung: Niemals jemanden deinen Private Key mitteilen. Jeder der im Besitz deines Private Keys ist, kann jegliches Guthaben deines Accounts stehlen."
   },
-  "privateNetwork": {
-    "message": "Privates Netzwerk"
-  },
   "queue": {
     "message": "Warteschlange"
   },
@@ -648,12 +642,6 @@
   },
   "reset": {
     "message": "Zurücksetzen"
-  },
-  "resetAccount": {
-    "message": "Account zurücksetzten"
-  },
-  "resetAccountDescription": {
-    "message": "Durch das Zurücksetzen Ihres Kontos wird Ihr Transaktionsverlauf gelöscht."
   },
   "deleteNetwork": {
     "message": "Netzwerk löschen?"

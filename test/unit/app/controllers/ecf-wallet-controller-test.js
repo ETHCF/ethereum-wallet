@@ -5,8 +5,8 @@ import nock from 'nock';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import { obj as createThoughStream } from 'through2';
+import { promisify } from 'util';
 
-import createTxMeta from '../../../lib/createTxMeta';
 import firstTimeState from '../../localhostState';
 
 // browser.storage.session, in memory
@@ -63,7 +63,6 @@ const { default: EcfWalletController, MAX_RESTORED_ACCOUNTS } = proxyquire(
   },
 );
 
-const currentNetworkId = '42';
 const DEFAULT_LABEL = 'Account 1';
 const DEFAULT_LABEL_2 = 'Account 2';
 const TEST_SEED =
@@ -775,50 +774,6 @@ describe('EcfWalletController', function () {
     });
   });
 
-  describe('#resetAccount', function () {
-    it('wipes transactions from only the correct network id and with the selected address', async function () {
-      const selectedAddressStub = sinon.stub(
-        ecfWalletController.preferencesController,
-        'getSelectedAddress',
-      );
-      const getNetworkstub = sinon.stub(
-        ecfWalletController.txController.txStateManager,
-        'getNetwork',
-      );
-
-      selectedAddressStub.returns('0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc');
-      getNetworkstub.returns(42);
-
-      ecfWalletController.txController.txStateManager._saveTxList([
-        createTxMeta({
-          id: 1,
-          status: 'unapproved',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: { from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc' },
-        }),
-        createTxMeta({
-          id: 1,
-          status: 'unapproved',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: { from: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc' },
-        }),
-        createTxMeta({ id: 2, status: 'rejected', ecfWalletNetworkId: '32' }),
-        createTxMeta({
-          id: 3,
-          status: 'submitted',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: { from: '0xB09d8505E1F4EF1CeA089D47094f5DD3464083d4' },
-        }),
-      ]);
-
-      await ecfWalletController.resetAccount();
-      assert.equal(
-        ecfWalletController.txController.txStateManager.getTx(1),
-        undefined,
-      );
-    });
-  });
-
   describe('#removeAccount', function () {
     const addressToRemove = '0x1';
 
@@ -875,8 +830,8 @@ describe('EcfWalletController', function () {
   });
 
   describe('#setCurrentLocale', function () {
-    it('sets current locale in preferences controller', function () {
-      ecfWalletController.setCurrentLocale('ja', noop);
+    it('sets current locale in preferences controller', async function () {
+      await promisify(ecfWalletController.getApi().setCurrentLocale)('ja');
       const preferenceCurrentLocale =
         ecfWalletController.preferencesController.store.getState()
           .currentLocale;
@@ -973,7 +928,7 @@ describe('EcfWalletController', function () {
 
     it('rejects the message', function () {
       const msgIdInt = parseInt(msgId, 10);
-      ecfWalletController.cancelPersonalMessage(msgIdInt, noop);
+      ecfWalletController.getApi().cancelPersonalMessage(msgIdInt, noop);
       assert.equal(personalMessages[0].status, 'rejected');
     });
 
@@ -1304,22 +1259,6 @@ describe('EcfWalletController', function () {
 
       ecfWalletController.emit('controllerConnectionChanged', 0);
       assert.equal(ecfWalletController.detectTokensController.isOpen, false);
-    });
-  });
-
-  describe('#markPasswordForgotten', function () {
-    it('adds and sets forgottenPassword to config data to true', function () {
-      ecfWalletController.markPasswordForgotten(noop);
-      const state = ecfWalletController.getState();
-      assert.equal(state.forgottenPassword, true);
-    });
-  });
-
-  describe('#unMarkPasswordForgotten', function () {
-    it('adds and sets forgottenPassword to config data to false', function () {
-      ecfWalletController.unMarkPasswordForgotten(noop);
-      const state = ecfWalletController.getState();
-      assert.equal(state.forgottenPassword, false);
     });
   });
 

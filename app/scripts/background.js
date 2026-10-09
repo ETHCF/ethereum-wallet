@@ -19,7 +19,7 @@ import {
   PHISHING_CHECK,
   PHISHING_WARNING_CONTINUE,
 } from './lib/phishing-warnings';
-import EcfWalletController, { pageOrigin } from './ecf-wallet-controller';
+import EcfWalletController from './ecf-wallet-controller';
 import rawFirstTimeState from './first-time-state';
 import ClipboardCleaner from './lib/clipboard-cleaner';
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code';
@@ -58,12 +58,10 @@ log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn');
 
 const platform = new ExtensionPlatform();
 const notificationManager = new NotificationManager();
-global.ECF_WALLET_NOTIFIER = notificationManager;
 
 let popupIsOpen = false;
 let notificationIsOpen = false;
 const openEcfWalletTabsIDs = {};
-const requestAccountTabIds = {};
 const clipboardCleaner = new ClipboardCleaner({ extension });
 
 // state persistence
@@ -95,18 +93,14 @@ extension.webRequest.onErrorOccurred.addListener(
 );
 platform._subscribeToNotificationClicked();
 extension.runtime.onMessage.addListener((message, sender, respond) => {
-  if (
-    message?.type === 'ecf-wallet-ui-active' &&
-    sender.id === extension.runtime.id &&
-    sender.url?.startsWith(extension.runtime.getURL(''))
-  ) {
+  if (message?.type === 'ecf-wallet-ui-active' && isOwnExtensionPage(sender)) {
     respond(true);
   } else if (
     message?.type === PHISHING_CHECK &&
     sender.id === extension.runtime.id &&
     sender.tab &&
     sender.url &&
-    !sender.url.startsWith(extension.runtime.getURL(''))
+    !isOwnExtensionPage(sender)
   ) {
     // A content script whose page did not get the provider. Only the
     // browser-reported sender is used, so a page can ask only about itself.
@@ -124,12 +118,7 @@ extension.alarms.onAlarm.addListener((alarm) => {
   initialized
     .then(async ({ controller }) => {
       if (alarm.name === 'ecf-wallet-auto-lock') {
-        const { timeoutMinutes, lastActiveTime } =
-          controller.appStateController.store.getState();
-        if (
-          timeoutMinutes &&
-          lastActiveTime + timeoutMinutes * 60000 <= Date.now()
-        ) {
+        if (isAutoLockDue(controller.appStateController.store.getState())) {
           await controller.setLocked();
         }
       } else if (alarm.name === 'ecf-wallet-pending-transactions') {
@@ -139,6 +128,43 @@ extension.alarms.onAlarm.addListener((alarm) => {
     })
     .catch(log.error);
 });
+
+/**
+ * Whether a sender is a page of this extension, such as the wallet UI, rather
+ * than another extension or one of this extension's content scripts.
+ *
+ * @param {object} [sender] - The runtime.MessageSender, as the browser reported it.
+ * @returns {boolean} Whether the sender is one of this extension's pages.
+ */
+function isOwnExtensionPage(sender) {
+  return Boolean(
+    sender?.id === extension.runtime.id &&
+    sender.url?.startsWith(extension.runtime.getURL('')),
+  );
+}
+
+/**
+ * When the wallet locks itself after being left inactive.
+ *
+ * @param {object} appState - The AppStateController state.
+ * @param {number} [appState.timeoutMinutes] - The auto-lock timeout, if set.
+ * @param {number} appState.lastActiveTime - When the user was last active.
+ * @returns {number | null} The time to lock at, or null if auto-lock is off.
+ */
+function getAutoLockDeadline({ timeoutMinutes, lastActiveTime }) {
+  return timeoutMinutes ? lastActiveTime + timeoutMinutes * 60000 : null;
+}
+
+/**
+ * Whether the auto-lock deadline has passed.
+ *
+ * @param {object} appState - The AppStateController state.
+ * @returns {boolean} Whether the wallet should be locked.
+ */
+function isAutoLockDue(appState) {
+  const deadline = getAutoLockDeadline(appState);
+  return Boolean(deadline) && deadline <= Date.now();
+}
 
 function queueConnection(port, handler) {
   // A dapp tab entering the back/forward cache closes its port, and the
@@ -220,7 +246,6 @@ function queueConnection(port, handler) {
  * @property {string[]} keyringTypes - An array of unique keyring identifying strings, representing available strategies for creating accounts.
  * @property {object[]} keyrings - An array of keyring descriptions, summarizing the accounts that are available for use, and what keyrings they belong to.
  * @property {string} selectedAddress - A lower case hex string of the currently selected address.
- * @property {boolean} forgottenPassword - Returns true if the user has initiated the password recovery screen, is recovering from seed phrase.
  */
 
 /**
@@ -322,9 +347,6 @@ async function setupController(initState, initLangCode) {
     initLangCode,
     // platform specific api
     platform,
-    getRequestAccountTabIds: () => {
-      return requestAccountTabIds;
-    },
     getOpenEcfWalletTabsIds: () => {
       return openEcfWalletTabsIDs;
     },
@@ -345,22 +367,17 @@ async function setupController(initState, initLangCode) {
     }
   });
 
-  const { timeoutMinutes, lastActiveTime } =
-    controller.appStateController.store.getState();
-  const sessionExpired =
-    timeoutMinutes && lastActiveTime + timeoutMinutes * 60000 <= Date.now();
   await restoreSession({
     encryptor,
     keyringController: controller.keyringController,
-    sessionExpired,
+    sessionExpired: isAutoLockDue(
+      controller.appStateController.store.getState(),
+    ),
   });
 
   let lastDeadline;
-  const scheduleAutoLock = ({
-    timeoutMinutes: minutes,
-    lastActiveTime: activeAt,
-  }) => {
-    const deadline = minutes ? activeAt + minutes * 60000 : null;
+  const scheduleAutoLock = (appState) => {
+    const deadline = getAutoLockDeadline(appState);
     if (deadline === lastDeadline) {
       return;
     }
@@ -449,8 +466,6 @@ async function setupController(initState, initLangCode) {
     [ENVIRONMENT_TYPE_FULLSCREEN]: true,
   };
 
-  const ecfWalletBlockedPorts = ['trezor-connect'];
-
   /**
    * A runtime.Port object, as provided by the browser:
    *
@@ -471,22 +486,15 @@ async function setupController(initState, initLangCode) {
     const processName = remotePort.name;
     const isEcfWalletInternalProcess =
       ecfWalletInternalProcessHash[processName] &&
-      remotePort.sender?.id === extension.runtime.id &&
-      remotePort.sender?.url?.startsWith(extension.runtime.getURL(''));
-
-    if (ecfWalletBlockedPorts.includes(remotePort.name)) {
-      return;
-    }
+      isOwnExtensionPage(remotePort.sender);
 
     if (processName === PHISHING_WARNING_CONTINUE) {
       const { sender } = remotePort;
       const isWarningPage =
-        sender?.id === extension.runtime.id &&
+        isOwnExtensionPage(sender) &&
         sender.frameId === 0 &&
         sender.tab &&
-        sender.url &&
-        new URL(sender.url).pathname === '/phishing.html' &&
-        sender.url.startsWith(extension.runtime.getURL(''));
+        new URL(sender.url).pathname === '/phishing.html';
       if (isWarningPage) {
         controller
           .continueFromPhishingWarning(sender.tab.id)
@@ -525,16 +533,6 @@ async function setupController(initState, initLangCode) {
         });
       }
     } else {
-      const origin = remotePort.sender && pageOrigin(remotePort.sender);
-      if (remotePort.sender && remotePort.sender.tab && origin) {
-        const tabId = remotePort.sender.tab.id;
-
-        remotePort.onMessage.addListener((msg) => {
-          if (msg.data && msg.data.method === 'eth_requestAccounts') {
-            requestAccountTabIds[origin] = tabId;
-          }
-        });
-      }
       connectExternal(remotePort, portStream);
     }
   }

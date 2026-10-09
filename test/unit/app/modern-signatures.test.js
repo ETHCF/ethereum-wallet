@@ -47,7 +47,7 @@ const data = {
 
 function typedManager() {
   return new TypedMessageManager({
-    networkController: { getNetworkState: () => '1' },
+    getChainId: () => '1',
   });
 }
 
@@ -115,8 +115,8 @@ describe('Modern message signing', function () {
     });
     assert.deepEqual(JSON.parse(approved.data), data);
     assert.equal(manager.getMsg(id).msgParams.version, 'V4');
-    assert.throws(
-      () => manager.approveMessage({ ecfWalletId: id }),
+    await assert.rejects(
+      manager.approveMessage({ ecfWalletId: id }),
       /not awaiting approval/u,
     );
   });
@@ -144,7 +144,7 @@ describe('Modern message signing', function () {
 
   it('compares large EIP-712 chain IDs without rounding', function () {
     const manager = new TypedMessageManager({
-      networkController: { getChainId: () => '0x20000000000000' },
+      getChainId: () => '0x20000000000000',
     });
     assert.throws(
       () =>

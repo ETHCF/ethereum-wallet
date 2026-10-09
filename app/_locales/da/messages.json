@@ -251,9 +251,6 @@
   "delete": {
     "message": "Slet"
   },
-  "deposit": {
-    "message": "Indbetal"
-  },
   "details": {
     "message": "Detaljer"
   },
@@ -632,9 +629,6 @@
   "privateKeyWarning": {
     "message": "Advarsel: afslør aldrig denne nøgle. Enhver med dine private nøgler kan stjæle alle aktiver i din konto."
   },
-  "privateNetwork": {
-    "message": "Privat netværk"
-  },
   "queue": {
     "message": "Kø"
   },
@@ -664,12 +658,6 @@
   },
   "reset": {
     "message": "Nulstil"
-  },
-  "resetAccount": {
-    "message": "Nulstil Konto"
-  },
-  "resetAccountDescription": {
-    "message": "Nulstilling af din konto vil rydde din transaktionshistorik."
   },
   "deleteNetwork": {
     "message": "Slet Netværk?"

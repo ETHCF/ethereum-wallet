@@ -29,8 +29,6 @@ export const TOKEN_CATEGORY_HASH = {
   [TOKEN_METHOD_TRANSFER_FROM]: true,
 };
 
-export const INCOMING_TRANSACTION = 'incoming';
-
 export const SEND_ETHER_ACTION_KEY = 'sentEther';
 export const DEPLOY_CONTRACT_ACTION_KEY = 'contractDeployment';
 export const APPROVE_ACTION_KEY = 'approve';
@@ -41,12 +39,10 @@ export const DECRYPT_REQUEST_KEY = 'decryptRequest';
 export const ENCRYPTION_PUBLIC_KEY_REQUEST_KEY = 'encryptionPublicKeyRequest';
 export const CONTRACT_INTERACTION_KEY = 'contractInteraction';
 export const CANCEL_ATTEMPT_ACTION_KEY = 'cancelAttempt';
-export const DEPOSIT_TRANSACTION_KEY = 'deposit';
 
 // Transaction List Item Categories
 // Used for UI distinction between transactions in the history list
 export const TRANSACTION_CATEGORY_SEND = 'send';
-export const TRANSACTION_CATEGORY_RECEIVE = 'receive';
 export const TRANSACTION_CATEGORY_INTERACTION = 'interaction';
 export const TRANSACTION_CATEGORY_APPROVAL = 'approval';
 export const TRANSACTION_CATEGORY_SIGNATURE_REQUEST = 'signature-request';

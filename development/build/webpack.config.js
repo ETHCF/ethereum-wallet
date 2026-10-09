@@ -163,6 +163,10 @@ module.exports = function createWebpackConfigs({
         'process.env.CONF': JSON.stringify(devMode ? conf : {}),
         'process.env.LOCKDOWN_OPTIONS': JSON.stringify(lockdown),
       }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser.js',
+      }),
     ],
     stats: 'errors-warnings',
     // LavaMoat lists the empty stand-ins webpack builds for Node modules a
@@ -191,10 +195,6 @@ module.exports = function createWebpackConfigs({
     },
     plugins: [
       ...shared.plugins,
-      new webpack.ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-        process: 'process/browser.js',
-      }),
       ...(lavamoat ? [lavamoatPlugin('extension')] : []),
     ],
   };
@@ -221,13 +221,6 @@ module.exports = function createWebpackConfigs({
         },
       ],
     },
-    plugins: [
-      ...shared.plugins,
-      new webpack.ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-        process: 'process/browser.js',
-      }),
-    ],
     optimization: {
       ...shared.optimization,
       minimizer: [

@@ -129,11 +129,7 @@ export default class TransactionStateManager extends EventEmitter {
    * returns all txMetas who's status is approved for the current network
    */
   getApprovedTransactions(address) {
-    const opts = { status: 'approved' };
-    if (address) {
-      opts.from = address;
-    }
-    return this.getFilteredTxList(opts);
+    return this._getByStatus('approved', address);
   }
 
   /**
@@ -144,11 +140,7 @@ export default class TransactionStateManager extends EventEmitter {
    * returns all txMetas who's status is submitted for the current network
    */
   getPendingTransactions(address) {
-    const opts = { status: 'submitted' };
-    if (address) {
-      opts.from = address;
-    }
-    return this.getFilteredTxList(opts);
+    return this._getByStatus('submitted', address);
   }
 
   /**
@@ -159,7 +151,19 @@ export default class TransactionStateManager extends EventEmitter {
    * returns all txMetas who's status is confirmed for the current network
    */
   getConfirmedTransactions(address) {
-    const opts = { status: 'confirmed' };
+    return this._getByStatus('confirmed', address);
+  }
+
+  /**
+   * Gets the transactions on the current network with the given status.
+   *
+   * @private
+   * @param {string} status - the status to filter by
+   * @param {string} [address] - hex prefixed from address to filter by
+   * @returns {Array} the matching txMetas
+   */
+  _getByStatus(status, address) {
+    const opts = { status };
     if (address) {
       opts.from = address;
     }
@@ -182,12 +186,6 @@ export default class TransactionStateManager extends EventEmitter {
       txMeta.txParams = this.normalizeAndValidateTxParams(txMeta.txParams);
     }
 
-    this.once(`${txMeta.id}:signed`, () => {
-      this.removeAllListeners(`${txMeta.id}:rejected`);
-    });
-    this.once(`${txMeta.id}:rejected`, () => {
-      this.removeAllListeners(`${txMeta.id}:signed`);
-    });
     // initialize history
     txMeta.history = [];
     // capture initial snapshot of txMeta for history
@@ -265,32 +263,15 @@ export default class TransactionStateManager extends EventEmitter {
   }
 
   /**
-   * merges txParams obj onto txMeta.txParams
-   * use extend to ensure that all fields are filled
-   *
-   * @param {number} txId - the id of the txMeta
-   * @param {object} txParams - the updated txParams
-   */
-  updateTxParams(txId, txParams) {
-    const txMeta = this.getTx(txId);
-    txMeta.txParams = { ...txMeta.txParams, ...txParams };
-    this.updateTx(txMeta, `txStateManager#updateTxParams`);
-  }
-
-  /**
    * normalize and validate txParams members
    *
    * @param {object} txParams - txParams
    * @returns {object} The normalized txParams.
    */
   normalizeAndValidateTxParams(txParams) {
-    if (typeof txParams.data === 'undefined') {
-      delete txParams.data;
-    }
-    // eslint-disable-next-line no-param-reassign
-    txParams = normalizeTxParams(txParams, false);
-    this.validateTxParams(txParams);
-    return txParams;
+    const normalizedTxParams = normalizeTxParams(txParams, false);
+    this.validateTxParams(normalizedTxParams);
+    return normalizedTxParams;
   }
 
   /**
@@ -386,17 +367,6 @@ export default class TransactionStateManager extends EventEmitter {
   // get::set status
 
   /**
-   * Gets the status of a transaction.
-   *
-   * @param {number} txId - the txMeta Id
-   * @returns {string} the status of the tx.
-   */
-  getTxStatus(txId) {
-    const txMeta = this.getTx(txId);
-    return txMeta.status;
-  }
-
-  /**
    * should update the status of the tx to 'rejected'.
    *
    * @param {number} txId - the txMeta Id
@@ -404,15 +374,6 @@ export default class TransactionStateManager extends EventEmitter {
   setTxStatusRejected(txId) {
     this._setTxStatus(txId, 'rejected');
     this._removeTx(txId);
-  }
-
-  /**
-   * should update the status of the tx to 'unapproved'.
-   *
-   * @param {number} txId - the txMeta Id
-   */
-  setTxStatusUnapproved(txId) {
-    this._setTxStatus(txId, 'unapproved');
   }
 
   /**
@@ -484,29 +445,6 @@ export default class TransactionStateManager extends EventEmitter {
     this._setTxStatus(txId, 'failed');
   }
 
-  /**
-   * Removes transaction from the given address for the current network
-   * from the txList
-   *
-   * @param {string} address - hex string of the from address on the txParams to remove
-   */
-  wipeTransactions(address) {
-    // network only tx
-    const txs = this.getFullTxList();
-    const network = this.getNetwork();
-
-    // Filter out the ones from the current account and network
-    const otherAccountTxs = txs.filter(
-      (txMeta) =>
-        !(
-          txMeta.txParams.from === address &&
-          txMeta.ecfWalletNetworkId === network
-        ),
-    );
-
-    // Update state
-    this._saveTxList(otherAccountTxs);
-  }
   //
   //           PRIVATE METHODS
   //
@@ -529,7 +467,6 @@ export default class TransactionStateManager extends EventEmitter {
    * @param {string} status - the status to set on the txMeta
    * @fires event:"tx:status-update" - passes txId and status
    * @fires event:"${txMeta.id}:finished" - if it is a finished state. Passes the txMeta
-   * @fires event:"update:badge"
    */
   _setTxStatus(txId, status) {
     // An in-flight request must finish even if its network is no longer selected.
@@ -547,7 +484,6 @@ export default class TransactionStateManager extends EventEmitter {
       if (['submitted', 'rejected', 'failed'].includes(status)) {
         this.emit(`${txMeta.id}:finished`, txMeta);
       }
-      this.emit('update:badge');
     } catch (error) {
       log.error(error);
     }

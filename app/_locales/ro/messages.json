@@ -251,9 +251,6 @@
   "delete": {
     "message": "Șterge"
   },
-  "deposit": {
-    "message": "Depunere"
-  },
   "details": {
     "message": "Detalii"
   },
@@ -638,9 +635,6 @@
   "privateKeyWarning": {
     "message": "Avertisment: nu dezvăluiți niciodată această cheie. Oricine are cheile dvs. private poate fura orice activ din contul dvs."
   },
-  "privateNetwork": {
-    "message": "Rețea privată"
-  },
   "queue": {
     "message": "Coadă"
   },
@@ -670,12 +664,6 @@
   },
   "reset": {
     "message": "Resetează"
-  },
-  "resetAccount": {
-    "message": "Resetare cont"
-  },
-  "resetAccountDescription": {
-    "message": "Resetarea contului va duce la ștergerea istoricului tranzacțiilor dvs."
   },
   "deleteNetwork": {
     "message": "Ștergeți rețeaua?"

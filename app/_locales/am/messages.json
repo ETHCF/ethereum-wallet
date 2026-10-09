@@ -251,9 +251,6 @@
   "delete": {
     "message": "ሰርዝ"
   },
-  "deposit": {
-    "message": "ማጠራቀም"
-  },
   "details": {
     "message": "ዝርዝሮች"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "ማስጠንቀቂያ፡ ይህን ቁልፍ በጭራሽ ለሌላ ሰው አይግለጹ። የግል ቁልፍዎን የያዘ ማንኛውም ሰው በመለያዎ ውስጥ የሚገኙ ማናቸውንም ሐብቶች ሊሰርቅ ይችላል።"
   },
-  "privateNetwork": {
-    "message": "የግል አውታረ መረብ"
-  },
   "queue": {
     "message": "ወረፋ"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "ዳግም አስጀምር"
-  },
-  "resetAccount": {
-    "message": "መለያን እንደገና ይሙሉ"
-  },
-  "resetAccountDescription": {
-    "message": "መለያዎን እንደገና መሙላት የግብይት ታሪዎን ያጠራል።"
   },
   "deleteNetwork": {
     "message": "አውታረ መረብ ይሰረዝ?"

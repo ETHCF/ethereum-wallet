@@ -251,9 +251,6 @@
   "delete": {
     "message": "حذف"
   },
-  "deposit": {
-    "message": "إيداع"
-  },
   "details": {
     "message": "التفاصيل"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "تنبيه: لا تكشف عن هذا المفتاح مطلقًا. يمكن لأي شخص لديه مفاتيحك الخاصة سرقة أي أصول تحتفظ بها في حسابك."
   },
-  "privateNetwork": {
-    "message": "شبكة خاصة"
-  },
   "queue": {
     "message": "اللائحة"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "إعادة"
-  },
-  "resetAccount": {
-    "message": "إعادة تعيين الحساب"
-  },
-  "resetAccountDescription": {
-    "message": "ستؤدي إعادة تعيين حسابك إلى مسح سجل معاملتك."
   },
   "deleteNetwork": {
     "message": "هل تريد حذف الشبكة؟"

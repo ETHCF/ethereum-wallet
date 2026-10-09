@@ -251,9 +251,6 @@
   "delete": {
     "message": "Izbriši"
   },
-  "deposit": {
-    "message": "Polog"
-  },
   "details": {
     "message": "Detalji"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "Upozorenje: nikada ne otkrivajte ovaj ključ. Bilo tko s vašim privatnim ključevima može ukrasti bilo koju imovinu koja se nalazi na vašem računu."
   },
-  "privateNetwork": {
-    "message": "Privatna mreža"
-  },
   "queue": {
     "message": "Red čekanja"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "Ponovno postavi"
-  },
-  "resetAccount": {
-    "message": "Poništi račun"
-  },
-  "resetAccountDescription": {
-    "message": "Poništavanjem se računa uklanja vaša povijest transakcija."
   },
   "deleteNetwork": {
     "message": "Izbrisati mrežu?"

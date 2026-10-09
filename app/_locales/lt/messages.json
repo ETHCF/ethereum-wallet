@@ -251,9 +251,6 @@
   "delete": {
     "message": "Ištrinti"
   },
-  "deposit": {
-    "message": "Indėlis"
-  },
   "details": {
     "message": "Išsami informacija"
   },
@@ -647,9 +644,6 @@
   "privateKeyWarning": {
     "message": "Dėmesio. Niekada neatskleiskite šio rakto kitiems. Bet kuris jūsų asmeninius raktus turintis asmuo gali pavogti bet kokį jūsų paskyroje laikomą turtą."
   },
-  "privateNetwork": {
-    "message": "Privatus tinklas"
-  },
   "queue": {
     "message": "Eilė"
   },
@@ -679,12 +673,6 @@
   },
   "reset": {
     "message": "Nustatyti iš naujo"
-  },
-  "resetAccount": {
-    "message": "Atkurti paskyrą"
-  },
-  "resetAccountDescription": {
-    "message": "Atkūrus paskyrą, jūsų operacijų istorija bus išvalyta."
   },
   "deleteNetwork": {
     "message": "Panaikinti tinklą?"

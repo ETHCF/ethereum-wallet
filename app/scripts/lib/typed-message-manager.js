@@ -1,18 +1,16 @@
 import { isValidAddress } from '@ethereumjs/util';
-import { ObservableStore } from '@metamask/obs-store';
-import { providerErrors } from '@metamask/rpc-errors';
 import assert from 'assert';
 import BN from 'bn.js';
-import EventEmitter from 'events';
 import jsonschema from 'jsonschema';
 import log from 'loglevel';
 
+import BaseMessageManager from './base-message-manager';
 import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
 import {
+  TYPED_MESSAGE_SCHEMA,
   canonicalizeTypedData,
   validateTypedData,
-  typedDataSchema,
 } from './signing-utils';
 
 /**
@@ -66,89 +64,34 @@ export function canonicalizeTypedMessage(data, version) {
  * always have a 'eth_signTypedData' type.
  */
 
-export default class TypedMessageManager extends EventEmitter {
+export default class TypedMessageManager extends BaseMessageManager {
   /**
    * Controller in charge of managing - storing, adding, removing, updating - TypedMessage.
    *
    * @param {object} options - The manager options.
-   * @param {object} options.networkController - The network controller.
+   * @param {Function} options.getChainId - Returns the current chain ID, which EIP-712 domains must match.
    */
-  constructor({ networkController }) {
-    super();
-    this.networkController = networkController;
-    this.memStore = new ObservableStore({
-      unapprovedTypedMessages: {},
-      unapprovedTypedMessagesCount: 0,
+  constructor({ getChainId }) {
+    super({
+      name: 'TypedMessageManager',
+      stateKey: 'unapprovedTypedMessages',
+      countKey: 'unapprovedTypedMessagesCount',
+      successStatus: 'signed',
+      resultKey: 'rawSig',
+      label: 'Typed message',
+      errorPrefix: 'ecf-wallet Message Signature',
+      rejectedMessage: 'User denied message signature.',
     });
-    this.messages = [];
+    this.getChainId = getChainId;
   }
 
   /**
-   * A getter for the number of 'unapproved' TypedMessages in this.messages
+   * The number of TypedMessages waiting for the user.
    *
    * @returns {number} The number of 'unapproved' TypedMessages in this.messages
    */
   get unapprovedTypedMessagesCount() {
-    return Object.keys(this.getUnapprovedMsgs()).length;
-  }
-
-  /**
-   * A getter for the 'unapproved' TypedMessages in this.messages
-   *
-   * @returns {object} An index of TypedMessage ids to TypedMessages, for all 'unapproved' TypedMessages in
-   * this.messages
-   */
-  getUnapprovedMsgs() {
-    return this.messages
-      .filter((msg) => msg.status === 'unapproved')
-      .reduce((result, msg) => {
-        result[msg.id] = msg;
-        return result;
-      }, {});
-  }
-
-  /**
-   * Creates a new TypedMessage with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new TypedMessage to this.messages, and to save the unapproved TypedMessages from that list to
-   * this.memStore. Before any of this is done, msgParams are validated
-   *
-   * @param {object} msgParams - The params for the eth_sign call to be made after the message is approved.
-   * @param {object} req - (optional) The original request object possibly containing the origin
-   * @param {string} version - The typed data version: 'V1', 'V3' or 'V4'.
-   * @param {object[]} [securityAlerts] - Warnings about the request to show the user.
-   * @returns {Promise} When the message has been signed or rejected
-   */
-  addUnapprovedMessageAsync(msgParams, req, version, securityAlerts) {
-    return new Promise((resolve, reject) => {
-      const msgId = this.addUnapprovedMessage(
-        msgParams,
-        req,
-        version,
-        securityAlerts,
-      );
-      this.once(`${msgId}:finished`, (data) => {
-        switch (data.status) {
-          case 'signed':
-            return resolve(data.rawSig);
-          case 'rejected':
-            return reject(
-              providerErrors.userRejectedRequest(
-                'ecf-wallet Message Signature: User denied message signature.',
-              ),
-            );
-          case 'errored':
-            return reject(
-              new Error(`ecf-wallet Message Signature: ${data.error}`),
-            );
-          default:
-            return reject(
-              new Error(
-                `ecf-wallet Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`,
-              ),
-            );
-        }
-      });
-    });
+    return this.getUnapprovedMsgCount();
   }
 
   /**
@@ -184,18 +127,15 @@ export default class TypedMessageManager extends EventEmitter {
       `TypedMessageManager addUnapprovedMessage: ${JSON.stringify(msgParams)}`,
     );
 
-    // create txData obj with parameters and meta data
-    const time = new Date().getTime();
     const msgId = createId();
-    const msgData = {
+    this.addMsg({
       id: msgId,
       msgParams,
-      time,
+      time: new Date().getTime(),
       status: 'unapproved',
       type: MESSAGE_TYPE.ETH_SIGN_TYPED_DATA,
       securityAlerts,
-    };
-    this.addMsg(msgData);
+    });
 
     // signal update
     this.emit('update');
@@ -246,7 +186,7 @@ export default class TypedMessageManager extends EventEmitter {
         assert.doesNotThrow(() => {
           data = JSON.parse(params.data);
         }, '"data" must be a valid JSON string.');
-        const validation = jsonschema.validate(data, typedDataSchema());
+        const validation = jsonschema.validate(data, TYPED_MESSAGE_SCHEMA);
         // Only the request's own type definitions count; `in` would also
         // accept inherited names such as "toString".
         assert.ok(
@@ -262,9 +202,7 @@ export default class TypedMessageManager extends EventEmitter {
         );
         validateTypedData(data, params.version);
         const { chainId } = data.domain;
-        const activeChainId = this.networkController.getChainId
-          ? this.networkController.getChainId()
-          : this.networkController.getNetworkState();
+        const activeChainId = this.getChainId();
         if (chainId !== undefined) {
           const chainQuantity = (value) => {
             const text = String(value);
@@ -291,164 +229,42 @@ export default class TypedMessageManager extends EventEmitter {
   }
 
   /**
-   * Adds a passed TypedMessage to this.messages, and calls this._saveMsgList() to save the unapproved TypedMessages from that
-   * list to this.memStore.
+   * Revalidates the stored params before approval.
    *
-   * @param {TypedMessage} msg - The TypedMessage to add to this.messages
+   * @param {TypedMessage} stored - The stored message.
    */
-  addMsg(msg) {
-    this.messages.push(msg);
-    this._saveMsgList();
-  }
-
-  /**
-   * Returns a specified TypedMessage.
-   *
-   * @param {number} msgId - The id of the TypedMessage to get
-   * @returns {TypedMessage|undefined} The TypedMessage with the id that matches the passed msgId, or undefined
-   * if no TypedMessage has that id.
-   */
-  getMsg(msgId) {
-    return this.messages.find((msg) => msg.id === msgId);
-  }
-
-  /**
-   * Approves a TypedMessage. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
-   * with any the message params modified for proper signing.
-   *
-   * @param {object} msgParams - The msgParams to be used when eth_sign is called, plus data added by ecf-wallet.
-   * @param {object} msgParams.ecfWalletId - Added to msgParams for tracking and identification within ecf-wallet.
-   * @returns {Promise<object>} Promises the msgParams object with ecfWalletId removed.
-   */
-  approveMessage(msgParams) {
-    const stored = this.getMsg(msgParams.ecfWalletId);
-    if (!stored || stored.status !== 'unapproved') {
-      throw new Error('Typed message is not awaiting approval');
-    }
+  _checkApproval(stored) {
     this.validateParams(stored.msgParams);
-    this.setMsgStatusApproved(stored.id);
-    return this.prepMsgForSigning({ ...stored.msgParams });
   }
 
   /**
-   * Sets a TypedMessage status to 'approved' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the TypedMessage to approve.
-   */
-  setMsgStatusApproved(msgId) {
-    this._setMsgStatus(msgId, 'approved');
-  }
-
-  /**
-   * Sets a TypedMessage status to 'signed' via a call to this._setMsgStatus and updates that TypedMessage in
-   * this.messages by adding the raw signature data of the signature request to the TypedMessage
+   * Sets a TypedMessage status to 'signed' and stores its signature.
    *
    * @param {number} msgId - The id of the TypedMessage to sign.
    * @param {string} rawSig - The raw data of the signature request
    */
   setMsgStatusSigned(msgId, rawSig) {
-    const msg = this.getMsg(msgId);
-    msg.rawSig = rawSig;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'signed');
+    this._setMsgResult(msgId, rawSig);
   }
 
   /**
-   * Removes the ecfWalletId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the ecfWalletId and version properties from passed msgParams.
    *
    * @param {object} msgParams - The msgParams to modify
-   * @returns {Promise<object>} Promises the msgParams with the ecfWalletId property removed
+   * @returns {Promise<object>} Promises the msgParams without ecf-wallet's fields
+   */
+  prepMsg(msgParams) {
+    delete msgParams.version;
+    return super.prepMsg(msgParams);
+  }
+
+  /**
+   * Removes the ecfWalletId and version properties from passed msgParams.
+   *
+   * @param {object} msgParams - The msgParams to modify
+   * @returns {Promise<object>} Promises the msgParams without ecf-wallet's fields
    */
   prepMsgForSigning(msgParams) {
-    delete msgParams.ecfWalletId;
-    delete msgParams.version;
-    return Promise.resolve(msgParams);
-  }
-
-  /**
-   * Sets a TypedMessage status to 'rejected' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the TypedMessage to reject.
-   */
-  rejectMsg(msgId) {
-    this._setMsgStatus(msgId, 'rejected');
-  }
-
-  /**
-   * Sets a TypedMessage status to 'errored' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the TypedMessage to error
-   * @param {Error} error - The error that occurred.
-   */
-  errorMessage(msgId, error) {
-    const msg = this.getMsg(msgId);
-    msg.error = error;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'errored');
-  }
-
-  //
-  // PRIVATE METHODS
-  //
-
-  /**
-   * Updates the status of a TypedMessage in this.messages via a call to this._updateMsg.
-   * Fires an event with a name equal to `${msgId}:${status}`, along with the TypedMessage.
-   * If status is 'rejected', 'signed' or 'errored', an event with a name equal to `${msgId}:finished` is fired along
-   * with the TypedMessage.
-   *
-   * @private
-   * @param {number} msgId - The id of the TypedMessage to update.
-   * @param {string} status - The new status of the TypedMessage.
-   * @throws A 'TypedMessageManager - TypedMessage not found for id: "${msgId}".' if there is no TypedMessage
-   * in this.messages with an id equal to the passed msgId
-   */
-  _setMsgStatus(msgId, status) {
-    const msg = this.getMsg(msgId);
-    if (!msg) {
-      throw new Error(
-        `TypedMessageManager - Message not found for id: "${msgId}".`,
-      );
-    }
-    msg.status = status;
-    this._updateMsg(msg);
-    this.emit(`${msgId}:${status}`, msg);
-    if (status === 'rejected' || status === 'signed' || status === 'errored') {
-      this.emit(`${msgId}:finished`, msg);
-    }
-  }
-
-  /**
-   * Sets a TypedMessage in this.messages to the passed TypedMessage if the ids are equal. Then saves the
-   * unapprovedTypedMsgs index to storage via this._saveMsgList
-   *
-   * @private
-   * @param {TypedMessage} msg - A TypedMessage that will replace an existing TypedMessage (with the same
-   * id) in this.messages
-   */
-  _updateMsg(msg) {
-    const index = this.messages.findIndex((message) => message.id === msg.id);
-    if (index !== -1) {
-      this.messages[index] = msg;
-    }
-    this._saveMsgList();
-  }
-
-  /**
-   * Saves the unapproved TypedMessages, and their count, to this.memStore
-   *
-   * @private
-   * @fires 'updateBadge'
-   */
-  _saveMsgList() {
-    const unapprovedTypedMessages = this.getUnapprovedMsgs();
-    const unapprovedTypedMessagesCount = Object.keys(
-      unapprovedTypedMessages,
-    ).length;
-    this.memStore.updateState({
-      unapprovedTypedMessages,
-      unapprovedTypedMessagesCount,
-    });
-    this.emit('updateBadge');
+    return this.prepMsg(msgParams);
   }
 }

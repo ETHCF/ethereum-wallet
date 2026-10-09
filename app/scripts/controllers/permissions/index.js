@@ -13,7 +13,6 @@ import {
   WALLET_PREFIX,
   METADATA_STORE_KEY,
   METADATA_CACHE_MAX_SIZE,
-  LOG_STORE_KEY,
   HISTORY_STORE_KEY,
   NOTIFICATION_NAMES,
   CAVEAT_TYPES,
@@ -39,7 +38,6 @@ export class PermissionsController {
   ) {
     // additional top-level store key set in _initializeMetadataStore
     this.store = new ObservableStore({
-      [LOG_STORE_KEY]: restoredState[LOG_STORE_KEY] || [],
       [HISTORY_STORE_KEY]: restoredState[HISTORY_STORE_KEY] || {},
     });
 
@@ -50,10 +48,7 @@ export class PermissionsController {
     this._showPermissionRequest = showPermissionRequest;
     this._fetchImage = fetchImage;
 
-    this.permissionsLog = new PermissionsLogController({
-      restrictedMethods: ['eth_accounts'],
-      store: this.store,
-    });
+    this.permissionsLog = new PermissionsLogController({ store: this.store });
     // Pending requests, shown on the connect page.
     this.approvals = new PermissionApprovals({
       showPermissionRequest: () => this._showPermissionRequest(),
@@ -103,11 +98,6 @@ export class PermissionsController {
         hasPermission: this.hasPermission.bind(this, origin),
         getPermissions: () => this.permissions.getPermissions(origin),
         notifyAccountsChanged: this.notifyAccountsChanged.bind(this, origin),
-        requestAccountsPermission: this._requestPermissions.bind(
-          this,
-          { origin },
-          { eth_accounts: {} },
-        ),
         requestPermissions: (permissions) =>
           this._requestPermissions({ origin }, permissions),
         revokePermissions: (permissionNames) =>
@@ -290,16 +280,11 @@ export class PermissionsController {
    * @param {string} account - The new account to expose.
    */
   async addPermittedAccount(origin, account) {
-    if (!this._getSubjects()[origin]) {
-      throw new Error('Unrecognized domain');
-    }
-
-    this.validatePermittedAccounts([account]);
-
-    const oldPermittedAccounts = this._getPermittedAccounts(origin);
-    if (!oldPermittedAccounts) {
-      throw new Error(`Origin does not have 'eth_accounts' permission`);
-    } else if (oldPermittedAccounts.includes(account)) {
+    const oldPermittedAccounts = this._getValidatedPermittedAccounts(
+      origin,
+      account,
+    );
+    if (oldPermittedAccounts.includes(account)) {
       throw new Error('Account is already permitted for origin');
     }
 
@@ -327,16 +312,11 @@ export class PermissionsController {
    * @param {string} account - The account to remove.
    */
   async removePermittedAccount(origin, account) {
-    if (!this._getSubjects()[origin]) {
-      throw new Error('Unrecognized domain');
-    }
-
-    this.validatePermittedAccounts([account]);
-
-    const oldPermittedAccounts = this._getPermittedAccounts(origin);
-    if (!oldPermittedAccounts) {
-      throw new Error(`Origin does not have 'eth_accounts' permission`);
-    } else if (!oldPermittedAccounts.includes(account)) {
+    const oldPermittedAccounts = this._getValidatedPermittedAccounts(
+      origin,
+      account,
+    );
+    if (!oldPermittedAccounts.includes(account)) {
       throw new Error('Account is not permitted for origin');
     }
 
@@ -358,6 +338,29 @@ export class PermissionsController {
     }
 
     this.notifyAccountsChanged(origin, newPermittedAccounts);
+  }
+
+  /**
+   * Gets the accounts permitted for an origin, before changing them for the
+   * given account. Throws if the origin, the account, or the origin's
+   * eth_accounts permission is missing.
+   *
+   * @param {string} origin - The origin whose accounts to change.
+   * @param {string} account - The account to add or remove.
+   * @returns {Array<string>} The origin's currently permitted accounts.
+   */
+  _getValidatedPermittedAccounts(origin, account) {
+    if (!this._getSubjects()[origin]) {
+      throw new Error('Unrecognized domain');
+    }
+
+    this.validatePermittedAccounts([account]);
+
+    const permittedAccounts = this._getPermittedAccounts(origin);
+    if (!permittedAccounts) {
+      throw new Error(`Origin does not have 'eth_accounts' permission`);
+    }
+    return permittedAccounts;
   }
 
   /**
@@ -674,24 +677,10 @@ export class PermissionsController {
     );
 
     await Promise.all(
-      connectedDomains.map((origin) =>
-        this._handleConnectedAccountSelected(origin),
+      connectedDomains.map(async (origin) =>
+        this.notifyAccountsChanged(origin, await this.getAccounts(origin)),
       ),
     );
-  }
-
-  /**
-   * When a new account is selected in the UI, emit accountsChanged to 'origin'
-   *
-   * Note: This will emit "false positive" accountsChanged events, but they are
-   * handled by the inpage provider.
-   *
-   * @param {string} origin - The origin
-   */
-  async _handleConnectedAccountSelected(origin) {
-    const permittedAccounts = await this.getAccounts(origin);
-
-    this.notifyAccountsChanged(origin, permittedAccounts);
   }
 }
 

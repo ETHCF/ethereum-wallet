@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { normalizeMsgData } from '../../../app/scripts/lib/base-message-manager';
 import PersonalMessageManager from '../../../app/scripts/lib/personal-message-manager';
 
 describe('Personal Message Manager', function () {
@@ -126,26 +127,26 @@ describe('Personal Message Manager', function () {
   describe('#normalizeMsgData', function () {
     it('converts text to a utf8 hex string', function () {
       const input = 'hello';
-      const output = messageManager.normalizeMsgData(input);
+      const output = normalizeMsgData(input);
       assert.equal(output, '0x68656c6c6f', 'predictably hex encoded');
     });
 
     it('tolerates a hex prefix', function () {
       const input = '0x12';
-      const output = messageManager.normalizeMsgData(input);
+      const output = normalizeMsgData(input);
       assert.equal(output, '0x12', 'un modified');
     });
 
     it('tolerates normal hex', function () {
       const input = '12';
-      const output = messageManager.normalizeMsgData(input);
+      const output = normalizeMsgData(input);
       assert.equal(output, '0x12', 'adds prefix');
     });
 
     it('reads odd-length hex as text, so the bytes shown are the bytes signed', function () {
       // As hex, the keyring would sign 0x0abc and the confirmation show 0xab.
-      assert.equal(messageManager.normalizeMsgData('0xabc'), '0x3078616263');
-      assert.equal(messageManager.normalizeMsgData('abc'), '0x616263');
+      assert.equal(normalizeMsgData('0xabc'), '0x3078616263');
+      assert.equal(normalizeMsgData('abc'), '0x616263');
     });
   });
 });

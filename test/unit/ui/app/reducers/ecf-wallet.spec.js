@@ -306,17 +306,6 @@ describe('ecf-wallet Reducers', function () {
     assert.equal(state.featureFlags.foo, true);
   });
 
-  it('close welcome screen', function () {
-    const state = reduceEcfWallet(
-      {},
-      {
-        type: actionConstants.CLOSE_WELCOME_SCREEN,
-      },
-    );
-
-    assert.equal(state.welcomeScreenSeen, true);
-  });
-
   it('sets current locale', function () {
     const state = reduceEcfWallet(
       {},
@@ -389,5 +378,20 @@ describe('ecf-wallet Reducers', function () {
 
     assert.deepEqual(state.send.ensResolutionError, 'ens name not found');
     assert.deepEqual(state.send.ensResolution, null);
+  });
+
+  it('merges updated preferences dispatched by updatePreferences', function () {
+    const state = reduceEcfWallet(
+      { preferences: { autoLockTimeLimit: 5, theme: 'os' } },
+      {
+        type: actionConstants.UPDATE_PREFERENCES,
+        value: { theme: 'dark' },
+      },
+    );
+
+    assert.deepEqual(state.preferences, {
+      autoLockTimeLimit: 5,
+      theme: 'dark',
+    });
   });
 });

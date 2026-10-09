@@ -44,7 +44,6 @@ describe('Gas Duck', function () {
           safeLow: null,
           average: null,
           fast: null,
-          fastest: null,
         },
         basicEstimateIsLoading: true,
       });
@@ -71,7 +70,7 @@ describe('Gas Duck', function () {
     });
 
     it('should set basic estimates', function () {
-      const basicEstimates = { safeLow: 1, average: 2, fast: 3, fastest: 4 };
+      const basicEstimates = { safeLow: 1, average: 2, fast: 3 };
       assert.deepEqual(
         GasReducer(initState, setBasicGasEstimateData(basicEstimates))
           .basicEstimates,
@@ -102,7 +101,6 @@ describe('Gas Duck', function () {
         safeLow: 18,
         average: 20,
         fast: 25,
-        fastest: 30,
       });
       assert.deepEqual(
         dispatch.getCall(0).args[0],
@@ -134,7 +132,6 @@ describe('Gas Duck', function () {
         safeLow: 1.35,
         average: 1.5,
         fast: 1.875,
-        fastest: 2.25,
       });
     });
 

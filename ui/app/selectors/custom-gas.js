@@ -117,79 +117,42 @@ export function getGasPriceInHexWei(price) {
   return addHexPrefix(priceEstimateToWei(value));
 }
 
-export function getRenderableBasicEstimateData(state, gasLimit) {
+/**
+ * Builds the slow/average/fast gas button rows from the basic estimates.
+ *
+ * @param {object} state - The Redux state.
+ * @param {string} gasLimit - The gas limit (hex) used to compute each fee.
+ * @param {number} [numberOfDecimals] - Decimal places for the fee.
+ * @returns {object[]} The rows, or an empty array while estimates load.
+ */
+function getRenderableEstimateRows(state, gasLimit, numberOfDecimals) {
   if (getBasicGasEstimateLoadingStatus(state)) {
     return [];
   }
 
-  const {
-    gas: {
-      basicEstimates: { safeLow, average, fast },
-    },
-  } = state;
+  const { safeLow, average, fast } = state.gas.basicEstimates;
 
   return [
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.SLOW,
-      feeInPrimaryCurrency: getRenderableEthFee(safeLow, gasLimit),
-      priceInHexWei: getGasPriceInHexWei(safeLow),
-    },
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.AVERAGE,
-      feeInPrimaryCurrency: getRenderableEthFee(average, gasLimit),
-      priceInHexWei: getGasPriceInHexWei(average),
-    },
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.FAST,
-      feeInPrimaryCurrency: getRenderableEthFee(fast, gasLimit),
-      priceInHexWei: getGasPriceInHexWei(fast),
-    },
-  ];
+    [GAS_ESTIMATE_TYPES.SLOW, safeLow],
+    [GAS_ESTIMATE_TYPES.AVERAGE, average],
+    [GAS_ESTIMATE_TYPES.FAST, fast],
+  ].map(([gasEstimateType, estimate]) => ({
+    gasEstimateType,
+    feeInPrimaryCurrency: getRenderableEthFee(
+      estimate,
+      gasLimit,
+      numberOfDecimals,
+    ),
+    priceInHexWei: getGasPriceInHexWei(estimate),
+  }));
+}
+
+export function getRenderableBasicEstimateData(state, gasLimit) {
+  return getRenderableEstimateRows(state, gasLimit);
 }
 
 export function getRenderableEstimateDataForSmallButtonsFromGWEI(state) {
-  if (getBasicGasEstimateLoadingStatus(state)) {
-    return [];
-  }
-
   const gasLimit =
     state.ecfWallet.send.gasLimit || getCustomGasLimit(state) || '0x5208';
-  const {
-    gas: {
-      basicEstimates: { safeLow, average, fast },
-    },
-  } = state;
-
-  return [
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.SLOW,
-      feeInPrimaryCurrency: getRenderableEthFee(
-        safeLow,
-        gasLimit,
-        NUMBER_OF_DECIMALS_SM_BTNS,
-        true,
-      ),
-      priceInHexWei: getGasPriceInHexWei(safeLow, true),
-    },
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.AVERAGE,
-      feeInPrimaryCurrency: getRenderableEthFee(
-        average,
-        gasLimit,
-        NUMBER_OF_DECIMALS_SM_BTNS,
-        true,
-      ),
-      priceInHexWei: getGasPriceInHexWei(average, true),
-    },
-    {
-      gasEstimateType: GAS_ESTIMATE_TYPES.FAST,
-      feeInPrimaryCurrency: getRenderableEthFee(
-        fast,
-        gasLimit,
-        NUMBER_OF_DECIMALS_SM_BTNS,
-        true,
-      ),
-      priceInHexWei: getGasPriceInHexWei(fast, true),
-    },
-  ];
+  return getRenderableEstimateRows(state, gasLimit, NUMBER_OF_DECIMALS_SM_BTNS);
 }

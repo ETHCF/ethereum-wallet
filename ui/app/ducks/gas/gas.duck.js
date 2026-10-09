@@ -25,7 +25,6 @@ const initState = {
     safeLow: null,
     average: null,
     fast: null,
-    fastest: null,
   },
   basicEstimateIsLoading: true,
 };
@@ -129,7 +128,6 @@ async function getNetworkGasEstimates() {
     safeLow: toNumber(BigNumber.max(average.times(0.9), baseFee)),
     average: toNumber(average),
     fast: toNumber(average.times(1.25)),
-    fastest: toNumber(average.times(1.5)),
   };
 }
 

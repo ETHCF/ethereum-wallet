@@ -112,12 +112,6 @@ const state = {
         time: 1400000000000,
       },
     ],
-    unapprovedMsgs: {
-      '0xabc': { id: 'unapprovedMessage1', time: 1650000000000 },
-      '0xdef': { id: 'unapprovedMessage2', time: 1550000000000 },
-      '0xghi': { id: 'unapprovedMessage3', time: 1450000000000 },
-    },
-    unapprovedMsgCount: 0,
     unapprovedPersonalMsgs: {},
     unapprovedPersonalMsgCount: 0,
     unapprovedDecryptMsgs: {},
@@ -183,7 +177,6 @@ const state = {
     currentLocale: 'en',
   },
   appState: {
-    menuOpen: false,
     currentView: {
       name: 'accountDetail',
       detailView: null,
@@ -198,7 +191,6 @@ const state = {
     },
     isLoading: false,
     warning: null,
-    scrollToBottom: false,
     forgottenPassword: null,
   },
   identities: {},

@@ -251,9 +251,6 @@
   "delete": {
     "message": "删除"
   },
-  "deposit": {
-    "message": "存入"
-  },
   "details": {
     "message": "详情"
   },
@@ -629,9 +626,6 @@
   "privateKeyWarning": {
     "message": "注意：永远不要公开这个私钥。任何拥有你的私钥的人都可以窃取你帐户中的任何资产。"
   },
-  "privateNetwork": {
-    "message": "私有网络"
-  },
   "queue": {
     "message": "队列"
   },
@@ -661,12 +655,6 @@
   },
   "reset": {
     "message": "重置"
-  },
-  "resetAccount": {
-    "message": "重设账户"
-  },
-  "resetAccountDescription": {
-    "message": "重置账户后，将清除您的个人交易历史记录。"
   },
   "deleteNetwork": {
     "message": "是否删除网络？"

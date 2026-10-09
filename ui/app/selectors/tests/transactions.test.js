@@ -6,38 +6,10 @@ import {
   nonceSortedTransactionsSelector,
   nonceSortedPendingTransactionsSelector,
   nonceSortedCompletedTransactionsSelector,
-  submittedPendingTransactionsSelector,
 } from '../transactions';
 
 describe('Transaction Selectors', function () {
   describe('unapprovedMessagesSelector', function () {
-    it('returns eth sign msg from unapprovedMsgs', function () {
-      const msg = {
-        id: 1,
-        msgParams: {
-          from: '0xAddress',
-          data: '0xData',
-          origin: 'origin',
-        },
-        time: 1,
-        status: 'unapproved',
-        type: 'eth_sign',
-      };
-
-      const state = {
-        ecfWallet: {
-          unapprovedMsgs: {
-            1: msg,
-          },
-        },
-      };
-
-      const msgSelector = unapprovedMessagesSelector(state);
-
-      assert(Array.isArray(msgSelector));
-      assert.deepEqual(msgSelector, [msg]);
-    });
-
     it('returns personal sign from unapprovedPersonalMsgsSelector', function () {
       const msg = {
         id: 1,
@@ -306,14 +278,6 @@ describe('Transaction Selectors', function () {
 
       assert.deepEqual(
         nonceSortedCompletedTransactionsSelector(state),
-        expectedResult,
-      );
-    });
-
-    it('submittedPendingTransactionsSelector', function () {
-      const expectedResult = [submittedTx];
-      assert.deepEqual(
-        submittedPendingTransactionsSelector(state),
         expectedResult,
       );
     });

@@ -224,9 +224,6 @@
   "delete": {
     "message": "I-delete"
   },
-  "deposit": {
-    "message": "Deposito"
-  },
   "details": {
     "message": "Mga Detalye"
   },
@@ -587,9 +584,6 @@
   "privateKeyWarning": {
     "message": "Babala: Huwag ibunyag ang key na ito. Ang kahit sinong may mga private key mo ay maaaring magnakaw ng anumang asset na nasa iyong account."
   },
-  "privateNetwork": {
-    "message": "Pribadong Network"
-  },
   "queue": {
     "message": "I-queue"
   },
@@ -619,12 +613,6 @@
   },
   "reset": {
     "message": "I-reset"
-  },
-  "resetAccount": {
-    "message": "I-reset ang Account"
-  },
-  "resetAccountDescription": {
-    "message": "Kapag na-reset ang iyong account, maki-clear ang iyong kasaysayan ng transaksyon."
   },
   "deleteNetwork": {
     "message": "I-delete ang Network?"

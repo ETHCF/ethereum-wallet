@@ -256,9 +256,6 @@
     "message": "View account at $1",
     "description": "$1 replaced by URL for custom block explorer"
   },
-  "nonceFieldHeading": {
-    "message": "Custom Nonce"
-  },
   "browserNotSupported": {
     "message": "Your Browser is not supported..."
   },
@@ -399,9 +396,6 @@
   },
   "delete": {
     "message": "Delete"
-  },
-  "deposit": {
-    "message": "Deposit"
   },
   "details": {
     "message": "Details"
@@ -548,10 +542,6 @@
   },
   "from": {
     "message": "From"
-  },
-  "fromAddress": {
-    "message": "From: $1",
-    "description": "$1 is the address to include in the From label. It is typically shortened first using shortenAddress"
   },
   "functionApprove": {
     "message": "Function: Approve"
@@ -843,10 +833,6 @@
   "next": {
     "message": "Next"
   },
-  "nextNonceWarning": {
-    "message": "Nonce is higher than suggested nonce of $1",
-    "description": "The next nonce according to ecf-wallet's internal logic"
-  },
   "noAddressForName": {
     "message": "No address has been set for this name."
   },
@@ -913,9 +899,6 @@
   "privateKeyWarning": {
     "message": "Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account."
   },
-  "privateNetwork": {
-    "message": "Private Network"
-  },
   "proposedApprovalLimit": {
     "message": "Proposed Approval Limit"
   },
@@ -954,12 +937,6 @@
   },
   "reset": {
     "message": "Reset"
-  },
-  "resetAccount": {
-    "message": "Reset Account"
-  },
-  "resetAccountDescription": {
-    "message": "Resetting your account will clear your transaction history. This will not change the balances in your accounts or require you to re-enter your seed phrase."
   },
   "deleteNetwork": {
     "message": "Delete Network?"

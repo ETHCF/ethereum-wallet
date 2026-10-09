@@ -128,7 +128,6 @@ describe('gas-modal-page-container container', function () {
         },
         hideBasic: true,
         infoRowProps: {
-          originalTotalEth: '12.748189 ETH',
           newTotalEth: '12.748189 ETH',
           sendAmount: '0.45036 ETH',
           transactionFee: '12.297829 ETH',
@@ -137,7 +136,6 @@ describe('gas-modal-page-container container', function () {
         isSpeedUp: false,
         isRetry: false,
         txId: 34,
-        isMainnet: true,
         maxModeOn: false,
         sendToken: null,
         tokenBalance: '0x0',
@@ -177,23 +175,6 @@ describe('gas-modal-page-container container', function () {
             ...baseExpectedResult,
             isSpeedUp: true,
             transaction: { id: 34 },
-          },
-        },
-        {
-          mockState: {
-            ...baseMockState,
-            ecfWallet: {
-              ...baseMockState.ecfWallet,
-              provider: {
-                ...baseMockState.ecfWallet.provider,
-                type: 'sepolia',
-              },
-            },
-          },
-          mockOwnProps: baseMockOwnProps,
-          expectedResult: {
-            ...baseExpectedResult,
-            isMainnet: false,
           },
         },
       ];
@@ -438,6 +419,26 @@ describe('gas-modal-page-container container', function () {
       assert.equal(dispatchProps.cancelAndClose.callCount, 1);
 
       assert.equal(dispatchProps.createSpeedUpTransaction.callCount, 1);
+      assert.equal(dispatchProps.hideSidebar.callCount, 1);
+    });
+
+    it('should replace the transaction via createSpeedUpTransaction when isRetry is true', function () {
+      const result = mergeProps(
+        { ...stateProps, isRetry: true, isConfirm: false, txId: 34 },
+        dispatchProps,
+        ownProps,
+      );
+
+      result.onSubmit('mockNewLimit', 'mockNewPrice');
+
+      assert.equal(dispatchProps.updateConfirmTxGasAndCalculate.callCount, 0);
+      assert.equal(dispatchProps.setGasData.callCount, 0);
+      assert.equal(dispatchProps.cancelAndClose.callCount, 1);
+      assert.deepEqual(dispatchProps.createSpeedUpTransaction.getCall(0).args, [
+        34,
+        'mockNewPrice',
+        'mockNewLimit',
+      ]);
       assert.equal(dispatchProps.hideSidebar.callCount, 1);
     });
   });

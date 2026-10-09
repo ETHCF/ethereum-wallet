@@ -1,4 +1,3 @@
-const { spawn } = require('child_process');
 const EventEmitter = require('events');
 
 const tasks = {};
@@ -6,13 +5,9 @@ const taskEvents = new EventEmitter();
 
 module.exports = {
   detectAndRunEntryTask,
-  tasks,
-  taskEvents,
   createTask,
-  runTask,
   composeSeries,
   composeParallel,
-  runInChildProcess,
 };
 
 const { setupTaskDisplay } = require('./display');
@@ -23,19 +18,15 @@ function detectAndRunEntryTask() {
   if (!taskName) {
     throw new Error(`ecf-wallet build: No task name specified`);
   }
-  const skipStats = process.argv[3] === '--skip-stats';
-
-  runTask(taskName, { skipStats });
+  runTask(taskName);
 }
 
-async function runTask(taskName, { skipStats } = {}) {
+async function runTask(taskName) {
   if (!Reflect.has(tasks, taskName)) {
     throw new Error(`ecf-wallet build: Unrecognized task name "${taskName}"`);
   }
-  if (!skipStats) {
-    setupTaskDisplay(taskEvents);
-    console.log(`running task "${taskName}"...`);
-  }
+  setupTaskDisplay(taskEvents);
+  console.log(`running task "${taskName}"...`);
   try {
     await tasks[taskName]();
   } catch (err) {
@@ -60,42 +51,6 @@ function createTask(taskName, taskFn) {
   return task;
 }
 
-function runInChildProcess(task) {
-  const taskName = typeof task === 'string' ? task : task.taskName;
-  if (!taskName) {
-    throw new Error(
-      `ecf-wallet build: runInChildProcess unable to identify task name`,
-    );
-  }
-  return instrumentForTaskStats(taskName, async () => {
-    const childProcess = spawn('yarn', ['build', taskName, '--skip-stats']);
-    // forward logs to main process
-    // skip the first stdout event (announcing the process command)
-    childProcess.stdout.once('data', () => {
-      childProcess.stdout.on('data', (data) =>
-        process.stdout.write(`${taskName}: ${data}`),
-      );
-    });
-    childProcess.stderr.on('data', (data) =>
-      process.stderr.write(`${taskName}: ${data}`),
-    );
-    // await end of process
-    await new Promise((resolve, reject) => {
-      childProcess.once('close', (errCode) => {
-        if (errCode !== 0) {
-          reject(
-            new Error(
-              `ecf-wallet build: runInChildProcess for task "${taskName}" encountered an error`,
-            ),
-          );
-          return;
-        }
-        resolve();
-      });
-    });
-  });
-}
-
 function instrumentForTaskStats(taskName, asyncFn) {
   return async () => {
     const start = Date.now();
@@ -108,8 +63,7 @@ function instrumentForTaskStats(taskName, asyncFn) {
 
 function composeSeries(...subtasks) {
   return async () => {
-    const realTasks = subtasks;
-    for (const subtask of realTasks) {
+    for (const subtask of subtasks) {
       await subtask();
     }
   };
@@ -117,7 +71,6 @@ function composeSeries(...subtasks) {
 
 function composeParallel(...subtasks) {
   return async () => {
-    const realTasks = subtasks;
-    await Promise.all(realTasks.map((subtask) => subtask()));
+    await Promise.all(subtasks.map((subtask) => subtask()));
   };
 }

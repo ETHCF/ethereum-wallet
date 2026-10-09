@@ -1,35 +1,19 @@
 import { ObservableStore } from '@metamask/obs-store';
 import { strict as assert } from 'assert';
-import { nanoid } from 'nanoid';
 import { useFakeTimers } from 'sinon';
 
-import { validateActivityEntry } from './helpers';
 import { constants, getters, noop } from './mocks';
-import {
-  LOG_LIMIT,
-  LOG_METHOD_TYPES,
-} from '../../../../../app/scripts/controllers/permissions/enums';
 import PermissionsLogController from '../../../../../app/scripts/controllers/permissions/permissionsLog';
 
 const { PERMS, RPC_REQUESTS } = getters;
 
-const {
-  ACCOUNTS,
-  EXTRA_ACCOUNT,
-  EXPECTED_HISTORIES,
-  DOMAINS,
-  PERM_NAMES,
-  REQUEST_IDS,
-  RESTRICTED_METHODS,
-} = constants;
+const { ACCOUNTS, EXTRA_ACCOUNT, EXPECTED_HISTORIES, DOMAINS, PERM_NAMES } =
+  constants;
 
 let clock;
 
 const initPermLog = () => {
-  return new PermissionsLogController({
-    store: new ObservableStore(),
-    restrictedMethods: RESTRICTED_METHODS,
-  });
+  return new PermissionsLogController({ store: new ObservableStore() });
 };
 
 const mockNext = (handler) => {
@@ -60,306 +44,6 @@ const getSavedMockNext = (arr) => (handler) => {
 };
 
 describe('permissions log', function () {
-  describe('activity log', function () {
-    let permLog, logMiddleware;
-
-    beforeEach(function () {
-      permLog = initPermLog();
-      logMiddleware = initMiddleware(permLog);
-    });
-
-    it('records activity for restricted methods', function () {
-      let log, req, res;
-
-      // eth_accounts, success
-
-      req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin);
-      req.id = REQUEST_IDS.a;
-      res = { result: [ACCOUNTS.a.primary] };
-
-      logMiddleware({ ...req }, res);
-
-      log = permLog.getActivityLog();
-      const entry1 = log[0];
-
-      assert.equal(log.length, 1, 'log should have single entry');
-      validateActivityEntry(
-        entry1,
-        { ...req },
-        { ...res },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      // eth_accounts, failure
-
-      req = RPC_REQUESTS.eth_accounts(DOMAINS.b.origin);
-      req.id = REQUEST_IDS.b;
-      res = { error: new Error('Unauthorized.') };
-
-      logMiddleware({ ...req }, res);
-
-      log = permLog.getActivityLog();
-      const entry2 = log[1];
-
-      assert.equal(log.length, 2, 'log should have 2 entries');
-      validateActivityEntry(
-        entry2,
-        { ...req },
-        { ...res },
-        LOG_METHOD_TYPES.restricted,
-        false,
-      );
-
-      // eth_requestAccounts, success
-
-      req = RPC_REQUESTS.eth_requestAccounts(DOMAINS.c.origin);
-      req.id = REQUEST_IDS.c;
-      res = { result: ACCOUNTS.c.permitted };
-
-      logMiddleware({ ...req }, res);
-
-      log = permLog.getActivityLog();
-      const entry3 = log[2];
-
-      assert.equal(log.length, 3, 'log should have 3 entries');
-      validateActivityEntry(
-        entry3,
-        { ...req },
-        { ...res },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      // eth_accounts, no response
-
-      req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin);
-      req.id = REQUEST_IDS.a;
-      res = null;
-
-      logMiddleware({ ...req }, res);
-
-      log = permLog.getActivityLog();
-      const entry4 = log[3];
-
-      assert.equal(log.length, 4, 'log should have 4 entries');
-      validateActivityEntry(
-        entry4,
-        { ...req },
-        null,
-        LOG_METHOD_TYPES.restricted,
-        false,
-      );
-
-      // validate final state
-
-      assert.equal(entry1, log[0], 'first log entry should remain');
-      assert.equal(entry2, log[1], 'second log entry should remain');
-      assert.equal(entry3, log[2], 'third log entry should remain');
-      assert.equal(entry4, log[3], 'fourth log entry should remain');
-    });
-
-    it('handles responses added out of order', function () {
-      let log;
-
-      const handlerArray = [];
-
-      const id1 = nanoid();
-      const id2 = nanoid();
-      const id3 = nanoid();
-
-      const req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin);
-
-      // get make requests
-      req.id = id1;
-      const res1 = { foo: id1 };
-      logMiddleware({ ...req }, { ...res1 }, getSavedMockNext(handlerArray));
-
-      req.id = id2;
-      const res2 = { foo: id2 };
-      logMiddleware({ ...req }, { ...res2 }, getSavedMockNext(handlerArray));
-
-      req.id = id3;
-      const res3 = { foo: id3 };
-      logMiddleware({ ...req }, { ...res3 }, getSavedMockNext(handlerArray));
-
-      // verify log state
-      log = permLog.getActivityLog();
-      assert.equal(log.length, 3, 'log should have 3 entries');
-      const entry1 = log[0];
-      const entry2 = log[1];
-      const entry3 = log[2];
-      assert.ok(
-        entry1.id === id1 &&
-          entry1.response === null &&
-          entry2.id === id2 &&
-          entry2.response === null &&
-          entry3.id === id3 &&
-          entry3.response === null,
-        'all entries should be in correct order and without responses',
-      );
-
-      // call response handlers
-      for (const i of [1, 2, 0]) {
-        handlerArray[i](noop);
-      }
-
-      // verify log state again
-      log = permLog.getActivityLog();
-      assert.equal(log.length, 3, 'log should have 3 entries');
-
-      // verify all entries
-      log = permLog.getActivityLog();
-
-      validateActivityEntry(
-        log[0],
-        { ...req, id: id1 },
-        { ...res1 },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      validateActivityEntry(
-        log[1],
-        { ...req, id: id2 },
-        { ...res2 },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      validateActivityEntry(
-        log[2],
-        { ...req, id: id3 },
-        { ...res3 },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-    });
-
-    it('handles a lack of response', function () {
-      let req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin);
-      req.id = REQUEST_IDS.a;
-      let res = { foo: 'bar' };
-
-      // noop for next handler prevents recording of response
-      logMiddleware({ ...req }, res, noop);
-
-      let log = permLog.getActivityLog();
-      const entry1 = log[0];
-
-      assert.equal(log.length, 1, 'log should have single entry');
-      validateActivityEntry(
-        entry1,
-        { ...req },
-        null,
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      // next request should be handled as normal
-      req = RPC_REQUESTS.eth_accounts(DOMAINS.b.origin);
-      req.id = REQUEST_IDS.b;
-      res = { result: ACCOUNTS.b.permitted };
-
-      logMiddleware({ ...req }, res);
-
-      log = permLog.getActivityLog();
-      const entry2 = log[1];
-      assert.equal(log.length, 2, 'log should have 2 entries');
-      validateActivityEntry(
-        entry2,
-        { ...req },
-        { ...res },
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      // validate final state
-      assert.equal(entry1, log[0], 'first log entry remains');
-      assert.equal(entry2, log[1], 'second log entry remains');
-    });
-
-    it('ignores expected methods', function () {
-      let log = permLog.getActivityLog();
-      assert.equal(log.length, 0, 'log should be empty');
-
-      const res = { foo: 'bar' };
-      const req1 = RPC_REQUESTS.metamask_sendDomainMetadata(
-        DOMAINS.c.origin,
-        'foobar',
-      );
-      const req2 = RPC_REQUESTS.custom(DOMAINS.b.origin, 'eth_getBlockNumber');
-      const req3 = RPC_REQUESTS.custom(DOMAINS.b.origin, 'net_version');
-
-      logMiddleware(req1, res);
-      logMiddleware(req2, res);
-      logMiddleware(req3, res);
-
-      log = permLog.getActivityLog();
-      assert.equal(log.length, 0, 'log should still be empty');
-    });
-
-    it('enforces log limit', function () {
-      const req = RPC_REQUESTS.eth_accounts(DOMAINS.a.origin);
-      const res = { foo: 'bar' };
-
-      // max out log
-      let lastId;
-      for (let i = 0; i < LOG_LIMIT; i++) {
-        lastId = nanoid();
-        logMiddleware({ ...req, id: lastId }, { ...res });
-      }
-
-      // check last entry valid
-      let log = permLog.getActivityLog();
-      assert.equal(
-        log.length,
-        LOG_LIMIT,
-        'log should have LOG_LIMIT num entries',
-      );
-
-      validateActivityEntry(
-        log[LOG_LIMIT - 1],
-        { ...req, id: lastId },
-        res,
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      // store the id of the current second entry
-      const nextFirstId = log[1].id;
-
-      // add one more entry to log, putting it over the limit
-      lastId = nanoid();
-      logMiddleware({ ...req, id: lastId }, { ...res });
-
-      // check log length
-      log = permLog.getActivityLog();
-      assert.equal(
-        log.length,
-        LOG_LIMIT,
-        'log should have LOG_LIMIT num entries',
-      );
-
-      // check first and last entries
-      validateActivityEntry(
-        log[0],
-        { ...req, id: nextFirstId },
-        res,
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-
-      validateActivityEntry(
-        log[LOG_LIMIT - 1],
-        { ...req, id: lastId },
-        res,
-        LOG_METHOD_TYPES.restricted,
-        true,
-      );
-    });
-  });
-
   describe('permissions history', function () {
     let permLog, logMiddleware;
 
@@ -371,6 +55,21 @@ describe('permissions log', function () {
 
     afterEach(function () {
       tearDownClock();
+    });
+
+    it('ignores other methods', function () {
+      let nextCalled = false;
+      logMiddleware(
+        { origin: DOMAINS.a.origin, method: 'eth_accounts' },
+        { result: ACCOUNTS.a.permitted },
+        (handler) => {
+          nextCalled = true;
+          assert.equal(handler, undefined, 'should not capture the response');
+        },
+      );
+
+      assert.ok(nextCalled, 'should call next');
+      assert.deepEqual(permLog.getHistory(), {});
     });
 
     it('only updates history on responses', function () {
@@ -406,17 +105,18 @@ describe('permissions log', function () {
       );
     });
 
-    it('ignores malformed permissions requests', function () {
+    it('ignores failed permissions requests', function () {
       const req = RPC_REQUESTS.requestPermission(
         DOMAINS.a.origin,
         PERM_NAMES.eth_accounts,
       );
       delete req.params;
       const res = {
+        error: new Error('Expected an object of requested permissions.'),
         result: [PERMS.granted.eth_accounts(ACCOUNTS.a.permitted)],
       };
 
-      // no params => no response
+      // error => no history
       logMiddleware({ ...req }, { ...res });
 
       assert.deepEqual(
@@ -533,8 +233,7 @@ describe('permissions log', function () {
       );
     });
 
-    // the response may include permissions that were not requested
-    it('handles unrequested permissions on the response', async function () {
+    it('ignores other permissions on the response', async function () {
       const req = RPC_REQUESTS.requestPermission(
         DOMAINS.a.origin,
         PERM_NAMES.eth_accounts,

@@ -36,7 +36,6 @@ const mockGasPriceButtonGroupProps = {
   newTotalEth: 'mockNewTotalEth',
 };
 const mockInfoRowProps = {
-  originalTotalEth: 'mockOriginalTotalEth',
   newTotalEth: 'mockNewTotalEth',
   sendAmount: 'mockSendAmount',
   transactionFee: 'mockTransactionFee',

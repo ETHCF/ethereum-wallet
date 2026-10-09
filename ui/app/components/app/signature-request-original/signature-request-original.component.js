@@ -1,282 +1,80 @@
 import * as ethUtil from '@ethereumjs/util';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 
 import SiweDetails from './siwe-details';
-import {
-  ENVIRONMENT_TYPE_NOTIFICATION,
-  MESSAGE_TYPE,
-} from '../../../../../app/scripts/lib/enums';
-import { getEnvironmentType } from '../../../../../app/scripts/lib/util';
-import { conversionUtil } from '../../../helpers/utils/conversion-util';
-import Button from '../../ui/button';
-import DataTree from '../../ui/data-tree';
-import Identicon from '../../ui/identicon';
-import AccountListItem from '../account-list-item';
+import { MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums';
+import { useI18nContext } from '../../../hooks/useI18nContext';
+import ConfirmRequestLayout from '../confirm-request-layout';
 
-export default class SignatureRequestOriginal extends Component {
-  static contextTypes = {
-    t: PropTypes.func.isRequired,
-  };
+const msgHexToText = (hex) => {
+  try {
+    const stripped = ethUtil.stripHexPrefix(hex);
+    const buff = Buffer.from(stripped, 'hex');
+    return buff.length === 32 ? hex : buff.toString('utf8');
+  } catch (e) {
+    return hex;
+  }
+};
 
-  static propTypes = {
-    fromAccount: PropTypes.shape({
-      address: PropTypes.string.isRequired,
-      balance: PropTypes.string,
-      name: PropTypes.string,
-    }).isRequired,
-    cancel: PropTypes.func.isRequired,
-    clearConfirmTransaction: PropTypes.func.isRequired,
-    nativeCurrency: PropTypes.string,
-    navigate: PropTypes.func.isRequired,
-    mostRecentOverviewPage: PropTypes.string.isRequired,
-    requesterAddress: PropTypes.string,
-    sign: PropTypes.func.isRequired,
-    txData: PropTypes.object.isRequired,
-  };
+export default function SignatureRequestOriginal({
+  txData,
+  signPersonalMessage,
+  signTypedMessage,
+  cancelPersonalMessage,
+  cancelTypedMessage,
+}) {
+  const t = useI18nContext();
+  const {
+    type,
+    msgParams: { data, from, siwe, origin },
+  } = txData;
 
-  state = {
-    fromAccount: this.props.fromAccount,
-  };
+  // conf-tx shows this page for personal_sign and for v1 typed data.
+  const isPersonalSign = type === MESSAGE_TYPE.PERSONAL_SIGN;
+  const rows = isPersonalSign
+    ? [{ name: t('message'), value: msgHexToText(data) }]
+    : data;
 
-  componentDidMount = () => {
-    if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      window.addEventListener('beforeunload', this._beforeUnload);
-    }
-  };
-
-  componentWillUnmount = () => {
-    this._removeBeforeUnload();
-  };
-
-  _beforeUnload = (event) => {
-    const { clearConfirmTransaction, cancel } = this.props;
-    clearConfirmTransaction();
-    cancel(event);
-  };
-
-  _removeBeforeUnload = () => {
-    if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      window.removeEventListener('beforeunload', this._beforeUnload);
-    }
-  };
-
-  renderHeader = () => {
-    return (
-      <div className="request-signature__header">
-        <div className="request-signature__header-background" />
-
-        <div className="request-signature__header__text">
-          {this.context.t('sigRequest')}
-        </div>
-
-        <div className="request-signature__header__tip-container">
-          <div className="request-signature__header__tip" />
-        </div>
-      </div>
-    );
-  };
-
-  renderAccount = () => {
-    const { fromAccount } = this.state;
-
-    return (
-      <div className="request-signature__account">
-        <div className="request-signature__account-text">
-          {`${this.context.t('account')}:`}
-        </div>
-
-        <div className="request-signature__account-item">
-          <AccountListItem account={fromAccount} />
-        </div>
-      </div>
-    );
-  };
-
-  renderBalance = () => {
-    const { nativeCurrency } = this.props;
-    const {
-      fromAccount: { balance },
-    } = this.state;
-
-    const balanceInEther = conversionUtil(balance, {
-      fromNumericBase: 'hex',
-      toNumericBase: 'dec',
-      fromDenomination: 'WEI',
-      numberOfDecimals: 6,
-    });
-
-    return (
-      <div className="request-signature__balance">
-        <div className="request-signature__balance-text">
-          {`${this.context.t('balance')}:`}
-        </div>
-        <div className="request-signature__balance-value">
-          {`${balanceInEther} ${nativeCurrency}`}
-        </div>
-      </div>
-    );
-  };
-
-  renderRequestIcon = () => {
-    const { requesterAddress } = this.props;
-
-    return (
-      <div className="request-signature__request-icon">
-        <Identicon diameter={40} address={requesterAddress} />
-      </div>
-    );
-  };
-
-  renderAccountInfo = () => {
-    return (
-      <div className="request-signature__account-info">
-        {this.renderAccount()}
-        {this.renderRequestIcon()}
-        {this.renderBalance()}
-      </div>
-    );
-  };
-
-  renderRequestInfo = () => {
-    return (
+  return (
+    <ConfirmRequestLayout
+      title={t('sigRequest')}
+      fromAddress={from}
+      onCancel={isPersonalSign ? cancelPersonalMessage : cancelTypedMessage}
+      onConfirm={isPersonalSign ? signPersonalMessage : signTypedMessage}
+      confirmText={t('sign')}
+      confirmDisabled={Boolean(siwe?.errors?.length)}
+      cancelButtonClassName="request-signature__footer__cancel-button"
+      confirmButtonTestId="request-signature__sign"
+    >
       <div className="request-signature__request-info">
         <div className="request-signature__headline">
-          {this.context.t('yourSigRequested')}
+          {t('yourSigRequested')}
         </div>
       </div>
-    );
-  };
-
-  msgHexToText = (hex) => {
-    try {
-      const stripped = ethUtil.stripHexPrefix(hex);
-      const buff = Buffer.from(stripped, 'hex');
-      return buff.length === 32 ? hex : buff.toString('utf8');
-    } catch (e) {
-      return hex;
-    }
-  };
-
-  renderTypedData = (data) => {
-    const { domain, message } = JSON.parse(data);
-    return (
-      <div className="request-signature__typed-container">
-        {domain ? (
-          <div>
-            <h1>Domain</h1>
-            <DataTree data={domain} expandLevel={1} name="domain" />
+      {siwe && <SiweDetails siwe={siwe} origin={origin} />}
+      <div className="request-signature__notice">{`${t('youSign')}:`}</div>
+      <div className="request-signature__rows">
+        {rows.map(({ name, value }, index) => (
+          <div
+            className="request-signature__row"
+            key={`request-signature-row-${index}`}
+          >
+            <div className="request-signature__row-title">{`${name}:`}</div>
+            <div className="request-signature__row-value">
+              {typeof value === 'boolean' ? value.toString() : value}
+            </div>
           </div>
-        ) : (
-          ''
-        )}
-        {message ? (
-          <div>
-            <h1>Message</h1>
-            <DataTree data={message} expandLevel={1} name="message" />
-          </div>
-        ) : (
-          ''
-        )}
+        ))}
       </div>
-    );
-  };
-
-  renderBody = () => {
-    let rows;
-    const notice = `${this.context.t('youSign')}:`;
-
-    const { txData } = this.props;
-    const {
-      type,
-      msgParams: { data, siwe, origin },
-    } = txData;
-
-    if (type === MESSAGE_TYPE.PERSONAL_SIGN) {
-      rows = [
-        { name: this.context.t('message'), value: this.msgHexToText(data) },
-      ];
-    } else if (type === MESSAGE_TYPE.ETH_SIGN_TYPED_DATA) {
-      rows = data;
-    }
-
-    return (
-      <div className="request-signature__body">
-        {this.renderAccountInfo()}
-        {this.renderRequestInfo()}
-        {siwe && <SiweDetails siwe={siwe} origin={origin} />}
-        <div className="request-signature__notice">{notice}</div>
-        <div className="request-signature__rows">
-          {rows.map(({ name, value }, index) => {
-            if (typeof value === 'boolean') {
-              // eslint-disable-next-line no-param-reassign
-              value = value.toString();
-            }
-            return (
-              <div
-                className="request-signature__row"
-                key={`request-signature-row-${index}`}
-              >
-                <div className="request-signature__row-title">{`${name}:`}</div>
-                <div className="request-signature__row-value">{value}</div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  renderFooter = () => {
-    const {
-      cancel,
-      clearConfirmTransaction,
-      navigate,
-      mostRecentOverviewPage,
-      sign,
-    } = this.props;
-
-    return (
-      <div className="request-signature__footer">
-        <Button
-          type="default"
-          large
-          className="request-signature__footer__cancel-button"
-          onClick={async (event) => {
-            this._removeBeforeUnload();
-            await cancel(event);
-            clearConfirmTransaction();
-            navigate(mostRecentOverviewPage);
-          }}
-        >
-          {this.context.t('cancel')}
-        </Button>
-        <Button
-          data-testid="request-signature__sign"
-          disabled={Boolean(this.props.txData.msgParams.siwe?.errors?.length)}
-          type="secondary"
-          large
-          className="request-signature__footer__sign-button"
-          onClick={async (event) => {
-            this._removeBeforeUnload();
-            await sign(event);
-            clearConfirmTransaction();
-            navigate(mostRecentOverviewPage);
-          }}
-        >
-          {this.context.t('sign')}
-        </Button>
-      </div>
-    );
-  };
-
-  render = () => {
-    return (
-      <div className="request-signature__container">
-        {this.renderHeader()}
-        {this.renderBody()}
-        {this.renderFooter()}
-      </div>
-    );
-  };
+    </ConfirmRequestLayout>
+  );
 }
+
+SignatureRequestOriginal.propTypes = {
+  txData: PropTypes.object.isRequired,
+  signPersonalMessage: PropTypes.func.isRequired,
+  signTypedMessage: PropTypes.func.isRequired,
+  cancelPersonalMessage: PropTypes.func.isRequired,
+  cancelTypedMessage: PropTypes.func.isRequired,
+};

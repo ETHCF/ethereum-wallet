@@ -170,7 +170,7 @@ describe('DetectTokensController', function () {
     controller.isOpen = true;
     controller.selectedAddress = '0x0';
     const stub = sandbox.stub(controller, 'detectNewTokens');
-    await controller._keyringMemStore.updateState({ isUnlocked: true });
+    await keyringMemStore.updateState({ isUnlocked: true });
     sandbox.assert.called(stub);
   });
 

@@ -155,6 +155,20 @@ export default class ModernKeyringController extends EventEmitter {
     return operation;
   }
 
+  /**
+   * Saves the vault and then the keyrings shown in memStore, stopping if the
+   * wallet is locked or replaced after either step.
+   *
+   * @param {number} generation - The vault generation the caller started in.
+   * @param {string} [password] - The password to encrypt the vault with.
+   */
+  async _saveKeyrings(generation, password = this.password) {
+    await this.persistAllKeyrings(password);
+    this.assertVaultGeneration(generation);
+    await this._updateMemStoreKeyrings();
+    this.assertVaultGeneration(generation);
+  }
+
   async submitPassword(password) {
     this.vaultGeneration += 1;
     const generation = this.vaultGeneration;
@@ -222,10 +236,7 @@ export default class ModernKeyringController extends EventEmitter {
     await this.checkForDuplicate(type, accounts);
     this.assertVaultGeneration(generation);
     this.keyrings.push(keyring);
-    await this.persistAllKeyrings();
-    this.assertVaultGeneration(generation);
-    await this._updateMemStoreKeyrings();
-    this.assertVaultGeneration(generation);
+    await this._saveKeyrings(generation);
     this.fullUpdate();
     return keyring;
   }
@@ -302,10 +313,7 @@ export default class ModernKeyringController extends EventEmitter {
     const accounts = await keyring.addAccounts(1);
     this.assertVaultGeneration(generation);
     accounts.forEach((account) => this.emit('newAccount', account));
-    await this.persistAllKeyrings();
-    this.assertVaultGeneration(generation);
-    await this._updateMemStoreKeyrings();
-    this.assertVaultGeneration(generation);
+    await this._saveKeyrings(generation);
     return this.fullUpdate();
   }
 
@@ -328,10 +336,7 @@ export default class ModernKeyringController extends EventEmitter {
     this.emit('removedAccount', address);
     await this.removeEmptyKeyrings();
     this.assertVaultGeneration(generation);
-    await this.persistAllKeyrings();
-    this.assertVaultGeneration(generation);
-    await this._updateMemStoreKeyrings();
-    this.assertVaultGeneration(generation);
+    await this._saveKeyrings(generation);
     return this.fullUpdate();
   }
 
@@ -406,10 +411,7 @@ export default class ModernKeyringController extends EventEmitter {
       throw new Error('KeyringController - No account found on keychain.');
     }
     this.keyrings = [keyring];
-    await this.persistAllKeyrings(password);
-    this.assertVaultGeneration(generation);
-    await this._updateMemStoreKeyrings();
-    this.assertVaultGeneration(generation);
+    await this._saveKeyrings(generation, password);
     if (notify) {
       this.emit('newVault', address);
     }
@@ -421,12 +423,6 @@ export default class ModernKeyringController extends EventEmitter {
     const address = normalizeAddress(fromAddress);
     const keyring = await this.getKeyringForAccount(address);
     return keyring.signTransaction(address, ethTx, opts);
-  }
-
-  async signMessage(msgParams, opts = {}) {
-    const address = normalizeAddress(msgParams.from);
-    const keyring = await this.getKeyringForAccount(address);
-    return keyring.signMessage(address, msgParams.data, opts);
   }
 
   async signPersonalMessage(msgParams, opts = {}) {

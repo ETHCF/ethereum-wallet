@@ -2,28 +2,16 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
 import Button from '../../../components/ui/button';
-import {
-  INITIALIZE_CREATE_PASSWORD_ROUTE,
-  INITIALIZE_SELECT_ACTION_ROUTE,
-} from '../../../helpers/constants/routes';
+import { INITIALIZE_SELECT_ACTION_ROUTE } from '../../../helpers/constants/routes';
 
 export default class Welcome extends PureComponent {
   static propTypes = {
     navigate: PropTypes.func,
-    welcomeScreenSeen: PropTypes.bool,
   };
 
   static contextTypes = {
     t: PropTypes.func,
   };
-
-  componentDidMount() {
-    const { navigate, welcomeScreenSeen } = this.props;
-
-    if (welcomeScreenSeen) {
-      navigate(INITIALIZE_CREATE_PASSWORD_ROUTE);
-    }
-  }
 
   handleContinue = () => {
     this.props.navigate(INITIALIZE_SELECT_ACTION_ROUTE);

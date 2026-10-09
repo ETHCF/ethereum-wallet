@@ -1,17 +1,9 @@
-import * as ethUtil from '@ethereumjs/util';
-import { ObservableStore } from '@metamask/obs-store';
-import { providerErrors } from '@metamask/rpc-errors';
-import EventEmitter from 'events';
 import log from 'loglevel';
 
+import BaseMessageManager, { normalizeMsgData } from './base-message-manager';
 import { MESSAGE_TYPE } from './enums';
 import createId from './random-id';
 import { detectSIWE } from './signing-utils';
-
-// Hex for whole bytes. Odd-length hex is read as text: the keyring would pad
-// it at the front while the confirmation decodes it without its last digit, so
-// the user would approve different bytes from those signed.
-const hexRe = /^(?:[0-9A-Fa-f]{2})+$/u;
 
 /**
  * Represents, and contains data about, an 'personal_sign' type signature request. These are created when a
@@ -26,104 +18,61 @@ const hexRe = /^(?:[0-9A-Fa-f]{2})+$/u;
  * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
  * @property {number} time The epoch time at which the this message was created
- * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed' or 'rejected'
+ * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed', 'rejected' or 'errored'
  * @property {string} type The json-prc signing method for which a signature request has been made. A 'Message' will
  * always have a 'personal_sign' type.
  */
 
-export default class PersonalMessageManager extends EventEmitter {
+export default class PersonalMessageManager extends BaseMessageManager {
   /**
    * Controller in charge of managing - storing, adding, removing, updating - PersonalMessage.
    *
-   * @typedef {object} PersonalMessageManager
    * @param {object} [opts] - The manager options.
    * @param {Function} [opts.getChainId] - Returns the current chain ID, used to check Sign-In with Ethereum requests.
-   * @property {object} memStore The observable store where PersonalMessage are saved.
-   * @property {object} memStore.unapprovedPersonalMsgs A collection of all PersonalMessages in the 'unapproved' state
-   * @property {number} memStore.unapprovedPersonalMsgCount The count of all PersonalMessages in this.memStore.unapprobedMsgs
-   * @property {Array} messages Holds all messages that have been created by this PersonalMessageManager
    */
   constructor({ getChainId = () => undefined } = {}) {
-    super();
-    this.getChainId = getChainId;
-    this.memStore = new ObservableStore({
-      unapprovedPersonalMsgs: {},
-      unapprovedPersonalMsgCount: 0,
+    super({
+      name: 'PersonalMessageManager',
+      stateKey: 'unapprovedPersonalMsgs',
+      countKey: 'unapprovedPersonalMsgCount',
+      successStatus: 'signed',
+      resultKey: 'rawSig',
+      label: 'Personal message',
+      errorPrefix: 'ecf-wallet Message Signature',
+      rejectedMessage: 'User denied message signature.',
     });
-    this.messages = [];
+    this.getChainId = getChainId;
   }
 
   /**
-   * A getter for the number of 'unapproved' PersonalMessages in this.messages
+   * The number of PersonalMessages waiting for the user.
    *
    * @returns {number} The number of 'unapproved' PersonalMessages in this.messages
    */
   get unapprovedPersonalMsgCount() {
-    return Object.keys(this.getUnapprovedMsgs()).length;
+    return this.getUnapprovedMsgCount();
   }
 
   /**
-   * A getter for the 'unapproved' PersonalMessages in this.messages
+   * Creates a new unapproved PersonalMessage and settles when it is signed, rejected or errored.
    *
-   * @returns {object} An index of PersonalMessage ids to PersonalMessages, for all 'unapproved' PersonalMessages in
-   * this.messages
-   */
-  getUnapprovedMsgs() {
-    return this.messages
-      .filter((msg) => msg.status === 'unapproved')
-      .reduce((result, msg) => {
-        result[msg.id] = msg;
-        return result;
-      }, {});
-  }
-
-  /**
-   * Creates a new PersonalMessage with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new PersonalMessage to this.messages, and to save the unapproved PersonalMessages from that list to
-   * this.memStore.
-   *
-   * @param {object} msgParams - The params for the eth_sign call to be made after the message is approved.
+   * @param {object} msgParams - The params for the personal_sign call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
-   * @returns {Promise} When the message has been signed or rejected
+   * @returns {Promise<string>} The signature.
    */
   addUnapprovedMessageAsync(msgParams, req) {
-    return new Promise((resolve, reject) => {
-      if (!msgParams.from) {
-        reject(
-          new Error('ecf-wallet Message Signature: from field is required.'),
-        );
-        return;
-      }
-      const msgId = this.addUnapprovedMessage(msgParams, req);
-      this.once(`${msgId}:finished`, (data) => {
-        switch (data.status) {
-          case 'signed':
-            resolve(data.rawSig);
-            return;
-          case 'rejected':
-            reject(
-              providerErrors.userRejectedRequest(
-                'ecf-wallet Message Signature: User denied message signature.',
-              ),
-            );
-            return;
-          default:
-            reject(
-              new Error(
-                `ecf-wallet Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`,
-              ),
-            );
-        }
-      });
-    });
+    if (!msgParams.from) {
+      return Promise.reject(
+        new Error(`${this.errorPrefix}: from field is required.`),
+      );
+    }
+    return super.addUnapprovedMessageAsync(msgParams, req);
   }
 
   /**
-   * Creates a new PersonalMessage with an 'unapproved' status using the passed msgParams. this.addMsg is called to add
-   * the new PersonalMessage to this.messages, and to save the unapproved PersonalMessages from that list to
-   * this.memStore.
+   * Creates a new PersonalMessage with an 'unapproved' status using the passed msgParams.
    *
-   * @param {object} inputParams - The params for the eth_sign call to be made after the message is approved.
+   * @param {object} inputParams - The params for the personal_sign call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
    * @returns {number} The id of the newly created PersonalMessage.
    */
@@ -136,23 +85,20 @@ export default class PersonalMessageManager extends EventEmitter {
     if (req) {
       msgParams.origin = req.origin;
     }
-    msgParams.data = this.normalizeMsgData(msgParams.data);
+    msgParams.data = normalizeMsgData(msgParams.data);
     delete msgParams.siwe;
     const siwe = detectSIWE(msgParams, this.getChainId());
     if (siwe) {
       msgParams.siwe = siwe;
     }
-    // create txData obj with parameters and meta data
-    const time = new Date().getTime();
     const msgId = createId();
-    const msgData = {
+    this.addMsg({
       id: msgId,
       msgParams,
-      time,
+      time: new Date().getTime(),
       status: 'unapproved',
       type: MESSAGE_TYPE.PERSONAL_SIGN,
-    };
-    this.addMsg(msgData);
+    });
 
     // signal update
     this.emit('update');
@@ -160,170 +106,34 @@ export default class PersonalMessageManager extends EventEmitter {
   }
 
   /**
-   * Adds a passed PersonalMessage to this.messages, and calls this._saveMsgList() to save the unapproved PersonalMessages from that
-   * list to this.memStore.
+   * Rechecks Sign-In with Ethereum requests against the current chain before approval.
    *
-   * @param {PersonalMessage} msg - The PersonalMessage to add to this.messages
+   * @param {PersonalMessage} stored - The stored message.
    */
-  addMsg(msg) {
-    this.messages.push(msg);
-    this._saveMsgList();
-  }
-
-  /**
-   * Returns a specified PersonalMessage.
-   *
-   * @param {number} msgId - The id of the PersonalMessage to get
-   * @returns {PersonalMessage|undefined} The PersonalMessage with the id that matches the passed msgId, or undefined
-   * if no PersonalMessage has that id.
-   */
-  getMsg(msgId) {
-    return this.messages.find((msg) => msg.id === msgId);
-  }
-
-  /**
-   * Approves a PersonalMessage. Sets the message status via a call to this.setMsgStatusApproved, and returns a promise
-   * with any the message params modified for proper signing.
-   *
-   * @param {object} msgParams - The msgParams to be used when eth_sign is called, plus data added by ecf-wallet.
-   * @param {object} msgParams.ecfWalletId - Added to msgParams for tracking and identification within ecf-wallet.
-   * @returns {Promise<object>} Promises the msgParams object with ecfWalletId removed.
-   */
-  approveMessage(msgParams) {
-    const stored = this.getMsg(msgParams.ecfWalletId);
-    if (!stored || stored.status !== 'unapproved') {
-      return Promise.reject(
-        new Error('Personal message is not awaiting approval'),
-      );
-    }
+  _checkApproval(stored) {
     const siwe = detectSIWE(stored.msgParams, this.getChainId());
     if (siwe?.errors.length) {
-      return Promise.reject(new Error(siwe.errors.join(' ')));
+      throw new Error(siwe.errors.join(' '));
     }
-    this.setMsgStatusApproved(stored.id);
-    return this.prepMsgForSigning({ ...stored.msgParams });
   }
 
   /**
-   * Sets a PersonalMessage status to 'approved' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the PersonalMessage to approve.
-   */
-  setMsgStatusApproved(msgId) {
-    this._setMsgStatus(msgId, 'approved');
-  }
-
-  /**
-   * Sets a PersonalMessage status to 'signed' via a call to this._setMsgStatus and updates that PersonalMessage in
-   * this.messages by adding the raw signature data of the signature request to the PersonalMessage
+   * Sets a PersonalMessage status to 'signed' and stores its signature.
    *
    * @param {number} msgId - The id of the PersonalMessage to sign.
    * @param {string} rawSig - The raw data of the signature request
    */
   setMsgStatusSigned(msgId, rawSig) {
-    const msg = this.getMsg(msgId);
-    msg.rawSig = rawSig;
-    this._updateMsg(msg);
-    this._setMsgStatus(msgId, 'signed');
+    this._setMsgResult(msgId, rawSig);
   }
 
   /**
-   * Removes the ecfWalletId property from passed msgParams and returns a promise which resolves the updated msgParams
+   * Removes the ecfWalletId property from passed msgParams.
    *
    * @param {object} msgParams - The msgParams to modify
    * @returns {Promise<object>} Promises the msgParams with the ecfWalletId property removed
    */
   prepMsgForSigning(msgParams) {
-    delete msgParams.ecfWalletId;
-    return Promise.resolve(msgParams);
-  }
-
-  /**
-   * Sets a PersonalMessage status to 'rejected' via a call to this._setMsgStatus.
-   *
-   * @param {number} msgId - The id of the PersonalMessage to reject.
-   */
-  rejectMsg(msgId) {
-    this._setMsgStatus(msgId, 'rejected');
-  }
-
-  /**
-   * Updates the status of a PersonalMessage in this.messages via a call to this._updateMsg.
-   * Fires an event with a name equal to `${msgId}:${status}`, along with the PersonalMessage.
-   * If status is 'rejected' or 'signed', an event with a name equal to `${msgId}:finished` is fired along
-   * with the PersonalMessage.
-   *
-   * @private
-   * @param {number} msgId - The id of the PersonalMessage to update.
-   * @param {string} status - The new status of the PersonalMessage.
-   * @throws A 'PersonalMessageManager - PersonalMessage not found for id: "${msgId}".' if there is no PersonalMessage
-   * in this.messages with an id equal to the passed msgId
-   */
-  _setMsgStatus(msgId, status) {
-    const msg = this.getMsg(msgId);
-    if (!msg) {
-      throw new Error(
-        `PersonalMessageManager - Message not found for id: "${msgId}".`,
-      );
-    }
-    msg.status = status;
-    this._updateMsg(msg);
-    this.emit(`${msgId}:${status}`, msg);
-    if (status === 'rejected' || status === 'signed') {
-      this.emit(`${msgId}:finished`, msg);
-    }
-  }
-
-  /**
-   * Sets a PersonalMessage in this.messages to the passed PersonalMessage if the ids are equal. Then saves the
-   * unapprovedPersonalMsgs index to storage via this._saveMsgList
-   *
-   * @private
-   * @param {PersonalMessage} msg - A PersonalMessage that will replace an existing PersonalMessage (with the same
-   * id) in this.messages
-   */
-  _updateMsg(msg) {
-    const index = this.messages.findIndex((message) => message.id === msg.id);
-    if (index !== -1) {
-      this.messages[index] = msg;
-    }
-    this._saveMsgList();
-  }
-
-  /**
-   * Saves the unapproved PersonalMessages, and their count, to this.memStore
-   *
-   * @private
-   * @fires 'updateBadge'
-   */
-  _saveMsgList() {
-    const unapprovedPersonalMsgs = this.getUnapprovedMsgs();
-    const unapprovedPersonalMsgCount = Object.keys(
-      unapprovedPersonalMsgs,
-    ).length;
-    this.memStore.updateState({
-      unapprovedPersonalMsgs,
-      unapprovedPersonalMsgCount,
-    });
-    this.emit('updateBadge');
-  }
-
-  /**
-   * A helper function that converts raw buffer data to a hex, or just returns the data if it is already formatted as a hex.
-   *
-   * @param {any} data - The buffer data to convert to a hex
-   * @returns {string} A hex string conversion of the buffer data
-   */
-  normalizeMsgData(data) {
-    try {
-      const stripped = ethUtil.stripHexPrefix(data);
-      if (stripped.match(hexRe)) {
-        return ethUtil.addHexPrefix(stripped);
-      }
-    } catch (e) {
-      log.debug(`Message was not hex encoded, interpreting as utf8.`);
-    }
-
-    return ethUtil.bytesToHex(Buffer.from(data, 'utf8'));
+    return this.prepMsg(msgParams);
   }
 }

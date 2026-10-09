@@ -56,8 +56,6 @@ export function sanitizeDomainMetadata(params) {
  * named permission.
  * @param {Function} options0.notifyAccountsChanged - Notifies the site of its
  * exposed accounts.
- * @param {Function} options0.requestAccountsPermission - Asks the user for the
- * eth_accounts permission.
  * @param {Function} options0.requestPermissions - Asks the user to grant the
  * requested permissions.
  * @param {Function} options0.revokePermissions - Revokes the named
@@ -71,7 +69,6 @@ export default function createPermissionsMethodMiddleware({
   getUnlockPromise,
   hasPermission,
   notifyAccountsChanged,
-  requestAccountsPermission,
   requestPermissions,
   revokePermissions,
 }) {
@@ -143,7 +140,7 @@ export default function createPermissionsMethodMiddleware({
 
         // if no accounts, request the accounts permission
         try {
-          await requestAccountsPermission();
+          await requestPermissions({ eth_accounts: {} });
         } catch (err) {
           res.error = err;
           return;

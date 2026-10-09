@@ -7,14 +7,12 @@ import * as actions from '../../store/actions';
 
 const mapStateToProps = (state) => {
   const {
-    ecfWallet: { network, selectedAddress, identities = {} },
+    ecfWallet: { identities = {} },
   } = state;
   const numberOfExistingAccounts = Object.keys(identities).length;
   const newAccountNumber = numberOfExistingAccounts + 1;
 
   return {
-    network,
-    address: selectedAddress,
     newAccountNumber,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   };

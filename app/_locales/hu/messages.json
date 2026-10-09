@@ -251,9 +251,6 @@
   "delete": {
     "message": "Törlés"
   },
-  "deposit": {
-    "message": "Befizetés"
-  },
   "details": {
     "message": "Részletek"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "Figyelem! Soha ne adja át másnak ezt a kulcsot. A privát kulcs birtokában ellophatják a számláján lévő pénzeszközöket."
   },
-  "privateNetwork": {
-    "message": "Magánhálózat"
-  },
   "queue": {
     "message": "Nyomtatólista"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "Visszaállítás"
-  },
-  "resetAccount": {
-    "message": "Fiók visszaállítása"
-  },
-  "resetAccountDescription": {
-    "message": "A fiók visszaállítása törli a tranzakciók előzményeit."
   },
   "deleteNetwork": {
     "message": "Törli a hálózatot?"

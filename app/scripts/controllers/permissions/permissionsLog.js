@@ -1,41 +1,13 @@
-import { cloneDeep } from 'lodash';
-
-import {
-  CAVEAT_TYPES,
-  HISTORY_STORE_KEY,
-  LOG_IGNORE_METHODS,
-  LOG_LIMIT,
-  LOG_METHOD_TYPES,
-  LOG_STORE_KEY,
-  WALLET_PREFIX,
-} from './enums';
+import { CAVEAT_TYPES, HISTORY_STORE_KEY, WALLET_PREFIX } from './enums';
 
 /**
- * Controller with middleware for logging requests and responses to restricted
- * and permissions-related methods.
+ * Controller with middleware for recording, for each origin, when its
+ * eth_accounts permission was last approved and when each account was last
+ * exposed to it.
  */
 export default class PermissionsLogController {
-  constructor({ restrictedMethods, store }) {
-    this.restrictedMethods = restrictedMethods;
+  constructor({ store }) {
     this.store = store;
-  }
-
-  /**
-   * Get the activity log.
-   *
-   * @returns {Array<object>} The activity log.
-   */
-  getActivityLog() {
-    return this.store.getState()[LOG_STORE_KEY] || [];
-  }
-
-  /**
-   * Update the activity log.
-   *
-   * @param {Array<object>} logs - The new activity log array.
-   */
-  updateActivityLog(logs) {
-    this.store.updateState({ [LOG_STORE_KEY]: logs });
   }
 
   /**
@@ -78,58 +50,34 @@ export default class PermissionsLogController {
   }
 
   /**
-   * Create a permissions log middleware. Records permissions activity and history:
-   *
-   * Activity: requests and responses for restricted and most wallet_ methods.
-   *
-   * History: for each origin, the last time a permission was granted, including
-   * which accounts were exposed, if any.
+   * Create a permissions log middleware. Records permissions history: for each
+   * origin, the last time eth_accounts was granted, and which accounts were
+   * exposed.
    *
    * @returns {Function} The permissions log middleware.
    */
   createMiddleware() {
     return (req, res, next, _end) => {
-      let activityEntry, requestedMethods;
       const { origin, method } = req;
-      const isInternal = method.startsWith(WALLET_PREFIX);
-
-      // we only log certain methods
+      const isEthRequestAccounts = method === 'eth_requestAccounts';
       if (
-        !LOG_IGNORE_METHODS.includes(method) &&
-        (isInternal || this.restrictedMethods.includes(method))
+        !isEthRequestAccounts &&
+        method !== `${WALLET_PREFIX}requestPermissions`
       ) {
-        activityEntry = this.logRequest(req, isInternal);
-
-        if (method === `${WALLET_PREFIX}requestPermissions`) {
-          // get the corresponding methods from the requested permissions so
-          // that we can record permissions history
-          requestedMethods = this.getRequestedMethods(req);
-        }
-      } else if (method === 'eth_requestAccounts') {
-        // eth_requestAccounts is a special case; we need to extract the accounts
-        // from it
-        activityEntry = this.logRequest(req, isInternal);
-        requestedMethods = ['eth_accounts'];
-      } else {
-        // no-op
         next();
         return;
       }
 
       // call next with a return handler for capturing the response
       next((cb) => {
-        const time = Date.now();
-        this.logResponse(activityEntry, res, time);
-
-        if (requestedMethods && !res.error && res.result) {
+        if (!res.error && res.result) {
           // any permissions or accounts changes will be recorded on the response,
           // so we only log permissions history here
           this.logPermissionsHistory(
-            requestedMethods,
             origin,
             res.result,
-            time,
-            method === 'eth_requestAccounts',
+            Date.now(),
+            isEthRequestAccounts,
           );
         }
         cb();
@@ -138,131 +86,37 @@ export default class PermissionsLogController {
   }
 
   /**
-   * Creates and commits an activity log entry, without response data.
+   * Create a new permissions history log entry, if eth_accounts was granted,
+   * and commit it. Only eth_accounts can be requested, and the response
+   * includes all of the origin's permissions.
    *
-   * @param {object} request - The request object.
-   * @param {boolean} isInternal - Whether the request is internal.
-   * @returns {object} The new activity log entry.
-   */
-  logRequest(request, isInternal) {
-    const activityEntry = {
-      id: request.id,
-      method: request.method,
-      methodType: isInternal
-        ? LOG_METHOD_TYPES.internal
-        : LOG_METHOD_TYPES.restricted,
-      origin: request.origin,
-      request: cloneDeep(request),
-      requestTime: Date.now(),
-      response: null,
-      responseTime: null,
-      success: null,
-    };
-    this.commitNewActivity(activityEntry);
-    return activityEntry;
-  }
-
-  /**
-   * Adds response data to an existing activity log entry.
-   * Entry assumed already committed (i.e., in the log).
-   *
-   * @param {object} entry - The entry to add a response to.
-   * @param {object} response - The response object.
-   * @param {number} time - Output from Date.now()
-   */
-  logResponse(entry, response, time) {
-    if (!entry || !response) {
-      return;
-    }
-
-    entry.response = cloneDeep(response);
-    entry.responseTime = time;
-    entry.success = !response.error;
-  }
-
-  /**
-   * Commit a new entry to the activity log.
-   * Removes the oldest entry from the log if it exceeds the log limit.
-   *
-   * @param {object} entry - The activity log entry.
-   */
-  commitNewActivity(entry) {
-    const logs = this.getActivityLog();
-
-    // add new entry to end of log
-    logs.push(entry);
-
-    // remove oldest log if exceeding size limit
-    if (logs.length > LOG_LIMIT) {
-      logs.shift();
-    }
-
-    this.updateActivityLog(logs);
-  }
-
-  /**
-   * Create new permissions history log entries, if any, and commit them.
-   *
-   * @param {Array<string>} requestedMethods - The method names corresponding to the requested permissions.
    * @param {string} origin - The origin of the permissions request.
-   * @param {Array<object>} result - The permissions request response.result.
-   * @param {string} time - The time of the request, i.e. Date.now().
+   * @param {Array<object>|Array<string>} result - The permissions request
+   * response.result: the granted permissions, or the accounts for
+   * eth_requestAccounts.
+   * @param {number} time - The time of the response, i.e. Date.now().
    * @param {boolean} isEthRequestAccounts - Whether the permissions request was 'eth_requestAccounts'.
    */
-  logPermissionsHistory(
-    requestedMethods,
-    origin,
-    result,
-    time,
-    isEthRequestAccounts,
-  ) {
-    let accounts, newEntries;
-
+  logPermissionsHistory(origin, result, time, isEthRequestAccounts) {
+    let accounts;
     if (isEthRequestAccounts) {
       accounts = result;
-      const accountToTimeMap = getAccountToTimeMap(accounts, time);
-
-      newEntries = {
-        eth_accounts: {
-          accounts: accountToTimeMap,
-          lastApproved: time,
-        },
-      };
     } else {
-      // Records new "lastApproved" times for the granted permissions, if any.
-      // Special handling for eth_accounts, in order to record the time the
-      // accounts were last seen or approved by the origin.
-      newEntries = result
-        .map((perm) => {
-          if (perm.parentCapability === 'eth_accounts') {
-            accounts = this.getAccountsFromPermission(perm);
-          }
-
-          return perm.parentCapability;
-        })
-        .reduce((acc, method) => {
-          // all approved permissions will be included in the response,
-          // not just the newly requested ones
-          if (requestedMethods.includes(method)) {
-            if (method === 'eth_accounts') {
-              const accountToTimeMap = getAccountToTimeMap(accounts, time);
-
-              acc[method] = {
-                lastApproved: time,
-                accounts: accountToTimeMap,
-              };
-            } else {
-              acc[method] = { lastApproved: time };
-            }
-          }
-
-          return acc;
-        }, {});
+      const permission = result.find(
+        (perm) => perm.parentCapability === 'eth_accounts',
+      );
+      if (!permission) {
+        return;
+      }
+      accounts = this.getAccountsFromPermission(permission);
     }
 
-    if (Object.keys(newEntries).length > 0) {
-      this.commitNewHistory(origin, newEntries);
-    }
+    this.commitNewHistory(origin, {
+      eth_accounts: {
+        accounts: getAccountToTimeMap(accounts, time),
+        lastApproved: time,
+      },
+    });
   }
 
   /**
@@ -307,24 +161,6 @@ export default class PermissionsLogController {
     history[origin] = newOriginHistory;
 
     this.updateHistory(history);
-  }
-
-  /**
-   * Get all requested methods from a permissions request.
-   *
-   * @param {object} request - The request object.
-   * @returns {Array<string>} The names of the requested permissions.
-   */
-  getRequestedMethods(request) {
-    if (
-      !request.params ||
-      !request.params[0] ||
-      typeof request.params[0] !== 'object' ||
-      Array.isArray(request.params[0])
-    ) {
-      return null;
-    }
-    return Object.keys(request.params[0]);
   }
 
   /**

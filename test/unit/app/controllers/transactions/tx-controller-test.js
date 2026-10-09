@@ -4,7 +4,10 @@ import EventEmitter from 'events';
 import sinon from 'sinon';
 
 import TransactionController from '../../../../../app/scripts/controllers/transactions';
-import { TRANSACTION_TYPE_RETRY } from '../../../../../app/scripts/controllers/transactions/enums';
+import {
+  TRANSACTION_TYPE_CANCEL,
+  TRANSACTION_TYPE_RETRY,
+} from '../../../../../app/scripts/controllers/transactions/enums';
 import { decodeTransaction } from '../../../../../app/scripts/lib/transaction-codec';
 import {
   TOKEN_METHOD_APPROVE,
@@ -114,36 +117,6 @@ describe('Transaction Controller', function () {
       ]);
       const unapprovedTxCount = txController.getUnapprovedTxCount();
       assert.equal(unapprovedTxCount, 3, 'should be 3');
-    });
-  });
-
-  describe('#getPendingTxCount', function () {
-    it('should return the number of pending txs', function () {
-      txController.txStateManager._saveTxList([
-        {
-          id: 1,
-          status: 'submitted',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: {},
-          history: [{}],
-        },
-        {
-          id: 2,
-          status: 'submitted',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: {},
-          history: [{}],
-        },
-        {
-          id: 3,
-          status: 'submitted',
-          ecfWalletNetworkId: currentNetworkId,
-          txParams: {},
-          history: [{}],
-        },
-      ]);
-      const pendingTxCount = txController.getPendingTxCount();
-      assert.equal(pendingTxCount, 3, 'should be 3');
     });
   });
 
@@ -521,12 +494,11 @@ describe('Transaction Controller', function () {
       pubStub.restore();
     });
 
-    it("prefers the user's custom nonce to a supplied one", async function () {
+    it('preserves a supplied nonce', async function () {
       txController.addTx({
         id: '2',
         status: 'unapproved',
         ecfWalletNetworkId: currentNetworkId,
-        customNonceValue: '7',
         txParams: { nonce: '0x01', gas: '0x01', gasPrice: '0x01' },
       });
       const lockStub = sinon
@@ -550,7 +522,7 @@ describe('Transaction Controller', function () {
 
       assert.equal(
         txController.txStateManager.getTx('2').txParams.nonce,
-        '0x7',
+        '0x01',
       );
       lockStub.restore();
       signStub.restore();
@@ -807,6 +779,46 @@ describe('Transaction Controller', function () {
     });
   });
 
+  describe('#createCancelTransaction', function () {
+    it('should create a cancel transaction that replaces the original nonce', async function () {
+      const txParams = {
+        nonce: '0x00',
+        from: fromAccount.address,
+        to: '0xB09d8505E1F4EF1CeA089D47094f5DD3464083d4',
+        gas: '0x5209',
+        gasPrice: '0xa',
+      };
+      txController.txStateManager._saveTxList([
+        {
+          id: 1,
+          status: 'submitted',
+          ecfWalletNetworkId: currentNetworkId,
+          txParams,
+          history: [{}],
+        },
+      ]);
+      const approveTransactionStub = sinon
+        .stub(txController, 'approveTransaction')
+        .resolves();
+
+      const result = await txController.createCancelTransaction(1);
+      approveTransactionStub.restore();
+
+      assert.ok(approveTransactionStub.calledOnceWithExactly(result.id));
+      assert.deepEqual(result.txParams, {
+        from: txParams.from,
+        to: txParams.from,
+        nonce: '0x00',
+        gas: '0x5208',
+        value: '0x0',
+        gasPrice: '0xb',
+      });
+      assert.equal(result.lastGasPrice, '0xa');
+      assert.equal(result.type, TRANSACTION_TYPE_CANCEL);
+      assert.equal(result.status, 'approved');
+    });
+  });
+
   describe('#publishTransaction', function () {
     let hash, txMeta;
 
@@ -856,6 +868,7 @@ describe('Transaction Controller', function () {
           id: 1,
           status: 'confirmed',
           ecfWalletNetworkId: currentNetworkId,
+          hash: '0xabc',
           history: [{}],
           txParams: { nonce: '0x01' },
         },
@@ -914,6 +927,23 @@ describe('Transaction Controller', function () {
         'the confirmedTx should remain confirmed',
       );
       assert.equal(droppedTxs.length, 6, 'their should be 6 dropped txs');
+      droppedTxs.forEach((droppedTx) => {
+        assert.equal(droppedTx.replacedBy, '0xabc');
+        const [entry] = droppedTx.history.filter((ops) =>
+          ops[0]?.note?.includes('reference to confirmed txHash'),
+        );
+        assert.ok(
+          entry.some(
+            ({ path, value }) => path === '/replacedBy' && value === '0xabc',
+          ),
+          'the replacedBy hash should be recorded on the dropped tx',
+        );
+      });
+      assert.equal(
+        confirmedTx.history.length,
+        1,
+        'the confirmedTx should not be updated',
+      );
     });
   });
 

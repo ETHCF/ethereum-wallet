@@ -42,10 +42,7 @@ import {
 } from '../../helpers/constants/routes';
 import Authenticated from '../../helpers/higher-order-components/authenticated';
 import Initialized from '../../helpers/higher-order-components/initialized';
-import {
-  getConnectingLabel,
-  getNetworkDisplayName,
-} from '../../helpers/utils/network-display';
+import { getConnectingLabel } from '../../helpers/utils/network-display';
 import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme';
 import AddTokenPage from '../add-token';
 import Asset from '../asset';
@@ -83,8 +80,6 @@ export default class Routes extends Component {
     setLastActiveTime: PropTypes.func,
     location: PropTypes.object,
     navigationType: PropTypes.string,
-    lockEcfWallet: PropTypes.func,
-    submittedPendingTransactions: PropTypes.array,
     isMouseUser: PropTypes.bool,
     setMouseUserState: PropTypes.func,
     providerId: PropTypes.string,
@@ -313,7 +308,6 @@ export default class Routes extends Component {
       frequentRpcListDetail,
       setMouseUserState,
       sidebar,
-      submittedPendingTransactions,
       isMouseUser,
     } = this.props;
     const isLoadingNetwork = network === 'loading';
@@ -326,16 +320,7 @@ export default class Routes extends Component {
       isOpen: sidebarIsOpen,
       transitionName: sidebarTransitionName,
       type: sidebarType,
-      props,
     } = sidebar;
-    const { transaction: sidebarTransaction } = props || {};
-
-    const sidebarShouldClose =
-      sidebarTransaction &&
-      !sidebarTransaction.status === 'failed' &&
-      !submittedPendingTransactions.find(
-        ({ id }) => id === sidebarTransaction.id,
-      );
 
     return (
       <div
@@ -358,7 +343,6 @@ export default class Routes extends Component {
         )}
         <Sidebar
           sidebarOpen={sidebarIsOpen}
-          sidebarShouldClose={sidebarShouldClose}
           hideSidebar={this.props.hideSidebar}
           transitionName={sidebarTransitionName}
           type={sidebarType}
@@ -379,29 +363,11 @@ export default class Routes extends Component {
     );
   }
 
-  toggleEcfWalletActive() {
-    if (this.props.isUnlocked) {
-      // currently active: deactivate
-      this.props.lockEcfWallet();
-    } else {
-      // currently inactive: redirect to password box
-      const passwordBox = document.querySelector('input[type=password]');
-      if (!passwordBox) {
-        return;
-      }
-      passwordBox.focus();
-    }
-  }
-
   getConnectingLabel(loadingMessage) {
     if (loadingMessage) {
       return loadingMessage;
     }
     const { provider, providerId } = this.props;
     return getConnectingLabel(provider, providerId, this.context.t);
-  }
-
-  getNetworkName() {
-    return getNetworkDisplayName(this.props.provider, this.context.t);
   }
 }

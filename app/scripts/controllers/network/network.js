@@ -83,23 +83,12 @@ export default class NetworkController extends EventEmitter {
     return { provider, blockTracker };
   }
 
-  verifyNetwork() {
-    // Check network when restoring connectivity:
-    if (this.isNetworkLoading()) {
-      this.lookupNetwork();
-    }
-  }
-
   getNetworkState() {
     return this.networkStore.getState();
   }
 
   getChainId() {
     return this._chainId;
-  }
-
-  getNetworkConfig() {
-    return this.networkConfig.getState();
   }
 
   setNetworkState(network, type) {
@@ -208,10 +197,6 @@ export default class NetworkController extends EventEmitter {
       nickname,
     };
     this.providerConfig = providerConfig;
-  }
-
-  resetConnection() {
-    this.providerConfig = this.getProviderConfig();
   }
 
   set providerConfig(providerConfig) {

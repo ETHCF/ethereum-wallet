@@ -26,6 +26,38 @@ import ConnectedSites from '../connected-sites';
 
 const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme';
 
+/**
+ * Gets the route of the first pending request the home page should send the
+ * user to, if any.
+ *
+ * @param {object} requests - The pending requests.
+ * @param {string} [requests.firstPermissionsRequestId] - The id of the first
+ * pending permissions request.
+ * @param {number} [requests.unconfirmedTransactionsCount] - The number of
+ * unconfirmed transactions and messages.
+ * @param {object} [requests.suggestedTokens] - The pending suggested tokens.
+ * @param {boolean} [requests.hasNetworkRequests] - Whether there are pending
+ * network requests.
+ * @returns {string|null} The route to redirect to, or null if none.
+ */
+function getRedirectRoute({
+  firstPermissionsRequestId,
+  unconfirmedTransactionsCount,
+  suggestedTokens = {},
+  hasNetworkRequests,
+}) {
+  if (firstPermissionsRequestId) {
+    return `${CONNECT_ROUTE}/${firstPermissionsRequestId}`;
+  } else if (unconfirmedTransactionsCount > 0) {
+    return CONFIRM_TRANSACTION_ROUTE;
+  } else if (Object.keys(suggestedTokens).length > 0) {
+    return CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE;
+  } else if (hasNetworkRequests) {
+    return CONFIRM_NETWORK_REQUEST_ROUTE;
+  }
+  return null;
+}
+
 export default class Home extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
@@ -57,45 +89,30 @@ export default class Home extends PureComponent {
       hasNetworkRequests,
       navigate,
       isNotification,
-      suggestedTokens = {},
+      suggestedTokens,
       totalUnapprovedCount,
       unconfirmedTransactionsCount,
     } = this.props;
 
     this.setState({ mounted: true });
+    const redirectRoute = getRedirectRoute({
+      firstPermissionsRequestId,
+      hasNetworkRequests,
+      suggestedTokens,
+      unconfirmedTransactionsCount,
+    });
     if (isNotification && totalUnapprovedCount === 0) {
       global.platform.closeCurrentWindow();
-    } else if (firstPermissionsRequestId) {
-      navigate(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`);
-    } else if (unconfirmedTransactionsCount > 0) {
-      navigate(CONFIRM_TRANSACTION_ROUTE);
-    } else if (Object.keys(suggestedTokens).length > 0) {
-      navigate(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE);
-    } else if (hasNetworkRequests) {
-      navigate(CONFIRM_NETWORK_REQUEST_ROUTE);
+    } else if (redirectRoute) {
+      navigate(redirectRoute);
     }
   }
 
-  static getDerivedStateFromProps(
-    {
-      firstPermissionsRequestId,
-      hasNetworkRequests,
-      isNotification,
-      suggestedTokens,
-      totalUnapprovedCount,
-      unconfirmedTransactionsCount,
-    },
-    { mounted },
-  ) {
-    if (!mounted) {
-      if (isNotification && totalUnapprovedCount === 0) {
+  static getDerivedStateFromProps(props, state) {
+    if (!state.mounted) {
+      if (props.isNotification && props.totalUnapprovedCount === 0) {
         return { closing: true };
-      } else if (
-        firstPermissionsRequestId ||
-        unconfirmedTransactionsCount > 0 ||
-        Object.keys(suggestedTokens).length > 0 ||
-        hasNetworkRequests
-      ) {
+      } else if (getRedirectRoute(props)) {
         return { redirecting: true };
       }
     }

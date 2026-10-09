@@ -204,7 +204,6 @@ export function getGasIsLoading(state) {
 
 export function getTotalUnapprovedCount(state) {
   const {
-    unapprovedMsgCount = 0,
     unapprovedPersonalMsgCount = 0,
     unapprovedDecryptMsgCount = 0,
     unapprovedEncryptionPublicKeyMsgCount = 0,
@@ -212,7 +211,6 @@ export function getTotalUnapprovedCount(state) {
   } = state.ecfWallet;
 
   return (
-    unapprovedMsgCount +
     unapprovedPersonalMsgCount +
     unapprovedDecryptMsgCount +
     unapprovedEncryptionPublicKeyMsgCount +
@@ -273,14 +271,6 @@ export function getPreferences({ ecfWallet }) {
   return ecfWallet.preferences;
 }
 
-export function getUseNonceField(state) {
-  return Boolean(state.ecfWallet.useNonceField);
-}
-
-export function getCustomNonceValue(state) {
-  return String(state.ecfWallet.customNonceValue);
-}
-
 export function getDomainMetadata(state) {
   return state.ecfWallet.domainMetadata;
 }
@@ -311,8 +301,4 @@ export function getKnownMethodData(state, data) {
 
 export function getOriginOfCurrentTab(state) {
   return state.activeTab.origin;
-}
-
-export function getIpfsGateway(state) {
-  return state.ecfWallet.ipfsGateway;
 }

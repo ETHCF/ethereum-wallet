@@ -1,10 +1,41 @@
-import * as actionConstants from '../../store/actionConstants';
+import {
+  ALERT_CLOSE,
+  ALERT_OPEN,
+  CLEAR_ACCOUNT_DETAILS,
+  COMPLETED_TX,
+  DISPLAY_WARNING,
+  FORGOT_PASSWORD,
+  GAS_LOADING_FINISHED,
+  GAS_LOADING_STARTED,
+  GO_HOME,
+  HIDE_LOADING,
+  HIDE_WARNING,
+  LOCK_ECF_WALLET,
+  MODAL_CLOSE,
+  MODAL_OPEN,
+  NETWORK_DROPDOWN_CLOSE,
+  NETWORK_DROPDOWN_OPEN,
+  SET_HARDWARE_WALLET_DEFAULT_HD_PATH,
+  SET_MOUSE_USER_STATE,
+  SET_NETWORKS_TAB_ADD_MODE,
+  SET_OPEN_ECF_WALLET_TAB_IDS,
+  SET_PREVIOUS_PROVIDER,
+  SET_SELECTED_SETTINGS_RPC_URL,
+  SHOW_ACCOUNTS_PAGE,
+  SHOW_ACCOUNT_DETAIL,
+  SHOW_CONF_TX_PAGE,
+  SHOW_LOADING,
+  SHOW_PRIVATE_KEY,
+  SHOW_SEND_TOKEN_PAGE,
+  SIDEBAR_CLOSE,
+  SIDEBAR_OPEN,
+  UNLOCK_FAILED,
+  UNLOCK_SUCCEEDED,
+} from '../../store/actionConstants';
 
 export default function reduceApp(state = {}, action) {
   // default state
   const appState = {
-    shouldClose: false,
-    menuOpen: false,
     modal: {
       open: false,
       modalState: {
@@ -41,29 +72,26 @@ export default function reduceApp(state = {}, action) {
     lastSelectedProvider: null,
     networksTabSelectedRpcUrl: '',
     networksTabIsInAddMode: false,
-    loadingMethodData: false,
-    requestAccountTabs: {},
     openEcfWalletTabs: {},
-    currentWindowTab: {},
     ...state,
   };
 
   switch (action.type) {
     // dropdown methods
-    case actionConstants.NETWORK_DROPDOWN_OPEN:
+    case NETWORK_DROPDOWN_OPEN:
       return {
         ...appState,
         networkDropdownOpen: true,
       };
 
-    case actionConstants.NETWORK_DROPDOWN_CLOSE:
+    case NETWORK_DROPDOWN_CLOSE:
       return {
         ...appState,
         networkDropdownOpen: false,
       };
 
     // sidebar methods
-    case actionConstants.SIDEBAR_OPEN:
+    case SIDEBAR_OPEN:
       return {
         ...appState,
         sidebar: {
@@ -72,7 +100,7 @@ export default function reduceApp(state = {}, action) {
         },
       };
 
-    case actionConstants.SIDEBAR_CLOSE:
+    case SIDEBAR_CLOSE:
       return {
         ...appState,
         sidebar: {
@@ -82,14 +110,14 @@ export default function reduceApp(state = {}, action) {
       };
 
     // alert methods
-    case actionConstants.ALERT_OPEN:
+    case ALERT_OPEN:
       return {
         ...appState,
         alertOpen: true,
         alertMessage: action.value,
       };
 
-    case actionConstants.ALERT_CLOSE:
+    case ALERT_CLOSE:
       return {
         ...appState,
         alertOpen: false,
@@ -97,7 +125,7 @@ export default function reduceApp(state = {}, action) {
       };
 
     // modal methods:
-    case actionConstants.MODAL_OPEN: {
+    case MODAL_OPEN: {
       const { name, ...modalProps } = action.payload;
 
       return {
@@ -113,7 +141,7 @@ export default function reduceApp(state = {}, action) {
       };
     }
 
-    case actionConstants.MODAL_CLOSE:
+    case MODAL_CLOSE:
       return {
         ...appState,
         modal: Object.assign(
@@ -124,25 +152,25 @@ export default function reduceApp(state = {}, action) {
         ),
       };
 
-    case actionConstants.CLEAR_ACCOUNT_DETAILS:
+    case CLEAR_ACCOUNT_DETAILS:
       return {
         ...appState,
         accountDetail: {},
       };
 
-    case actionConstants.FORGOT_PASSWORD:
+    case FORGOT_PASSWORD:
       return {
         ...appState,
         forgottenPassword: action.value,
       };
 
-    case actionConstants.SHOW_SEND_TOKEN_PAGE:
+    case SHOW_SEND_TOKEN_PAGE:
       return {
         ...appState,
         warning: null,
       };
 
-    case actionConstants.LOCK_ECF_WALLET:
+    case LOCK_ECF_WALLET:
       return {
         ...appState,
         warning: null,
@@ -150,7 +178,7 @@ export default function reduceApp(state = {}, action) {
 
     // accounts
 
-    case actionConstants.GO_HOME:
+    case GO_HOME:
       return {
         ...appState,
         accountDetail: {
@@ -161,7 +189,7 @@ export default function reduceApp(state = {}, action) {
         warning: null,
       };
 
-    case actionConstants.SHOW_ACCOUNT_DETAIL:
+    case SHOW_ACCOUNT_DETAIL:
       return {
         ...appState,
         forgottenPassword: appState.forgottenPassword
@@ -174,16 +202,15 @@ export default function reduceApp(state = {}, action) {
         },
       };
 
-    case actionConstants.SHOW_ACCOUNTS_PAGE:
+    case SHOW_ACCOUNTS_PAGE:
       return {
         ...appState,
         isLoading: false,
         warning: null,
-        scrollToBottom: false,
         forgottenPassword: false,
       };
 
-    case actionConstants.SHOW_CONF_TX_PAGE:
+    case SHOW_CONF_TX_PAGE:
       return {
         ...appState,
         txId: action.id,
@@ -191,7 +218,7 @@ export default function reduceApp(state = {}, action) {
         isLoading: false,
       };
 
-    case actionConstants.COMPLETED_TX:
+    case COMPLETED_TX:
       if (action.value.unconfirmedActionsCount > 0) {
         return {
           ...appState,
@@ -201,8 +228,6 @@ export default function reduceApp(state = {}, action) {
       }
       return {
         ...appState,
-        // indicate notification should close
-        shouldClose: true,
         warning: null,
         txId: null,
         accountDetail: {
@@ -210,24 +235,19 @@ export default function reduceApp(state = {}, action) {
         },
       };
 
-    case actionConstants.TRANSACTION_ERROR:
-      return {
-        ...appState,
-      };
-
-    case actionConstants.UNLOCK_FAILED:
+    case UNLOCK_FAILED:
       return {
         ...appState,
         warning: action.value || 'Incorrect password. Try again.',
       };
 
-    case actionConstants.UNLOCK_SUCCEEDED:
+    case UNLOCK_SUCCEEDED:
       return {
         ...appState,
         warning: '',
       };
 
-    case actionConstants.SET_HARDWARE_WALLET_DEFAULT_HD_PATH: {
+    case SET_HARDWARE_WALLET_DEFAULT_HD_PATH: {
       const { device, path } = action.value;
       const newDefaults = { ...appState.defaultHdPaths };
       newDefaults[device] = path;
@@ -238,33 +258,33 @@ export default function reduceApp(state = {}, action) {
       };
     }
 
-    case actionConstants.SHOW_LOADING:
+    case SHOW_LOADING:
       return {
         ...appState,
         isLoading: true,
         loadingMessage: action.value,
       };
 
-    case actionConstants.HIDE_LOADING:
+    case HIDE_LOADING:
       return {
         ...appState,
         isLoading: false,
       };
 
-    case actionConstants.DISPLAY_WARNING:
+    case DISPLAY_WARNING:
       return {
         ...appState,
         warning: action.value,
         isLoading: false,
       };
 
-    case actionConstants.HIDE_WARNING:
+    case HIDE_WARNING:
       return {
         ...appState,
         warning: undefined,
       };
 
-    case actionConstants.SHOW_PRIVATE_KEY:
+    case SHOW_PRIVATE_KEY:
       return {
         ...appState,
         accountDetail: {
@@ -274,25 +294,25 @@ export default function reduceApp(state = {}, action) {
         },
       };
 
-    case actionConstants.SET_MOUSE_USER_STATE:
+    case SET_MOUSE_USER_STATE:
       return {
         ...appState,
         isMouseUser: action.value,
       };
 
-    case actionConstants.GAS_LOADING_STARTED:
+    case GAS_LOADING_STARTED:
       return {
         ...appState,
         gasIsLoading: true,
       };
 
-    case actionConstants.GAS_LOADING_FINISHED:
+    case GAS_LOADING_FINISHED:
       return {
         ...appState,
         gasIsLoading: false,
       };
 
-    case actionConstants.SET_PREVIOUS_PROVIDER:
+    case SET_PREVIOUS_PROVIDER:
       if (action.value === 'loading') {
         return appState;
       }
@@ -301,46 +321,22 @@ export default function reduceApp(state = {}, action) {
         lastSelectedProvider: action.value,
       };
 
-    case actionConstants.SET_SELECTED_SETTINGS_RPC_URL:
+    case SET_SELECTED_SETTINGS_RPC_URL:
       return {
         ...appState,
         networksTabSelectedRpcUrl: action.value,
       };
 
-    case actionConstants.SET_NETWORKS_TAB_ADD_MODE:
+    case SET_NETWORKS_TAB_ADD_MODE:
       return {
         ...appState,
         networksTabIsInAddMode: action.value,
       };
 
-    case actionConstants.LOADING_METHOD_DATA_STARTED:
-      return {
-        ...appState,
-        loadingMethodData: true,
-      };
-
-    case actionConstants.LOADING_METHOD_DATA_FINISHED:
-      return {
-        ...appState,
-        loadingMethodData: false,
-      };
-
-    case actionConstants.SET_REQUEST_ACCOUNT_TABS:
-      return {
-        ...appState,
-        requestAccountTabs: action.value,
-      };
-
-    case actionConstants.SET_OPEN_ECF_WALLET_TAB_IDS:
+    case SET_OPEN_ECF_WALLET_TAB_IDS:
       return {
         ...appState,
         openEcfWalletTabs: action.value,
-      };
-
-    case actionConstants.SET_CURRENT_WINDOW_TAB:
-      return {
-        ...appState,
-        currentWindowTab: action.value,
       };
 
     default:

@@ -251,9 +251,6 @@
   "delete": {
     "message": "מחיקה"
   },
-  "deposit": {
-    "message": "הפקדה"
-  },
   "details": {
     "message": "פרטים"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "אזהרה: לעולם אין למסור מפתח זה. מי שיקבל את המפתחות הפרטיים שלך יוכל לגנוב את כל הנכסים השמורים בחשבון שלך."
   },
-  "privateNetwork": {
-    "message": "רשת פרטית"
-  },
   "queue": {
     "message": "תור"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "אפס"
-  },
-  "resetAccount": {
-    "message": "אפס חשבון"
-  },
-  "resetAccountDescription": {
-    "message": "איפוס חשבונך ינקה את היסטוריית העסקאות שלך."
   },
   "deleteNetwork": {
     "message": "למחוק את הרשת?"

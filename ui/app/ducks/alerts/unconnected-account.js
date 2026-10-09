@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { ALERT_TYPES } from '../../../../app/scripts/controllers/alert';
 import { getOriginOfCurrentTab, getSelectedAddress } from '../../selectors';
-import * as actionConstants from '../../store/actionConstants';
+import { SELECTED_ADDRESS_CHANGED } from '../../store/actionConstants';
 import {
   addPermittedAccount,
   setAlertEnabledness,
@@ -65,7 +65,7 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(actionConstants.SELECTED_ADDRESS_CHANGED, (state) => {
+    builder.addCase(SELECTED_ADDRESS_CHANGED, (state) => {
       // close the alert if the account is switched while it's open
       if (state.state === ALERT_STATE.OPEN) {
         state.state = ALERT_STATE.CLOSED;

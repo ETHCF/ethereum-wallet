@@ -239,9 +239,6 @@
   "delete": {
     "message": "Supprimer"
   },
-  "deposit": {
-    "message": "Déposer"
-  },
   "details": {
     "message": "Détails"
   },
@@ -617,9 +614,6 @@
   "privateKeyWarning": {
     "message": "Avertissement: Ne divulguez jamais cette clé, quiconque avec vos clés privées peut voler tous les actifs de votre compte."
   },
-  "privateNetwork": {
-    "message": "Réseau privé"
-  },
   "queue": {
     "message": "File d'attente"
   },
@@ -649,12 +643,6 @@
   },
   "reset": {
     "message": "Reinitialiser"
-  },
-  "resetAccount": {
-    "message": "Reinitialiser le compte"
-  },
-  "resetAccountDescription": {
-    "message": "Reinitialiser votre compte va effacer votre historique de transactions."
   },
   "deleteNetwork": {
     "message": "Supprimer le réseau ?"

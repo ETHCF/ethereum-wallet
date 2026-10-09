@@ -24,7 +24,6 @@ describe('Notification popup placement', function () {
         .stub()
         .resolves({ left: 100, top: 50, width: 1200 }),
       openWindow: sinon.stub().resolves({ id: 7, left: 940, top: 50 }),
-      updateWindowPosition: sinon.stub().resolves(),
       focusWindow: sinon.stub().resolves(),
     };
     manager.platform = platform;
@@ -50,15 +49,12 @@ describe('Notification popup placement', function () {
     await manager.showPopup();
     assert.equal(platform.openWindow.callCount, 2);
     assert.deepEqual(platform.openWindow.secondCall.args[0], options);
-    assert.equal(platform.updateWindowPosition.callCount, 0);
     assert.equal(manager._popupId, 7);
   });
 
   it('honors a position corrected by the browser', async function () {
     platform.openWindow.resolves({ id: 7, left: 400, top: 10 });
-    platform.updateWindowPosition.rejects(boundsError);
     await manager.showPopup();
-    assert.equal(platform.updateWindowPosition.callCount, 0);
     assert.equal(manager._popupId, 7);
   });
 
@@ -73,7 +69,6 @@ describe('Notification popup placement', function () {
       platform.getLastFocusedWindow.resolves(lastFocused);
       await manager.showPopup();
       assert.deepEqual(platform.openWindow.firstCall.args[0], options);
-      assert.equal(platform.updateWindowPosition.callCount, 0);
     });
   });
 

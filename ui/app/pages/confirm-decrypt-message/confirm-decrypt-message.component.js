@@ -1,315 +1,116 @@
 import classnames from 'classnames';
 import copyToClipboard from 'copy-to-clipboard';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums';
-import { getEnvironmentType } from '../../../../app/scripts/lib/util';
-import AccountListItem from '../../components/app/account-list-item';
-import Button from '../../components/ui/button';
+import ConfirmRequestLayout, {
+  RequestOrigin,
+} from '../../components/app/confirm-request-layout';
 import Copy from '../../components/ui/icon/copy-icon.component';
-import Identicon from '../../components/ui/identicon';
 import Tooltip from '../../components/ui/tooltip';
-import { conversionUtil } from '../../helpers/utils/conversion-util';
+import { useI18nContext } from '../../hooks/useI18nContext';
 
-export default class ConfirmDecryptMessage extends Component {
-  static contextTypes = {
-    t: PropTypes.func.isRequired,
+export default function ConfirmDecryptMessage({
+  cancelDecryptMessage,
+  decryptMessage,
+  decryptMessageInline,
+  txData,
+  domainMetadata,
+}) {
+  const t = useI18nContext();
+  const [copyToClipboardPressed, setCopyToClipboardPressed] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
+  const [hasDecrypted, setHasDecrypted] = useState(false);
+  const [rawMessage, setRawMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+  const hasError = errorMessage !== undefined;
+
+  const origin = domainMetadata[txData.msgParams.origin];
+
+  const copyMessage = () => {
+    copyToClipboard(rawMessage);
+    setHasCopied(true);
+    setTimeout(() => setHasCopied(false), 3000);
   };
 
-  static propTypes = {
-    fromAccount: PropTypes.shape({
-      address: PropTypes.string.isRequired,
-      balance: PropTypes.string,
-      name: PropTypes.string,
-    }).isRequired,
-    clearConfirmTransaction: PropTypes.func.isRequired,
-    cancelDecryptMessage: PropTypes.func.isRequired,
-    decryptMessage: PropTypes.func.isRequired,
-    decryptMessageInline: PropTypes.func.isRequired,
-    nativeCurrency: PropTypes.string,
-    navigate: PropTypes.func.isRequired,
-    mostRecentOverviewPage: PropTypes.string.isRequired,
-    requesterAddress: PropTypes.string,
-    txData: PropTypes.object,
-    domainMetadata: PropTypes.object,
-  };
-
-  state = {
-    fromAccount: this.props.fromAccount,
-    copyToClipboardPressed: false,
-    hasCopied: false,
-  };
-
-  componentDidMount = () => {
-    if (
-      getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_NOTIFICATION
-    ) {
-      window.addEventListener('beforeunload', this._beforeUnload);
+  const decryptInline = async (event) => {
+    const result = await decryptMessageInline(txData, event);
+    if (result.error) {
+      setErrorMessage(t('decryptInlineError', [result.error]));
+    } else {
+      setHasDecrypted(true);
+      setRawMessage(result.rawData);
     }
   };
 
-  componentWillUnmount = () => {
-    this._removeBeforeUnload();
-  };
+  const revealed = hasDecrypted || hasError;
 
-  _beforeUnload = async (event) => {
-    const { clearConfirmTransaction, cancelDecryptMessage, txData } =
-      this.props;
-    await cancelDecryptMessage(txData, event);
-    clearConfirmTransaction();
-  };
-
-  _removeBeforeUnload = () => {
-    if (
-      getEnvironmentType(window.location.href) === ENVIRONMENT_TYPE_NOTIFICATION
-    ) {
-      window.removeEventListener('beforeunload', this._beforeUnload);
-    }
-  };
-
-  copyMessage = () => {
-    copyToClipboard(this.state.rawMessage);
-    this.setState({ hasCopied: true });
-    setTimeout(() => this.setState({ hasCopied: false }), 3000);
-  };
-
-  renderHeader = () => {
-    return (
-      <div className="request-decrypt-message__header">
-        <div className="request-decrypt-message__header-background" />
-
-        <div className="request-decrypt-message__header__text">
-          {this.context.t('decryptRequest')}
+  return (
+    <ConfirmRequestLayout
+      title={t('decryptRequest')}
+      fromAddress={txData.msgParams.from}
+      onCancel={(event) => cancelDecryptMessage(txData, event)}
+      onConfirm={(event) => decryptMessage(txData, event)}
+      confirmText={t('decrypt')}
+    >
+      <RequestOrigin origin={origin}>
+        <div className="request-decrypt-message__notice">
+          {t('decryptMessageNotice', [origin.name])}
         </div>
-
-        <div className="request-decrypt-message__header__tip-container">
-          <div className="request-decrypt-message__header__tip" />
+      </RequestOrigin>
+      <div className="request-decrypt-message__message">
+        <div className="request-decrypt-message__message-text">
+          {revealed ? rawMessage : txData.msgParams.data}
+          {errorMessage}
         </div>
-      </div>
-    );
-  };
-
-  renderAccount = () => {
-    const { fromAccount } = this.state;
-    const { t } = this.context;
-
-    return (
-      <div className="request-decrypt-message__account">
-        <div className="request-decrypt-message__account-text">
-          {`${t('account')}:`}
-        </div>
-
-        <div className="request-decrypt-message__account-item">
-          <AccountListItem account={fromAccount} />
-        </div>
-      </div>
-    );
-  };
-
-  renderBalance = () => {
-    const { nativeCurrency } = this.props;
-    const {
-      fromAccount: { balance },
-    } = this.state;
-    const { t } = this.context;
-
-    const balanceInEther = conversionUtil(balance, {
-      fromNumericBase: 'hex',
-      toNumericBase: 'dec',
-      fromDenomination: 'WEI',
-      numberOfDecimals: 6,
-    });
-
-    return (
-      <div className="request-decrypt-message__balance">
-        <div className="request-decrypt-message__balance-text">
-          {`${t('balance')}:`}
-        </div>
-        <div className="request-decrypt-message__balance-value">
-          {`${balanceInEther} ${nativeCurrency}`}
-        </div>
-      </div>
-    );
-  };
-
-  renderRequestIcon = () => {
-    const { requesterAddress } = this.props;
-
-    return (
-      <div className="request-decrypt-message__request-icon">
-        <Identicon diameter={40} address={requesterAddress} />
-      </div>
-    );
-  };
-
-  renderAccountInfo = () => {
-    return (
-      <div className="request-decrypt-message__account-info">
-        {this.renderAccount()}
-        {this.renderRequestIcon()}
-        {this.renderBalance()}
-      </div>
-    );
-  };
-
-  renderBody = () => {
-    const { decryptMessageInline, domainMetadata, txData } = this.props;
-    const { t } = this.context;
-
-    const origin = domainMetadata[txData.msgParams.origin];
-    const notice = t('decryptMessageNotice', [origin.name]);
-
-    const {
-      hasCopied,
-      hasDecrypted,
-      hasError,
-      rawMessage,
-      errorMessage,
-      copyToClipboardPressed,
-    } = this.state;
-
-    return (
-      <div className="request-decrypt-message__body">
-        {this.renderAccountInfo()}
-        <div className="request-decrypt-message__visual">
-          <section>
-            {origin.icon ? (
-              <img
-                className="request-decrypt-message__visual-identicon"
-                src={origin.icon}
-              />
-            ) : (
-              <i className="request-decrypt-message__visual-identicon--default">
-                {origin.name.charAt(0).toUpperCase()}
-              </i>
-            )}
-            <div className="request-decrypt-message__notice">{notice}</div>
-          </section>
-        </div>
-        <div className="request-decrypt-message__message">
-          <div className="request-decrypt-message__message-text">
-            {!hasDecrypted && !hasError ? txData.msgParams.data : rawMessage}
-            {hasError ? errorMessage : ''}
+        <div
+          className={classnames('request-decrypt-message__message-cover', {
+            'request-decrypt-message__message-lock--pressed': revealed,
+          })}
+        />
+        <div
+          className={classnames('request-decrypt-message__message-lock', {
+            'request-decrypt-message__message-lock--pressed': revealed,
+          })}
+          onClick={decryptInline}
+        >
+          <img src="images/lock.svg" />
+          <div className="request-decrypt-message__message-lock-text">
+            {t('decryptEcfWallet')}
           </div>
-          <div
-            className={classnames({
-              'request-decrypt-message__message-cover': true,
-              'request-decrypt-message__message-lock--pressed':
-                hasDecrypted || hasError,
-            })}
-          ></div>
-          <div
-            className={classnames({
-              'request-decrypt-message__message-lock': true,
-              'request-decrypt-message__message-lock--pressed':
-                hasDecrypted || hasError,
-            })}
-            onClick={(event) => {
-              return decryptMessageInline(txData, event).then((result) => {
-                if (result.error) {
-                  this.setState({
-                    hasError: true,
-                    errorMessage: this.context.t('decryptInlineError', [
-                      result.error,
-                    ]),
-                  });
-                } else {
-                  this.setState({
-                    hasDecrypted: true,
-                    rawMessage: result.rawData,
-                  });
-                }
-                return undefined;
-              });
-            }}
+        </div>
+      </div>
+      {hasDecrypted && (
+        <div
+          className={classnames('request-decrypt-message__message-copy', {
+            'request-decrypt-message__message-copy--pressed':
+              copyToClipboardPressed,
+          })}
+          onClick={copyMessage}
+          onMouseDown={() => setCopyToClipboardPressed(true)}
+          onMouseUp={() => setCopyToClipboardPressed(false)}
+        >
+          <Tooltip
+            position="bottom"
+            title={hasCopied ? t('copiedExclamation') : t('copyToClipboard')}
+            wrapperClassName="request-decrypt-message__message-copy-tooltip"
+            style={{ display: 'flex', alignItems: 'center' }}
           >
-            <img src="images/lock.svg" />
-            <div className="request-decrypt-message__message-lock-text">
-              {t('decryptEcfWallet')}
+            <div className="request-decrypt-message__message-copy-text">
+              {t('decryptCopy')}
             </div>
-          </div>
+            <Copy size={17} color="currentColor" />
+          </Tooltip>
         </div>
-        {hasDecrypted ? (
-          <div
-            className={classnames({
-              'request-decrypt-message__message-copy': true,
-              'request-decrypt-message__message-copy--pressed':
-                copyToClipboardPressed,
-            })}
-            onClick={() => this.copyMessage()}
-            onMouseDown={() => this.setState({ copyToClipboardPressed: true })}
-            onMouseUp={() => this.setState({ copyToClipboardPressed: false })}
-          >
-            <Tooltip
-              position="bottom"
-              title={hasCopied ? t('copiedExclamation') : t('copyToClipboard')}
-              wrapperClassName="request-decrypt-message__message-copy-tooltip"
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
-              <div className="request-decrypt-message__message-copy-text">
-                {t('decryptCopy')}
-              </div>
-              <Copy size={17} color="currentColor" />
-            </Tooltip>
-          </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
-    );
-  };
-
-  renderFooter = () => {
-    const {
-      cancelDecryptMessage,
-      clearConfirmTransaction,
-      decryptMessage,
-      navigate,
-      mostRecentOverviewPage,
-      txData,
-    } = this.props;
-    const { t } = this.context;
-
-    return (
-      <div className="request-decrypt-message__footer">
-        <Button
-          type="default"
-          large
-          className="request-decrypt-message__footer__cancel-button"
-          onClick={async (event) => {
-            this._removeBeforeUnload();
-            await cancelDecryptMessage(txData, event);
-            clearConfirmTransaction();
-            navigate(mostRecentOverviewPage);
-          }}
-        >
-          {t('cancel')}
-        </Button>
-        <Button
-          type="secondary"
-          large
-          className="request-decrypt-message__footer__sign-button"
-          onClick={async (event) => {
-            this._removeBeforeUnload();
-            await decryptMessage(txData, event);
-            clearConfirmTransaction();
-            navigate(mostRecentOverviewPage);
-          }}
-        >
-          {t('decrypt')}
-        </Button>
-      </div>
-    );
-  };
-
-  render = () => {
-    return (
-      <div className="request-decrypt-message__container">
-        {this.renderHeader()}
-        {this.renderBody()}
-        {this.renderFooter()}
-      </div>
-    );
-  };
+      )}
+    </ConfirmRequestLayout>
+  );
 }
+
+ConfirmDecryptMessage.propTypes = {
+  cancelDecryptMessage: PropTypes.func.isRequired,
+  decryptMessage: PropTypes.func.isRequired,
+  decryptMessageInline: PropTypes.func.isRequired,
+  txData: PropTypes.object.isRequired,
+  domainMetadata: PropTypes.object.isRequired,
+};

@@ -243,9 +243,6 @@
     "message": "Visualizza account su $1",
     "description": "$1 replaced by URL for custom block explorer"
   },
-  "nonceFieldHeading": {
-    "message": "Numero Transazione Personalizzato"
-  },
   "browserNotSupported": {
     "message": "Il tuo Browser non è supportato..."
   },
@@ -384,9 +381,6 @@
   "delete": {
     "message": "Elimina"
   },
-  "deposit": {
-    "message": "Deposita"
-  },
   "details": {
     "message": "Dettagli"
   },
@@ -523,10 +517,6 @@
   },
   "from": {
     "message": "Da"
-  },
-  "fromAddress": {
-    "message": "Da: $1",
-    "description": "$1 is the address to include in the From label. It is typically shortened first using shortenAddress"
   },
   "functionApprove": {
     "message": "Funzione: Approve"
@@ -811,10 +801,6 @@
   "next": {
     "message": "Avanti"
   },
-  "nextNonceWarning": {
-    "message": "Numero di transazione deve essere maggiore di $1",
-    "description": "The next nonce according to ecf-wallet's internal logic"
-  },
   "noAddressForName": {
     "message": "Nessun indirizzo è stato impostato per questo nome."
   },
@@ -881,9 +867,6 @@
   "privateKeyWarning": {
     "message": "Attenzione: non dire a nessuno questa chiave! Chiunque con la tua chiave privata può rubare qualsiasi moneta contenuta nel tuo account."
   },
-  "privateNetwork": {
-    "message": "Rete Privata"
-  },
   "proposedApprovalLimit": {
     "message": "Limite di Approvazione Proposto"
   },
@@ -922,12 +905,6 @@
   },
   "reset": {
     "message": "Ripristina"
-  },
-  "resetAccount": {
-    "message": "Ripristina account"
-  },
-  "resetAccountDescription": {
-    "message": "Ripristinare il tuo account cancellerà lo storico delle transazioni."
   },
   "deleteNetwork": {
     "message": "Cancella la rete?"

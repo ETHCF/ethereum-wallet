@@ -58,8 +58,6 @@ const copyTargets = [
   },
 ];
 
-const copyTargetsDev = [...copyTargets];
-
 function createStaticAssetTasks({ livereload, browserPlatforms }) {
   const prod = createTask(
     'static:prod',
@@ -74,7 +72,7 @@ function createStaticAssetTasks({ livereload, browserPlatforms }) {
   const dev = createTask(
     'static:dev',
     composeSeries(
-      ...copyTargetsDev.map((target) => {
+      ...copyTargets.map((target) => {
         return async function copyStaticAssets() {
           await setupLiveCopy(target);
         };
@@ -96,19 +94,11 @@ function createStaticAssetTasks({ livereload, browserPlatforms }) {
   async function performCopy(target) {
     await Promise.all(
       browserPlatforms.map(async (platform) => {
-        if (target.pattern) {
-          await copyGlob(
-            target.src,
-            `${target.src}${target.pattern}`,
-            `./dist/${platform}/${target.dest}`,
-          );
-        } else {
-          await copyGlob(
-            target.src,
-            `${target.src}`,
-            `./dist/${platform}/${target.dest}`,
-          );
-        }
+        await copyGlob(
+          target.src,
+          `${target.src}${target.pattern || ''}`,
+          `./dist/${platform}/${target.dest}`,
+        );
       }),
     );
   }

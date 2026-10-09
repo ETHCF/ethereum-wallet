@@ -245,9 +245,6 @@
   "delete": {
     "message": "Radera"
   },
-  "deposit": {
-    "message": "Deposition"
-  },
   "details": {
     "message": "Info"
   },
@@ -638,9 +635,6 @@
   "privateKeyWarning": {
     "message": "Varning: Avslöja aldrig denna nyckel. Med dina privata nycklar kan vem som helst stjäla tillgångarna på ditt konto."
   },
-  "privateNetwork": {
-    "message": "Privat nätverk"
-  },
   "queue": {
     "message": "Utskriftskö"
   },
@@ -670,12 +664,6 @@
   },
   "reset": {
     "message": "Återställ"
-  },
-  "resetAccount": {
-    "message": "Återställ konto"
-  },
-  "resetAccountDescription": {
-    "message": "Återställning av ditt konto rensar din transaktionshistorik"
   },
   "deleteNetwork": {
     "message": "Radera nätverk?"

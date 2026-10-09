@@ -248,9 +248,6 @@
   "delete": {
     "message": "Suprimeix"
   },
-  "deposit": {
-    "message": "Depòsit"
-  },
   "details": {
     "message": "Detalls"
   },
@@ -632,9 +629,6 @@
   "privateKeyWarning": {
     "message": "Atenció: No divulguis mai aquesta clau. Qualsevol amb les teves claus privades pot robar qualsevol actiu que tinguis al teu compte."
   },
-  "privateNetwork": {
-    "message": "Xarxa privada"
-  },
   "queue": {
     "message": "Cua"
   },
@@ -661,12 +655,6 @@
   },
   "reset": {
     "message": "Restableix"
-  },
-  "resetAccount": {
-    "message": "Reiniciar Compte"
-  },
-  "resetAccountDescription": {
-    "message": "Reiniciar el teu compte esborrarà el teu historial de transaccions."
   },
   "deleteNetwork": {
     "message": "Esborrar Xarxa?"

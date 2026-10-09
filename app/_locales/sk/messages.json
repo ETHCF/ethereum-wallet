@@ -242,9 +242,6 @@
   "delete": {
     "message": "Odstrániť"
   },
-  "deposit": {
-    "message": "Vklad"
-  },
   "details": {
     "message": "Podrobnosti"
   },
@@ -622,9 +619,6 @@
   "privateKeyWarning": {
     "message": "Upozornění: Nikdy nezveřejněte tento klíč. Kdokoli může s vaším privátním klíčem odcizit vaše aktiva z účtu."
   },
-  "privateNetwork": {
-    "message": "Soukromá síť"
-  },
   "queue": {
     "message": "Poradie"
   },
@@ -654,12 +648,6 @@
   },
   "reset": {
     "message": "Resetovať"
-  },
-  "resetAccount": {
-    "message": "Resetovat účet"
-  },
-  "resetAccountDescription": {
-    "message": "Pri obnovení účtu sa vymaže história transakcií."
   },
   "deleteNetwork": {
     "message": "Odstrániť sieť?"

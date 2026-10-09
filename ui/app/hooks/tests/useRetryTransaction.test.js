@@ -29,7 +29,7 @@ describe('useRetryTransaction', function () {
       sinon.stub(reactRedux, 'useDispatch').returns(dispatch);
       try {
         const { result } = renderHook(() =>
-          useRetryTransaction(retryEnabledTransaction, true),
+          useRetryTransaction(retryEnabledTransaction),
         );
         const retry = result.current;
         await retry(event);

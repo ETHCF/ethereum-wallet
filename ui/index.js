@@ -16,10 +16,10 @@ import Root from './app/pages';
 import {
   getPermittedAccountsForCurrentTab,
   getSelectedAddress,
+  unconfirmedTransactionsListSelector,
 } from './app/selectors';
 import * as actions from './app/store/actions';
 import configureStore from './app/store/store';
-import txHelper from './lib/tx-helper';
 import { ALERT_TYPES } from '../app/scripts/controllers/alert';
 import { ENVIRONMENT_TYPE_POPUP } from '../app/scripts/lib/enums';
 import { getEnvironmentType } from '../app/scripts/lib/util';
@@ -103,22 +103,11 @@ async function startApp(ecfWalletState, backgroundConnection, opts) {
   applyTheme(ecfWalletState.preferences?.theme);
 
   // if unconfirmed txs, start on txConf page
-  const unapprovedTxsAll = txHelper(
-    ecfWalletState.unapprovedTxs,
-    ecfWalletState.unapprovedMsgs,
-    ecfWalletState.unapprovedPersonalMsgs,
-    ecfWalletState.unapprovedDecryptMsgs,
-    ecfWalletState.unapprovedEncryptionPublicKeyMsgs,
-    ecfWalletState.unapprovedTypedMessages,
-    ecfWalletState.network,
+  const [firstUnconfirmed] = unconfirmedTransactionsListSelector(
+    store.getState(),
   );
-  const numberOfUnapprivedTx = unapprovedTxsAll.length;
-  if (numberOfUnapprivedTx > 0) {
-    store.dispatch(
-      actions.showConfTxPage({
-        id: unapprovedTxsAll[0].id,
-      }),
-    );
+  if (firstUnconfirmed) {
+    store.dispatch(actions.showConfTxPage({ id: firstUnconfirmed.id }));
   }
 
   backgroundConnection.on('update', function (state) {

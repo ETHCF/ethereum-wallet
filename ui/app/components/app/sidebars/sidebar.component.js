@@ -8,23 +8,16 @@ export default class Sidebar extends Component {
   static propTypes = {
     sidebarOpen: PropTypes.bool,
     hideSidebar: PropTypes.func,
-    sidebarShouldClose: PropTypes.bool,
     transitionName: PropTypes.string,
     type: PropTypes.string,
     sidebarProps: PropTypes.object,
-    onOverlayClose: PropTypes.func,
   };
 
   renderOverlay() {
-    const { onOverlayClose } = this.props;
-
     return (
       <div
         className="sidebar-overlay"
-        onClick={() => {
-          onOverlayClose && onOverlayClose();
-          this.props.hideSidebar();
-        }}
+        onClick={() => this.props.hideSidebar()}
       />
     );
   }
@@ -44,16 +37,9 @@ export default class Sidebar extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.sidebarShouldClose && this.props.sidebarShouldClose) {
-      this.props.hideSidebar();
-    }
-  }
-
   render() {
-    const { transitionName, sidebarOpen, sidebarShouldClose } = this.props;
-    const content =
-      sidebarOpen && !sidebarShouldClose ? this.renderSidebarContent() : null;
+    const { transitionName, sidebarOpen } = this.props;
+    const content = sidebarOpen ? this.renderSidebarContent() : null;
 
     return (
       <div>
@@ -68,7 +54,7 @@ export default class Sidebar extends Component {
             </CSSTransition>
           )}
         </TransitionGroup>
-        {sidebarOpen && !sidebarShouldClose ? this.renderOverlay() : null}
+        {sidebarOpen ? this.renderOverlay() : null}
       </div>
     );
   }

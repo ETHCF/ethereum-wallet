@@ -24,16 +24,12 @@ export default class PermissionApprovals {
       throw rpcErrors.internal(`Unsupported approval type: ${type}`);
     }
     // One request per site at a time, so a site cannot queue up prompts.
-    if (
-      Array.from(this._pending.values()).some(
-        (pending) => pending.origin === origin,
-      )
-    ) {
+    if (this.hasRequest({ origin })) {
       throw rpcErrors.resourceUnavailable(
         'Permissions request already pending; please wait.',
       );
     }
-    if (this._pending.has(id)) {
+    if (this.hasRequest({ id })) {
       throw rpcErrors.internal(
         `Permissions request with id '${id}' already exists.`,
       );

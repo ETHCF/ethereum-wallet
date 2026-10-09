@@ -48,7 +48,6 @@ describe('SendFooter Component', function () {
         tokenBalance="mockTokenBalance"
         unapprovedTxs={{}}
         update={propsMethodSpies.update}
-        sendErrors={{}}
         mostRecentOverviewPage="mostRecentOverviewPage"
       />,
       { context: { t: (str) => str } },

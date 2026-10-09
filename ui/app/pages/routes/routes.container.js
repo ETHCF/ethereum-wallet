@@ -8,11 +8,9 @@ import {
   getNetworkIdentifier,
   hasPermissionRequests,
   getPreferences,
-  submittedPendingTransactionsSelector,
 } from '../../selectors';
 import {
   hideSidebar,
-  lockEcfWallet,
   setLastActiveTime,
   setMouseUserState,
 } from '../../store/actions';
@@ -31,7 +29,6 @@ function mapStateToProps(state) {
     isLoading,
     loadingMessage,
     isUnlocked: state.ecfWallet.isUnlocked,
-    submittedPendingTransactions: submittedPendingTransactionsSelector(state),
     network: state.ecfWallet.network,
     provider: state.ecfWallet.provider,
     frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
@@ -45,7 +42,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    lockEcfWallet: () => dispatch(lockEcfWallet(false)),
     hideSidebar: () => dispatch(hideSidebar()),
     setMouseUserState: (isMouseUser) =>
       dispatch(setMouseUserState(isMouseUser)),

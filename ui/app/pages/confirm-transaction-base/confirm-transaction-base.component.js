@@ -14,7 +14,6 @@ import SecurityAlerts, {
   hasDangerAlerts,
 } from '../../components/app/security-alerts';
 import UserPreferencedCurrencyDisplay from '../../components/app/user-preferenced-currency-display';
-import TextField from '../../components/ui/text-field';
 import {
   INSUFFICIENT_FUNDS_ERROR_KEY,
   TRANSACTION_ERROR_KEY,
@@ -49,9 +48,6 @@ export default class ConfirmTransactionBase extends Component {
     isTxReprice: PropTypes.bool,
     methodData: PropTypes.object,
     nonce: PropTypes.string,
-    useNonceField: PropTypes.bool,
-    customNonceValue: PropTypes.string,
-    updateCustomNonce: PropTypes.func,
     assetImage: PropTypes.string,
     sendTransaction: PropTypes.func,
     showCustomizeGasModal: PropTypes.func,
@@ -80,7 +76,6 @@ export default class ConfirmTransactionBase extends Component {
       PropTypes.node,
     ]),
     hideData: PropTypes.bool,
-    hideDetails: PropTypes.bool,
     identiconAddress: PropTypes.string,
     onCancel: PropTypes.func,
     onEdit: PropTypes.func,
@@ -93,8 +88,6 @@ export default class ConfirmTransactionBase extends Component {
     warning: PropTypes.string,
     insufficientBalance: PropTypes.bool,
     transactionCategory: PropTypes.string,
-    getNextNonce: PropTypes.func,
-    nextNonce: PropTypes.number,
     tryReverseResolveAddress: PropTypes.func.isRequired,
     hideSenderToRecipient: PropTypes.bool,
     showAccountInHeader: PropTypes.bool,
@@ -105,7 +98,6 @@ export default class ConfirmTransactionBase extends Component {
   state = {
     submitting: false,
     submitError: null,
-    submitWarning: '',
     alertsAcknowledged: false,
   };
 
@@ -126,34 +118,15 @@ export default class ConfirmTransactionBase extends Component {
       navigate,
       clearConfirmTransaction,
       mostRecentOverviewPage,
-      nextNonce,
-      customNonceValue,
       toAddress,
       tryReverseResolveAddress,
     } = this.props;
-    const {
-      customNonceValue: prevCustomNonceValue,
-      nextNonce: prevNextNonce,
-      toAddress: prevToAddress,
-      transactionStatus: prevTxStatus,
-    } = prevProps;
+    const { toAddress: prevToAddress, transactionStatus: prevTxStatus } =
+      prevProps;
     const statusUpdated = transactionStatus !== prevTxStatus;
     const txDroppedOrConfirmed =
       transactionStatus === DROPPED_STATUS ||
       transactionStatus === CONFIRMED_STATUS;
-
-    if (
-      nextNonce !== prevNextNonce ||
-      customNonceValue !== prevCustomNonceValue
-    ) {
-      if (customNonceValue > nextNonce) {
-        this.setState({
-          submitWarning: this.context.t('nextNonceWarning', [nextNonce]),
-        });
-      } else {
-        this.setState({ submitWarning: '' });
-      }
-    }
 
     if (statusUpdated && txDroppedOrConfirmed) {
       showTransactionConfirmedModal({
@@ -232,21 +205,11 @@ export default class ConfirmTransactionBase extends Component {
       primaryTotalTextOverride,
       hexTransactionFee,
       hexTransactionTotal,
-      hideDetails,
-      useNonceField,
-      customNonceValue,
-      updateCustomNonce,
       customGas,
       insufficientBalance,
       updateGasAndCalculate,
-      nextNonce,
-      getNextNonce,
       isMainnet,
     } = this.props;
-
-    if (hideDetails) {
-      return null;
-    }
 
     const txParams = this.props.txData?.txParams || {};
     const feeMarket = isFeeMarketTransaction(txParams);
@@ -311,11 +274,7 @@ export default class ConfirmTransactionBase extends Component {
               />
             ) : null}
           </div>
-          <div
-            className={
-              useNonceField ? 'confirm-page-container-content__gas-fee' : null
-            }
-          >
+          <div>
             <ConfirmDetailRow
               label="Total"
               value={hexTransactionTotal}
@@ -325,37 +284,6 @@ export default class ConfirmTransactionBase extends Component {
               primaryValueTextColor="#2f9ae0"
             />
           </div>
-          {useNonceField ? (
-            <div>
-              <div className="confirm-detail-row">
-                <div className="confirm-detail-row__label">
-                  {this.context.t('nonceFieldHeading')}
-                </div>
-                <div className="custom-nonce-input">
-                  <TextField
-                    type="number"
-                    min="0"
-                    placeholder={
-                      typeof nextNonce === 'number'
-                        ? nextNonce.toString()
-                        : null
-                    }
-                    onChange={({ target: { value } }) => {
-                      if (!value.length || Number(value) < 0) {
-                        updateCustomNonce('');
-                      } else {
-                        updateCustomNonce(String(Math.floor(value)));
-                      }
-                      getNextNonce();
-                    }}
-                    fullWidth
-                    margin="dense"
-                    value={customNonceValue || ''}
-                  />
-                </div>
-              </div>
-            </div>
-          ) : null}
         </div>
       )
     );
@@ -437,11 +365,9 @@ export default class ConfirmTransactionBase extends Component {
       navigate,
       mostRecentOverviewPage,
       clearConfirmTransaction,
-      updateCustomNonce,
     } = this.props;
 
     this._removeBeforeUnload();
-    updateCustomNonce('');
     if (onCancel) {
       onCancel(txData);
     } else {
@@ -462,7 +388,6 @@ export default class ConfirmTransactionBase extends Component {
       navigate,
       onSubmit,
       mostRecentOverviewPage,
-      updateCustomNonce,
     } = this.props;
     const { submitting } = this.state;
 
@@ -484,7 +409,6 @@ export default class ConfirmTransactionBase extends Component {
             this.setState({
               submitting: false,
             });
-            updateCustomNonce('');
             return undefined;
           });
         } else {
@@ -495,10 +419,7 @@ export default class ConfirmTransactionBase extends Component {
                 {
                   submitting: false,
                 },
-                () => {
-                  navigate(mostRecentOverviewPage);
-                  updateCustomNonce('');
-                },
+                () => navigate(mostRecentOverviewPage),
               );
               return undefined;
             })
@@ -507,7 +428,6 @@ export default class ConfirmTransactionBase extends Component {
                 submitting: false,
                 submitError: error.message,
               });
-              updateCustomNonce('');
             });
         }
       },
@@ -574,13 +494,12 @@ export default class ConfirmTransactionBase extends Component {
   };
 
   componentDidMount() {
-    const { toAddress, getNextNonce, tryReverseResolveAddress } = this.props;
+    const { toAddress, tryReverseResolveAddress } = this.props;
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
       window.addEventListener('beforeunload', this._beforeUnload);
     }
 
-    getNextNonce();
     if (toAddress) {
       tryReverseResolveAddress(toAddress);
     }
@@ -610,7 +529,6 @@ export default class ConfirmTransactionBase extends Component {
       contentComponent,
       onEdit,
       nonce,
-      customNonceValue,
       assetImage,
       warning,
       unapprovedTxCount,
@@ -618,7 +536,7 @@ export default class ConfirmTransactionBase extends Component {
       hideSenderToRecipient,
       showAccountInHeader,
     } = this.props;
-    const { submitting, submitError, submitWarning } = this.state;
+    const { submitting, submitError } = this.state;
 
     const { name } = methodData;
     const { valid, errorKey } = this.getErrorKey();
@@ -661,13 +579,13 @@ export default class ConfirmTransactionBase extends Component {
         detailsComponent={this.renderDetails()}
         dataComponent={this.renderData(functionType)}
         contentComponent={contentComponent}
-        nonce={customNonceValue || nonce}
+        nonce={nonce}
         unapprovedTxCount={unapprovedTxCount}
         assetImage={assetImage}
         identiconAddress={identiconAddress}
         errorMessage={errorMessage || submitError}
         errorKey={propsErrorKey || errorKey}
-        warning={warning || submitWarning}
+        warning={warning}
         totalTx={totalTx}
         positionOfCurrentTx={positionOfCurrentTx}
         nextTxId={nextTxId}

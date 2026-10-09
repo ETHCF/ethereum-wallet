@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import NetworkDropdownIcon from './dropdowns/components/network-dropdown-icon';
 import { BUILT_IN_NETWORKS } from '../../../../app/scripts/controllers/network/enums';
+import { getNetworkDisplayName } from '../../helpers/utils/network-display';
 
 function NetworkIndicator({ disabled, children, hoverText, onClick }) {
   return (
@@ -50,64 +51,49 @@ export default class Network extends Component {
     onClick: PropTypes.func.isRequired,
   };
 
-  render() {
+  renderIcon() {
     const { t } = this.context;
+    const { network: networkNumber, onClick, provider } = this.props;
+    const loading = networkNumber === 'loading';
 
-    const { disabled, network: networkNumber, onClick, provider } = this.props;
-
-    let providerName, providerNick, providerUrl;
-    if (provider) {
-      providerName = provider.type;
-      providerNick = provider.nickname || '';
-      providerUrl = provider.rpcTarget;
-    }
-
-    const builtIn = BUILT_IN_NETWORKS[providerName];
+    const builtIn = BUILT_IN_NETWORKS[provider?.type];
     if (builtIn) {
       return (
-        <NetworkIndicator
-          disabled={disabled}
-          hoverText={builtIn.name}
-          onClick={onClick}
-        >
-          <NetworkDropdownIcon
-            backgroundColor={builtIn.color}
-            nonSelectBackgroundColor={builtIn.color}
-            loading={networkNumber === 'loading'}
-          />
-          <div className="network-name">{builtIn.name}</div>
-        </NetworkIndicator>
+        <NetworkDropdownIcon
+          backgroundColor={builtIn.color}
+          nonSelectBackgroundColor={builtIn.color}
+          loading={loading}
+        />
       );
     }
+
+    return loading ? (
+      <span
+        className="pointer network-loading-spinner"
+        onClick={(event) => onClick(event)}
+      >
+        <img title={t('attemptingConnect')} src="images/loading.svg" alt="" />
+      </span>
+    ) : (
+      <i
+        className="fa fa-question-circle fa-lg"
+        style={{ color: 'rgb(125, 128, 130)' }}
+      />
+    );
+  }
+
+  render() {
+    const { disabled, onClick, provider } = this.props;
+    const networkName = getNetworkDisplayName(provider, this.context.t);
 
     return (
       <NetworkIndicator
         disabled={disabled}
-        hoverText={providerNick || providerName || providerUrl || null}
+        hoverText={networkName}
         onClick={onClick}
       >
-        {networkNumber === 'loading' ? (
-          <span
-            className="pointer network-loading-spinner"
-            onClick={(event) => onClick(event)}
-          >
-            <img
-              title={t('attemptingConnect')}
-              src="images/loading.svg"
-              alt=""
-            />
-          </span>
-        ) : (
-          <i
-            className="fa fa-question-circle fa-lg"
-            style={{ color: 'rgb(125, 128, 130)' }}
-          />
-        )}
-        <div className="network-name">
-          {providerName === 'localhost'
-            ? t('localhost')
-            : providerNick || t('privateNetwork')}
-        </div>
+        {this.renderIcon()}
+        <div className="network-name">{networkName}</div>
       </NetworkIndicator>
     );
   }

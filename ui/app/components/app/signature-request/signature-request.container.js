@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 
 import SignatureRequest from './signature-request.component';
-import { MESSAGE_TYPE } from '../../../../../app/scripts/lib/enums';
 import { clearConfirmTransaction } from '../../../ducks/confirm-transaction/confirm-transaction.duck';
 import { getAccountByAddress } from '../../../helpers/utils/util';
 import { accountsWithSendEtherInfoSelector } from '../../../selectors';
@@ -21,39 +20,22 @@ function mapDispatchToProps(dispatch) {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
   const { allAccounts } = stateProps;
-  const {
-    signPersonalMessage,
-    signTypedMessage,
-    cancelPersonalMessage,
-    cancelTypedMessage,
-    txData,
-  } = ownProps;
+  const { signTypedMessage, cancelTypedMessage, txData } = ownProps;
 
   const {
-    type,
     msgParams: { from },
   } = txData;
 
   const fromAccount = getAccountByAddress(allAccounts, from);
 
-  let cancel;
-  let sign;
-
-  if (type === MESSAGE_TYPE.PERSONAL_SIGN) {
-    cancel = cancelPersonalMessage;
-    sign = signPersonalMessage;
-  } else if (type === MESSAGE_TYPE.ETH_SIGN_TYPED_DATA) {
-    cancel = cancelTypedMessage;
-    sign = signTypedMessage;
-  }
-
+  // Only eth_signTypedData V3/V4 requests are routed here (see conf-tx.js).
   return {
     ...ownProps,
     ...dispatchProps,
     fromAccount,
     txData,
-    cancel,
-    sign,
+    cancel: cancelTypedMessage,
+    sign: signTypedMessage,
   };
 }
 

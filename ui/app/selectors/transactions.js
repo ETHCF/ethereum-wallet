@@ -1,21 +1,19 @@
 import { createSelector } from 'reselect';
 
-import { getSelectedAddress } from '.';
+import { getSelectedAddress } from './selectors';
 import {
   TRANSACTION_TYPE_CANCEL,
   TRANSACTION_TYPE_RETRY,
 } from '../../../app/scripts/controllers/transactions/enums';
 import txHelper from '../../lib/tx-helper';
 import {
-  SUBMITTED_STATUS,
   CONFIRMED_STATUS,
   PRIORITY_STATUS_HASH,
   PENDING_STATUS_HASH,
 } from '../helpers/constants/transactions';
 import { hexToDecimal } from '../helpers/utils/conversions.util';
 
-export const incomingTxListSelector = () => [];
-export const unapprovedMsgsSelector = (state) => state.ecfWallet.unapprovedMsgs;
+export const unapprovedTxsSelector = (state) => state.ecfWallet.unapprovedTxs;
 export const currentNetworkTxListSelector = (state) =>
   state.ecfWallet.currentNetworkTxList;
 export const unapprovedPersonalMsgsSelector = (state) =>
@@ -39,14 +37,12 @@ export const selectedAddressTxListSelector = createSelector(
 );
 
 export const unapprovedMessagesSelector = createSelector(
-  unapprovedMsgsSelector,
   unapprovedPersonalMsgsSelector,
   unapprovedDecryptMsgsSelector,
   unapprovedEncryptionPublicKeyMsgsSelector,
   unapprovedTypedMessagesSelector,
   networkSelector,
   (
-    unapprovedMsgs = {},
     unapprovedPersonalMsgs = {},
     unapprovedDecryptMsgs = {},
     unapprovedEncryptionPublicKeyMsgs = {},
@@ -55,28 +51,19 @@ export const unapprovedMessagesSelector = createSelector(
   ) =>
     txHelper(
       {},
-      unapprovedMsgs,
       unapprovedPersonalMsgs,
       unapprovedDecryptMsgs,
       unapprovedEncryptionPublicKeyMsgs,
       unapprovedTypedMessages,
       network,
-    ) || [],
-);
-
-export const transactionSubSelector = createSelector(
-  unapprovedMessagesSelector,
-  incomingTxListSelector,
-  (unapprovedMessages = [], incomingTxList = []) => {
-    return unapprovedMessages.concat(incomingTxList);
-  },
+    ),
 );
 
 export const transactionsSelector = createSelector(
-  transactionSubSelector,
+  unapprovedMessagesSelector,
   selectedAddressTxListSelector,
-  (subSelectorTxList = [], selectedAddressTxList = []) => {
-    const txsToRender = selectedAddressTxList.concat(subSelectorTxList);
+  (unapprovedMessages = [], selectedAddressTxList = []) => {
+    const txsToRender = selectedAddressTxList.concat(unapprovedMessages);
 
     return txsToRender.sort((a, b) => b.time - a.time);
   },
@@ -175,26 +162,6 @@ const insertTransactionGroupByTime = (transactionGroups, transactionGroup) => {
 };
 
 /**
- * Inserts (mutates) transactionGroups that are not to be ordered by nonce into an array
- * of nonce-ordered transactionGroups by time.
- *
- * @name mergeNonNonceTransactionGroups
- * @private
- * @param {transactionGroup[]} orderedTransactionGroups - Array of transactionGroups ordered by
- * nonce.
- * @param {transactionGroup[]} nonNonceTransactionGroups - Array of transactionGroups not intended to be ordered by nonce,
- * but intended to be ordered by timestamp
- */
-const mergeNonNonceTransactionGroups = (
-  orderedTransactionGroups,
-  nonNonceTransactionGroups,
-) => {
-  nonNonceTransactionGroups.forEach((transactionGroup) => {
-    insertTransactionGroupByTime(orderedTransactionGroups, transactionGroup);
-  });
-};
-
-/**
  * @name nonceSortedTransactionsSelector
  * @description Returns an array of transactionGroups sorted by nonce in ascending order.
  * @returns {transactionGroup[]}
@@ -203,7 +170,6 @@ export const nonceSortedTransactionsSelector = createSelector(
   transactionsSelector,
   (transactions = []) => {
     const unapprovedTransactionGroups = [];
-    const incomingTransactionGroups = [];
     const orderedNonces = [];
     const nonceToTransactionsMap = {};
 
@@ -213,26 +179,16 @@ export const nonceSortedTransactionsSelector = createSelector(
         status,
         type,
         time: txTime,
-        transactionCategory,
       } = transaction;
 
-      if (typeof nonce === 'undefined' || transactionCategory === 'incoming') {
-        const transactionGroup = {
+      if (typeof nonce === 'undefined') {
+        insertTransactionGroupByTime(unapprovedTransactionGroups, {
           transactions: [transaction],
           initialTransaction: transaction,
           primaryTransaction: transaction,
           hasRetried: false,
           hasCancelled: false,
-        };
-
-        if (transactionCategory === 'incoming') {
-          incomingTransactionGroups.push(transactionGroup);
-        } else {
-          insertTransactionGroupByTime(
-            unapprovedTransactionGroups,
-            transactionGroup,
-          );
-        }
+        });
       } else if (Reflect.has(nonceToTransactionsMap, nonce)) {
         const nonceProps = nonceToTransactionsMap[nonce];
         insertTransactionByTime(nonceProps.transactions, transaction);
@@ -279,10 +235,6 @@ export const nonceSortedTransactionsSelector = createSelector(
     const orderedTransactionGroups = orderedNonces.map(
       (nonce) => nonceToTransactionsMap[nonce],
     );
-    mergeNonNonceTransactionGroups(
-      orderedTransactionGroups,
-      incomingTransactionGroups,
-    );
     return unapprovedTransactionGroups.concat(orderedTransactionGroups);
   },
 );
@@ -316,12 +268,4 @@ export const nonceSortedCompletedTransactionsSelector = createSelector(
           !Reflect.has(PENDING_STATUS_HASH, primaryTransaction.status),
       )
       .reverse(),
-);
-
-export const submittedPendingTransactionsSelector = createSelector(
-  transactionsSelector,
-  (transactions = []) =>
-    transactions.filter(
-      (transaction) => transaction.status === SUBMITTED_STATUS,
-    ),
 );

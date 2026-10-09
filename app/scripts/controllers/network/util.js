@@ -1,7 +1,4 @@
-import { NETWORK_TO_NAME_MAP } from './enums';
 import { gasPriceForTransaction } from '../../lib/transaction-fees';
-
-export const getNetworkDisplayName = (key) => NETWORK_TO_NAME_MAP[key];
 
 export function formatTxMetaForRpcResult(txMeta) {
   const envelope = {};

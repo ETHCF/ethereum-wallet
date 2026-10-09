@@ -248,9 +248,6 @@
   "delete": {
     "message": "Poista"
   },
-  "deposit": {
-    "message": "Talleta"
-  },
   "details": {
     "message": "Tiedot"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "Varoitus: Älä koskaan paljasta tätä avainta. Kuka tahansa, jolla on yksityisavaimesi, voi varastaa tililläsi olevaa varallisuutta."
   },
-  "privateNetwork": {
-    "message": "Yksityinen verkko"
-  },
   "queue": {
     "message": "Jono"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "Tyhjennä"
-  },
-  "resetAccount": {
-    "message": "Nollaa tili"
-  },
-  "resetAccountDescription": {
-    "message": "Tilisi nollaaminen tyhjentää tapahtumahistoriasi."
   },
   "deleteNetwork": {
     "message": "Poistetaanko verkko?"

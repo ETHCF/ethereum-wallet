@@ -251,9 +251,6 @@
   "delete": {
     "message": "हटाएं"
   },
-  "deposit": {
-    "message": "जमा "
-  },
   "details": {
     "message": "विवरण"
   },
@@ -644,9 +641,6 @@
   "privateKeyWarning": {
     "message": "चेतावनी: इस कुंजी का खुलासा न करें। आपकी निजी कुंजियों वाला कोई भी व्यक्ति आपके खाते में रखी कोई भी परिसंपत्ति की चोरी कर सकता है।"
   },
-  "privateNetwork": {
-    "message": "निजी नेटवर्क"
-  },
   "queue": {
     "message": "सूची"
   },
@@ -676,12 +670,6 @@
   },
   "reset": {
     "message": "रीसेट करें"
-  },
-  "resetAccount": {
-    "message": "खाता रीसेट करें"
-  },
-  "resetAccountDescription": {
-    "message": "आपका खाता रीसेट करने से आपका अंतरण इतिहास रिक्त\n\nहो जाएगा।"
   },
   "deleteNetwork": {
     "message": "नेटवर्क हटाएं?"

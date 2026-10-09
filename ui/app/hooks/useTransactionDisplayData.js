@@ -9,13 +9,11 @@ import { getTokens } from '../ducks/ecf-wallet/ecf-wallet';
 import {
   CONTRACT_INTERACTION_KEY,
   DEPLOY_CONTRACT_ACTION_KEY,
-  INCOMING_TRANSACTION,
   TOKEN_METHOD_TRANSFER,
   TOKEN_METHOD_TRANSFER_FROM,
   SEND_ETHER_ACTION_KEY,
   TRANSACTION_CATEGORY_APPROVAL,
   TRANSACTION_CATEGORY_INTERACTION,
-  TRANSACTION_CATEGORY_RECEIVE,
   TRANSACTION_CATEGORY_SEND,
   TRANSACTION_CATEGORY_SIGNATURE_REQUEST,
   TOKEN_METHOD_APPROVE,
@@ -76,7 +74,6 @@ export function useTransactionDisplayData(transactionGroup) {
   const status = getStatusKey(primaryTransaction);
 
   const primaryValue = primaryTransaction.txParams?.value;
-  let prefix = '-';
   const date = formatDateWithYearContext(initialTransaction.time || 0);
   let subtitle;
   let subtitleContainsOrigin = false;
@@ -114,9 +111,8 @@ export function useTransactionDisplayData(transactionGroup) {
   // There are four types of transaction entries that are currently differentiated in the design
   // 1. signature request
   // 2. Send (sendEth sendTokens)
-  // 3. Deposit
-  // 4. Site interaction
-  // 5. Approval
+  // 3. Site interaction
+  // 4. Approval
   if (transactionCategory === null || transactionCategory === undefined) {
     category = TRANSACTION_CATEGORY_SIGNATURE_REQUEST;
     title = t('signatureRequest');
@@ -138,11 +134,6 @@ export function useTransactionDisplayData(transactionGroup) {
       '';
     subtitle = origin;
     subtitleContainsOrigin = true;
-  } else if (transactionCategory === INCOMING_TRANSACTION) {
-    category = TRANSACTION_CATEGORY_RECEIVE;
-    title = t('receive');
-    prefix = '';
-    subtitle = t('fromAddress', [senderAddress]);
   } else if (
     transactionCategory === TOKEN_METHOD_TRANSFER_FROM ||
     transactionCategory === TOKEN_METHOD_TRANSFER
@@ -160,7 +151,7 @@ export function useTransactionDisplayData(transactionGroup) {
   const primaryCurrencyPreferences = useUserPreferencedCurrency();
 
   const [primaryCurrency] = useCurrencyDisplay(primaryValue, {
-    prefix,
+    prefix: '-',
     displayValue: isTokenCategory ? tokenDisplayValue : undefined,
     suffix: isTokenCategory ? token?.symbol : undefined,
     ...primaryCurrencyPreferences,

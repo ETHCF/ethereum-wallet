@@ -8,7 +8,6 @@ import AddToAddressBookModal from './add-to-addressbook-modal';
 import CancelTransaction from './cancel-transaction';
 import ConfirmDeleteNetwork from './confirm-delete-network';
 import ConfirmRemoveAccount from './confirm-remove-account';
-import ConfirmResetAccount from './confirm-reset-account';
 import EditApprovalPermission from './edit-approval-permission';
 import ExportPrivateKeyModal from './export-private-key-modal';
 import FadeModal from './fade-modal';
@@ -177,19 +176,6 @@ const MODALS = {
     laptopModalStyle: {
       width: '449px',
       top: 'calc(33% + 45px)',
-    },
-  },
-
-  CONFIRM_RESET_ACCOUNT: {
-    contents: <ConfirmResetAccount />,
-    mobileModalStyle: {
-      ...modalContainerMobileStyle,
-    },
-    laptopModalStyle: {
-      ...modalContainerLaptopStyle,
-    },
-    contentStyle: {
-      borderRadius: '8px',
     },
   },
 

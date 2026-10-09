@@ -1,8 +1,10 @@
-import { clearClipboardInDocument } from './clear-clipboard';
+import {
+  CLEAR_CLIPBOARD_MESSAGE,
+  clearClipboardInDocument,
+} from './clear-clipboard';
 
 export const CLIPBOARD_CLEAR_ALARM = 'ecf-wallet-clear-clipboard';
-export const CLIPBOARD_CLEAR_DELAY_MS = 60000;
-export const CLEAR_CLIPBOARD_MESSAGE = 'ecf-wallet-clear-clipboard';
+const CLIPBOARD_CLEAR_DELAY_MS = 60000;
 const OFFSCREEN_PATH = 'offscreen-clipboard.html';
 
 /**

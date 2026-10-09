@@ -43,7 +43,7 @@ function createStyleTasks({ livereload }) {
           livereload.changed(event.path);
         });
       }
-      await buildScss(devMode);
+      await buildScss();
     };
 
     async function buildScss() {

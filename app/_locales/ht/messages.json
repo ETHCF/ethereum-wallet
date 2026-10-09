@@ -142,9 +142,6 @@
   "defaultNetwork": {
     "message": "Dfo rezo a pou tranzaksyon $ETH se Mainnet."
   },
-  "deposit": {
-    "message": "Depo"
-  },
   "details": {
     "message": "Detay yo"
   },
@@ -406,9 +403,6 @@
   "privateKeyWarning": {
     "message": "Atansyon: pa janm divilge kle sa. Nenpòt moun kapab avèk kle prive ou a vòlè sa ou gen ou sou kont ou a."
   },
-  "privateNetwork": {
-    "message": "Rezo Prive"
-  },
   "readdToken": {
     "message": "Ou ka ajoute token sa aprè sa ankò ou prale nan  \"Ajoute token\" nan opsyon meni kont ou an."
   },
@@ -432,12 +426,6 @@
   },
   "reset": {
     "message": "Repwograme"
-  },
-  "resetAccount": {
-    "message": "Repwograme Kont"
-  },
-  "resetAccountDescription": {
-    "message": "Repwograme kont a netwaye tranzaksyon ou yo."
   },
   "restoreFromSeed": {
     "message": "Restore kont?"

@@ -18,21 +18,17 @@ import { getHexGasTotal } from '../../helpers/utils/confirm-tx.util';
 import { conversionGreaterThan } from '../../helpers/utils/conversion-util';
 import { checksumAddress, valuesFor } from '../../helpers/utils/util';
 import {
-  getCustomNonceValue,
   getIsMainnet,
   getKnownMethodData,
   getEcfWalletAccounts,
-  getUseNonceField,
   transactionFeeSelector,
 } from '../../selectors';
 import {
-  updateCustomNonce,
   cancelTx,
   cancelTxs,
   updateAndApproveTx,
   showModal,
   updateTransaction,
-  getNextNonce,
   tryReverseResolveAddress,
 } from '../../store/actions';
 import { MIN_GAS_LIMIT_DEC } from '../send/send.constants';
@@ -44,15 +40,6 @@ const casedContractMap = Object.keys(contractMap).reduce((acc, base) => {
     [base.toLowerCase()]: contractMap[base],
   };
 }, {});
-
-let customNonceValue = '';
-const customNonceMerge = (txData) =>
-  customNonceValue
-    ? {
-        ...txData,
-        customNonceValue,
-      }
-    : txData;
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -70,7 +57,6 @@ const mapStateToProps = (state, ownProps) => {
     assetImages,
     network,
     unapprovedTxs,
-    nextNonce,
   } = ecfWallet;
   const { tokenData, txData, tokenProps, nonce } = confirmTransaction;
   const {
@@ -167,11 +153,8 @@ const mapStateToProps = (state, ownProps) => {
       gasLimit,
       gasPrice,
     },
-    useNonceField: getUseNonceField(state),
-    customNonceValue: getCustomNonceValue(state),
     insufficientBalance,
     transactionCategory,
-    nextNonce,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
     isMainnet,
   };
@@ -181,10 +164,6 @@ export const mapDispatchToProps = (dispatch) => {
   return {
     tryReverseResolveAddress: (address) => {
       return dispatch(tryReverseResolveAddress(address));
-    },
-    updateCustomNonce: (value) => {
-      customNonceValue = value;
-      dispatch(updateCustomNonce(value));
     },
     clearConfirmTransaction: () => dispatch(clearConfirmTransaction()),
     showTransactionConfirmedModal: ({ onSubmit }) => {
@@ -208,9 +187,7 @@ export const mapDispatchToProps = (dispatch) => {
     },
     cancelTransaction: ({ id }) => dispatch(cancelTx({ id })),
     cancelAllTransactions: (txList) => dispatch(cancelTxs(txList)),
-    sendTransaction: (txData) =>
-      dispatch(updateAndApproveTx(customNonceMerge(txData))),
-    getNextNonce: () => dispatch(getNextNonce()),
+    sendTransaction: (txData) => dispatch(updateAndApproveTx(txData)),
   };
 };
 
