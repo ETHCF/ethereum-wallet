@@ -9,6 +9,7 @@ import WalletController from '../../../app/scripts/ecf-wallet-controller';
 import AccountTracker from '../../../app/scripts/lib/account-tracker';
 import { createRemoteKeyring } from '../../../app/scripts/lib/hardware-keyrings';
 import NotificationManager from '../../../app/scripts/lib/notification-manager';
+import PersonalMessageManager from '../../../app/scripts/lib/personal-message-manager';
 import TypedMessageManager from '../../../app/scripts/lib/typed-message-manager';
 
 function deferred() {
@@ -83,6 +84,74 @@ describe('Asynchronous state races', function () {
     assert.deepEqual(await response, { signature: 'signature' });
     assert.equal(calls, 1);
   });
+
+  for (const { name, method, keyringMethod, createManager, request } of [
+    {
+      name: 'personal_sign',
+      method: 'signPersonalMessage',
+      keyringMethod: 'signPersonalMessage',
+      createManager: () =>
+        new PersonalMessageManager({ getChainId: () => '0x1' }),
+      request: (manager) =>
+        manager.addUnapprovedMessageAsync(
+          { from: address, data: '0x01' },
+          { origin: 'https://example.test' },
+        ),
+    },
+    {
+      name: 'eth_signTypedData',
+      method: 'signTypedMessage',
+      keyringMethod: 'signTypedMessage',
+      createManager: () => new TypedMessageManager({ getChainId: () => '0x1' }),
+      request: (manager) =>
+        manager.addUnapprovedMessageAsync(
+          {
+            from: address,
+            data: {
+              types: {
+                EIP712Domain: [{ name: 'chainId', type: 'uint256' }],
+                Test: [{ name: 'text', type: 'string' }],
+              },
+              primaryType: 'Test',
+              domain: { chainId: 1 },
+              message: { text: 'test' },
+            },
+          },
+          { origin: 'https://example.test' },
+          'V4',
+        ),
+    },
+  ]) {
+    it(`settles the dapp request and reports the error when ${name} signing fails`, async function () {
+      const manager = createManager();
+      const response = request(manager).then(
+        () => assert.fail('the dapp request should be rejected'),
+        (error) => error,
+      );
+      const { id } = manager.messages[0];
+      const managerKey =
+        method === 'signPersonalMessage'
+          ? 'personalMessageManager'
+          : 'typedMessageManager';
+      const controller = {
+        [managerKey]: manager,
+        keyringController: {
+          [keyringMethod]: async () => {
+            throw new Error('Rejected on device');
+          },
+        },
+        getState: () => ({}),
+      };
+      await assert.rejects(
+        WalletController.prototype[method].call(controller, {
+          ecfWalletId: id,
+        }),
+        /Rejected on device/u,
+      );
+      assert.equal(manager.getMsg(id).status, 'errored');
+      assert.match((await response).message, /Rejected on device/u);
+    });
+  }
 
   it('coalesces popup creation and permits a new attempt after a failed creation', async function () {
     const manager = new NotificationManager();

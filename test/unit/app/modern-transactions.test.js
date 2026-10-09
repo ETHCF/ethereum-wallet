@@ -132,6 +132,24 @@ describe('Modern transaction pipeline', function () {
     assert.equal(meta.txParams.maxFeePerGas, '0xcd');
   });
 
+  it('takes the numeric median of rewards with different digit counts', async function () {
+    const { tx, scaffold } = controller();
+    scaffold.eth_maxPriorityFeePerGas = '0x0';
+    // 0.05, 0.1, 0.2, 1 and 1.5 gwei, out of order. Sorted as text, the
+    // middle value would be 1.5 gwei.
+    scaffold.eth_feeHistory = {
+      reward: [
+        ['0x3b9aca00'],
+        ['0x2faf080'],
+        ['0x59682f00'],
+        ['0xbebc200'],
+        ['0x5f5e100'],
+      ],
+    };
+    const meta = await tx.addUnapprovedTransaction(base, 'ecf-wallet');
+    assert.equal(meta.txParams.maxPriorityFeePerGas, '0xbebc200');
+  });
+
   it('uses the node suggestion when it exceeds recent block rewards', async function () {
     const { tx, scaffold } = controller();
     scaffold.eth_maxPriorityFeePerGas = '0x20';

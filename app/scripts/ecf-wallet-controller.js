@@ -1404,23 +1404,26 @@ export default class EcfWalletController extends EventEmitter {
    * @param {object} msgParams - The params of the message to sign & return to the Dapp.
    * @returns {Promise<object>} A full state update.
    */
-  signPersonalMessage(msgParams) {
+  async signPersonalMessage(msgParams) {
     log.info('EcfWalletController - signPersonalMessage');
     const msgId = msgParams.ecfWalletId;
-    // sets the status op the message to 'approved'
-    // and removes the ecfWalletId for signing
-    return this.personalMessageManager
-      .approveMessage(msgParams)
-      .then((cleanMsgParams) => {
-        // signs the message
-        return this.keyringController.signPersonalMessage(cleanMsgParams);
-      })
-      .then((rawSig) => {
-        // tells the listener that the message has been signed
-        // and can be returned to the dapp
-        this.personalMessageManager.setMsgStatusSigned(msgId, rawSig);
-        return this.getState();
-      });
+    // Only the call that successfully claims approval owns the signing result.
+    // A duplicate/stale approval must not fail somebody else's pending request.
+    const cleanMsgParams =
+      await this.personalMessageManager.approveMessage(msgParams);
+    try {
+      const rawSig =
+        await this.keyringController.signPersonalMessage(cleanMsgParams);
+      // tells the listener that the message has been signed
+      // and can be returned to the dapp
+      this.personalMessageManager.setMsgStatusSigned(msgId, rawSig);
+      return this.getState();
+    } catch (error) {
+      log.info('EcfWalletController - personal_sign failed.', error);
+      // Settle the dapp's request, then tell the UI why signing failed.
+      this.personalMessageManager.errorMessage(msgId, error);
+      throw error;
+    }
   }
 
   // eth_decrypt methods
@@ -1573,7 +1576,7 @@ export default class EcfWalletController extends EventEmitter {
    * Triggers the callback in newUnsignedTypedMessage.
    *
    * @param {object} msgParams - The params passed to eth_signTypedData.
-   * @returns {object | undefined} Full state update.
+   * @returns {Promise<object>} Full state update.
    */
   async signTypedMessage(msgParams) {
     log.info('EcfWalletController - eth_signTypedData');
@@ -1600,8 +1603,9 @@ export default class EcfWalletController extends EventEmitter {
       return this.getState();
     } catch (error) {
       log.info('EcfWalletController - eth_signTypedData failed.', error);
+      // Settle the dapp's request, then tell the UI why signing failed.
       this.typedMessageManager.errorMessage(msgId, error);
-      return undefined;
+      throw error;
     }
   }
 

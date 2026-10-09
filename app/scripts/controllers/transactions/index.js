@@ -444,7 +444,9 @@ export default class TransactionController extends EventEmitter {
         [PRIORITY_FEE_PERCENTILE],
       ])
         .then(({ reward }) => {
-          const rewards = reward.map(([value]) => toBN(value)).sort(BN.cmp);
+          const rewards = reward
+            .map(([value]) => toBN(value))
+            .sort((a, b) => a.cmp(b));
           if (!rewards.length) {
             throw new Error('No fee history');
           }
