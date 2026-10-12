@@ -1,10 +1,36 @@
-import urlUtil from 'url';
-
 import browserGlobal from '../browser-global';
 import extension from '../extension-api';
 import resolveEnsToIpfsContentId from './resolver';
 
 const supportedTopLevelDomains = ['eth'];
+
+// The form each kind of content hash must take before it goes into a URL. A
+// name's owner chooses its content hash, and for some kinds the decoded hash
+// is any text they like, so it is never put into a URL unchecked.
+const CONTENT_HASH_FORMATS = {
+  // Base32 CIDv1, which must be a single DNS label of the gateway's host.
+  'ipfs-ns': /^[a-z0-9]+$/u,
+  'ipns-ns': /^[a-z0-9]+$/u,
+  // A plain or an encrypted Swarm reference.
+  'swarm-ns': /^(?:[0-9a-f]{64}|[0-9a-f]{128})$/u,
+  // Tor onion service addresses, version 2 and version 3.
+  onion: /^[a-z2-7]{16}$/u,
+  onion3: /^[a-z2-7]{56}$/u,
+  // A ZeroNet site address, which is a base58 Bitcoin address.
+  zeronet: /^1[1-9A-HJ-NP-Za-km-z]{25,34}$/u,
+};
+
+/**
+ * Whether a resolved content hash is a well-formed address of its kind.
+ *
+ * @param {string} type - The content hash's codec, such as ipfs-ns.
+ * @param {unknown} hash - The decoded content hash.
+ * @returns {boolean} Whether it may be put into a URL.
+ */
+export function isValidContentHash(type, hash) {
+  const format = CONTENT_HASH_FORMATS[type];
+  return Boolean(format) && typeof hash === 'string' && format.test(hash);
+}
 
 export default function setupEnsIpfsResolver({
   provider,
@@ -25,8 +51,12 @@ export default function setupEnsIpfsResolver({
       return;
     }
     // parse ens name
-    const urlData = urlUtil.parse(url);
-    const { hostname: name, path, search, hash: fragment } = urlData;
+    const {
+      hostname: name,
+      pathname: path,
+      search,
+      hash: fragment,
+    } = new URL(url);
     const domainParts = name.split('.');
     const topLevelDomain = domainParts[domainParts.length - 1];
     // if unsupported TLD, abort
@@ -48,6 +78,11 @@ export default function setupEnsIpfsResolver({
         provider,
         name,
       });
+      if (!isValidContentHash(type, hash)) {
+        // Not a well-formed address of its kind: show the name on the ENS
+        // app instead.
+        return;
+      }
       if (type === 'ipfs-ns' || type === 'ipns-ns') {
         const resolvedUrl = `https://${hash}.${type.slice(0, 4)}.${ipfsGateway}${path}${search || ''}${fragment || ''}`;
         try {
