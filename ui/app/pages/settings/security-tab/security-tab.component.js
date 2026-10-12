@@ -17,6 +17,10 @@ export default class SecurityTab extends PureComponent {
     usePhishDetect: PropTypes.bool.isRequired,
     setUse4ByteResolution: PropTypes.func.isRequired,
     use4ByteResolution: PropTypes.bool.isRequired,
+    setUseNftDetection: PropTypes.func.isRequired,
+    useNftDetection: PropTypes.bool.isRequired,
+    setDisplayNftMedia: PropTypes.func.isRequired,
+    displayNftMedia: PropTypes.bool.isRequired,
   };
 
   renderSeedWords() {
@@ -98,6 +102,62 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
+  renderToggle({ title, description, value, onToggle, testId }) {
+    const { t } = this.context;
+
+    return (
+      <div className="settings-page__content-row" data-testid={testId}>
+        <div className="settings-page__content-item">
+          <span>{title}</span>
+          <div className="settings-page__content-description">
+            {description}
+          </div>
+        </div>
+        <div className="settings-page__content-item">
+          <div className="settings-page__content-item-col">
+            <ToggleButton
+              value={value}
+              onToggle={(current) => onToggle(!current)}
+              offLabel={t('off')}
+              onLabel={t('on')}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderNftToggles() {
+    const { t } = this.context;
+    const {
+      useNftDetection,
+      setUseNftDetection,
+      displayNftMedia,
+      setDisplayNftMedia,
+    } = this.props;
+
+    return (
+      <>
+        {this.renderToggle({
+          title: t('useNftDetection'),
+          description: t('useNftDetectionDescription'),
+          value: useNftDetection,
+          onToggle: setUseNftDetection,
+          testId: 'nft-detection-toggle',
+        })}
+        {/* Images are only for detected NFTs. */}
+        {useNftDetection &&
+          this.renderToggle({
+            title: t('displayNftMedia'),
+            description: t('displayNftMediaDescription'),
+            value: displayNftMedia,
+            onToggle: setDisplayNftMedia,
+            testId: 'nft-media-toggle',
+          })}
+      </>
+    );
+  }
+
   render() {
     const { warning } = this.props;
 
@@ -107,6 +167,7 @@ export default class SecurityTab extends PureComponent {
         {this.renderSeedWords()}
         {this.renderPhishingDetectionToggle()}
         {this.render4ByteResolutionToggle()}
+        {this.renderNftToggles()}
       </div>
     );
   }

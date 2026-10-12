@@ -1328,6 +1328,34 @@
   "usedByClients": {
     "message": "Used by a variety of different clients"
   },
+  "useNftDetection": {
+    "message": "Detect NFTs"
+  },
+  "useNftDetectionDescription": {
+    "message": "Shows an NFTs tab listing the selected account’s NFTs on Ethereum, Arbitrum, Optimism, Polygon and Base. The wallet asks MetaMask’s NFT API (nft.api.cx.metamask.io) for them, which sees the account’s address and your IP address. Turning this off forgets the list."
+  },
+  "displayNftMedia": {
+    "message": "Show NFT Images"
+  },
+  "displayNftMediaDescription": {
+    "message": "Downloads each NFT’s image once, from the host its creator chose (or your IPFS gateway), and keeps it in the wallet. Those hosts see your IP address. Turning this off deletes the downloaded images."
+  },
+  "nfts": {
+    "message": "NFTs"
+  },
+  "nftsLoading": {
+    "message": "Looking for NFTs…"
+  },
+  "noNfts": {
+    "message": "No NFTs found for this account on this network."
+  },
+  "nftsLookupFailed": {
+    "message": "The NFT lookup failed. Try again later."
+  },
+  "nftsUnsupportedNetwork": {
+    "message": "NFTs are looked up only on $1.",
+    "description": "$1 is a list of network names"
+  },
   "use4ByteResolution": {
     "message": "Look Up Contract Method Names"
   },

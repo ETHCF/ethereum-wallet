@@ -360,17 +360,17 @@
         "@ethereumjs/wallet>uuid": true
       }
     },
-    "@metamask/eth-token-tracker>@ethersproject/contracts>@ethersproject/abi": {
+    "@metamask/assets-controllers>@ethersproject/abi": {
       "globals": {
         "console.log": true
       },
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/address": true,
+        "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256": true,
+        "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
@@ -390,11 +390,11 @@
         "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/address": {
+    "@metamask/assets-controllers>@ethersproject/address": {
       "packages": {
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256": true,
+        "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true
       }
@@ -436,10 +436,10 @@
         "setTimeout": true
       },
       "packages": {
-        "@metamask/eth-token-tracker>@ethersproject/contracts>@ethersproject/abi": true,
+        "@metamask/assets-controllers>@ethersproject/abi": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/address": true,
+        "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
@@ -449,20 +449,20 @@
     },
     "nonce-tracker>@ethersproject/providers>@ethersproject/hash": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/address": true,
+        "@metamask/assets-controllers>@ethersproject/address": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256": true,
+        "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256": {
+    "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": {
       "packages": {
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256>js-sha3": true
+        "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256>js-sha3": true
       }
     },
     "nonce-tracker>@ethersproject/providers>@ethersproject/logger": {
@@ -493,7 +493,7 @@
       "packages": {
         "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/address": true,
+        "@metamask/assets-controllers>@ethersproject/address": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/basex": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
@@ -541,11 +541,11 @@
     },
     "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/address": true,
+        "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256": true,
+        "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
@@ -602,7 +602,7 @@
         "console.warn": true
       },
       "packages": {
-        "@metamask/eth-token-tracker>@ethersproject/contracts>@ethersproject/abi": true,
+        "@metamask/assets-controllers>@ethersproject/abi": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
         "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>@ledgerhq/cryptoassets-evm-signatures": true,
@@ -676,11 +676,33 @@
     },
     "@metamask/address-book-controller": {
       "packages": {
-        "@metamask/permission-controller>@metamask/base-controller": true,
-        "@metamask/permission-controller>@metamask/controller-utils": true
+        "@metamask/assets-controllers>@metamask/base-controller": true,
+        "@metamask/assets-controllers>@metamask/controller-utils": true
       }
     },
-    "@metamask/permission-controller>@metamask/base-controller": {
+    "@metamask/assets-controllers": {
+      "globals": {
+        "URL": true,
+        "URLSearchParams": true,
+        "console.error": true,
+        "console.warn": true
+      },
+      "packages": {
+        "@metamask/assets-controllers>@ethersproject/address": true,
+        "@metamask/eth-token-tracker>@ethersproject/contracts": true,
+        "nonce-tracker>@ethersproject/providers": true,
+        "@metamask/assets-controllers>@metamask/base-controller": true,
+        "@metamask/assets-controllers>@metamask/controller-utils": true,
+        "@metamask/assets-controllers>@metamask/phishing-controller": true,
+        "@metamask/rpc-errors": true,
+        "@metamask/assets-controllers>@metamask/utils": true,
+        "@metamask/assets-controllers>async-mutex": true,
+        "bn.js": true,
+        "@metamask/assets-controllers>multiformats": true,
+        "@ethereumjs/wallet>uuid": true
+      }
+    },
+    "@metamask/assets-controllers>@metamask/base-controller": {
       "globals": {
         "console.error": true
       },
@@ -705,7 +727,7 @@
         "buffer": true
       }
     },
-    "@metamask/permission-controller>@metamask/controller-utils": {
+    "@metamask/assets-controllers>@metamask/controller-utils": {
       "globals": {
         "Buffer.from": true,
         "console.error": true,
@@ -713,13 +735,13 @@
         "setTimeout": true
       },
       "packages": {
-        "@metamask/permission-controller>@metamask/controller-utils>@metamask/ethjs-unit": true,
+        "@metamask/assets-controllers>@metamask/controller-utils>@metamask/ethjs-unit": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "bn.js": true,
         "buffer": true,
         "eth-ens-namehash": true,
         "eslint>fast-deep-equal": true,
-        "@metamask/eth-json-rpc-provider>lodash-es": true
+        "@metamask/assets-controllers>lodash-es": true
       }
     },
     "@metamask/eth-block-tracker": {
@@ -777,7 +799,7 @@
         "@metamask/eth-query": true,
         "@metamask/eth-json-rpc-filters>@metamask/json-rpc-engine": true,
         "@metamask/safe-event-emitter": true,
-        "@metamask/eth-json-rpc-filters>async-mutex": true,
+        "@metamask/assets-controllers>async-mutex": true,
         "@metamask/eth-json-rpc-filters>pify": true
       }
     },
@@ -838,7 +860,7 @@
         "@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/scure-bip39>@scure/base": true,
+        "@metamask/eth-sig-util>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -855,7 +877,7 @@
         "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/scure-bip39>@scure/base": true,
+        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -872,7 +894,7 @@
         "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/scure-bip39>@scure/base": true,
+        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -889,7 +911,7 @@
         "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/scure-bip39>@scure/base": true,
+        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -906,7 +928,7 @@
         "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/scure-bip39>@scure/base": true,
+        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -998,7 +1020,7 @@
         "eth-method-registry>@metamask/ethjs-query>promise-to-callback": true
       }
     },
-    "@metamask/permission-controller>@metamask/controller-utils>@metamask/ethjs-unit": {
+    "@metamask/assets-controllers>@metamask/controller-utils>@metamask/ethjs-unit": {
       "packages": {
         "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>@metamask/number-to-bn": true,
         "bn.js": true
@@ -1051,7 +1073,7 @@
         "@metamask/abi-utils>@metamask/utils": true,
         "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves": true,
         "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/hashes": true,
-        "@metamask/eth-hd-keyring>@metamask/key-tree>@scure/base": true
+        "@ethereumjs/wallet>@scure/base": true
       }
     },
     "@metamask/messenger": {
@@ -1090,8 +1112,8 @@
         "console.error": true
       },
       "packages": {
-        "@metamask/permission-controller>@metamask/base-controller": true,
-        "@metamask/permission-controller>@metamask/controller-utils": true,
+        "@metamask/assets-controllers>@metamask/base-controller": true,
+        "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/rpc-errors": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "deep-freeze-strict": true,
@@ -1133,12 +1155,19 @@
         "@metamask/scure-bip39": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
         "@metamask/abi-utils>@metamask/utils>@noble/hashes": true,
-        "@metamask/abi-utils>@metamask/utils>@scure/base": true,
+        "@ethereumjs/wallet>@scure/base": true,
         "buffer": true,
         "debug": true,
         "lodash": true,
         "@metamask/abi-utils>@metamask/utils>pony-cause": true,
         "addons-linter>semver": true
+      }
+    },
+    "@metamask/assets-controllers>@metamask/utils": {
+      "packages": {
+        "@metamask/abi-utils>@metamask/superstruct": true,
+        "@metamask/assets-controllers>@metamask/utils>@noble/hashes": true,
+        "lodash": true
       }
     },
     "@ethereumjs/wallet>ethereum-cryptography>@noble/ciphers": {
@@ -1193,6 +1222,12 @@
         "TextDecoder": true,
         "TextEncoder": true,
         "crypto": true
+      }
+    },
+    "@metamask/assets-controllers>@metamask/utils>@noble/hashes": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
       }
     },
     "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves>@noble/hashes": {
@@ -1278,19 +1313,37 @@
         "TextEncoder": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/key-tree>@scure/base": {
+    "@metamask/eth-sig-util>@scure/base": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
       }
     },
     "@metamask/scure-bip39>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/abi-utils>@metamask/utils>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
@@ -1484,7 +1537,7 @@
         "assert>util": true
       }
     },
-    "@metamask/eth-json-rpc-filters>async-mutex": {
+    "@metamask/assets-controllers>async-mutex": {
       "globals": {
         "clearTimeout": true,
         "setTimeout": true
@@ -2358,7 +2411,7 @@
         "process": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/hash>@ethersproject/keccak256>js-sha3": {
+    "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256>js-sha3": {
       "globals": {
         "define": true,
         "process": true
@@ -2488,6 +2541,13 @@
       "packages": {
         "buffer": true,
         "content-hash>multicodec>varint": true
+      }
+    },
+    "@metamask/assets-controllers>multiformats": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "console.warn": true
       }
     },
     "content-hash>multihashes": {

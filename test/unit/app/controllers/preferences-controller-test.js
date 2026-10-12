@@ -16,6 +16,17 @@ describe('preferences controller', function () {
     preferencesController = new PreferencesController({ network });
   });
 
+  it('keeps NFT detection and NFT images off until the user turns them on', function () {
+    const { useNftDetection, displayNftMedia } =
+      preferencesController.store.getState();
+    assert.equal(useNftDetection, false);
+    assert.equal(displayNftMedia, false);
+    preferencesController.setUseNftDetection(true);
+    preferencesController.setDisplayNftMedia(true);
+    assert.equal(preferencesController.store.getState().useNftDetection, true);
+    assert.equal(preferencesController.store.getState().displayNftMedia, true);
+  });
+
   describe('setAddresses', function () {
     it('should keep a map of addresses to names and addresses in the store', function () {
       preferencesController.setAddresses(['0xda22be', '0x7e57e2']);

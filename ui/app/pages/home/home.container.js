@@ -25,6 +25,7 @@ const mapStateToProps = (state) => {
     suggestedTokens,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
+    useNftDetection,
   } = ecfWallet;
   const { forgottenPassword } = appState;
   const totalUnapprovedCount = getTotalUnapprovedCount(state);
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
     totalUnapprovedCount,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
+    useNftDetection: Boolean(useNftDetection),
   };
 };
 

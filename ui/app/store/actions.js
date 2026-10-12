@@ -1460,6 +1460,55 @@ export function setUse4ByteResolution(val) {
   };
 }
 
+export function setUseNftDetection(val) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication());
+    log.debug(`background.setUseNftDetection`);
+    background.setUseNftDetection(val, (err) => {
+      dispatch(hideLoadingIndication());
+      if (err) {
+        dispatch(displayWarning(err.message));
+      }
+    });
+  };
+}
+
+export function setDisplayNftMedia(val) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication());
+    log.debug(`background.setDisplayNftMedia`);
+    background.setDisplayNftMedia(val, (err) => {
+      dispatch(hideLoadingIndication());
+      if (err) {
+        dispatch(displayWarning(err.message));
+      }
+    });
+  };
+}
+
+/**
+ * Asks the background to look up the selected account's NFTs, if the user
+ * turned NFT detection on.
+ *
+ * @returns {Function} A thunk resolving once the lookup has finished.
+ */
+export function detectNfts() {
+  return async () => {
+    log.debug(`background.detectNfts`);
+    await promisifiedBackground.detectNfts();
+  };
+}
+
+/**
+ * Returns the NFT images the background has downloaded.
+ *
+ * @param {string[]} keys - The images' keys.
+ * @returns {Promise<object>} The data URL, or null, of each key tried.
+ */
+export async function getNftImages(keys) {
+  return await promisifiedBackground.getNftImages(keys);
+}
+
 export function updateCurrentLocale(key) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());

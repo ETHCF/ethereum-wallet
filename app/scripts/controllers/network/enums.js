@@ -132,3 +132,13 @@ export function getBuiltInNetworkByNetworkId(networkId) {
     (network) => network.networkId === String(networkId),
   );
 }
+
+// NFT detection asks the NFT API about the selected account only on these
+// networks, so the account is never sent for a testnet or a custom network.
+export const NFT_DETECTION_NETWORKS = [
+  MAINNET,
+  ARBITRUM,
+  OPTIMISM,
+  POLYGON,
+  BASE,
+];

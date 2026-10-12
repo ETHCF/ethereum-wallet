@@ -3,7 +3,16 @@
 // module's own require calls ES namespaces when an ES module loads it first, so
 // debug would export an object. Load it through require before anything imports it.
 require('debug');
-require('@babel/register');
+// Babel compiles the project, and two upstream packages that only a bundler
+// can load: NftController's @metamask/assets-controllers loads
+// @metamask/phishing-controller, an ES module that imports a named export
+// from CommonJS punycode, which Node's loader cannot provide. Compiled to
+// CommonJS, as webpack does, the import works.
+require('@babel/register').default({
+  ignore: [
+    /node_modules\/(?!@metamask\/(?:assets-controllers|phishing-controller)\/)/u,
+  ],
+});
 
 require('./helper');
 

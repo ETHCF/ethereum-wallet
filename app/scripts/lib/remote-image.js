@@ -251,12 +251,18 @@ async function readAtMost(response, maxBytes) {
  * @param {Function} [options.fetch] - The fetch function to use.
  * @param {object} [options.dns] - The extension DNS API, if there is one.
  * @param {number} [options.retryDelay] - How long to wait before the retry.
+ * @param {number} [options.maxBytes] - The largest image accepted.
  * @returns {Promise<string|undefined>} The image as a data URL, or undefined
  * if the URL does not give a small image.
  */
 export async function fetchImageAsDataUrl(
   url,
-  { fetch = fetchImage, dns = extension.dns, retryDelay = RETRY_DELAY_MS } = {},
+  {
+    fetch = fetchImage,
+    dns = extension.dns,
+    retryDelay = RETRY_DELAY_MS,
+    maxBytes = MAX_IMAGE_BYTES,
+  } = {},
 ) {
   let parsed;
   try {
@@ -270,10 +276,10 @@ export async function fetchImageAsDataUrl(
   if (isLocalHostname(parsed.hostname)) {
     return undefined;
   }
-  const first = await downloadImage(parsed, { fetch, dns });
+  const first = await downloadImage(parsed, { fetch, dns, maxBytes });
   if (first.retry) {
     await new Promise((resolve) => setTimeout(resolve, retryDelay));
-    return (await downloadImage(parsed, { fetch, dns })).image;
+    return (await downloadImage(parsed, { fetch, dns, maxBytes })).image;
   }
   return first.image;
 }
@@ -285,10 +291,11 @@ export async function fetchImageAsDataUrl(
  * @param {object} options - Options.
  * @param {Function} options.fetch - The fetch function to use.
  * @param {object} [options.dns] - The extension DNS API, if there is one.
+ * @param {number} options.maxBytes - The largest image accepted.
  * @returns {Promise<{image?: string, retry?: boolean}>} The image as a data
  * URL, or whether the failure may pass if tried again.
  */
-async function downloadImage(parsed, { fetch, dns }) {
+async function downloadImage(parsed, { fetch, dns, maxBytes }) {
   try {
     // Resolved just before the request, so the request uses the same answer.
     if (await resolvesToLocal(parsed.hostname, dns)) {
@@ -319,10 +326,10 @@ async function downloadImage(parsed, { fetch, dns }) {
     if (!IMAGE_TYPES.has(type)) {
       return {};
     }
-    if (Number(response.headers.get('content-length')) > MAX_IMAGE_BYTES) {
+    if (Number(response.headers.get('content-length')) > maxBytes) {
       return {};
     }
-    const bytes = await readAtMost(response, MAX_IMAGE_BYTES);
+    const bytes = await readAtMost(response, maxBytes);
     if (!bytes?.length) {
       return {};
     }

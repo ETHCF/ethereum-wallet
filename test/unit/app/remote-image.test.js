@@ -45,6 +45,22 @@ describe('remote images', function () {
     });
   });
 
+  it('accepts a larger image when asked to', async function () {
+    const body = new Uint8Array(MAX_IMAGE_BYTES + 1);
+    assert.equal(
+      await fetchImageAsDataUrl('https://cdn.test/x', {
+        fetch: respond({ body }),
+      }),
+      undefined,
+    );
+    assert.ok(
+      await fetchImageAsDataUrl('https://cdn.test/x', {
+        fetch: respond({ body }),
+        maxBytes: MAX_IMAGE_BYTES * 2,
+      }),
+    );
+  });
+
   it('refuses anything that is not a small image', async function () {
     const cases = [
       ['a failed request', respond({ status: 404 })],

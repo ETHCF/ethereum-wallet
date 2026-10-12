@@ -78,6 +78,11 @@ export default class PreferencesController {
       usePhishDetect: true,
       // Whether to look up unknown contract methods at 4byte.directory.
       use4ByteResolution: true,
+      // Whether to ask the NFT API for the selected account's NFTs, and
+      // whether to download their images. Both contact third parties, so
+      // both are off until the user turns them on.
+      useNftDetection: false,
+      displayNftMedia: false,
 
       // WARNING: Do not use feature flags for security-sensitive things.
       // Feature flag toggling is available in the global namespace
@@ -139,6 +144,25 @@ export default class PreferencesController {
    */
   setUse4ByteResolution(val) {
     this.store.updateState({ use4ByteResolution: val });
+  }
+
+  /**
+   * Setter for the `useNftDetection` property
+   *
+   * @param {boolean} val - Whether the user allows the NFT API to be asked
+   * for the selected account's NFTs
+   */
+  setUseNftDetection(val) {
+    this.store.updateState({ useNftDetection: Boolean(val) });
+  }
+
+  /**
+   * Setter for the `displayNftMedia` property
+   *
+   * @param {boolean} val - Whether the user allows NFT images to be downloaded
+   */
+  setDisplayNftMedia(val) {
+    this.store.updateState({ displayNftMedia: Boolean(val) });
   }
 
   /**

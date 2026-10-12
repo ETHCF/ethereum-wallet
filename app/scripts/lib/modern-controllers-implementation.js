@@ -1,4 +1,8 @@
 import { AddressBookController } from '@metamask/address-book-controller';
+import {
+  NftController,
+  NftDetectionController,
+} from '@metamask/assets-controllers';
 import { Messenger } from '@metamask/messenger';
 import {
   PermissionController,
@@ -185,5 +189,144 @@ export function createPermissionController({
   return {
     controller,
     store: stateStore(controller, messenger, 'PermissionController'),
+  };
+}
+
+// The wallet has one network at a time, so its NFT controllers see one
+// network client.
+const SELECTED_NETWORK_CLIENT_ID = 'selected';
+
+/**
+ * Creates upstream's NftController and NftDetectionController, connected to
+ * the wallet's own network, account and phishing list.
+ *
+ * They are used only for detection. NftController's own metadata lookups, which
+ * contact each NFT creator's metadata host and the NFT API again, stay off:
+ * the wallet downloads images itself, through its image fetcher, when the user
+ * allows it.
+ *
+ * @param {object} options - The options.
+ * @param {object} [options.state] - The persisted NftController state.
+ * @param {Function} options.getChainId - Returns the selected chain ID.
+ * @param {Function} options.getProvider - Returns the selected provider.
+ * @param {Function} options.getSelectedAddress - Returns the selected account.
+ * @param {Function} options.isPhishing - Whether a URL's host is on the
+ * phishing list.
+ * @param {boolean} options.useNftDetection - Whether detection starts enabled.
+ * @returns {object} The controllers, an ObservableStore-like view of
+ * NftController's state, and setUseNftDetection to keep detection in step
+ * with the preference.
+ */
+export function createNftControllers({
+  state,
+  getChainId,
+  getProvider,
+  getSelectedAddress,
+  isPhishing,
+  useNftDetection,
+}) {
+  const nftMessenger = new Messenger({ namespace: 'NftController' });
+  const detectionMessenger = new Messenger({
+    namespace: 'NftDetectionController',
+  });
+  const targets = [nftMessenger, detectionMessenger];
+  const shim = (namespace, actions, events = []) => {
+    const messenger = new Messenger({ namespace });
+    for (const [action, handler] of Object.entries(actions)) {
+      messenger.registerActionHandler(`${namespace}:${action}`, handler);
+    }
+    for (const target of targets) {
+      messenger.delegate({
+        messenger: target,
+        actions: Object.keys(actions).map((action) => `${namespace}:${action}`),
+        events: events.map((event) => `${namespace}:${event}`),
+      });
+    }
+    return messenger;
+  };
+
+  const sameChain = (chainId) =>
+    String(chainId).toLowerCase() === String(getChainId()).toLowerCase();
+  shim('NetworkController', {
+    getState: () => ({ selectedNetworkClientId: SELECTED_NETWORK_CLIENT_ID }),
+    getNetworkClientById: () => ({
+      configuration: { chainId: getChainId() },
+      provider: getProvider(),
+    }),
+    findNetworkClientIdByChainId: (chainId) => {
+      if (!sameChain(chainId)) {
+        throw new Error(`No network client for chain ${chainId}`);
+      }
+      return SELECTED_NETWORK_CLIENT_ID;
+    },
+  });
+
+  const account = (address) => ({
+    id: address,
+    address,
+    type: 'eip155:eoa',
+    metadata: {},
+  });
+  shim(
+    'AccountsController',
+    {
+      getSelectedAccount: () => account(getSelectedAddress()),
+      getAccount: (id) => account(id),
+    },
+    ['selectedEvmAccountChange'],
+  );
+
+  // Checked against the wallet's own phishing list: nothing is sent anywhere.
+  shim('PhishingController', {
+    bulkScanUrls: (urls) => ({
+      results: Object.fromEntries(
+        urls.map((url) => [
+          url,
+          { recommendedAction: isPhishing(url) ? 'BLOCK' : 'NONE' },
+        ]),
+      ),
+    }),
+  });
+
+  shim('ApprovalController', {
+    addRequest: () => {
+      throw new Error('NFTs cannot be added by request');
+    },
+  });
+
+  const preferencesState = (enabled) => ({
+    useNftDetection: enabled,
+    // NftController's own metadata lookups stay off. See above.
+    displayNftMedia: false,
+    openSeaEnabled: false,
+    ipfsGateway: '',
+    isIpfsGatewayEnabled: false,
+  });
+  const preferences = shim('PreferencesController', {}, ['stateChange']);
+
+  const nftController = new NftController({
+    messenger: nftMessenger,
+    state,
+    ipfsGateway: '',
+    displayNftMedia: false,
+    isIpfsGatewayEnabled: false,
+  });
+  const nftDetectionController = new NftDetectionController({
+    messenger: detectionMessenger,
+    disabled: !useNftDetection,
+    addNfts: (...args) => nftController.addNfts(...args),
+    getNftState: () => nftController.state,
+  });
+
+  return {
+    nftController,
+    nftDetectionController,
+    store: stateStore(nftController, nftMessenger, 'NftController'),
+    setUseNftDetection: (enabled) =>
+      preferences.publish(
+        'PreferencesController:stateChange',
+        preferencesState(enabled),
+        [],
+      ),
   };
 }

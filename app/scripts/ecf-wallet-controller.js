@@ -31,6 +31,7 @@ import EnsController from './controllers/ens';
 import NetworkController from './controllers/network';
 import { normalizeChainId } from './controllers/network/chain-utils';
 import NetworkRequestController from './controllers/network-requests';
+import NftsController from './controllers/nfts';
 import OnboardingController from './controllers/onboarding';
 import { PermissionsController } from './controllers/permissions';
 import { NOTIFICATION_NAMES } from './controllers/permissions/enums';
@@ -55,6 +56,7 @@ import {
 } from './lib/hardware-keyrings';
 import { createAddressBookController } from './lib/modern-controllers-implementation';
 import KeyringController from './lib/modern-keyring-controller';
+import NftImageStore from './lib/nft-image-store';
 import nodeify from './lib/nodeify';
 import OriginThrottler from './lib/origin-throttler';
 import PersonalMessageManager from './lib/personal-message-manager';
@@ -265,6 +267,21 @@ export default class EcfWalletController extends EventEmitter {
       keyringMemStore: this.keyringController.memStore,
     });
 
+    this.nftsController = new NftsController({
+      preferencesStore: this.preferencesController.store,
+      getChainId: () => normalizeChainId(this.networkController.getChainId()),
+      getProvider: () => this.provider,
+      isPhishing: (url) => {
+        try {
+          return this.phishingController.test(new URL(url).hostname);
+        } catch (_) {
+          return false;
+        }
+      },
+      imageStore: new NftImageStore(),
+      initState: initState.NftController,
+    });
+
     const addressBook = createAddressBookController(
       initState.AddressBookController,
     );
@@ -364,6 +381,7 @@ export default class EcfWalletController extends EventEmitter {
       KeyringController: this.keyringController.store,
       PreferencesController: this.preferencesController.store,
       AddressBookController: this.addressBookStore,
+      NftController: this.nftsController.store,
       NetworkController: this.networkController.store,
       CachedBalancesController: this.cachedBalancesController.store,
       AlertController: this.alertController.store,
@@ -385,6 +403,8 @@ export default class EcfWalletController extends EventEmitter {
       KeyringController: this.keyringController.memStore,
       PreferencesController: this.preferencesController.store,
       AddressBookController: this.addressBookStore,
+      NftController: this.nftsController.store,
+      NftImages: this.nftsController.imagesStore,
       AlertController: this.alertController.store,
       OnboardingController: this.onboardingController.store,
       PermissionController: this.permissionsController.permissionStore,
@@ -561,6 +581,19 @@ export default class EcfWalletController extends EventEmitter {
       setUse4ByteResolution: nodeify(
         preferencesController.setUse4ByteResolution,
         preferencesController,
+      ),
+      setUseNftDetection: nodeify(
+        preferencesController.setUseNftDetection,
+        preferencesController,
+      ),
+      setDisplayNftMedia: nodeify(
+        preferencesController.setDisplayNftMedia,
+        preferencesController,
+      ),
+      detectNfts: nodeify(this.nftsController.detectNfts, this.nftsController),
+      getNftImages: nodeify(
+        this.nftsController.getNftImages,
+        this.nftsController,
       ),
       setFirstTimeFlowType: nodeify(
         preferencesController.setFirstTimeFlowType,

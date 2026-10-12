@@ -275,6 +275,31 @@ export function getDomainMetadata(state) {
   return state.ecfWallet.domainMetadata;
 }
 
+const NO_NFTS = [];
+
+/**
+ * The NFTs detected for the selected account on the selected network. NFT
+ * detection is used only on built-in networks.
+ *
+ * @param {object} state - The Redux state.
+ * @returns {object[]} The NFTs the account still owns.
+ */
+export const getNfts = createSelector(
+  (state) => state.ecfWallet.allNfts,
+  (state) => state.ecfWallet.selectedAddress,
+  (state) => BUILT_IN_NETWORKS[state.ecfWallet.provider?.type]?.chainId,
+  (allNfts, selectedAddress, chainId) => {
+    const nfts = chainId && allNfts?.[selectedAddress]?.[chainId];
+    return nfts
+      ? nfts.filter((nft) => nft.isCurrentlyOwned !== false)
+      : NO_NFTS;
+  },
+);
+
+export function getNftChainId(state) {
+  return BUILT_IN_NETWORKS[state.ecfWallet.provider?.type]?.chainId;
+}
+
 export function getRpcPrefsForCurrentProvider(state) {
   const { frequentRpcListDetail, provider } = state.ecfWallet;
   const builtIn = BUILT_IN_NETWORKS[provider?.type];

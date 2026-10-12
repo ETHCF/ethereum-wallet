@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import AssetList from '../../components/app/asset-list';
 import BuildStamp from '../../components/app/build-stamp';
 import MenuBar from '../../components/app/menu-bar';
+import NftList from '../../components/app/nft-list';
 import TransactionList from '../../components/app/transaction-list';
 import { EthOverview } from '../../components/app/wallet-overview';
 import Button from '../../components/ui/button';
@@ -76,6 +77,7 @@ export default class Home extends PureComponent {
     setConnectedStatusPopoverHasBeenShown: PropTypes.func,
     connectedStatusPopoverHasBeenShown: PropTypes.bool,
     defaultHomeActiveTabName: PropTypes.string,
+    useNftDetection: PropTypes.bool,
     onTabClick: PropTypes.func.isRequired,
   };
 
@@ -171,6 +173,7 @@ export default class Home extends PureComponent {
     const { t } = this.context;
     const {
       defaultHomeActiveTabName,
+      useNftDetection,
       onTabClick,
       forgottenPassword,
       navigate,
@@ -229,6 +232,17 @@ export default class Home extends PureComponent {
               >
                 <TransactionList />
               </Tab>
+              {/* Only once the user has turned NFT detection on. */}
+              {useNftDetection && (
+                <Tab
+                  activeClassName="home__tab--active"
+                  className="home__tab"
+                  data-testid="home__nfts-tab"
+                  name={t('nfts')}
+                >
+                  <NftList />
+                </Tab>
+              )}
             </Tabs>
             <BuildStamp />
           </div>

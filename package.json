@@ -82,6 +82,7 @@
     "@ledgerhq/hw-transport-webhid": "^6.36.0",
     "@metamask/abi-utils": "^3.0.0",
     "@metamask/address-book-controller": "^8.0.0",
+    "@metamask/assets-controllers": "^112.1.2",
     "@metamask/browser-passworder": "^6.0.0",
     "@metamask/contract-metadata": "^2.5.0",
     "@metamask/eth-block-tracker": "^16.0.0",
