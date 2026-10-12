@@ -1,10 +1,8 @@
 const gulp = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
+const autoprefixer = require('gulp-autoprefixer').default;
 const rename = require('gulp-rename');
 const rtlcss = require('gulp-rtlcss');
 const sass = require('gulp-sass')(require('sass'));
-const sourcemaps = require('gulp-sourcemaps');
-const watch = require('gulp-watch');
 const { promisify } = require('util');
 
 const pump = promisify(require('pump'));
@@ -38,9 +36,9 @@ function createStyleTasks({ livereload }) {
   function createScssBuildTask({ src, dest, devMode, pattern }) {
     return async function () {
       if (devMode) {
-        watch(pattern, async (event) => {
+        gulp.watch(pattern).on('all', async (_event, changedPath) => {
           await buildScss();
-          livereload.changed(event.path);
+          livereload.changed(changedPath);
         });
       }
       await buildScss();
@@ -49,20 +47,17 @@ function createStyleTasks({ livereload }) {
     async function buildScss() {
       await pump(
         ...[
-          // pre-process
-          gulp.src(src),
-          devMode && sourcemaps.init(),
+          // pre-process; in development, gulp keeps an inline source map
+          gulp.src(src, { sourcemaps: devMode }),
           sass({ loadPaths: ['ui/app/css'] }).on('error', sass.logError),
-          devMode && sourcemaps.write(),
           autoprefixer(),
           // standard
-          gulp.dest(dest),
+          gulp.dest(dest, { sourcemaps: devMode }),
           // right-to-left
           rtlcss(),
           rename({ suffix: '-rtl' }),
-          devMode && sourcemaps.write(),
-          gulp.dest(dest),
-        ].filter(Boolean),
+          gulp.dest(dest, { sourcemaps: devMode }),
+        ],
       );
     }
   }

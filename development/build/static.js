@@ -1,6 +1,6 @@
 const glob = require('fast-glob');
 const fs = require('fs-extra');
-const watch = require('gulp-watch');
+const gulp = require('gulp');
 const path = require('path');
 
 const { createTask, composeSeries } = require('./task');
@@ -76,8 +76,8 @@ function createStaticAssetTasks({ livereload, browserPlatforms }) {
 
   async function setupLiveCopy(target) {
     const pattern = target.pattern || '/**/*';
-    watch(target.src + pattern, (event) => {
-      livereload.changed(event.path);
+    gulp.watch(target.src + pattern).on('all', (_event, changedPath) => {
+      livereload.changed(changedPath);
       performCopy(target);
     });
     await performCopy(target);

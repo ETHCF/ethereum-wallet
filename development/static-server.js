@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const chalk = require('chalk').default;
 const fs = require('fs');
 const path = require('path');
 
@@ -8,22 +8,20 @@ const fsStat = fs.promises.stat;
 const DEFAULT_PORT = 9080;
 
 const onResponse = (request, response) => {
+  let status;
   if (response.statusCode >= 400) {
-    console.log(
-      chalk`{gray '-->'} {red ${response.statusCode}} ${request.url}`,
-    );
+    status = chalk.red(response.statusCode);
   } else if (response.statusCode >= 200 && response.statusCode < 300) {
-    console.log(
-      chalk`{gray '-->'} {green ${response.statusCode}} ${request.url}`,
-    );
+    status = chalk.green(response.statusCode);
   } else {
-    console.log(
-      chalk`{gray '-->'} {green.dim ${response.statusCode}} ${request.url}`,
-    );
+    status = chalk.green.dim(response.statusCode);
   }
+  console.log(`${chalk.gray('-->')} ${status} ${request.url}`);
 };
 const onRequest = (request, response) => {
-  console.log(chalk`{gray '<--'} {blue [${request.method}]} ${request.url}`);
+  console.log(
+    `${chalk.gray('<--')} ${chalk.blue(`[${request.method}]`)} ${request.url}`,
+  );
   response.on('finish', () => onResponse(request, response));
 };
 

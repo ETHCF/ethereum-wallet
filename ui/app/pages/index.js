@@ -6,7 +6,6 @@ import { HashRouter } from 'react-router-dom';
 import ErrorPage from './error';
 import Routes from './routes';
 import { I18nProvider, LegacyI18nProvider } from '../contexts/i18n';
-import { ROUTER_FUTURE_FLAGS } from '../helpers/constants/router';
 
 class Index extends PureComponent {
   state = {};
@@ -37,7 +36,7 @@ class Index extends PureComponent {
 
     return (
       <Provider store={store}>
-        <HashRouter future={ROUTER_FUTURE_FLAGS}>
+        <HashRouter>
           <I18nProvider>
             <LegacyI18nProvider>
               <Routes />

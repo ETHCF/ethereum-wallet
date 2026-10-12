@@ -824,7 +824,7 @@
     "@metamask/eth-query": {
       "packages": {
         "@metamask/eth-query>json-rpc-random-id": true,
-        "through2>xtend": true
+        "@metamask/eth-query>xtend": true
       }
     },
     "@metamask/eth-sig-util": {
@@ -838,7 +838,7 @@
         "@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/scure-bip39>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
         "@metamask/eth-sig-util>tweetnacl": true
@@ -855,10 +855,10 @@
         "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/scure-bip39>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>tweetnacl": true
+        "@metamask/eth-sig-util>tweetnacl": true
       }
     },
     "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util": {
@@ -872,10 +872,10 @@
         "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/scure-bip39>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>tweetnacl": true
+        "@metamask/eth-sig-util>tweetnacl": true
       }
     },
     "@metamask/eth-simple-keyring>@metamask/eth-sig-util": {
@@ -889,10 +889,10 @@
         "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/scure-bip39>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>tweetnacl": true
+        "@metamask/eth-sig-util>tweetnacl": true
       }
     },
     "@metamask/eth-trezor-keyring>@metamask/eth-sig-util": {
@@ -906,10 +906,10 @@
         "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/scure-bip39>@scure/base": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>tweetnacl": true
+        "@metamask/eth-sig-util>tweetnacl": true
       }
     },
     "@metamask/eth-simple-keyring": {
@@ -1051,7 +1051,7 @@
         "@metamask/abi-utils>@metamask/utils": true,
         "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves": true,
         "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/hashes": true,
-        "@ethereumjs/wallet>@scure/base": true
+        "@metamask/eth-hd-keyring>@metamask/key-tree>@scure/base": true
       }
     },
     "@metamask/messenger": {
@@ -1066,7 +1066,7 @@
     },
     "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>@metamask/number-to-bn": {
       "packages": {
-        "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>@metamask/number-to-bn>bn.js": true,
+        "bn.js": true,
         "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>strip-hex-prefix": true
       }
     },
@@ -1133,7 +1133,7 @@
         "@metamask/scure-bip39": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
         "@metamask/abi-utils>@metamask/utils>@noble/hashes": true,
-        "@ethereumjs/wallet>@scure/base": true,
+        "@metamask/abi-utils>@metamask/utils>@scure/base": true,
         "buffer": true,
         "debug": true,
         "lodash": true,
@@ -1244,6 +1244,12 @@
         "@trezor/connect-web>@trezor/connect>@trezor/protobuf>protobufjs>@protobufjs/aspromise": true
       }
     },
+    "@trezor/connect-web>@trezor/connect>@trezor/protobuf>protobufjs>@protobufjs/float": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true
+      }
+    },
     "@reduxjs/toolkit": {
       "globals": {
         "AbortController": true,
@@ -1266,57 +1272,25 @@
         "reselect": true
       }
     },
-    "react-router-dom>@remix-run/router": {
-      "globals": {
-        "AbortController": true,
-        "DOMException": true,
-        "FormData": true,
-        "Headers": true,
-        "Request": true,
-        "Response": true,
-        "URL": true,
-        "URLSearchParams": true,
-        "console": true,
-        "document.defaultView": true
-      }
-    },
     "@ethereumjs/wallet>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
       }
     },
-    "@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": {
+    "@metamask/eth-hd-keyring>@metamask/key-tree>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
       }
     },
     "@metamask/scure-bip39>@scure/base": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true
+      }
+    },
+    "@metamask/abi-utils>@metamask/utils>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
@@ -1333,6 +1307,12 @@
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32>@scure/base": true
+      }
+    },
+    "@trezor/connect-web>@trezor/connect>@trezor/schema-utils>@sinclair/typebox": {
+      "globals": {
+        "Float32Array": true,
+        "Float64Array": true
       }
     },
     "@spruceid/siwe-parser": {
@@ -1477,7 +1457,7 @@
     },
     "@metamask/eth-token-tracker>deep-equal>array-buffer-byte-length": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "@metamask/eth-token-tracker>deep-equal>is-array-buffer": true
       }
     },
@@ -1589,11 +1569,6 @@
         "Buffer": true
       }
     },
-    "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>@metamask/number-to-bn>bn.js": {
-      "globals": {
-        "Buffer": true
-      }
-    },
     "crypto-browserify>public-encrypt>parse-asn1>asn1.js>bn.js": {
       "globals": {
         "Buffer": true
@@ -1615,8 +1590,8 @@
       }
     },
     "eth-method-registry>@metamask/ethjs-contract>ethjs-abi>bn.js": {
-      "packages": {
-        "buffer": true
+      "globals": {
+        "Buffer": true
       }
     },
     "crypto-browserify>diffie-hellman>miller-rabin>bn.js": {
@@ -1625,8 +1600,8 @@
       }
     },
     "eth-method-registry>@metamask/ethjs-contract>ethjs-abi>number-to-bn>bn.js": {
-      "packages": {
-        "buffer": true
+      "globals": {
+        "Buffer": true
       }
     },
     "crypto-browserify>public-encrypt>bn.js": {
@@ -1729,7 +1704,7 @@
     "assert>call-bind>call-bind-apply-helpers": {
       "packages": {
         "enzyme>html-element-map>es-errors": true,
-        "mocha>object.assign>function-bind": true
+        "eslint-plugin-react>hasown>function-bind": true
       }
     },
     "assert>call-bind": {
@@ -1740,7 +1715,7 @@
         "assert>call-bind>set-function-length": true
       }
     },
-    "koa>is-generator-function>call-bound": {
+    "assert>object.assign>call-bound": {
       "packages": {
         "assert>call-bind>call-bind-apply-helpers": true,
         "assert>call-bind>get-intrinsic": true
@@ -1801,7 +1776,7 @@
         "prompt": true
       }
     },
-    "through2>readable-stream>core-util-is": {
+    "gulp-rtlcss>through2>readable-stream>core-util-is": {
       "packages": {
         "buffer": true
       }
@@ -1882,7 +1857,7 @@
         "@metamask/eth-token-tracker>deep-equal>is-shared-array-buffer": true,
         "@lavamoat/webpack>json-stable-stringify>isarray": true,
         "assert>object-is": true,
-        "mocha>object.assign>object-keys": true,
+        "assert>object.assign>object-keys": true,
         "assert>object.assign": true,
         "eslint-plugin-react>string.prototype.matchall>regexp.prototype.flags": true,
         "url>qs>side-channel": true,
@@ -1898,11 +1873,11 @@
         "enzyme>is-regex>gopd": true
       }
     },
-    "mocha>object.assign>define-properties": {
+    "assert>is-nan>define-properties": {
       "packages": {
         "enzyme>string.prototype.trim>define-data-property": true,
         "enzyme>string.prototype.trim>has-property-descriptors": true,
-        "mocha>object.assign>object-keys": true
+        "assert>object.assign>object-keys": true
       }
     },
     "crypto-browserify>browserify-cipher>browserify-des>des.js": {
@@ -1939,7 +1914,7 @@
         "dnode>dnode-protocol>traverse": true
       }
     },
-    "koa>is-generator-function>get-proto>dunder-proto": {
+    "eslint-plugin-react>es-iterator-helpers>has-proto>dunder-proto": {
       "packages": {
         "assert>call-bind>call-bind-apply-helpers": true,
         "enzyme>is-regex>gopd": true
@@ -1978,7 +1953,7 @@
       "packages": {
         "@metamask/eth-token-tracker>deep-equal>array-buffer-byte-length": true,
         "assert>util>which-typed-array>available-typed-arrays": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "url>qs>es-define-property": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>object.assign>es-object-atoms": true,
@@ -1992,8 +1967,8 @@
         "assert>util>is-typed-array": true,
         "eslint-plugin-react>array-includes>math-intrinsics": true,
         "enzyme>object-inspect": true,
-        "mocha>node-environment-flags>object.getownpropertydescriptors>safe-array-concat": true,
-        "koa>is-generator-function>safe-regex-test": true,
+        "enzyme>array.prototype.flat>es-abstract>safe-array-concat": true,
+        "enzyme>string.prototype.trim>safe-regex-test": true,
         "enzyme>string.prototype.trim": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-byte-offset": true,
@@ -2008,7 +1983,7 @@
       "packages": {
         "assert>call-bind": true,
         "assert>call-bind>get-intrinsic": true,
-        "mocha>object.assign>has-symbols": true,
+        "assert>object.assign>has-symbols": true,
         "assert>util>is-arguments": true,
         "@metamask/eth-token-tracker>deep-equal>es-get-iterator>is-map": true,
         "enzyme>array.prototype.flat>es-abstract>is-set": true,
@@ -2136,7 +2111,7 @@
     "enzyme>function.prototype.name": {
       "packages": {
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "url>qs>es-define-property": true,
         "enzyme>html-element-map>es-errors": true,
         "enzyme>function.prototype.name>functions-have-names": true,
@@ -2156,6 +2131,8 @@
         "AggregateError": true,
         "FinalizationRegistry": true,
         "Float16Array": true,
+        "Float32Array": true,
+        "Float64Array": true,
         "WeakRef": true
       },
       "packages": {
@@ -2163,17 +2140,17 @@
         "url>qs>es-define-property": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>object.assign>es-object-atoms": true,
-        "mocha>object.assign>function-bind": true,
-        "koa>is-generator-function>get-proto": true,
+        "eslint-plugin-react>hasown>function-bind": true,
+        "assert>util>which-typed-array>get-proto": true,
         "enzyme>is-regex>gopd": true,
-        "mocha>object.assign>has-symbols": true,
+        "assert>object.assign>has-symbols": true,
         "eslint-plugin-react>hasown": true,
         "eslint-plugin-react>array-includes>math-intrinsics": true
       }
     },
-    "koa>is-generator-function>get-proto": {
+    "assert>util>which-typed-array>get-proto": {
       "packages": {
-        "koa>is-generator-function>get-proto>dunder-proto": true,
+        "eslint-plugin-react>es-iterator-helpers>has-proto>dunder-proto": true,
         "assert>object.assign>es-object-atoms": true
       }
     },
@@ -2182,9 +2159,9 @@
         "url>qs>es-define-property": true
       }
     },
-    "koa>is-generator-function>has-tostringtag": {
+    "enzyme>is-regex>has-tostringtag": {
       "packages": {
-        "mocha>object.assign>has-symbols": true
+        "assert>object.assign>has-symbols": true
       }
     },
     "crypto-browserify>pbkdf2>ripemd160>hash-base": {
@@ -2203,7 +2180,7 @@
     },
     "eslint-plugin-react>hasown": {
       "packages": {
-        "mocha>object.assign>function-bind": true
+        "eslint-plugin-react>hasown>function-bind": true
       }
     },
     "@metamask/eth-trezor-keyring>hdkey": {
@@ -2251,24 +2228,24 @@
     },
     "assert>util>is-arguments": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "assert>object.assign>call-bound": true,
+        "enzyme>is-regex>has-tostringtag": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>is-array-buffer": {
       "packages": {
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "assert>call-bind>get-intrinsic": true
       }
     },
     "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function": {
       "packages": {
         "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function>async-function": true,
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>get-proto": true,
-        "koa>is-generator-function>has-tostringtag": true,
-        "koa>is-generator-function>safe-regex-test": true
+        "assert>object.assign>call-bound": true,
+        "assert>util>which-typed-array>get-proto": true,
+        "enzyme>is-regex>has-tostringtag": true,
+        "enzyme>string.prototype.trim>safe-regex-test": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive>is-bigint": {
@@ -2278,8 +2255,8 @@
     },
     "enzyme>is-boolean-object": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "assert>object.assign>call-bound": true,
+        "enzyme>is-regex>has-tostringtag": true
       }
     },
     "enzyme>is-callable": {
@@ -2289,8 +2266,8 @@
     },
     "@metamask/eth-token-tracker>deep-equal>is-date-object": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "assert>object.assign>call-bound": true,
+        "enzyme>is-regex>has-tostringtag": true
       }
     },
     "enzyme>function.prototype.name>is-document.all": {
@@ -2298,59 +2275,59 @@
         "document": true
       },
       "packages": {
-        "koa>is-generator-function>call-bound": true
+        "assert>object.assign>call-bound": true
       }
     },
     "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-finalizationregistry": {
       "packages": {
-        "koa>is-generator-function>call-bound": true
+        "assert>object.assign>call-bound": true
       }
     },
-    "koa>is-generator-function": {
+    "assert>util>is-generator-function": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>generator-function": true,
-        "koa>is-generator-function>get-proto": true,
-        "koa>is-generator-function>has-tostringtag": true,
-        "koa>is-generator-function>safe-regex-test": true
+        "assert>object.assign>call-bound": true,
+        "assert>util>is-generator-function>generator-function": true,
+        "assert>util>which-typed-array>get-proto": true,
+        "enzyme>is-regex>has-tostringtag": true,
+        "enzyme>string.prototype.trim>safe-regex-test": true
       }
     },
     "assert>is-nan": {
       "packages": {
         "assert>call-bind": true,
-        "mocha>object.assign>define-properties": true
+        "assert>is-nan>define-properties": true
       }
     },
     "enzyme>is-number-object": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "assert>object.assign>call-bound": true,
+        "enzyme>is-regex>has-tostringtag": true
       }
     },
     "enzyme>is-regex": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>is-regex>gopd": true,
-        "koa>is-generator-function>has-tostringtag": true,
+        "enzyme>is-regex>has-tostringtag": true,
         "eslint-plugin-react>hasown": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>is-shared-array-buffer": {
       "packages": {
-        "koa>is-generator-function>call-bound": true
+        "assert>object.assign>call-bound": true
       }
     },
     "enzyme>is-string": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "assert>object.assign>call-bound": true,
+        "enzyme>is-regex>has-tostringtag": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive>is-symbol": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
-        "mocha>object.assign>has-symbols": true,
-        "koa>is-generator-function>safe-regex-test": true
+        "assert>object.assign>call-bound": true,
+        "assert>object.assign>has-symbols": true,
+        "enzyme>string.prototype.trim>safe-regex-test": true
       }
     },
     "assert>util>is-typed-array": {
@@ -2363,12 +2340,12 @@
         "WeakRef": true
       },
       "packages": {
-        "koa>is-generator-function>call-bound": true
+        "assert>object.assign>call-bound": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>which-collection>is-weakset": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "assert>call-bind>get-intrinsic": true
       }
     },
@@ -2557,17 +2534,17 @@
     "assert>object-is": {
       "packages": {
         "assert>call-bind": true,
-        "mocha>object.assign>define-properties": true
+        "assert>is-nan>define-properties": true
       }
     },
     "assert>object.assign": {
       "packages": {
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
-        "mocha>object.assign>define-properties": true,
+        "assert>object.assign>call-bound": true,
+        "assert>is-nan>define-properties": true,
         "assert>object.assign>es-object-atoms": true,
-        "mocha>object.assign>has-symbols": true,
-        "mocha>object.assign>object-keys": true
+        "assert>object.assign>has-symbols": true,
+        "assert>object.assign>object-keys": true
       }
     },
     "pump>once": {
@@ -2623,7 +2600,7 @@
         "setTimeout": true
       }
     },
-    "through2>readable-stream>process-nextick-args": {
+    "gulp-rtlcss>through2>readable-stream>process-nextick-args": {
       "globals": {
         "process": true
       },
@@ -2791,45 +2768,52 @@
         "react-redux>use-sync-external-store": true
       }
     },
-    "react-router-dom": {
+    "react-router-dom>react-router": {
       "globals": {
+        "AbortController": true,
+        "DOMException": true,
         "FormData": true,
+        "HTMLElement": true,
+        "Headers": true,
+        "IntersectionObserver": true,
+        "MutationObserver": true,
+        "ReadableStream": true,
+        "Request": true,
+        "Response": true,
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "TransformStream": true,
         "URL": true,
         "URLSearchParams": true,
+        "__reactRouterContext": true,
+        "__reactRouterDataRouter.navigate": true,
+        "__reactRouterHdrActive": true,
         "__reactRouterVersion": "write",
+        "__staticRouterHydrationData": true,
         "addEventListener": true,
+        "clearTimeout": true,
         "confirm": true,
+        "console": true,
         "document": true,
+        "fetch": true,
+        "history.replaceState": true,
         "history.scrollRestoration": true,
+        "history.state": true,
         "location.href": true,
-        "process.env.NODE_ENV": true,
+        "location.origin": true,
+        "location.reload": true,
+        "matchMedia": true,
+        "navigator.connection.saveData": true,
+        "origin": true,
         "removeEventListener": true,
         "scrollTo": true,
         "scrollY": true,
         "sessionStorage.getItem": true,
+        "sessionStorage.removeItem": true,
         "sessionStorage.setItem": true,
         "setTimeout": true
       },
-      "meta": {
-        "webpack-optimization": [
-          "Dependency 'react-router-dom>react-router' reexports from 'react-router-dom>@remix-run/router' and webpack collapsed that to a direct import."
-        ]
-      },
       "packages": {
-        "react-router-dom>@remix-run/router": true,
-        "react": true,
-        "react-dom": true,
-        "react-router-dom>react-router": true
-      }
-    },
-    "react-router-dom>react-router": {
-      "globals": {
-        "console.error": true,
-        "console.warn": true,
-        "process.env.NODE_ENV": true
-      },
-      "packages": {
-        "react-router-dom>@remix-run/router": true,
         "react": true
       }
     },
@@ -2867,7 +2851,7 @@
         "setTimeout": true
       },
       "packages": {
-        "@babel/runtime": true,
+        "react-transition-group>@babel/runtime": true,
         "react-transition-group>dom-helpers": true,
         "prop-types": true,
         "react": true,
@@ -2902,7 +2886,7 @@
         "crypto-browserify>inherits": true,
         "process": true,
         "string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "@metamask/object-multiplex>readable-stream": {
@@ -2917,7 +2901,7 @@
         "crypto-browserify>inherits": true,
         "process": true,
         "string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "@metamask/obs-store>readable-stream": {
@@ -2932,7 +2916,7 @@
         "crypto-browserify>inherits": true,
         "process": true,
         "string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "crypto-browserify>browserify-sign>readable-stream": {
@@ -2944,15 +2928,15 @@
         "setImmediate": true
       },
       "packages": {
-        "through2>readable-stream>core-util-is": true,
+        "gulp-rtlcss>through2>readable-stream>core-util-is": true,
         "events": true,
         "crypto-browserify>inherits": true,
         "crypto-browserify>browserify-sign>readable-stream>isarray": true,
         "process": true,
-        "through2>readable-stream>process-nextick-args": true,
+        "gulp-rtlcss>through2>readable-stream>process-nextick-args": true,
         "crypto-browserify>browserify-sign>readable-stream>safe-buffer": true,
         "crypto-browserify>browserify-sign>readable-stream>string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "crypto-browserify>pbkdf2>ripemd160>hash-base>readable-stream": {
@@ -2964,15 +2948,15 @@
         "setImmediate": true
       },
       "packages": {
-        "through2>readable-stream>core-util-is": true,
+        "gulp-rtlcss>through2>readable-stream>core-util-is": true,
         "events": true,
         "crypto-browserify>inherits": true,
         "crypto-browserify>pbkdf2>ripemd160>hash-base>readable-stream>isarray": true,
         "process": true,
-        "through2>readable-stream>process-nextick-args": true,
+        "gulp-rtlcss>through2>readable-stream>process-nextick-args": true,
         "crypto-browserify>pbkdf2>ripemd160>hash-base>readable-stream>safe-buffer": true,
         "crypto-browserify>pbkdf2>ripemd160>hash-base>readable-stream>string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "stream-browserify>readable-stream": {
@@ -2987,7 +2971,7 @@
         "crypto-browserify>inherits": true,
         "process": true,
         "string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "redux": {
@@ -3002,16 +2986,16 @@
         "enzyme>html-element-map>es-errors": true,
         "assert>object.assign>es-object-atoms": true,
         "assert>call-bind>get-intrinsic": true,
-        "koa>is-generator-function>get-proto": true,
+        "assert>util>which-typed-array>get-proto": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type": true
       }
     },
     "eslint-plugin-react>string.prototype.matchall>regexp.prototype.flags": {
       "packages": {
         "assert>call-bind": true,
-        "mocha>object.assign>define-properties": true,
+        "assert>is-nan>define-properties": true,
         "enzyme>html-element-map>es-errors": true,
-        "koa>is-generator-function>get-proto": true,
+        "assert>util>which-typed-array>get-proto": true,
         "enzyme>is-regex>gopd": true,
         "eslint-plugin-react>string.prototype.matchall>set-function-name": true
       }
@@ -3030,12 +3014,12 @@
         "crypto-browserify>inherits": true
       }
     },
-    "mocha>node-environment-flags>object.getownpropertydescriptors>safe-array-concat": {
+    "enzyme>array.prototype.flat>es-abstract>safe-array-concat": {
       "packages": {
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "assert>call-bind>get-intrinsic": true,
-        "mocha>object.assign>has-symbols": true,
+        "assert>object.assign>has-symbols": true,
         "@lavamoat/webpack>json-stable-stringify>isarray": true
       }
     },
@@ -3064,9 +3048,9 @@
         "buffer": true
       }
     },
-    "koa>is-generator-function>safe-regex-test": {
+    "enzyme>string.prototype.trim>safe-regex-test": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "enzyme>is-regex": true
       }
@@ -3144,7 +3128,7 @@
     },
     "url>qs>side-channel>side-channel-map": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>call-bind>get-intrinsic": true,
         "enzyme>object-inspect": true
@@ -3152,7 +3136,7 @@
     },
     "url>qs>side-channel>side-channel-weakmap": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>call-bind>get-intrinsic": true,
         "enzyme>object-inspect": true,
@@ -3187,13 +3171,13 @@
     "enzyme>string.prototype.trim": {
       "packages": {
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>string.prototype.trim>define-data-property": true,
-        "mocha>object.assign>define-properties": true,
+        "assert>is-nan>define-properties": true,
         "enzyme>array.prototype.flat>es-abstract": true,
         "assert>object.assign>es-object-atoms": true,
         "enzyme>string.prototype.trim>has-property-descriptors": true,
-        "koa>is-generator-function>safe-regex-test": true
+        "enzyme>string.prototype.trim>safe-regex-test": true
       }
     },
     "string_decoder": {
@@ -3239,34 +3223,7 @@
     },
     "@metamask/eth-sig-util>tweetnacl": {
       "globals": {
-        "crypto": true,
-        "msCrypto": true,
-        "nacl": "write"
-      }
-    },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>tweetnacl": {
-      "globals": {
-        "crypto": true,
-        "msCrypto": true,
-        "nacl": "write"
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>tweetnacl": {
-      "globals": {
-        "crypto": true,
-        "msCrypto": true,
-        "nacl": "write"
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>tweetnacl": {
-      "globals": {
-        "crypto": true,
-        "msCrypto": true,
-        "nacl": "write"
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>tweetnacl": {
-      "globals": {
+        "Float64Array": true,
         "crypto": true,
         "msCrypto": true,
         "nacl": "write"
@@ -3274,7 +3231,7 @@
     },
     "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>util>is-typed-array": true
       }
@@ -3302,10 +3259,10 @@
     "dnode>dnode-protocol>traverse>typedarray.prototype.slice": {
       "packages": {
         "assert>call-bind": true,
-        "mocha>object.assign>define-properties": true,
+        "assert>is-nan>define-properties": true,
         "enzyme>array.prototype.flat>es-abstract": true,
         "enzyme>html-element-map>es-errors": true,
-        "koa>is-generator-function>get-proto": true,
+        "assert>util>which-typed-array>get-proto": true,
         "eslint-plugin-react>array-includes>math-intrinsics": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-byte-offset": true
@@ -3337,7 +3294,7 @@
         "process": true
       }
     },
-    "through2>readable-stream>util-deprecate": {
+    "stylelint>postcss-selector-parser>util-deprecate": {
       "globals": {
         "console.trace": true,
         "console.warn": true,
@@ -3354,18 +3311,13 @@
       "packages": {
         "crypto-browserify>inherits": true,
         "assert>util>is-arguments": true,
-        "koa>is-generator-function": true,
+        "assert>util>is-generator-function": true,
         "assert>util>is-typed-array": true,
         "process": true,
         "assert>util>which-typed-array": true
       }
     },
     "@ethereumjs/wallet>uuid": {
-      "globals": {
-        "crypto": true
-      }
-    },
-    "web3-stream-provider>uuid": {
       "globals": {
         "crypto": true
       }
@@ -3377,7 +3329,7 @@
       "packages": {
         "readable-stream": true,
         "util": true,
-        "web3-stream-provider>uuid": true
+        "@ethereumjs/wallet>uuid": true
       }
     },
     "webextension-polyfill": {
@@ -3400,13 +3352,13 @@
     },
     "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type": {
       "packages": {
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "enzyme>function.prototype.name": true,
-        "koa>is-generator-function>has-tostringtag": true,
+        "enzyme>is-regex>has-tostringtag": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function": true,
         "@metamask/eth-token-tracker>deep-equal>is-date-object": true,
         "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-finalizationregistry": true,
-        "koa>is-generator-function": true,
+        "assert>util>is-generator-function": true,
         "enzyme>is-regex": true,
         "enzyme>array.prototype.flat>es-abstract>is-weakref": true,
         "@lavamoat/webpack>json-stable-stringify>isarray": true,
@@ -3427,11 +3379,11 @@
       "packages": {
         "assert>util>which-typed-array>available-typed-arrays": true,
         "assert>call-bind": true,
-        "koa>is-generator-function>call-bound": true,
+        "assert>object.assign>call-bound": true,
         "assert>util>which-typed-array>for-each": true,
-        "koa>is-generator-function>get-proto": true,
+        "assert>util>which-typed-array>get-proto": true,
         "enzyme>is-regex>gopd": true,
-        "koa>is-generator-function>has-tostringtag": true
+        "enzyme>is-regex>has-tostringtag": true
       }
     }
   }

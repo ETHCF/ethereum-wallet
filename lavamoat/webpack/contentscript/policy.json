@@ -88,7 +88,7 @@
         "crypto-browserify>inherits": true,
         "process": true,
         "string_decoder": true,
-        "through2>readable-stream>util-deprecate": true
+        "stylelint>postcss-selector-parser>util-deprecate": true
       }
     },
     "string_decoder>safe-buffer": {
@@ -101,7 +101,7 @@
         "string_decoder>safe-buffer": true
       }
     },
-    "through2>readable-stream>util-deprecate": {
+    "stylelint>postcss-selector-parser>util-deprecate": {
       "globals": {
         "console.trace": true,
         "console.warn": true,

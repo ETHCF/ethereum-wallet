@@ -6,13 +6,12 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Help from '..';
 import en from '../../../../../app/_locales/en/messages.json';
 import { HELP_TOPICS, getHelpUrl } from '../../../helpers/constants/help';
-import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router';
 import { HELP_ROUTE } from '../../../helpers/constants/routes';
 
 describe('Help page', function () {
   function mountAt(pathname) {
     return mount(
-      <MemoryRouter initialEntries={[pathname]} future={ROUTER_FUTURE_FLAGS}>
+      <MemoryRouter initialEntries={[pathname]}>
         <Routes>
           <Route path={`${HELP_ROUTE}/:topic?`} element={<Help />} />
         </Routes>

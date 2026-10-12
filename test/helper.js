@@ -56,7 +56,7 @@ new Anvil()
     blockBaseFeePerGas: 0,
   })
   .catch((error) => {
-    console.error('Anvil failed to start; run `yarn foundryup`.', error);
+    console.error('Anvil failed to start; is `anvil` on your PATH?', error);
     process.exit(1);
   });
 
@@ -68,7 +68,8 @@ global.log = log;
 //
 
 // dom
-const jsdom = new JSDOM();
+// A URL gives the page an origin, and so a working localStorage.
+const jsdom = new JSDOM('', { url: 'http://localhost/' });
 global.window = jsdom.window;
 
 // required by `trezor-connect/node_modules/whatwg-fetch`
@@ -90,21 +91,17 @@ const popoverContent = window.document.createElement('div');
 popoverContent.setAttribute('id', 'popover-content');
 window.document.body.appendChild(popoverContent);
 
-// delete AbortController added by jsdom so it can be polyfilled correctly below
-delete window.AbortController;
-
-// fetch
-const fetch = require('node-fetch');
-
-const { Headers, Request, Response } = fetch;
-Object.assign(window, { fetch, Headers, Request, Response });
-
-require('abortcontroller-polyfill/dist/polyfill-patch-fetch');
-
-// localStorage
-Object.defineProperty(window, 'localStorage', {
-  value: {},
-  configurable: true,
+// Node's own fetch, which nock intercepts, with the AbortController it
+// understands: jsdom's AbortSignal is not one Node's fetch accepts.
+const { fetch, Headers, Request, Response, AbortController, AbortSignal } =
+  globalThis;
+Object.assign(window, {
+  fetch,
+  Headers,
+  Request,
+  Response,
+  AbortController,
+  AbortSignal,
 });
 
 // override @metamask/logo

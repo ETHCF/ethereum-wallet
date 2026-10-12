@@ -87,7 +87,7 @@ describe('Fetch with cache', function () {
           {},
           { timeout: 20 },
         ),
-      { name: 'AbortError', message: 'Aborted' },
+      { name: 'AbortError' },
     );
   });
 

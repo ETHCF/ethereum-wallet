@@ -36,7 +36,8 @@ describe('DetectTokensController', function () {
     network.initializeProvider(networkControllerProviderConfig);
   });
 
-  after(function () {
+  // Each test installs its own fake timers, so each must remove them.
+  afterEach(function () {
     sandbox.restore();
     nock.cleanAll();
   });

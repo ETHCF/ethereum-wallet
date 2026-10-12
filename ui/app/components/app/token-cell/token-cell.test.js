@@ -8,7 +8,6 @@ import { thunk } from 'redux-thunk';
 import sinon from 'sinon';
 
 import TokenCell from '.';
-import { ROUTER_FUTURE_FLAGS } from '../../../helpers/constants/router';
 import Identicon from '../../ui/identicon';
 
 describe('Token Cell', function () {
@@ -43,7 +42,7 @@ describe('Token Cell', function () {
     onClick = sinon.stub();
     wrapper = mount(
       <Provider store={store}>
-        <MemoryRouter future={ROUTER_FUTURE_FLAGS}>
+        <MemoryRouter>
           <TokenCell
             address="0xAnotherToken"
             symbol="TEST"

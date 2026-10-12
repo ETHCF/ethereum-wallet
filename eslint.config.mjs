@@ -98,8 +98,8 @@ export default createConfig([
       'no-shadow': 'off',
       'jsdoc/match-description': 'off',
 
-      'no-invalid-this': 'off',
-      '@babel/no-invalid-this': 'error',
+      // ESLint's own rule understands class fields, so Babel 8 dropped its copy.
+      'no-invalid-this': 'error',
 
       // Webpack bundles browser versions of the Node modules the app uses,
       // such as events and assert.
@@ -209,10 +209,10 @@ export default createConfig([
   },
 
   {
-    files: ['test/**/*-test.js', 'test/**/*.spec.js'],
+    files: ['test/**/*-test.js', 'test/**/*.test.js', 'test/**/*.spec.js'],
     rules: {
       // Mocha will re-assign `this` in a test context
-      '@babel/no-invalid-this': 'off',
+      'no-invalid-this': 'off',
     },
   },
 

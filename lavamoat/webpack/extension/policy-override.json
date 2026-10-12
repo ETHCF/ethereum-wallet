@@ -113,6 +113,13 @@
         "SharedArrayBuffer": true
       }
     },
+    "react-router-dom>react-router": {
+      "globals": {
+        "fetch": false,
+        "location.reload": false,
+        "sessionStorage": false
+      }
+    },
     "react-router-dom": {
       "globals": {
         "history": true

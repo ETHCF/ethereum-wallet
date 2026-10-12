@@ -43,7 +43,8 @@ describe('fetchWithTimeout', function () {
       async () => {
         await fetch('https://api.infura.io/moon').then((r) => r.json());
       },
-      { message: 'Aborted' },
+      // Each fetch words the message its own way; the name is standard.
+      { name: 'AbortError' },
     );
   });
 });

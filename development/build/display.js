@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const chalk = require('chalk').default;
 const randomColor = require('randomcolor');
 
 module.exports = { setupTaskDisplay, displayChart };

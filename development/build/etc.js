@@ -1,6 +1,6 @@
 const { promises: fs } = require('fs');
 const gulp = require('gulp');
-const gulpZip = require('gulp-zip');
+const gulpZip = require('gulp-zip').default;
 const { promisify } = require('util');
 
 const pump = promisify(require('pump'));

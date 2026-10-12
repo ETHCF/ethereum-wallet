@@ -4,7 +4,7 @@ import { cloneDeep } from 'lodash';
 import nock from 'nock';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import { obj as createThoughStream } from 'through2';
+import { objectTransform as createThoughStream } from 'through2';
 import { promisify } from 'util';
 
 import firstTimeState from '../../localhostState';

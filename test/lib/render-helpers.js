@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import { LegacyI18nProvider } from '../../ui/app/contexts/i18n';
-import { ROUTER_FUTURE_FLAGS } from '../../ui/app/helpers/constants/router';
 
 export function mountWithStore(component, store) {
   const context = {
@@ -17,11 +16,7 @@ export function mountWithStore(component, store) {
 
 export function mountWithRouter(component, store = {}, pathname = '/') {
   const routed = (
-    <MemoryRouter
-      initialEntries={[{ pathname }]}
-      initialIndex={0}
-      future={ROUTER_FUTURE_FLAGS}
-    >
+    <MemoryRouter initialEntries={[{ pathname }]} initialIndex={0}>
       {component}
     </MemoryRouter>
   );
