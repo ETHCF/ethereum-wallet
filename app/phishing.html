@@ -28,6 +28,9 @@
       .content__body             { background-color: rgb(245, 245, 245); font-size: 12pt; }
       .content__body p           { margin: 2em; }
       .content__body p a         { text-decoration: underline; color: inherit; cursor: pointer; }
+      .content__site             { margin: 2em; padding: 1em; font-size: 14pt;
+                                   border: 1px solid rgb(217, 88, 70); background-color: white; }
+      .content__site strong      { word-break: break-all; }
     </style>
   </head>
   <body>
@@ -40,6 +43,13 @@
         </h1>
       </div>
       <div class="content__body">
+        <p class="content__site" id="flagged-site" hidden>
+          ECF Wallet blocked <strong id="flagged-hostname"></strong>.
+          <span id="flagged-frame" hidden>
+            It was loaded in a frame by <strong id="flagged-page-hostname"></strong>,
+            so that whole page was blocked.
+          </span>
+        </p>
         <p>
           This domain is currently on the ECF Wallet domain warning list. This means that based on information available to us,
           ECF Wallet believes this domain could currently compromise your security and, as an added safety feature, ECF Wallet

@@ -7,6 +7,7 @@ import ConfirmRequestLayout, {
   RequestOrigin,
 } from '../../components/app/confirm-request-layout';
 import Copy from '../../components/ui/icon/copy-icon.component';
+import { displayOrigin } from '../../components/ui/request-site/request-site.component';
 import Tooltip from '../../components/ui/tooltip';
 import { useCopiedFlag } from '../../hooks/useCopiedFlag';
 import { useI18nContext } from '../../hooks/useI18nContext';
@@ -26,7 +27,9 @@ export default function ConfirmDecryptMessage({
   const [errorMessage, setErrorMessage] = useState();
   const hasError = errorMessage !== undefined;
 
-  const origin = domainMetadata[txData.msgParams.origin];
+  const requestOrigin = txData.msgParams.origin;
+  const site = displayOrigin(requestOrigin);
+  const origin = domainMetadata[requestOrigin] ?? { name: site };
 
   const copyMessage = () => {
     copyToClipboard(rawMessage);
@@ -49,13 +52,14 @@ export default function ConfirmDecryptMessage({
     <ConfirmRequestLayout
       title={t('decryptRequest')}
       fromAddress={txData.msgParams.from}
+      origin={requestOrigin}
       onCancel={(event) => cancelDecryptMessage(txData, event)}
       onConfirm={(event) => decryptMessage(txData, event)}
       confirmText={t('decrypt')}
     >
       <RequestOrigin origin={origin}>
         <div className="request-decrypt-message__notice">
-          {t('decryptMessageNotice', [origin.name])}
+          {t('decryptMessageNotice', [site])}
         </div>
       </RequestOrigin>
       <div className="request-decrypt-message__message">

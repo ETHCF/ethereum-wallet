@@ -16,6 +16,7 @@ import {
 } from '../../../selectors';
 import Button from '../../ui/button';
 import Identicon from '../../ui/identicon';
+import RequestSite from '../../ui/request-site';
 import AccountListItem from '../account-list-item';
 
 /**
@@ -30,6 +31,7 @@ import AccountListItem from '../account-list-item';
  * @param {object} props - The component props.
  * @param {string} props.title - The header text.
  * @param {string} props.fromAddress - The address of the account asked to act.
+ * @param {string} [props.origin] - The origin the request came from.
  * @param {Function} props.onCancel - Rejects the request; given the event.
  * @param {Function} props.onConfirm - Approves the request; given the event.
  * @param {string} props.confirmText - The confirm button's label.
@@ -42,6 +44,7 @@ import AccountListItem from '../account-list-item';
 export default function ConfirmRequestLayout({
   title,
   fromAddress,
+  origin,
   onCancel,
   onConfirm,
   confirmText,
@@ -107,6 +110,7 @@ export default function ConfirmRequestLayout({
       </div>
 
       <div className="confirm-request-layout__body">
+        <RequestSite origin={origin} />
         <div className="confirm-request-layout__account-info">
           <div className="confirm-request-layout__account">
             <div className="confirm-request-layout__account-text">
@@ -161,6 +165,7 @@ export default function ConfirmRequestLayout({
 ConfirmRequestLayout.propTypes = {
   title: PropTypes.string.isRequired,
   fromAddress: PropTypes.string,
+  origin: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   confirmText: PropTypes.string.isRequired,

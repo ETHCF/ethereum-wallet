@@ -41,6 +41,19 @@ export default class PhishingWarnings {
   }
 
   /**
+   * Returns the site a tab was flagged for, leaving it in place, so that the
+   * warning page can name it.
+   *
+   * @param {number} tabId - The tab showing the warning
+   * @returns {Promise<{hostname: string, href: string}|undefined>} The warning,
+   * if the tab has one
+   */
+  async get(tabId) {
+    const { [key(tabId)]: warning } = await this.storage.get(key(tabId));
+    return warning;
+  }
+
+  /**
    * Removes and returns the site a tab was flagged for.
    *
    * @param {number} tabId - The tab showing the warning

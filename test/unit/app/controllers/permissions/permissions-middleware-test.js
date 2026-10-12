@@ -1382,9 +1382,11 @@ describe('permissions middleware', function () {
       assert.equal(late.icon, 'data:image/png;base64,CCCC');
       assert.equal(late.iconSource, undefined);
 
-      // A failed download leaves no icon, never the URL.
+      // A failed download leaves no icon, never the URL, and is not tried
+      // again when the site sends the same icon.
       await send('https://c.test/missing.png');
       assert.equal((await answer(undefined)).icon, undefined);
+      await send('https://c.test/missing.png');
       assert.equal(fetchImage.callCount, 4);
     });
 

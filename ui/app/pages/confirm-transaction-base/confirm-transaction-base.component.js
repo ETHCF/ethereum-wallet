@@ -565,6 +565,7 @@ export default class ConfirmTransactionBase extends Component {
 
     return (
       <ConfirmPageContainer
+        origin={this.props.txData?.origin}
         fromName={fromName}
         fromAddress={fromAddress}
         showAccountInHeader={showAccountInHeader}

@@ -7,6 +7,7 @@ import {
   ConfirmPageContainerNavigation,
 } from '.';
 import { PageContainerFooter } from '../../ui/page-container';
+import RequestSite from '../../ui/request-site';
 import SenderToRecipient from '../../ui/sender-to-recipient';
 
 export default class ConfirmPageContainer extends Component {
@@ -26,6 +27,8 @@ export default class ConfirmPageContainer extends Component {
     titleComponent: PropTypes.node,
     hideSenderToRecipient: PropTypes.bool,
     showAccountInHeader: PropTypes.bool,
+    // The origin the transaction request came from.
+    origin: PropTypes.string,
     // Sender to Recipient
     fromAddress: PropTypes.string,
     fromName: PropTypes.string,
@@ -108,6 +111,7 @@ export default class ConfirmPageContainer extends Component {
       hideSenderToRecipient,
       showAccountInHeader,
       securityAlerts,
+      origin,
     } = this.props;
     const renderAssetImage =
       contentComponent || (!contentComponent && !identiconAddress);
@@ -126,6 +130,7 @@ export default class ConfirmPageContainer extends Component {
           ofText={ofText}
           requestsWaitingText={requestsWaitingText}
         />
+        <RequestSite origin={origin} />
         <ConfirmPageContainerHeader
           showEdit={showEdit}
           onEdit={() => onEdit()}

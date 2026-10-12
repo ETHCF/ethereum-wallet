@@ -575,15 +575,13 @@ export class PermissionsController {
     const metadataState = restoredState[METADATA_STORE_KEY] || {};
     const newMetadataState = this._trimDomainMetadata(metadataState);
 
-    // Earlier versions stored remote icon URLs, and a download may have
-    // failed. Show no remote icon, and try each download once more.
+    // Earlier versions stored remote icon URLs. Show no remote icon, and
+    // download each of those once. An icon whose download failed is not
+    // tried again: a site could fail it on purpose to learn of each start.
     const toCache = [];
     for (const [origin, metadata] of Object.entries(newMetadataState)) {
-      const iconSource =
-        metadata.icon && !isImageDataUrl(metadata.icon)
-          ? metadata.icon
-          : metadata.iconSource;
-      if (iconSource && !isImageDataUrl(metadata.icon)) {
+      if (metadata.icon && !isImageDataUrl(metadata.icon)) {
+        const iconSource = metadata.icon;
         newMetadataState[origin] = { ...metadata, icon: undefined, iconSource };
         toCache.push([origin, iconSource]);
       }

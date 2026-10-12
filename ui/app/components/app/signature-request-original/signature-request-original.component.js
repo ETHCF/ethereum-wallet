@@ -40,6 +40,7 @@ export default function SignatureRequestOriginal({
     <ConfirmRequestLayout
       title={t('sigRequest')}
       fromAddress={from}
+      origin={origin}
       onCancel={isPersonalSign ? cancelPersonalMessage : cancelTypedMessage}
       onConfirm={isPersonalSign ? signPersonalMessage : signTypedMessage}
       confirmText={t('sign')}

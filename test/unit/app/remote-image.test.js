@@ -1,8 +1,11 @@
 import { strict as assert } from 'assert';
+import sinon from 'sinon';
 
 import {
   fetchImageAsDataUrl,
   isImageDataUrl,
+  isLoopbackAddress,
+  isLoopbackHostname,
   MAX_IMAGE_BYTES,
 } from '../../../app/scripts/lib/remote-image';
 
@@ -34,7 +37,11 @@ describe('remote images', function () {
     );
     assert.deepEqual(request, {
       url: 'https://cdn.test/token.png',
-      options: { credentials: 'omit', referrerPolicy: 'no-referrer' },
+      options: {
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        redirect: 'error',
+      },
     });
   });
 
@@ -55,7 +62,10 @@ describe('remote images', function () {
     ];
     for (const [description, fetch] of cases) {
       assert.equal(
-        await fetchImageAsDataUrl('https://cdn.test/x', { fetch }),
+        await fetchImageAsDataUrl('https://cdn.test/x', {
+          fetch,
+          retryDelay: 0,
+        }),
         undefined,
         description,
       );
@@ -77,6 +87,119 @@ describe('remote images', function () {
       assert.equal(await fetchImageAsDataUrl(url, { fetch }), undefined);
     }
     assert.equal(called, false);
+  });
+
+  it('retries a failed download once, and then gives up', async function () {
+    const failing = sinon.stub().rejects(new Error('offline'));
+    assert.equal(
+      await fetchImageAsDataUrl('https://cdn.test/x', {
+        fetch: failing,
+        retryDelay: 0,
+      }),
+      undefined,
+    );
+    assert.equal(failing.callCount, 2);
+
+    const flaky = sinon.stub();
+    flaky.onFirstCall().callsFake(respond({ status: 503 }));
+    flaky.onSecondCall().callsFake(respond());
+    assert.equal(
+      await fetchImageAsDataUrl('https://cdn.test/x', {
+        fetch: flaky,
+        retryDelay: 0,
+      }),
+      'data:image/png;base64,AQID',
+    );
+
+    // An answer that is not a small image will not change: no retry.
+    const html = sinon.stub().callsFake(respond({ type: 'text/html' }));
+    await fetchImageAsDataUrl('https://cdn.test/x', {
+      fetch: html,
+      retryDelay: 0,
+    });
+    assert.equal(html.callCount, 1);
+  });
+
+  it('never fetches from this computer', async function () {
+    const fetch = sinon.stub().callsFake(respond());
+    for (const url of [
+      'http://localhost/a.png',
+      'http://LOCALHOST./a.png',
+      'http://app.localhost:3000/a.png',
+      'http://127.0.0.1/a.png',
+      'http://127.1.2.3:8545/a.png',
+      'http://2130706433/a.png',
+      'http://0x7f.1/a.png',
+      'http://0.0.0.0/a.png',
+      'http://0/a.png',
+      'http://[::1]/a.png',
+      'http://[::]/a.png',
+      'http://[::ffff:127.0.0.1]/a.png',
+      'http://[0:0:0:0:0:0:0:1]/a.png',
+    ]) {
+      assert.equal(await fetchImageAsDataUrl(url, { fetch }), undefined, url);
+    }
+    assert.equal(fetch.called, false);
+  });
+
+  it('refuses a name that resolves to this computer', async function () {
+    const fetch = sinon.stub().callsFake(respond());
+    const resolvesTo = (addresses) => ({
+      resolve: sinon.stub().resolves({ addresses }),
+    });
+
+    for (const addresses of [['127.0.0.1'], ['93.184.215.14', '::1']]) {
+      const dns = resolvesTo(addresses);
+      assert.equal(
+        await fetchImageAsDataUrl('https://rebind.test/a.png', { fetch, dns }),
+        undefined,
+      );
+      assert.deepEqual(dns.resolve.firstCall.args, ['rebind.test']);
+    }
+    assert.equal(fetch.called, false);
+
+    assert.equal(
+      await fetchImageAsDataUrl('https://cdn.test/a.png', {
+        fetch,
+        dns: resolvesTo(['93.184.215.14']),
+      }),
+      'data:image/png;base64,AQID',
+    );
+  });
+
+  it('recognizes loopback addresses', function () {
+    for (const address of [
+      '127.0.0.1',
+      '127.255.255.254',
+      '0.0.0.0',
+      '::1',
+      '::',
+      '::ffff:127.0.0.1',
+      '::ffff:7f00:1',
+      '::127.0.0.1',
+      '0:0:0:0:0:0:0:1',
+      '[::1]',
+      '::1%lo',
+    ]) {
+      assert.equal(isLoopbackAddress(address), true, address);
+    }
+    for (const address of [
+      '128.0.0.1',
+      '10.0.0.1',
+      '192.168.1.1',
+      '::2',
+      '::ffff:10.0.0.1',
+      '2001:db8::1',
+      'fe80::1',
+      '1::',
+      '256.0.0.1',
+      'not an address',
+    ]) {
+      assert.equal(isLoopbackAddress(address), false, address);
+    }
+    assert.equal(isLoopbackHostname('sub.localhost'), true);
+    assert.equal(isLoopbackHostname('localhost.example.com'), false);
+    assert.equal(isLoopbackHostname('notlocalhost'), false);
   });
 
   it('recognizes image data URLs', function () {

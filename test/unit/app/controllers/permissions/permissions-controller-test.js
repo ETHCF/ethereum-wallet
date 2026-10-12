@@ -1709,7 +1709,7 @@ describe('permissions controller', function () {
       );
     });
 
-    it('keeps a downloaded icon, and retries a failed download once on start', async function () {
+    it('keeps a downloaded icon, and never retries a failed download on start', async function () {
       const fetchImage = sinon.stub().resolves(undefined);
       const kept = restoreWithIcon(
         {
@@ -1727,8 +1727,10 @@ describe('permissions controller', function () {
         fetchImage,
       );
       await new Promise((resolve) => setImmediate(resolve));
-      assert.equal(fetchImage.callCount, 1);
+      // A site could fail its icon on purpose to learn of each start.
+      assert.equal(fetchImage.called, false);
       assert.equal(metadataOf(failed).icon, undefined);
+      assert.equal(metadataOf(failed).iconSource, 'https://a.test/icon.png');
     });
   });
 
