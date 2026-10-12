@@ -4,8 +4,8 @@ set -e
 set -u
 set -o pipefail
 
-# Installed, at a pinned and checksum-verified version, by `yarn foundryup`.
-anvil="$(yarn bin)/anvil"
+# Found on the PATH.
+anvil="env anvil"
 seed_phrase="${ANVIL_SEED_PHRASE:-phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent}"
 
 _term () {

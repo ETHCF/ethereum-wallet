@@ -49,7 +49,7 @@
     "update-changelog": "./development/auto-changelog.sh",
     "generate:migration": "./development/generate-migration.sh",
     "foundryup": "mm-foundryup",
-    "anvil": "node_modules/.bin/anvil"
+    "anvil": "env anvil"
   },
   "resolutions": {
     "**/enzyme/cheerio": "1.0.0-rc.12",
@@ -266,14 +266,14 @@
       "algorithm": "sha256",
       "binaries": {
         "anvil": {
-          "darwin-amd64": "8404e555223fe884557d5e22de494baf8b5f0b82c6f87a4c790c5150e546c9d0",
-          "darwin-arm64": "888500bc210752e71a355ed4d492ad6dcb4c0ef54d283c105a29a5ccc73d0dbd",
-          "linux-amd64": "6104069b183fa0f3cdcb692681da9dbd203a3c1bceb435853bbf7abd991c649e",
-          "linux-arm64": "d66ed8f848e829882ebb65d28aaac72aeab6a101655bb62147186040655928b5",
-          "win32-amd64": "6c71d9a7be39ed32b53c89bdbc83aa748f41587517212ffe2a8b955c3e9c2e9b"
+          "darwin-amd64": "50f019761f6054085e8d1c952ce4f4c53e8bebdfac90d4993c2e0ebd8915bda2",
+          "darwin-arm64": "5c9f9aad323062b1c0421a63595741430acaea150da3611e38c45071e4cf4e28",
+          "linux-amd64": "10c1c727d6c1de973aeb160e59875b9a9a23464d6e74149ee8abb30b3500311b",
+          "linux-arm64": "bebaff5c1b6ff6f55b6f2f5f415bb5543f19b948197b5e909195e81ef1727be1",
+          "win32-amd64": "5c2217d266135a6fbe5faaccccb1e9eb2ddc1d06f8aabeef5fdb16d9846e4880"
         }
       }
     },
-    "version": "v0.3.0"
+    "version": "v1.7.1"
   }
 }

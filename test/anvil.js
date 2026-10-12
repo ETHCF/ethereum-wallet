@@ -1,9 +1,7 @@
 const { privateToAddress, toBytes, bytesToHex } = require('@ethereumjs/util');
 const { createAnvil } = require('@viem/anvil');
-const path = require('path');
-
-// `yarn foundryup` installs the pinned, checksum-verified Anvil binary here.
-const ANVIL_BINARY = path.resolve(__dirname, '../node_modules/.bin/anvil');
+// Found on the PATH, as `env anvil` would find it.
+const ANVIL_BINARY = 'anvil';
 
 const defaultOptions = {
   // Ganache's default: 100 ETH in each of the mnemonic's accounts.
