@@ -32,7 +32,11 @@ import {
 } from '../../../../ui/app/helpers/constants/transactions';
 import createMethodDecoder from '../../lib/abi-method-decoder';
 import cleanErrorStack from '../../lib/cleanErrorStack';
-import { decodeCall, getTransactionAlerts } from '../../lib/security-checks';
+import {
+  checksFailedAlert,
+  decodeCall,
+  getTransactionAlerts,
+} from '../../lib/security-checks';
 import { createTransaction } from '../../lib/transaction-codec';
 import {
   isFeeMarketTransaction,
@@ -1127,7 +1131,7 @@ export default class TransactionController extends EventEmitter {
 
   /**
    * Runs the on-device checks for a new transaction. A failing check must not
-   * block the transaction, so errors yield no alerts.
+   * block the transaction, so errors yield an alert that the checks failed.
    *
    * @param {object} txParams - The transaction.
    * @returns {Promise<object[]>} Alerts to show with the confirmation.
@@ -1158,7 +1162,7 @@ export default class TransactionController extends EventEmitter {
       });
     } catch (error) {
       log.warn('Transaction checks failed', error);
-      return [];
+      return [checksFailedAlert()];
     }
   }
 

@@ -17,6 +17,8 @@ describe('Security Tab', function () {
     warning: '',
     setUsePhishDetect: sinon.spy(),
     usePhishDetect: true,
+    setUse4ByteResolution: sinon.spy(),
+    use4ByteResolution: true,
   };
 
   beforeEach(function () {
@@ -39,5 +41,10 @@ describe('Security Tab', function () {
     const phishDetect = wrapper.find('[role="switch"]').at(0);
     phishDetect.simulate('click');
     assert(props.setUsePhishDetect.calledOnce);
+  });
+
+  it('turns off contract method lookups at 4byte.directory', function () {
+    wrapper.find('[role="switch"]').at(1).simulate('click');
+    assert(props.setUse4ByteResolution.calledOnceWithExactly(false));
   });
 });

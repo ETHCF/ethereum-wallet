@@ -15,6 +15,8 @@ export default class SecurityTab extends PureComponent {
     navigate: PropTypes.func,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
+    setUse4ByteResolution: PropTypes.func.isRequired,
+    use4ByteResolution: PropTypes.bool.isRequired,
   };
 
   renderSeedWords() {
@@ -70,6 +72,32 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
+  render4ByteResolutionToggle() {
+    const { t } = this.context;
+    const { use4ByteResolution, setUse4ByteResolution } = this.props;
+
+    return (
+      <div className="settings-page__content-row">
+        <div className="settings-page__content-item">
+          <span>{t('use4ByteResolution')}</span>
+          <div className="settings-page__content-description">
+            {t('use4ByteResolutionDescription')}
+          </div>
+        </div>
+        <div className="settings-page__content-item">
+          <div className="settings-page__content-item-col">
+            <ToggleButton
+              value={use4ByteResolution}
+              onToggle={(value) => setUse4ByteResolution(!value)}
+              offLabel={t('off')}
+              onLabel={t('on')}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { warning } = this.props;
 
@@ -78,6 +106,7 @@ export default class SecurityTab extends PureComponent {
         {warning && <div className="settings-tab__error">{warning}</div>}
         {this.renderSeedWords()}
         {this.renderPhishingDetectionToggle()}
+        {this.render4ByteResolutionToggle()}
       </div>
     );
   }

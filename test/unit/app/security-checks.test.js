@@ -379,7 +379,7 @@ describe('On-device security checks', function () {
       ]);
     });
 
-    it('ignores revocations, other messages and malformed data', async function () {
+    it('ignores revocations and other messages, and flags unreadable data', async function () {
       assert.deepEqual(
         await getTypedDataAlerts({
           data: permit({ spender: SPENDER, allowed: false, expiry: 0 }),
@@ -397,8 +397,14 @@ describe('On-device security checks', function () {
         [],
       );
       assert.deepEqual(
-        await getTypedDataAlerts({ data: '{not json', now, ...makeContext() }),
-        [],
+        ids(
+          await getTypedDataAlerts({
+            data: '{not json',
+            now,
+            ...makeContext(),
+          }),
+        ),
+        ['alertSecurityChecksFailed'],
       );
     });
   });

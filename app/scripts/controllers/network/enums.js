@@ -7,6 +7,11 @@ export const ROBINHOOD_CHAIN = 'robinhood-chain';
 export const SEPOLIA = 'sepolia';
 export const LOCALHOST = 'localhost';
 
+// The Localhost 8545 network exists only in test builds, as upstream's does,
+// and like every network it is tied to one chain: the test chain's.
+export const LOCALHOST_CHAIN_ID = '0x539';
+export const LOCALHOST_RPC_URL = 'http://localhost:8545';
+
 export const MAINNET_NETWORK_ID = '1';
 export const MAINNET_CHAIN_ID = '0x1';
 export const MAINNET_DISPLAY_NAME = 'Ethereum Mainnet';

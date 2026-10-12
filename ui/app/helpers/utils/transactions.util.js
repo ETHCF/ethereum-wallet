@@ -52,27 +52,28 @@ async function getMethodFrom4Byte(fourBytePrefix) {
 let registry;
 
 /**
- * Attempts to return the method data from the MethodRegistry library, the message registry library and the token abi, in that order of preference
+ * Looks up a contract method's signature in the on-chain method registry,
+ * through the user's own RPC, and only if it is not there, and the user
+ * allows it, at 4byte.directory.
  *
  * @param {string} fourBytePrefix - The prefix from the method code associated with the data
+ * @param {boolean} allow4ByteRequests - Whether 4byte.directory may be asked.
  * @returns {object} The method's name and params, or an empty object if it
  * could not be found
  */
-export async function getMethodDataAsync(fourBytePrefix) {
+export async function getMethodDataAsync(fourBytePrefix, allow4ByteRequests) {
   try {
-    const fourByteSig = getMethodFrom4Byte(fourBytePrefix).catch((e) => {
-      log.error(e);
-      return null;
-    });
-
     if (!registry) {
       registry = new MethodRegistry({ provider: global.ethereumProvider });
     }
 
     let sig = await registry.lookup(fourBytePrefix);
 
-    if (!sig) {
-      sig = await fourByteSig;
+    if (!sig && allow4ByteRequests) {
+      sig = await getMethodFrom4Byte(fourBytePrefix).catch((e) => {
+        log.error(e);
+        return null;
+      });
     }
 
     if (!sig) {

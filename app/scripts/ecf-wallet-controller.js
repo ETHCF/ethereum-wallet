@@ -59,7 +59,7 @@ import nodeify from './lib/nodeify';
 import OriginThrottler from './lib/origin-throttler';
 import PersonalMessageManager from './lib/personal-message-manager';
 import PhishingWarnings from './lib/phishing-warnings';
-import { getTypedDataAlerts } from './lib/security-checks';
+import { checksFailedAlert, getTypedDataAlerts } from './lib/security-checks';
 import seedPhraseVerifier from './lib/seed-phrase-verifier';
 import selectChainId from './lib/select-chain-id';
 import { mnemonicToString } from './lib/software-keyrings';
@@ -558,6 +558,10 @@ export default class EcfWalletController extends EventEmitter {
         preferencesController.setUsePhishDetect,
         preferencesController,
       ),
+      setUse4ByteResolution: nodeify(
+        preferencesController.setUse4ByteResolution,
+        preferencesController,
+      ),
       setFirstTimeFlowType: nodeify(
         preferencesController.setFirstTimeFlowType,
         preferencesController,
@@ -950,7 +954,8 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * Runs the on-device checks for typed data, such as token permits. A failing
-   * check must not block the request, so errors yield no alerts.
+   * check must not block the request, so errors yield an alert that the
+   * checks failed.
    *
    * @param {object} msgParams - The params passed to eth_signTypedData.
    * @returns {Promise<object[]>} Alerts, most severe first.
@@ -964,7 +969,7 @@ export default class EcfWalletController extends EventEmitter {
       });
     } catch (error) {
       log.warn('Typed data checks failed', error);
-      return [];
+      return [checksFailedAlert()];
     }
   }
 

@@ -239,18 +239,20 @@ class NetworkDropdown extends Component {
           {this.context.t('testNetworks')}
         </div>
         {TESTNET_TYPES.map((type) => this.renderBuiltInNetwork(type))}
-        {this.renderItem({
-          key: 'default',
-          onClick: () => this.handleClick('localhost'),
-          isSelected: providerType === 'localhost',
-          icon: (
-            <NetworkDropdownIcon
-              isSelected={providerType === 'localhost'}
-              innerBorder="1px solid var(--color-border-muted)"
-            />
-          ),
-          name: this.context.t('localhost'),
-        })}
+        {/* Localhost 8545 exists only in test builds. */}
+        {process.env.IN_TEST === 'true' &&
+          this.renderItem({
+            key: 'default',
+            onClick: () => this.handleClick('localhost'),
+            isSelected: providerType === 'localhost',
+            icon: (
+              <NetworkDropdownIcon
+                isSelected={providerType === 'localhost'}
+                innerBorder="1px solid var(--color-border-muted)"
+              />
+            ),
+            name: this.context.t('localhost'),
+          })}
         {this.renderCustomOption(this.props.provider)}
         {this.renderCommonRpc(rpcListDetail, this.props.provider)}
         {this.renderItem({

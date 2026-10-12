@@ -1328,6 +1328,12 @@
   "usedByClients": {
     "message": "Used by a variety of different clients"
   },
+  "use4ByteResolution": {
+    "message": "Look Up Contract Method Names"
+  },
+  "use4ByteResolutionDescription": {
+    "message": "When a transaction calls a contract function the wallet doesn’t recognize, ask 4byte.directory for its name. 4byte.directory sees the function’s identifier and your IP address."
+  },
   "usePhishingDetection": {
     "message": "Use Phishing Detection"
   },
@@ -1580,6 +1586,9 @@
   },
   "alertLongLivedPermit": {
     "message": "This permission lasts more than 30 days, or never expires."
+  },
+  "alertSecurityChecksFailed": {
+    "message": "Because of an error, the wallet couldn’t check this request for problems. Review it carefully before you continue."
   },
   "alertCodeCheckFailed": {
     "message": "Your network’s RPC didn’t answer, so the wallet couldn’t check $1. Some checks were skipped.",

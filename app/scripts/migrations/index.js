@@ -6,6 +6,7 @@ const migrations = [
   require('./002').default,
   require('./003').default,
   require('./004').default,
+  require('./005').default,
 ];
 
 export default migrations;

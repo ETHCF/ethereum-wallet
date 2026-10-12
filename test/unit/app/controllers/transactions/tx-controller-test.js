@@ -257,6 +257,21 @@ describe('Transaction Controller', function () {
     });
   });
 
+  describe('#_getSecurityAlerts', function () {
+    it('says so when the checks fail, instead of showing no alerts', async function () {
+      txController.getSecurityContext = () => {
+        throw new Error('broken');
+      };
+      assert.deepEqual(
+        await txController._getSecurityAlerts({
+          from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+          to: '0x5555555555555555555555555555555555555555',
+        }),
+        [{ id: 'alertSecurityChecksFailed', severity: 'warning', args: [] }],
+      );
+    });
+  });
+
   describe('#addUnapprovedTransaction', function () {
     const selectedAddress = '0x1678a085c290ebd122dc42cba69373b5953b831d';
 

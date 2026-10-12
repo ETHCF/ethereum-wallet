@@ -839,6 +839,16 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('#getTypedDataAlerts', function () {
+    it('says so when the checks fail, instead of showing no alerts', async function () {
+      sandbox.stub(ecfWalletController, 'getSecurityContext').throws();
+      assert.deepEqual(
+        await ecfWalletController.getTypedDataAlerts({ data: '{}' }),
+        [{ id: 'alertSecurityChecksFailed', severity: 'warning', args: [] }],
+      );
+    });
+  });
+
   describe('eth_sign', function () {
     it('is refused before any approval is created, for sites and internal callers alike', async function () {
       for (const isInternal of [false, true]) {
@@ -1098,7 +1108,7 @@ describe('EcfWalletController', function () {
         }),
         'moz-extension://5b0c9a1e',
       );
-      // A page connecting through externally_connectable keeps its origin.
+      // A page keeps its origin.
       assert.equal(
         originFor({ url: 'https://ethcf.org/donate', tab: { id: 4 } }),
         'https://ethcf.org',

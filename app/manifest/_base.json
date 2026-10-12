@@ -85,14 +85,5 @@
   "host_permissions": ["http://*/*", "https://*/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  },
-  "externally_connectable": {
-    "matches": [
-      "http://*/*",
-      "https://*/*"
-    ],
-    "ids": [
-      "*"
-    ]
   }
 }

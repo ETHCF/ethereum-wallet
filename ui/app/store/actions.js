@@ -1447,6 +1447,19 @@ export function setUsePhishDetect(val) {
   };
 }
 
+export function setUse4ByteResolution(val) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication());
+    log.debug(`background.setUse4ByteResolution`);
+    background.setUse4ByteResolution(val, (err) => {
+      dispatch(hideLoadingIndication());
+      if (err) {
+        dispatch(displayWarning(err.message));
+      }
+    });
+  };
+}
+
 export function updateCurrentLocale(key) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
@@ -1623,7 +1636,7 @@ export function getContractMethodData(data = '') {
   return (_dispatch, getState) => {
     const prefixedData = ethUtil.addHexPrefix(data);
     const fourBytePrefix = prefixedData.slice(0, 10);
-    const { knownMethodData } = getState().ecfWallet;
+    const { knownMethodData, use4ByteResolution } = getState().ecfWallet;
 
     if (
       (knownMethodData &&
@@ -1636,7 +1649,10 @@ export function getContractMethodData(data = '') {
 
     log.debug(`loadingMethodData`);
 
-    return getMethodDataAsync(fourBytePrefix).then(({ name, params }) => {
+    return getMethodDataAsync(
+      fourBytePrefix,
+      use4ByteResolution !== false,
+    ).then(({ name, params }) => {
       background.addKnownMethodData(fourBytePrefix, { name, params });
       return { name, params };
     });

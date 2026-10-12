@@ -89,6 +89,17 @@ function alert(id, severity, args = []) {
   return { id, severity, args };
 }
 
+/**
+ * The alert shown when the checks themselves failed, as upstream shows one
+ * when its security check errors. No alerts must never be mistaken for a
+ * request that passed every check.
+ *
+ * @returns {object} The alert.
+ */
+export function checksFailedAlert() {
+  return alert('alertSecurityChecksFailed', SEVERITY.WARNING);
+}
+
 const lower = (address) =>
   typeof address === 'string' ? address.toLowerCase() : undefined;
 
@@ -407,7 +418,8 @@ export async function getTypedDataAlerts({
   try {
     permit = decodePermit(typeof data === 'string' ? JSON.parse(data) : data);
   } catch (_) {
-    return [];
+    // Data that cannot be read might be a permit, so it was not checked.
+    return [checksFailedAlert()];
   }
   if (!permit || permit.revokes) {
     return [];

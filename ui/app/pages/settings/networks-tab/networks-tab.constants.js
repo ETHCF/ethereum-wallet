@@ -10,13 +10,19 @@ const defaultNetworksData = [
     ticker: network.ticker,
     blockExplorerUrl: network.blockExplorerUrl,
   })),
-  {
-    labelKey: 'localhost',
-    iconColor: 'white',
-    border: '1px solid #6A737D',
-    providerType: 'localhost',
-    rpcUrl: 'http://localhost:8545/',
-  },
+  // Localhost 8545 exists only in test builds.
+  ...(process.env.IN_TEST === 'true'
+    ? [
+        {
+          labelKey: 'localhost',
+          iconColor: 'white',
+          border: '1px solid #6A737D',
+          providerType: 'localhost',
+          rpcUrl: 'http://localhost:8545/',
+          chainId: '0x539',
+        },
+      ]
+    : []),
 ];
 
 export { defaultNetworksData };

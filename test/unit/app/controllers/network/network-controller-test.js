@@ -86,6 +86,22 @@ describe('NetworkController', function () {
       assert.notEqual(networkController.getNetworkState(), 'loading');
     });
 
+    it('ties Localhost 8545 to the test chain', async function () {
+      networkController.providerStore.putState({ type: 'localhost' });
+      // A local fork of mainnet must not get transactions signed for mainnet.
+      await lookup({ netVersion: '1', chainId: '0x1' });
+      assert.equal(networkController.getNetworkState(), 'loading');
+      assert.equal(networkController.getChainId(), undefined);
+    });
+
+    it('offers Localhost 8545 only in test builds', async function () {
+      networkController.initializeProvider(networkControllerProviderConfig);
+      await assert.rejects(
+        networkController.setProviderType('localhost'),
+        /Unknown rpc type/u,
+      );
+    });
+
     it('refuses a custom RPC with no configured chain ID', async function () {
       // Otherwise the RPC would choose the chain transactions are signed for.
       networkController.providerStore.putState({

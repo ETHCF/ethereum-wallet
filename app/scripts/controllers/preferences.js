@@ -76,6 +76,8 @@ export default class PreferencesController {
       assetImages: {},
       tokens: [],
       usePhishDetect: true,
+      // Whether to look up unknown contract methods at 4byte.directory.
+      use4ByteResolution: true,
 
       // WARNING: Do not use feature flags for security-sensitive things.
       // Feature flag toggling is available in the global namespace
@@ -127,6 +129,16 @@ export default class PreferencesController {
    */
   setUsePhishDetect(val) {
     this.store.updateState({ usePhishDetect: val });
+  }
+
+  /**
+   * Setter for the `use4ByteResolution` property
+   *
+   * @param {boolean} val - Whether the user allows contract method names to
+   * be looked up at 4byte.directory
+   */
+  setUse4ByteResolution(val) {
+    this.store.updateState({ use4ByteResolution: val });
   }
 
   /**

@@ -47,7 +47,7 @@ export const PRIVACY_POLICY_SECTIONS = [
     items: [
       "Blockchain networks. To show balances and send transactions, the wallet sends requests, including your account addresses and the transactions you sign, to the selected network's RPC endpoint. Ethereum Mainnet uses PublicNode, and falls back to dRPC, 1RPC and Blast when PublicNode cannot be reached. The other built-in networks use PublicNode (Sepolia and Polygon) or the network's own public endpoint (Arbitrum, Optimism, Base and Robinhood Chain). If you add a network or choose your own RPC endpoint, requests go there instead.",
       'Phishing list. About once an hour the wallet downloads the eth-phishing-detect blocklist from jsDelivr. The sites you visit are checked against it on your device; your browsing is not sent anywhere. The list is downloaded even if you turn phishing detection off.',
-      "Contract method names. When a transaction calls a contract function the wallet does not recognize, it looks up the function's 4-byte identifier at 4byte.directory to show you its name.",
+      "Contract method names. When a transaction calls a contract function that neither the wallet nor the on-chain method registry recognizes, the wallet looks up the function's 4-byte identifier at 4byte.directory to show you its name. You can turn this off in Settings, under Security & Privacy.",
       'ENS websites. When you visit a .eth address on Ethereum Mainnet, the wallet looks up the name through your RPC endpoint and then loads the site through your IPFS gateway (dweb.link unless you change it), a Swarm gateway, or app.ens.domains.',
       'Networks requested by websites. When a site asks to add a network, the wallet asks the proposed RPC endpoint for its chain ID before showing you the request.',
       'Hardware wallets. Trezor devices are reached through Trezor Connect (connect.trezor.io), which is run by Trezor. Ledger devices are reached directly over WebHID.',
@@ -57,7 +57,7 @@ export const PRIVACY_POLICY_SECTIONS = [
     heading: 'Websites You Use',
     paragraphs: [
       'The wallet adds an Ethereum provider to the web pages you visit so that sites can find it. A site learns your account address only after you approve a connection, and learns about a transaction or signature only when you approve it. You can see and remove connected sites in the wallet at any time.',
-      'ethcf.org and other browser extensions can also send the wallet requests. They are treated like any other website and need the same approvals.',
+      'Other browser extensions can also send the wallet requests. They are treated like any other website and need the same approvals.',
       'Links to block explorers, such as Etherscan, and to other websites open only when you click them.',
     ],
   },

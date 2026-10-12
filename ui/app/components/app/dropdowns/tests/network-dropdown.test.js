@@ -37,8 +37,8 @@ describe('Network Dropdown', function () {
 
     const builtInCount = BUILT_IN_NETWORK_TYPES.length;
 
-    it('renders every built-in network, localhost, the saved RPC and the custom RPC option', function () {
-      assert.equal(wrapper.find(DropdownMenuItem).length, builtInCount + 3);
+    it('renders every built-in network, the saved RPC and the custom RPC option', function () {
+      assert.equal(wrapper.find(DropdownMenuItem).length, builtInCount + 2);
     });
 
     it('lists the built-in networks in order, mainnets before testnets, with their colors', function () {
@@ -65,29 +65,25 @@ describe('Network Dropdown', function () {
       });
     });
 
-    it('shows localhost after the built-in networks', function () {
+    it('offers Localhost 8545 only in test builds', function () {
       assert.equal(
-        wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'),
-        '1px solid var(--color-border-muted)',
+        wrapper
+          .find('.network-name-item')
+          .filterWhere((item) => item.text() === 'Localhost 8545').length,
+        0,
       );
     });
 
     it('checks dropdown for frequestRPCList from  state ', function () {
       assert.equal(
-        wrapper
-          .find(DropdownMenuItem)
-          .at(builtInCount + 1)
-          .text(),
+        wrapper.find(DropdownMenuItem).at(builtInCount).text(),
         '✓http://localhost:7545',
       );
     });
 
     it('shows the custom RPC option last', function () {
       assert.equal(
-        wrapper
-          .find(NetworkDropdownIcon)
-          .at(builtInCount + 1)
-          .prop('innerBorder'),
+        wrapper.find(NetworkDropdownIcon).at(builtInCount).prop('innerBorder'),
         '1px solid var(--color-border-muted)',
       );
     });

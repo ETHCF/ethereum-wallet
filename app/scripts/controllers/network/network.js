@@ -18,6 +18,7 @@ import {
   SEPOLIA,
   MAINNET,
   LOCALHOST,
+  LOCALHOST_CHAIN_ID,
   BUILT_IN_NETWORKS,
   BUILT_IN_NETWORK_TYPES,
 } from './enums';
@@ -26,9 +27,10 @@ import providerFromEngine from './provider-from-engine';
 const networks = { networkList: {} };
 
 const env = process.env.ECF_WALLET_ENV;
+const inTest = process.env.IN_TEST === 'true';
 
 let defaultProviderConfigType;
-if (process.env.IN_TEST === 'true') {
+if (inTest) {
   defaultProviderConfigType = LOCALHOST;
 } else if (process.env.ECF_WALLET_DEBUG || env === 'test') {
   defaultProviderConfigType = SEPOLIA;
@@ -140,14 +142,17 @@ export default class NetworkController extends EventEmitter {
           this.setNetworkState('loading');
           return;
         }
-        // A custom RPC that reports a different chain than the one configured
-        // could get transactions signed for the wrong chain. Refuse to use it,
-        // and refuse one with no configured chain, since its RPC would then
-        // pick the chain that transactions are signed for.
+        // An RPC that reports a different chain than the one configured
+        // could get transactions signed for the wrong chain, such as a local
+        // fork of mainnet. Refuse to use it, and refuse a custom RPC with no
+        // configured chain, since its RPC would then pick the chain that
+        // transactions are signed for.
         const expectedChainId =
-          type === 'rpc' ? this.providerStore.getState().chainId : undefined;
+          type === LOCALHOST
+            ? LOCALHOST_CHAIN_ID
+            : this.providerStore.getState().chainId;
         if (
-          type === 'rpc' &&
+          (type === 'rpc' || type === LOCALHOST) &&
           (!normalizeChainId(expectedChainId) ||
             normalizeChainId(expectedChainId) !== normalizeChainId(chainId))
         ) {
@@ -187,7 +192,7 @@ export default class NetworkController extends EventEmitter {
       `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`,
     );
     assert(
-      BUILT_IN_NETWORK_TYPES.includes(type) || type === LOCALHOST,
+      BUILT_IN_NETWORK_TYPES.includes(type) || (inTest && type === LOCALHOST),
       `NetworkController - Unknown rpc type "${type}"`,
     );
     const providerConfig = {
