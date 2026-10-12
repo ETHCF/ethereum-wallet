@@ -21,7 +21,7 @@ function createManifestTasks({ browserPlatforms }) {
             scripts: ['lockdown-install.js', 'background.js'],
           };
           // Lets the wallet check that a site's icon does not resolve to
-          // this computer before downloading it. Added here because merge()
+          // this computer or the local network before downloading it. Added here because merge()
           // would overwrite the base list by index.
           result.permissions = [...result.permissions, 'dns'];
         } else {

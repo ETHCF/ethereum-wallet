@@ -66,64 +66,124 @@ function parseIPv6(text) {
   return numbers;
 }
 
+// Whether an IPv4 address, as four bytes, is on this computer or the local
+// network: this network (0/8), private (10/8, 172.16/12, 192.168/16), shared
+// carrier NAT (100.64/10), loopback (127/8), link-local (169.254/16), and
+// multicast, reserved and broadcast (224/3).
+function isLocalIPv4([a, b]) {
+  return (
+    a === 0 ||
+    a === 10 ||
+    a === 127 ||
+    a >= 224 ||
+    (a === 100 && b >= 64 && b <= 127) ||
+    (a === 169 && b === 254) ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168)
+  );
+}
+
+// The four bytes of an IPv4 address carried in two IPv6 groups.
+function groupsToIPv4(high, low) {
+  return [Math.floor(high / 256), high % 256, Math.floor(low / 256), low % 256];
+}
+
 /**
- * Whether an IP address reaches this computer: 127.0.0.0/8, 0.0.0.0/8, ::1,
- * ::, and IPv4 loopback written as IPv6.
+ * Whether an IP address is on this computer or the local network. IPv6
+ * addresses that carry an IPv4 address (mapped, compatible, NAT64 and 6to4)
+ * are judged by that address.
  *
  * @param {string} address - An IPv4 or IPv6 address.
- * @returns {boolean} Whether it is a loopback address.
+ * @returns {boolean} Whether it is a loopback, private, link-local or other
+ * non-public address.
  */
-export function isLoopbackAddress(address) {
+export function isLocalAddress(address) {
   const v4 = parseIPv4(address);
   if (v4) {
-    return v4[0] === 127 || v4[0] === 0;
+    return isLocalIPv4(v4);
   }
   const v6 = parseIPv6(address);
   if (!v6) {
     return false;
   }
-  if (v6.slice(0, 5).some(Boolean)) {
+  const [first] = v6;
+  // Unique local (fc00::/7), link-local (fe80::/10), the old site-local
+  // (fec0::/10) and multicast (ff00::/8).
+  if (first >= 0xfc00) {
+    return true;
+  }
+  if (v6.slice(0, 5).every((group) => group === 0)) {
+    if (v6[5] === 0 && v6[6] === 0) {
+      // :: and ::1.
+      return v6[7] <= 1;
+    }
+    // ::ffff:a.b.c.d (mapped) and ::a.b.c.d (compatible).
+    if (v6[5] === 0xffff || v6[5] === 0) {
+      return isLocalIPv4(groupsToIPv4(v6[6], v6[7]));
+    }
     return false;
   }
-  if (v6[5] === 0 && v6[6] === 0) {
-    // :: and ::1.
-    return v6[7] <= 1;
+  // 64:ff9b::a.b.c.d (NAT64).
+  if (
+    first === 0x64 &&
+    v6[1] === 0xff9b &&
+    v6.slice(2, 6).every((group) => group === 0)
+  ) {
+    return isLocalIPv4(groupsToIPv4(v6[6], v6[7]));
   }
-  // ::ffff:a.b.c.d (mapped) and ::a.b.c.d (compatible) carry an IPv4 address.
-  if (v6[5] === 0xffff || v6[5] === 0) {
-    const firstOctet = Math.floor(v6[6] / 256);
-    return firstOctet === 127 || firstOctet === 0;
+  // 2002:aabb:ccdd:: (6to4).
+  if (first === 0x2002) {
+    return isLocalIPv4(groupsToIPv4(v6[1], v6[2]));
   }
   return false;
 }
 
+// Names that only mean something on this computer or the local network.
+const LOCAL_NAME_SUFFIXES = [
+  'localhost',
+  // Multicast DNS (RFC 6762).
+  'local',
+  // Home networks (RFC 8375).
+  'home.arpa',
+  // Reserved for private use by ICANN.
+  'internal',
+  // The default domain of many home routers.
+  'lan',
+];
+
 /**
- * Whether a URL's host names this computer. The URL parser has already
- * turned other spellings of an IPv4 address, such as 2130706433 or 0x7f.1,
- * into dotted form.
+ * Whether a URL's host is on this computer or the local network: a local IP
+ * address, a name under a local-only domain, or a name with no dot, which the
+ * resolver completes with the local network's search domain. The URL parser
+ * has already turned other spellings of an IPv4 address, such as 2130706433
+ * or 0x7f.1, into dotted form.
  *
  * @param {string} hostname - A hostname from a parsed URL.
- * @returns {boolean} Whether it is localhost or a loopback address.
+ * @returns {boolean} Whether it is a local host.
  */
-export function isLoopbackHostname(hostname) {
+export function isLocalHostname(hostname) {
   const host = hostname.toLowerCase().replace(/\.$/u, '');
+  if (parseIPv4(host) || host.startsWith('[')) {
+    return isLocalAddress(host);
+  }
   return (
-    host === 'localhost' ||
-    host.endsWith('.localhost') ||
-    isLoopbackAddress(host)
+    !host.includes('.') ||
+    LOCAL_NAME_SUFFIXES.some(
+      (suffix) => host === suffix || host.endsWith(`.${suffix}`),
+    )
   );
 }
 
 /**
- * Whether a hostname resolves to a loopback address. Only Firefox lets an
+ * Whether a hostname resolves to a local address. Only Firefox lets an
  * extension resolve names. Elsewhere this answers false, and only the name
  * itself is checked.
  *
  * @param {string} hostname - A hostname from a parsed URL.
  * @param {object} [dns] - The extension DNS API.
- * @returns {Promise<boolean>} Whether any address it resolves to is loopback.
+ * @returns {Promise<boolean>} Whether any address it resolves to is local.
  */
-async function resolvesToLoopback(hostname, dns) {
+async function resolvesToLocal(hostname, dns) {
   // An IP address was checked as it is written.
   if (
     typeof dns?.resolve !== 'function' ||
@@ -133,7 +193,7 @@ async function resolvesToLoopback(hostname, dns) {
     return false;
   }
   const { addresses } = await dns.resolve(hostname);
-  return addresses.some(isLoopbackAddress);
+  return addresses.some(isLocalAddress);
 }
 
 /**
@@ -182,8 +242,8 @@ async function readAtMost(response, maxBytes) {
  * a data URL instead of asking the site's host each time it is displayed,
  * which would tell that host when the wallet is in use.
  *
- * Images on this computer are refused: a site must not be able to make the
- * wallet send requests to local services. A failed download is tried once
+ * Images on this computer or the local network are refused: a site must not
+ * be able to make the wallet send requests to local services or devices. A failed download is tried once
  * more, and then given up.
  *
  * @param {string} url - An http(s) image URL.
@@ -207,7 +267,7 @@ export async function fetchImageAsDataUrl(
   if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
     return undefined;
   }
-  if (isLoopbackHostname(parsed.hostname)) {
+  if (isLocalHostname(parsed.hostname)) {
     return undefined;
   }
   const first = await downloadImage(parsed, { fetch, dns });
@@ -221,7 +281,7 @@ export async function fetchImageAsDataUrl(
 /**
  * Makes one attempt at downloading an image.
  *
- * @param {URL} parsed - An http(s) URL whose hostname is not loopback.
+ * @param {URL} parsed - An http(s) URL whose hostname is not local.
  * @param {object} options - Options.
  * @param {Function} options.fetch - The fetch function to use.
  * @param {object} [options.dns] - The extension DNS API, if there is one.
@@ -231,7 +291,7 @@ export async function fetchImageAsDataUrl(
 async function downloadImage(parsed, { fetch, dns }) {
   try {
     // Resolved just before the request, so the request uses the same answer.
-    if (await resolvesToLoopback(parsed.hostname, dns)) {
+    if (await resolvesToLocal(parsed.hostname, dns)) {
       return {};
     }
   } catch (_) {
@@ -242,7 +302,7 @@ async function downloadImage(parsed, { fetch, dns }) {
     response = await fetch(parsed.href, {
       credentials: 'omit',
       referrerPolicy: 'no-referrer',
-      // A redirect could lead to this computer, after the checks above.
+      // A redirect could lead to a local host, after the checks above.
       redirect: 'error',
     });
   } catch (_) {

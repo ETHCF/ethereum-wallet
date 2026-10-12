@@ -711,6 +711,30 @@ describe('Actions', function () {
     });
   });
 
+  describe('#updateEcfWalletState', function () {
+    const lockActions = (store) =>
+      store.getActions().filter(({ type }) => type === 'LOCK_ECF_WALLET');
+
+    it('locks the UI when the background locks by itself', function () {
+      const store = mockStore({ ecfWallet: { isUnlocked: true } });
+      store.dispatch(actions.updateEcfWalletState({ isUnlocked: false }));
+      assert.deepEqual(lockActions(store), [{ type: 'LOCK_ECF_WALLET' }]);
+    });
+
+    it('does not lock the UI otherwise', function () {
+      for (const [before, after] of [
+        [true, true],
+        [false, false],
+        [false, true],
+        [true, undefined],
+      ]) {
+        const store = mockStore({ ecfWallet: { isUnlocked: before } });
+        store.dispatch(actions.updateEcfWalletState({ isUnlocked: after }));
+        assert.deepEqual(lockActions(store), [], `${before} -> ${after}`);
+      }
+    });
+  });
+
   describe('#setSelectedAddress', function () {
     it('errors when setSelectedAddress throws', async function () {
       sinon

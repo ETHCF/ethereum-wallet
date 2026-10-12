@@ -4,8 +4,8 @@ import sinon from 'sinon';
 import {
   fetchImageAsDataUrl,
   isImageDataUrl,
-  isLoopbackAddress,
-  isLoopbackHostname,
+  isLocalAddress,
+  isLocalHostname,
   MAX_IMAGE_BYTES,
 } from '../../../app/scripts/lib/remote-image';
 
@@ -120,7 +120,7 @@ describe('remote images', function () {
     assert.equal(html.callCount, 1);
   });
 
-  it('never fetches from this computer', async function () {
+  it('never fetches from this computer or the local network', async function () {
     const fetch = sinon.stub().callsFake(respond());
     for (const url of [
       'http://localhost/a.png',
@@ -136,19 +136,36 @@ describe('remote images', function () {
       'http://[::]/a.png',
       'http://[::ffff:127.0.0.1]/a.png',
       'http://[0:0:0:0:0:0:0:1]/a.png',
+      'http://192.168.1.1/a.png',
+      'http://10.0.0.1/a.png',
+      'http://172.16.0.1/a.png',
+      'http://169.254.169.254/latest/meta-data',
+      'http://[::ffff:192.168.1.1]/a.png',
+      'http://[fd00::1]/a.png',
+      'http://[fe80::1]/a.png',
+      'http://router/a.png',
+      'http://printer.local/a.png',
+      'http://nas.home.arpa/a.png',
+      'http://svc.internal/a.png',
+      'http://gateway.lan/a.png',
     ]) {
       assert.equal(await fetchImageAsDataUrl(url, { fetch }), undefined, url);
     }
     assert.equal(fetch.called, false);
   });
 
-  it('refuses a name that resolves to this computer', async function () {
+  it('refuses a name that resolves to a local address', async function () {
     const fetch = sinon.stub().callsFake(respond());
     const resolvesTo = (addresses) => ({
       resolve: sinon.stub().resolves({ addresses }),
     });
 
-    for (const addresses of [['127.0.0.1'], ['93.184.215.14', '::1']]) {
+    for (const addresses of [
+      ['127.0.0.1'],
+      ['93.184.215.14', '::1'],
+      ['192.168.0.10'],
+      ['fd12:3456::1'],
+    ]) {
       const dns = resolvesTo(addresses);
       assert.equal(
         await fetchImageAsDataUrl('https://rebind.test/a.png', { fetch, dns }),
@@ -161,45 +178,98 @@ describe('remote images', function () {
     assert.equal(
       await fetchImageAsDataUrl('https://cdn.test/a.png', {
         fetch,
-        dns: resolvesTo(['93.184.215.14']),
+        dns: resolvesTo([
+          '93.184.215.14',
+          '2606:2800:21f:cb07:6820:80da:af6b:8b2c',
+        ]),
       }),
       'data:image/png;base64,AQID',
     );
   });
 
-  it('recognizes loopback addresses', function () {
+  it('recognizes local addresses', function () {
     for (const address of [
       '127.0.0.1',
       '127.255.255.254',
       '0.0.0.0',
+      '10.1.2.3',
+      '100.64.0.1',
+      '100.127.255.255',
+      '169.254.1.1',
+      '172.16.0.1',
+      '172.31.255.255',
+      '192.168.0.1',
+      '224.0.0.1',
+      '255.255.255.255',
       '::1',
       '::',
       '::ffff:127.0.0.1',
       '::ffff:7f00:1',
+      '::ffff:c0a8:101',
       '::127.0.0.1',
       '0:0:0:0:0:0:0:1',
       '[::1]',
       '::1%lo',
+      'fc00::1',
+      'fdff:ffff::1',
+      'fe80::1',
+      'fe80::1%eth0',
+      'ff02::1',
+      '64:ff9b::10.0.0.1',
+      '2002:c0a8:101::1',
     ]) {
-      assert.equal(isLoopbackAddress(address), true, address);
+      assert.equal(isLocalAddress(address), true, address);
     }
     for (const address of [
+      '1.1.1.1',
+      '93.184.215.14',
+      '100.63.255.255',
+      '100.128.0.0',
       '128.0.0.1',
-      '10.0.0.1',
-      '192.168.1.1',
+      '172.15.255.255',
+      '172.32.0.0',
+      '192.169.0.1',
+      '223.255.255.255',
       '::2',
-      '::ffff:10.0.0.1',
+      '::ffff:8.8.8.8',
       '2001:db8::1',
-      'fe80::1',
+      '2606:4700::1111',
+      '64:ff9b::8.8.8.8',
+      '2002:808:808::1',
+      'fbff::1',
       '1::',
       '256.0.0.1',
       'not an address',
     ]) {
-      assert.equal(isLoopbackAddress(address), false, address);
+      assert.equal(isLocalAddress(address), false, address);
     }
-    assert.equal(isLoopbackHostname('sub.localhost'), true);
-    assert.equal(isLoopbackHostname('localhost.example.com'), false);
-    assert.equal(isLoopbackHostname('notlocalhost'), false);
+  });
+
+  it('recognizes local hostnames', function () {
+    for (const host of [
+      'localhost',
+      'sub.localhost',
+      'router',
+      'printer.local',
+      'nas.home.arpa',
+      'svc.internal',
+      'gateway.lan',
+      '192.168.1.1',
+      '[fd00::1]',
+    ]) {
+      assert.equal(isLocalHostname(host), true, host);
+    }
+    for (const host of [
+      'example.com',
+      'localhost.example.com',
+      'local.example.com',
+      'notlocalhost.com',
+      'cdn.lan.example',
+      '8.8.8.8',
+      '[2606:4700::1111]',
+    ]) {
+      assert.equal(isLocalHostname(host), false, host);
+    }
   });
 
   it('recognizes image data URLs', function () {

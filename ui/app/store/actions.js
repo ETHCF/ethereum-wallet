@@ -767,6 +767,12 @@ export function updateEcfWalletState(newState) {
       type: actionConstants.UPDATE_ECF_WALLET_STATE,
       value: newState,
     });
+
+    // The background locks by itself on auto-lock. The UI then locks as it
+    // does when the user locks it.
+    if (currentState.isUnlocked && newState.isUnlocked === false) {
+      dispatch({ type: actionConstants.LOCK_ECF_WALLET });
+    }
   };
 }
 

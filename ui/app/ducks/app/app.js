@@ -171,8 +171,17 @@ export default function reduceApp(state = {}, action) {
       };
 
     case LOCK_ECF_WALLET:
+      // Nothing shown while unlocked stays up once locked, such as an
+      // exported private key.
       return {
         ...appState,
+        modal: {
+          ...appState.modal,
+          open: false,
+          modalState: { name: null, props: {} },
+          previousModalState: { name: null },
+        },
+        accountDetail: { subview: 'transactions' },
         warning: null,
       };
 

@@ -302,6 +302,24 @@ describe('App State', function () {
     assert.equal(state.accountDetail.privateKey, 'private key');
   });
 
+  it('closes any modal and drops an exported private key when locked', function () {
+    const unlocked = reduceApp(
+      reduceApp(ecfWalletState, {
+        type: actions.MODAL_OPEN,
+        payload: { name: 'EXPORT_PRIVATE_KEY' },
+      }),
+      { type: actions.SHOW_PRIVATE_KEY, value: 'private key' },
+    );
+    assert.equal(unlocked.modal.open, true);
+
+    const state = reduceApp(unlocked, { type: actions.LOCK_ECF_WALLET });
+
+    assert.equal(state.modal.open, false);
+    assert.equal(state.modal.modalState.name, null);
+    assert.equal(state.modal.previousModalState.name, null);
+    assert.equal(state.accountDetail.privateKey, undefined);
+  });
+
   it('set mouse user state', function () {
     const state = reduceApp(ecfWalletState, {
       type: actions.SET_MOUSE_USER_STATE,
