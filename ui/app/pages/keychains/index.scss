@@ -93,22 +93,6 @@
   font-size: 16px;
 }
 
-.import-account__dropdown {
-  width: 325px;
-  border: 1px solid var(--color-border-muted);
-  border-radius: 0;
-  background-color: var(--color-background-default);
-  margin-top: 14px;
-  color: var(--color-text-alternative);
-  font-size: 18px;
-  line-height: 23px;
-  padding: 14px 21px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-}
-
 .import-account__input-wrapper {
   display: flex;
   flex-flow: column nowrap;
@@ -120,16 +104,6 @@
   color: var(--color-primary-alternative);
   font-size: 18px;
   line-height: 23px;
-}
-
-.import-account__input {
-  width: 350px;
-}
-
-@media only screen and (max-width: 575px) {
-  .import-account__input {
-    width: 100%;
-  }
 }
 
 .reveal-seed {

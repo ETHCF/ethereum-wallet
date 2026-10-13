@@ -26,13 +26,13 @@ function doctypeCheck() {
 }
 
 /**
- * Returns whether or not the extension (suffix) of the current document is prohibited
+ * Returns whether the extension (suffix) of the current document is allowed
  *
  * This checks {@code window.location.pathname} against a set of file extensions
  * that we should not inject the provider into. This check is indifferent of
  * query parameters in the location.
  *
- * @returns {boolean} whether or not the extension of the current document is prohibited
+ * @returns {boolean} {@code true} - if the extension of the current document is not prohibited
  */
 function suffixCheck() {
   const prohibitedTypes = [/\.xml$/u, /\.pdf$/u];

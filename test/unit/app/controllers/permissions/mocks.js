@@ -537,7 +537,7 @@ export const getters = deepFreeze({
      * Gets a metamask_sendDomainMetadata RPC request object.
      *
      * @param {string} origin - The origin of the request
-     * @param {object} name - The site's name
+     * @param {string} name - The site's name
      * @param {string} [icon] - The site's icon URL
      * @returns {object} An RPC request object
      */

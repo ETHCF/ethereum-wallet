@@ -1,7 +1,5 @@
 @use 'design-system';
 
-
-
 * {
   box-sizing: border-box;
 }
@@ -26,8 +24,7 @@ html {
   button:focus,
   input:focus,
   textarea:focus,
-  .unit-input__input,
-  .currency-display__input {
+  .unit-input__input {
     outline: none;
   }
 }

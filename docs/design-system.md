@@ -11,8 +11,7 @@ The system lives in `ui/app/css/design-system/`:
   switch.
 - `typography.scss` sets the type scale. The family is `Courier New`, falling
   back to the system monospace stack. No font is downloaded.
-- `colors.scss`, `breakpoints.scss` and `z-index.scss` hold the remaining
-  shared values.
+- `breakpoints.scss` and `z-index.scss` hold the remaining shared values.
 - `index.scss` pulls the above together for the main stylesheet.
 
 Two rules worth stating because they have been broken before. Sass functions

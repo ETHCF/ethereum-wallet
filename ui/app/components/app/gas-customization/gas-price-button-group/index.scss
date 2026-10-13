@@ -14,7 +14,6 @@
     margin-bottom: 7.5px;
   }
 
-
   &__loading-container {
     height: 130px;
   }
@@ -67,14 +66,6 @@
 
   @media screen and (max-width: design-system.$break-small) {
     max-width: 260px;
-  }
-
-  &__button-fiat-price {
-    font-size: 13px;
-  }
-
-  &__button-label {
-    font-size: 16px;
   }
 
   &__label {
@@ -136,14 +127,6 @@
   justify-content: stretch;
   width: 95%;
 
-  &__button-fiat-price {
-    font-size: 13px;
-  }
-
-  &__button-label {
-    font-size: 16px;
-  }
-
   &__label {
     font-weight: 500;
     font-size: 10px;
@@ -158,7 +141,6 @@
   &__loading-container {
     height: 78px;
   }
-
 
   .button-group__button,
   .button-group__button--active {

@@ -1,5 +1,5 @@
+import { cidV0ToV1Base32 } from '@ensdomains/content-hash';
 import { ObservableStore } from '@metamask/obs-store';
-import contentHash from 'content-hash';
 import log from 'loglevel';
 
 import { BUILT_IN_NETWORKS, NFT_DETECTION_NETWORKS } from './network/enums';
@@ -33,7 +33,7 @@ export function nftImageUrl(url, ipfsGateway) {
     return /^https:\/\//u.test(url) ? url : undefined;
   }
   try {
-    const cid = contentHash.helpers.cidV0ToV1Base32(ipfs[1]);
+    const cid = cidV0ToV1Base32(ipfs[1]);
     return `https://${cid}.ipfs.${ipfsGateway}${ipfs[2]}`;
   } catch (_) {
     return undefined;

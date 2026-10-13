@@ -31,7 +31,6 @@ module.exports = {
         ignore: ['stylelint-commands'],
       },
     ],
-    // 'comment-whitespace-inside': 'always',
     'custom-property-empty-line-before': [
       'always',
       {
@@ -66,7 +65,6 @@ module.exports = {
     '@stylistic/function-whitespace-after': 'always',
     '@stylistic/indentation': 2,
     'length-zero-no-unit': true,
-    // 'max-empty-lines': 1,
     '@stylistic/media-feature-colon-space-after': 'always',
     '@stylistic/media-feature-colon-space-before': 'never',
     '@stylistic/media-feature-name-case': 'lower',
@@ -103,7 +101,6 @@ module.exports = {
     'selector-pseudo-element-colon-notation': 'double',
     'selector-type-case': 'lower',
     '@stylistic/unit-case': 'lower',
-    // 'value-keyword-case': 'lower',
     '@stylistic/value-list-comma-newline-after': 'always-multi-line',
     '@stylistic/value-list-comma-space-after': 'always-single-line',
     '@stylistic/value-list-comma-space-before': 'never',
@@ -111,15 +108,8 @@ module.exports = {
 
     // custom rules
 
-    // 'color-named': 'never',
-    // 'font-family-name-quotes': 'always-where-recommended',
-    // 'font-weight-notation': 'numeric',
-    // 'function-url-quotes': 'always',
     'value-no-vendor-prefix': true,
     '@stylistic/value-list-comma-newline-before': 'never-multi-line',
-    // 'selector-attribute-quotes': 'always',
-    // 'selector-max-specificity': '0,5,2',
-    // 'max-nesting-depth': 3,
     'no-unknown-animations': true,
   },
 };

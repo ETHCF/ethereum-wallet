@@ -45,8 +45,6 @@
     "verify-locales:fix": "node ./development/verify-locale-strings.js --fix",
     "mozilla-lint": "addons-linter dist/firefox",
     "watch": "mocha --watch --require test/env.js --require test/setup.js --reporter min --recursive \"test/unit/**/*.js\" \"ui/app/**/*.test.js\"",
-    "announce": "node development/announcer.js",
-    "update-changelog": "./development/auto-changelog.sh",
     "generate:migration": "./development/generate-migration.sh",
     "foundryup": "mm-foundryup",
     "anvil": "env anvil"
@@ -54,7 +52,6 @@
   "resolutions": {
     "**/enzyme/cheerio": "1.0.0-rc.12",
     "**/ethers/elliptic": "^6.6.1",
-    "**/dnode/weak": "npm:weak-napi@2.0.2",
     "protobufjs": "^7.6.1",
     "toml": "^4.2.0",
     "axios": "^1.20.0",
@@ -67,6 +64,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.29.10",
+    "@ensdomains/content-hash": "^3.1.1",
     "@ethereumjs/common": "^10.1.3",
     "@ethereumjs/common-hardware": "npm:@ethereumjs/common@^4.4.0",
     "@ethereumjs/tx": "^10.1.3",
@@ -93,6 +91,7 @@
     "@metamask/json-rpc-engine": "^11.0.0",
     "@metamask/json-rpc-middleware-stream": "^9.0.0",
     "@metamask/messenger": "^3.0.0",
+    "@metamask/nonce-tracker": "^6.1.0",
     "@metamask/object-multiplex": "^2.1.0",
     "@metamask/obs-store": "^9.1.0",
     "@metamask/permission-controller": "^14.0.0",
@@ -113,11 +112,9 @@
     "bn.js": "^5.2.5",
     "buffer": "^5.7.1",
     "classnames": "^2.5.1",
-    "content-hash": "^2.5.2",
     "copy-to-clipboard": "^4.0.2",
     "crypto-browserify": "^3.12.1",
     "deep-freeze-strict": "1.1.1",
-    "dnode": "^1.2.2",
     "end-of-stream": "^1.4.5",
     "eth-ens-namehash": "^2.0.8",
     "eth-method-registry": "^4.0.0",
@@ -133,7 +130,6 @@
     "loglevel": "^1.9.2",
     "luxon": "^3.7.2",
     "nanoid": "^6.0.1",
-    "nonce-tracker": "^4.0.0",
     "pify": "^6.1.0",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
@@ -245,8 +241,7 @@
     "secp256k1": false,
     "tiny-secp256k1": false,
     "unrs-resolver": false,
-    "usb": false,
-    "weak-napi": false
+    "usb": false
   },
   "engines": {
     "node": "^24.21.0",

@@ -15,7 +15,7 @@ import {
 } from '@metamask/json-rpc-engine';
 import { createEngineStream } from '@metamask/json-rpc-middleware-stream';
 import { Mutex } from 'await-semaphore';
-import Dnode from 'dnode';
+import eos from 'end-of-stream';
 import EventEmitter from 'events';
 import { debounce } from 'lodash';
 import log from 'loglevel';
@@ -42,6 +42,7 @@ import AccountTracker from './lib/account-tracker';
 import ComposableObservableStore from './lib/ComposableObservableStore';
 import createDupeReqFilterStream from './lib/createDupeReqFilterStream';
 import createLoggerMiddleware from './lib/createLoggerMiddleware';
+import createMetaRPCHandler from './lib/createMetaRPCHandler';
 import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware';
 import createOnboardingMiddleware from './lib/createOnboardingMiddleware';
 import createOriginMiddleware from './lib/createOriginMiddleware';
@@ -539,9 +540,9 @@ export default class EcfWalletController extends EventEmitter {
   //=============================================================================
 
   /**
-   * The ecf-wallet-state of the various controllers, made available to the UI
+   * The state of the various controllers, made available to the UI
    *
-   * @returns {object} status
+   * @returns {object} The flattened memStore state, plus isInitialized.
    */
   getState() {
     const { vault } = this.keyringController.store.getState();
@@ -1086,7 +1087,7 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * Fetch account list from a trezor device.
+   * Fetch account list from a hardware wallet.
    *
    * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
    * @param {number} page - -1 for the previous page, 1 for the next, or anything else for the first.
@@ -1132,7 +1133,7 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * Clear
+   * Forgets a hardware wallet device.
    *
    * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
    * @returns {Promise<boolean>} True once the device is forgotten.
@@ -1144,7 +1145,7 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * Imports an account from a trezor device.
+   * Imports an account from a hardware wallet.
    *
    * @param {number|string} index - The index of the account on the device.
    * @param {string} deviceName - The device type: 'trezor' or 'ledger'.
@@ -1389,10 +1390,6 @@ export default class EcfWalletController extends EventEmitter {
 
   /**
    * Called when a dapp uses the personal_sign method.
-   * This is identical to the Geth eth_sign method, and may eventually replace
-   * eth_sign.
-   *
-   * We currently define our eth_sign and personal_sign mostly for legacy Dapps.
    *
    * @param {object} msgParams - The params of the message to sign & return to the Dapp.
    * @param {object} req - (optional) the original request, containing the origin
@@ -1775,19 +1772,30 @@ export default class EcfWalletController extends EventEmitter {
   }
 
   /**
-   * A method for providing our API over a stream using Dnode.
+   * Serves our API to a wallet UI over a JSON-RPC stream, and pushes state
+   * updates to it.
    *
    * @param {*} outStream - The stream to provide our API over.
    */
   setupControllerConnection(outStream) {
     const api = this.getApi();
-    const dnode = Dnode(api);
     // report new active controller connection
     this.activeControllerConnections += 1;
     this.emit('controllerConnectionChanged', this.activeControllerConnections);
-    // connect dnode api to remote connection
-    pump(outStream, dnode, outStream, (err) => {
-      // report new active controller connection
+    outStream.on('data', createMetaRPCHandler(api, outStream));
+    // push updates to the UI
+    const sendUpdate = (update) => {
+      if (!outStream.destroyed && !outStream.writableEnded) {
+        outStream.write({
+          jsonrpc: '2.0',
+          method: 'sendUpdate',
+          params: [update],
+        });
+      }
+    };
+    this.on('update', sendUpdate);
+    eos(outStream, (err) => {
+      this.removeListener('update', sendUpdate);
       this.activeControllerConnections -= 1;
       this.emit(
         'controllerConnectionChanged',
@@ -1797,13 +1805,6 @@ export default class EcfWalletController extends EventEmitter {
       if (err && !isPrematureClose(err)) {
         log.error(err);
       }
-    });
-    dnode.on('remote', (remote) => {
-      // push updates to popup
-      const sendUpdate = (update) => remote.sendUpdate(update);
-      this.on('update', sendUpdate);
-      // remove update listener once the connection ends
-      dnode.on('end', () => this.removeListener('update', sendUpdate));
     });
   }
 
@@ -2209,9 +2210,9 @@ export default class EcfWalletController extends EventEmitter {
    * @param {string} chainId - The chainId of the selected network.
    * @param {string} ticker - The ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
+   * @param {object} [rpcPrefs] - Network preferences, such as a block explorer URL.
    * @returns {Promise<string>} The RPC Target URL confirmed.
    */
-
   async updateAndSetCustomRpc(
     rpcUrl,
     chainId,

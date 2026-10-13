@@ -3,10 +3,6 @@
     color: var(--color-text-default);
   }
 
-  & &--unconfirmed {
-    color: var(--color-text-alternative);
-  }
-
   &--unconfirmed &__primary-currency {
     color: var(--color-text-alternative);
   }

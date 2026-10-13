@@ -59,7 +59,6 @@ describe('txUtils', function () {
       // dummy gas limit: 0x0f4240 (1 mil)
       const blockGasLimitHex = '0x0f4240';
       const output = txUtils.addGasBuffer(inputHex, blockGasLimitHex);
-      // const inputBn = hexToBn(inputHex)
       const outputBn = hexToBn(output);
       const expectedBn = hexToBn(inputHex);
       assert.ok(
@@ -76,8 +75,6 @@ describe('txUtils', function () {
       const blockGasLimitBn = hexToBn(blockGasLimitHex);
       const ceilGasLimitBn = blockGasLimitBn.muln(0.9);
       const output = txUtils.addGasBuffer(inputHex, blockGasLimitHex);
-      // const inputBn = hexToBn(inputHex)
-      // const outputBn = hexToBn(output)
       const expectedHex = bnToHex(ceilGasLimitBn);
       assert.equal(
         output,

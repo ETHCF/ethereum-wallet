@@ -1,24 +1,6 @@
-
 $font-family: 'Courier New', Courier, monospace;
 
 // Typography
-@mixin H1 {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 2.5rem;
-  font-family: $font-family;
-  line-height: 140%;
-}
-
-
-@mixin H2 {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 2rem;
-  font-family: $font-family;
-  line-height: 140%;
-}
-
 @mixin H3 {
   font-style: normal;
   font-weight: normal;
@@ -31,14 +13,6 @@ $font-family: 'Courier New', Courier, monospace;
   font-style: normal;
   font-weight: normal;
   font-size: 1.125rem;
-  font-family: $font-family;
-  line-height: 140%;
-}
-
-@mixin H5 {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1rem;
   font-family: $font-family;
   line-height: 140%;
 }
@@ -70,14 +44,6 @@ $font-family: 'Courier New', Courier, monospace;
   font-style: normal;
   font-weight: normal;
   font-size: 0.625rem;
-  font-family: $font-family;
-  line-height: 140%;
-}
-
-@mixin H9 {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 0.5rem;
   font-family: $font-family;
   line-height: 140%;
 }

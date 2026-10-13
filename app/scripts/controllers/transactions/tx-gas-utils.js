@@ -16,7 +16,7 @@ import { hexToBn, BnMultiplyByFraction, bnToHex } from '../../lib/util';
 
 /**
  * tx-gas-utils are gas utility methods for Transaction manager
- * its passed ethquery
+ * its passed a provider
  * and used to do things like calculate gas of a tx.
  *
  * @param {object} provider - A network provider.
@@ -31,7 +31,7 @@ export default class TxGasUtil {
    * Estimates the gas a transaction will use.
    *
    * @param {object} txMeta - the txMeta object
-   * @returns {GasAnalysisResult} The result of the gas analysis
+   * @returns {Promise<GasAnalysisResult>} The result of the gas analysis
    */
   async analyzeGasUsage(txMeta) {
     const block = await this.query.getBlockByNumber('latest', false);
@@ -59,7 +59,7 @@ export default class TxGasUtil {
    * Estimates the tx's gas usage
    *
    * @param {object} txMeta - the txMeta object
-   * @returns {string} the estimated gas limit as a hex string
+   * @returns {Promise<string>} the estimated gas limit as a hex string
    */
   async estimateTxGas(txMeta) {
     const { txParams } = txMeta;

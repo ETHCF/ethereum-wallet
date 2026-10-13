@@ -14,9 +14,7 @@ import { getTokenValue, calcTokenAmount } from '../helpers/utils/token-util';
 /**
  * useTokenDisplayValue
  * Given the data string from txParams and a token object with symbol and decimals, return
- * a displayValue that represents a string representing that token amount as a string. Also
- * return a tokenData object for downstream usage and the suffix for the token to use as props
- * for other hooks and/or components
+ * a displayValue that represents that token amount as a string.
  *
  * @param {string} [transactionData] - Raw data string from token transaction
  * @param {Token} [token] - The token associated with this transaction
@@ -25,7 +23,8 @@ import { getTokenValue, calcTokenAmount } from '../helpers/utils/token-util';
  * force this hook to return null if it set as false
  * which indicates the transaction is not associated
  * with a token.
- * @returns {string} The computed displayValue of the provided transactionData and token
+ * @returns {string|null} The computed displayValue of the provided transactionData and token,
+ * or null if it cannot be computed
  */
 export function useTokenDisplayValue(
   transactionData,

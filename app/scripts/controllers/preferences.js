@@ -57,7 +57,7 @@ export default class PreferencesController {
    * @typedef {object} PreferencesController
    * @param {object} opts - Overrides the defaults for the initial state of this.store
    * @property {object} store The stored object containing a users preferences, stored in local storage
-   * @property {Array} store.frequentRpcList A list of custom rpcs to provide the user
+   * @property {Array} store.frequentRpcListDetail A list of custom rpcs to provide the user
    * @property {Array} store.tokens The tokens the user wants display in their token lists
    * @property {object} store.accountTokens The tokens stored per account and then per network type
    * @property {object} store.assetImages Contains assets objects related to assets added
@@ -359,7 +359,7 @@ export default class PreferencesController {
    * Setter for the `selectedAddress` property
    *
    * @param {string} _address - A new hex address for an account
-   * @returns {Promise<void>} Promise resolves with tokens
+   * @returns {Promise<Array>} Promise resolves with tokens
    */
   setSelectedAddress(_address) {
     const address = normalizeAddress(_address);
@@ -392,7 +392,7 @@ export default class PreferencesController {
    * @property {string} address - The hex address for the token contract. Will be all lower cased and hex-prefixed.
    * @property {string} symbol - The symbol of the token, usually 3 or 4 capitalized letters
    * {@link https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#symbol}
-   * @property {boolean} decimals - The number of decimals the token uses.
+   * @property {number} decimals - The number of decimals the token uses.
    * {@link https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md#decimals}
    */
 
@@ -478,13 +478,11 @@ export default class PreferencesController {
   }
 
   /**
-   * updates custom RPC details
+   * updates custom RPC details, or adds them if the RPC url is new
    *
-   * @param {string} url - The RPC url to add to frequentRpcList.
-   * @param {string} chainId - The chainId of the network, which is required.
-   * @param {string} ticker - Optional ticker symbol of the selected network.
-   * @param {string} nickname - Optional nickname of the selected network.
-   * @returns {Promise<Array>} Promise resolving to updated frequentRpcList.
+   * @param {object} newRpcDetails - The RPC details: rpcUrl, chainId (required
+   * for a new RPC), and optionally ticker, nickname and rpcPrefs.
+   * @returns {Promise<Array>} Promise resolving to updated frequentRpcListDetail.
    */
 
   updateRpc(newRpcDetails) {
@@ -520,13 +518,13 @@ export default class PreferencesController {
   /**
    * Adds custom RPC url to state.
    *
-   * @param {string} url - The RPC url to add to frequentRpcList.
+   * @param {string} url - The RPC url to add to frequentRpcListDetail.
    * @param {string} chainId - The chainId of the network, which is required.
    * @param {string} ticker - Optional ticker symbol of the selected network.
    * @param {string} nickname - Optional nickname of the selected network.
    * @param {object} [rpcPrefs] - Optional preferences for the network, such
    * as blockExplorerUrl.
-   * @returns {Promise<Array>} Promise resolving to updated frequentRpcList.
+   * @returns {Promise<Array>} Promise resolving to updated frequentRpcListDetail.
    */
   addToFrequentRpcList(
     url,
@@ -557,8 +555,8 @@ export default class PreferencesController {
   /**
    * Removes custom RPC url from state.
    *
-   * @param {string} url - The RPC url to remove from frequentRpcList.
-   * @returns {Promise<Array>} Promise resolving to updated frequentRpcList.
+   * @param {string} url - The RPC url to remove from frequentRpcListDetail.
+   * @returns {Promise<Array>} Promise resolving to updated frequentRpcListDetail.
    */
   removeFromFrequentRpcList(url) {
     const rpcList = this.getFrequentRpcListDetail();
@@ -575,7 +573,7 @@ export default class PreferencesController {
   /**
    * Getter for the `frequentRpcListDetail` property.
    *
-   * @returns {Array<Array>} An array of rpc urls.
+   * @returns {Array<object>} The custom RPC details.
    */
   getFrequentRpcListDetail() {
     return this.store.getState().frequentRpcListDetail;
@@ -668,7 +666,7 @@ export default class PreferencesController {
    * Updates `accountTokens` and `tokens` of current account and network according to it.
    *
    * @param {Array} tokens - Array of tokens to be updated.
-   * @param {object} assetImages - Token image URLs, by token address.
+   * @param {object} assetImages - Token images, by token address.
    */
   _updateAccountTokens(tokens, assetImages) {
     const { accountTokens, providerType, selectedAddress } =
@@ -791,7 +789,7 @@ export default class PreferencesController {
    * Validates that the passed options for suggested token have all required properties.
    *
    * @param {object} opts - The options object to validate
-   * @throws {string} Throw a custom error indicating that address, symbol and/or decimals
+   * @throws {Error} Throw a custom error indicating that address, symbol and/or decimals
    * doesn't fulfill requirements
    */
   _validateERC20AssetParams(opts) {

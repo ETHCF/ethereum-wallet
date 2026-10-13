@@ -181,7 +181,7 @@ function queueConnection(port, handler) {
  *
  * @property {number} id - An internally unique tx identifier.
  * @property {number} time - Time the tx was first suggested, in unix epoch time (ms).
- * @property {string} status - The current transaction status (unapproved, signed, submitted, dropped, failed, rejected), as defined in `tx-state-manager.js`.
+ * @property {string} status - The current transaction status (unapproved, approved, signed, submitted, confirmed, dropped, failed, rejected), as defined in `tx-state-manager.js`.
  * @property {string} ecfWalletNetworkId - The transaction's network ID, used for EIP-155 compliance.
  * @property {boolean} loadingDefaults - Whether the tx's gas defaults are still being calculated; the UI waits until this is false.
  * @property {object} txParams - The tx params as passed to the network provider.
@@ -200,10 +200,10 @@ function queueConnection(port, handler) {
  * @property {boolean} isInitialized - Whether the first vault has been created.
  * @property {boolean} isUnlocked - Whether the vault is currently decrypted and accounts are available for selection.
  * @property {object} identities - An object matching lower-case hex addresses to Identity objects with "address" and "name" (nickname) keys.
- * @property {object} unapprovedTxs - An object mapping transaction hashes to unapproved transactions.
- * @property {Array} frequentRpcList - A list of frequently used RPCs, including custom user-provided ones.
- * @property {Array} addressBook - A list of previously sent to addresses.
- * @property {Array} tokens - Tokens held by the current user, including their balances.
+ * @property {object} unapprovedTxs - An object mapping transaction IDs to unapproved transactions.
+ * @property {Array} frequentRpcListDetail - A list of custom user-provided RPCs.
+ * @property {object} addressBook - Saved contacts, keyed by chain ID and then address.
+ * @property {Array} tokens - The tokens the user has chosen to display.
  * @property {object} send - The draft transaction on the Send screen (recipient, amount, gas, errors and the ID of any transaction being edited). This is UI-only state kept in Redux, not persisted by the controller.
  * @property {object} featureFlags - An object for optional feature flags.
  * @property {string} currentLocale - A locale string matching the user's preferred display language.
@@ -217,11 +217,11 @@ function queueConnection(port, handler) {
  * @property {object} unapprovedPersonalMsgs - An object of messages pending approval, mapping a unique ID to the options.
  * @property {number} unapprovedPersonalMsgCount - The number of messages in unapprovedPersonalMsgs.
  * @property {object} unapprovedEncryptionPublicKeyMsgs - An object of messages pending approval, mapping a unique ID to the options.
- * @property {number} unapprovedEncryptionPublicKeyMsgCount - The number of messages in EncryptionPublicKeyMsgs.
+ * @property {number} unapprovedEncryptionPublicKeyMsgCount - The number of messages in unapprovedEncryptionPublicKeyMsgs.
  * @property {object} unapprovedDecryptMsgs - An object of messages pending approval, mapping a unique ID to the options.
  * @property {number} unapprovedDecryptMsgCount - The number of messages in unapprovedDecryptMsgs.
- * @property {object} unapprovedTypedMsgs - An object of messages pending approval, mapping a unique ID to the options.
- * @property {number} unapprovedTypedMsgCount - The number of messages in unapprovedTypedMsgs.
+ * @property {object} unapprovedTypedMessages - An object of messages pending approval, mapping a unique ID to the options.
+ * @property {number} unapprovedTypedMessagesCount - The number of messages in unapprovedTypedMessages.
  * @property {string[]} keyringTypes - An array of unique keyring identifying strings, representing available strategies for creating accounts.
  * @property {object[]} keyrings - An array of keyring descriptions, summarizing the accounts that are available for use, and what keyrings they belong to.
  * @property {string} selectedAddress - A lower case hex string of the currently selected address.
@@ -251,7 +251,7 @@ async function initialize() {
 //
 
 /**
- * Loads any stored data, prioritizing the latest storage strategy.
+ * Loads any stored data.
  * Migrates that data schema in case it was last loaded on an older version.
  *
  * @returns {Promise<EcfWalletState>} Last data emitted from previous instance of ecf-wallet.
@@ -262,12 +262,9 @@ async function loadStateFromPersistence() {
   migrator.on('error', console.warn);
 
   // read from disk
-  // first from preferred, async API:
   versionedData = (await localStore.get()) || migrator.generateInitialState({});
 
   // check if somehow state is empty
-  // this should never happen but new error reporting suggests that it has
-  // for a small number of users
   if (versionedData && !versionedData.data) {
     // unable to recover, clear state
     versionedData = migrator.generateInitialState({});
@@ -296,7 +293,6 @@ async function loadStateFromPersistence() {
 
 /**
  * Initializes the ecf-wallet Controller with any initial state and default language.
- * Configures platform-specific error reporting strategy.
  * Streams emitted state updates to platform-specific storage strategy.
  * Creates platform listeners for new Dapps/Contexts, and sets up their data connections to the controller.
  *
@@ -534,7 +530,7 @@ async function setupController(initState, initLangCode) {
   controller.appStateController.on('updateBadge', updateBadge);
 
   /**
-   * Updates the Web Extension's "badge" number, on the little fox in the toolbar.
+   * Updates the Web Extension's "badge" number, on the toolbar icon.
    * The number reflects the current number of pending transactions or message signatures needing user approval.
    */
   function updateBadge() {

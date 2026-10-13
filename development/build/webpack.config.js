@@ -37,8 +37,8 @@ function readableStreamBrowserEntry() {
 
 // Browserify supplied these Node modules to every bundle; webpack needs them
 // listed. Like Browserify, give server-only modules an empty stand-in: the
-// packages that load them (dnode, native addons with JS fallbacks) only use
-// them in Node or inside a try.
+// packages that load them (native addons with JS fallbacks) only use them in
+// Node or inside a try.
 const nodeFallbacks = {
   assert: require.resolve('assert/'),
   buffer: require.resolve('buffer/'),
@@ -195,11 +195,6 @@ module.exports = function createWebpackConfigs({
       'offscreen-clipboard': sandboxed('./app/scripts/offscreen-clipboard.js'),
     },
     resolve: {
-      alias: {
-        // dnode names its browser build in the "browserify" field, which only
-        // Browserify reads; its Node build loads the native weak module.
-        dnode$: require.resolve('dnode/browser.js'),
-      },
       fallback: nodeFallbacks,
     },
     plugins: [

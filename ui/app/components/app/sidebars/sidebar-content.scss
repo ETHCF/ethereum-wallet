@@ -57,22 +57,6 @@
       @media screen and (min-width: design-system.$break-small) {
         flex: 1 1 70%;
       }
-
-      &__fee-chart {
-        height: 320px;
-
-        @media screen and (max-width: design-system.$break-small) {
-          height: initial;
-        }
-      }
-
-      &__fee-chart__speed-buttons {
-        bottom: 77px;
-
-        @media screen and (max-width: design-system.$break-small) {
-          display: none;
-        }
-      }
     }
 
     .gas-modal-content {

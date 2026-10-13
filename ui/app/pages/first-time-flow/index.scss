@@ -44,10 +44,6 @@
     color: var(--color-text-default);
   }
 
-  &__subheader {
-    margin-bottom: 16px;
-  }
-
   &__input {
     max-width: 350px;
   }
@@ -60,12 +56,6 @@
     min-width: 0;
     flex-direction: column;
     max-width: 350px;
-  }
-
-  &__textarea-label {
-    margin-bottom: 9px;
-    color: var(--color-primary-alternative);
-    font-size: 18px;
   }
 
   &__textarea {
@@ -81,21 +71,6 @@
 
   &__seedphrase {
     margin-top: 9px !important;
-  }
-
-  &__markdown {
-    border: 1px solid var(--color-border-default);
-    border-radius: 0;
-    background-color: var(--color-background-default);
-    height: 200px;
-    overflow-y: auto;
-    color: var(--color-text-alternative);
-    font-size: 0.75rem;
-    line-height: 15px;
-    text-align: justify;
-    margin: 0;
-    padding: 16px 20px;
-    height: 30vh;
   }
 
   &__text-block {

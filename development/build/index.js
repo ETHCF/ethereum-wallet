@@ -86,6 +86,6 @@ function defineAllTasks() {
     ),
   );
 
-  // special build for minimal CI testing
+  // build only the styles
   createTask('styles', styleTasks.prod);
 }

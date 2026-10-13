@@ -1,10 +1,7 @@
 @use 'design-system';
 
-$sub-mid-size-breakpoint: 667px;
-$sub-mid-size-breakpoint-range: "screen and (min-width: #{design-system.$break-large}) and (max-width: #{$sub-mid-size-breakpoint})";
-
 /*
-  NewUI Container Elements
+  Container elements
  */
 
 .app {
@@ -70,10 +67,6 @@ $sub-mid-size-breakpoint-range: "screen and (min-width: #{design-system.$break-l
   .main-container-wrapper {
     flex: 1;
   }
-}
-
-.token-balance__amount {
-  padding: 0 6px;
 }
 
 // first time

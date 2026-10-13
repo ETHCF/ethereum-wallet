@@ -70,19 +70,6 @@
     color: var(--color-warning-default);
   }
 
-  &__cached-secondary-balance {
-    color: var(--color-warning-default);
-    font-size: 16px;
-    line-height: 23px;
-  }
-
-  &__secondary-balance {
-    font-size: 16px;
-    line-height: 23px;
-    font-weight: 400;
-    color: var(--color-text-alternative);
-  }
-
   .wallet-overview &__button {
     @extend %asset-buttons;
   }
@@ -106,13 +93,6 @@
     line-height: 45px;
     width: 100%;
     justify-content: center;
-  }
-
-  &__secondary-balance {
-    font-size: 16px;
-    line-height: 23px;
-    font-weight: 400;
-    color: var(--color-text-alternative);
   }
 
   .wallet-overview &__button {

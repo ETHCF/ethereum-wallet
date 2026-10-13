@@ -24,20 +24,6 @@
       display: flex;
       flex-flow: row nowrap;
       align-items: flex-start;
-
-      &__amount {
-        color: var(--color-text-alternative);
-        font-size: 43px;
-        line-height: 43px;
-        margin-right: 8px;
-      }
-
-      &__symbol {
-        color: var(--color-text-alternative);
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-      }
     }
   }
 

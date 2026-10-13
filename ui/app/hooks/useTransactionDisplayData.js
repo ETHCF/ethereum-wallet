@@ -38,10 +38,12 @@ import { getKnownMethodData } from '../selectors/selectors';
  * @property {string} subtitle - supporting text describing the transaction
  * @property {boolean} subtitleContainsOrigin - true if the subtitle includes the origin of the tx
  * @property {string} category - the transaction category
+ * @property {string} date - the formatted date of the initial transaction
  * @property {string} primaryCurrency - the currency string to display in the primary position
  * @property {string} status - the status of the transaction
  * @property {string} senderAddress - the Ethereum address of the sender
  * @property {string} recipientAddress - the Ethereum address of the recipient
+ * @property {boolean} isPending - true if the status is a pending one
  */
 
 /**

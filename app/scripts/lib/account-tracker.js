@@ -183,7 +183,6 @@ export default class AccountTracker {
    *
    * @private
    * @param {number} blockNumber - the block number to update to.
-   * @fires 'block' The updated state, if all account updates are successful
    */
   async _updateForBlock(blockNumber) {
     const generation = this.networkGeneration;
@@ -191,7 +190,7 @@ export default class AccountTracker {
     const request = this.blockRequest;
     this._currentBlockNumber = blockNumber;
 
-    // block gasLimit polling shouldn't be in account-tracker shouldn't be here...
+    // block gasLimit polling shouldn't be in account-tracker
     const currentBlock = await this._query.getBlockByNumber(blockNumber, false);
     if (
       !currentBlock ||
@@ -211,8 +210,8 @@ export default class AccountTracker {
   }
 
   /**
-   * balanceChecker is deployed on main eth (test)nets and requires a single call
-   * for all other networks, calls this._updateAccount for each account in this.store
+   * Updates every account in this.store: on mainnet with a single balanceChecker
+   * call, and on other networks with this._updateAccount for each account.
    *
    * @returns {Promise} after all account balances updated
    */

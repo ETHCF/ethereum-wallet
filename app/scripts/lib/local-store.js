@@ -50,7 +50,7 @@ export default class ExtensionStore {
    * Returns all of the keys currently saved
    *
    * @private
-   * @returns {object} the key-value map from local storage
+   * @returns {Promise<object>} the key-value map from local storage
    */
   _get() {
     return extension.storage.local.get(null);

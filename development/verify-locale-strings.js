@@ -4,11 +4,12 @@
 //
 // usage:
 //
-//     node app/scripts/verify-locale-strings.js [<locale>] [--fix] [--quiet]
+//     node development/verify-locale-strings.js [<locale>] [--fix] [--quiet]
 //
 // This script will validate that locales have no unused messages. It will check
-// the English locale against string literals found under `ui/`, and it will check
-// other locales by comparing them to the English locale.
+// the English locale against string literals found under `ui/` and
+// `app/scripts/`, and it will check other locales by comparing them to the
+// English locale.
 //
 // A report will be printed to the console detailing any unused locales, and also
 // any missing messages in the non-English locales.

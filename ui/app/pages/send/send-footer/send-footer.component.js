@@ -56,18 +56,10 @@ export default class SendFooter extends Component {
       to,
       toNickname,
       unapprovedTxs,
-      // updateTx,
       update,
       toAccounts,
       navigate,
     } = this.props;
-
-    // Should not be needed because submit should be disabled if there are errors.
-    // const noErrors = !amountError && toError === null
-
-    // if (!noErrors) {
-    //   return
-    // }
 
     await addToAddressBookIfNew(to, toAccounts, toNickname);
     const promise = editingTransactionId

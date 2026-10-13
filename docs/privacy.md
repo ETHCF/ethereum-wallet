@@ -31,5 +31,5 @@ yarn build:test
 yarn test:e2e:mv3:chrome
 ```
 
-Browser tests check that tracking preferences stay absent and cover settings,
-direct create/import onboarding, signing, transactions, and service-worker recovery.
+Browser tests cover settings, direct create/import onboarding, signing,
+transactions, and service-worker recovery.

@@ -2,9 +2,3 @@
 @use 'confirm-page-container-header/index' as *;
 @use 'confirm-detail-row/index' as *;
 @use 'confirm-page-container-navigation/index' as *;
-
-.page-container {
-  &__content-component-wrapper {
-    height: 100%;
-  }
-}

@@ -46,18 +46,18 @@
   &--node,
   &--node-leaf {
     padding-left: 0.8rem;
+  }
 
-    &-label {
-      color: var(--color-text-alternative);
-    }
+  &--node-label {
+    color: var(--color-text-alternative);
+  }
 
-    &-value {
-      color: var(--color-text-default);
-      margin-left: 0.5rem;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
+  &--node-value {
+    color: var(--color-text-default);
+    margin-left: 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   &--node-leaf {

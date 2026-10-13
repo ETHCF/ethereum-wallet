@@ -198,8 +198,8 @@ export default class TransactionStateManager extends EventEmitter {
 
     // checks if the length of the tx history is
     // longer then desired persistence limit
-    // and then if it is removes only confirmed
-    // or rejected tx's.
+    // and then if it is removes only tx's in a final state
+    // (rejected, confirmed, failed or dropped).
     // not tx's that are pending or unapproved
     if (txCount > txHistoryLimit - 1) {
       const index = transactions.findIndex((metaTx) => {
@@ -448,17 +448,6 @@ export default class TransactionStateManager extends EventEmitter {
   //
   //           PRIVATE METHODS
   //
-
-  // STATUS METHODS
-  // statuses:
-  //    - `'unapproved'` the user has not responded
-  //    - `'rejected'` the user has responded no!
-  //    - `'approved'` the user has approved the tx
-  //    - `'signed'` the tx is signed
-  //    - `'submitted'` the tx is sent to a server
-  //    - `'confirmed'` the tx has been included in a block.
-  //    - `'failed'` the tx failed for some reason, included on tx data.
-  //    - `'dropped'` the tx nonce was already used
 
   /**
    * Sets the status of a transaction and emits the status events.

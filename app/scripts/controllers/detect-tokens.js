@@ -147,9 +147,9 @@ export default class DetectTokensController {
   }
 
   /**
-   * Internal isActive state
+   * Whether the popup is open and the wallet is unlocked
    *
-   * @type {object}
+   * @type {boolean}
    */
   get isActive() {
     return this.isOpen && this.isUnlocked;

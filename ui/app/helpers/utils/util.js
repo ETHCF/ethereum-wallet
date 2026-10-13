@@ -5,7 +5,7 @@ import punycode from 'punycode';
 
 import { toChecksumHexAddress } from '../../../../app/scripts/lib/checksum-address';
 
-// formatData :: ( date: <Unix Timestamp> ) -> String
+// formatDate :: ( date: <Unix Timestamp> ) -> String
 export function formatDate(date, format = "M/d/y 'at' T") {
   return DateTime.fromMillis(date).toFormat(format);
 }

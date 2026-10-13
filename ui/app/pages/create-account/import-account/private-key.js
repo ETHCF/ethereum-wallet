@@ -5,6 +5,7 @@ import { compose } from 'redux';
 
 import Button from '../../../components/ui/button';
 import { getMostRecentOverviewPage } from '../../../ducks/history/history';
+import { SECRET_INPUT_PROPS } from '../../../helpers/constants/secret-input';
 import withRouter from '../../../helpers/higher-order-components/with-router';
 import { getEcfWalletAccounts } from '../../../selectors';
 import * as actions from '../../../store/actions';
@@ -82,6 +83,7 @@ class PrivateKeyImportView extends Component {
             className="new-account-import-form__input-password"
             type="password"
             id="private-key-box"
+            {...SECRET_INPUT_PROPS}
             onKeyPress={(e) => this.createKeyringOnEnter(e)}
             onChange={() => this.checkInputEmpty()}
             ref={this.inputRef}

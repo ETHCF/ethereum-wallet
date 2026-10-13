@@ -7,7 +7,7 @@ const fsAsync = fs.promises;
 //
 // Utility to help check if sourcemaps are working
 //
-// searches `dist/chrome/inpage.js` for "new Error" statements
+// searches the bundles in `dist/chrome` for "new Error" statements
 // and prints their source lines using the sourcemaps.
 // if not working it may error or print minified garbage
 //
@@ -106,7 +106,6 @@ async function validateSourcemapForFile({ buildName }) {
 
   const buildLines = rawBuild.split('\n');
   const targetString = 'new Error';
-  // const targetString = 'null'
   const matchesPerLine = buildLines.map((line) =>
     indicesOf(targetString, line),
   );
@@ -121,7 +120,6 @@ async function validateSourcemapForFile({ buildName }) {
         console.warn(
           `!! missing source for position: ${JSON.stringify(position)}`,
         );
-        // const buildLine = buildLines[position.line - 1]
         console.warn(`   origin in build:`);
         console.warn(`   ${buildLines[position.line - 2]}`);
         console.warn(`-> ${buildLines[position.line - 1]}`);

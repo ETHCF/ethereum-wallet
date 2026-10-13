@@ -122,7 +122,7 @@ export default function reduceEcfWallet(state = {}, action) {
         tokens: action.newTokens,
       };
 
-    // ecf-wallet.send
+    // ecfWallet.send
     case UPDATE_GAS_LIMIT:
       return {
         ...ecfWalletState,

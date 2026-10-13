@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import Button from '../../../components/ui/button';
 import { getMostRecentOverviewPage } from '../../../ducks/history/history';
 import { getHelpUrl } from '../../../helpers/constants/help';
+import { SECRET_INPUT_PROPS } from '../../../helpers/constants/secret-input';
 import withRouter from '../../../helpers/higher-order-components/with-router';
 import { getEcfWalletAccounts } from '../../../selectors';
 import * as actions from '../../../store/actions';
@@ -51,6 +52,7 @@ class JsonImportSubview extends Component {
           type="password"
           placeholder={this.context.t('enterPassword')}
           id="json-password-box"
+          {...SECRET_INPUT_PROPS}
           onKeyPress={this.createKeyringOnEnter.bind(this)}
           onChange={() => this.checkInputEmpty()}
           ref={this.inputRef}

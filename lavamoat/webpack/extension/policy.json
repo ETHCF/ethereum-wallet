@@ -5,6 +5,16 @@
         "regeneratorRuntime": "write"
       }
     },
+    "@ensdomains/content-hash": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "console.warn": true
+      },
+      "packages": {
+        "@ensdomains/content-hash>multiformats": true
+      }
+    },
     "@ethereumjs/common": {
       "meta": {
         "webpack-optimization": [
@@ -367,66 +377,66 @@
       "packages": {
         "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
         "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": {
       "packages": {
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
       }
     },
     "@metamask/assets-controllers>@ethersproject/address": {
       "packages": {
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/base64": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/base64": {
       "globals": {
         "atob": true,
         "btoa": true
       },
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/basex": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/basex": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true
       }
     },
     "@metamask/eth-token-tracker>@ethersproject/bignumber": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
         "bn.js": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/constants": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/constants": {
       "packages": {
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true
       }
@@ -437,50 +447,50 @@
       },
       "packages": {
         "@metamask/assets-controllers>@ethersproject/abi": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
         "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/hash": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/hash": {
       "packages": {
         "@metamask/assets-controllers>@ethersproject/address": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
       }
     },
     "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
         "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256>js-sha3": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/logger": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": {
       "globals": {
         "console": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/networks": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/networks": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/properties": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
       }
     },
-    "nonce-tracker>@ethersproject/providers": {
+    "@metamask/nonce-tracker>@ethersproject/providers": {
       "globals": {
         "WebSocket": true,
         "clearInterval": true,
@@ -491,79 +501,79 @@
         "setTimeout": true
       },
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-provider": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/abstract-signer": true,
         "@metamask/assets-controllers>@ethersproject/address": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/basex": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/basex": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/networks": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/random": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/sha2": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/web": true,
-        "nonce-tracker>@ethersproject/providers>bech32": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/networks": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/random": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/sha2": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/strings": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/web": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>bech32": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/rlp": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/sha2": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/sha2": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/sha2>hash.js": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "crypto-browserify>create-ecdh>elliptic>hash.js": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/transactions>@ethersproject/signing-key": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions>@ethersproject/signing-key": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
         "bn.js": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/sha2>hash.js": true
+        "crypto-browserify>create-ecdh>elliptic>hash.js": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/strings": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/strings": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions": {
       "packages": {
         "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
         "@metamask/assets-controllers>@ethersproject/abi>@ethersproject/keccak256": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/transactions>@ethersproject/signing-key": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions>@ethersproject/signing-key": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/web": {
+    "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/web": {
       "globals": {
         "clearTimeout": true,
         "fetch": true,
         "setTimeout": true
       },
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/base64": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/bytes": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/logger": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/properties": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/strings": true
       }
     },
     "@ledgerhq/hw-transport-webhid>@ledgerhq/devices": {
@@ -587,8 +597,8 @@
         "Intl.DateTimeFormat": true
       },
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/constants": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/hash": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>@ledgerhq/evm-tools>@ledgerhq/live-env": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>axios": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/context-module>crypto-js": true
@@ -603,8 +613,8 @@
       },
       "packages": {
         "@metamask/assets-controllers>@ethersproject/abi": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/rlp": true,
+        "@metamask/nonce-tracker>@ethersproject/providers>@ethersproject/transactions": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>@ledgerhq/cryptoassets-evm-signatures": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth>@ledgerhq/domain-service": true,
         "@ledgerhq/hw-transport-webhid>@ledgerhq/errors": true,
@@ -690,13 +700,13 @@
       "packages": {
         "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/contracts": true,
-        "nonce-tracker>@ethersproject/providers": true,
+        "@metamask/nonce-tracker>@ethersproject/providers": true,
         "@metamask/assets-controllers>@metamask/base-controller": true,
         "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/assets-controllers>@metamask/phishing-controller": true,
         "@metamask/rpc-errors": true,
         "@metamask/assets-controllers>@metamask/utils": true,
-        "@metamask/assets-controllers>async-mutex": true,
+        "@metamask/nonce-tracker>async-mutex": true,
         "bn.js": true,
         "@metamask/assets-controllers>multiformats": true,
         "@ethereumjs/wallet>uuid": true
@@ -799,7 +809,7 @@
         "@metamask/eth-query": true,
         "@metamask/eth-json-rpc-filters>@metamask/json-rpc-engine": true,
         "@metamask/safe-event-emitter": true,
-        "@metamask/assets-controllers>async-mutex": true,
+        "@metamask/nonce-tracker>async-mutex": true,
         "@metamask/eth-json-rpc-filters>pify": true
       }
     },
@@ -956,7 +966,7 @@
         "@babel/runtime": true,
         "@metamask/eth-token-tracker>@ethersproject/bignumber": true,
         "@metamask/eth-token-tracker>@ethersproject/contracts": true,
-        "nonce-tracker>@ethersproject/providers": true,
+        "@metamask/nonce-tracker>@ethersproject/providers": true,
         "@metamask/eth-token-tracker>@metamask/eth-block-tracker": true,
         "@metamask/safe-event-emitter": true,
         "bn.js": true,
@@ -1084,6 +1094,13 @@
     "@metamask/eth-json-rpc-filters>@metamask/json-rpc-engine>@metamask/messenger": {
       "globals": {
         "console.error": true
+      }
+    },
+    "@metamask/nonce-tracker": {
+      "packages": {
+        "@metamask/nonce-tracker>@ethersproject/providers": true,
+        "assert": true,
+        "@metamask/nonce-tracker>async-mutex": true
       }
     },
     "eth-method-registry>@metamask/ethjs-query>@metamask/ethjs-format>@metamask/number-to-bn": {
@@ -1537,16 +1554,7 @@
         "assert>util": true
       }
     },
-    "@metamask/assets-controllers>async-mutex": {
-      "globals": {
-        "clearTimeout": true,
-        "setTimeout": true
-      },
-      "packages": {
-        "@trezor/connect-web>tslib": true
-      }
-    },
-    "nonce-tracker>async-mutex": {
+    "@metamask/nonce-tracker>async-mutex": {
       "globals": {
         "clearTimeout": true,
         "setTimeout": true
@@ -1596,7 +1604,7 @@
         "process": true
       }
     },
-    "content-hash>cids>multibase>base-x": {
+    "@metamask/eth-trezor-keyring>hdkey>bs58check>bs58>base-x": {
       "packages": {
         "string_decoder>safe-buffer": true
       }
@@ -1718,7 +1726,7 @@
     },
     "@metamask/eth-trezor-keyring>hdkey>bs58check>bs58": {
       "packages": {
-        "content-hash>cids>multibase>base-x": true
+        "@metamask/eth-trezor-keyring>hdkey>bs58check>bs58>base-x": true
       }
     },
     "@metamask/eth-trezor-keyring>hdkey>bs58check": {
@@ -1774,15 +1782,6 @@
         "assert>call-bind>get-intrinsic": true
       }
     },
-    "content-hash>cids": {
-      "packages": {
-        "buffer": true,
-        "content-hash>cids>class-is": true,
-        "content-hash>cids>multibase": true,
-        "content-hash>cids>multicodec": true,
-        "content-hash>multihashes": true
-      }
-    },
     "crypto-browserify>create-hash>cipher-base": {
       "packages": {
         "crypto-browserify>inherits": true,
@@ -1796,17 +1795,6 @@
       "globals": {
         "classNames": "write",
         "define": true
-      }
-    },
-    "content-hash": {
-      "globals": {
-        "Buffer.from": true
-      },
-      "packages": {
-        "buffer": true,
-        "content-hash>cids": true,
-        "content-hash>multicodec": true,
-        "content-hash>multihashes": true
       }
     },
     "copy-to-clipboard": {
@@ -1950,23 +1938,6 @@
         "crypto-browserify>randombytes": true
       }
     },
-    "dnode": {
-      "globals": {
-        "process.nextTick": true
-      },
-      "packages": {
-        "dnode>dnode-protocol": true,
-        "dnode>jsonify": true,
-        "process": true,
-        "stream-browserify": true
-      }
-    },
-    "dnode>dnode-protocol": {
-      "packages": {
-        "events": true,
-        "dnode>dnode-protocol>traverse": true
-      }
-    },
     "eslint-plugin-react>es-iterator-helpers>has-proto>dunder-proto": {
       "packages": {
         "assert>call-bind>call-bind-apply-helpers": true,
@@ -1977,7 +1948,7 @@
       "packages": {
         "crypto-browserify>create-ecdh>elliptic>bn.js": true,
         "crypto-browserify>create-ecdh>elliptic>brorand": true,
-        "nonce-tracker>@ethersproject/providers>@ethersproject/sha2>hash.js": true,
+        "crypto-browserify>create-ecdh>elliptic>hash.js": true,
         "crypto-browserify>create-ecdh>elliptic>hmac-drbg": true,
         "crypto-browserify>inherits": true,
         "crypto-browserify>create-ecdh>elliptic>minimalistic-assert": true,
@@ -1995,40 +1966,6 @@
         "process": true
       }
     },
-    "enzyme>array.prototype.flat>es-abstract>es-to-primitive>es-abstract-get": {
-      "packages": {
-        "enzyme>html-element-map>es-errors": true,
-        "enzyme>is-callable": true,
-        "enzyme>object-inspect": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract": {
-      "packages": {
-        "@metamask/eth-token-tracker>deep-equal>array-buffer-byte-length": true,
-        "assert>util>which-typed-array>available-typed-arrays": true,
-        "assert>object.assign>call-bound": true,
-        "url>qs>es-define-property": true,
-        "enzyme>html-element-map>es-errors": true,
-        "assert>object.assign>es-object-atoms": true,
-        "enzyme>array.prototype.flat>es-abstract>es-to-primitive": true,
-        "assert>call-bind>get-intrinsic": true,
-        "enzyme>string.prototype.trim>has-property-descriptors": true,
-        "eslint-plugin-react>hasown": true,
-        "@metamask/eth-token-tracker>deep-equal>is-array-buffer": true,
-        "enzyme>is-callable": true,
-        "@metamask/eth-token-tracker>deep-equal>is-shared-array-buffer": true,
-        "assert>util>is-typed-array": true,
-        "eslint-plugin-react>array-includes>math-intrinsics": true,
-        "enzyme>object-inspect": true,
-        "enzyme>array.prototype.flat>es-abstract>safe-array-concat": true,
-        "enzyme>string.prototype.trim>safe-regex-test": true,
-        "enzyme>string.prototype.trim": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-byte-offset": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length": true,
-        "assert>util>which-typed-array": true
-      }
-    },
     "@metamask/eth-token-tracker>deep-equal>es-get-iterator": {
       "globals": {
         "process": true
@@ -2044,20 +1981,6 @@
         "@lavamoat/webpack>json-stable-stringify>isarray": true,
         "process": true,
         "enzyme>array.prototype.flat>es-abstract>stop-iteration-iterator": true
-      }
-    },
-    "assert>object.assign>es-object-atoms": {
-      "packages": {
-        "enzyme>html-element-map>es-errors": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>es-to-primitive": {
-      "packages": {
-        "enzyme>array.prototype.flat>es-abstract>es-to-primitive>es-abstract-get": true,
-        "enzyme>html-element-map>es-errors": true,
-        "enzyme>is-callable": true,
-        "@metamask/eth-token-tracker>deep-equal>is-date-object": true,
-        "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive>is-symbol": true
       }
     },
     "eth-ens-namehash": {
@@ -2161,19 +2084,6 @@
         "enzyme>is-callable": true
       }
     },
-    "enzyme>function.prototype.name": {
-      "packages": {
-        "assert>call-bind": true,
-        "assert>object.assign>call-bound": true,
-        "url>qs>es-define-property": true,
-        "enzyme>html-element-map>es-errors": true,
-        "enzyme>function.prototype.name>functions-have-names": true,
-        "enzyme>string.prototype.trim>has-property-descriptors": true,
-        "eslint-plugin-react>hasown": true,
-        "enzyme>is-callable": true,
-        "enzyme>function.prototype.name>is-document.all": true
-      }
-    },
     "fuse.js": {
       "globals": {
         "console.warn": true
@@ -2225,7 +2135,7 @@
         "crypto-browserify>pbkdf2>to-buffer": true
       }
     },
-    "nonce-tracker>@ethersproject/providers>@ethersproject/sha2>hash.js": {
+    "crypto-browserify>create-ecdh>elliptic>hash.js": {
       "packages": {
         "crypto-browserify>inherits": true,
         "crypto-browserify>create-ecdh>elliptic>minimalistic-assert": true
@@ -2248,7 +2158,7 @@
     },
     "crypto-browserify>create-ecdh>elliptic>hmac-drbg": {
       "packages": {
-        "nonce-tracker>@ethersproject/providers>@ethersproject/sha2>hash.js": true,
+        "crypto-browserify>create-ecdh>elliptic>hash.js": true,
         "crypto-browserify>create-ecdh>elliptic>minimalistic-assert": true,
         "crypto-browserify>create-ecdh>elliptic>minimalistic-crypto-utils": true
       }
@@ -2292,15 +2202,6 @@
         "assert>call-bind>get-intrinsic": true
       }
     },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function": {
-      "packages": {
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function>async-function": true,
-        "assert>object.assign>call-bound": true,
-        "assert>util>which-typed-array>get-proto": true,
-        "enzyme>is-regex>has-tostringtag": true,
-        "enzyme>string.prototype.trim>safe-regex-test": true
-      }
-    },
     "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive>is-bigint": {
       "packages": {
         "enzyme>array.prototype.flat>es-abstract>unbox-primitive>has-bigints": true
@@ -2321,19 +2222,6 @@
       "packages": {
         "assert>object.assign>call-bound": true,
         "enzyme>is-regex>has-tostringtag": true
-      }
-    },
-    "enzyme>function.prototype.name>is-document.all": {
-      "globals": {
-        "document": true
-      },
-      "packages": {
-        "assert>object.assign>call-bound": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-finalizationregistry": {
-      "packages": {
-        "assert>object.assign>call-bound": true
       }
     },
     "assert>util>is-generator-function": {
@@ -2386,14 +2274,6 @@
     "assert>util>is-typed-array": {
       "packages": {
         "assert>util>which-typed-array": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>is-weakref": {
-      "globals": {
-        "WeakRef": true
-      },
-      "packages": {
-        "assert>object.assign>call-bound": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>which-collection>is-weakset": {
@@ -2514,33 +2394,10 @@
         "crypto-browserify>create-ecdh>elliptic>brorand": true
       }
     },
-    "content-hash>cids>multibase": {
-      "packages": {
-        "content-hash>cids>multibase>base-x": true,
-        "buffer": true
-      }
-    },
-    "content-hash>multihashes>multibase": {
-      "packages": {
-        "content-hash>cids>multibase>base-x": true,
-        "buffer": true
-      }
-    },
-    "content-hash>cids>multicodec": {
-      "packages": {
-        "buffer": true,
-        "content-hash>multicodec>varint": true
-      }
-    },
-    "content-hash>multicodec": {
+    "@ensdomains/content-hash>multiformats": {
       "globals": {
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true
-      },
-      "packages": {
-        "buffer": true,
-        "content-hash>multicodec>varint": true
+        "TextDecoder": true,
+        "TextEncoder": true
       }
     },
     "@metamask/assets-controllers>multiformats": {
@@ -2548,13 +2405,6 @@
         "TextDecoder": true,
         "TextEncoder": true,
         "console.warn": true
-      }
-    },
-    "content-hash>multihashes": {
-      "packages": {
-        "buffer": true,
-        "content-hash>multihashes>multibase": true,
-        "content-hash>multicodec>varint": true
       }
     },
     "nanoid": {
@@ -2570,13 +2420,6 @@
     "@metamask/permission-controller>nanoid": {
       "globals": {
         "crypto.getRandomValues": true
-      }
-    },
-    "nonce-tracker": {
-      "packages": {
-        "nonce-tracker>@ethersproject/providers": true,
-        "assert": true,
-        "nonce-tracker>async-mutex": true
       }
     },
     "eth-method-registry>@metamask/ethjs-contract>ethjs-abi>number-to-bn": {
@@ -3040,16 +2883,6 @@
         "process.env.NODE_ENV": true
       }
     },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof": {
-      "packages": {
-        "enzyme>array.prototype.flat>es-abstract": true,
-        "enzyme>html-element-map>es-errors": true,
-        "assert>object.assign>es-object-atoms": true,
-        "assert>call-bind>get-intrinsic": true,
-        "assert>util>which-typed-array>get-proto": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type": true
-      }
-    },
     "eslint-plugin-react>string.prototype.matchall>regexp.prototype.flags": {
       "packages": {
         "assert>call-bind": true,
@@ -3072,15 +2905,6 @@
         "buffer": true,
         "crypto-browserify>pbkdf2>ripemd160>hash-base": true,
         "crypto-browserify>inherits": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>safe-array-concat": {
-      "packages": {
-        "assert>call-bind": true,
-        "assert>object.assign>call-bound": true,
-        "assert>call-bind>get-intrinsic": true,
-        "assert>object.assign>has-symbols": true,
-        "@lavamoat/webpack>json-stable-stringify>isarray": true
       }
     },
     "crypto-browserify>browserify-sign>readable-stream>safe-buffer": {
@@ -3228,18 +3052,6 @@
         "stream-browserify>readable-stream": true
       }
     },
-    "enzyme>string.prototype.trim": {
-      "packages": {
-        "assert>call-bind": true,
-        "assert>object.assign>call-bound": true,
-        "enzyme>string.prototype.trim>define-data-property": true,
-        "assert>is-nan>define-properties": true,
-        "enzyme>array.prototype.flat>es-abstract": true,
-        "assert>object.assign>es-object-atoms": true,
-        "enzyme>string.prototype.trim>has-property-descriptors": true,
-        "enzyme>string.prototype.trim>safe-regex-test": true
-      }
-    },
     "string_decoder": {
       "packages": {
         "string_decoder>safe-buffer": true
@@ -3267,13 +3079,6 @@
         "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": true
       }
     },
-    "dnode>dnode-protocol>traverse": {
-      "packages": {
-        "enzyme>is-regex>gopd": true,
-        "dnode>dnode-protocol>traverse>typedarray.prototype.slice": true,
-        "assert>util>which-typed-array": true
-      }
-    },
     "@trezor/connect-web>tslib": {
       "globals": {
         "AsyncIterator": true,
@@ -3294,38 +3099,6 @@
         "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>util>is-typed-array": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-byte-offset": {
-      "packages": {
-        "assert>util>which-typed-array>available-typed-arrays": true,
-        "assert>call-bind": true,
-        "assert>util>which-typed-array>for-each": true,
-        "enzyme>is-regex>gopd": true,
-        "assert>util>is-typed-array": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-length": {
-      "packages": {
-        "assert>call-bind": true,
-        "assert>util>which-typed-array>for-each": true,
-        "enzyme>is-regex>gopd": true,
-        "assert>util>is-typed-array": true,
-        "assert>util>which-typed-array>available-typed-arrays>possible-typed-array-names": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof": true
-      }
-    },
-    "dnode>dnode-protocol>traverse>typedarray.prototype.slice": {
-      "packages": {
-        "assert>call-bind": true,
-        "assert>is-nan>define-properties": true,
-        "enzyme>array.prototype.flat>es-abstract": true,
-        "enzyme>html-element-map>es-errors": true,
-        "assert>util>which-typed-array>get-proto": true,
-        "eslint-plugin-react>array-includes>math-intrinsics": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-byte-offset": true
       }
     },
     "url": {
@@ -3408,23 +3181,6 @@
         "enzyme>is-number-object": true,
         "enzyme>is-string": true,
         "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive>is-symbol": true
-      }
-    },
-    "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type": {
-      "packages": {
-        "assert>object.assign>call-bound": true,
-        "enzyme>function.prototype.name": true,
-        "enzyme>is-regex>has-tostringtag": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-async-function": true,
-        "@metamask/eth-token-tracker>deep-equal>is-date-object": true,
-        "enzyme>array.prototype.flat>es-abstract>typed-array-length>reflect.getprototypeof>which-builtin-type>is-finalizationregistry": true,
-        "assert>util>is-generator-function": true,
-        "enzyme>is-regex": true,
-        "enzyme>array.prototype.flat>es-abstract>is-weakref": true,
-        "@lavamoat/webpack>json-stable-stringify>isarray": true,
-        "@metamask/eth-token-tracker>deep-equal>which-boxed-primitive": true,
-        "@metamask/eth-token-tracker>deep-equal>which-collection": true,
-        "assert>util>which-typed-array": true
       }
     },
     "@metamask/eth-token-tracker>deep-equal>which-collection": {

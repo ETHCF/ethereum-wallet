@@ -3,9 +3,11 @@ import assert from 'assert';
 import { cloneDeep } from 'lodash';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import { Duplex, PassThrough } from 'stream';
 import { objectTransform as createThoughStream } from 'through2';
 import { promisify } from 'util';
 
+import metaRPCClientFactory from '../../../../app/scripts/lib/metaRPCClientFactory';
 import firstTimeState from '../../localhostState';
 
 // browser.storage.session, in memory
@@ -1201,21 +1203,102 @@ describe('EcfWalletController', function () {
   });
 
   describe('#setupTrustedCommunication', function () {
-    it('sets up controller dnode api for trusted communication', async function () {
+    it('answers API requests on the controller stream', async function () {
       const messageSender = {
         url: 'http://mycrypto.com',
         tab: {},
       };
       const { promise, resolve } = deferredPromise();
       const streamTest = createThoughStream((chunk, _, cb) => {
-        assert.equal(chunk.name, 'controller');
-        resolve();
+        if (chunk.name === 'controller' && chunk.data.id === 1) {
+          resolve(chunk.data);
+        }
         cb();
       });
 
       ecfWalletController.setupTrustedCommunication(streamTest, messageSender);
-      await promise;
+      streamTest.push({
+        name: 'controller',
+        data: { jsonrpc: '2.0', id: 1, method: 'getState', params: [] },
+      });
+      const response = await promise;
+      assert.equal(response.error, undefined);
+      assert.equal(typeof response.result, 'object');
       streamTest.end();
+    });
+  });
+
+  describe('#setupControllerConnection', function () {
+    // A UI connected to the controller through a pair of object streams.
+    const connect = () => {
+      const toBackground = new PassThrough({ objectMode: true });
+      const toUi = new PassThrough({ objectMode: true });
+      const backgroundStream = Duplex.from({
+        readable: toBackground,
+        writable: toUi,
+      });
+      const uiStream = Duplex.from({ readable: toUi, writable: toBackground });
+      ecfWalletController.setupControllerConnection(backgroundStream);
+      return {
+        background: metaRPCClientFactory(uiStream),
+        backgroundStream,
+        toBackground,
+      };
+    };
+
+    it('calls API methods and returns their results', async function () {
+      sandbox.stub(ecfWalletController, 'getApi').returns({
+        add: (a, b, cb) => cb(null, a + b),
+      });
+      const { background } = connect();
+      assert.equal(await promisify(background.add)(2, 3), 5);
+    });
+
+    it('passes API errors on with their message and code', async function () {
+      sandbox.stub(ecfWalletController, 'getApi').returns({
+        fail: (cb) => cb(Object.assign(new Error('Nope'), { code: 4001 })),
+        failPlain: (cb) => cb(new Error('Plain failure')),
+      });
+      const { background } = connect();
+      await assert.rejects(promisify(background.fail)(), {
+        message: 'Nope',
+        code: 4001,
+      });
+      await assert.rejects(promisify(background.failPlain)(), {
+        message: 'Plain failure',
+      });
+    });
+
+    it('refuses methods that are not part of the API', async function () {
+      sandbox.stub(ecfWalletController, 'getApi').returns({});
+      const { background } = connect();
+      for (const method of ['missing', 'constructor', 'toString']) {
+        await assert.rejects(
+          new Promise((resolve, reject) =>
+            background.request(method, [
+              (error, result) => (error ? reject(error) : resolve(result)),
+            ]),
+          ),
+          { code: -32601 },
+        );
+      }
+    });
+
+    it('pushes state updates until the connection ends', async function () {
+      sandbox.stub(ecfWalletController, 'getApi').returns({});
+      const before = ecfWalletController.listenerCount('update');
+      const { background, backgroundStream, toBackground } = connect();
+      const { promise, resolve } = deferredPromise();
+      background.on('update', resolve);
+      ecfWalletController.privateSendUpdate();
+      const state = await promise;
+      assert.equal(typeof state.isUnlocked, 'boolean');
+
+      // The UI closes: both directions of the stream finish.
+      toBackground.end();
+      backgroundStream.end();
+      await new Promise((resolveTick) => setImmediate(resolveTick));
+      assert.equal(ecfWalletController.listenerCount('update'), before);
     });
   });
 

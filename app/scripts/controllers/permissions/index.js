@@ -445,7 +445,7 @@ export class PermissionsController {
    */
   removePermissionsFor(domains) {
     Object.entries(domains).forEach(([origin, perms]) => {
-      // Unlike rpc-cap, revokePermissions throws for permissions that do not exist.
+      // revokePermissions throws for permissions that do not exist.
       const existing = perms.filter((methodName) =>
         this.hasPermission(origin, methodName),
       );
@@ -567,7 +567,7 @@ export class PermissionsController {
    * Removes all domains without permissions from the restored metadata state,
    * and rehydrates the metadata store.
    *
-   * Requires PermissionsController._initializePermissions to have been called first.
+   * Requires the permission controller (this.permissions) to have been created first.
    *
    * @param {object} restoredState - The restored permissions controller state.
    */

@@ -106,14 +106,6 @@
       }
     }
 
-    &__input-arrows--error {
-      border: 1px solid var(--color-error-default);
-    }
-
-    &__input-arrows--warning {
-      border: 1px solid var(--color-warning-default);
-    }
-
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -124,13 +116,6 @@
       -webkit-appearance: none;
       -moz-appearance: none;
       display: none;
-    }
-
-    &__gwei-symbol {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      color: var(--color-text-alternative);
     }
   }
 }

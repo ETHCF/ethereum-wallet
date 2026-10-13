@@ -55,9 +55,9 @@ export function canonicalizeTypedMessage(data, version) {
  * @property {number} id An id to track and identify the message object
  * @property {object} msgParams The parameters to pass to the eth_signTypedData method once the signature request is
  * approved.
- * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
+ * @property {number} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {object} msgParams.from The address that is making the signature request.
- * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
+ * @property {object[] | string} msgParams.data The typed data: an array for V1, a JSON string for V3 and V4.
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed', 'rejected', or 'errored'
  * @property {string} type The json-prc signing method for which a signature request has been made. A 'Message' will
@@ -99,7 +99,7 @@ export default class TypedMessageManager extends BaseMessageManager {
    * the new TypedMessage to this.messages, and to save the unapproved TypedMessages from that list to
    * this.memStore. Before any of this is done, msgParams are validated
    *
-   * @param {object} inputParams - The params for the eth_sign call to be made after the message is approved.
+   * @param {object} inputParams - The params for the eth_signTypedData call to be made after the message is approved.
    * @param {object} req - (optional) The original request object possibly containing the origin
    * @param {string} version - The typed data version: 'V1', 'V3' or 'V4'.
    * @param {object[]} [securityAlerts] - Warnings about the request to show the user.

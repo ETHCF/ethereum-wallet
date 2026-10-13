@@ -46,7 +46,6 @@ const modalContainerMobileStyle = {
 const accountModalStyle = {
   mobileModalStyle: {
     width: '95%',
-    // top: isPopupOrNotification() === 'popup' ? '52vh' : '36.5vh',
     boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 2px 2px',
     borderRadius: '4px',
     top: '10%',
@@ -57,7 +56,6 @@ const accountModalStyle = {
   },
   laptopModalStyle: {
     width: '360px',
-    // top: 'calc(33% + 45px)',
     boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 2px 2px',
     borderRadius: '4px',
     top: '10%',

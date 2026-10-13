@@ -15,7 +15,7 @@ import { detectSIWE } from './signing-utils';
  * @property {number} id An id to track and identify the message object
  * @property {object} msgParams The parameters to pass to the personal_sign method once the signature request is
  * approved.
- * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
+ * @property {number} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the signature request
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the signature request is 'unapproved', 'approved', 'signed', 'rejected' or 'errored'

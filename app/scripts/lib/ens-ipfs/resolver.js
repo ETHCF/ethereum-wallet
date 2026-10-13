@@ -1,9 +1,16 @@
+import {
+  decode as decodeContentHash,
+  getCodec,
+} from '@ensdomains/content-hash';
 import EthQuery from '@metamask/eth-query';
-import contentHash from 'content-hash';
 import namehash from 'eth-ens-namehash';
 import pify from 'pify';
 
 import { callContract } from '../contract-call';
+
+// @ensdomains/content-hash names codecs without the multicodec "-ns" suffix
+// that the rest of the ENS code uses.
+const CODEC_NAMES = { ipfs: 'ipfs-ns', ipns: 'ipns-ns', swarm: 'swarm-ns' };
 
 export default async function resolveEnsToIpfsContentId({ provider, name }) {
   const query = pify(new EthQuery(provider));
@@ -49,15 +56,13 @@ export default async function resolveEnsToIpfsContentId({ provider, name }) {
       ['bytes'],
       [hash],
     );
-    let decodedContentHash = contentHash.decode(rawContentHash);
-    const type = contentHash.getCodec(rawContentHash);
-
-    if (type === 'ipfs-ns' || type === 'ipns-ns') {
-      decodedContentHash =
-        contentHash.helpers.cidV0ToV1Base32(decodedContentHash);
-    }
-
-    return { type, hash: decodedContentHash };
+    const codec = getCodec(rawContentHash);
+    // IPFS and IPNS come back as CIDv1 in base32 or base36, as gateway
+    // subdomains need.
+    return {
+      type: CODEC_NAMES[codec] ?? codec,
+      hash: decodeContentHash(rawContentHash),
+    };
   }
   if (await supportsInterface('0xd8389dc5')) {
     // lookup content id

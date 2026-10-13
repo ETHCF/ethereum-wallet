@@ -2,13 +2,14 @@ import { ObservableStore } from '@metamask/obs-store';
 
 /**
  * @typedef {object} AlertControllerInitState
- * @property {object} alertEnabledness - A map of any alerts that were suppressed keyed by alert ID, where the value
- * is the timestamp of when the user suppressed the alert.
+ * @property {object} alertEnabledness - A map of alerts keyed by alert ID, where the value
+ * is whether the alert is enabled.
  */
 
 /**
  * @typedef {object} AlertControllerOptions
  * @property {AlertControllerInitState} initState - The initial controller state
+ * @property {object} preferencesStore - The preferences store, used to track the selected address
  */
 
 export const ALERT_TYPES = {

@@ -76,9 +76,10 @@ export function getPermittedAccountsByOrigin(state) {
 /**
  * Returns an array of connected domain objects, with the following properties:
  * - extensionId
- * - key (i.e. origin)
+ * - origin
  * - name
  * - icon
+ * - host
  *
  * @param {object} state - The current state.
  * @returns {Array<object>} An array of connected domain objects.

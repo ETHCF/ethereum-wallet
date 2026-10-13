@@ -40,21 +40,6 @@
 
     .currency-display {
       color: var(--color-text-default);
-
-      &__currency-symbol {
-        color: var(--color-text-default);
-      }
-
-      &__converted-value,
-      &__converted-currency {
-        color: var(--color-text-default);
-      }
-    }
-
-    .account-list-item {
-      &__account-secondary-balance {
-        color: var(--color-text-default);
-      }
     }
   }
 
@@ -193,20 +178,6 @@
           background-color: var(--color-background-default);
         }
       }
-    }
-
-    &__input {
-      z-index: 1025;
-      position: relative;
-      height: 54px;
-      width: 100%;
-      border: none;
-      border-radius: 0;
-      background-color: var(--color-background-default);
-      color: var(--color-text-default);
-      padding: 10px;
-      font-size: 16px;
-      line-height: 21px;
     }
   }
 

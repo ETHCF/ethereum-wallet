@@ -1,7 +1,7 @@
 # Transaction Controller
 
 Transaction Controller is an aggregate of sub-controllers and trackers
-exposed to the ecf-wallet controller.
+exposed to the EcfWalletController.
 
 - txStateManager
     responsible for the state of a transaction and

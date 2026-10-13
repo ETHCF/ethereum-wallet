@@ -193,7 +193,7 @@ describe('Transaction Controller', function () {
         },
       ]);
       assert.equal(
-        txController.nonceTracker.getConfirmedTransactions(address).length,
+        txController.txStateManager.getConfirmedTransactions(address).length,
         3,
       );
     });

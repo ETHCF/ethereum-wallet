@@ -63,11 +63,6 @@
     }
   }
 
-  &__value {
-    display: inline;
-    font-weight: 500;
-  }
-
   &__entry-container {
     min-width: 0;
   }
@@ -77,9 +72,5 @@
     cursor: pointer;
     color: var(--color-link-default);
     text-decoration: underline;
-  }
-
-  b {
-    font-weight: 500;
   }
 }

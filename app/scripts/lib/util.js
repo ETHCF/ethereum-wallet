@@ -31,7 +31,7 @@ const getEnvironmentTypeMemo = memoize((url) => {
  *  - `popup` refers to the extension opened through the browser app icon (in top right corner in chrome and firefox)
  *  - `fullscreen` refers to the main browser window
  *  - `notification` refers to the popup that appears in its own window when taking action outside of ecf-wallet
- *  - `background` refers to the background page
+ *  - `background` refers to the background service worker (a background page in Firefox)
  *
  * NOTE: This should only be called on internal URLs.
  *

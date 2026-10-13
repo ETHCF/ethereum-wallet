@@ -6,7 +6,7 @@ ECF Wallet supports Firefox, Google Chrome, and Chromium-based browsers.
 
 Websites can discover **ECF Wallet** through [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), using the stable wallet identifier `org.ethcf.wallet`. Discovery works alongside other installed wallets. For older sites, ECF also supplies `window.ethereum` when another provider has not already claimed it. Sites with hardcoded wallet lists may need to add ECF explicitly.
 
-The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg), saved in `app/images/logo/ecf-mark.svg`. The icon and wordmark place the white symbol on a dark background; the PNG toolbar icons are rendered from `ecf-wallet-icon.svg`.
+The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg). The icon and wordmark place the white symbol on a dark background; the PNG toolbar icons are rendered from `ecf-wallet-icon.svg`.
 
 Wallet state and session keys use the browser's extension-scoped storage. ECF Wallet has its own extension identities, separate from MetaMask:
 
@@ -80,7 +80,7 @@ yarn dist
 
 - [How to add custom build to Chrome](./docs/add-to-chrome.md)
 - [How to add custom build to Firefox](./docs/add-to-firefox.md)
-- [How to add a new translation to ecf-wallet](./docs/translating-guide.md)
+- [How to add a new translation to ECF Wallet](./docs/translating-guide.md)
 - [Publishing Guide](./docs/publishing.md)
 - [How to use the TREZOR emulator](./docs/trezor-emulator.md)
 - [How to generate a visualization of this repository's development](./development/gource-viz.sh)

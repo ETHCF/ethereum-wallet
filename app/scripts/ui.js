@@ -3,8 +3,6 @@ import './lib/freezeGlobals';
 
 import EthQuery from '@metamask/eth-query';
 import { getUniqueId } from '@metamask/json-rpc-engine';
-import Dnode from 'dnode';
-import { EventEmitter } from 'events';
 import { ExtensionPortStream } from 'extension-port-stream';
 import log from 'loglevel';
 import StreamProvider from 'web3-stream-provider';
@@ -16,6 +14,7 @@ import {
   ENVIRONMENT_TYPE_POPUP,
 } from './lib/enums';
 import extension from './lib/extension-api';
+import metaRPCClientFactory from './lib/metaRPCClientFactory';
 import readDisconnectError from './lib/read-disconnect-error';
 import { setupMultiplex } from './lib/stream-utils';
 import { getEnvironmentType } from './lib/util';
@@ -78,7 +77,7 @@ async function start() {
 
 async function queryCurrentActiveTab(windowType) {
   // At the time of writing we only have the `activeTab` permission which means
-  // that this query will only succeed in the popup context (i.e. after a "browserAction")
+  // that this query will only succeed in the popup context (i.e. after an "action" click)
   if (windowType !== ENVIRONMENT_TYPE_POPUP) {
     return {};
   }
@@ -164,15 +163,5 @@ function setupWeb3Connection(connectionStream) {
  * @param {Function} cb - Called when the remote account manager connection is established
  */
 function setupControllerConnection(connectionStream, cb) {
-  const eventEmitter = new EventEmitter();
-  const backgroundDnode = Dnode({
-    sendUpdate(state) {
-      eventEmitter.emit('update', state);
-    },
-  });
-  connectionStream.pipe(backgroundDnode).pipe(connectionStream);
-  backgroundDnode.once('remote', function (backgroundConnection) {
-    backgroundConnection.on = eventEmitter.on.bind(eventEmitter);
-    cb(null, backgroundConnection);
-  });
+  cb(null, metaRPCClientFactory(connectionStream));
 }

@@ -30,7 +30,10 @@ class FirefoxDriver {
   /**
    * Builds a {@link FirefoxDriver} instance
    *
-   * @param {{extensionPath: string}} options - the options for the build
+   * @param {object} options - the options for the build
+   * @param {string} options.extensionPath - the path to the unpacked extension
+   * @param {boolean} [options.responsive] - whether to use a phone-sized window
+   * @param {number} [options.port] - the port for the geckodriver service
    * @returns {Promise<{driver: !ThenableWebDriver, extensionUrl: string, extensionId: string}>} The driver and the installed extension's URL and ID
    */
   static async build({ extensionPath, responsive, port }) {

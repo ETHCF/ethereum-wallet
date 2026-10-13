@@ -68,11 +68,6 @@
       &:last-of-type {
         margin-right: 0;
       }
-
-      &--selected {
-        color: var(--color-primary-default);
-        border-bottom: 2px solid var(--color-primary-default);
-      }
     }
   }
 }

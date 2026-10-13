@@ -16,6 +16,8 @@ import pify from 'pify';
  * @param {object} config.nonceTracker - see nonce tracker
  * @param {Function} config.getPendingTransactions - a function for getting an array of transactions,
  * @param {Function} config.publishTransaction - a async function for publishing raw transactions,
+ * @param {Function} config.getCompletedTransactions - a function for getting an address's completed transactions,
+ * @param {Function} config.approveTransaction - a function for approving, signing and publishing a transaction by id,
  *
  * @class
  */

@@ -72,8 +72,6 @@ global.log = log;
 const jsdom = new JSDOM('', { url: 'http://localhost/' });
 global.window = jsdom.window;
 
-// required by `trezor-connect/node_modules/whatwg-fetch`
-global.self = window;
 // required by `dom-helpers` and various other libraries
 global.document = window.document;
 // required by `react-tippy`
@@ -103,9 +101,6 @@ Object.assign(window, {
   AbortController,
   AbortSignal,
 });
-
-// override @metamask/logo
-window.requestAnimationFrame = () => undefined;
 
 // The extension runs with full WebCrypto (getRandomValues, randomUUID, subtle).
 if (!window.crypto?.subtle || !window.crypto?.randomUUID) {

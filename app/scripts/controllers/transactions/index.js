@@ -1,5 +1,6 @@
 import * as ethUtil from '@ethereumjs/util';
 import EthQuery from '@metamask/eth-query';
+import { NonceTracker } from '@metamask/nonce-tracker';
 import { ObservableStore } from '@metamask/obs-store';
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 import EventEmitter from '@metamask/safe-event-emitter';
@@ -7,7 +8,6 @@ import { keccak_256 as keccak256 } from '@noble/hashes/sha3.js';
 import BN from 'bn.js';
 import abi from 'human-standard-token-abi';
 import log from 'loglevel';
-import { NonceTracker } from 'nonce-tracker';
 import pify from 'pify';
 
 import {
@@ -70,7 +70,7 @@ function applyFees(txParams, fees) {
 
 /**
  * Transaction Controller is an aggregate of sub-controllers and trackers
- * composing them in a way to be exposed to the ecf-wallet controller
+ * composing them in a way to be exposed to the EcfWalletController
  * <br>- txStateManager
  * responsible for the state of a transaction and
  * storing the transaction
@@ -90,6 +90,8 @@ function applyFees(txParams, fees) {
  * @param {object} opts.provider - A network provider.
  * @param {Function} opts.signTransaction - ethTx signer that returns a rawTx
  * @param {Function} opts.getPermittedAccounts - get accounts that an origin has permissions for
+ * @param {Function} [opts.getChainId] - Returns the chain ID to sign for; defaults to the network store's state
+ * @param {Function} [opts.getSecurityContext] - Returns the addresses the transaction checks compare against
  * @param {number} [opts.txHistoryLimit] - number *optional* for limiting how many transactions are in state
  * @param {object} opts.preferencesStore - The preferences controller store.
  */
@@ -144,8 +146,8 @@ export default class TransactionController extends EventEmitter {
     this.txStateManager.store.subscribe(() => this._updateMemstore());
     this.networkStore.subscribe(() => {
       this.networkGeneration += 1;
-      // The nonce tracker reads nonces through ethers, which fails once the
-      // provider's chain changes, so use a new one for each network.
+      // Nonce locks belong to one network's provider, so use a new tracker
+      // for each network.
       this.nonceTracker = this._createNonceTracker();
       this.pendingTxTracker.nonceTracker = this.nonceTracker;
       this._onBootCleanUp();
@@ -335,7 +337,7 @@ export default class TransactionController extends EventEmitter {
   }
 
   /**
-   * Adds the tx gas defaults: gas && gasPrice
+   * Adds the default fees and gas limit to the tx params
    *
    * @param {object} txMeta - the txMeta object
    * @param {string} [getCodeResponse] - The getCode result for the recipient,
@@ -494,7 +496,7 @@ export default class TransactionController extends EventEmitter {
    * Gets default gas limit, or debug information about why gas estimate failed.
    *
    * @param {object} txMeta - The txMeta object
-   * @param {string} getCodeResponse - The transaction category code response, used for debugging purposes
+   * @param {string} [getCodeResponse] - The getCode result for the recipient, used for debugging purposes
    * @returns {Promise<object>} Object containing the default gas limit, or the simulation failure object
    */
   async _getDefaultGasLimit(txMeta, getCodeResponse) {
@@ -775,7 +777,7 @@ export default class TransactionController extends EventEmitter {
    * adds the chain id and signs the transaction and set the status to signed
    *
    * @param {number} txId - the tx's Id
-   * @returns {string} rawTx
+   * @returns {Promise<string>} rawTx
    */
   async signTransaction(txId) {
     const { networkGeneration } = this;
@@ -900,16 +902,14 @@ export default class TransactionController extends EventEmitter {
   }
 
   /**
-   * Sets the status of the transaction to confirmed and sets the status of nonce duplicates as
-   * dropped if the txParams have data it will fetch the txReceipt
+   * Stores the receipt, sets the status of the transaction to confirmed and sets the status of
+   * nonce duplicates as dropped
    *
    * @param {number} txId - The tx's ID
    * @param {object} txReceipt - The transaction receipt.
    * @returns {Promise<void>}
    */
   async confirmTransaction(txId, txReceipt) {
-    // get the txReceipt before marking the transaction confirmed
-    // to ensure the receipt is gotten before the ui revives the tx
     const txMeta = this.txStateManager.getTx(txId);
 
     if (!txMeta) {
@@ -917,6 +917,8 @@ export default class TransactionController extends EventEmitter {
     }
 
     try {
+      // store the receipt before marking the transaction confirmed, so the
+      // ui has it when it receives the update
       txMeta.txReceipt = { ...txReceipt };
 
       this.txStateManager.updateTx(
@@ -1167,8 +1169,8 @@ export default class TransactionController extends EventEmitter {
   }
 
   /**
-   * Returns a "type" for a transaction out of the following list: simpleSend, tokenTransfer, tokenApprove,
-   * contractDeployment, contractMethodCall
+   * Returns a category for a transaction out of the following list: sentEther, transfer, approve,
+   * transferfrom, contractDeployment, contractInteraction
    *
    * @param {object} txParams - The transaction parameters.
    * @returns {Promise<{ transactionCategory: string, getCodeResponse: string | null | undefined }>}

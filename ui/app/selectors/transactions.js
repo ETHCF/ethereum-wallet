@@ -134,7 +134,8 @@ const insertTransactionByTime = (transactions, transaction) => {
 
 /**
  * Inserts (mutates) a transactionGroup object into an array of ordered
- * transactionGroups, sorted in ascending order by nonce.
+ * transactionGroups, sorted in ascending order by the time of each group's
+ * primary transaction.
  *
  * @name insertTransactionGroupByTime
  * @private

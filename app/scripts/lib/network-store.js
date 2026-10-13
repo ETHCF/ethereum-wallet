@@ -24,7 +24,7 @@ export default class ReadOnlyNetworkStore {
   isSupported = true;
 
   /**
-   * Initializes by loading state from the network
+   * Loads the persisted state, or the fixture server's state if none is saved
    */
   async _init() {
     try {

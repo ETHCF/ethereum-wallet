@@ -12,7 +12,7 @@ import createId from './random-id';
  * @property {number} id An id to track and identify the message object
  * @property {object} msgParams The parameters to pass to the decryptMessage method once the decryption request is
  * approved.
- * @property {object} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
+ * @property {number} msgParams.ecfWalletId Added to msgParams for tracking and identification within ecf-wallet.
  * @property {string} msgParams.data A hex string conversion of the raw buffer data of the decryption request
  * @property {number} time The epoch time at which the this message was created
  * @property {string} status Indicates whether the decryption request is 'unapproved', 'approved', 'decrypted', 'rejected' or 'errored'
