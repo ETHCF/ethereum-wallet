@@ -1,3 +1,0 @@
-# Changelog
-
-## Current Develop Branch
