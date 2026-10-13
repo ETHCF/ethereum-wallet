@@ -74,12 +74,6 @@ global.window = jsdom.window;
 
 // required by `dom-helpers` and various other libraries
 global.document = window.document;
-// required by `react-tippy`
-Object.defineProperty(global, 'navigator', {
-  // eslint-disable-next-line n/no-unsupported-features/node-builtins -- this is jsdom's navigator, not Node's
-  value: window.navigator,
-  configurable: true,
-});
 global.Element = window.Element;
 // required by `react-popper`
 global.HTMLElement = window.HTMLElement;

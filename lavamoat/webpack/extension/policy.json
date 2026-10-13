@@ -2481,22 +2481,6 @@
         "crypto-browserify>pbkdf2>to-buffer": true
       }
     },
-    "react-tippy>popper.js": {
-      "globals": {
-        "MSInputMethodContext": true,
-        "Node.DOCUMENT_POSITION_FOLLOWING": true,
-        "cancelAnimationFrame": true,
-        "console.warn": true,
-        "devicePixelRatio": true,
-        "document": true,
-        "getComputedStyle": true,
-        "innerHeight": true,
-        "innerWidth": true,
-        "navigator": true,
-        "requestAnimationFrame": true,
-        "setTimeout": true
-      }
-    },
     "process": {
       "globals": {
         "clearTimeout": true,
@@ -2718,33 +2702,6 @@
       },
       "packages": {
         "react": true
-      }
-    },
-    "react-tippy": {
-      "globals": {
-        "Element": true,
-        "MSStream": true,
-        "MutationObserver": true,
-        "addEventListener": true,
-        "clearTimeout": true,
-        "console.error": true,
-        "console.warn": true,
-        "define": true,
-        "document": true,
-        "getComputedStyle": true,
-        "innerHeight": true,
-        "innerWidth": true,
-        "navigator.maxTouchPoints": true,
-        "navigator.msMaxTouchPoints": true,
-        "navigator.userAgent": true,
-        "performance": true,
-        "requestAnimationFrame": true,
-        "setTimeout": true
-      },
-      "packages": {
-        "react-tippy>popper.js": true,
-        "react": true,
-        "react-dom": true
       }
     },
     "react-transition-group": {

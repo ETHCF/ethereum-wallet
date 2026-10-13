@@ -1,0 +1,57 @@
+.tooltip {
+  z-index: 9999;
+  max-width: 400px;
+  pointer-events: none;
+  animation: tooltip-fade-in 150ms ease-out;
+
+  &[data-interactive] {
+    pointer-events: auto;
+  }
+
+  &__content {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    background-color: var(--color-primary-alternative);
+    color: var(--color-primary-inverse);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  // A 7px triangle pointing at the trigger. Popper places it along the edge.
+  &__arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+  }
+
+  &[data-popper-placement^='top'] &__arrow {
+    bottom: -14px;
+    border-top-color: var(--color-primary-alternative);
+  }
+
+  &[data-popper-placement^='bottom'] &__arrow {
+    top: -14px;
+    border-bottom-color: var(--color-primary-alternative);
+  }
+
+  &[data-popper-placement^='left'] &__arrow {
+    right: -14px;
+    border-left-color: var(--color-primary-alternative);
+  }
+
+  &[data-popper-placement^='right'] &__arrow {
+    left: -14px;
+    border-right-color: var(--color-primary-alternative);
+  }
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
