@@ -2,7 +2,6 @@ import assert from 'assert';
 import fs from 'fs';
 import { cloneDeep } from 'lodash';
 
-import data from '../../../app/scripts/first-time-state';
 import Migrator from '../../../app/scripts/lib/migrator';
 import liveMigrations from '../../../app/scripts/migrations';
 
@@ -37,7 +36,7 @@ const versionedData = { meta: { version: 0 }, data: { hello: 'world' } };
 
 const firstTimeState = {
   meta: { version: 0 },
-  data,
+  data: {},
 };
 
 describe('migrations', function () {
@@ -91,7 +90,7 @@ describe('migrations', function () {
   describe('Migrator', function () {
     it('starts fresh storage at version 0 without changing wallet data', async function () {
       const migrator = new Migrator();
-      const state = migrator.generateInitialState(data);
+      const state = migrator.generateInitialState({});
       assert.deepEqual(state, firstTimeState);
       assert.strictEqual(await migrator.migrateData(state), state);
     });
@@ -106,7 +105,7 @@ describe('migrations', function () {
         },
       }));
       const migrator = new Migrator({ migrations, defaultVersion: 0 });
-      const state = migrator.generateInitialState(data);
+      const state = migrator.generateInitialState({});
       const migrated = await migrator.migrateData(state);
       assert.deepEqual(versions, [1, 2]);
       assert.equal(migrated.meta.version, 2);

@@ -511,9 +511,6 @@
   "lock": {
     "message": "Kirjaudu ulos"
   },
-  "mainnet": {
-    "message": "Ethereumin pääverkko"
-  },
   "memorizePhrase": {
     "message": "Opettele tämä teksti ulkoa."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "Valmiina yhdistämään?"
-  },
-  "rinkeby": {
-    "message": "Rinkebyn koeverkko"
   },
   "save": {
     "message": "Tallenna"

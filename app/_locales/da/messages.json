@@ -505,9 +505,6 @@
   "lock": {
     "message": "Log ud"
   },
-  "mainnet": {
-    "message": "Hovednetværk for Ethereum"
-  },
   "memorizePhrase": {
     "message": "Husk denne sætning."
   },
@@ -709,9 +706,6 @@
   },
   "readyToConnect": {
     "message": "Klar til at oprette forbindelse?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby-testnetværk"
   },
   "save": {
     "message": "Gem"

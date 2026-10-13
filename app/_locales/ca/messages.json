@@ -502,9 +502,6 @@
   "lock": {
     "message": "Tanca la sessió"
   },
-  "mainnet": {
-    "message": "Xarxa Ethereum principal"
-  },
   "memorizePhrase": {
     "message": "Memoritza aquesta frase"
   },
@@ -706,9 +703,6 @@
   },
   "readyToConnect": {
     "message": "Estàs llest per a connectar?"
-  },
-  "rinkeby": {
-    "message": "Xarxa del test Rinkeby"
   },
   "save": {
     "message": "Desa"

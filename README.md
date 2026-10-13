@@ -45,9 +45,9 @@ distribution; it cannot be loaded directly as an unpacked extension.
 
 Fresh ecf-wallet storage starts at `meta.version: 0`. Historical MetaMask
 migrations and fixtures have been removed; upgrading a MetaMask wallet profile
-is not supported. The migration runner remains for future ecf-wallet releases.
-To add the first schema change, run `yarn generate:migration 1`, implement the
-change and its test, then register it in `app/scripts/migrations/index.js`.
+is not supported. ECF Wallet's own migrations live in `app/scripts/migrations`.
+To add a schema change, run `yarn generate:migration <next version>`, implement
+the change and its test, then register it in `app/scripts/migrations/index.js`.
 
 ## Contributing
 

@@ -2,7 +2,6 @@ import contracts from '@metamask/contract-metadata';
 import { ObservableStore } from '@metamask/obs-store';
 import assert from 'assert';
 import { BigNumber } from 'bignumber.js';
-import nock from 'nock';
 import sinon from 'sinon';
 
 import DetectTokensController from '../../../../app/scripts/controllers/detect-tokens';
@@ -24,8 +23,6 @@ describe('DetectTokensController', function () {
   };
 
   beforeEach(async function () {
-    nock('https://api.infura.io').get(/.*/u).reply(200);
-
     keyringMemStore = new ObservableStore({ isUnlocked: false });
     network = new NetworkController();
     preferences = new PreferencesController({ network });
@@ -39,7 +36,6 @@ describe('DetectTokensController', function () {
   // Each test installs its own fake timers, so each must remove them.
   afterEach(function () {
     sandbox.restore();
-    nock.cleanAll();
   });
 
   it('should poll on correct interval', async function () {

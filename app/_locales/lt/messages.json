@@ -514,9 +514,6 @@
   "lock": {
     "message": "Atsijungti"
   },
-  "mainnet": {
-    "message": "Pagrindinis „Ethereum“ tinklas"
-  },
   "memorizePhrase": {
     "message": "Įsiminti šią frazę."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "Pasirengę prisijungti?"
-  },
-  "rinkeby": {
-    "message": "„Rinkeby“ bandomasis tinklas"
   },
   "save": {
     "message": "Išsaugoti"

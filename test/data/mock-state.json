@@ -1,8 +1,6 @@
 {
   "ecfWallet": {
-    "featureFlags": {
-      "showIncomingTransactions": true
-    },
+    "featureFlags": {},
     "network": "4",
     "identities": {
       "0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc": {
@@ -15,7 +13,6 @@
       }
     },
     "cachedBalances": {},
-    "incomingTransactions": {},
     "unapprovedTxs": {
       "8393540981007587": {
         "id": 8393540981007587,

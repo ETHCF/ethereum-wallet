@@ -514,9 +514,6 @@
   "lock": {
     "message": "Вийти"
   },
-  "mainnet": {
-    "message": "Головна Мережа Ethereum"
-  },
   "memorizePhrase": {
     "message": "Запам'ятайте цю фразу."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "Готові підключитися?"
-  },
-  "rinkeby": {
-    "message": "Тестова мережа Rinkeby"
   },
   "save": {
     "message": "Зберегти"

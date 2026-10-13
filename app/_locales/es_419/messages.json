@@ -502,9 +502,6 @@
   "lock": {
     "message": "Cerrar sesión"
   },
-  "mainnet": {
-    "message": "Red principal de Ethereum"
-  },
   "memorizePhrase": {
     "message": "Memoriza esta frase."
   },
@@ -712,9 +709,6 @@
   },
   "readyToConnect": {
     "message": "¿Listo para conectarte?"
-  },
-  "rinkeby": {
-    "message": "Red de prueba Rinkeby"
   },
   "save": {
     "message": "Guardar"

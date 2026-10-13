@@ -136,7 +136,6 @@ export default class EcfWalletController extends EventEmitter {
     this.opts = opts;
     this.platform = opts.platform;
     const initState = opts.initState || {};
-    this.recordFirstTimeInfo(initState);
 
     // this keeps track of how many "controllerStream" connections are open
     // the only thing that uses controller connections are open ecf-wallet UI instances
@@ -623,7 +622,6 @@ export default class EcfWalletController extends EventEmitter {
 
       // vault management
       submitPassword: nodeify(this.submitPassword, this),
-      verifyPassword: nodeify(this.verifyPassword, this),
       approveNetworkRequest: nodeify(
         this.networkRequestController.approve,
         this.networkRequestController,
@@ -688,9 +686,6 @@ export default class EcfWalletController extends EventEmitter {
         this.addressBookController.set,
         this.addressBookController,
       ),
-      removeFromAddressBook: this.addressBookController.delete.bind(
-        this.addressBookController,
-      ),
 
       // AppStateController
       setLastActiveTime: nodeify(
@@ -699,10 +694,6 @@ export default class EcfWalletController extends EventEmitter {
       ),
       setDefaultHomeActiveTabName: nodeify(
         this.appStateController.setDefaultHomeActiveTabName,
-        this.appStateController,
-      ),
-      setConnectedStatusPopoverHasBeenShown: nodeify(
-        this.appStateController.setConnectedStatusPopoverHasBeenShown,
         this.appStateController,
       ),
 
@@ -727,11 +718,7 @@ export default class EcfWalletController extends EventEmitter {
       ),
       createCancelTransaction: nodeify(this.createCancelTransaction, this),
       createSpeedUpTransaction: nodeify(this.createSpeedUpTransaction, this),
-      getFilteredTxList: nodeify(txController.getFilteredTxList, txController),
-      isNonceTaken: nodeify(txController.isNonceTaken, txController),
       estimateGas: nodeify(this.estimateGas, this),
-      getPendingNonce: nodeify(this.getPendingNonce, this),
-      getNextNonce: nodeify(this.getNextNonce, this),
 
       // personalMessageManager
       signPersonalMessage: nodeify(this.signPersonalMessage, this),
@@ -781,13 +768,6 @@ export default class EcfWalletController extends EventEmitter {
       // permissions
       approvePermissionsRequest: nodeify(
         permissionsController.approvePermissionsRequest,
-        permissionsController,
-      ),
-      clearPermissions: permissionsController.clearPermissions.bind(
-        permissionsController,
-      ),
-      getApprovedAccounts: nodeify(
-        permissionsController.getAccounts,
         permissionsController,
       ),
       rejectPermissionsRequest: nodeify(
@@ -1034,15 +1014,6 @@ export default class EcfWalletController extends EventEmitter {
     }
 
     return this.keyringController.fullUpdate();
-  }
-
-  /**
-   * Submits a user's password to check its validity.
-   *
-   * @param {string} password - The user's password
-   */
-  async verifyPassword(password) {
-    await this.keyringController.verifyPassword(password);
   }
 
   /**
@@ -2226,27 +2197,9 @@ export default class EcfWalletController extends EventEmitter {
     return pendingNonce;
   }
 
-  /**
-   * Returns the next nonce according to the nonce-tracker
-   *
-   * @param {string} address - The hex string address for the transaction
-   * @returns {Promise<number>} The next nonce.
-   */
-  async getNextNonce(address) {
-    const nonceLock =
-      await this.txController.nonceTracker.getNonceLock(address);
-    try {
-      return nonceLock.nextNonce;
-    } finally {
-      nonceLock.releaseLock();
-    }
-  }
-
   //=============================================================================
   // CONFIG
   //=============================================================================
-
-  // Log blocks
 
   // network
   /**
@@ -2340,22 +2293,6 @@ export default class EcfWalletController extends EventEmitter {
    */
   async delCustomRpc(rpcTarget) {
     await this.preferencesController.removeFromFrequentRpcList(rpcTarget);
-  }
-
-  /**
-   * A method for initializing storage the first time.
-   *
-   * @param {object} initState - The default state to initialize with.
-   * @private
-   */
-  recordFirstTimeInfo(initState) {
-    if (!Object.hasOwn(initState, 'firstTimeInfo')) {
-      const version = this.platform.getVersion();
-      initState.firstTimeInfo = {
-        version,
-        date: Date.now(),
-      };
-    }
   }
 
   /**

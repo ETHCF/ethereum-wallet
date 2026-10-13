@@ -511,9 +511,6 @@
   "lock": {
     "message": "התנתקות"
   },
-  "mainnet": {
-    "message": "רשת אתריום ראשית"
-  },
   "memorizePhrase": {
     "message": "יש לשנן צירוף זה."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "מוכנ/ה להתחבר?"
-  },
-  "rinkeby": {
-    "message": "רשת בדיקה Rinkeby "
   },
   "save": {
     "message": "שמור"

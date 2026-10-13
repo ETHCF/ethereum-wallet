@@ -257,29 +257,10 @@ const conversionLessThan = ({ ...firstProps }, { ...secondProps }) => {
   return firstValue.lt(secondValue);
 };
 
-const conversionMax = ({ ...firstProps }, { ...secondProps }) => {
-  const firstIsGreater = conversionGreaterThan(
-    { ...firstProps },
-    { ...secondProps },
-  );
-
-  return firstIsGreater ? firstProps.value : secondProps.value;
-};
-
 const conversionGTE = ({ ...firstProps }, { ...secondProps }) => {
   const firstValue = converter({ ...firstProps });
   const secondValue = converter({ ...secondProps });
   return firstValue.isGreaterThanOrEqualTo(secondValue);
-};
-
-const conversionLTE = ({ ...firstProps }, { ...secondProps }) => {
-  const firstValue = converter({ ...firstProps });
-  const secondValue = converter({ ...secondProps });
-  return firstValue.isLessThanOrEqualTo(secondValue);
-};
-
-const toNegative = (n, options = {}) => {
-  return multiplyCurrencies(n, -1, options);
 };
 
 export {
@@ -290,8 +271,5 @@ export {
   conversionGreaterThan,
   conversionLessThan,
   conversionGTE,
-  conversionLTE,
-  conversionMax,
-  toNegative,
   subtractCurrencies,
 };

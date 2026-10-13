@@ -499,9 +499,6 @@
   "lock": {
     "message": "Toka kwenye akaunti"
   },
-  "mainnet": {
-    "message": "Mtandao Mkuu wa Ethereum"
-  },
   "memorizePhrase": {
     "message": "Kariri kirai hiki"
   },
@@ -709,9 +706,6 @@
   },
   "readyToConnect": {
     "message": "Uko tayari Kuunganisha?"
-  },
-  "rinkeby": {
-    "message": "Mtandao wa Majaribio wa Rinkeby"
   },
   "save": {
     "message": "Hifadhi"

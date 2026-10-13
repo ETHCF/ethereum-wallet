@@ -309,9 +309,6 @@
   "lock": {
     "message": "Dekonekte"
   },
-  "mainnet": {
-    "message": "Prensipal Ethereum Rezo a"
-  },
   "message": {
     "message": "Mesaje"
   },
@@ -465,9 +462,6 @@
   },
   "readyToConnect": {
     "message": "Pare pou konekte?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby Tès Rezo"
   },
   "save": {
     "message": "Sove"

@@ -5,8 +5,8 @@ one thing:
 
 1. A `state.json` file that represents a the saved state for the extension (see _Generating fixture data_ below)
 
-Fixtures contain the current controller state at schema version 0. They do not
-rely on historical migrations to normalize preferences or remove telemetry.
+Fixtures are saved at schema version 0, so the wallet runs every migration in
+`app/scripts/migrations` when it loads them.
 
 ## Generating fixture data
 

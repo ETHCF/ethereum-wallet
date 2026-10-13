@@ -499,9 +499,6 @@
   "lock": {
     "message": "Odjava"
   },
-  "mainnet": {
-    "message": "Glavno omrežje"
-  },
   "memorizePhrase": {
     "message": "Zapomnite si geslo seed phrase"
   },
@@ -706,9 +703,6 @@
   },
   "readyToConnect": {
     "message": "Pripravljeni na povezovanje?"
-  },
-  "rinkeby": {
-    "message": "Testno omrežje Rinkeby"
   },
   "save": {
     "message": "Shrani"

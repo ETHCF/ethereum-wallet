@@ -502,9 +502,6 @@
   "lock": {
     "message": "锁定"
   },
-  "mainnet": {
-    "message": "以太坊主网络"
-  },
   "memorizePhrase": {
     "message": "记住该密语。"
   },
@@ -706,9 +703,6 @@
   },
   "readyToConnect": {
     "message": "是否准备连接？"
-  },
-  "rinkeby": {
-    "message": "Rinkeby 测试网络"
   },
   "save": {
     "message": "保存"

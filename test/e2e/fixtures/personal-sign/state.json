@@ -1,24 +1,11 @@
 {
   "data": {
-    "AppStateController": {
-      "connectedStatusPopoverHasBeenShown": false
-    },
     "CachedBalancesController": {
       "cachedBalances": {
         "4": {},
         "1337": {
           "0x5cfe73b6021e818b776b421b1c4db2474086a7e1": "0x15af1d78b58c40000"
         }
-      }
-    },
-    "IncomingTransactionsController": {
-      "incomingTransactions": {},
-      "incomingTxLastFetchedBlocksByNetwork": {
-        "goerli": null,
-        "kovan": null,
-        "mainnet": null,
-        "rinkeby": 5570536,
-        "localhost": 98
       }
     },
     "KeyringController": {
@@ -99,9 +86,7 @@
       "useBlockie": false,
       "useNonceField": false,
       "usePhishDetect": true,
-      "featureFlags": {
-        "showIncomingTransactions": true
-      },
+      "featureFlags": {},
       "knownMethodData": {},
       "firstTimeFlowType": "create",
       "currentLocale": "en",
@@ -117,11 +102,6 @@
       "completedOnboarding": true,
       "ipfsGateway": "dweb.link",
       "selectedAddress": "0x5cfe73b6021e818b776b421b1c4db2474086a7e1"
-    },
-    "config": {},
-    "firstTimeInfo": {
-      "date": 1575697234195,
-      "version": "7.7.0"
     },
     "PermissionsController": {
       "permissionsRequests": [],

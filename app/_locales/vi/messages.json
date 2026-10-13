@@ -153,9 +153,6 @@
   "lock": {
     "message": "Thoát"
   },
-  "mainnet": {
-    "message": "Mạng Ethereum MainNet (tiền ETH thật)"
-  },
   "message": {
     "message": "Tin nhắn"
   },
@@ -213,9 +210,6 @@
   },
   "required": {
     "message": "Yêu cầu"
-  },
-  "rinkeby": {
-    "message": "Mạng thử nghiệm Rinkeby"
   },
   "save": {
     "message": "Lưu"

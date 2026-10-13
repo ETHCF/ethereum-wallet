@@ -26,7 +26,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     transactionId,
     transactionStatus,
-    originalGasPrice,
     defaultNewGasPrice,
     newGasFee,
   };

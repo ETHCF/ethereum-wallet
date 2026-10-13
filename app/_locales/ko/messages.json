@@ -508,9 +508,6 @@
   "lock": {
     "message": "로그아웃"
   },
-  "mainnet": {
-    "message": "이더리움 메인넷"
-  },
   "memorizePhrase": {
     "message": "이 구문을 기억하세요."
   },
@@ -715,9 +712,6 @@
   },
   "readyToConnect": {
     "message": "접속 준비되었나요?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby 테스트넷"
   },
   "save": {
     "message": "저장"

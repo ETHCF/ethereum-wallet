@@ -514,9 +514,6 @@
   "lock": {
     "message": "Излизане"
   },
-  "mainnet": {
-    "message": "Основна мрежа на Етереум"
-  },
   "memorizePhrase": {
     "message": "Запомнете тази фраза."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "Готови ли сте да се свържете? "
-  },
-  "rinkeby": {
-    "message": "Тестова мрежа на Rinkeby"
   },
   "save": {
     "message": "Запазване"

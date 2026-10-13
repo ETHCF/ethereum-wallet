@@ -22,7 +22,6 @@ export default createConfig([
       'test-*/**',
       'docs/**',
       'coverage/**',
-      'app/vendor/**',
       // Minified third-party bundles the e2e tests serve.
       'test/e2e/send-eth-with-private-key-test/ethereumjs-tx.js',
       'test/e2e/send-eth-with-private-key-test/web3js.js',

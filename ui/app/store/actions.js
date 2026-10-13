@@ -1085,7 +1085,7 @@ export function editRpc(
   rpcPrefs,
 ) {
   return async (dispatch) => {
-    log.debug(`background.delRpcTarget: ${oldRpc}`);
+    log.debug(`background.delCustomRpc: ${oldRpc}`);
     try {
       await promisifiedBackground.delCustomRpc(oldRpc);
     } catch (error) {
@@ -1137,7 +1137,7 @@ export function setRpcTarget(newRpc, chainId, ticker = 'ETH', nickname) {
 
 export function delRpcTarget(oldRpc) {
   return async (dispatch) => {
-    log.debug(`background.delRpcTarget: ${oldRpc}`);
+    log.debug(`background.delCustomRpc: ${oldRpc}`);
     try {
       await promisifiedBackground.delCustomRpc(oldRpc);
     } catch (err) {
@@ -1656,16 +1656,6 @@ export function setLastActiveTime() {
     background.setLastActiveTime((err) => {
       if (err) {
         dispatch(displayWarning(err.message));
-      }
-    });
-  };
-}
-
-export function setConnectedStatusPopoverHasBeenShown() {
-  return () => {
-    background.setConnectedStatusPopoverHasBeenShown((err) => {
-      if (err) {
-        throw new Error(err.message);
       }
     });
   };

@@ -508,9 +508,6 @@
   "lock": {
     "message": "Keluar"
   },
-  "mainnet": {
-    "message": "Jaringan Ethereum Utama"
-  },
   "memorizePhrase": {
     "message": "Ingatlah frasa ini."
   },
@@ -718,9 +715,6 @@
   },
   "readyToConnect": {
     "message": "Siap untuk Menyambung?"
-  },
-  "rinkeby": {
-    "message": "Jaringan Uji Rinkeby"
   },
   "save": {
     "message": "Simpan"

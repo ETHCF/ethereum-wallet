@@ -25,7 +25,6 @@ export default class AppStateController extends EventEmitter {
     this.onInactiveTimeout = onInactiveTimeout || (() => undefined);
     this.store = new ObservableStore({
       timeoutMinutes: 0,
-      connectedStatusPopoverHasBeenShown: true,
       defaultHomeActiveTabName: null,
       ...initState,
     });
@@ -104,15 +103,6 @@ export default class AppStateController extends EventEmitter {
   setDefaultHomeActiveTabName(defaultHomeActiveTabName) {
     this.store.updateState({
       defaultHomeActiveTabName,
-    });
-  }
-
-  /**
-   * Record that the user has seen the connected status info popover
-   */
-  setConnectedStatusPopoverHasBeenShown() {
-    this.store.updateState({
-      connectedStatusPopoverHasBeenShown: true,
     });
   }
 

@@ -249,9 +249,6 @@
   "lock": {
     "message": "ログアウト"
   },
-  "mainnet": {
-    "message": "Ethereumメインネットワーク"
-  },
   "message": {
     "message": "メッセージ"
   },
@@ -327,9 +324,6 @@
   },
   "revealSeedWords": {
     "message": "パスフレーズを表示"
-  },
-  "rinkeby": {
-    "message": "Rinkebyテストネットワーク"
   },
   "save": {
     "message": "保存"

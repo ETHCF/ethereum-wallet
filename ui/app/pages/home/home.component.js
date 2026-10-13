@@ -8,8 +8,6 @@ import MenuBar from '../../components/app/menu-bar';
 import NftList from '../../components/app/nft-list';
 import TransactionList from '../../components/app/transaction-list';
 import { EthOverview } from '../../components/app/wallet-overview';
-import Button from '../../components/ui/button';
-import Popover from '../../components/ui/popover';
 import { Tabs, Tab } from '../../components/ui/tabs';
 import {
   ASSET_ROUTE,
@@ -24,8 +22,6 @@ import {
 import { toRelativeRoutePath } from '../../helpers/utils/routes.util';
 import ConnectedAccounts from '../connected-accounts';
 import ConnectedSites from '../connected-sites';
-
-const LEARN_MORE_URL = 'https://github.com/ETHCF/ethereum-wallet#readme';
 
 /**
  * Gets the route of the first pending request the home page should send the
@@ -69,13 +65,10 @@ export default class Home extends PureComponent {
     forgottenPassword: PropTypes.bool,
     suggestedTokens: PropTypes.object,
     unconfirmedTransactionsCount: PropTypes.number,
-    isPopup: PropTypes.bool,
     isNotification: PropTypes.bool.isRequired,
     firstPermissionsRequestId: PropTypes.string,
     hasNetworkRequests: PropTypes.bool,
     totalUnapprovedCount: PropTypes.number.isRequired,
-    setConnectedStatusPopoverHasBeenShown: PropTypes.func,
-    connectedStatusPopoverHasBeenShown: PropTypes.bool,
     defaultHomeActiveTabName: PropTypes.string,
     useNftDetection: PropTypes.bool,
     onTabClick: PropTypes.func.isRequired,
@@ -127,48 +120,6 @@ export default class Home extends PureComponent {
     }
   }
 
-  renderPopover = () => {
-    const { setConnectedStatusPopoverHasBeenShown } = this.props;
-    const { t } = this.context;
-    return (
-      <Popover
-        title={t('whatsThis')}
-        onClose={setConnectedStatusPopoverHasBeenShown}
-        className="home__connected-status-popover"
-        showArrow
-        CustomBackground={({ onClose }) => {
-          return (
-            <div
-              className="home__connected-status-popover-bg-container"
-              onClick={onClose}
-            >
-              <div className="home__connected-status-popover-bg" />
-            </div>
-          );
-        }}
-        footer={
-          <>
-            <a href={LEARN_MORE_URL} target="_blank" rel="noopener noreferrer">
-              {t('learnMore')}
-            </a>
-            <Button
-              type="primary"
-              onClick={setConnectedStatusPopoverHasBeenShown}
-            >
-              {t('dismiss')}
-            </Button>
-          </>
-        }
-      >
-        <main className="home__connect-status-text">
-          <div>{t('ecfWalletConnectStatusParagraphOne')}</div>
-          <div>{t('ecfWalletConnectStatusParagraphTwo')}</div>
-          <div>{t('ecfWalletConnectStatusParagraphThree')}</div>
-        </main>
-      </Popover>
-    );
-  };
-
   render() {
     const { t } = this.context;
     const {
@@ -177,8 +128,6 @@ export default class Home extends PureComponent {
       onTabClick,
       forgottenPassword,
       navigate,
-      connectedStatusPopoverHasBeenShown,
-      isPopup,
     } = this.props;
 
     if (forgottenPassword) {
@@ -201,9 +150,6 @@ export default class Home extends PureComponent {
           <Route path="*" element={null} />
         </Routes>
         <div className="home__container">
-          {isPopup && !connectedStatusPopoverHasBeenShown
-            ? this.renderPopover()
-            : null}
           <div className="home__main-view">
             <MenuBar />
             <div className="home__balance-wrapper">

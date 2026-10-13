@@ -490,9 +490,6 @@
   "lock": {
     "message": "Ausloggen"
   },
-  "mainnet": {
-    "message": "Ethereum Mainnet"
-  },
   "memorizePhrase": {
     "message": "Prägen Sie sich diese Phrase ein."
   },
@@ -693,9 +690,6 @@
   },
   "readyToConnect": {
     "message": "Bereit für die Verbindung?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby Testnetzwerk"
   },
   "save": {
     "message": "Speichern"

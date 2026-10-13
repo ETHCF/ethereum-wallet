@@ -55,14 +55,11 @@ export default function reduceApp(state = {}, action) {
     alertOpen: false,
     alertMessage: null,
     networkDropdownOpen: false,
-    accountDetail: {
-      subview: 'transactions',
-    },
+    accountDetail: {},
     // Used to display loading indicator
     isLoading: false,
     // Used to display error text
     warning: null,
-    buyView: {},
     isMouseUser: false,
     gasIsLoading: false,
     defaultHdPaths: {
@@ -181,7 +178,7 @@ export default function reduceApp(state = {}, action) {
           modalState: { name: null, props: {} },
           previousModalState: { name: null },
         },
-        accountDetail: { subview: 'transactions' },
+        accountDetail: {},
         warning: null,
       };
 
@@ -191,8 +188,6 @@ export default function reduceApp(state = {}, action) {
       return {
         ...appState,
         accountDetail: {
-          subview: 'transactions',
-          accountExport: 'none',
           privateKey: '',
         },
         warning: null,
@@ -205,8 +200,6 @@ export default function reduceApp(state = {}, action) {
           ? !appState.forgottenPassword
           : null,
         accountDetail: {
-          subview: 'transactions',
-          accountExport: 'none',
           privateKey: '',
         },
       };
@@ -239,9 +232,7 @@ export default function reduceApp(state = {}, action) {
         ...appState,
         warning: null,
         txId: null,
-        accountDetail: {
-          subview: 'transactions',
-        },
+        accountDetail: {},
       };
 
     case UNLOCK_FAILED:
@@ -297,8 +288,6 @@ export default function reduceApp(state = {}, action) {
       return {
         ...appState,
         accountDetail: {
-          subview: 'export',
-          accountExport: 'completed',
           privateKey: action.value,
         },
       };

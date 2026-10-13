@@ -2,10 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import Home from './home.component';
-import {
-  ENVIRONMENT_TYPE_NOTIFICATION,
-  ENVIRONMENT_TYPE_POPUP,
-} from '../../../../app/scripts/lib/enums';
+import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../app/scripts/lib/enums';
 import { getEnvironmentType } from '../../../../app/scripts/lib/util';
 import withRouter from '../../helpers/higher-order-components/with-router';
 import {
@@ -14,24 +11,16 @@ import {
   getTotalUnapprovedCount,
   getNetworkRequests,
 } from '../../selectors';
-import {
-  setConnectedStatusPopoverHasBeenShown,
-  setDefaultHomeActiveTabName,
-} from '../../store/actions';
+import { setDefaultHomeActiveTabName } from '../../store/actions';
 
 const mapStateToProps = (state) => {
   const { ecfWallet, appState } = state;
-  const {
-    suggestedTokens,
-    connectedStatusPopoverHasBeenShown,
-    defaultHomeActiveTabName,
-    useNftDetection,
-  } = ecfWallet;
+  const { suggestedTokens, defaultHomeActiveTabName, useNftDetection } =
+    ecfWallet;
   const { forgottenPassword } = appState;
   const totalUnapprovedCount = getTotalUnapprovedCount(state);
 
   const envType = getEnvironmentType();
-  const isPopup = envType === ENVIRONMENT_TYPE_POPUP;
   const isNotification = envType === ENVIRONMENT_TYPE_NOTIFICATION;
 
   const firstPermissionsRequest = getFirstPermissionRequest(state);
@@ -44,20 +33,16 @@ const mapStateToProps = (state) => {
     forgottenPassword,
     suggestedTokens,
     unconfirmedTransactionsCount: unconfirmedTransactionsCountSelector(state),
-    isPopup,
     isNotification,
     firstPermissionsRequestId,
     hasNetworkRequests: getNetworkRequests(state).length > 0,
     totalUnapprovedCount,
-    connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
     useNftDetection: Boolean(useNftDetection),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setConnectedStatusPopoverHasBeenShown: () =>
-    dispatch(setConnectedStatusPopoverHasBeenShown()),
   onTabClick: (name) => dispatch(setDefaultHomeActiveTabName(name)),
 });
 

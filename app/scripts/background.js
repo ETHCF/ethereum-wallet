@@ -20,7 +20,6 @@ import {
   PHISHING_WARNING_CONTINUE,
 } from './lib/phishing-warnings';
 import EcfWalletController from './ecf-wallet-controller';
-import rawFirstTimeState from './first-time-state';
 import { getAutoLockDeadline } from './lib/auto-lock';
 import ClipboardCleaner from './lib/clipboard-cleaner';
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code';
@@ -48,12 +47,6 @@ setupFetchDebugging();
 if (process.env.ECF_WALLET_DEBUG) {
   connectLiveReload();
 }
-
-// ECF_WALLET_TEST_CONFIG is used in e2e tests to set the default network to localhost
-const firstTimeState = {
-  ...rawFirstTimeState,
-  ...global.ECF_WALLET_TEST_CONFIG,
-};
 
 log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn');
 
@@ -206,8 +199,6 @@ function queueConnection(port, handler) {
  * @typedef EcfWalletState
  * @property {boolean} isInitialized - Whether the first vault has been created.
  * @property {boolean} isUnlocked - Whether the vault is currently decrypted and accounts are available for selection.
- * @property {boolean} isAccountMenuOpen - Represents whether the main account selection UI is currently displayed.
- * @property {string} rpcTarget - DEPRECATED - The URL of the current RPC provider.
  * @property {object} identities - An object matching lower-case hex addresses to Identity objects with "address" and "name" (nickname) keys.
  * @property {object} unapprovedTxs - An object mapping transaction hashes to unapproved transactions.
  * @property {Array} frequentRpcList - A list of frequently used RPCs, including custom user-provided ones.
@@ -215,7 +206,6 @@ function queueConnection(port, handler) {
  * @property {Array} tokens - Tokens held by the current user, including their balances.
  * @property {object} send - The draft transaction on the Send screen (recipient, amount, gas, errors and the ID of any transaction being edited). This is UI-only state kept in Redux, not persisted by the controller.
  * @property {object} featureFlags - An object for optional feature flags.
- * @property {boolean} welcomeScreen - True if welcome screen should be shown.
  * @property {string} currentLocale - A locale string matching the user's preferred display language.
  * @property {object} provider - The current selected network provider.
  * @property {string} provider.rpcTarget - The address for the RPC API, if using an RPC API.
@@ -273,15 +263,14 @@ async function loadStateFromPersistence() {
 
   // read from disk
   // first from preferred, async API:
-  versionedData =
-    (await localStore.get()) || migrator.generateInitialState(firstTimeState);
+  versionedData = (await localStore.get()) || migrator.generateInitialState({});
 
   // check if somehow state is empty
   // this should never happen but new error reporting suggests that it has
   // for a small number of users
   if (versionedData && !versionedData.data) {
     // unable to recover, clear state
-    versionedData = migrator.generateInitialState(firstTimeState);
+    versionedData = migrator.generateInitialState({});
     console.error('ecf-wallet - Empty vault found - unable to recover');
   }
 

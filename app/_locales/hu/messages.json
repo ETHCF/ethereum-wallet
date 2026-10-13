@@ -511,9 +511,6 @@
   "lock": {
     "message": "Kilépés"
   },
-  "mainnet": {
-    "message": "Fő Ethereum hálózat"
-  },
   "memorizePhrase": {
     "message": "Jegyezze meg ezt a szakaszt."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "Készen áll a csatlakozásra?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby teszthálózat"
   },
   "save": {
     "message": "Mentés"

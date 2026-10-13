@@ -31,14 +31,6 @@ const copyTargets = [
     dest: `images/contract`,
   },
   {
-    src: `./app/fonts/`,
-    dest: `fonts`,
-  },
-  {
-    src: `./app/vendor/`,
-    dest: `vendor`,
-  },
-  {
     src: `./ui/app/css/output/`,
     pattern: `*.css`,
     dest: ``,

@@ -213,9 +213,6 @@
   "lock": {
     "message": "Çıkış"
   },
-  "mainnet": {
-    "message": "Main Ethereum Ağı"
-  },
   "message": {
     "message": "Mesaj"
   },
@@ -303,9 +300,6 @@
   },
   "revealSeedWordsWarning": {
     "message": "Açık bir yerde kaynak kelimeliriniz geri getirmeyin! Bu kelimeler tüm hesaplarınızı çalmak için kullanılabilir."
-  },
-  "rinkeby": {
-    "message": "Rinkeby Test Ağı"
   },
   "save": {
     "message": "Kaydet"

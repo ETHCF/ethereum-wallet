@@ -183,9 +183,6 @@
   "lock": {
     "message": "Uitloggen"
   },
-  "mainnet": {
-    "message": "Main Netwerk"
-  },
   "message": {
     "message": "Bericht"
   },
@@ -263,9 +260,6 @@
   },
   "revealSeedWordsWarning": {
     "message": "Zorg dat je back-up woorden niet op een openbare plaats bekijkt! Deze woorden kunnen worden gebruikt om al uw accounts opnieuw te genereren (en dus uw account te stelen)."
-  },
-  "rinkeby": {
-    "message": "Rinkeby testnetwerk"
   },
   "save": {
     "message": "Opslaan"

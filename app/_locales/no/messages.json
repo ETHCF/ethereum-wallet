@@ -508,9 +508,6 @@
   "lock": {
     "message": "Logg ut "
   },
-  "mainnet": {
-    "message": "Ethereum hovednettverk"
-  },
   "memorizePhrase": {
     "message": "Memorer denne frasen. "
   },
@@ -718,9 +715,6 @@
   },
   "readyToConnect": {
     "message": "Klar til å koble til?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby testnettverk"
   },
   "save": {
     "message": "Lagre"

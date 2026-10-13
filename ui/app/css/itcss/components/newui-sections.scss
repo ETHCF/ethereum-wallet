@@ -36,14 +36,6 @@ $sub-mid-size-breakpoint-range: "screen and (min-width: #{design-system.$break-l
 // main-container media queries
 
 @media screen and (min-width: 576px) {
-  .lap-visible {
-    display: flex;
-  }
-
-  .phone-visible {
-    display: none;
-  }
-
   .main-container {
     width: 85vw;
     margin-bottom: 10vh;
@@ -69,14 +61,6 @@ $sub-mid-size-breakpoint-range: "screen and (min-width: #{design-system.$break-l
 }
 
 @media screen and (max-width: 575px) {
-  .lap-visible {
-    display: none;
-  }
-
-  .phone-visible {
-    display: flex;
-  }
-
   .main-container {
     width: 100%;
     overflow-y: auto;

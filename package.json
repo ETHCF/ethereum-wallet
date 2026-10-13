@@ -53,13 +53,7 @@
   },
   "resolutions": {
     "**/enzyme/cheerio": "1.0.0-rc.12",
-    "**/configstore/dot-prop": "^5.3.0",
     "**/ethers/elliptic": "^6.6.1",
-    "**/knex/minimist": "^1.2.8",
-    "**/optimist/minimist": "^1.2.8",
-    "**/socketcluster/minimist": "^1.2.8",
-    "**/node-gyp": "^13.0.2",
-    "**/bcrypto": "^5.5.2",
     "**/dnode/weak": "npm:weak-napi@2.0.2",
     "protobufjs": "^7.6.1",
     "toml": "^4.2.0",
@@ -240,14 +234,12 @@
     "terser-webpack-plugin": "^5.6.1",
     "through2": "^5",
     "ttest": "^4",
-    "webpack": "^5.111.1",
-    "yaml": "^2"
+    "webpack": "^5.111.1"
   },
   "installScripts": {
     "@parcel/watcher": false,
     "@stellar/stellar-sdk": false,
     "blake-hash": false,
-    "es5-ext": false,
     "keccak": false,
     "protobufjs": false,
     "secp256k1": false,

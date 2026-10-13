@@ -514,9 +514,6 @@
   "lock": {
     "message": "Izrakstīties"
   },
-  "mainnet": {
-    "message": "Galvenais Ethereum tīkls"
-  },
   "memorizePhrase": {
     "message": "Iegaumējiet šo frāzi."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "Vai esat gatavi izveidot savienojumu?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby testa tīkls"
   },
   "save": {
     "message": "Saglabāt"

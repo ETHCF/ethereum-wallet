@@ -869,8 +869,6 @@ describe('Actions', function () {
       ];
 
       exportAccountSpy = sinon.spy(background, 'exportAccount');
-      // Checking the password again in the UI would derive the key twice.
-      const verifyPasswordSpy = sinon.spy(background, 'verifyPassword');
       // Re-unlocking would cancel any vault write still queued.
       const submitPasswordSpy = sinon.spy(background, 'submitPassword');
 
@@ -880,9 +878,7 @@ describe('Actions', function () {
           '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
         ),
       );
-      verifyPasswordSpy.restore();
       submitPasswordSpy.restore();
-      assert(verifyPasswordSpy.notCalled);
       assert(submitPasswordSpy.notCalled);
       assert(exportAccountSpy.calledOnce);
       assert.equal(exportAccountSpy.firstCall.args[1], password);

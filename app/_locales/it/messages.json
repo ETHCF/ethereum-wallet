@@ -709,23 +709,11 @@
   "lockTimeTooGreat": {
     "message": "Tempo di inattività troppo lungo"
   },
-  "mainnet": {
-    "message": "Rete Ethereum Principale"
-  },
   "memorizePhrase": {
     "message": "Memorizza questa frase."
   },
   "message": {
     "message": "Messaggio"
-  },
-  "ecfWalletConnectStatusParagraphOne": {
-    "message": "Ora hai piu controllo sulle connessioni del tuo account in ECF Wallet."
-  },
-  "ecfWalletConnectStatusParagraphTwo": {
-    "message": "Il bottone di stato della connessione mostra se il sito che stai visitando è connesso all'account corrente"
-  },
-  "ecfWalletConnectStatusParagraphThree": {
-    "message": "Clicca per gestire i tuo account connessi."
   },
   "ecfWalletDescription": {
     "message": "ECF Wallet è una cassaforte sicura per identità su Ethereum."
@@ -956,9 +944,6 @@
   },
   "readyToConnect": {
     "message": "Pronto a Connetterti?"
-  },
-  "rinkeby": {
-    "message": "Rete di test Rinkeby"
   },
   "save": {
     "message": "Salva"
@@ -1315,9 +1300,6 @@
   },
   "welcome": {
     "message": "Benvenuto nella Beta di ECF Wallet"
-  },
-  "whatsThis": {
-    "message": "Cos'è?"
   },
   "writePhrase": {
     "message": "Scrivi questa frase su un foglio di carta e conservala in un posto sicuro. Se vuoi ancora più sicurezza, scrivila su più fogli e conserva ognuno in 2 o 3 posti diversi. "

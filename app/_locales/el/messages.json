@@ -511,9 +511,6 @@
   "lock": {
     "message": "Αποσύνδεση"
   },
-  "mainnet": {
-    "message": "Κύριο Δίκτυο Ethereum"
-  },
   "memorizePhrase": {
     "message": "Απομνημονεύστε αυτή τη φράση."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "Έτοιμοι να Συνδεθείτε;"
-  },
-  "rinkeby": {
-    "message": "Δοκιμαστικό Δίκτυο Rinkeby"
   },
   "save": {
     "message": "Αποθήκευση"

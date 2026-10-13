@@ -210,9 +210,6 @@
   "lock": {
     "message": "Выход"
   },
-  "mainnet": {
-    "message": "Основная сеть Ethereum"
-  },
   "message": {
     "message": "Сообщение"
   },
@@ -294,9 +291,6 @@
   },
   "revealSeedWordsWarning": {
     "message": "Не восстанавливайте ключевую фразу в общественном месте! Она может быть использована для кражи всех ваших счетов."
-  },
-  "rinkeby": {
-    "message": "Тестовая сеть Rinkeby"
   },
   "save": {
     "message": "Сохранить"

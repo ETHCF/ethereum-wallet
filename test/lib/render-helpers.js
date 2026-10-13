@@ -7,13 +7,6 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { LegacyI18nProvider } from '../../ui/app/contexts/i18n';
 
-export function mountWithStore(component, store) {
-  const context = {
-    store,
-  };
-  return mount(component, { context });
-}
-
 export function mountWithRouter(component, store = {}, pathname = '/') {
   const routed = (
     <MemoryRouter initialEntries={[{ pathname }]} initialIndex={0}>

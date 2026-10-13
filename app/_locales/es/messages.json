@@ -417,9 +417,6 @@
   "lock": {
     "message": "Cerrar sesión"
   },
-  "mainnet": {
-    "message": "Red principal de Ethereum (Mainnet)"
-  },
   "message": {
     "message": "Mensaje"
   },
@@ -591,9 +588,6 @@
   },
   "readyToConnect": {
     "message": "¿Listo/a para conectar?"
-  },
-  "rinkeby": {
-    "message": "Red privada Rinkeby"
   },
   "save": {
     "message": "Guardar"

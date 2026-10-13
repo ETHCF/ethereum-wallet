@@ -508,9 +508,6 @@
   "lock": {
     "message": "Logi välja"
   },
-  "mainnet": {
-    "message": "Ethereumi põhivõrk"
-  },
   "memorizePhrase": {
     "message": "Jätke fraas meelde."
   },
@@ -718,9 +715,6 @@
   },
   "readyToConnect": {
     "message": "Kas olete ühenduseks valmis?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby katsevõrk"
   },
   "save": {
     "message": "Salvesta"

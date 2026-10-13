@@ -116,8 +116,6 @@ describe('App State', function () {
       type: actions.GO_HOME,
     });
 
-    assert.equal(state.accountDetail.subview, 'transactions');
-    assert.equal(state.accountDetail.accountExport, 'none');
     assert.equal(state.accountDetail.privateKey, '');
     assert.equal(state.warning, null);
   });
@@ -128,16 +126,12 @@ describe('App State', function () {
       value: 'context address',
     });
     assert.equal(state.forgottenPassword, null); // default
-    assert.equal(state.accountDetail.subview, 'transactions'); // default
-    assert.equal(state.accountDetail.accountExport, 'none'); // default
     assert.equal(state.accountDetail.privateKey, ''); // default
   });
 
   it('clears account details', function () {
     const exportPrivKeyModal = {
       accountDetail: {
-        subview: 'export',
-        accountExport: 'completed',
         privateKey: 'a-priv-key',
       },
     };
@@ -297,8 +291,6 @@ describe('App State', function () {
       value: 'private key',
     });
 
-    assert.equal(state.accountDetail.subview, 'export');
-    assert.equal(state.accountDetail.accountExport, 'completed');
     assert.equal(state.accountDetail.privateKey, 'private key');
   });
 

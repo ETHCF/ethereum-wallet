@@ -514,9 +514,6 @@
   "lock": {
     "message": "خروج"
   },
-  "mainnet": {
-    "message": "شبکه اصلی ایتریم"
-  },
   "memorizePhrase": {
     "message": "این عبارت را حفظ کنید."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "آماده برای اتصال هستید؟"
-  },
-  "rinkeby": {
-    "message": "شبکه آزمایشی Rinkeby"
   },
   "save": {
     "message": "ذخیره"

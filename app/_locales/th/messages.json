@@ -246,9 +246,6 @@
   "lock": {
     "message": "ออกจากระบบ"
   },
-  "mainnet": {
-    "message": "เครือข่าย Mainnet"
-  },
   "message": {
     "message": "ข้อความ"
   },
@@ -345,9 +342,6 @@
   },
   "revealSeedWordsWarning": {
     "message": "อย่าเปิดเผยคำกลุ่มคำชีดของคุณในที่สาธารณะ! คำเหล่านี้สามารถใช้เพื่อขโมยบัญชีทั้งหมดของคุณ"
-  },
-  "rinkeby": {
-    "message": "เครือข่ายทดสอบ Rinkeby"
   },
   "save": {
     "message": "บันทึก"

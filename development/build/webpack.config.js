@@ -142,7 +142,16 @@ module.exports = function createWebpackConfigs({
         {
           test: /\.js$/u,
           include: [path.join(rootDir, 'app'), path.join(rootDir, 'ui')],
-          use: { loader: 'babel-loader', options: { cacheDirectory: devMode } },
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: devMode,
+              // Babel 8's preset-react emits jsxDEV calls when the env is
+              // "development" (its default when BABEL_ENV/NODE_ENV are unset),
+              // but the production React build leaves jsxDEV undefined.
+              envName: devMode ? 'development' : 'production',
+            },
+          },
         },
         { test: /\.svg$/u, type: 'asset/source' },
         {

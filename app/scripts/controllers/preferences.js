@@ -183,7 +183,7 @@ export default class PreferencesController {
   }
 
   /**
-   * Add new methodData to state, to avoid requesting this information again through Infura
+   * Add new methodData to state, to avoid looking this information up again
    *
    * @param {string} fourBytePrefix - Four-byte method signature
    * @param {string} methodData - Corresponding data method

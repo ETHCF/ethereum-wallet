@@ -505,9 +505,6 @@
   "lock": {
     "message": "Deconectați-vă"
   },
-  "mainnet": {
-    "message": "Rețeaua Ethereum principală"
-  },
   "memorizePhrase": {
     "message": "Memorați această expresie."
   },
@@ -715,9 +712,6 @@
   },
   "readyToConnect": {
     "message": "Gata de conectare?"
-  },
-  "rinkeby": {
-    "message": "Rețea test Rinkeby"
   },
   "save": {
     "message": "Salvează"

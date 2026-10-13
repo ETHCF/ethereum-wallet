@@ -487,9 +487,6 @@
   "lock": {
     "message": "Déconnexion"
   },
-  "mainnet": {
-    "message": "Réseau principal Ethereum"
-  },
   "memorizePhrase": {
     "message": "Mémorisez cette phrase."
   },
@@ -694,9 +691,6 @@
   },
   "readyToConnect": {
     "message": "Prêt à se connecter ?"
-  },
-  "rinkeby": {
-    "message": "Réseau de test Rinkeby"
   },
   "save": {
     "message": "Enregistrer"

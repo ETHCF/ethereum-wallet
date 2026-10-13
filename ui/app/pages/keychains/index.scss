@@ -46,10 +46,6 @@
     margin-top: 12px;
   }
 
-  .first-view-phone-invisible {
-    display: none;
-  }
-
   .first-time-flow__input {
     width: 100%;
   }
@@ -92,11 +88,6 @@
   font-weight: 200;
 }
 
-.import-account__faq-link {
-  font-size: 18px;
-  line-height: 23px;
-}
-
 .import-account__selector-label {
   color: var(--color-primary-alternative);
   font-size: 16px;
@@ -118,25 +109,10 @@
   cursor: pointer;
 }
 
-.import-account__description-text {
-  color: var(--color-text-alternative);
-  font-size: 18px;
-  line-height: 23px;
-  margin-top: 21px;
-}
-
 .import-account__input-wrapper {
   display: flex;
   flex-flow: column nowrap;
   margin-top: 30px;
-}
-
-.import-account__input-error-message {
-  margin-top: 10px;
-  width: 422px;
-  color: var(--color-error-default);
-  font-size: 16px;
-  line-height: 21px;
 }
 
 .import-account__input-label {
@@ -144,10 +120,6 @@
   color: var(--color-primary-alternative);
   font-size: 18px;
   line-height: 23px;
-}
-
-.import-account__input-label__disabled {
-  opacity: 0.5;
 }
 
 .import-account__input {
@@ -158,37 +130,6 @@
   .import-account__input {
     width: 100%;
   }
-}
-
-.import-account__file-input {
-  display: none;
-}
-
-.import-account__file-input-label {
-  height: 53px;
-  width: 148px;
-  border: 1px solid var(--color-primary-alternative);
-  border-radius: 0;
-  color: var(--color-primary-alternative);
-  font-size: 18px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.import-account__file-picker-wrapper {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
-
-.import-account__file-name {
-  color: var(--color-text-default);
-  font-size: 18px;
-  line-height: 23px;
-  margin-left: 22px;
 }
 
 .reveal-seed {

@@ -514,9 +514,6 @@
   "lock": {
     "message": "ಲಾಗ್ ಔಟ್"
   },
-  "mainnet": {
-    "message": "ಪ್ರಮುಖ ಎಥೆರಿಯಮ್ ನೆಟ್‌ವರ್ಕ್"
-  },
   "memorizePhrase": {
     "message": "ಈ ಫ್ರೇಸ್ ಅನ್ನು ನೆನಪಿಡಿ."
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "ಸಂಪರ್ಕಿಸಲು ಸಿದ್ಧವೇ?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby ಪರೀಕ್ಷೆ ನೆಟ್‌ವರ್ಕ್"
   },
   "save": {
     "message": "ಉಳಿಸು"

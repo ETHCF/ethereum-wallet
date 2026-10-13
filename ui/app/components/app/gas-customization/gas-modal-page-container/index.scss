@@ -82,13 +82,7 @@
     width: 100%;
   }
 
-  &__basic-tab {
-    height: 219px;
-  }
-
-
-  &__info-row,
-  &__info-row--fade {
+  &__info-row {
     width: 100%;
     background: var(--color-background-default);
     padding: 15px 21px;
@@ -138,11 +132,5 @@
         font-size: 14px;
       }
     }
-  }
-
-  &__info-row--fade {
-    background: var(--color-background-default);
-    color: var(--color-text-alternative);
-    border-top: 1px solid var(--color-border-muted);
   }
 }

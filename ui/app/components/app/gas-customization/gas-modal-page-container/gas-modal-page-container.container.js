@@ -50,7 +50,6 @@ import {
   hideSidebar,
   updateSend,
   updateSendAmount,
-  setGasTotal,
   updateTransaction,
 } from '../../../../store/actions';
 
@@ -200,7 +199,6 @@ const mapDispatchToProps = (dispatch) => {
     hideGasButtonGroup: () => dispatch(hideGasButtonGroup()),
     hideSidebar: () => dispatch(hideSidebar()),
     fetchBasicGasEstimates: () => dispatch(fetchBasicGasEstimates()),
-    setGasTotal: (total) => dispatch(setGasTotal(total)),
     setAmountToMax: (maxAmountDataObject) => {
       dispatch(updateSendErrors({ amount: null }));
       dispatch(updateSendAmount(calcMaxAmount(maxAmountDataObject)));

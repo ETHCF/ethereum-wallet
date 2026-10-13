@@ -508,9 +508,6 @@
   "lock": {
     "message": "鎖定"
   },
-  "mainnet": {
-    "message": "乙太坊 主網路"
-  },
   "memorizePhrase": {
     "message": "絕對不要忘記您的助憶詞。"
   },
@@ -709,9 +706,6 @@
   },
   "readyToConnect": {
     "message": "準備連線？"
-  },
-  "rinkeby": {
-    "message": "Rinkeby 測試網路"
   },
   "save": {
     "message": "儲存"

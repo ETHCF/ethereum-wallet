@@ -511,9 +511,6 @@
   "lock": {
     "message": "Wyloguj się"
   },
-  "mainnet": {
-    "message": "Główna sieć Ethereum"
-  },
   "memorizePhrase": {
     "message": "Zapamiętaj tę frazę."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "Gotowy na połączenie?"
-  },
-  "rinkeby": {
-    "message": "Sieć testowa Rinkeby"
   },
   "save": {
     "message": "Zapisz"

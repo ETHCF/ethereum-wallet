@@ -11,7 +11,6 @@ import {
 import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   tryUnlockEcfWallet,
-  forgotPassword,
   markPasswordForgotten,
   forceUpdateEcfWalletState,
 } from '../../store/actions';
@@ -27,7 +26,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    forgotPassword: () => dispatch(forgotPassword()),
     tryUnlockEcfWallet: (password) => dispatch(tryUnlockEcfWallet(password)),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
     forceUpdateEcfWalletState: () => forceUpdateEcfWalletState(dispatch),

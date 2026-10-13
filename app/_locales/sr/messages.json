@@ -508,9 +508,6 @@
   "lock": {
     "message": "Odjavi se"
   },
-  "mainnet": {
-    "message": "Glavna Ethereum mreža"
-  },
   "memorizePhrase": {
     "message": "Zapamtite ovaj izraz."
   },
@@ -718,9 +715,6 @@
   },
   "readyToConnect": {
     "message": "Spremni za povezivanje?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby test mreža"
   },
   "save": {
     "message": "Сачувај"

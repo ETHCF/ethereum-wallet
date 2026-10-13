@@ -182,9 +182,7 @@ const state = {
       detailView: null,
       context: '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
     },
-    accountDetail: {
-      subview: 'transactions',
-    },
+    accountDetail: {},
     modal: {
       modalState: {},
       previousModalState: {},

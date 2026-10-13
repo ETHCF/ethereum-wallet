@@ -24,7 +24,7 @@ import { ALERT_TYPES } from '../app/scripts/controllers/alert';
 import { ENVIRONMENT_TYPE_POPUP } from '../app/scripts/lib/enums';
 import { getEnvironmentType } from '../app/scripts/lib/util';
 
-log.setLevel(global.ECF_WALLET_DEBUG ? 'debug' : 'warn');
+log.setLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn');
 
 export default function launchEcfWalletUi(opts, cb) {
   const { backgroundConnection } = opts;

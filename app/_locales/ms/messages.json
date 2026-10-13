@@ -501,9 +501,6 @@
   "lock": {
     "message": "Log keluar"
   },
-  "mainnet": {
-    "message": "Rangkaian Ethereum Utama"
-  },
   "memorizePhrase": {
     "message": "Hafal ungkapan ini."
   },
@@ -711,9 +708,6 @@
   },
   "readyToConnect": {
     "message": "Bersedia Menyambung?"
-  },
-  "rinkeby": {
-    "message": "Rangkaian Ujian Rinkeby"
   },
   "save": {
     "message": "Simpan"

@@ -505,9 +505,6 @@
   "lock": {
     "message": "Logga ut"
   },
-  "mainnet": {
-    "message": "Ethereums huvudnätverk"
-  },
   "memorizePhrase": {
     "message": "Memorera denna fras."
   },
@@ -715,9 +712,6 @@
   },
   "readyToConnect": {
     "message": "Redo att ansluta?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby testnätverk"
   },
   "save": {
     "message": "Spara"

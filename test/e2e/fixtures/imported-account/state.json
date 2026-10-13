@@ -1,20 +1,8 @@
 {
   "data": {
-    "AppStateController": {
-      "connectedStatusPopoverHasBeenShown": false
-    },
     "CachedBalancesController": {
       "cachedBalances": {
         "4": {}
-      }
-    },
-    "IncomingTransactionsController": {
-      "incomingTransactions": {},
-      "incomingTxLastFetchedBlocksByNetwork": {
-        "goerli": null,
-        "kovan": null,
-        "mainnet": null,
-        "rinkeby": 5570536
       }
     },
     "KeyringController": {
@@ -78,9 +66,7 @@
       "assetImages": {},
       "completedOnboarding": true,
       "currentLocale": "en",
-      "featureFlags": {
-        "showIncomingTransactions": true
-      },
+      "featureFlags": {},
       "firstTimeFlowType": "create",
       "forgottenPassword": false,
       "frequentRpcListDetail": [],
@@ -99,11 +85,6 @@
       "useBlockie": false,
       "useNonceField": false,
       "usePhishDetect": true
-    },
-    "config": {},
-    "firstTimeInfo": {
-      "date": 1575697234195,
-      "version": "7.7.0"
     }
   },
   "meta": {

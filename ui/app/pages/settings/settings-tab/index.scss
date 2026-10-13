@@ -11,36 +11,4 @@
     cursor: pointer;
     width: 25%;
   }
-
-  &__button--red {
-    border-color: var(--color-error-default);
-    color: var(--color-error-default);
-
-    &:active {
-      background: var(--color-error-muted);
-      border-color: var(--color-error-default);
-    }
-
-    &:hover {
-      border-color: var(--color-error-default);
-    }
-  }
-
-  &__radio-buttons {
-    display: flex;
-    align-items: center;
-  }
-
-  &__radio-button {
-    display: flex;
-    align-items: center;
-
-    &:not(:last-child) {
-      margin-right: 16px;
-    }
-  }
-
-  &__radio-label {
-    padding-left: 4px;
-  }
 }

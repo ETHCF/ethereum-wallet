@@ -16,8 +16,20 @@ if [[ -e "$migration_file" || -e "$test_file" ]]; then
 fi
 
 sed "s/const version = 0/const version = $version/" app/scripts/migrations/template.js > "$migration_file"
-sed -e "s|migrations/template'|migrations/$vnum'|" \
-    -e "s/meta.version, 0/meta.version, $version/" \
-    test/unit/migrations/template-test.js > "$test_file"
+cat > "$test_file" <<EOF
+import { strict as assert } from 'assert';
+
+import migration$version from '../../../app/scripts/migrations/$vnum';
+
+describe('migration #$version', function () {
+  it('updates the version metadata', async function () {
+    const { meta } = await migration$version.migrate({
+      meta: { version: $((version - 1)) },
+      data: {},
+    });
+    assert.equal(meta.version, $version);
+  });
+});
+EOF
 
 echo "Created $migration_file and $test_file. Register the migration in app/scripts/migrations/index.js."

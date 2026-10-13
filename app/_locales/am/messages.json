@@ -511,9 +511,6 @@
   "lock": {
     "message": "ዘግተህ ውጣ"
   },
-  "mainnet": {
-    "message": "ዋነኛ የ Ethereum አውታረ መረብ "
-  },
   "memorizePhrase": {
     "message": "ይህን ሐረግ ያስታውሱ።"
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "ለመገናኘት ዝግጁ ነዎት?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby የሙከራ አውታረ መረብ"
   },
   "save": {
     "message": "አስቀምጥ"

@@ -514,9 +514,6 @@
   "lock": {
     "message": "লগ আউট করুন"
   },
-  "mainnet": {
-    "message": "মূল Ethereum নেটওয়ার্ক"
-  },
   "memorizePhrase": {
     "message": "এই ফ্রেজটি মুখস্থ করুন।"
   },
@@ -724,9 +721,6 @@
   },
   "readyToConnect": {
     "message": "সংযোগ করার জন্য প্রস্তুত?"
-  },
-  "rinkeby": {
-    "message": "রিঙ্কেবি টেস্ট নেটওয়ার্ক"
   },
   "save": {
     "message": "সেভ করুন"

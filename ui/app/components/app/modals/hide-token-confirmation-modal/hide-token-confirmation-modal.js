@@ -8,7 +8,6 @@ import Identicon from '../../../ui/identicon';
 
 function mapStateToProps(state) {
   return {
-    network: state.ecfWallet.network,
     token: state.appState.modal.modalState.props.token,
     assetImages: state.ecfWallet.assetImages,
   };

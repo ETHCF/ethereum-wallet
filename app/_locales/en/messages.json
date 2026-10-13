@@ -741,23 +741,11 @@
   "lockTimeTooGreat": {
     "message": "Lock time is too great"
   },
-  "mainnet": {
-    "message": "Ethereum Mainnet"
-  },
   "memorizePhrase": {
     "message": "Memorize this phrase."
   },
   "message": {
     "message": "Message"
-  },
-  "ecfWalletConnectStatusParagraphOne": {
-    "message": "You now have more control over your account connections in ECF Wallet."
-  },
-  "ecfWalletConnectStatusParagraphTwo": {
-    "message": "The connection status button shows if the website you’re visiting is connected to your currently selected account."
-  },
-  "ecfWalletConnectStatusParagraphThree": {
-    "message": "Click it to manage your connected accounts."
   },
   "ecfWalletDescription": {
     "message": "Connecting you to Ethereum and the Decentralized Web."
@@ -988,9 +976,6 @@
   },
   "readyToConnect": {
     "message": "Ready to Connect?"
-  },
-  "rinkeby": {
-    "message": "Rinkeby Test Network"
   },
   "save": {
     "message": "Save"
@@ -1391,9 +1376,6 @@
   },
   "welcome": {
     "message": "Welcome to ECF Wallet"
-  },
-  "whatsThis": {
-    "message": "What's this?"
   },
   "writePhrase": {
     "message": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2 - 3 different locations."

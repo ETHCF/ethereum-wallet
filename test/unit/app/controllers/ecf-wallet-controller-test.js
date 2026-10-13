@@ -1,7 +1,6 @@
 import EthQuery from '@metamask/eth-query';
 import assert from 'assert';
 import { cloneDeep } from 'lodash';
-import nock from 'nock';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import { objectTransform as createThoughStream } from 'through2';
@@ -81,27 +80,6 @@ describe('EcfWalletController', function () {
   const noop = () => undefined;
 
   beforeEach(function () {
-    nock('https://api.infura.io')
-      .get('/v1/ticker/ethusd')
-      .reply(
-        200,
-        '{"base": "ETH", "quote": "USD", "bid": 288.45, "ask": 288.46, "volume": 112888.17569277, "exchange": "bitfinex", "total_volume": 272175.00106721005, "num_exchanges": 8, "timestamp": 1506444677}',
-      );
-
-    nock('https://api.infura.io')
-      .get('/v1/ticker/ethjpy')
-      .reply(
-        200,
-        '{"base": "ETH", "quote": "JPY", "bid": 32300.0, "ask": 32400.0, "volume": 247.4616071, "exchange": "kraken", "total_volume": 247.4616071, "num_exchanges": 1, "timestamp": 1506444676}',
-      );
-
-    nock('https://api.infura.io').persist().get(/.*/u).reply(200);
-
-    nock('https://min-api.cryptocompare.com')
-      .persist()
-      .get(/.*/u)
-      .reply(200, '{"JPY":12415.9}');
-
     ecfWalletController = new EcfWalletController({
       showUnapprovedTx: noop,
       showUnconfirmedMessage: noop,
@@ -132,7 +110,6 @@ describe('EcfWalletController', function () {
   });
 
   afterEach(function () {
-    nock.cleanAll();
     sandbox.restore();
   });
 
@@ -733,26 +710,6 @@ describe('EcfWalletController', function () {
       } catch (e) {
         assert.equal(e.message, 'EcfWalletController - No HD Key Tree found');
       }
-    });
-  });
-
-  describe('#getNextNonce', function () {
-    it('returns the next nonce and releases the lock', async function () {
-      const releaseLock = sinon.spy();
-      sandbox
-        .stub(ecfWalletController.txController.nonceTracker, 'getNonceLock')
-        .resolves({ nextNonce: 7, releaseLock });
-      assert.equal(await ecfWalletController.getNextNonce('0xabc'), 7);
-      assert.equal(releaseLock.callCount, 1);
-    });
-
-    it('reports why the nonce could not be read', async function () {
-      sandbox
-        .stub(ecfWalletController.txController.nonceTracker, 'getNonceLock')
-        .rejects(new Error('RPC unavailable'));
-      await assert.rejects(ecfWalletController.getNextNonce('0xabc'), {
-        message: 'RPC unavailable',
-      });
     });
   });
 

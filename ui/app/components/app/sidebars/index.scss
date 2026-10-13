@@ -1,26 +1,6 @@
 @use 'design-system';
 @use 'sidebar-content' as *;
 
-.sidebar-right-enter {
-  transition: transform 300ms ease-in-out;
-  transform: translateX(-100%);
-}
-
-.sidebar-right-enter.sidebar-right-enter-active {
-  transition: transform 300ms ease-in-out;
-  transform: translateX(0%);
-}
-
-.sidebar-right-exit {
-  transition: transform 200ms ease-out;
-  transform: translateX(0%);
-}
-
-.sidebar-right-exit.sidebar-right-exit-active {
-  transition: transform 200ms ease-out;
-  transform: translateX(-100%);
-}
-
 .sidebar-left-enter {
   transition: transform 300ms ease-in-out;
   transform: translateX(100%);

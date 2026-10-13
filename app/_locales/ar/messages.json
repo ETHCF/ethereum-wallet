@@ -511,9 +511,6 @@
   "lock": {
     "message": "تسجيل الخروج"
   },
-  "mainnet": {
-    "message": "شبكة الإيثيريوم الرئيسية"
-  },
   "memorizePhrase": {
     "message": "احفظ هذه العبارة."
   },
@@ -721,9 +718,6 @@
   },
   "readyToConnect": {
     "message": "هل أنت جاهز للاتصال؟"
-  },
-  "rinkeby": {
-    "message": "شبكة اختبارات Rinkeby"
   },
   "save": {
     "message": "حفظ"
