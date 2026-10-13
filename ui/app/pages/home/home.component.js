@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import AssetList from '../../components/app/asset-list';
+import BackupReminder from '../../components/app/backup-reminder';
 import BuildStamp from '../../components/app/build-stamp';
 import MenuBar from '../../components/app/menu-bar';
 import NftList from '../../components/app/nft-list';
@@ -169,6 +170,7 @@ export default class Home extends PureComponent {
                 <AssetList
                   onClickAsset={(asset) => navigate(`${ASSET_ROUTE}/${asset}`)}
                 />
+                <BackupReminder />
               </Tab>
               <Tab
                 activeClassName="home__tab--active"

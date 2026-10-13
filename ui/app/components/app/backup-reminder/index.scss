@@ -1,0 +1,22 @@
+@use 'design-system';
+
+.backup-reminder {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-top: 1px solid var(--color-border-muted);
+  background: none;
+  color: var(--color-text-alternative);
+  font-family: design-system.$font-family;
+  font-size: 11px;
+  cursor: pointer;
+
+  &__action {
+    color: var(--color-link-default);
+    text-decoration: underline;
+  }
+}

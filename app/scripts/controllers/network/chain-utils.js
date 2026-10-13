@@ -61,6 +61,21 @@ export function getBuiltInNetworkName(type) {
 const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '[::1]']);
 
 /**
+ * Whether an RPC URL points at this computer, such as a development node on
+ * http://localhost:8545.
+ *
+ * @param {string} value - The URL.
+ * @returns {boolean} True for localhost, 127.0.0.1 and [::1].
+ */
+export function isLocalRpcUrl(value) {
+  try {
+    return LOCAL_HOSTNAMES.has(new URL(value).hostname);
+  } catch (_) {
+    return false;
+  }
+}
+
+/**
  * Parses a URL a site supplied, allowing only HTTPS (or HTTP to this computer)
  * and no embedded credentials.
  *

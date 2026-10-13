@@ -3,6 +3,9 @@
     "message": "I have read and agree to the $1",
     "description": "$1 is the `terms` message"
   },
+  "backUpNow": {
+    "message": "Back up now"
+  },
   "darkTheme": {
     "message": "Dark"
   },
@@ -37,8 +40,17 @@
   "lightTheme": {
     "message": "Light"
   },
+  "localNetworkConfirm": {
+    "message": "I run this node myself and want to add it"
+  },
+  "localNetworkWarning": {
+    "message": "This RPC URL points at your own computer, which is usually a development node. Only add it if you know what is running there."
+  },
   "osTheme": {
     "message": "System"
+  },
+  "seedPhraseNotBackedUp": {
+    "message": "Your seed phrase is not backed up."
   },
   "switchToThisAccount": {
     "message": "Switch to this account"

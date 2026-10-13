@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import validUrl from 'valid-url';
 
-import { normalizeChainId } from '../../../../../../app/scripts/controllers/network/chain-utils';
+import {
+  isLocalRpcUrl,
+  normalizeChainId,
+} from '../../../../../../app/scripts/controllers/network/chain-utils';
 import Button from '../../../../components/ui/button';
 import TextField from '../../../../components/ui/text-field';
 
@@ -39,6 +42,7 @@ export default class NetworkForm extends PureComponent {
     networkName: this.props.networkName,
     blockExplorerUrl: this.props.blockExplorerUrl,
     errors: {},
+    localNetworkConfirmed: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -61,6 +65,7 @@ export default class NetworkForm extends PureComponent {
         networkName: '',
         blockExplorerUrl: '',
         errors: {},
+        localNetworkConfirmed: false,
       });
     } else if (prevRpcUrl !== rpcUrl) {
       this.setState({
@@ -70,6 +75,7 @@ export default class NetworkForm extends PureComponent {
         networkName,
         blockExplorerUrl,
         errors: {},
+        localNetworkConfirmed: false,
       });
     }
   }
@@ -83,6 +89,7 @@ export default class NetworkForm extends PureComponent {
       networkName: '',
       blockExplorerUrl: '',
       errors: {},
+      localNetworkConfirmed: false,
     });
   }
 
@@ -97,8 +104,32 @@ export default class NetworkForm extends PureComponent {
       networkName,
       blockExplorerUrl,
       errors: {},
+      localNetworkConfirmed: false,
     });
   }
+
+  /**
+   * Whether saving needs the user to confirm the RPC runs on this computer.
+   * A node at http://localhost:8545 is usually a development chain, so it is
+   * only added once the user says that is what they want. A network already
+   * saved with that URL is not asked about again.
+   *
+   * @returns {boolean} True if the entered RPC URL is new and local.
+   */
+  needsLocalNetworkConfirmation() {
+    const { rpcUrl } = this.state;
+    return (
+      !this.props.viewOnly &&
+      rpcUrl !== this.props.rpcUrl &&
+      isLocalRpcUrl(rpcUrl)
+    );
+  }
+
+  onRpcUrlChange = (event) => {
+    const { value } = event.target;
+    this.validateUrlRpcUrl(value, 'rpcUrl');
+    this.setState({ rpcUrl: value, localNetworkConfirmed: false });
+  };
 
   onSubmit = () => {
     const {
@@ -111,6 +142,12 @@ export default class NetworkForm extends PureComponent {
     } = this.props;
     const { networkName, rpcUrl, chainId, ticker, blockExplorerUrl } =
       this.state;
+    if (
+      this.needsLocalNetworkConfirmation() &&
+      !this.state.localNetworkConfirmed
+    ) {
+      return;
+    }
     if (propsRpcUrl && rpcUrl !== propsRpcUrl) {
       editRpc(propsRpcUrl, rpcUrl, chainId, ticker, networkName, {
         blockExplorerUrl: blockExplorerUrl || rpcPrefs.blockExplorerUrl,
@@ -272,6 +309,26 @@ export default class NetworkForm extends PureComponent {
     );
   }
 
+  renderLocalNetworkConfirmation() {
+    const { t } = this.context;
+    return (
+      <div className="networks-tab__network-form-row networks-tab__network-form-row--local">
+        <div>{t('localNetworkWarning')}</div>
+        <label className="networks-tab__network-form-confirm">
+          <input
+            type="checkbox"
+            data-testid="network-form-local-confirm"
+            checked={this.state.localNetworkConfirmed}
+            onChange={(event) =>
+              this.setState({ localNetworkConfirmed: event.target.checked })
+            }
+          />
+          {t('localNetworkConfirm')}
+        </label>
+      </div>
+    );
+  }
+
   render() {
     const { t } = this.context;
     const { viewOnly, isCurrentRpcTarget, networksTabIsInAddMode } = this.props;
@@ -282,14 +339,17 @@ export default class NetworkForm extends PureComponent {
       ticker,
       blockExplorerUrl,
       errors,
+      localNetworkConfirmed,
     } = this.state;
+    const needsLocalNetworkConfirmation = this.needsLocalNetworkConfirmation();
 
     const isSubmitDisabled =
       viewOnly ||
       this.stateIsUnchanged() ||
       Object.values(errors).some((x) => x) ||
       !rpcUrl ||
-      !isValidChainId(chainId);
+      !isValidChainId(chainId) ||
+      (needsLocalNetworkConfirmation && !localNetworkConfirmed);
     const deletable =
       !networksTabIsInAddMode && !isCurrentRpcTarget && !viewOnly;
 
@@ -305,7 +365,7 @@ export default class NetworkForm extends PureComponent {
         {this.renderFormTextField(
           'rpcUrl',
           'rpc-url',
-          this.setStateWithValue('rpcUrl', this.validateUrlRpcUrl),
+          this.onRpcUrlChange,
           rpcUrl,
         )}
         {this.renderFormTextField(
@@ -331,6 +391,7 @@ export default class NetworkForm extends PureComponent {
           blockExplorerUrl,
           'optionalBlockExplorerUrl',
         )}
+        {needsLocalNetworkConfirmation && this.renderLocalNetworkConfirmation()}
         <div className="network-form__footer">
           {deletable && (
             <Button type="danger" onClick={this.onDelete}>

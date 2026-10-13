@@ -535,9 +535,7 @@ export default class PreferencesController {
     nickname = '',
     rpcPrefs = {},
   ) {
-    if (url !== 'http://localhost:8545') {
-      assertCustomRpcChainId(chainId);
-    }
+    assertCustomRpcChainId(chainId);
     const rpcList = this.getFrequentRpcListDetail();
     const index = rpcList.findIndex((element) => {
       return element.rpcUrl === url;
@@ -545,15 +543,13 @@ export default class PreferencesController {
     if (index !== -1) {
       rpcList.splice(index, 1);
     }
-    if (url !== 'http://localhost:8545') {
-      rpcList.push({
-        rpcUrl: url,
-        chainId,
-        ticker,
-        nickname,
-        rpcPrefs,
-      });
-    }
+    rpcList.push({
+      rpcUrl: url,
+      chainId,
+      ticker,
+      nickname,
+      rpcPrefs,
+    });
     this.store.updateState({ frequentRpcListDetail: rpcList });
     return Promise.resolve(rpcList);
   }

@@ -123,7 +123,7 @@ class NetworkDropdown extends Component {
     const { rpcTarget, type, ticker, nickname } = provider;
     const { network } = this.props;
 
-    if (type !== 'rpc' || rpcTarget === 'http://localhost:8545') {
+    if (type !== 'rpc') {
       return null;
     }
 
@@ -148,7 +148,7 @@ class NetworkDropdown extends Component {
         provider.type === 'rpc' && rpc === provider.rpcTarget;
 
       // The current RPC target is rendered by renderCustomOption.
-      if (rpc === 'http://localhost:8545' || currentRpcTarget) {
+      if (currentRpcTarget) {
         return null;
       }
       const { chainId } = entry;

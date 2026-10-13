@@ -770,7 +770,6 @@ describe('preferences controller', function () {
   describe('on updateFrequentRpcList', function () {
     it('should add custom RPC url to state', function () {
       preferencesController.addToFrequentRpcList('rpc_url', '1');
-      preferencesController.addToFrequentRpcList('http://localhost:8545', '1');
       assert.deepEqual(
         preferencesController.store.getState().frequentRpcListDetail,
         [
@@ -795,6 +794,32 @@ describe('preferences controller', function () {
             rpcPrefs: {},
           },
         ],
+      );
+    });
+
+    it('saves http://localhost:8545 like any other custom network', function () {
+      preferencesController.addToFrequentRpcList(
+        'http://localhost:8545',
+        '0x539',
+        'ETH',
+        'Local node',
+      );
+      assert.deepEqual(
+        preferencesController.store.getState().frequentRpcListDetail,
+        [
+          {
+            rpcUrl: 'http://localhost:8545',
+            chainId: '0x539',
+            ticker: 'ETH',
+            nickname: 'Local node',
+            rpcPrefs: {},
+          },
+        ],
+      );
+      assert.throws(
+        () =>
+          preferencesController.addToFrequentRpcList('http://localhost:8545'),
+        /needs a valid chain ID/u,
       );
     });
 
@@ -838,7 +863,6 @@ describe('preferences controller', function () {
         ],
       );
       preferencesController.removeFromFrequentRpcList('other_rpc_url');
-      preferencesController.removeFromFrequentRpcList('http://localhost:8545');
       preferencesController.removeFromFrequentRpcList('rpc_url');
       assert.deepEqual(
         preferencesController.store.getState().frequentRpcListDetail,
