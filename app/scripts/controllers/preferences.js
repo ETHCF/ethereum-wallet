@@ -1,12 +1,13 @@
 import { isValidAddress } from '@ethereumjs/util';
 import EthQuery from '@metamask/eth-query';
 import { ObservableStore } from '@metamask/obs-store';
-import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
+import { rpcErrors } from '@metamask/rpc-errors';
 import { nanoid } from 'nanoid';
 import pify from 'pify';
 
 import { normalizeChainId } from './network/chain-utils';
 import { addInternalMethodPrefix } from './permissions';
+import ApprovalQueue from '../lib/approval-queue';
 import { callContract } from '../lib/contract-call';
 import {
   fetchImageAsDataUrl,
@@ -123,7 +124,17 @@ export default class PreferencesController {
     // A suggestion belongs to a live wallet_watchAsset request, so, like
     // upstream's approvals, it is kept in memory only, keyed by request id.
     this.watchAssetStore = new ObservableStore({ suggestedTokens: {} });
-    this._watchAssetRequests = new Map();
+    this._watchAssetRequests = new ApprovalQueue({
+      label: 'token suggestion',
+      onChange: () =>
+        this.watchAssetStore.updateState({
+          suggestedTokens: Object.fromEntries(
+            this._watchAssetRequests
+              .requests()
+              .map((suggestion) => [suggestion.id, suggestion]),
+          ),
+        }),
+    });
     this.showWatchAssetRequest = opts.showWatchAssetRequest;
     this._subscribeProviderType();
 
@@ -366,24 +377,23 @@ export default class PreferencesController {
    * now, and answers the site's wallet_watchAsset request with true.
    *
    * @param {string} id - The suggestion's request id.
+   * @returns {Promise<void>} Settles once the token is added, or rejects
+   * with the error the site was also answered with.
    */
-  async acceptWatchAsset(id) {
-    const { suggestion, image, resolve, reject } =
-      this._takeWatchAssetRequest(id);
-    try {
-      const cachedImage = await this._cacheImage(image);
-      await this.addToken(
-        suggestion.address,
-        suggestion.symbol,
-        suggestion.decimals,
-        cachedImage,
-      );
-      resolve(true);
-    } catch (error) {
-      // The request is already taken, so the site must be answered here.
-      reject(error);
-      throw error;
-    }
+  acceptWatchAsset(id) {
+    return this._watchAssetRequests.approve(
+      id,
+      async ({ request: suggestion, data }) => {
+        const cachedImage = await this._cacheImage(data.image);
+        await this.addToken(
+          suggestion.address,
+          suggestion.symbol,
+          suggestion.decimals,
+          cachedImage,
+        );
+        return true;
+      },
+    );
   }
 
   /**
@@ -393,9 +403,7 @@ export default class PreferencesController {
    * @param {string} id - The suggestion's request id.
    */
   rejectWatchAsset(id) {
-    this._takeWatchAssetRequest(id).reject(
-      providerErrors.userRejectedRequest(),
-    );
+    this._watchAssetRequests.reject(id);
   }
 
   /**
@@ -403,21 +411,7 @@ export default class PreferencesController {
    * approvals when the user closes the notification window.
    */
   rejectPendingWatchAssets() {
-    for (const id of [...this._watchAssetRequests.keys()]) {
-      this.rejectWatchAsset(id);
-    }
-  }
-
-  _takeWatchAssetRequest(id) {
-    const request = this._watchAssetRequests.get(id);
-    if (!request) {
-      throw new Error(`Token suggestion "${id}" not found.`);
-    }
-    this._watchAssetRequests.delete(id);
-    const suggestedTokens = { ...this.getSuggestedTokens() };
-    delete suggestedTokens[id];
-    this.watchAssetStore.updateState({ suggestedTokens });
-    return request;
+    this._watchAssetRequests.rejectAll();
   }
 
   /**
@@ -802,12 +796,7 @@ export default class PreferencesController {
     } catch (error) {
       throw rpcErrors.invalidParams(error.message);
     }
-    const pending = Object.values(this.getSuggestedTokens());
-    if (pending.some((suggestion) => suggestion.origin === origin)) {
-      throw rpcErrors.resourceUnavailable(
-        `A token suggestion from ${origin} is already pending. Please wait.`,
-      );
-    }
+    this._watchAssetRequests.assertNoPendingRequest(origin);
     // The prompt shows only an image the site sent as a data URL small
     // enough to be saved; a remote one is downloaded if, and only once, the
     // user adds the token. Any other image is dropped now.
@@ -826,16 +815,8 @@ export default class PreferencesController {
       image: dataUrl,
       time: Date.now(),
     };
-    const result = new Promise((resolve, reject) => {
-      this._watchAssetRequests.set(id, {
-        suggestion,
-        image: isDataUrl ? dataUrl : tokenOpts.image,
-        resolve,
-        reject,
-      });
-    });
-    this.watchAssetStore.updateState({
-      suggestedTokens: { ...this.getSuggestedTokens(), [id]: suggestion },
+    const result = this._watchAssetRequests.add(suggestion, {
+      image: isDataUrl ? dataUrl : tokenOpts.image,
     });
     this.showWatchAssetRequest?.();
     return result;

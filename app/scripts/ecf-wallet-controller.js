@@ -1433,9 +1433,7 @@ export default class EcfWalletController extends EventEmitter {
             () =>
               this.permissionsController.rejectPermissionsRequest(metadata.id),
         ),
-      ...[...this.networkRequestController.pending.keys()].map(
-        (id) => () => this.networkRequestController.reject(id),
-      ),
+      () => this.networkRequestController.rejectAll(),
       () => this.preferencesController.rejectPendingWatchAssets(),
     ];
     // One failure must not leave the other sites waiting.

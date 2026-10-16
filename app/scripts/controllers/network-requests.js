@@ -3,6 +3,7 @@ import { ObservableStore } from '@metamask/obs-store';
 import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 import EventEmitter from 'events';
 
+import ApprovalQueue from '../lib/approval-queue';
 import fetchWithTimeout from '../lib/fetch-with-timeout';
 import createId from '../lib/random-id';
 import {
@@ -80,12 +81,15 @@ export default class NetworkRequestController extends EventEmitter {
     this.setBuiltInNetwork = setBuiltInNetwork;
     this.showApprovalRequest = showApprovalRequest;
     this.getRpcChainId = getRpcChainId;
-    this.pending = new Map();
+    this.requests = new ApprovalQueue({
+      label: 'network request',
+      onChange: () => this.update(),
+    });
     this.memStore = new ObservableStore({ pendingNetworkRequests: {} });
   }
 
   get pendingCount() {
-    return this.pending.size;
+    return this.requests.size;
   }
 
   createMiddleware({ origin }) {
@@ -112,7 +116,6 @@ export default class NetworkRequestController extends EventEmitter {
       return this.requestSwitch(origin, network.chainId);
     }
 
-    this.assertNoPendingRequest(origin);
     return this.addRequest(origin, {
       type: 'add',
       network,
@@ -134,7 +137,7 @@ export default class NetworkRequestController extends EventEmitter {
    * endpoint serves the chain.
    */
   async checkRpc(id) {
-    const entry = this.pending.get(id);
+    const entry = this.requests.get(id);
     if (entry?.request.type !== 'add') {
       throw new Error(`Network request "${id}" not found.`);
     }
@@ -182,7 +185,6 @@ export default class NetworkRequestController extends EventEmitter {
         `Chain ${chainId} is not in this wallet. Call ${ADD_CHAIN} to add it before switching to it.`,
       );
     }
-    this.assertNoPendingRequest(origin);
     return this.addRequest(origin, {
       type: 'switch',
       network: builtInType
@@ -225,17 +227,6 @@ export default class NetworkRequestController extends EventEmitter {
     );
   }
 
-  assertNoPendingRequest(origin) {
-    const pendingOrigins = [...this.pending.values()].map(
-      ({ request }) => request.origin,
-    );
-    if (pendingOrigins.includes(origin)) {
-      throw rpcErrors.resourceUnavailable(
-        `A network request from ${origin} is already pending. Please wait.`,
-      );
-    }
-  }
-
   addRequest(origin, { type, network, warnings, perform }) {
     const id = String(createId());
     const request = {
@@ -247,44 +238,30 @@ export default class NetworkRequestController extends EventEmitter {
       fromChainId: this.getCurrentChainId(),
       time: Date.now(),
     };
-    const result = new Promise((resolve, reject) => {
-      this.pending.set(id, { request, perform, resolve, reject });
-    });
-    this.update();
+    const result = this.requests.add(request, { perform });
     this.showApprovalRequest();
     return result;
   }
 
-  async approve(id) {
-    const entry = this.take(id);
-    try {
-      await entry.perform();
-      entry.resolve(null);
-    } catch (error) {
-      entry.reject(error);
-      throw error;
-    }
+  approve(id) {
+    return this.requests.approve(id, async ({ data }) => {
+      await data.perform();
+      return null;
+    });
   }
 
   reject(id) {
-    this.take(id).reject(providerErrors.userRejectedRequest());
+    this.requests.reject(id);
   }
 
-  take(id) {
-    const entry = this.pending.get(id);
-    if (!entry) {
-      throw new Error(`Network request "${id}" not found.`);
-    }
-    this.pending.delete(id);
-    this.update();
-    return entry;
+  rejectAll() {
+    this.requests.rejectAll();
   }
 
   update() {
-    const pendingNetworkRequests = {};
-    for (const [id, { request }] of this.pending) {
-      pendingNetworkRequests[id] = request;
-    }
+    const pendingNetworkRequests = Object.fromEntries(
+      this.requests.requests().map((request) => [request.id, request]),
+    );
     this.memStore.putState({ pendingNetworkRequests });
     this.emit('update');
   }
