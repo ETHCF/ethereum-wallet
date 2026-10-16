@@ -1,10 +1,14 @@
+import EventEmitter from 'events';
+
 import extension from './extension-api';
 import ExtensionPlatform from '../platforms/extension';
 
 const NOTIFICATION_HEIGHT = 620;
 const NOTIFICATION_WIDTH = 360;
 
-export default class NotificationManager {
+export const POPUP_CLOSED = 'popup-closed';
+
+export default class NotificationManager extends EventEmitter {
   /**
    * A collection of methods for controlling the showing and hiding of the notification popup.
    *
@@ -13,7 +17,36 @@ export default class NotificationManager {
    */
 
   constructor() {
+    super();
     this.platform = new ExtensionPlatform();
+    this._popupAutomaticallyClosed = false;
+    extension.windows?.onRemoved.addListener((windowId) =>
+      this.onWindowRemoved(windowId),
+    );
+  }
+
+  /**
+   * Records that the wallet, not the user, is closing the notification
+   * window, as it does once nothing is left to approve.
+   */
+  markAsAutomaticallyClosed() {
+    this._popupAutomaticallyClosed = true;
+  }
+
+  /**
+   * Emits POPUP_CLOSED, with whether the wallet closed it, when the
+   * notification window is closed.
+   *
+   * @param {number} windowId - The closed window.
+   */
+  onWindowRemoved(windowId) {
+    if (this._popupId === undefined || windowId !== this._popupId) {
+      return;
+    }
+    const automaticallyClosed = this._popupAutomaticallyClosed;
+    this._popupId = undefined;
+    this._popupAutomaticallyClosed = false;
+    this.emit(POPUP_CLOSED, { automaticallyClosed });
   }
 
   /**
@@ -37,6 +70,7 @@ export default class NotificationManager {
     // Bring focus to chrome popup
     if (popup) {
       // bring focus to existing chrome popup
+      this._popupId = popup.id;
       await this.platform.focusWindow(popup.id);
     } else {
       let position = {};
@@ -84,6 +118,7 @@ export default class NotificationManager {
       }
       // Honor browser-adjusted placement instead of forcing rejected coordinates.
       this._popupId = popupWindow.id;
+      this._popupAutomaticallyClosed = false;
     }
   }
 

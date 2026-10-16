@@ -359,7 +359,7 @@ describe('Transaction Controller', function () {
     });
 
     it('should emit newUnapprovedTx event and pass txMeta as the first argument', function (done) {
-      providerResultStub.eth_gasPrice = '4a817c800';
+      providerResultStub.eth_gasPrice = '0x4a817c800';
       txController.once('newUnapprovedTx', (txMetaFromEmit) => {
         assert.ok(txMetaFromEmit, 'txMeta is falsy');
         done();
@@ -413,7 +413,7 @@ describe('Transaction Controller', function () {
         },
         history: [{}],
       };
-      providerResultStub.eth_gasPrice = '4a817c800';
+      providerResultStub.eth_gasPrice = '0x4a817c800';
       providerResultStub.eth_getBlockByNumber = { gasLimit: '47b784' };
       providerResultStub.eth_estimateGas = '5209';
 

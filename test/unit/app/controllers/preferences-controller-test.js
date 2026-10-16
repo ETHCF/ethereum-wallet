@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import { addInternalMethodPrefix } from '../../../../app/scripts/controllers/permissions';
 import PreferencesController from '../../../../app/scripts/controllers/preferences';
+import { MAX_IMAGE_BYTES } from '../../../../app/scripts/lib/remote-image';
 
 describe('preferences controller', function () {
   let preferencesController;
@@ -356,6 +357,38 @@ describe('preferences controller', function () {
     });
   });
 
+  const ORIGIN = 'https://dapp.test';
+
+  /**
+   * Starts a token suggestion, and waits until it is pending or refused.
+   *
+   * @param {object} options - The wallet_watchAsset options.
+   * @param {string} [origin] - The suggesting site.
+   * @returns {Promise<{ result: Promise, suggestion: object }>} The request's
+   * answer, and the pending suggestion.
+   */
+  async function startSuggestion(options, origin = ORIGIN) {
+    const result = preferencesController._handleWatchAssetERC20(
+      options,
+      origin,
+    );
+    // The test awaits it when it matters.
+    result.catch(() => undefined);
+    const pending = () =>
+      Object.values(preferencesController.getSuggestedTokens()).find(
+        (suggestion) => suggestion.origin === origin,
+      );
+    const suggestion = await Promise.race([
+      result.then(() => undefined),
+      new Promise((resolve) => {
+        const check = () =>
+          pending() ? resolve(pending()) : setImmediate(check);
+        check();
+      }),
+    ]);
+    return { result, suggestion };
+  }
+
   describe('on watchAsset', function () {
     let stubHandleWatchAssetERC20, asy, req, res;
     const sandbox = sinon.createSandbox();
@@ -426,14 +459,34 @@ describe('preferences controller', function () {
 
     it('should trigger handle add asset if type supported', async function () {
       req.method = 'ecf_wallet_watchAsset';
+      req.origin = ORIGIN;
       req.params.type = 'ERC20';
+      req.params.options = { address: '0x1' };
+      stubHandleWatchAssetERC20.resolves(true);
       await preferencesController.requestWatchAsset(
         req,
         res,
         asy.next,
         asy.end,
       );
-      sandbox.assert.called(stubHandleWatchAssetERC20);
+      sandbox.assert.calledWith(
+        stubHandleWatchAssetERC20,
+        req.params.options,
+        ORIGIN,
+      );
+      assert.equal(res.result, true);
+      sandbox.assert.calledOnce(asy.end);
+    });
+
+    it('ends a request without params instead of leaving it pending', async function () {
+      await preferencesController.requestWatchAsset(
+        { method: 'wallet_watchAsset' },
+        res,
+        asy.next,
+        asy.end,
+      );
+      sandbox.assert.calledOnce(asy.end);
+      assert.ok(asy.end.firstCall.args[0] instanceof Error);
     });
   });
 
@@ -450,7 +503,9 @@ describe('preferences controller', function () {
       sandbox.restore();
     });
 
-    it('should add suggested token', async function () {
+    it('should add suggested token once the user accepts it', async function () {
+      preferencesController.setAddresses(['0x7e57e2']);
+      await preferencesController.setSelectedAddress('0x7e57e2');
       const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
       const symbol = 'ABBR';
       const decimals = 5;
@@ -458,49 +513,109 @@ describe('preferences controller', function () {
       const cached = 'data:image/png;base64,AAAA';
       req.params.options = { address, symbol, decimals, image };
 
-      sandbox
-        .stub(preferencesController, '_validateERC20AssetParams')
-        .returns(true);
-      preferencesController.openPopup = async () => undefined;
       const fetchImage = sinon.stub().resolves(cached);
       preferencesController.fetchImage = fetchImage;
+      const showWatchAssetRequest = sinon.spy();
+      preferencesController.showWatchAssetRequest = showWatchAssetRequest;
 
-      await preferencesController._handleWatchAssetERC20(req.params.options);
-      const suggested = preferencesController.getSuggestedTokens();
-      assert.equal(
-        Object.keys(suggested).length,
-        1,
-        `one token added ${Object.keys(suggested)}`,
+      const { result, suggestion } = await startSuggestion(req.params.options);
+      assert.equal(showWatchAssetRequest.calledOnce, true);
+      assert.deepEqual(
+        Object.keys(preferencesController.getSuggestedTokens()),
+        [suggestion.id],
       );
+      assert.equal(suggestion.origin, ORIGIN, 'records the suggesting site');
+      assert.equal(suggestion.address, address, 'set address correctly');
+      assert.equal(suggestion.symbol, symbol, 'set symbol correctly');
+      assert.equal(suggestion.decimals, decimals, 'set decimals correctly');
+      // A remote image is not downloaded, or shown, before the user agrees.
+      assert.equal(fetchImage.called, false);
+      assert.equal(suggestion.image, undefined);
 
-      assert.equal(
-        suggested[address].address,
-        address,
-        'set address correctly',
-      );
-      assert.equal(suggested[address].symbol, symbol, 'set symbol correctly');
-      assert.equal(
-        suggested[address].decimals,
-        decimals,
-        'set decimals correctly',
-      );
-      // The image is downloaded once and kept as a data URL.
+      await preferencesController.acceptWatchAsset(suggestion.id);
+      assert.equal(await result, true);
       assert.deepEqual(fetchImage.firstCall.args, [image]);
-      assert.equal(suggested[address].image, cached, 'set image correctly');
+      assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+      assert.deepEqual(preferencesController.getTokens(), [
+        { address, symbol, decimals },
+      ]);
+      assert.equal(preferencesController.getAssetImages()[address], cached);
     });
 
-    it('keeps a suggested image only as a data URL', async function () {
+    it('answers a declined suggestion with a user-rejected error', async function () {
+      const { result, suggestion } = await startSuggestion({
+        address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+        symbol: 'ABC',
+        decimals: 8,
+      });
+      preferencesController.rejectWatchAsset(suggestion.id);
+      await assert.rejects(result, { code: 4001 });
+      assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+      assert.deepEqual(preferencesController.getTokens(), []);
+    });
+
+    it('answers the site with the error when adding an accepted token fails', async function () {
+      const failure = new Error('network down');
+      preferencesController.fetchImage = sinon.stub().rejects(failure);
+      const { result, suggestion } = await startSuggestion({
+        address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+        symbol: 'ABC',
+        decimals: 8,
+        image: 'https://cdn.test/abc.png',
+      });
+      await assert.rejects(
+        preferencesController.acceptWatchAsset(suggestion.id),
+        failure,
+      );
+      await assert.rejects(result, failure);
+      assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+    });
+
+    it('refuses every pending suggestion when asked to', async function () {
+      const options = {
+        address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+        symbol: 'ABC',
+        decimals: 8,
+      };
+      const first = await startSuggestion(options);
+      const second = await startSuggestion(options, 'https://other.test');
+      preferencesController.rejectPendingWatchAssets();
+      await assert.rejects(first.result, { code: 4001 });
+      await assert.rejects(second.result, { code: 4001 });
+      assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+    });
+
+    it('allows one pending suggestion per site', async function () {
+      const options = {
+        address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
+        symbol: 'ABC',
+        decimals: 8,
+      };
+      await startSuggestion(options);
+      await assert.rejects(
+        preferencesController._handleWatchAssetERC20(options, ORIGIN),
+        { code: -32002 },
+      );
+      const other = await startSuggestion(options, 'https://other.test');
+      assert.equal(other.suggestion.origin, 'https://other.test');
+      assert.equal(
+        Object.keys(preferencesController.getSuggestedTokens()).length,
+        2,
+      );
+    });
+
+    it('shows a suggested image only if it is a data URL', async function () {
       const address = '0xd26114cd6ee289accf82350c8d8487fedb8a0c07';
-      preferencesController.openPopup = async () => undefined;
       preferencesController.fetchImage = sinon.stub().resolves(undefined);
       const suggest = async (image) => {
-        await preferencesController._handleWatchAssetERC20({
+        const { suggestion } = await startSuggestion({
           address,
           symbol: 'ABC',
           decimals: 8,
           image,
         });
-        return preferencesController.getSuggestedTokens()[address].image;
+        preferencesController.rejectWatchAsset(suggestion.id);
+        return suggestion.image;
       };
 
       assert.equal(
@@ -509,10 +624,14 @@ describe('preferences controller', function () {
       );
       assert.equal(await suggest('https://cdn.test/missing.png'), undefined);
       assert.equal(await suggest('ipfs://bafy'), undefined);
+      // One too large to be saved is not shown either.
       assert.equal(
-        await suggest(`data:image/png;base64,${'A'.repeat(200000)}`),
+        await suggest(
+          `data:image/png;base64,${'A'.repeat(MAX_IMAGE_BYTES * 2)}`,
+        ),
         undefined,
       );
+      assert.equal(preferencesController.fetchImage.called, false);
     });
 
     it('stores a token image only as a data URL', async function () {
@@ -654,13 +773,17 @@ describe('preferences controller', function () {
     });
 
     it('does not save a suggestion that is not a string', async function () {
-      preferencesController.openPopup = async () => undefined;
-      const result = await preferencesController._handleWatchAssetERC20({
-        address: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
-        symbol: { length: 1 },
-        decimals: 18,
-      });
-      assert.ok(result instanceof Error);
+      await assert.rejects(
+        preferencesController._handleWatchAssetERC20(
+          {
+            address: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: { length: 1 },
+            decimals: 18,
+          },
+          ORIGIN,
+        ),
+        { code: -32602 },
+      );
       assert.deepEqual(preferencesController.getSuggestedTokens(), {});
     });
 
@@ -678,6 +801,7 @@ describe('preferences controller', function () {
         },
       });
       assert.deepEqual(restored.getSuggestedTokens(), {});
+      assert.equal(restored.store.getState().suggestedTokens, undefined);
     });
 
     describe('checked against the token contract', function () {
@@ -703,50 +827,49 @@ describe('preferences controller', function () {
               result: results[request.params[0].data],
             }),
         });
-        preferencesController.openPopup = async () => undefined;
       }
 
       it("refuses a request that disagrees with the contract's decimals", async function () {
         useContract({ symbol: 'USDC', decimals: 6 });
-        const result = await preferencesController._handleWatchAssetERC20({
-          address,
-          symbol: 'USDC',
-          decimals: 18,
-        });
-        assert.match(result.message, /do not match the decimals/u);
+        await assert.rejects(
+          preferencesController._handleWatchAssetERC20(
+            { address, symbol: 'USDC', decimals: 18 },
+            ORIGIN,
+          ),
+          /do not match the decimals/u,
+        );
         assert.deepEqual(preferencesController.getSuggestedTokens(), {});
       });
 
       it("refuses a request that disagrees with the contract's symbol", async function () {
         useContract({ symbol: 'USDC', decimals: 6 });
-        const result = await preferencesController._handleWatchAssetERC20({
-          address,
-          symbol: 'USDT',
-          decimals: 6,
-        });
-        assert.match(result.message, /does not match the symbol/u);
+        await assert.rejects(
+          preferencesController._handleWatchAssetERC20(
+            { address, symbol: 'USDT', decimals: 6 },
+            ORIGIN,
+          ),
+          /does not match the symbol/u,
+        );
       });
 
       it("uses the contract's values and saves decimals as a number", async function () {
         useContract({ symbol: 'USDC', decimals: 6 });
-        await preferencesController._handleWatchAssetERC20({
+        const { suggestion: suggested } = await startSuggestion({
           address,
           symbol: 'usdc',
           decimals: '6',
         });
-        const suggested = preferencesController.getSuggestedTokens()[address];
         assert.equal(suggested.symbol, 'USDC');
         assert.strictEqual(suggested.decimals, 6);
       });
 
       it('falls back to the request when the contract returns nothing', async function () {
         useContract({});
-        await preferencesController._handleWatchAssetERC20({
+        const { suggestion: suggested } = await startSuggestion({
           address,
           symbol: 'ABC',
           decimals: 8,
         });
-        const suggested = preferencesController.getSuggestedTokens()[address];
         assert.equal(suggested.symbol, 'ABC');
         assert.strictEqual(suggested.decimals, 8);
       });

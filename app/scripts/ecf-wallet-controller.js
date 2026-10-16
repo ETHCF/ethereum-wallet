@@ -162,7 +162,7 @@ export default class EcfWalletController extends EventEmitter {
     this.preferencesController = new PreferencesController({
       initState: initState.PreferencesController,
       initLangCode: opts.initLangCode,
-      openPopup: opts.openPopup,
+      showWatchAssetRequest: opts.showPermissionRequest,
       network: this.networkController,
       // The provider is created below, so it is read when needed.
       getProvider: () => this.provider,
@@ -402,6 +402,7 @@ export default class EcfWalletController extends EventEmitter {
       TypesMessageManager: this.typedMessageManager.memStore,
       KeyringController: this.keyringController.memStore,
       PreferencesController: this.preferencesController.store,
+      WatchAssetRequests: this.preferencesController.watchAssetStore,
       AddressBookController: this.addressBookStore,
       NftController: this.nftsController.store,
       NftImages: this.nftsController.imagesStore,
@@ -582,6 +583,10 @@ export default class EcfWalletController extends EventEmitter {
         preferencesController.setUse4ByteResolution,
         preferencesController,
       ),
+      setRejectRequestsOnClose: nodeify(
+        preferencesController.setRejectRequestsOnClose,
+        preferencesController,
+      ),
       setUseNftDetection: nodeify(
         preferencesController.setUseNftDetection,
         preferencesController,
@@ -635,6 +640,10 @@ export default class EcfWalletController extends EventEmitter {
         this.networkRequestController.checkRpc,
         this.networkRequestController,
       ),
+      markNotificationPopupAsAutomaticallyClosed: (cb) => {
+        this.opts.markNotificationPopupAsAutomaticallyClosed?.();
+        cb(null);
+      },
       scheduleClipboardClear: nodeify(this.scheduleClipboardClear, this),
       clearClipboard: nodeify(this.clearClipboard, this),
 
@@ -657,8 +666,12 @@ export default class EcfWalletController extends EventEmitter {
         preferencesController.removeToken,
         preferencesController,
       ),
-      removeSuggestedTokens: nodeify(
-        preferencesController.removeSuggestedTokens,
+      acceptWatchAsset: nodeify(
+        preferencesController.acceptWatchAsset,
+        preferencesController,
+      ),
+      rejectWatchAsset: nodeify(
+        preferencesController.rejectWatchAsset,
         preferencesController,
       ),
       setAccountLabel: nodeify(
@@ -1383,6 +1396,55 @@ export default class EcfWalletController extends EventEmitter {
     messageManager.rejectMsg(msgId);
     if (typeof cb === 'function') {
       cb(null, this.getState());
+    }
+  }
+
+  /**
+   * Refuses every request still waiting for the user, as upstream does when
+   * the user closes the notification window, so that no site is left
+   * waiting on a prompt that is gone. A site waiting only for the wallet to
+   * unlock keeps waiting, as upstream's does; it is answered on unlock.
+   */
+  async rejectPendingApprovals() {
+    const rejections = [
+      ...Object.values(
+        this.txController.txStateManager.getUnapprovedTxList(),
+      ).map(
+        ({ id }) =>
+          () =>
+            this.txController.cancelTransaction(id),
+      ),
+      ...[
+        this.personalMessageManager,
+        this.typedMessageManager,
+        this.decryptMessageManager,
+        this.encryptionPublicKeyManager,
+      ].flatMap((messageManager) =>
+        Object.values(messageManager.getUnapprovedMsgs()).map(
+          ({ id }) =>
+            () =>
+              messageManager.rejectMsg(id),
+        ),
+      ),
+      ...this.permissionsController.approvals.store
+        .getState()
+        .permissionsRequests.map(
+          ({ metadata }) =>
+            () =>
+              this.permissionsController.rejectPermissionsRequest(metadata.id),
+        ),
+      ...[...this.networkRequestController.pending.keys()].map(
+        (id) => () => this.networkRequestController.reject(id),
+      ),
+      () => this.preferencesController.rejectPendingWatchAssets(),
+    ];
+    // One failure must not leave the other sites waiting.
+    for (const reject of rejections) {
+      try {
+        await reject();
+      } catch (error) {
+        log.error(error);
+      }
     }
   }
 

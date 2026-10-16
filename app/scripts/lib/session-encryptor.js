@@ -126,6 +126,25 @@ export default class SessionEncryptor {
     return data;
   }
 
+  /**
+   * Checks a password against the vault without keeping the derived key.
+   * Unlike decrypt, it leaves the cached key alone, so checking a password
+   * while the wallet is locked does not leave the vault key in memory.
+   *
+   * @param {string} password - The password to check.
+   * @param {string} vault - The serialized vault.
+   * @throws {Error} If the password does not decrypt the vault.
+   */
+  async verify(password, vault) {
+    const payload = JSON.parse(vault);
+    const key = await this.getKey(
+      password,
+      payload.salt,
+      getVaultIterations(payload),
+    );
+    await passworder.decryptWithKey(key, payload);
+  }
+
   isVaultUpdated(vault) {
     return isVaultUpdated(vault);
   }

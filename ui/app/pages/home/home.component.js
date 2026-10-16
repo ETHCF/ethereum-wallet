@@ -21,6 +21,7 @@ import {
   CONNECTED_ACCOUNTS_ROUTE,
 } from '../../helpers/constants/routes';
 import { toRelativeRoutePath } from '../../helpers/utils/routes.util';
+import { closeNotificationWindow } from '../../store/actions';
 import ConnectedAccounts from '../connected-accounts';
 import ConnectedSites from '../connected-sites';
 
@@ -98,7 +99,7 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount,
     });
     if (isNotification && totalUnapprovedCount === 0) {
-      global.platform.closeCurrentWindow();
+      closeNotificationWindow();
     } else if (redirectRoute) {
       navigate(redirectRoute);
     }
@@ -117,7 +118,7 @@ export default class Home extends PureComponent {
 
   componentDidUpdate(_, prevState) {
     if (!prevState.closing && this.state.closing) {
-      global.platform.closeCurrentWindow();
+      closeNotificationWindow();
     }
   }
 

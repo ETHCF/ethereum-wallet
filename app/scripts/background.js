@@ -14,7 +14,7 @@ import pump from 'pump';
 
 import ReadOnlyNetworkStore from './lib/network-store';
 import createStreamSink from './lib/createStreamSink';
-import NotificationManager from './lib/notification-manager';
+import NotificationManager, { POPUP_CLOSED } from './lib/notification-manager';
 import {
   PHISHING_CHECK,
   PHISHING_WARNING_CONTINUE,
@@ -54,7 +54,6 @@ const platform = new ExtensionPlatform();
 const notificationManager = new NotificationManager();
 
 let popupIsOpen = false;
-let notificationIsOpen = false;
 const openEcfWalletTabsIDs = {};
 const clipboardCleaner = new ClipboardCleaner({ extension });
 
@@ -313,7 +312,8 @@ async function setupController(initState, initLangCode) {
     showUnapprovedTx: triggerUi,
     showPermissionRequest: triggerUi,
     showUnlockRequest: triggerUi,
-    openPopup,
+    markNotificationPopupAsAutomaticallyClosed: () =>
+      notificationManager.markAsAutomaticallyClosed(),
     clipboardCleaner,
     // initial state
     initState,
@@ -490,14 +490,6 @@ async function setupController(initState, initLangCode) {
         });
       }
 
-      if (processName === ENVIRONMENT_TYPE_NOTIFICATION) {
-        notificationIsOpen = true;
-
-        endOfStream(portStream, () => {
-          notificationIsOpen = false;
-        });
-      }
-
       if (processName === ENVIRONMENT_TYPE_FULLSCREEN) {
         const tabId = remotePort.sender.tab.id;
         openEcfWalletTabsIDs[tabId] = true;
@@ -528,13 +520,41 @@ async function setupController(initState, initLangCode) {
   controller.typedMessageManager.on('updateBadge', updateBadge);
   controller.permissionsController.approvals.store.subscribe(updateBadge);
   controller.appStateController.on('updateBadge', updateBadge);
+  controller.preferencesController.watchAssetStore.subscribe(updateBadge);
+  controller.networkRequestController.on('update', updateBadge);
+
+  // Like upstream, closing the notification window refuses what it was
+  // asking about, so that the sites waiting on it get an answer. A user who
+  // turns this off keeps the requests, to answer later from the wallet.
+  notificationManager.on(POPUP_CLOSED, ({ automaticallyClosed }) => {
+    if (!automaticallyClosed) {
+      const { rejectRequestsOnClose } =
+        controller.preferencesController.store.getState();
+      if (rejectRequestsOnClose) {
+        controller.rejectPendingApprovals().catch(log.error);
+      }
+    } else if (getPendingApprovalCount() > 0) {
+      // A request that arrived as the wallet closed the window still needs it.
+      triggerUi();
+    }
+  });
 
   /**
    * Updates the Web Extension's "badge" number, on the toolbar icon.
-   * The number reflects the current number of pending transactions or message signatures needing user approval.
+   * The number reflects the current number of requests needing user approval.
    */
   function updateBadge() {
-    let label = '';
+    const count = getPendingApprovalCount();
+    extension.action.setBadgeText({ text: count ? String(count) : '' });
+    extension.action.setBadgeBackgroundColor({ color: '#037DD6' });
+  }
+
+  /**
+   * Counts the requests waiting for the user to approve or refuse them.
+   *
+   * @returns {number} The number of pending requests.
+   */
+  function getPendingApprovalCount() {
     const unapprovedTxCount = controller.txController.getUnapprovedTxCount();
     const { unapprovedPersonalMsgCount } = controller.personalMessageManager;
     const { unapprovedDecryptMsgCount } = controller.decryptMessageManager;
@@ -546,19 +566,20 @@ async function setupController(initState, initLangCode) {
         .permissionsRequests.length;
     const waitingForUnlockCount =
       controller.appStateController.waitingForUnlock.length;
-    const count =
+    const suggestedTokenCount = Object.keys(
+      controller.preferencesController.getSuggestedTokens(),
+    ).length;
+    return (
       unapprovedTxCount +
       unapprovedPersonalMsgCount +
       unapprovedDecryptMsgCount +
       unapprovedEncryptionPublicKeyMsgCount +
       unapprovedTypedMessagesCount +
       pendingPermissionRequests +
-      waitingForUnlockCount;
-    if (count) {
-      label = String(count);
-    }
-    extension.action.setBadgeText({ text: label });
-    extension.action.setBadgeBackgroundColor({ color: '#037DD6' });
+      waitingForUnlockCount +
+      suggestedTokenCount +
+      controller.networkRequestController.pendingCount
+    );
   }
 
   return { connectRemote, connectExternal, ensResolver, controller };
@@ -580,22 +601,6 @@ async function triggerUi() {
   if (!popupIsOpen && !currentlyActiveEcfWalletTab) {
     await notificationManager.showPopup();
   }
-}
-
-/**
- * Opens the browser popup for user confirmation of watchAsset
- * then it waits until user interact with the UI
- */
-async function openPopup() {
-  await triggerUi();
-  await new Promise((resolve) => {
-    const interval = setInterval(() => {
-      if (!notificationIsOpen) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 1000);
-  });
 }
 
 // On first install, open a new tab with ecf-wallet

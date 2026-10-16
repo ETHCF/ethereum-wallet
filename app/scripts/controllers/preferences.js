@@ -1,6 +1,8 @@
 import { isValidAddress } from '@ethereumjs/util';
 import EthQuery from '@metamask/eth-query';
 import { ObservableStore } from '@metamask/obs-store';
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
+import { nanoid } from 'nanoid';
 import pify from 'pify';
 
 import { normalizeChainId } from './network/chain-utils';
@@ -78,6 +80,9 @@ export default class PreferencesController {
       usePhishDetect: true,
       // Whether to look up unknown contract methods at 4byte.directory.
       use4ByteResolution: true,
+      // Whether closing the approval window refuses the requests in it, as
+      // upstream does, rather than leaving them waiting for the user.
+      rejectRequestsOnClose: true,
       // Whether to ask the NFT API for the selected account's NFTs, and
       // whether to download their images. Both contact third parties, so
       // both are off until the user turns them on.
@@ -102,10 +107,9 @@ export default class PreferencesController {
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link',
       ...opts.initState,
-      // A suggestion belongs to a live wallet_watchAsset request, so, like
-      // upstream's in-memory approvals, a saved one is not reloaded.
-      suggestedTokens: {},
     };
+    // Earlier versions saved suggestions with the preferences.
+    delete initState.suggestedTokens;
     // The wallet shows token images only from data URLs, so that showing
     // them asks no host for anything.
     const { kept, remote } = splitAssetImages(initState.assetImages);
@@ -116,7 +120,11 @@ export default class PreferencesController {
     this.fetchImage = opts.fetchImage ?? fetchImageAsDataUrl;
     this.store = new ObservableStore(initState);
     this.store.setMaxListeners(12);
-    this.openPopup = opts.openPopup;
+    // A suggestion belongs to a live wallet_watchAsset request, so, like
+    // upstream's approvals, it is kept in memory only, keyed by request id.
+    this.watchAssetStore = new ObservableStore({ suggestedTokens: {} });
+    this._watchAssetRequests = new Map();
+    this.showWatchAssetRequest = opts.showWatchAssetRequest;
     this._subscribeProviderType();
 
     global.setPreference = (key, value) => {
@@ -144,6 +152,16 @@ export default class PreferencesController {
    */
   setUse4ByteResolution(val) {
     this.store.updateState({ use4ByteResolution: val });
+  }
+
+  /**
+   * Setter for the `rejectRequestsOnClose` property
+   *
+   * @param {boolean} val - Whether closing the approval window refuses the
+   * requests in it
+   */
+  setRejectRequestsOnClose(val) {
+    this.store.updateState({ rejectRequestsOnClose: val });
   }
 
   /**
@@ -175,7 +193,7 @@ export default class PreferencesController {
   }
 
   getSuggestedTokens() {
-    return this.store.getState().suggestedTokens;
+    return this.watchAssetStore.getState().suggestedTokens;
   }
 
   getAssetImages() {
@@ -204,28 +222,23 @@ export default class PreferencesController {
    */
   async requestWatchAsset(req, res, next, end) {
     if (
-      req.method === 'ecf_wallet_watchAsset' ||
-      req.method === addInternalMethodPrefix('watchAsset')
+      req.method !== 'ecf_wallet_watchAsset' &&
+      req.method !== addInternalMethodPrefix('watchAsset')
     ) {
-      const { type, options } = req.params;
-      switch (type) {
-        case 'ERC20': {
-          const result = await this._handleWatchAssetERC20(options);
-          if (result instanceof Error) {
-            end(result);
-          } else {
-            res.result = result;
-            end();
-          }
-          return;
-        }
-        default:
-          end(new Error(`Asset of type ${type} not supported`));
-          return;
-      }
+      next();
+      return;
     }
-
-    next();
+    // The engine does not await middleware, so every path must end the request.
+    try {
+      const { type, options } = req.params ?? {};
+      if (type !== 'ERC20') {
+        throw rpcErrors.invalidParams(`Asset of type ${type} not supported`);
+      }
+      res.result = await this._handleWatchAssetERC20(options, req.origin);
+      end();
+    } catch (error) {
+      end(error);
+    }
   }
 
   /**
@@ -348,11 +361,63 @@ export default class PreferencesController {
     return selected;
   }
 
-  removeSuggestedTokens() {
-    return new Promise((resolve) => {
-      this.store.updateState({ suggestedTokens: {} });
-      resolve({});
-    });
+  /**
+   * Adds a suggested token the user approved, downloading its image only
+   * now, and answers the site's wallet_watchAsset request with true.
+   *
+   * @param {string} id - The suggestion's request id.
+   */
+  async acceptWatchAsset(id) {
+    const { suggestion, image, resolve, reject } =
+      this._takeWatchAssetRequest(id);
+    try {
+      const cachedImage = await this._cacheImage(image);
+      await this.addToken(
+        suggestion.address,
+        suggestion.symbol,
+        suggestion.decimals,
+        cachedImage,
+      );
+      resolve(true);
+    } catch (error) {
+      // The request is already taken, so the site must be answered here.
+      reject(error);
+      throw error;
+    }
+  }
+
+  /**
+   * Refuses a suggested token, answering the site's wallet_watchAsset request
+   * with a user-rejected error, as upstream does.
+   *
+   * @param {string} id - The suggestion's request id.
+   */
+  rejectWatchAsset(id) {
+    this._takeWatchAssetRequest(id).reject(
+      providerErrors.userRejectedRequest(),
+    );
+  }
+
+  /**
+   * Refuses every pending suggested token, as upstream does with its
+   * approvals when the user closes the notification window.
+   */
+  rejectPendingWatchAssets() {
+    for (const id of [...this._watchAssetRequests.keys()]) {
+      this.rejectWatchAsset(id);
+    }
+  }
+
+  _takeWatchAssetRequest(id) {
+    const request = this._watchAssetRequests.get(id);
+    if (!request) {
+      throw new Error(`Token suggestion "${id}" not found.`);
+    }
+    this._watchAssetRequests.delete(id);
+    const suggestedTokens = { ...this.getSuggestedTokens() };
+    delete suggestedTokens[id];
+    this.watchAssetStore.updateState({ suggestedTokens });
+    return request;
   }
 
   /**
@@ -714,14 +779,17 @@ export default class PreferencesController {
   }
 
   /**
-   * Handle the suggestion of an ERC20 asset through `watchAsset`
+   * Handle the suggestion of an ERC20 asset through `watchAsset`. Like
+   * upstream's approval, each request waits for the user's answer, records
+   * the site that made it, and a site may have one pending at a time.
    *
    * @param {object} options - The asset options: address, symbol, decimals
    * and image.
-   * @returns {Promise<boolean|Error>} Resolves with whether the token was
-   * added after the user responded, or with the validation error.
+   * @param {string} origin - The site that suggested the token.
+   * @returns {Promise<boolean>} Resolves with true once the user adds the
+   * token; rejects with a user-rejected error if they decline.
    */
-  async _handleWatchAssetERC20(options) {
+  async _handleWatchAssetERC20(options, origin) {
     const { address, symbol, decimals, image } = options ?? {};
     let tokenOpts;
     try {
@@ -731,22 +799,46 @@ export default class PreferencesController {
         decimals,
         image,
       });
-    } catch (err) {
-      return err;
+    } catch (error) {
+      throw rpcErrors.invalidParams(error.message);
     }
-    const tokenAddress = normalizeAddress(tokenOpts.rawAddress);
-    const cachedImage = await this._cacheImage(tokenOpts.image);
-    const suggested = this.getSuggestedTokens();
-    suggested[tokenAddress] = {
-      address: tokenAddress,
+    const pending = Object.values(this.getSuggestedTokens());
+    if (pending.some((suggestion) => suggestion.origin === origin)) {
+      throw rpcErrors.resourceUnavailable(
+        `A token suggestion from ${origin} is already pending. Please wait.`,
+      );
+    }
+    // The prompt shows only an image the site sent as a data URL small
+    // enough to be saved; a remote one is downloaded if, and only once, the
+    // user adds the token. Any other image is dropped now.
+    const isDataUrl = isImageDataUrl(tokenOpts.image);
+    const dataUrl =
+      isDataUrl && tokenOpts.image.length <= MAX_IMAGE_DATA_URL_LENGTH
+        ? tokenOpts.image
+        : undefined;
+    const id = nanoid();
+    const suggestion = {
+      id,
+      origin,
+      address: normalizeAddress(tokenOpts.rawAddress),
       symbol: tokenOpts.symbol,
       decimals: tokenOpts.decimals,
-      image: cachedImage,
+      image: dataUrl,
+      time: Date.now(),
     };
-    this.store.updateState({ suggestedTokens: suggested });
-    return this.openPopup().then(() =>
-      this.getTokens().some((token) => token.address === tokenAddress),
-    );
+    const result = new Promise((resolve, reject) => {
+      this._watchAssetRequests.set(id, {
+        suggestion,
+        image: isDataUrl ? dataUrl : tokenOpts.image,
+        resolve,
+        reject,
+      });
+    });
+    this.watchAssetStore.updateState({
+      suggestedTokens: { ...this.getSuggestedTokens(), [id]: suggestion },
+    });
+    this.showWatchAssetRequest?.();
+    return result;
   }
 
   /**

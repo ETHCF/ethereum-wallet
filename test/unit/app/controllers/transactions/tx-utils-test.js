@@ -24,9 +24,50 @@ describe('txUtils', function () {
         /not a positive number/u,
       );
     });
+
+    it('refuses amounts that are not hexadecimal', function () {
+      for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
+        assert.throws(
+          () =>
+            txUtils.validateTxParams({
+              from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+              to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+              [field]: '0x12g',
+            }),
+          new RegExp(`Invalid ${field}`, 'u'),
+        );
+      }
+    });
   });
 
   describe('#normalizeTxParams', function () {
+    // A number is signed as decimal but shown as hex, so 1000 wei would be
+    // displayed as 4096.
+    it('refuses amounts given as numbers', function () {
+      for (const field of ['nonce', 'value', 'gas', 'gasPrice', 'data']) {
+        assert.throws(
+          () =>
+            txUtils.normalizeTxParams({
+              from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+              to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+              [field]: 1000,
+            }),
+          new RegExp(`Invalid ${field}: expected a hexadecimal string`, 'u'),
+        );
+      }
+    });
+
+    it('accepts hex strings, and omits zero numbers', function () {
+      const normalized = txUtils.normalizeTxParams({
+        from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+        value: '3e8',
+        nonce: 0,
+      });
+      assert.equal(normalized.value, '0x3e8');
+      assert.equal(normalized.nonce, undefined);
+    });
+
     it('should normalize txParams', function () {
       const txParams = {
         chainId: '0x1',

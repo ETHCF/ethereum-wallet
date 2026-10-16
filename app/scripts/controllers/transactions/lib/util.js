@@ -49,6 +49,11 @@ export function normalizeTxParams(txParams, lowerCase = true) {
   const normalizedTxParams = {};
   for (const key in normalizers) {
     if (txParams[key]) {
+      // A number would be signed as decimal but shown as hex, so a site could
+      // display one amount and sign another. Hex strings only, as upstream.
+      if (typeof txParams[key] !== 'string') {
+        throw new Error(`Invalid ${key}: expected a hexadecimal string`);
+      }
       normalizedTxParams[key] = normalizers[key](txParams[key], lowerCase);
     }
   }
@@ -91,6 +96,15 @@ export function validateTxParams(txParams) {
       throw new Error(
         `Invalid transaction value of ${txParams.value} number must be in wei`,
       );
+    }
+  }
+  for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
+    if (
+      txParams[field] !== undefined &&
+      (typeof txParams[field] !== 'string' ||
+        !/^0x[0-9a-f]*$/iu.test(txParams[field]))
+    ) {
+      throw new Error(`Invalid ${field}: expected a hexadecimal quantity`);
     }
   }
 }

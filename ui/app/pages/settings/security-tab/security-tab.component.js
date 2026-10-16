@@ -17,6 +17,8 @@ export default class SecurityTab extends PureComponent {
     usePhishDetect: PropTypes.bool.isRequired,
     setUse4ByteResolution: PropTypes.func.isRequired,
     use4ByteResolution: PropTypes.bool.isRequired,
+    setRejectRequestsOnClose: PropTypes.func.isRequired,
+    rejectRequestsOnClose: PropTypes.bool.isRequired,
     setUseNftDetection: PropTypes.func.isRequired,
     useNftDetection: PropTypes.bool.isRequired,
     setDisplayNftMedia: PropTypes.func.isRequired,
@@ -127,6 +129,19 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
+  renderRejectOnCloseToggle() {
+    const { t } = this.context;
+    const { rejectRequestsOnClose, setRejectRequestsOnClose } = this.props;
+
+    return this.renderToggle({
+      title: t('rejectRequestsOnClose'),
+      description: t('rejectRequestsOnCloseDescription'),
+      value: rejectRequestsOnClose,
+      onToggle: setRejectRequestsOnClose,
+      testId: 'reject-on-close-toggle',
+    });
+  }
+
   renderNftToggles() {
     const { t } = this.context;
     const {
@@ -167,6 +182,7 @@ export default class SecurityTab extends PureComponent {
         {this.renderSeedWords()}
         {this.renderPhishingDetectionToggle()}
         {this.render4ByteResolutionToggle()}
+        {this.renderRejectOnCloseToggle()}
         {this.renderNftToggles()}
       </div>
     );

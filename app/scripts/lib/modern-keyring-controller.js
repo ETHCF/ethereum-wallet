@@ -104,7 +104,12 @@ export default class ModernKeyringController extends EventEmitter {
   }
 
   async verifyPassword(password) {
-    await this.encryptor.decrypt(password, this._getVault());
+    // An encryptor without verify caches no key, so decrypting only checks.
+    if (this.encryptor.verify) {
+      await this.encryptor.verify(password, this._getVault());
+    } else {
+      await this.encryptor.decrypt(password, this._getVault());
+    }
   }
 
   getKeyringClassForType(type) {

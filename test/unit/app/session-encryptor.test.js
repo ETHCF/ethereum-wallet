@@ -107,6 +107,36 @@ describe('Manifest V3 vault sessions', function () {
     assert.deepEqual(values, {});
   });
 
+  it('checks a password without keeping the vault key', async function () {
+    const vault = await passworder.encrypt('correct', []);
+    const encryptor = new SessionEncryptor(storage);
+    await encryptor.verify('correct', vault);
+    assert.equal(encryptor.key, null);
+    assert.equal(encryptor.cached, null);
+    await encryptor.save();
+    assert.deepEqual(values, {});
+    await assert.rejects(
+      encryptor.verify('incorrect', vault),
+      /Incorrect password/u,
+    );
+  });
+
+  it('leaves a locked wallet without a vault key after a password check', async function () {
+    const vault = await passworder.encrypt('correct', []);
+    const encryptor = new SessionEncryptor(storage);
+    const controller = new KeyringController({
+      encryptor,
+      initState: { vault },
+    });
+    // Revealing the seed or exporting a key checks the password first.
+    await controller.verifyPassword('correct');
+    assert.equal(encryptor.key, null);
+    await assert.rejects(
+      controller.verifyPassword('incorrect'),
+      /Incorrect password/u,
+    );
+  });
+
   it('derives new vault keys with 600,000 PBKDF2 rounds and records them in the vault', async function () {
     const encryptor = new SessionEncryptor(storage);
     const vault = await encryptor.encrypt('password', [{ secret: 1 }]);

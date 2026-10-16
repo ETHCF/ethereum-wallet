@@ -49,8 +49,17 @@
   "osTheme": {
     "message": "System"
   },
+  "rejectRequestsOnClose": {
+    "message": "Refuse Requests When the Approval Window Is Closed"
+  },
+  "rejectRequestsOnCloseDescription": {
+    "message": "Closing the approval window refuses the transactions, signatures and other site requests waiting in it. Turn this off to keep them waiting, so you can answer them later from the wallet."
+  },
   "seedPhraseNotBackedUp": {
     "message": "Your seed phrase is not backed up."
+  },
+  "siteSuggestsToken": {
+    "message": "$1 would like you to add this token."
   },
   "switchToThisAccount": {
     "message": "Switch to this account"

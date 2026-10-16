@@ -22,10 +22,6 @@ We try to ensure certain criteria are met before deploying:
 
 Bump the version by hand in a pull request: set `version` in `app/manifest/_base.json`.
 
-## Preparing for Sensitive Changes
-
-In the case that a new release has sensitive changes that cannot be fully verified prior to publication, please follow the [sensitive release protocol](./sensitive-release.md).
-
 ## Building
 
 Each CI run uploads the packaged builds as the `extension-builds` artifact (kept for 7 days). Once the version bump pull request is reviewed and merged to `main`, download that run's builds for publication.

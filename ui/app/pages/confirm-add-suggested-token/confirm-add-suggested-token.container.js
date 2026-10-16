@@ -4,26 +4,28 @@ import { compose } from 'redux';
 import ConfirmAddSuggestedToken from './confirm-add-suggested-token.component';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import withRouter from '../../helpers/higher-order-components/with-router';
-import { addToken, removeSuggestedTokens } from '../../store/actions';
+import { acceptWatchAsset, rejectWatchAsset } from '../../store/actions';
 
 const mapStateToProps = (state) => {
   const {
-    ecfWallet: { pendingTokens, suggestedTokens, tokens },
+    ecfWallet: { suggestedTokens = {}, tokens },
   } = state;
-  const params = { ...pendingTokens, ...suggestedTokens };
+  // One suggestion at a time, oldest first, so each is answered on its own.
+  const [suggestion] = Object.values(suggestedTokens).sort(
+    (a, b) => a.time - b.time,
+  );
 
   return {
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
-    pendingTokens: params,
+    suggestion,
     tokens,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToken: ({ address, symbol, decimals, image }) =>
-      dispatch(addToken(address, symbol, Number(decimals), image)),
-    removeSuggestedTokens: () => dispatch(removeSuggestedTokens()),
+    acceptWatchAsset: (id) => dispatch(acceptWatchAsset(id)),
+    rejectWatchAsset: (id) => dispatch(rejectWatchAsset(id)),
   };
 };
 

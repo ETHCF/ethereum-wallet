@@ -12,7 +12,6 @@ Source, issues and releases are on [GitHub](https://github.com/ETHCF/ethereum-wa
 - [Telemetry and third-party services](./privacy.md)
 - [Design system](./design-system.md)
 - [Publishing guide](./publishing.md)
-- [Sensitive release protocol](./sensitive-release.md)
 - [How to take a state dump](./state_dump.md)
 - [Translation guide](./translating-guide.md)
 - [Using the Trezor emulator](./trezor-emulator.md)

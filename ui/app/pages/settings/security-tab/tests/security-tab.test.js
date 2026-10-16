@@ -19,6 +19,8 @@ describe('Security Tab', function () {
     usePhishDetect: true,
     setUse4ByteResolution: sinon.spy(),
     use4ByteResolution: true,
+    setRejectRequestsOnClose: sinon.spy(),
+    rejectRequestsOnClose: true,
     setUseNftDetection: sinon.spy(),
     useNftDetection: false,
     setDisplayNftMedia: sinon.spy(),
@@ -50,6 +52,13 @@ describe('Security Tab', function () {
   it('turns off contract method lookups at 4byte.directory', function () {
     wrapper.find('[role="switch"]').at(1).simulate('click');
     assert(props.setUse4ByteResolution.calledOnceWithExactly(false));
+  });
+
+  it('stops closing the approval window from refusing its requests', function () {
+    wrapper
+      .find('[data-testid="reject-on-close-toggle"] [role="switch"]')
+      .simulate('click');
+    assert(props.setRejectRequestsOnClose.calledOnceWithExactly(false));
   });
 
   it('turns on NFT detection, and offers NFT images only once it is on', function () {

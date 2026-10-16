@@ -913,6 +913,55 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('#rejectPendingApprovals', function () {
+    it('refuses every kind of pending request, even if one refusal fails', async function () {
+      const { txController, permissionsController, networkRequestController } =
+        ecfWalletController;
+      sandbox
+        .stub(txController.txStateManager, 'getUnapprovedTxList')
+        .returns({ 1: { id: 1 } });
+      sandbox
+        .stub(txController, 'cancelTransaction')
+        .rejects(new Error('tx failure'));
+      sandbox
+        .stub(permissionsController.approvals.store, 'getState')
+        .returns({ permissionsRequests: [{ metadata: { id: 'p1' } }] });
+      sandbox.stub(permissionsController, 'rejectPermissionsRequest');
+      sandbox.stub(
+        ecfWalletController.preferencesController,
+        'rejectPendingWatchAssets',
+      );
+      ecfWalletController.personalMessageManager.addMsg({
+        id: 5,
+        status: 'unapproved',
+        msgParams: {},
+      });
+      networkRequestController.showApprovalRequest = noop;
+      const networkRequest = networkRequestController.addRequest(
+        'https://site.test',
+        { type: 'switch', network: {}, warnings: [], perform: noop },
+      );
+
+      await ecfWalletController.rejectPendingApprovals();
+
+      assert.deepEqual(txController.cancelTransaction.firstCall.args, [1]);
+      assert.equal(
+        ecfWalletController.personalMessageManager.getMsg(5).status,
+        'rejected',
+      );
+      assert.deepEqual(
+        permissionsController.rejectPermissionsRequest.firstCall.args,
+        ['p1'],
+      );
+      await assert.rejects(networkRequest, { code: 4001 });
+      assert.equal(
+        ecfWalletController.preferencesController.rejectPendingWatchAssets
+          .calledOnce,
+        true,
+      );
+    });
+  });
+
   describe('#setupUntrustedCommunication', function () {
     const mockTxParams = { from: TEST_ADDRESS };
 

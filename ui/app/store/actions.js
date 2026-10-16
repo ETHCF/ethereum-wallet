@@ -710,7 +710,7 @@ export function cancelTxs(txDataList) {
     });
 
     if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      global.platform.closeCurrentWindow();
+      await closeNotificationWindow();
     }
   };
 }
@@ -926,22 +926,34 @@ export function addTokens(tokens) {
   };
 }
 
-export function removeSuggestedTokens() {
+/**
+ * Answers a site's wallet_watchAsset suggestion.
+ *
+ * @param {string} id - The suggestion's request id.
+ * @param {boolean} accept - Whether to add the token.
+ * @returns {Function} The thunk.
+ */
+function answerWatchAsset(id, accept) {
   return async (dispatch) => {
     try {
       await withLoading(dispatch, () =>
-        promisifiedBackground.removeSuggestedTokens(),
+        accept
+          ? promisifiedBackground.acceptWatchAsset(id)
+          : promisifiedBackground.rejectWatchAsset(id),
       );
     } catch (err) {
       dispatch(displayWarning(err.message));
     }
-    dispatch(clearPendingTokens());
-    if (getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION) {
-      global.platform.closeCurrentWindow();
-      return;
-    }
     await forceUpdateEcfWalletState(dispatch);
   };
+}
+
+export function acceptWatchAsset(id) {
+  return answerWatchAsset(id, true);
+}
+
+export function rejectWatchAsset(id) {
+  return answerWatchAsset(id, false);
 }
 
 export function updateTokens(newTokens) {
@@ -1200,13 +1212,27 @@ export function hideModal(payload) {
   };
 }
 
+/**
+ * Closes the notification window once nothing is left in it to answer. The
+ * background is told first, so that it does not take the close for the user
+ * refusing the requests.
+ */
+export async function closeNotificationWindow() {
+  try {
+    await promisifiedBackground.markNotificationPopupAsAutomaticallyClosed();
+  } catch (error) {
+    log.error(error);
+  }
+  global.platform.closeCurrentWindow();
+}
+
 export function closeCurrentNotificationWindow() {
   return (_dispatch, getState) => {
     if (
       getEnvironmentType() === ENVIRONMENT_TYPE_NOTIFICATION &&
       !hasUnconfirmedTransactions(getState())
     ) {
-      global.platform.closeCurrentWindow();
+      closeNotificationWindow();
     }
   };
 }
@@ -1452,6 +1478,19 @@ export function setUse4ByteResolution(val) {
     dispatch(showLoadingIndication());
     log.debug(`background.setUse4ByteResolution`);
     background.setUse4ByteResolution(val, (err) => {
+      dispatch(hideLoadingIndication());
+      if (err) {
+        dispatch(displayWarning(err.message));
+      }
+    });
+  };
+}
+
+export function setRejectRequestsOnClose(val) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication());
+    log.debug(`background.setRejectRequestsOnClose`);
+    background.setRejectRequestsOnClose(val, (err) => {
       dispatch(hideLoadingIndication());
       if (err) {
         dispatch(displayWarning(err.message));
