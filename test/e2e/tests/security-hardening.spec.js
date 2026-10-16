@@ -444,7 +444,56 @@ describe('Security hardening', function () {
     );
   });
 
-  it('explains a token permit and requires acknowledgement when the spender is not a contract', async function () {
+  it('exports a private key after password confirmation and a long press', async function () {
+    await withFixtures(
+      { fixtures: 'personal-sign', title: this.test.title },
+      async ({ driver }) => {
+        await unlock(driver);
+        await driver.clickElement(
+          By.css('[data-testid="account-options-menu-button"]'),
+        );
+        await driver.clickElement(
+          By.css('[data-testid="account-options-menu__account-details"]'),
+        );
+        await driver.clickElement(
+          By.xpath(
+            '//button[contains(@class, "account-details-modal__button") and text()="Export Private Key"]',
+          ),
+        );
+        await (
+          await driver.findElement(
+            By.css('.export-private-key-modal__password-input'),
+          )
+        ).sendKeys(PASSWORD);
+        await driver.clickElement(
+          By.css('.export-private-key-modal__button.btn-secondary'),
+        );
+        const holdButton = await driver.findElement(
+          By.css('[data-testid="hold-to-reveal-button"]'),
+        );
+        await driver.driver
+          .actions({ async: true })
+          .move({ origin: holdButton })
+          .press()
+          .pause(2500)
+          .release()
+          .perform();
+        await driver.findElement(
+          By.css('.export-private-key-modal__password-display-textarea'),
+        );
+        const keyVisible = await driver.driver.executeScript(`
+          const key = document.querySelector('.export-private-key-modal__password-display-textarea').value;
+          return /^[0-9a-f]{64}$/i.test(key);
+        `);
+        assert.equal(keyVisible, true);
+        await driver.clickElement(
+          By.css('.export-private-key-modal__button.btn-secondary'),
+        );
+      },
+    );
+  });
+
+  it('requires acknowledgement for a dangerous permit despite unsigned revocation fields', async function () {
     await withFixtures(
       { dapp: true, fixtures: 'personal-sign', title: this.test.title },
       async ({ driver }) => {
@@ -481,6 +530,9 @@ describe('Security hardening', function () {
             value: `0x${'f'.repeat(64)}`,
             nonce: 0,
             deadline: `0x${'f'.repeat(64)}`,
+            // Neither field is signed. These must not suppress the warnings.
+            allowed: false,
+            expiry: 1,
           },
         };
         await startRequest(driver, 'permit', {

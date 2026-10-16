@@ -1,8 +1,8 @@
 # How to take a State Dump
 
-Sometimes a UI bug is hard to reproduce, but we'd like to rapidly develop against the application state that caused the bug.
+Sometimes a UI bug is hard to reproduce. A diagnostic summary can help a developer understand the wallet's status when the bug occurred.
 
-In this case, an ECF Wallet developer will sometimes ask a user with a bug to perform a "state dump", so we can use some internal tools to reproduce and fix the bug.
+An ECF Wallet developer may ask for a "state dump". This is an allowlisted summary of wallet status, counts of accounts and pending requests, chain ID, locale, and browser/version/platform information. It excludes private keys, recovery phrases, vaults, account addresses, RPC URLs, site information, and transaction or message contents. It is not a complete copy of wallet state.
 
 To take a state dump, follow these steps:
 
@@ -11,5 +11,5 @@ To take a state dump, follow these steps:
 3. In case it isn't already selected, click the "Console" tab in the new Developer Tools window.
 4. In the console, type this command exactly: `logState()`. This should print a bunch of JSON text into your console.
 5. Copy that printed JSON text
-6. *Optional*: Anonymize that text if you'd like (you may change all instances of an account address to another valid account address, for example) We may automate the anonymization in the future.
+6. Review the summary before sharing it. Never add private keys, recovery phrases, or passwords to a bug report.
 7. Send that JSON text to the developer, ideally pasting it in the issue regarding the bug.

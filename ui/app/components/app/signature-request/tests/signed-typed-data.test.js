@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { getSignedTypedData } from '../signed-typed-data';
+import { getSignedTypedData } from '../../../../../../app/scripts/lib/signed-typed-data';
 
 describe('getSignedTypedData', function () {
   const types = {

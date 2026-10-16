@@ -116,7 +116,7 @@ describe('App State', function () {
       type: actions.GO_HOME,
     });
 
-    assert.equal(state.accountDetail.privateKey, '');
+    assert.deepStrictEqual(state.accountDetail, {});
     assert.equal(state.warning, null);
   });
 
@@ -126,7 +126,7 @@ describe('App State', function () {
       value: 'context address',
     });
     assert.equal(state.forgottenPassword, null); // default
-    assert.equal(state.accountDetail.privateKey, ''); // default
+    assert.deepStrictEqual(state.accountDetail, {});
   });
 
   it('clears account details', function () {
@@ -285,23 +285,11 @@ describe('App State', function () {
     assert.equal(state.warning, undefined);
   });
 
-  it('shows private key', function () {
-    const state = reduceApp(ecfWalletState, {
-      type: actions.SHOW_PRIVATE_KEY,
-      value: 'private key',
+  it('closes the private key export modal when locked', function () {
+    const unlocked = reduceApp(ecfWalletState, {
+      type: actions.MODAL_OPEN,
+      payload: { name: 'EXPORT_PRIVATE_KEY' },
     });
-
-    assert.equal(state.accountDetail.privateKey, 'private key');
-  });
-
-  it('closes any modal and drops an exported private key when locked', function () {
-    const unlocked = reduceApp(
-      reduceApp(ecfWalletState, {
-        type: actions.MODAL_OPEN,
-        payload: { name: 'EXPORT_PRIVATE_KEY' },
-      }),
-      { type: actions.SHOW_PRIVATE_KEY, value: 'private key' },
-    );
     assert.equal(unlocked.modal.open, true);
 
     const state = reduceApp(unlocked, { type: actions.LOCK_ECF_WALLET });

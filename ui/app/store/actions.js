@@ -1332,7 +1332,8 @@ export function exportAccount(password, address) {
       throw err;
     }
 
-    dispatch(showPrivateKey(result));
+    // Only the export modal should hold the plaintext key, never Redux state
+    // or an action that can be retained by diagnostics or developer tooling.
     return result;
   };
 }
@@ -1351,13 +1352,6 @@ export function changePassword(oldPassword, newPassword) {
   return async () => {
     log.debug(`background.changePassword`);
     await promisifiedBackground.changePassword(oldPassword, newPassword);
-  };
-}
-
-export function showPrivateKey(key) {
-  return {
-    type: actionConstants.SHOW_PRIVATE_KEY,
-    value: key,
   };
 }
 

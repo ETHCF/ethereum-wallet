@@ -23,7 +23,12 @@ function createManifestTasks({ browserPlatforms }) {
           // Lets the wallet check that a site's icon does not resolve to
           // this computer or the local network before downloading it. Added here because merge()
           // would overwrite the base list by index.
-          result.permissions = [...result.permissions, 'dns'];
+          result.permissions = [
+            ...result.permissions.filter(
+              (permission) => permission !== 'offscreen',
+            ),
+            'dns',
+          ];
         } else {
           result.minimum_chrome_version = '120';
         }

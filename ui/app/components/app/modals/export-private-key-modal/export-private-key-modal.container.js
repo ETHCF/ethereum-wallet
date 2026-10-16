@@ -20,7 +20,6 @@ function mapStateToPropsFactory() {
     selectedIdentity = selectedIdentity || getSelectedIdentity(state);
     return {
       warning: state.appState.warning,
-      privateKey: state.appState.accountDetail.privateKey,
       selectedIdentity,
       previousModalState: state.appState.modal.previousModalState.name,
     };

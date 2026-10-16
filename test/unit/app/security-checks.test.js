@@ -1,4 +1,5 @@
 import { encode as abiEncode } from '@metamask/abi-utils';
+import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util';
 import { strict as assert } from 'assert';
 
 import { functionSelector } from '../../../app/scripts/lib/abi-method-decoder';
@@ -320,13 +321,48 @@ describe('On-device security checks', function () {
   describe('typed data', function () {
     const now = Date.UTC(2026, 9, 1);
     const soon = Math.floor(now / 1000) + 3600;
-    const permit = (message, primaryType = 'Permit') =>
-      JSON.stringify({ primaryType, domain: {}, types: {}, message });
+    const permitTypes = {
+      EIP712Domain: [],
+      Permit: [
+        { name: 'owner', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'value', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'deadline', type: 'uint256' },
+      ],
+    };
+    const daiTypes = {
+      EIP712Domain: [],
+      Permit: [
+        { name: 'holder', type: 'address' },
+        { name: 'spender', type: 'address' },
+        { name: 'nonce', type: 'uint256' },
+        { name: 'expiry', type: 'uint256' },
+        { name: 'allowed', type: 'bool' },
+      ],
+    };
+    const permit2Types = {
+      EIP712Domain: [],
+      PermitSingle: [
+        { name: 'details', type: 'PermitDetails' },
+        { name: 'spender', type: 'address' },
+        { name: 'sigDeadline', type: 'uint256' },
+      ],
+      PermitDetails: [
+        { name: 'token', type: 'address' },
+        { name: 'amount', type: 'uint160' },
+        { name: 'expiration', type: 'uint48' },
+        { name: 'nonce', type: 'uint48' },
+      ],
+    };
+    const permit = (message, primaryType = 'Permit', types = permitTypes) =>
+      JSON.stringify({ primaryType, domain: {}, types, message });
 
     it('decodes EIP-2612, DAI and Permit2 permits', function () {
       assert.equal(
         decodePermit({
           primaryType: 'Permit',
+          types: permitTypes,
           message: { spender: SPENDER, value: '5', deadline: soon },
         }).amounts[0].toString(),
         '5',
@@ -334,12 +370,14 @@ describe('On-device security checks', function () {
       assert.equal(
         decodePermit({
           primaryType: 'Permit',
+          types: daiTypes,
           message: { spender: SPENDER, allowed: true, expiry: 0 },
         }).unlimited,
         true,
       );
       const single = decodePermit({
         primaryType: 'PermitSingle',
+        types: permit2Types,
         message: {
           spender: SPENDER,
           sigDeadline: soon,
@@ -382,13 +420,11 @@ describe('On-device security checks', function () {
         'alertLongLivedPermit',
       ]);
       const dai = await getTypedDataAlerts({
-        data: permit({
-          holder: OWN,
-          spender: SPENDER,
-          nonce: 0,
-          expiry: 0,
-          allowed: true,
-        }),
+        data: permit(
+          { holder: OWN, spender: SPENDER, nonce: 0, expiry: 0, allowed: true },
+          'Permit',
+          daiTypes,
+        ),
         now,
         ...makeContext(),
       });
@@ -402,7 +438,17 @@ describe('On-device security checks', function () {
     it('ignores revocations and other messages, and flags unreadable data', async function () {
       assert.deepEqual(
         await getTypedDataAlerts({
-          data: permit({ spender: SPENDER, allowed: false, expiry: 0 }),
+          data: permit(
+            {
+              holder: OWN,
+              spender: SPENDER,
+              nonce: 0,
+              allowed: false,
+              expiry: 0,
+            },
+            'Permit',
+            daiTypes,
+          ),
           now,
           ...makeContext(),
         }),
@@ -425,6 +471,111 @@ describe('On-device security checks', function () {
           }),
         ),
         ['alertSecurityChecksFailed'],
+      );
+    });
+
+    it('keeps EIP-2612 warnings when unsigned fields pretend to revoke a permit', async function () {
+      const data = JSON.parse(
+        permit({
+          owner: OWN,
+          spender: STRANGER,
+          value: MAX,
+          nonce: 0,
+          deadline: MAX,
+        }),
+      );
+      const forged = {
+        ...data,
+        message: { ...data.message, allowed: false, expiry: 1 },
+      };
+      assert.deepEqual(
+        TypedDataUtils.eip712Hash(data, SignTypedDataVersion.V4),
+        TypedDataUtils.eip712Hash(forged, SignTypedDataVersion.V4),
+      );
+      const alerts = await getTypedDataAlerts({ data, now, ...makeContext() });
+      assert.deepEqual(ids(alerts), [
+        'alertSpenderNotContract',
+        'alertPermitSignature',
+        'alertUnlimitedApproval',
+        'alertLongLivedPermit',
+      ]);
+      assert.deepEqual(
+        await getTypedDataAlerts({
+          data: JSON.stringify(forged),
+          now,
+          ...makeContext(),
+        }),
+        alerts,
+      );
+    });
+
+    it('does not treat a mixed or non-boolean Permit schema as a DAI revocation', async function () {
+      for (const fields of [
+        [...permitTypes.Permit, { name: 'allowed', type: 'bool' }],
+        daiTypes.Permit.map((field) =>
+          field.name === 'allowed' ? { ...field, type: 'uint256' } : field,
+        ),
+      ]) {
+        const alerts = await getTypedDataAlerts({
+          data: permit(
+            {
+              owner: OWN,
+              holder: OWN,
+              spender: STRANGER,
+              value: MAX,
+              nonce: 0,
+              deadline: MAX,
+              expiry: 0,
+              allowed: false,
+            },
+            'Permit',
+            { ...permitTypes, Permit: fields },
+          ),
+          now,
+          ...makeContext(),
+        });
+        assert.ok(ids(alerts).includes('alertPermitSignature'));
+        assert.ok(ids(alerts).includes('alertUnlimitedApproval'));
+      }
+    });
+
+    it('ignores unsigned nested Permit2 fields when computing warnings', async function () {
+      const types = {
+        ...permit2Types,
+        // A custom schema omits expiration; an unsigned value must not make
+        // the signature appear short-lived.
+        PermitDetails: permit2Types.PermitDetails.filter(
+          ({ name }) => name !== 'expiration',
+        ),
+      };
+      const data = JSON.parse(
+        permit(
+          {
+            spender: SPENDER,
+            sigDeadline: 0,
+            details: { token: TOKEN, amount: '7', nonce: 0 },
+          },
+          'PermitSingle',
+          types,
+        ),
+      );
+      const forged = {
+        ...data,
+        message: {
+          ...data.message,
+          allowed: false,
+          details: { ...data.message.details, expiration: soon },
+        },
+      };
+      assert.deepEqual(
+        TypedDataUtils.eip712Hash(data, SignTypedDataVersion.V4),
+        TypedDataUtils.eip712Hash(forged, SignTypedDataVersion.V4),
+      );
+      const alerts = await getTypedDataAlerts({ data, now, ...makeContext() });
+      assert.ok(ids(alerts).includes('alertLongLivedPermit'));
+      assert.deepEqual(
+        await getTypedDataAlerts({ data: forged, now, ...makeContext() }),
+        alerts,
       );
     });
   });

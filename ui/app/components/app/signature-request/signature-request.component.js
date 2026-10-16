@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
 import { ENVIRONMENT_TYPE_NOTIFICATION } from '../../../../../app/scripts/lib/enums';
+import { getSignedTypedData } from '../../../../../app/scripts/lib/signed-typed-data';
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util';
 import Identicon from '../../ui/identicon';
 import SecurityAlerts, { getAlertAcknowledgement } from '../security-alerts';
 import Footer from './signature-request-footer';
 import Header from './signature-request-header';
 import Message from './signature-request-message';
-import { getSignedTypedData } from './signed-typed-data';
 
 export default class SignatureRequest extends PureComponent {
   static propTypes = {

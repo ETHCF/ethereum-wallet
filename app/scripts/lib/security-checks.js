@@ -3,6 +3,7 @@ import BN from 'bn.js';
 
 import { functionSelector, readArguments } from './abi-method-decoder';
 import { toChecksumHexAddress } from './checksum-address';
+import { getSignedTypedData } from './signed-typed-data';
 import { parseQuantity } from './util';
 
 // Every check here runs on this device, using data the wallet already has and
@@ -402,6 +403,14 @@ export async function getTransactionAlerts({
 const isAddress = (value) =>
   typeof value === 'string' && ethUtil.isValidAddress(value);
 
+const DAI_PERMIT_FIELDS = [
+  { name: 'holder', type: 'address' },
+  { name: 'spender', type: 'address' },
+  { name: 'nonce', type: 'uint256' },
+  { name: 'expiry', type: 'uint256' },
+  { name: 'allowed', type: 'bool' },
+];
+
 /**
  * Reads token spending permissions out of typed data: EIP-2612 and DAI
  * permits, and Uniswap Permit2 approvals and transfers.
@@ -410,14 +419,25 @@ const isAddress = (value) =>
  * @returns {object | undefined} The spender, amounts and expiry, if this is a permit.
  */
 export function decodePermit(typedData) {
-  const { primaryType, message } = typedData || {};
+  const { primaryType, types } = typedData || {};
+  // EIP-712 ignores undeclared fields. They must not change the warnings
+  // either, including fields nested inside Permit2 details and transfers.
+  const { message } = getSignedTypedData(typedData || {});
   if (!message || typeof message !== 'object' || !isAddress(message.spender)) {
     return undefined;
   }
   const { spender } = message;
   switch (primaryType) {
     case 'Permit':
-      if (Object.hasOwn(message, 'allowed')) {
+      if (
+        Array.isArray(types?.Permit) &&
+        types.Permit.length === DAI_PERMIT_FIELDS.length &&
+        DAI_PERMIT_FIELDS.every(
+          ({ name, type }, index) =>
+            types.Permit[index]?.name === name &&
+            types.Permit[index]?.type === type,
+        )
+      ) {
         // DAI-style: all or nothing; expiry 0 never expires.
         return {
           spender,

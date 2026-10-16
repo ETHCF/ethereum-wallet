@@ -856,23 +856,18 @@ describe('Actions', function () {
       exportAccountSpy.restore();
     });
 
-    it('exports with a single password check in the background', async function () {
+    it('returns the key to the caller without putting it in Redux actions', async function () {
       const store = mockStore();
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
         { type: 'HIDE_LOADING_INDICATION' },
-        {
-          type: 'SHOW_PRIVATE_KEY',
-          value:
-            '7ec73b91bb20f209a7ff2d32f542c3420b4fccf14abcc7840d2eff0ebcb18505',
-        },
       ];
 
       exportAccountSpy = sinon.spy(background, 'exportAccount');
       // Re-unlocking would cancel any vault write still queued.
       const submitPasswordSpy = sinon.spy(background, 'submitPassword');
 
-      await store.dispatch(
+      const privateKey = await store.dispatch(
         actions.exportAccount(
           password,
           '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
@@ -883,6 +878,18 @@ describe('Actions', function () {
       assert(exportAccountSpy.calledOnce);
       assert.equal(exportAccountSpy.firstCall.args[1], password);
       assert.deepEqual(store.getActions(), expectedActions);
+      assert.equal(
+        privateKey,
+        '7ec73b91bb20f209a7ff2d32f542c3420b4fccf14abcc7840d2eff0ebcb18505',
+      );
+      assert.equal(
+        JSON.stringify(store.getActions()).includes(privateKey),
+        false,
+      );
+      assert.equal(
+        JSON.stringify(store.getState()).includes(privateKey),
+        false,
+      );
     });
 
     it('reports a wrong password as such', async function () {

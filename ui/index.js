@@ -1,5 +1,4 @@
 import copyToClipboard from 'copy-to-clipboard';
-import { clone } from 'lodash';
 import log from 'loglevel';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -9,6 +8,7 @@ import {
   getUnconnectedAccountAlertEnabledness,
   getUnconnectedAccountAlertShown,
 } from './app/ducks/ecf-wallet/ecf-wallet';
+import { getDiagnosticState } from './app/helpers/utils/diagnostic-state';
 import { fetchLocale } from './app/helpers/utils/i18n-helper';
 import switchDirection from './app/helpers/utils/switch-direction';
 import { applyTheme } from './app/helpers/utils/theme';
@@ -134,14 +134,14 @@ async function startApp(ecfWalletState, backgroundConnection, opts) {
 }
 
 /**
- * Adds `window.getCleanAppState`, which returns a copy of the app state with
- * the extension version and browser user agent added, for debugging.
+ * Adds `window.getCleanAppState`, which returns an allowlisted diagnostic
+ * summary with the extension version and browser user agent.
  *
  * @param {object} store - The Redux store.
  */
 function setupDebuggingHelpers(store) {
   window.getCleanAppState = function () {
-    const state = clone(store.getState());
+    const state = getDiagnosticState(store.getState());
     state.version = global.platform.getVersion();
     state.browser = window.navigator.userAgent;
     return state;

@@ -28,7 +28,6 @@ export const SHOW_ACCOUNTS_PAGE = 'SHOW_ACCOUNTS_PAGE';
 export const SHOW_CONF_TX_PAGE = 'SHOW_CONF_TX_PAGE';
 // account detail screen
 export const SHOW_SEND_TOKEN_PAGE = 'SHOW_SEND_TOKEN_PAGE';
-export const SHOW_PRIVATE_KEY = 'SHOW_PRIVATE_KEY';
 export const SET_ACCOUNT_LABEL = 'SET_ACCOUNT_LABEL';
 export const CLEAR_ACCOUNT_DETAILS = 'CLEAR_ACCOUNT_DETAILS';
 // tx conf screen

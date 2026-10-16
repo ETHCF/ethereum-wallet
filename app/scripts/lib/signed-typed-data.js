@@ -44,7 +44,8 @@ function pickStruct(typeName, value, types, depth) {
 }
 
 /**
- * Keeps only the parts of EIP-712 typed data that the signature covers.
+ * Keeps only the parts of EIP-712 typed data that the signature covers, shared
+ * by the confirmation UI and background security checks.
  *
  * Fields that `types` does not declare are left out of the hash, so a site can
  * add them only to mislead, for example `vaIue` beside `value`, or a domain

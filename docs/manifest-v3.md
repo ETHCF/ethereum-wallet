@@ -1,9 +1,10 @@
 # Manifest V3
 
 Chromium builds use a service worker and require Chrome 120 or newer. Firefox
-builds use the Manifest V3 event-page implementation and require Firefox 128 or
-newer. The build generates the appropriate background declaration for each
-browser. Node.js 24.21.0 is the development runtime.
+builds use the Manifest V3 event-page implementation and require Firefox 140 or
+newer (142 on Android) for built-in data transmission consent. The build generates
+the appropriate background declaration for each browser. Node.js 24.21.0 is the
+development runtime.
 
 ## Background lifecycle
 

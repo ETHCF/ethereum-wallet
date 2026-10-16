@@ -25,7 +25,6 @@ import {
   SHOW_ACCOUNT_DETAIL,
   SHOW_CONF_TX_PAGE,
   SHOW_LOADING,
-  SHOW_PRIVATE_KEY,
   SHOW_SEND_TOKEN_PAGE,
   SIDEBAR_CLOSE,
   SIDEBAR_OPEN,
@@ -187,9 +186,7 @@ export default function reduceApp(state = {}, action) {
     case GO_HOME:
       return {
         ...appState,
-        accountDetail: {
-          privateKey: '',
-        },
+        accountDetail: {},
         warning: null,
       };
 
@@ -199,9 +196,7 @@ export default function reduceApp(state = {}, action) {
         forgottenPassword: appState.forgottenPassword
           ? !appState.forgottenPassword
           : null,
-        accountDetail: {
-          privateKey: '',
-        },
+        accountDetail: {},
       };
 
     case SHOW_ACCOUNTS_PAGE:
@@ -282,14 +277,6 @@ export default function reduceApp(state = {}, action) {
       return {
         ...appState,
         warning: undefined,
-      };
-
-    case SHOW_PRIVATE_KEY:
-      return {
-        ...appState,
-        accountDetail: {
-          privateKey: action.value,
-        },
       };
 
     case SET_MOUSE_USER_STATE:

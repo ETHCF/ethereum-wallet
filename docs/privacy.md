@@ -31,6 +31,14 @@ Blast when it cannot be reached, so an outage at one host does not take the
 wallet offline. Any of these sees the requests the wallet makes. You can select
 your own RPC endpoint in Settings > Networks.
 
+The Firefox manifest declares `financialAndPaymentInfo` for wallet addresses,
+balance queries, transaction simulations, and broadcasts sent to RPC endpoints
+and hardware-wallet integrations. It also declares `browsingActivity` for ENS
+website lookups and site-provided icon requests, which can disclose domains or
+page-specific URLs to their hosts. These are required disclosures for wallet
+functionality, not analytics. Firefox 140 or newer (142 on Android) presents the
+consent at installation using its [built-in data consent system](https://extensionworkshop.com/documentation/develop/firefox-builtin-data-consent/).
+
 Before you confirm a transaction, the wallet asks the selected RPC endpoint to
 simulate it with the standard `eth_simulateV1` method, and reads the symbol and
 decimals of the tokens it moves with `eth_call`, to show an estimate of your
