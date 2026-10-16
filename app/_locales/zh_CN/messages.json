@@ -992,5 +992,736 @@
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "天然气价格加速上涨"
+  },
+  "acceptTermsOfUse": {
+    "message": "我已阅读并同意$1",
+    "description": "$1 is the `terms` message"
+  },
+  "backUpNow": {
+    "message": "立即备份"
+  },
+  "darkTheme": {
+    "message": "深色"
+  },
+  "eth_accounts": {
+    "message": "查看您已授权账户的地址（必需）",
+    "description": "The description for the `eth_accounts` permission"
+  },
+  "connectedSites": {
+    "message": "已连接的网站"
+  },
+  "connectedSitesDescription": {
+    "message": "$1 已连接到这些网站。它们可以查看您的账户地址。",
+    "description": "$1 is the account name"
+  },
+  "connectedSitesEmptyDescription": {
+    "message": "$1 未连接到任何网站。",
+    "description": "$1 is the account name"
+  },
+  "connectedAccountsDescriptionSingular": {
+    "message": "您有 1 个账户已连接到此网站。"
+  },
+  "connectedAccountsDescriptionPlural": {
+    "message": "您有 $1 个账户已连接到此网站。",
+    "description": "$1 is the number of accounts"
+  },
+  "connectedAccountsEmptyDescription": {
+    "message": "ECF Wallet 未连接到此网站。要连接到 web3 网站，请在该网站上找到连接按钮。"
+  },
+  "currentAccountNotConnected": {
+    "message": "您当前的账户未连接"
+  },
+  "lightTheme": {
+    "message": "浅色"
+  },
+  "localNetworkConfirm": {
+    "message": "这是我自己运行的节点，我要添加它"
+  },
+  "localNetworkWarning": {
+    "message": "此 RPC URL 指向您自己的计算机，通常是开发节点。只有在您清楚那里运行的是什么时才添加它。"
+  },
+  "osTheme": {
+    "message": "跟随系统"
+  },
+  "rejectRequestsOnClose": {
+    "message": "关闭批准窗口时拒绝请求"
+  },
+  "rejectRequestsOnCloseDescription": {
+    "message": "关闭批准窗口会拒绝其中正在等待的交易、签名及其他网站请求。关闭此选项可让它们继续等待，以便您稍后在钱包中处理。"
+  },
+  "seedPhraseNotBackedUp": {
+    "message": "您的助记词尚未备份。"
+  },
+  "siteSuggestsToken": {
+    "message": "$1 希望您添加此代币。"
+  },
+  "switchToThisAccount": {
+    "message": "切换到此账户"
+  },
+  "disconnectThisAccount": {
+    "message": "断开此账户的连接"
+  },
+  "permissions": {
+    "message": "权限"
+  },
+  "showPermissions": {
+    "message": "显示权限"
+  },
+  "authorizedPermissions": {
+    "message": "您已授予以下权限"
+  },
+  "connectManually": {
+    "message": "手动连接到当前网站"
+  },
+  "disconnect": {
+    "message": "断开连接"
+  },
+  "disconnectAllAccounts": {
+    "message": "断开所有账户的连接"
+  },
+  "disconnectPrompt": {
+    "message": "断开与 $1 的连接"
+  },
+  "disconnectAllAccountsConfirmationDescription": {
+    "message": "确定要断开连接吗？网站的部分功能可能无法使用。"
+  },
+  "dismiss": {
+    "message": "关闭"
+  },
+  "connecting": {
+    "message": "正在连接..."
+  },
+  "connectWithEcfWallet": {
+    "message": "使用 ECF Wallet 连接"
+  },
+  "connectTo": {
+    "message": "连接到 $1",
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to ecf-wallet"
+  },
+  "connectToAll": {
+    "message": "连接到您的所有$1",
+    "description": "$1 will be replaced by the translation of connectToAllAccounts"
+  },
+  "connectToAllAccounts": {
+    "message": "账户",
+    "description": "will replace $1 in connectToAll, completing the sentence 'connect to all of your accounts', will be text that shows list of accounts on hover"
+  },
+  "connectToMultiple": {
+    "message": "连接到 $1",
+    "description": "$1 will be replaced by the translation of connectToMultipleNumberOfAccounts"
+  },
+  "connectToMultipleNumberOfAccounts": {
+    "message": "$1 个账户",
+    "description": "$1 is the number of accounts to which the web3 site/application is asking to connect; this will substitute $1 in connectToMultiple"
+  },
+  "accessAndSpendNotice": {
+    "message": "$1 最多可访问并花费此最大金额",
+    "description": "$1 is the url of the site requesting ability to spend"
+  },
+  "active": {
+    "message": "当前"
+  },
+  "activity": {
+    "message": "活动"
+  },
+  "allowOriginSpendToken": {
+    "message": "允许 $1 花费您的 $2 吗？",
+    "description": "$1 is the url of the site and $2 is the symbol of the token they are requesting to spend"
+  },
+  "allowThisSiteTo": {
+    "message": "允许此网站："
+  },
+  "allowExternalExtensionTo": {
+    "message": "允许此外部扩展程序："
+  },
+  "allowWithdrawAndSpend": {
+    "message": "允许 $1 提取并花费不超过以下金额：",
+    "description": "The url of the site that requested permission to 'withdraw and spend'"
+  },
+  "amountWithColon": {
+    "message": "金额："
+  },
+  "approveSpendLimit": {
+    "message": "批准 $1 的花费限额",
+    "description": "The token symbol that is being approved"
+  },
+  "assets": {
+    "message": "资产"
+  },
+  "connectAccountOrCreate": {
+    "message": "连接账户或新建账户"
+  },
+  "contactUs": {
+    "message": "联系我们！"
+  },
+  "currentExtension": {
+    "message": "当前扩展程序页面"
+  },
+  "customSpendLimit": {
+    "message": "自定义花费限额"
+  },
+  "dontShowThisAgain": {
+    "message": "不再显示"
+  },
+  "editPermission": {
+    "message": "编辑权限"
+  },
+  "endOfFlowMessage7": {
+    "message": "如有疑问或发现可疑活动，请访问 https://github.com/ETHCF/ethereum-wallet/issues。切勿公开您的助记词或私钥。"
+  },
+  "externalExtension": {
+    "message": "外部扩展程序"
+  },
+  "onboardingReturnNotice": {
+    "message": "“$1”将关闭此标签页并返回 $2",
+    "description": "Return the user to the site that initiated onboarding"
+  },
+  "enterMaxSpendLimit": {
+    "message": "输入最大花费限额"
+  },
+  "errorCode": {
+    "message": "代码：$1",
+    "description": "Displayed error code for debugging purposes. $1 is the error code"
+  },
+  "errorDetails": {
+    "message": "错误详情",
+    "description": "Title for collapsible section that displays error details for debugging purposes"
+  },
+  "errorMessage": {
+    "message": "消息：$1",
+    "description": "Displayed error message for debugging purposes. $1 is the error message"
+  },
+  "errorName": {
+    "message": "名称：$1",
+    "description": "Displayed error name for debugging purposes. $1 is the error name"
+  },
+  "errorPageTitle": {
+    "message": "ECF Wallet 遇到错误",
+    "description": "Title of generic error page"
+  },
+  "errorPageMessage": {
+    "message": "请重新加载页面后重试，或在 https://github.com/ETHCF/ethereum-wallet/issues 报告问题"
+  },
+  "errorPagePopupMessage": {
+    "message": "请关闭并重新打开弹出窗口后重试，或在 https://github.com/ETHCF/ethereum-wallet/issues 报告问题"
+  },
+  "errorStack": {
+    "message": "堆栈：",
+    "description": "Title for error stack, which is displayed for debugging purposes"
+  },
+  "failureMessage": {
+    "message": "出现问题，我们无法完成此操作"
+  },
+  "feeAssociatedRequest": {
+    "message": "此请求需要支付费用。"
+  },
+  "functionApprove": {
+    "message": "函数：Approve"
+  },
+  "gasEstimateFailed": {
+    "message": "无法估算此交易所需的 Gas，交易可能会失败。请检查您的网络连接，或自行设置 Gas Limit。"
+  },
+  "gasLimit": {
+    "message": "Gas Limit"
+  },
+  "gasPrice": {
+    "message": "Gas 价格 (GWEI)"
+  },
+  "hideTokenSymbol": {
+    "message": "隐藏 $1",
+    "description": "$1 is the symbol for a token (e.g. 'DAI')"
+  },
+  "importAccountMsg": {
+    "message": " 导入的账户不会与您最初创建的 ECF Wallet 账户助记词相关联。了解有关导入账户的更多信息，请点击 "
+  },
+  "knownTokenWarning": {
+    "message": "此操作将编辑您钱包中已列出的代币，这可能被用于对您进行网络钓鱼。只有在您确定要更改这些代币所代表的内容时才批准。"
+  },
+  "reusedTokenNameWarning": {
+    "message": "此处有代币重复使用了您所关注的另一个代币的符号，这可能造成混淆或具有欺骗性。"
+  },
+  "lastConnected": {
+    "message": "上次连接"
+  },
+  "legalLastUpdated": {
+    "message": "最后更新于 $1",
+    "description": "$1 is the date a legal document, such as the Terms of Use, was last changed"
+  },
+  "localhost": {
+    "message": "Localhost 8545"
+  },
+  "lockTimeTooGreat": {
+    "message": "锁定时间过长"
+  },
+  "myAccounts": {
+    "message": "我的账户"
+  },
+  "negativeETH": {
+    "message": "不能发送负数金额的 ETH。"
+  },
+  "onlyConnectTrust": {
+    "message": "请只连接您信任的网站。"
+  },
+  "onlyAddTrustedNetworks": {
+    "message": "恶意的以太坊网络提供商可能会伪造区块链状态并记录您的网络活动。请只添加您信任的自定义网络。"
+  },
+  "notCurrentAccount": {
+    "message": "这是正确的账户吗？它与您钱包中当前选中的账户不同"
+  },
+  "permissionCheckedIconDescription": {
+    "message": "您已批准此权限"
+  },
+  "permissionUncheckedIconDescription": {
+    "message": "您尚未批准此权限"
+  },
+  "plusXMore": {
+    "message": "+ 另外 $1 个",
+    "description": "$1 is a number of additional but unshown items in a list- this message will be shown in place of those items"
+  },
+  "proposedApprovalLimit": {
+    "message": "建议的批准限额"
+  },
+  "queued": {
+    "message": "排队中"
+  },
+  "receive": {
+    "message": "接收"
+  },
+  "seedPhrasePlaceholderPaste": {
+    "message": "从剪贴板粘贴助记词"
+  },
+  "showSeedPhrase": {
+    "message": "显示助记词"
+  },
+  "selectingAllWillAllow": {
+    "message": "全选将允许此网站查看您当前的所有账户。请确保您信任此网站。"
+  },
+  "selectAccounts": {
+    "message": "选择账户"
+  },
+  "selectAll": {
+    "message": "全选"
+  },
+  "sendSpecifiedTokens": {
+    "message": "发送 $1",
+    "description": "Symbol of the specified token"
+  },
+  "searchAccounts": {
+    "message": "搜索账户"
+  },
+  "noAccountsFound": {
+    "message": "未找到与搜索条件匹配的账户"
+  },
+  "signatureRequest1": {
+    "message": "消息"
+  },
+  "spenderWithColon": {
+    "message": "花费方：",
+    "description": "Labels the address an approval lets spend the user's tokens"
+  },
+  "spendLimitPermission": {
+    "message": "花费限额权限"
+  },
+  "spendLimitRequestedBy": {
+    "message": "$1 请求的花费限额",
+    "description": "Origin of the site requesting the spend limit"
+  },
+  "spendLimitTooLarge": {
+    "message": "花费限额过大"
+  },
+  "spendLimitInvalid": {
+    "message": "花费限额无效；必须为正数"
+  },
+  "statusConnected": {
+    "message": "已连接"
+  },
+  "statusNotConnected": {
+    "message": "未连接"
+  },
+  "submit": {
+    "message": "提交"
+  },
+  "theme": {
+    "message": "主题"
+  },
+  "themeDescription": {
+    "message": "选择浅色或深色外观，或跟随系统设置"
+  },
+  "toAddress": {
+    "message": "至：$1",
+    "description": "$1 is the address to include in the To label. It is typically shortened first using shortenAddress"
+  },
+  "toWithColon": {
+    "message": "至："
+  },
+  "tokenOptions": {
+    "message": "代币选项"
+  },
+  "trustSiteApprovePermission": {
+    "message": "您信任此网站吗？授予此权限即表示您允许 $1 提取您的 $2 并为您自动执行交易。",
+    "description": "$1 is the url requesting permission and $2 is the symbol of the currency that the request is for"
+  },
+  "alertDisableTooltip": {
+    "message": "可在“设置 > 提醒”中更改"
+  },
+  "unlimited": {
+    "message": "无限制"
+  },
+  "urlErrorMsg": {
+    "message": "URL 需要带有相应的 HTTP/HTTPS 前缀。"
+  },
+  "urlExistsErrorMsg": {
+    "message": "该 URL 已存在于现有网络列表中"
+  },
+  "useNftDetection": {
+    "message": "检测 NFT"
+  },
+  "useNftDetectionDescription": {
+    "message": "显示 NFT 标签页，列出所选账户在 Ethereum、Arbitrum、Optimism、Polygon 和 Base 上的 NFT。钱包会向 MetaMask 的 NFT API (nft.api.cx.metamask.io) 查询这些 NFT，该服务可以看到该账户的地址和您的 IP 地址。关闭此选项将清除该列表。"
+  },
+  "displayNftMedia": {
+    "message": "显示 NFT 图片"
+  },
+  "displayNftMediaDescription": {
+    "message": "从创作者所选的主机（或您的 IPFS 网关）下载每个 NFT 的图片一次，并保存在钱包中。这些主机可以看到您的 IP 地址。关闭此选项将删除已下载的图片。"
+  },
+  "nfts": {
+    "message": "NFT"
+  },
+  "nftsLoading": {
+    "message": "正在查找 NFT…"
+  },
+  "noNfts": {
+    "message": "在此网络上未找到此账户的 NFT。"
+  },
+  "nftsLookupFailed": {
+    "message": "NFT 查询失败。请稍后重试。"
+  },
+  "nftsUnsupportedNetwork": {
+    "message": "仅在 $1 上查询 NFT。",
+    "description": "$1 is a list of network names"
+  },
+  "use4ByteResolution": {
+    "message": "查询合约方法名称"
+  },
+  "use4ByteResolutionDescription": {
+    "message": "当交易调用钱包无法识别的合约函数时，向 4byte.directory 查询其名称。4byte.directory 可以看到该函数的标识符和您的 IP 地址。"
+  },
+  "usePhishingDetection": {
+    "message": "使用网络钓鱼检测"
+  },
+  "usePhishingDetectionDescription": {
+    "message": "对针对以太坊用户的网络钓鱼域名显示警告"
+  },
+  "retryTransaction": {
+    "message": "重试交易"
+  },
+  "xOfY": {
+    "message": "$1 / $2",
+    "description": "$1 and $2 are intended to be two numbers, where $2 is a total, and $1 is a count towards that total"
+  },
+  "decryptRequest": {
+    "message": "解密请求"
+  },
+  "decrypt": {
+    "message": "解密"
+  },
+  "decryptMessageNotice": {
+    "message": "$1 希望读取此消息以完成您的操作",
+    "description": "$1 is the web3 site name"
+  },
+  "decryptEcfWallet": {
+    "message": "解密消息"
+  },
+  "decryptCopy": {
+    "message": "复制加密消息"
+  },
+  "decryptInlineError": {
+    "message": "由于以下错误，无法解密此消息：$1",
+    "description": "$1 is error message"
+  },
+  "provide": {
+    "message": "提供"
+  },
+  "encryptionPublicKeyRequest": {
+    "message": "请求加密公钥"
+  },
+  "encryptionPublicKeyNotice": {
+    "message": "$1 希望获取您的加密公钥。同意后，此网站将能够向您发送加密消息。",
+    "description": "$1 is the web3 site name"
+  },
+  "srpQuizTitle": {
+    "message": "快速安全检查"
+  },
+  "srpQuizDescription": {
+    "message": "回答两个问题，证明您知道如何保护好您的助记词。"
+  },
+  "srpQuizProgress": {
+    "message": "第 $1 题，共 $2 题",
+    "description": "$1 is the current question number and $2 is the number of questions"
+  },
+  "srpQuizQuestionOne": {
+    "message": "客服聊天中有人说需要您的助记词才能修复您的钱包。您会怎么做？"
+  },
+  "srpQuizQuestionOneRightAnswer": {
+    "message": "拒绝并停止与对方交谈"
+  },
+  "srpQuizQuestionOneWrongAnswer": {
+    "message": "发送给对方，以便他们提供帮助"
+  },
+  "srpQuizQuestionOneRightAnswerTitle": {
+    "message": "正确。真正的客服绝不会索要助记词。"
+  },
+  "srpQuizQuestionOneRightAnswerDescription": {
+    "message": "谁拥有您的助记词，谁就能控制您的资金。真正提供帮助的人都不需要它，因此任何索要助记词的请求都是企图盗取您的资产。"
+  },
+  "srpQuizQuestionOneWrongAnswerTitle": {
+    "message": "错误。这种请求就是企图盗窃。"
+  },
+  "srpQuizQuestionOneWrongAnswerDescription": {
+    "message": "您的助记词可以完全控制您的资金。无论对方自称是谁，正当的人都绝不会向您索要它。"
+  },
+  "srpQuizQuestionTwo": {
+    "message": "您应该把助记词保存在哪里？"
+  },
+  "srpQuizQuestionTwoRightAnswer": {
+    "message": "离线手写记录，保存在只有我能拿到的地方"
+  },
+  "srpQuizQuestionTwoWrongAnswer": {
+    "message": "存为截图或云笔记，随时方便取用"
+  },
+  "srpQuizQuestionTwoRightAnswerTitle": {
+    "message": "正确。请离线保存。"
+  },
+  "srpQuizQuestionTwoRightAnswerDescription": {
+    "message": "将其记在纸张或金属上并存放在私密的地方，可以避开恶意软件和被盗的账户。没有它，任何人都无法替您恢复钱包，因此请在同样安全的地方另存一份备份。"
+  },
+  "srpQuizQuestionTwoWrongAnswerTitle": {
+    "message": "不安全。线上副本会被盗取。"
+  },
+  "srpQuizQuestionTwoWrongAnswerDescription": {
+    "message": "照片、云笔记和消息可能被恶意软件或任何进入该账户的人读取。请改为离线保存。"
+  },
+  "holdToRevealSeedPhrase": {
+    "message": "按住以显示助记词"
+  },
+  "holdToRevealPrivateKey": {
+    "message": "按住以显示私钥"
+  },
+  "holdToRevealHint": {
+    "message": "请确认没有人能看到您的屏幕。"
+  },
+  "sensitiveClipboardWarning": {
+    "message": "已复制。您的剪贴板将在 1 分钟后清空。在此之前，任何能读取剪贴板的应用都能看到它。"
+  },
+  "clearClipboardNow": {
+    "message": "立即清空剪贴板"
+  },
+  "clipboardCleared": {
+    "message": "剪贴板已清空。"
+  },
+  "clipboardClearFailed": {
+    "message": "无法自动清空剪贴板。请复制其他内容将其覆盖。"
+  },
+  "testNetworks": {
+    "message": "测试网络"
+  },
+  "networkRequestAddTitle": {
+    "message": "添加此网络？"
+  },
+  "networkRequestSwitchTitle": {
+    "message": "切换网络？"
+  },
+  "networkRequestAddDescription": {
+    "message": "$1 希望添加此网络并切换到该网络。",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestSwitchDescription": {
+    "message": "$1 希望将钱包切换到此网络。",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestCurrentNetwork": {
+    "message": "当前网络"
+  },
+  "networkRequestApproveAdd": {
+    "message": "添加并切换"
+  },
+  "networkRequestApproveSwitch": {
+    "message": "切换网络"
+  },
+  "networkRequestCheckRpc": {
+    "message": "检查 RPC"
+  },
+  "networkRequestCheckingRpc": {
+    "message": "正在检查…"
+  },
+  "networkRequestRpcOk": {
+    "message": "该 RPC 端点已响应，并且服务于此链。钱包仅在您检查或批准时才会联系它。"
+  },
+  "networkRequestRpcNotice": {
+    "message": "此 RPC 提供商由该网站选择。该提供商可以看到您的 IP 地址以及您使用的账户，并且可能显示虚假的余额或交易结果。"
+  },
+  "networkRequestUnknownChain": {
+    "message": "ECF Wallet 无法识别此网络。只有在您信任此网站时才添加它。"
+  },
+  "networkRequestSymbolMismatch": {
+    "message": "$1 使用 $2 作为其货币，但此网站声称是 $3。该网站可能在冒充 $1。",
+    "description": "$1 is a network name, $2 the expected currency symbol and $3 the symbol the site gave"
+  },
+  "networkRequestInsecureRpc": {
+    "message": "此 RPC 提供商在您的计算机上使用未加密的 HTTP 连接。"
+  },
+  "networkRequestDifferentRpc": {
+    "message": "您已有一个使用 $1 的同链 ID 网络。批准后将为其添加第二个 RPC 提供商。",
+    "description": "$1 is an RPC URL"
+  },
+  "alertBurnAddress": {
+    "message": "这是一个销毁地址。发送到此处的任何资产都将永远无法找回。"
+  },
+  "alertLookalikeAddress": {
+    "message": "此地址的开头和结尾与您已知的地址 $1 相似，但它是一个不同的地址。诈骗者会制造外观相似的地址，让人从历史记录中复制错误的地址。",
+    "description": "$1 is an address the user has used before"
+  },
+  "alertFirstTimeRecipient": {
+    "message": "您之前从未向此地址发送过任何资产。请仔细核对。"
+  },
+  "alertRecipientIsTokenContract": {
+    "message": "您正在将代币发送到该代币自己的合约。这些代币几乎肯定会丢失。"
+  },
+  "alertRecipientIsKnownToken": {
+    "message": "此地址是代币合约，而不是某人的账户。发送到此处的资金通常会丢失。"
+  },
+  "alertDataToNonContract": {
+    "message": "此交易包含合约数据，但 $1 在此网络上没有合约代码。地址可能有误，或者该网站可能在误导您。",
+    "description": "$1 is an address"
+  },
+  "alertApproveAllNfts": {
+    "message": "这将允许 $1 转移您在此系列中持有的所有 NFT（包括您以后获得的），直到您撤销授权为止。",
+    "description": "$1 is an address"
+  },
+  "alertMalformedTokenCall": {
+    "message": "此代币调用未按标准方式编码。合约对它的解读可能与此处显示的不同，因此它实际转移或批准的数量可能超出显示的数量。除非您信任此网站，否则请勿继续。",
+    "description": "Shown when transaction data for a token transfer or approval is not standard ABI encoding"
+  },
+  "alertUnlimitedApproval": {
+    "message": "这将允许 $1 花费任意数量的此代币，直到您撤销授权为止。",
+    "description": "$1 is an address"
+  },
+  "alertSpenderNotContract": {
+    "message": "$1 是普通账户，而不是合约。授予普通账户花费您代币的权限是一种常见骗局。",
+    "description": "$1 is an address"
+  },
+  "alertPermitSignature": {
+    "message": "签署此消息将允许 $1 日后无需再次征得您同意即可转移您的代币。",
+    "description": "$1 is an address"
+  },
+  "alertLongLivedPermit": {
+    "message": "此权限的有效期超过 30 天，或永不过期。"
+  },
+  "alertSecurityChecksFailed": {
+    "message": "由于出现错误，钱包无法检查此请求是否存在问题。请在继续之前仔细检查。"
+  },
+  "alertCodeCheckFailed": {
+    "message": "您网络的 RPC 未响应，因此钱包无法检查 $1。部分检查已被跳过。",
+    "description": "$1 is an address"
+  },
+  "securityAlertsAcknowledge": {
+    "message": "我了解风险并希望继续。"
+  },
+  "helpMoreTopics": {
+    "message": "更多帮助"
+  },
+  "helpImportedAccountsTitle": {
+    "message": "关于导入的账户"
+  },
+  "helpImportedAccounts1": {
+    "message": "您在 ECF Wallet 中创建的账户全部源自您的助记词，因此仅凭助记词即可恢复它们。导入的账户则来自私钥或 JSON 文件，与您的助记词无关。导入的账户在账户列表中标记为“已导入”。"
+  },
+  "helpImportedAccounts2": {
+    "message": "使用助记词恢复钱包不会找回导入的账户。请为每个导入账户的私钥或 JSON 文件（及其密码）保留备份，并单独离线保存。"
+  },
+  "helpImportedAccounts3": {
+    "message": "要备份导入的账户，请选中该账户，打开其账户详情，然后选择“导出私钥”。"
+  },
+  "helpImportedAccounts4": {
+    "message": "移除导入的账户只会将其从此钱包中移除。资金仍保留在其地址上，您可以使用相同的私钥或 JSON 文件通过“导入账户”重新添加它。如果两者都没有，该账户将无法恢复。"
+  },
+  "helpImportJsonTitle": {
+    "message": "导入 JSON 文件"
+  },
+  "helpImportJson1": {
+    "message": "ECF Wallet 可以从加密的 JSON 密钥库文件导入账户，即 Geth、Mist 和 MyEtherWallet 等客户端保存的文件。选择该文件，然后输入创建该文件时设置的密码。"
+  },
+  "helpImportJson2": {
+    "message": "如果导入失败，请检查密码是否完全正确（包括大写字母和空格），并确认您选择的是密钥库文件本身（通常命名为 UTC--…），而不是其他备份或文本文件。"
+  },
+  "helpImportJson3": {
+    "message": "不支持以太坊预售钱包文件。解密密钥库文件可能需要几秒钟，请等待其完成后再重试。"
+  },
+  "helpImportJson4": {
+    "message": "如果您有该账户的私钥，也可以将导入类型选为“私钥”来导入。与所有导入的账户一样，它不会与您的助记词关联。"
+  },
+  "helpAddTokensTitle": {
+    "message": "添加代币"
+  },
+  "helpAddTokens1": {
+    "message": "即使 ECF Wallet 没有显示，您收到的代币也保存在您的地址上。添加代币只是让钱包显示其余额。"
+  },
+  "helpAddTokens2": {
+    "message": "要添加知名代币，请打开“添加代币”，按名称或符号搜索。要添加其他代币，请选择“自定义代币”并输入其合约地址。ECF Wallet 会尽可能自动填写符号和小数位数；否则请从区块浏览器上该代币的页面复制。"
+  },
+  "helpAddTokens3": {
+    "message": "请只使用来自可信来源（例如项目官方网站）的合约地址。任何人都可以创建与真实代币同名同符号的代币，而且代币出现在您的钱包中并不代表它有价值。"
+  },
+  "helpAddTokens4": {
+    "message": "代币是按网络分别添加的，因此在一个网络上添加的代币不会出现在另一个网络上。"
+  },
+  "helpSafetyTipsTitle": {
+    "message": "基本安全提示"
+  },
+  "helpSafetyTips1": {
+    "message": "您的助记词可以完全控制您的账户和资金。任何拥有它的人都能拿走一切，并且 ECF Wallet 无法找回丢失的助记词，也无法撤销交易。"
+  },
+  "helpSafetyTips2": {
+    "message": "请手写记下您的助记词，并在多个安全的地方保存副本。避免使用截图、电子邮件、聊天工具和在线笔记。您可以在“设置 > 安全与隐私”中再次查看它。"
+  },
+  "helpSafetyTips3": {
+    "message": "切勿分享您的助记词或私钥，也切勿在任何网站中输入它们。ECF Wallet 绝不会向您索要它们，任何真正提供支持的人也不会。"
+  },
+  "helpSafetyTips4": {
+    "message": "请使用强度高且独一无二的密码，并在离开时锁定 ECF Wallet。密码只能在此设备上解锁钱包；没有助记词，密码无法恢复您的账户。"
+  },
+  "helpSafetyTips5": {
+    "message": "在连接钱包或批准任何操作之前，请检查网站的地址。钓鱼网站会高度仿冒真实网站。确认之前请阅读每个请求，并警惕要求花费您代币的请求。"
+  },
+  "helpSafetyTips6": {
+    "message": "如有疑问或要报告可疑活动，请访问 https://github.com/ETHCF/ethereum-wallet/issues。切勿在那里或其他任何地方公开您的助记词或私钥。"
+  },
+  "incorrectPassword": {
+    "message": "密码错误。请重试。"
+  },
+  "unlockNetworkError": {
+    "message": "已解锁，但无法连接到网络。您的资金是安全的。请检查您的网络连接。"
+  },
+  "unlockFailed": {
+    "message": "无法解锁。请重试。"
+  },
+  "buildHash": {
+    "message": "构建哈希"
+  },
+  "buildCommit": {
+    "message": "构建所用提交"
+  },
+  "buildVerifyInstructions": {
+    "message": "检出此提交，运行“yarn setup && yarn dist”，然后运行“yarn verify-build”，以确认此构建与源代码一致。"
+  },
+  "verify": {
+    "message": "验证"
+  },
+  "donate": {
+    "message": "捐赠"
+  },
+  "donateDescription": {
+    "message": "ECF Wallet 免费且开源。向 Ethereum Community Foundation 的捐赠将用于资助其开发。"
   }
 }

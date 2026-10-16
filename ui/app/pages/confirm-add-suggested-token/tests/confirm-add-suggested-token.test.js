@@ -41,11 +41,41 @@ describe('ConfirmAddSuggestedToken', function () {
   });
 
   it('declines or adds that one suggestion', function () {
-    const { wrapper, acceptWatchAsset, rejectWatchAsset } = render();
-    wrapper.find('[data-testid="suggested-token-cancel"]').simulate('click');
-    assert.deepEqual(rejectWatchAsset.firstCall.args, ['request-1']);
-    wrapper.find('[data-testid="suggested-token-add"]').simulate('click');
-    assert.deepEqual(acceptWatchAsset.firstCall.args, ['request-1']);
+    const declined = render();
+    declined.wrapper
+      .find('[data-testid="suggested-token-cancel"]')
+      .simulate('click');
+    assert.deepEqual(declined.rejectWatchAsset.firstCall.args, ['request-1']);
+
+    const added = render();
+    added.wrapper.find('[data-testid="suggested-token-add"]').simulate('click');
+    assert.deepEqual(added.acceptWatchAsset.firstCall.args, ['request-1']);
+  });
+
+  it('answers only once while the answer is in flight', async function () {
+    let finish;
+    const acceptWatchAsset = sinon.spy(
+      () =>
+        new Promise((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const { wrapper, rejectWatchAsset } = render({ acceptWatchAsset });
+    const add = () => wrapper.find('[data-testid="suggested-token-add"]');
+    const cancel = () => wrapper.find('[data-testid="suggested-token-cancel"]');
+
+    add().simulate('click');
+    add().simulate('click');
+    cancel().simulate('click');
+    assert.equal(acceptWatchAsset.callCount, 1);
+    assert.equal(rejectWatchAsset.called, false);
+    assert.equal(add().prop('disabled'), true);
+    assert.equal(cancel().prop('disabled'), true);
+
+    // If the suggestion is still pending afterwards, it can be answered again.
+    finish();
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(add().prop('disabled'), false);
   });
 
   it('warns when the symbol belongs to another added token', function () {

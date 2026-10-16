@@ -409,5 +409,1319 @@
   },
   "youSign": {
     "message": "署名しています。"
+  },
+  "acceptTermsOfUse": {
+    "message": "$1を読み、同意します",
+    "description": "$1 is the `terms` message"
+  },
+  "backUpNow": {
+    "message": "今すぐバックアップ"
+  },
+  "darkTheme": {
+    "message": "ダーク"
+  },
+  "eth_accounts": {
+    "message": "許可したアカウントのアドレスを表示 (必須)",
+    "description": "The description for the `eth_accounts` permission"
+  },
+  "connectedSites": {
+    "message": "接続済みのサイト"
+  },
+  "connectedSitesDescription": {
+    "message": "$1はこれらのサイトに接続されています。これらのサイトはあなたのアカウントアドレスを閲覧できます。",
+    "description": "$1 is the account name"
+  },
+  "connectedSitesEmptyDescription": {
+    "message": "$1はどのサイトにも接続されていません。",
+    "description": "$1 is the account name"
+  },
+  "connectedAccountsDescriptionSingular": {
+    "message": "このサイトには1つのアカウントが接続されています。"
+  },
+  "connectedAccountsDescriptionPlural": {
+    "message": "このサイトには$1個のアカウントが接続されています。",
+    "description": "$1 is the number of accounts"
+  },
+  "connectedAccountsEmptyDescription": {
+    "message": "ECF Walletはこのサイトに接続されていません。web3サイトに接続するには、そのサイト上の接続ボタンを探してください。"
+  },
+  "currentAccountNotConnected": {
+    "message": "現在のアカウントは接続されていません"
+  },
+  "lightTheme": {
+    "message": "ライト"
+  },
+  "localNetworkConfirm": {
+    "message": "このノードは自分で運用しており、追加します"
+  },
+  "localNetworkWarning": {
+    "message": "このRPC URLはあなた自身のコンピューターを指しています。通常は開発用ノードです。そこで何が動作しているか把握している場合にのみ追加してください。"
+  },
+  "osTheme": {
+    "message": "システム"
+  },
+  "rejectRequestsOnClose": {
+    "message": "承認ウィンドウを閉じたときにリクエストを拒否する"
+  },
+  "rejectRequestsOnCloseDescription": {
+    "message": "承認ウィンドウを閉じると、そこで待機中のトランザクション、署名、その他のサイトからのリクエストが拒否されます。オフにすると、リクエストは待機したままになり、後でウォレットから応答できます。"
+  },
+  "seedPhraseNotBackedUp": {
+    "message": "パスフレーズがバックアップされていません。"
+  },
+  "siteSuggestsToken": {
+    "message": "$1がこのトークンの追加を求めています。"
+  },
+  "switchToThisAccount": {
+    "message": "このアカウントに切り替える"
+  },
+  "disconnectThisAccount": {
+    "message": "このアカウントを切断"
+  },
+  "permissions": {
+    "message": "許可"
+  },
+  "showPermissions": {
+    "message": "許可を表示"
+  },
+  "authorizedPermissions": {
+    "message": "次の許可を承認しています"
+  },
+  "connectManually": {
+    "message": "現在のサイトに手動で接続"
+  },
+  "disconnect": {
+    "message": "切断"
+  },
+  "disconnectAllAccounts": {
+    "message": "すべてのアカウントを切断"
+  },
+  "disconnectPrompt": {
+    "message": "$1を切断"
+  },
+  "disconnectAllAccountsConfirmationDescription": {
+    "message": "切断してもよろしいですか？サイトの機能が使えなくなる可能性があります。"
+  },
+  "dismiss": {
+    "message": "閉じる"
+  },
+  "connecting": {
+    "message": "接続中..."
+  },
+  "connectWithEcfWallet": {
+    "message": "ECF Walletで接続"
+  },
+  "connectTo": {
+    "message": "$1に接続",
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to ecf-wallet"
+  },
+  "connectToAll": {
+    "message": "すべての$1に接続",
+    "description": "$1 will be replaced by the translation of connectToAllAccounts"
+  },
+  "connectToAllAccounts": {
+    "message": "アカウント",
+    "description": "will replace $1 in connectToAll, completing the sentence 'connect to all of your accounts', will be text that shows list of accounts on hover"
+  },
+  "connectToMultiple": {
+    "message": "$1に接続",
+    "description": "$1 will be replaced by the translation of connectToMultipleNumberOfAccounts"
+  },
+  "connectToMultipleNumberOfAccounts": {
+    "message": "$1個のアカウント",
+    "description": "$1 is the number of accounts to which the web3 site/application is asking to connect; this will substitute $1 in connectToMultiple"
+  },
+  "about": {
+    "message": "情報"
+  },
+  "accessAndSpendNotice": {
+    "message": "$1はこの上限額までアクセスして使用できます",
+    "description": "$1 is the url of the site requesting ability to spend"
+  },
+  "active": {
+    "message": "アクティブ"
+  },
+  "activity": {
+    "message": "アクティビティ"
+  },
+  "allowOriginSpendToken": {
+    "message": "$1に$2の使用を許可しますか？",
+    "description": "$1 is the url of the site and $2 is the symbol of the token they are requesting to spend"
+  },
+  "allowThisSiteTo": {
+    "message": "このサイトに次を許可:"
+  },
+  "allowExternalExtensionTo": {
+    "message": "この外部エクステンションに次を許可:"
+  },
+  "allowWithdrawAndSpend": {
+    "message": "$1に次の金額までの引き出しと使用を許可:",
+    "description": "The url of the site that requested permission to 'withdraw and spend'"
+  },
+  "amountWithColon": {
+    "message": "金額:"
+  },
+  "approveSpendLimit": {
+    "message": "$1の使用上限を承認",
+    "description": "The token symbol that is being approved"
+  },
+  "assets": {
+    "message": "アセット"
+  },
+  "backToAll": {
+    "message": "すべてに戻る"
+  },
+  "balanceOutdated": {
+    "message": "残高が最新でない可能性があります"
+  },
+  "basic": {
+    "message": "基本"
+  },
+  "blockExplorerUrl": {
+    "message": "ブロックエクスプローラー"
+  },
+  "blockExplorerView": {
+    "message": "$1でアカウントを確認",
+    "description": "$1 replaced by URL for custom block explorer"
+  },
+  "browserNotSupported": {
+    "message": "お使いのブラウザはサポートされていません..."
+  },
+  "bytes": {
+    "message": "バイト"
+  },
+  "off": {
+    "message": "オフ"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "on": {
+    "message": "オン"
+  },
+  "optionalBlockExplorerUrl": {
+    "message": "ブロックエクスプローラーのURL (任意)"
+  },
+  "cancelAttempt": {
+    "message": "キャンセルの試行"
+  },
+  "cancellationGasFee": {
+    "message": "キャンセルのガス代"
+  },
+  "cancelled": {
+    "message": "キャンセル済み"
+  },
+  "chainId": {
+    "message": "チェーンID"
+  },
+  "clickToRevealSeed": {
+    "message": "ここをクリックして秘密の単語を表示"
+  },
+  "close": {
+    "message": "閉じる"
+  },
+  "chromeRequiredForHardwareWallets": {
+    "message": "ハードウェアウォレットに接続するには、Google ChromeでECF Walletを使用する必要があります。"
+  },
+  "confirmed": {
+    "message": "承認されました"
+  },
+  "confirmSecretBackupPhrase": {
+    "message": "秘密のバックアップフレーズの確認"
+  },
+  "congratulations": {
+    "message": "おめでとうございます"
+  },
+  "connectAccountOrCreate": {
+    "message": "アカウントを接続するか新規作成"
+  },
+  "connectHardwareWallet": {
+    "message": "ハードウェアウォレットを接続"
+  },
+  "connect": {
+    "message": "接続"
+  },
+  "connectingTo": {
+    "message": "$1に接続中"
+  },
+  "connectingToLocalhost": {
+    "message": "Localhost 8545に接続中"
+  },
+  "contactUs": {
+    "message": "お問い合わせ"
+  },
+  "copyAddress": {
+    "message": "アドレスをクリップボードにコピー"
+  },
+  "copyTransactionId": {
+    "message": "トランザクションIDをコピー"
+  },
+  "copiedTransactionId": {
+    "message": "トランザクションIDをコピーしました"
+  },
+  "createAWallet": {
+    "message": "ウォレットを作成"
+  },
+  "createPassword": {
+    "message": "パスワードを作成"
+  },
+  "currentExtension": {
+    "message": "現在のエクステンションページ"
+  },
+  "currentLanguage": {
+    "message": "現在の言語"
+  },
+  "customGasSubTitle": {
+    "message": "手数料を上げると処理時間が短くなる可能性がありますが、保証はされません。"
+  },
+  "customSpendLimit": {
+    "message": "カスタム使用上限"
+  },
+  "decimalsMustZerotoTen": {
+    "message": "小数点桁数は0以上36以下である必要があります。"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "dontShowThisAgain": {
+    "message": "今後表示しない"
+  },
+  "downloadGoogleChrome": {
+    "message": "Google Chromeをダウンロード"
+  },
+  "downloadSecretBackup": {
+    "message": "この秘密のバックアップフレーズをダウンロードし、暗号化された外付けハードドライブやストレージに安全に保管してください。"
+  },
+  "dontHaveAHardwareWallet": {
+    "message": "ハードウェアウォレットをお持ちでないですか？"
+  },
+  "dropped": {
+    "message": "破棄済み"
+  },
+  "editPermission": {
+    "message": "許可を編集"
+  },
+  "endOfFlowMessage1": {
+    "message": "テストに合格しました。パスフレーズは安全に保管してください。その責任はあなたにあります！"
+  },
+  "endOfFlowMessage2": {
+    "message": "安全に保管するためのヒント"
+  },
+  "endOfFlowMessage3": {
+    "message": "バックアップを複数の場所に保存してください。"
+  },
+  "endOfFlowMessage4": {
+    "message": "パスフレーズは絶対に誰とも共有しないでください。"
+  },
+  "endOfFlowMessage5": {
+    "message": "フィッシングにご注意ください！ECF Walletが突然パスフレーズを尋ねることは絶対にありません。"
+  },
+  "endOfFlowMessage6": {
+    "message": "パスフレーズを再度バックアップする必要がある場合は、「設定」->「セキュリティとプライバシー」で確認できます。"
+  },
+  "endOfFlowMessage7": {
+    "message": "ご質問や不審なアクティビティについては、https://github.com/ETHCF/ethereum-wallet/issues をご覧ください。パスフレーズや秘密鍵は絶対に投稿しないでください。"
+  },
+  "endOfFlowMessage8": {
+    "message": "ECF Walletはあなたのパスフレーズを復元できません。"
+  },
+  "endOfFlowMessage9": {
+    "message": "詳細はこちら。"
+  },
+  "externalExtension": {
+    "message": "外部エクステンション"
+  },
+  "onboardingReturnNotice": {
+    "message": "「$1」をクリックするとこのタブが閉じ、$2に戻ります",
+    "description": "Return the user to the site that initiated onboarding"
+  },
+  "ensRegistrationError": {
+    "message": "ENS名の登録でエラーが発生しました"
+  },
+  "ensNotFoundOnCurrentNetwork": {
+    "message": "現在のネットワークでENS名が見つかりません。Ethereumメインネットに切り替えてみてください。"
+  },
+  "enterAnAlias": {
+    "message": "エイリアスを入力"
+  },
+  "enterMaxSpendLimit": {
+    "message": "最大使用上限を入力"
+  },
+  "enterPasswordContinue": {
+    "message": "続行するにはパスワードを入力してください"
+  },
+  "errorCode": {
+    "message": "コード: $1",
+    "description": "Displayed error code for debugging purposes. $1 is the error code"
+  },
+  "errorDetails": {
+    "message": "エラーの詳細",
+    "description": "Title for collapsible section that displays error details for debugging purposes"
+  },
+  "errorMessage": {
+    "message": "メッセージ: $1",
+    "description": "Displayed error message for debugging purposes. $1 is the error message"
+  },
+  "errorName": {
+    "message": "コード: $1",
+    "description": "Displayed error name for debugging purposes. $1 is the error name"
+  },
+  "errorPageTitle": {
+    "message": "ECF Walletでエラーが発生しました",
+    "description": "Title of generic error page"
+  },
+  "errorPageMessage": {
+    "message": "ページを再読み込みしてもう一度お試しいただくか、https://github.com/ETHCF/ethereum-wallet/issues で問題を報告してください"
+  },
+  "errorPagePopupMessage": {
+    "message": "ポップアップを閉じて開き直してもう一度お試しいただくか、https://github.com/ETHCF/ethereum-wallet/issues で問題を報告してください"
+  },
+  "errorStack": {
+    "message": "スタック:",
+    "description": "Title for error stack, which is displayed for debugging purposes"
+  },
+  "estimatedProcessingTimes": {
+    "message": "推定処理時間"
+  },
+  "expandView": {
+    "message": "ビューを展開"
+  },
+  "failureMessage": {
+    "message": "問題が発生したため、操作を完了できませんでした"
+  },
+  "fast": {
+    "message": "高速"
+  },
+  "feeAssociatedRequest": {
+    "message": "このリクエストには手数料がかかります。"
+  },
+  "forgetDevice": {
+    "message": "このデバイスを削除"
+  },
+  "functionApprove": {
+    "message": "関数: Approve"
+  },
+  "functionType": {
+    "message": "関数の種類"
+  },
+  "gasEstimateFailed": {
+    "message": "このトランザクションに必要なガスを見積もれなかったため、失敗する可能性があります。ネットワーク接続を確認するか、ガスリミットを手動で設定してください。"
+  },
+  "gasLimitInfoModalContent": {
+    "message": "ガスリミットとは、使用してもよいガスの最大単位数です。"
+  },
+  "gasUsed": {
+    "message": "使用ガス"
+  },
+  "gasPriceExtremelyLow": {
+    "message": "ガスプライスが非常に低い"
+  },
+  "gasPriceInfoModalContent": {
+    "message": "ガスプライスとは、ガス1単位あたりに支払ってもよいEtherの量です。"
+  },
+  "gasPriceNoDenom": {
+    "message": "ガスプライス"
+  },
+  "general": {
+    "message": "一般"
+  },
+  "getHelp": {
+    "message": "ヘルプはこちら。"
+  },
+  "getStarted": {
+    "message": "始める"
+  },
+  "happyToSeeYou": {
+    "message": "お会いできてうれしいです。"
+  },
+  "hardware": {
+    "message": "ハードウェア"
+  },
+  "hardwareWalletConnected": {
+    "message": "ハードウェアウォレットが接続されました"
+  },
+  "hardwareWallets": {
+    "message": "ハードウェアウォレットを接続"
+  },
+  "hardwareWalletsMsg": {
+    "message": "ECF Walletで使用するハードウェアウォレットを選択してください"
+  },
+  "havingTroubleConnecting": {
+    "message": "接続できませんか？"
+  },
+  "hexData": {
+    "message": "Hexデータ"
+  },
+  "hideTokenSymbol": {
+    "message": "$1を隠す",
+    "description": "$1 is the symbol for a token (e.g. 'DAI')"
+  },
+  "history": {
+    "message": "履歴"
+  },
+  "importAccountSeedPhrase": {
+    "message": "パスフレーズでアカウントをインポート"
+  },
+  "importWallet": {
+    "message": "ウォレットをインポート"
+  },
+  "importYourExisting": {
+    "message": "12単語のパスフレーズを使って既存のウォレットをインポート"
+  },
+  "importUsingSeed": {
+    "message": "アカウントのパスフレーズを使ってインポート"
+  },
+  "initialTransactionConfirmed": {
+    "message": "最初のトランザクションがネットワークで承認されました。OKをクリックして戻ります。"
+  },
+  "insufficientBalance": {
+    "message": "残高が不足しています。"
+  },
+  "insufficientTokens": {
+    "message": "トークンが不足しています。"
+  },
+  "invalidAddressRecipient": {
+    "message": "受取人アドレスが無効です"
+  },
+  "knownAddressRecipient": {
+    "message": "既知のコントラクトアドレスです。"
+  },
+  "knownTokenWarning": {
+    "message": "この操作はウォレットにすでに登録されているトークンを編集します。これはフィッシングに悪用される可能性があります。これらのトークンが表すものを変更することが確実な場合にのみ承認してください。"
+  },
+  "reusedTokenNameWarning": {
+    "message": "ここにあるトークンは、監視中の別のトークンと同じシンボルを使用しています。混乱を招いたり、欺かれたりするおそれがあります。"
+  },
+  "invalidAddressRecipientNotEthNetwork": {
+    "message": "ETHネットワークではありません。小文字に設定してください"
+  },
+  "invalidRPC": {
+    "message": "無効なRPC URL"
+  },
+  "invalidBlockExplorerURL": {
+    "message": "無効なブロックエクスプローラーURL"
+  },
+  "invalidSeedPhrase": {
+    "message": "無効なパスフレーズ"
+  },
+  "lastConnected": {
+    "message": "最終接続"
+  },
+  "ledgerAccountRestriction": {
+    "message": "新しいアカウントを追加する前に、最後のアカウントを使用する必要があります。"
+  },
+  "legalLastUpdated": {
+    "message": "最終更新日: $1",
+    "description": "$1 is the date a legal document, such as the Terms of Use, was last changed"
+  },
+  "letsGoSetUp": {
+    "message": "はい、セットアップしましょう！"
+  },
+  "loadMore": {
+    "message": "さらに読み込む"
+  },
+  "localhost": {
+    "message": "Localhost 8545"
+  },
+  "lockTimeTooGreat": {
+    "message": "ロック時間が長すぎます"
+  },
+  "memorizePhrase": {
+    "message": "このフレーズを覚えてください。"
+  },
+  "ecfWalletDescription": {
+    "message": "Ethereumと分散型ウェブへの架け橋。"
+  },
+  "ecfWalletVersion": {
+    "message": "ECF Walletのバージョン"
+  },
+  "negativeETH": {
+    "message": "マイナスの金額のETHは送信できません。"
+  },
+  "networkName": {
+    "message": "ネットワーク名"
+  },
+  "nevermind": {
+    "message": "やめておく"
+  },
+  "newAccountDetectedDialogMessage": {
+    "message": "新しいアドレスが検出されました！ここをクリックしてアドレス帳に追加してください。"
+  },
+  "newNetwork": {
+    "message": "新規ネットワーク"
+  },
+  "newToEcfWallet": {
+    "message": "ECF Walletは初めてですか？"
+  },
+  "rpcUrl": {
+    "message": "新規RPC URL"
+  },
+  "onlyConnectTrust": {
+    "message": "信頼できるサイトにのみ接続してください。"
+  },
+  "onlyAddTrustedNetworks": {
+    "message": "悪意のあるEthereumネットワークプロバイダーは、ブロックチェーンの状態を偽ったり、あなたのネットワーク上のアクティビティを記録したりする可能性があります。信頼できるカスタムネットワークのみを追加してください。"
+  },
+  "optionalSymbol": {
+    "message": "シンボル (任意)"
+  },
+  "newTotal": {
+    "message": "新しい合計"
+  },
+  "newTransactionFee": {
+    "message": "新しい取引手数料"
+  },
+  "notCurrentAccount": {
+    "message": "このアカウントで正しいですか？ウォレットで現在選択されているアカウントとは異なります"
+  },
+  "notEnoughGas": {
+    "message": "ガスが不足しています"
+  },
+  "ofTextNofM": {
+    "message": "/"
+  },
+  "orderOneHere": {
+    "message": "TrezorまたはLedgerを注文して、資金をコールドストレージで保管しましょう"
+  },
+  "origin": {
+    "message": "オリジン"
+  },
+  "parameters": {
+    "message": "パラメーター"
+  },
+  "passwordsDontMatch": {
+    "message": "パスワードが一致しません"
+  },
+  "passwordNotLongEnough": {
+    "message": "パスワードが短すぎます"
+  },
+  "pending": {
+    "message": "保留中"
+  },
+  "permissionCheckedIconDescription": {
+    "message": "この許可を承認しています"
+  },
+  "permissionUncheckedIconDescription": {
+    "message": "この許可を承認していません"
+  },
+  "personalAddressDetected": {
+    "message": "個人アドレスが検出されました。トークンのコントラクトアドレスを入力してください。"
+  },
+  "plusXMore": {
+    "message": "他 $1 件",
+    "description": "$1 is a number of additional but unshown items in a list- this message will be shown in place of those items"
+  },
+  "prev": {
+    "message": "前へ"
+  },
+  "proposedApprovalLimit": {
+    "message": "提案された承認上限"
+  },
+  "queue": {
+    "message": "キュー"
+  },
+  "queued": {
+    "message": "キュー待ち"
+  },
+  "recents": {
+    "message": "最近"
+  },
+  "receive": {
+    "message": "受取"
+  },
+  "recipientAddressPlaceholder": {
+    "message": "検索、パブリックアドレス (0x)、またはENS"
+  },
+  "rejectAll": {
+    "message": "すべて拒否"
+  },
+  "rejectTxsN": {
+    "message": "$1件のトランザクションを拒否"
+  },
+  "rejectTxsDescription": {
+    "message": "$1件のトランザクションを一括で拒否しようとしています。"
+  },
+  "reset": {
+    "message": "リセット"
+  },
+  "deleteNetwork": {
+    "message": "ネットワークを削除しますか？"
+  },
+  "deleteNetworkDescription": {
+    "message": "このネットワークを削除してもよろしいですか？"
+  },
+  "remindMeLater": {
+    "message": "後で通知する"
+  },
+  "restoreAccountWithSeed": {
+    "message": "パスフレーズでアカウントを復元"
+  },
+  "requestsAwaitingAcknowledgement": {
+    "message": "確認待ちのリクエスト"
+  },
+  "restore": {
+    "message": "復元"
+  },
+  "revealSeedWordsTitle": {
+    "message": "パスフレーズ"
+  },
+  "revealSeedWordsDescription": {
+    "message": "ブラウザを変更したり別のコンピューターに移行したりする場合、アカウントにアクセスするにはこのパスフレーズが必要になります。安全で秘密の場所に保管してください。"
+  },
+  "revealSeedWordsWarningTitle": {
+    "message": "このフレーズは絶対に誰とも共有しないでください！"
+  },
+  "revealSeedWordsWarning": {
+    "message": "これらの単語を使えば、あなたのすべてのアカウントを盗むことができます。"
+  },
+  "remove": {
+    "message": "削除"
+  },
+  "removeAccount": {
+    "message": "アカウントを削除"
+  },
+  "removeAccountDescription": {
+    "message": "このアカウントはウォレットから削除されます。続行する前に、このインポートしたアカウントの元のパスフレーズまたは秘密鍵を持っていることを確認してください。アカウントはアカウントのドロップダウンから再度インポートまたは作成できます。"
+  },
+  "readyToConnect": {
+    "message": "接続の準備はできましたか？"
+  },
+  "slow": {
+    "message": "低速"
+  },
+  "saveAsCsvFile": {
+    "message": "CSVファイルとして保存"
+  },
+  "secretBackupPhrase": {
+    "message": "秘密のバックアップフレーズ"
+  },
+  "secretBackupPhraseDescription": {
+    "message": "秘密のバックアップフレーズを使うと、アカウントのバックアップと復元が簡単になります。"
+  },
+  "secretBackupPhraseWarning": {
+    "message": "警告: バックアップフレーズは絶対に開示しないでください。このフレーズを持つ人は誰でも、あなたのEtherを永久に奪うことができます。"
+  },
+  "secretPhrase": {
+    "message": "保管庫を復元するには、12単語の秘密のフレーズをここに入力してください。"
+  },
+  "securityAndPrivacy": {
+    "message": "セキュリティとプライバシー"
+  },
+  "seedPhrasePlaceholder": {
+    "message": "各単語は半角スペース1つで区切ってください"
+  },
+  "seedPhrasePlaceholderPaste": {
+    "message": "クリップボードからパスフレーズを貼り付け"
+  },
+  "showSeedPhrase": {
+    "message": "パスフレーズを表示"
+  },
+  "seedPhraseReq": {
+    "message": "パスフレーズは12、15、18、21、または24単語です"
+  },
+  "selectingAllWillAllow": {
+    "message": "すべてを選択すると、このサイトは現在のすべてのアカウントを閲覧できるようになります。このサイトが信頼できることを確認してください。"
+  },
+  "selectAccounts": {
+    "message": "アカウントを選択"
+  },
+  "selectAll": {
+    "message": "すべて選択"
+  },
+  "selectEachPhrase": {
+    "message": "正しいことを確認するため、各単語を順番に選択してください。"
+  },
+  "selectLocale": {
+    "message": "言語を選択"
+  },
+  "sendAmount": {
+    "message": "送信額"
+  },
+  "sentEther": {
+    "message": "Etherを送信"
+  },
+  "sentTokens": {
+    "message": "トークンを送信"
+  },
+  "sendSpecifiedTokens": {
+    "message": "$1を送信",
+    "description": "Symbol of the specified token"
+  },
+  "separateEachWord": {
+    "message": "各単語は半角スペース1つで区切ってください"
+  },
+  "searchAccounts": {
+    "message": "アカウントを検索"
+  },
+  "noAccountsFound": {
+    "message": "検索条件に一致するアカウントが見つかりません"
+  },
+  "selectAnAccount": {
+    "message": "アカウントを選択"
+  },
+  "selectAnAccountHelp": {
+    "message": "ECF Walletで表示するアカウントを選択してください"
+  },
+  "selectAHigherGasFee": {
+    "message": "トランザクションの処理を早めるには、より高いガス代を選択してください。*"
+  },
+  "selectHdPath": {
+    "message": "HDパスを選択"
+  },
+  "selectPathHelp": {
+    "message": "既存のLedgerアカウントが下に表示されない場合は、パスを「Legacy (MEW / MyCrypto)」に切り替えてみてください"
+  },
+  "signatureRequest1": {
+    "message": "メッセージ"
+  },
+  "signed": {
+    "message": "署名済み"
+  },
+  "somethingWentWrong": {
+    "message": "問題が発生しました。"
+  },
+  "spenderWithColon": {
+    "message": "使用者:",
+    "description": "Labels the address an approval lets spend the user's tokens"
+  },
+  "speedUp": {
+    "message": "高速化"
+  },
+  "speedUpCancellation": {
+    "message": "このキャンセルを高速化"
+  },
+  "speedUpTransaction": {
+    "message": "このトランザクションを高速化"
+  },
+  "spendLimitPermission": {
+    "message": "使用上限の許可"
+  },
+  "spendLimitRequestedBy": {
+    "message": "$1が要求した使用上限",
+    "description": "Origin of the site requesting the spend limit"
+  },
+  "spendLimitTooLarge": {
+    "message": "使用上限が大きすぎます"
+  },
+  "spendLimitInvalid": {
+    "message": "使用上限が無効です。正の数である必要があります"
+  },
+  "switchNetworks": {
+    "message": "ネットワークを切り替え"
+  },
+  "statusConnected": {
+    "message": "接続済み"
+  },
+  "statusNotConnected": {
+    "message": "未接続"
+  },
+  "step1HardwareWallet": {
+    "message": "1. ハードウェアウォレットを接続"
+  },
+  "step1HardwareWalletMsg": {
+    "message": "ハードウェアウォレットをコンピューターに直接接続してください。"
+  },
+  "step2HardwareWallet": {
+    "message": "2. アカウントを選択"
+  },
+  "step2HardwareWalletMsg": {
+    "message": "表示するアカウントを選択してください。一度に選択できるのは1つだけです。"
+  },
+  "step3HardwareWallet": {
+    "message": "3. web3サイトなどを使い始めましょう！"
+  },
+  "step3HardwareWalletMsg": {
+    "message": "ハードウェアアカウントは、他のEthereumアカウントと同じように使用できます。web3サイトへの接続、ETHの送信、ERC20トークンやCryptoKittiesのような非代替性トークンの購入・保管が可能です。"
+  },
+  "storePhrase": {
+    "message": "このフレーズを1Passwordなどのパスワードマネージャーに保管してください。"
+  },
+  "submit": {
+    "message": "送信"
+  },
+  "submitted": {
+    "message": "送信済み"
+  },
+  "symbol": {
+    "message": "シンボル"
+  },
+  "symbolBetweenZeroTwelve": {
+    "message": "シンボルは11文字以下である必要があります。"
+  },
+  "theme": {
+    "message": "テーマ"
+  },
+  "themeDescription": {
+    "message": "ライトまたはダークの外観を選択するか、システム設定に従います"
+  },
+  "thisWillCreate": {
+    "message": "新しいウォレットとパスフレーズが作成されます"
+  },
+  "tips": {
+    "message": "ヒント"
+  },
+  "toAddress": {
+    "message": "送信先: $1",
+    "description": "$1 is the address to include in the To label. It is typically shortened first using shortenAddress"
+  },
+  "toWithColon": {
+    "message": "送信先:"
+  },
+  "tokenAlreadyAdded": {
+    "message": "トークンはすでに追加されています。"
+  },
+  "tokenContractAddress": {
+    "message": "トークンのコントラクトアドレス"
+  },
+  "tokenOptions": {
+    "message": "トークンのオプション"
+  },
+  "transaction": {
+    "message": "トランザクション"
+  },
+  "transactionConfirmed": {
+    "message": "トランザクションは$2に承認されました。"
+  },
+  "transactionCreated": {
+    "message": "トランザクションは$2に$1の金額で作成されました。"
+  },
+  "transactionDropped": {
+    "message": "トランザクションは$2に破棄されました。"
+  },
+  "transactionSubmitted": {
+    "message": "トランザクションは$2に$1のガス代で送信されました。"
+  },
+  "transactionResubmitted": {
+    "message": "トランザクションは$2にガス代を$1に増やして再送信されました"
+  },
+  "transactionUpdated": {
+    "message": "トランザクションは$2に更新されました。"
+  },
+  "transactionErrored": {
+    "message": "トランザクションでエラーが発生しました。"
+  },
+  "transactionCancelAttempted": {
+    "message": "$2に$1のガス代でトランザクションのキャンセルが試行されました"
+  },
+  "transactionCancelSuccess": {
+    "message": "トランザクションは$2に正常にキャンセルされました"
+  },
+  "transactionError": {
+    "message": "トランザクションエラー。コントラクトのコードで例外が発生しました。"
+  },
+  "transactionErrorNoContract": {
+    "message": "コントラクトではないアドレスの関数を呼び出そうとしています。"
+  },
+  "transactionFee": {
+    "message": "取引手数料"
+  },
+  "transfer": {
+    "message": "送金"
+  },
+  "transferBetweenAccounts": {
+    "message": "自分のアカウント間で送金"
+  },
+  "transferFrom": {
+    "message": "代理送金"
+  },
+  "trustSiteApprovePermission": {
+    "message": "このサイトを信頼しますか？この許可を与えると、$1があなたの$2を引き出し、トランザクションを自動的に実行できるようになります。",
+    "description": "$1 is the url requesting permission and $2 is the symbol of the currency that the request is for"
+  },
+  "tryAgain": {
+    "message": "再試行"
+  },
+  "unapproved": {
+    "message": "未承認"
+  },
+  "alertDisableTooltip": {
+    "message": "これは「設定 > アラート」で変更できます"
+  },
+  "units": {
+    "message": "単位"
+  },
+  "unlimited": {
+    "message": "無制限"
+  },
+  "unlockMessage": {
+    "message": "ティッカーは $ETH だ、マザーファッカー"
+  },
+  "urlErrorMsg": {
+    "message": "URLには適切なHTTP/HTTPSプレフィックスが必要です。"
+  },
+  "urlExistsErrorMsg": {
+    "message": "このURLは既存のネットワークリストにすでに存在します"
+  },
+  "useNftDetection": {
+    "message": "NFTを検出"
+  },
+  "useNftDetectionDescription": {
+    "message": "選択中のアカウントがEthereum、Arbitrum、Optimism、Polygon、Base上で保有するNFTを一覧表示するNFTタブを表示します。ウォレットはMetaMaskのNFT API (nft.api.cx.metamask.io) に問い合わせるため、アカウントのアドレスとあなたのIPアドレスがMetaMaskに知られます。オフにすると一覧は消去されます。"
+  },
+  "displayNftMedia": {
+    "message": "NFT画像を表示"
+  },
+  "displayNftMediaDescription": {
+    "message": "各NFTの画像を、作成者が選んだホスト (またはあなたのIPFSゲートウェイ) から一度だけダウンロードし、ウォレット内に保存します。これらのホストにはあなたのIPアドレスが知られます。オフにすると、ダウンロード済みの画像は削除されます。"
+  },
+  "nfts": {
+    "message": "NFT"
+  },
+  "nftsLoading": {
+    "message": "NFTを検索中…"
+  },
+  "noNfts": {
+    "message": "このネットワークでは、このアカウントのNFTは見つかりませんでした。"
+  },
+  "nftsLookupFailed": {
+    "message": "NFTの検索に失敗しました。後でもう一度お試しください。"
+  },
+  "nftsUnsupportedNetwork": {
+    "message": "NFTは$1でのみ検索されます。",
+    "description": "$1 is a list of network names"
+  },
+  "use4ByteResolution": {
+    "message": "コントラクトのメソッド名を検索"
+  },
+  "use4ByteResolutionDescription": {
+    "message": "ウォレットが認識できないコントラクト関数をトランザクションが呼び出す場合、4byte.directoryにその名前を問い合わせます。4byte.directoryには関数の識別子とあなたのIPアドレスが知られます。"
+  },
+  "usePhishingDetection": {
+    "message": "フィッシング検出を使用"
+  },
+  "usePhishingDetectionDescription": {
+    "message": "Ethereumユーザーを狙うフィッシングドメインに対して警告を表示します"
+  },
+  "viewinExplorer": {
+    "message": "エクスプローラーで表示"
+  },
+  "viewOnCustomBlockExplorer": {
+    "message": "$1で表示"
+  },
+  "retryTransaction": {
+    "message": "トランザクションを再試行"
+  },
+  "visitWebSite": {
+    "message": "ウェブサイトにアクセス"
+  },
+  "writePhrase": {
+    "message": "このフレーズを紙に書き、安全な場所に保管してください。さらに安全性を高めたい場合は、複数の紙に書き、それぞれを2～3か所の異なる場所に保管してください。"
+  },
+  "xOfY": {
+    "message": "$1 / $2",
+    "description": "$1 and $2 are intended to be two numbers, where $2 is a total, and $1 is a count towards that total"
+  },
+  "yesLetsTry": {
+    "message": "はい、試してみます"
+  },
+  "yourPrivateSeedPhrase": {
+    "message": "あなたの秘密のパスフレーズ"
+  },
+  "zeroGasPriceOnSpeedUpError": {
+    "message": "高速化のガスプライスがゼロです"
+  },
+  "decryptRequest": {
+    "message": "復号リクエスト"
+  },
+  "decrypt": {
+    "message": "復号"
+  },
+  "decryptMessageNotice": {
+    "message": "$1が操作を完了するためにこのメッセージの読み取りを求めています",
+    "description": "$1 is the web3 site name"
+  },
+  "decryptEcfWallet": {
+    "message": "メッセージを復号"
+  },
+  "decryptCopy": {
+    "message": "暗号化されたメッセージをコピー"
+  },
+  "decryptInlineError": {
+    "message": "次のエラーにより、このメッセージを復号できません: $1",
+    "description": "$1 is error message"
+  },
+  "provide": {
+    "message": "提供"
+  },
+  "encryptionPublicKeyRequest": {
+    "message": "暗号化公開鍵のリクエスト"
+  },
+  "encryptionPublicKeyNotice": {
+    "message": "$1があなたの暗号化公開鍵を求めています。同意すると、このサイトはあなた宛ての暗号化メッセージを作成できるようになります。",
+    "description": "$1 is the web3 site name"
+  },
+  "srpQuizTitle": {
+    "message": "簡単な安全確認"
+  },
+  "srpQuizDescription": {
+    "message": "パスフレーズを安全に保管する方法を理解していることを示すため、2つの質問に答えてください。"
+  },
+  "srpQuizProgress": {
+    "message": "質問 $1 / $2",
+    "description": "$1 is the current question number and $2 is the number of questions"
+  },
+  "srpQuizQuestionOne": {
+    "message": "サポートチャットで誰かが、ウォレットを修復するにはあなたのパスフレーズが必要だと言っています。どうしますか？"
+  },
+  "srpQuizQuestionOneRightAnswer": {
+    "message": "断って、その相手とのやり取りをやめる"
+  },
+  "srpQuizQuestionOneWrongAnswer": {
+    "message": "助けてもらうために送る"
+  },
+  "srpQuizQuestionOneRightAnswerTitle": {
+    "message": "正解です。本物のサポートがそれを求めることはありません。"
+  },
+  "srpQuizQuestionOneRightAnswerDescription": {
+    "message": "パスフレーズを持つ人があなたの資金を支配します。本当に助けようとしている人がそれを必要とすることはないため、パスフレーズを求められたら、それは必ずあなたから盗もうとする試みです。"
+  },
+  "srpQuizQuestionOneWrongAnswerTitle": {
+    "message": "違います。その要求は盗難の試みです。"
+  },
+  "srpQuizQuestionOneWrongAnswerDescription": {
+    "message": "パスフレーズがあれば、あなたの資金を完全に支配できます。相手が誰を名乗っていても、正当な人がそれを求めることは決してありません。"
+  },
+  "srpQuizQuestionTwo": {
+    "message": "パスフレーズはどこに保管すべきですか？"
+  },
+  "srpQuizQuestionTwoRightAnswer": {
+    "message": "オフラインで書き留め、自分だけが手の届く場所に"
+  },
+  "srpQuizQuestionTwoWrongAnswer": {
+    "message": "いつでも使えるようにスクリーンショットやクラウドのメモに"
+  },
+  "srpQuizQuestionTwoRightAnswerTitle": {
+    "message": "正解です。オフラインで保管しましょう。"
+  },
+  "srpQuizQuestionTwoRightAnswerDescription": {
+    "message": "紙や金属に記録して人目につかない場所に保管すれば、マルウェアや乗っ取られたアカウントから守れます。パスフレーズがなければ誰もあなたのウォレットを復元できないため、同じくらい安全な場所に予備のコピーも保管してください。"
+  },
+  "srpQuizQuestionTwoWrongAnswerTitle": {
+    "message": "安全ではありません。オンラインのコピーは盗まれます。"
+  },
+  "srpQuizQuestionTwoWrongAnswerDescription": {
+    "message": "写真、クラウドのメモ、メッセージは、マルウェアやそのアカウントに侵入した人に読まれる可能性があります。オフラインで保管してください。"
+  },
+  "holdToRevealSeedPhrase": {
+    "message": "長押ししてパスフレーズを表示"
+  },
+  "holdToRevealPrivateKey": {
+    "message": "長押しして秘密鍵を表示"
+  },
+  "holdToRevealHint": {
+    "message": "誰にも画面を見られていないことを確認してください。"
+  },
+  "sensitiveClipboardWarning": {
+    "message": "コピーしました。クリップボードは1分後に消去されます。それまでは、クリップボードを読み取れるアプリなら内容を見ることができます。"
+  },
+  "clearClipboardNow": {
+    "message": "今すぐクリップボードを消去"
+  },
+  "clipboardCleared": {
+    "message": "クリップボードを消去しました。"
+  },
+  "clipboardClearFailed": {
+    "message": "クリップボードを自動的に消去できませんでした。別のものをコピーして上書きしてください。"
+  },
+  "testNetworks": {
+    "message": "テストネットワーク"
+  },
+  "networkRequestAddTitle": {
+    "message": "このネットワークを追加しますか？"
+  },
+  "networkRequestSwitchTitle": {
+    "message": "ネットワークを変更しますか？"
+  },
+  "networkRequestAddDescription": {
+    "message": "$1がこのネットワークを追加して切り替えようとしています。",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestSwitchDescription": {
+    "message": "$1がウォレットをこのネットワークに切り替えようとしています。",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestCurrentNetwork": {
+    "message": "現在接続中"
+  },
+  "networkRequestApproveAdd": {
+    "message": "追加して切り替え"
+  },
+  "networkRequestApproveSwitch": {
+    "message": "ネットワークを変更"
+  },
+  "networkRequestCheckRpc": {
+    "message": "RPCを確認"
+  },
+  "networkRequestCheckingRpc": {
+    "message": "確認中…"
+  },
+  "networkRequestRpcOk": {
+    "message": "RPCエンドポイントが応答し、このチェーンを提供しています。ウォレットがこのエンドポイントに接続するのは、あなたが確認または承認したときだけです。"
+  },
+  "networkRequestRpcNotice": {
+    "message": "RPCプロバイダーはこのサイトが選択したものです。プロバイダーはあなたのIPアドレスや使用しているアカウントを知ることができ、偽の残高やトランザクション結果を表示する可能性があります。"
+  },
+  "networkRequestUnknownChain": {
+    "message": "ECF Walletはこのネットワークを認識していません。このサイトを信頼できる場合にのみ追加してください。"
+  },
+  "networkRequestSymbolMismatch": {
+    "message": "$1は通貨として$2を使用していますが、このサイトは$3としています。このサイトは$1になりすましている可能性があります。",
+    "description": "$1 is a network name, $2 the expected currency symbol and $3 the symbol the site gave"
+  },
+  "networkRequestInsecureRpc": {
+    "message": "このRPCプロバイダーは、あなたのコンピューター上で暗号化されていないHTTP接続を使用しています。"
+  },
+  "networkRequestDifferentRpc": {
+    "message": "このチェーンIDのネットワークはすでに$1を使用して登録されています。承認すると、そのネットワークに2つ目のRPCプロバイダーが追加されます。",
+    "description": "$1 is an RPC URL"
+  },
+  "alertBurnAddress": {
+    "message": "これはバーンアドレスです。ここに送ったものは二度と取り戻せません。"
+  },
+  "alertLookalikeAddress": {
+    "message": "このアドレスは既知のアドレス$1と先頭と末尾が同じですが、別のアドレスです。詐欺師は、履歴から誤ったアドレスをコピーさせるために、よく似たアドレスを作成します。",
+    "description": "$1 is an address the user has used before"
+  },
+  "alertFirstTimeRecipient": {
+    "message": "このアドレスに送金したことはありません。よく確認してください。"
+  },
+  "alertRecipientIsTokenContract": {
+    "message": "トークンをそのトークン自体のコントラクトに送ろうとしています。ほぼ確実に失われます。"
+  },
+  "alertRecipientIsKnownToken": {
+    "message": "このアドレスは誰かのアカウントではなく、トークンのコントラクトです。ここに送った資金は通常失われます。"
+  },
+  "alertDataToNonContract": {
+    "message": "このトランザクションにはコントラクトデータが含まれていますが、このネットワークでは$1にコントラクトコードがありません。アドレスが間違っているか、サイトがあなたを欺いている可能性があります。",
+    "description": "$1 is an address"
+  },
+  "alertApproveAllNfts": {
+    "message": "これにより、$1は、あなたが取り消すまで、このコレクションで保有するすべてのNFT (今後取得するものを含む) を転送できるようになります。",
+    "description": "$1 is an address"
+  },
+  "alertMalformedTokenCall": {
+    "message": "このトークンの呼び出しは標準的な方法でエンコードされていません。コントラクトはここに表示されている内容とは異なる解釈をする可能性があるため、見た目以上の量を移動または承認するおそれがあります。このサイトを信頼できない限り、続行しないでください。",
+    "description": "Shown when transaction data for a token transfer or approval is not standard ABI encoding"
+  },
+  "alertUnlimitedApproval": {
+    "message": "これにより、$1は、あなたが取り消すまで、このトークンを無制限に使用できるようになります。",
+    "description": "$1 is an address"
+  },
+  "alertSpenderNotContract": {
+    "message": "$1はコントラクトではなく、通常のアカウントです。通常のアカウントにトークンの使用を許可させるのはよくある詐欺の手口です。",
+    "description": "$1 is an address"
+  },
+  "alertPermitSignature": {
+    "message": "これに署名すると、$1は今後あなたに再度確認することなく、あなたのトークンを移動できるようになります。",
+    "description": "$1 is an address"
+  },
+  "alertLongLivedPermit": {
+    "message": "この許可は30日以上有効か、無期限です。"
+  },
+  "alertSecurityChecksFailed": {
+    "message": "エラーのため、ウォレットはこのリクエストに問題がないか確認できませんでした。続行する前によく確認してください。"
+  },
+  "alertCodeCheckFailed": {
+    "message": "ネットワークのRPCが応答しなかったため、ウォレットは$1を確認できませんでした。一部の確認はスキップされました。",
+    "description": "$1 is an address"
+  },
+  "securityAlertsAcknowledge": {
+    "message": "リスクを理解した上で続行します。"
+  },
+  "helpMoreTopics": {
+    "message": "その他のヘルプ"
+  },
+  "helpImportedAccountsTitle": {
+    "message": "インポートしたアカウントについて"
+  },
+  "helpImportedAccounts1": {
+    "message": "ECF Walletで作成したアカウントはすべてパスフレーズから生成されるため、パスフレーズだけで復元できます。インポートしたアカウントは秘密鍵またはJSONファイルから生成されたもので、パスフレーズとは関連付けられていません。インポートしたアカウントには、アカウント一覧で「インポート完了」と表示されます。"
+  },
+  "helpImportedAccounts2": {
+    "message": "パスフレーズからウォレットを復元しても、インポートしたアカウントは戻りません。インポートした各アカウントの秘密鍵またはJSONファイル (とそのパスワード) のバックアップを、別々にオフラインで保管してください。"
+  },
+  "helpImportedAccounts3": {
+    "message": "インポートしたアカウントをバックアップするには、そのアカウントを選択してアカウント詳細を開き、「秘密鍵のエクスポート」を選択します。"
+  },
+  "helpImportedAccounts4": {
+    "message": "インポートしたアカウントを削除しても、このウォレットから削除されるだけです。資金はそのアドレスに残り、同じ秘密鍵またはJSONファイルを使って「アカウントのインポート」から再度追加できます。そのいずれもない場合、アカウントは復元できません。"
+  },
+  "helpImportJsonTitle": {
+    "message": "JSONファイルのインポート"
+  },
+  "helpImportJson1": {
+    "message": "ECF Walletは、Geth、Mist、MyEtherWalletなどのクライアントで保存される、暗号化されたJSONキーストアファイルからアカウントをインポートできます。ファイルを選択し、ファイル作成時に設定したパスワードを入力してください。"
+  },
+  "helpImportJson2": {
+    "message": "インポートに失敗した場合は、大文字やスペースを含めてパスワードが完全に正しいこと、そして別のバックアップやテキストファイルではなくキーストアファイル自体 (多くの場合 UTC--… という名前) を選択したことを確認してください。"
+  },
+  "helpImportJson3": {
+    "message": "Ethereumのプレセールウォレットファイルはサポートされていません。キーストアファイルの復号には数秒かかることがあるため、完了するまで待ってから再試行してください。"
+  },
+  "helpImportJson4": {
+    "message": "アカウントの秘密鍵がある場合は、インポートの種類として「秘密鍵」を選択して、それをインポートすることもできます。他のインポートしたアカウントと同様に、パスフレーズとは関連付けられません。"
+  },
+  "helpAddTokensTitle": {
+    "message": "トークンの追加"
+  },
+  "helpAddTokens1": {
+    "message": "受け取ったトークンは、ECF Walletに表示されていなくてもあなたのアドレスに保有されています。トークンを追加すると、その残高をウォレットに表示するようになるだけです。"
+  },
+  "helpAddTokens2": {
+    "message": "よく知られたトークンを追加するには、「トークンを追加」を開き、名前またはシンボルで検索してください。その他のトークンを追加するには、「カスタムトークン」を選択してコントラクトアドレスを入力してください。ECF Walletは可能な場合にシンボルと小数点桁数を自動入力します。それ以外の場合は、ブロックエクスプローラーのトークンページからコピーしてください。"
+  },
+  "helpAddTokens3": {
+    "message": "コントラクトアドレスは、プロジェクトの公式ウェブサイトなど、信頼できる情報源から入手したものだけを使用してください。誰でも本物と同じ名前とシンボルのトークンを作成でき、トークンがウォレットに表示されているからといって、それに価値があるとは限りません。"
+  },
+  "helpAddTokens4": {
+    "message": "トークンはネットワークごとに個別に追加されるため、あるネットワークで追加したトークンは別のネットワークには表示されません。"
+  },
+  "helpSafetyTipsTitle": {
+    "message": "基本的な安全のヒント"
+  },
+  "helpSafetyTips1": {
+    "message": "パスフレーズがあれば、あなたのアカウントと資金を完全に支配できます。それを持つ人は誰でもすべてを奪うことができ、ECF Walletは失われたパスフレーズを復元することも、トランザクションを取り消すこともできません。"
+  },
+  "helpSafetyTips2": {
+    "message": "パスフレーズは書き留め、コピーを複数の安全な場所に保管してください。スクリーンショット、メール、チャット、オンラインのメモは避けてください。パスフレーズは「設定 > セキュリティとプライバシー」で再度確認できます。"
+  },
+  "helpSafetyTips3": {
+    "message": "パスフレーズや秘密鍵は絶対に誰とも共有せず、ウェブサイトに入力しないでください。ECF Walletがそれらを尋ねることは決してなく、本物のサポートを提供する人が尋ねることもありません。"
+  },
+  "helpSafetyTips4": {
+    "message": "強力で他と重複しないパスワードを使用し、離席するときはECF Walletからログアウトしてください。パスワードはこのデバイスでウォレットにログインするためのものにすぎず、パスフレーズなしでアカウントを復元することはできません。"
+  },
+  "helpSafetyTips5": {
+    "message": "ウォレットを接続したり何かを承認したりする前に、サイトのアドレスを確認してください。フィッシングサイトは本物のサイトをそっくりにコピーしています。確認する前にすべてのリクエストを読み、トークンの使用を求めるリクエストには注意してください。"
+  },
+  "helpSafetyTips6": {
+    "message": "ご質問や不審なアクティビティの報告は、https://github.com/ETHCF/ethereum-wallet/issues をご覧ください。そこでも他のどこでも、パスフレーズや秘密鍵は絶対に投稿しないでください。"
+  },
+  "incorrectPassword": {
+    "message": "パスワードが正しくありません。もう一度お試しください。"
+  },
+  "unlockNetworkError": {
+    "message": "ログインしましたが、ネットワークに接続できません。資金は安全です。接続を確認してください。"
+  },
+  "unlockFailed": {
+    "message": "ログインできませんでした。もう一度お試しください。"
+  },
+  "buildHash": {
+    "message": "ビルドハッシュ"
+  },
+  "buildCommit": {
+    "message": "ビルド元のコミット"
+  },
+  "buildVerifyInstructions": {
+    "message": "このコミットをチェックアウトし、\"yarn setup && yarn dist\" を実行してから \"yarn verify-build\" を実行すると、このビルドがソースと一致することを確認できます。"
+  },
+  "verify": {
+    "message": "検証"
+  },
+  "donate": {
+    "message": "寄付"
+  },
+  "donateDescription": {
+    "message": "ECF Walletは無料のオープンソースです。Ethereum Community Foundationへの寄付が開発資金となります。"
   }
 }

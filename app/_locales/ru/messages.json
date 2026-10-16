@@ -1036,5 +1036,691 @@
   "encryptionPublicKeyNotice": {
     "message": "$1 запрашивает ваш открытый ключ шифрования. По согласованию, этот сайт сможет создавать для Вас зашифрованные сообщения.",
     "description": "$1 is website or dapp name"
+  },
+  "acceptTermsOfUse": {
+    "message": "Я прочитал(а) и принимаю $1",
+    "description": "$1 is the `terms` message"
+  },
+  "backUpNow": {
+    "message": "Создать резервную копию"
+  },
+  "darkTheme": {
+    "message": "Темная"
+  },
+  "eth_accounts": {
+    "message": "Просмотр адресов разрешенных счетов (обязательно)",
+    "description": "The description for the `eth_accounts` permission"
+  },
+  "connectedSites": {
+    "message": "Подключенные сайты"
+  },
+  "connectedSitesDescription": {
+    "message": "$1 подключен к этим сайтам. Они могут видеть адрес вашего счета.",
+    "description": "$1 is the account name"
+  },
+  "connectedSitesEmptyDescription": {
+    "message": "$1 не подключен ни к одному сайту.",
+    "description": "$1 is the account name"
+  },
+  "connectedAccountsDescriptionSingular": {
+    "message": "К этому сайту подключен 1 ваш счет."
+  },
+  "connectedAccountsDescriptionPlural": {
+    "message": "Количество ваших счетов, подключенных к этому сайту: $1.",
+    "description": "$1 is the number of accounts"
+  },
+  "connectedAccountsEmptyDescription": {
+    "message": "ECF Wallet не подключен к этому сайту. Чтобы подключиться к сайту web3, найдите на нем кнопку подключения."
+  },
+  "currentAccountNotConnected": {
+    "message": "Ваш текущий счет не подключен"
+  },
+  "lightTheme": {
+    "message": "Светлая"
+  },
+  "localNetworkConfirm": {
+    "message": "Я сам(а) запускаю этот узел и хочу его добавить"
+  },
+  "localNetworkWarning": {
+    "message": "Этот RPC URL указывает на ваш собственный компьютер — обычно это узел для разработки. Добавляйте его, только если знаете, что там запущено."
+  },
+  "osTheme": {
+    "message": "Системная"
+  },
+  "rejectRequestsOnClose": {
+    "message": "Отклонять запросы при закрытии окна подтверждения"
+  },
+  "rejectRequestsOnCloseDescription": {
+    "message": "Закрытие окна подтверждения отклоняет ожидающие в нем транзакции, подписи и другие запросы сайтов. Отключите этот параметр, чтобы запросы продолжали ожидать и вы могли ответить на них позже из кошелька."
+  },
+  "seedPhraseNotBackedUp": {
+    "message": "Для вашей ключевой фразы не создана резервная копия."
+  },
+  "siteSuggestsToken": {
+    "message": "$1 предлагает вам добавить этот токен."
+  },
+  "switchToThisAccount": {
+    "message": "Переключиться на этот счет"
+  },
+  "disconnectThisAccount": {
+    "message": "Отключить этот счет"
+  },
+  "permissions": {
+    "message": "Разрешения"
+  },
+  "showPermissions": {
+    "message": "Показать разрешения"
+  },
+  "authorizedPermissions": {
+    "message": "Вы предоставили следующие разрешения"
+  },
+  "connectManually": {
+    "message": "Подключиться к текущему сайту вручную"
+  },
+  "disconnect": {
+    "message": "Отключить"
+  },
+  "disconnectAllAccounts": {
+    "message": "Отключить все счета"
+  },
+  "disconnectPrompt": {
+    "message": "Отключить $1"
+  },
+  "disconnectAllAccountsConfirmationDescription": {
+    "message": "Вы уверены, что хотите отключиться? Часть функций сайта может стать недоступной."
+  },
+  "dismiss": {
+    "message": "Закрыть"
+  },
+  "connecting": {
+    "message": "Подключение..."
+  },
+  "connectWithEcfWallet": {
+    "message": "Подключиться через ECF Wallet"
+  },
+  "connectTo": {
+    "message": "Подключить $1",
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to ecf-wallet"
+  },
+  "connectToAll": {
+    "message": "Подключить все ваши $1",
+    "description": "$1 will be replaced by the translation of connectToAllAccounts"
+  },
+  "connectToAllAccounts": {
+    "message": "счета",
+    "description": "will replace $1 in connectToAll, completing the sentence 'connect to all of your accounts', will be text that shows list of accounts on hover"
+  },
+  "connectToMultiple": {
+    "message": "Подключить $1",
+    "description": "$1 will be replaced by the translation of connectToMultipleNumberOfAccounts"
+  },
+  "connectToMultipleNumberOfAccounts": {
+    "message": "счета ($1)",
+    "description": "$1 is the number of accounts to which the web3 site/application is asking to connect; this will substitute $1 in connectToMultiple"
+  },
+  "accessAndSpendNotice": {
+    "message": "$1 может получить доступ и потратить сумму вплоть до этого максимума",
+    "description": "$1 is the url of the site requesting ability to spend"
+  },
+  "active": {
+    "message": "Активен"
+  },
+  "activity": {
+    "message": "Активность"
+  },
+  "allowOriginSpendToken": {
+    "message": "Разрешить $1 тратить ваши $2?",
+    "description": "$1 is the url of the site and $2 is the symbol of the token they are requesting to spend"
+  },
+  "allowThisSiteTo": {
+    "message": "Разрешить этому сайту:"
+  },
+  "allowExternalExtensionTo": {
+    "message": "Разрешить этому внешнему расширению:"
+  },
+  "allowWithdrawAndSpend": {
+    "message": "Разрешить $1 снимать и тратить сумму вплоть до следующей:",
+    "description": "The url of the site that requested permission to 'withdraw and spend'"
+  },
+  "amountWithColon": {
+    "message": "Сумма:"
+  },
+  "approveSpendLimit": {
+    "message": "Одобрить лимит расходов $1",
+    "description": "The token symbol that is being approved"
+  },
+  "assets": {
+    "message": "Активы"
+  },
+  "connectAccountOrCreate": {
+    "message": "Подключите счет или создайте новый"
+  },
+  "contactUs": {
+    "message": "Свяжитесь с нами!"
+  },
+  "currentExtension": {
+    "message": "Текущая страница расширения"
+  },
+  "customSpendLimit": {
+    "message": "Пользовательский лимит расходов"
+  },
+  "dontShowThisAgain": {
+    "message": "Больше не показывать"
+  },
+  "editPermission": {
+    "message": "Изменить разрешение"
+  },
+  "endOfFlowMessage7": {
+    "message": "С вопросами или при подозрительной активности обращайтесь на https://github.com/ETHCF/ethereum-wallet/issues. Никогда не публикуйте свою ключевую фразу или закрытые ключи."
+  },
+  "externalExtension": {
+    "message": "Внешнее расширение"
+  },
+  "onboardingReturnNotice": {
+    "message": "«$1» закроет эту вкладку и вернет вас на $2",
+    "description": "Return the user to the site that initiated onboarding"
+  },
+  "enterMaxSpendLimit": {
+    "message": "Введите максимальный лимит расходов"
+  },
+  "errorCode": {
+    "message": "Код: $1",
+    "description": "Displayed error code for debugging purposes. $1 is the error code"
+  },
+  "errorDetails": {
+    "message": "Сведения об ошибке",
+    "description": "Title for collapsible section that displays error details for debugging purposes"
+  },
+  "errorMessage": {
+    "message": "Сообщение: $1",
+    "description": "Displayed error message for debugging purposes. $1 is the error message"
+  },
+  "errorName": {
+    "message": "Код: $1",
+    "description": "Displayed error name for debugging purposes. $1 is the error name"
+  },
+  "errorPageTitle": {
+    "message": "В ECF Wallet произошла ошибка",
+    "description": "Title of generic error page"
+  },
+  "errorPageMessage": {
+    "message": "Попробуйте перезагрузить страницу или сообщите о проблеме на https://github.com/ETHCF/ethereum-wallet/issues"
+  },
+  "errorPagePopupMessage": {
+    "message": "Попробуйте закрыть и снова открыть всплывающее окно или сообщите о проблеме на https://github.com/ETHCF/ethereum-wallet/issues"
+  },
+  "errorStack": {
+    "message": "Стек:",
+    "description": "Title for error stack, which is displayed for debugging purposes"
+  },
+  "failureMessage": {
+    "message": "Что-то пошло не так, и нам не удалось выполнить действие"
+  },
+  "feeAssociatedRequest": {
+    "message": "За этот запрос взимается комиссия."
+  },
+  "functionApprove": {
+    "message": "Функция: Approve"
+  },
+  "gasEstimateFailed": {
+    "message": "Не удалось оценить, сколько газа нужно этой транзакции, поэтому она может завершиться неудачей. Проверьте подключение к сети или задайте лимит газа вручную."
+  },
+  "hideTokenSymbol": {
+    "message": "Скрыть $1",
+    "description": "$1 is the symbol for a token (e.g. 'DAI')"
+  },
+  "knownTokenWarning": {
+    "message": "Это действие изменит токены, которые уже есть в вашем кошельке, что может быть использовано для фишинга. Одобряйте, только если вы уверены, что хотите изменить то, что представляют эти токены."
+  },
+  "reusedTokenNameWarning": {
+    "message": "Один из этих токенов использует символ другого отслеживаемого вами токена — это может сбивать с толку или вводить в заблуждение."
+  },
+  "lastConnected": {
+    "message": "Последнее подключение:"
+  },
+  "legalLastUpdated": {
+    "message": "Последнее обновление: $1",
+    "description": "$1 is the date a legal document, such as the Terms of Use, was last changed"
+  },
+  "localhost": {
+    "message": "Localhost 8545"
+  },
+  "lockTimeTooGreat": {
+    "message": "Слишком большое время блокировки"
+  },
+  "onlyConnectTrust": {
+    "message": "Подключайтесь только к сайтам, которым доверяете."
+  },
+  "onlyAddTrustedNetworks": {
+    "message": "Злонамеренный поставщик сети Ethereum может лгать о состоянии блокчейна и записывать вашу сетевую активность. Добавляйте только те пользовательские сети, которым доверяете."
+  },
+  "notCurrentAccount": {
+    "message": "Это правильный счет? Он отличается от счета, выбранного сейчас в вашем кошельке"
+  },
+  "permissionCheckedIconDescription": {
+    "message": "Вы одобрили это разрешение"
+  },
+  "permissionUncheckedIconDescription": {
+    "message": "Вы не одобрили это разрешение"
+  },
+  "plusXMore": {
+    "message": "+ еще $1",
+    "description": "$1 is a number of additional but unshown items in a list- this message will be shown in place of those items"
+  },
+  "proposedApprovalLimit": {
+    "message": "Предлагаемый лимит одобрения"
+  },
+  "queued": {
+    "message": "В очереди"
+  },
+  "receive": {
+    "message": "Получить"
+  },
+  "seedPhrasePlaceholderPaste": {
+    "message": "Вставьте ключевую фразу из буфера обмена"
+  },
+  "showSeedPhrase": {
+    "message": "Показать ключевую фразу"
+  },
+  "selectingAllWillAllow": {
+    "message": "Если выбрать все, этот сайт сможет видеть все ваши текущие счета. Убедитесь, что доверяете этому сайту."
+  },
+  "selectAccounts": {
+    "message": "Выберите счет(а)"
+  },
+  "selectAll": {
+    "message": "Выбрать все"
+  },
+  "sendSpecifiedTokens": {
+    "message": "Отправить $1",
+    "description": "Symbol of the specified token"
+  },
+  "searchAccounts": {
+    "message": "Поиск счетов"
+  },
+  "noAccountsFound": {
+    "message": "По этому запросу счета не найдены"
+  },
+  "signatureRequest1": {
+    "message": "Сообщение"
+  },
+  "spenderWithColon": {
+    "message": "Получатель разрешения:",
+    "description": "Labels the address an approval lets spend the user's tokens"
+  },
+  "spendLimitPermission": {
+    "message": "Разрешение на лимит расходов"
+  },
+  "spendLimitRequestedBy": {
+    "message": "Лимит расходов, запрошенный сайтом $1",
+    "description": "Origin of the site requesting the spend limit"
+  },
+  "spendLimitTooLarge": {
+    "message": "Слишком большой лимит расходов"
+  },
+  "spendLimitInvalid": {
+    "message": "Недопустимый лимит расходов: должно быть положительное число"
+  },
+  "statusConnected": {
+    "message": "Подключен"
+  },
+  "statusNotConnected": {
+    "message": "Не подключен"
+  },
+  "submit": {
+    "message": "Отправить"
+  },
+  "theme": {
+    "message": "Тема"
+  },
+  "themeDescription": {
+    "message": "Выберите светлое или темное оформление либо следуйте настройке системы"
+  },
+  "toAddress": {
+    "message": "Кому: $1",
+    "description": "$1 is the address to include in the To label. It is typically shortened first using shortenAddress"
+  },
+  "toWithColon": {
+    "message": "Кому:"
+  },
+  "tokenOptions": {
+    "message": "Параметры токена"
+  },
+  "trustSiteApprovePermission": {
+    "message": "Доверяете ли вы этому сайту? Предоставляя это разрешение, вы позволяете $1 снимать ваши $2 и автоматически выполнять транзакции от вашего имени.",
+    "description": "$1 is the url requesting permission and $2 is the symbol of the currency that the request is for"
+  },
+  "alertDisableTooltip": {
+    "message": "Это можно изменить в разделе «Настройки > Оповещения»"
+  },
+  "unlimited": {
+    "message": "Без ограничений"
+  },
+  "urlExistsErrorMsg": {
+    "message": "Этот URL уже есть в списке сетей"
+  },
+  "useNftDetection": {
+    "message": "Обнаруживать NFT"
+  },
+  "useNftDetectionDescription": {
+    "message": "Показывает вкладку NFT со списком NFT выбранного счета в Ethereum, Arbitrum, Optimism, Polygon и Base. Кошелек запрашивает их у NFT API от MetaMask (nft.api.cx.metamask.io), который видит адрес счета и ваш IP-адрес. При отключении список удаляется."
+  },
+  "displayNftMedia": {
+    "message": "Показывать изображения NFT"
+  },
+  "displayNftMediaDescription": {
+    "message": "Загружает изображение каждого NFT один раз — с хоста, выбранного его создателем (или через ваш шлюз IPFS), — и хранит его в кошельке. Эти хосты видят ваш IP-адрес. При отключении загруженные изображения удаляются."
+  },
+  "nfts": {
+    "message": "NFT"
+  },
+  "nftsLoading": {
+    "message": "Поиск NFT…"
+  },
+  "noNfts": {
+    "message": "Для этого счета в этой сети NFT не найдены."
+  },
+  "nftsLookupFailed": {
+    "message": "Не удалось найти NFT. Повторите попытку позже."
+  },
+  "nftsUnsupportedNetwork": {
+    "message": "NFT ищутся только в следующих сетях: $1.",
+    "description": "$1 is a list of network names"
+  },
+  "use4ByteResolution": {
+    "message": "Определять названия методов контрактов"
+  },
+  "use4ByteResolutionDescription": {
+    "message": "Если транзакция вызывает функцию контракта, которую кошелек не распознает, запрашивать ее название у 4byte.directory. 4byte.directory видит идентификатор функции и ваш IP-адрес."
+  },
+  "usePhishingDetection": {
+    "message": "Использовать обнаружение фишинга"
+  },
+  "usePhishingDetectionDescription": {
+    "message": "Показывать предупреждение для фишинговых доменов, нацеленных на пользователей Ethereum"
+  },
+  "retryTransaction": {
+    "message": "Повторить транзакцию"
+  },
+  "xOfY": {
+    "message": "$1 из $2",
+    "description": "$1 and $2 are intended to be two numbers, where $2 is a total, and $1 is a count towards that total"
+  },
+  "zeroGasPriceOnSpeedUpError": {
+    "message": "Нулевая цена газа при ускорении"
+  },
+  "srpQuizTitle": {
+    "message": "Быстрая проверка безопасности"
+  },
+  "srpQuizDescription": {
+    "message": "Ответьте на два вопроса, чтобы показать, что знаете, как хранить ключевую фразу в безопасности."
+  },
+  "srpQuizProgress": {
+    "message": "Вопрос $1 из $2",
+    "description": "$1 is the current question number and $2 is the number of questions"
+  },
+  "srpQuizQuestionOne": {
+    "message": "Человек в чате поддержки говорит, что ему нужна ваша ключевая фраза, чтобы починить кошелек. Что вы сделаете?"
+  },
+  "srpQuizQuestionOneRightAnswer": {
+    "message": "Откажу и прекращу с ним общение"
+  },
+  "srpQuizQuestionOneWrongAnswer": {
+    "message": "Отправлю ее, чтобы мне помогли"
+  },
+  "srpQuizQuestionOneRightAnswerTitle": {
+    "message": "Верно. Настоящая поддержка никогда ее не просит."
+  },
+  "srpQuizQuestionOneRightAnswerDescription": {
+    "message": "Тот, у кого есть ваша ключевая фраза, управляет вашими средствами. Настоящему помощнику она не нужна, поэтому просьба ее сообщить — это всегда попытка вас обокрасть."
+  },
+  "srpQuizQuestionOneWrongAnswerTitle": {
+    "message": "Нет. Такая просьба — попытка кражи."
+  },
+  "srpQuizQuestionOneWrongAnswerDescription": {
+    "message": "Ключевая фраза дает полный контроль над вашими средствами. Никто добросовестный никогда ее не попросит, кем бы он ни представлялся."
+  },
+  "srpQuizQuestionTwo": {
+    "message": "Где следует хранить ключевую фразу?"
+  },
+  "srpQuizQuestionTwoRightAnswer": {
+    "message": "Записанной офлайн, там, где до нее могу добраться только я"
+  },
+  "srpQuizQuestionTwoWrongAnswer": {
+    "message": "На скриншоте или в облачной заметке, чтобы она всегда была под рукой"
+  },
+  "srpQuizQuestionTwoRightAnswerTitle": {
+    "message": "Верно. Храните ее офлайн."
+  },
+  "srpQuizQuestionTwoRightAnswerDescription": {
+    "message": "Бумага или металл в укромном месте защищают ее от вредоносных программ и взломанных аккаунтов. Без нее никто не сможет восстановить ваш кошелек, поэтому храните запасную копию в столь же надежном месте."
+  },
+  "srpQuizQuestionTwoWrongAnswerTitle": {
+    "message": "Небезопасно. Копии в интернете крадут."
+  },
+  "srpQuizQuestionTwoWrongAnswerDescription": {
+    "message": "Фотографии, облачные заметки и сообщения могут прочитать вредоносные программы или любой, кто получит доступ к аккаунту. Храните фразу офлайн."
+  },
+  "holdToRevealSeedPhrase": {
+    "message": "Удерживайте, чтобы показать ключевую фразу"
+  },
+  "holdToRevealPrivateKey": {
+    "message": "Удерживайте, чтобы показать закрытый ключ"
+  },
+  "holdToRevealHint": {
+    "message": "Убедитесь, что никто не видит ваш экран."
+  },
+  "sensitiveClipboardWarning": {
+    "message": "Скопировано. Буфер обмена будет очищен через 1 минуту. До тех пор его содержимое может увидеть любое приложение с доступом к буферу обмена."
+  },
+  "clearClipboardNow": {
+    "message": "Очистить буфер обмена сейчас"
+  },
+  "clipboardCleared": {
+    "message": "Буфер обмена очищен."
+  },
+  "clipboardClearFailed": {
+    "message": "Не удалось автоматически очистить буфер обмена. Скопируйте что-нибудь другое, чтобы перезаписать его."
+  },
+  "testNetworks": {
+    "message": "Тестовые сети"
+  },
+  "networkRequestAddTitle": {
+    "message": "Добавить эту сеть?"
+  },
+  "networkRequestSwitchTitle": {
+    "message": "Сменить сеть?"
+  },
+  "networkRequestAddDescription": {
+    "message": "$1 хочет добавить эту сеть и переключиться на нее.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestSwitchDescription": {
+    "message": "$1 хочет переключить кошелек на эту сеть.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestCurrentNetwork": {
+    "message": "Текущая сеть"
+  },
+  "networkRequestApproveAdd": {
+    "message": "Добавить и переключиться"
+  },
+  "networkRequestApproveSwitch": {
+    "message": "Сменить сеть"
+  },
+  "networkRequestCheckRpc": {
+    "message": "Проверить RPC"
+  },
+  "networkRequestCheckingRpc": {
+    "message": "Проверка…"
+  },
+  "networkRequestRpcOk": {
+    "message": "RPC-узел ответил и обслуживает эту сеть. Кошелек обращается к нему, только когда вы его проверяете или одобряете запрос."
+  },
+  "networkRequestRpcNotice": {
+    "message": "RPC-провайдера выбрал этот сайт. Провайдер может видеть ваш IP-адрес и то, какие счета вы используете, а также может показывать ложные балансы или результаты транзакций."
+  },
+  "networkRequestUnknownChain": {
+    "message": "ECF Wallet не распознает эту сеть. Добавляйте ее, только если доверяете этому сайту."
+  },
+  "networkRequestSymbolMismatch": {
+    "message": "В сети $1 используется валюта $2, но этот сайт указывает $3. Возможно, сайт выдает себя за $1.",
+    "description": "$1 is a network name, $2 the expected currency symbol and $3 the symbol the site gave"
+  },
+  "networkRequestInsecureRpc": {
+    "message": "Этот RPC-провайдер использует незашифрованное HTTP-соединение на вашем компьютере."
+  },
+  "networkRequestDifferentRpc": {
+    "message": "У вас уже есть сеть с этим ID сети, которая использует $1. Одобрение добавит для нее второго RPC-провайдера.",
+    "description": "$1 is an RPC URL"
+  },
+  "alertBurnAddress": {
+    "message": "Это адрес сжигания. Все, что сюда отправлено, невозможно вернуть."
+  },
+  "alertLookalikeAddress": {
+    "message": "Этот адрес начинается и заканчивается так же, как $1 — знакомый вам адрес, — но это другой адрес. Мошенники создают похожие адреса, чтобы люди скопировали из истории не тот.",
+    "description": "$1 is an address the user has used before"
+  },
+  "alertFirstTimeRecipient": {
+    "message": "Вы еще ничего не отправляли на этот адрес. Внимательно проверьте его."
+  },
+  "alertRecipientIsTokenContract": {
+    "message": "Вы отправляете токены на собственный контракт этого токена. Они почти наверняка будут потеряны."
+  },
+  "alertRecipientIsKnownToken": {
+    "message": "Этот адрес — контракт токена, а не чей-то счет. Средства, отправленные сюда, обычно теряются."
+  },
+  "alertDataToNonContract": {
+    "message": "Эта транзакция содержит данные контракта, но у $1 нет кода контракта в этой сети. Возможно, адрес указан неверно или сайт вводит вас в заблуждение.",
+    "description": "$1 is an address"
+  },
+  "alertApproveAllNfts": {
+    "message": "Это позволит $1 переводить все ваши NFT из этой коллекции, включая полученные позже, пока вы не отзовете разрешение.",
+    "description": "$1 is an address"
+  },
+  "alertMalformedTokenCall": {
+    "message": "Этот вызов токена закодирован нестандартно. Контракты могут прочитать его иначе, чем показано здесь, поэтому он может перевести или одобрить больше, чем кажется. Не продолжайте, если не доверяете этому сайту.",
+    "description": "Shown when transaction data for a token transfer or approval is not standard ABI encoding"
+  },
+  "alertUnlimitedApproval": {
+    "message": "Это позволит $1 тратить любое количество этого токена, пока вы не отзовете разрешение.",
+    "description": "$1 is an address"
+  },
+  "alertSpenderNotContract": {
+    "message": "$1 — обычный счет, а не контракт. Выдача обычному счету разрешения тратить ваши токены — распространенная схема мошенничества.",
+    "description": "$1 is an address"
+  },
+  "alertPermitSignature": {
+    "message": "Подписав это, вы позволите $1 позже перемещать ваши токены без повторного запроса.",
+    "description": "$1 is an address"
+  },
+  "alertLongLivedPermit": {
+    "message": "Это разрешение действует более 30 дней или бессрочно."
+  },
+  "alertSecurityChecksFailed": {
+    "message": "Из-за ошибки кошелек не смог проверить этот запрос на наличие проблем. Внимательно изучите его, прежде чем продолжить."
+  },
+  "alertCodeCheckFailed": {
+    "message": "RPC вашей сети не ответил, поэтому кошелек не смог проверить $1. Некоторые проверки пропущены.",
+    "description": "$1 is an address"
+  },
+  "securityAlertsAcknowledge": {
+    "message": "Я понимаю риск и хочу продолжить."
+  },
+  "helpMoreTopics": {
+    "message": "Дополнительная помощь"
+  },
+  "helpImportedAccountsTitle": {
+    "message": "Об импортированных счетах"
+  },
+  "helpImportedAccounts1": {
+    "message": "Все счета, созданные в ECF Wallet, происходят из вашей ключевой фразы, поэтому одной ключевой фразы достаточно для их восстановления. Импортированный счет происходит из закрытого ключа или файла JSON и не связан с вашей ключевой фразой. В списке счетов импортированные счета отмечены как «Импортирован»."
+  },
+  "helpImportedAccounts2": {
+    "message": "Восстановление кошелька из ключевой фразы не вернет импортированные счета. Храните резервную копию закрытого ключа или файла JSON (и его пароля) для каждого импортированного счета отдельно и офлайн."
+  },
+  "helpImportedAccounts3": {
+    "message": "Чтобы создать резервную копию импортированного счета, выберите его, откройте «Детали счета» и нажмите «Экспортировать закрытый ключ»."
+  },
+  "helpImportedAccounts4": {
+    "message": "Удаление импортированного счета лишь убирает его из этого кошелька. Средства остаются на его адресе, и вы можете снова добавить его через «Импортировать счет» с помощью того же закрытого ключа или файла JSON. Без одного из них счет восстановить невозможно."
+  },
+  "helpImportJsonTitle": {
+    "message": "Импорт файла JSON"
+  },
+  "helpImportJson1": {
+    "message": "ECF Wallet может импортировать счет из зашифрованного файла хранилища ключей JSON — такие файлы сохраняют клиенты вроде Geth, Mist и MyEtherWallet. Выберите файл, затем введите пароль, заданный при его создании."
+  },
+  "helpImportJson2": {
+    "message": "Если импорт не удался, проверьте, что пароль введен в точности верно, включая заглавные буквы и пробелы, и что вы выбрали именно файл хранилища ключей (часто с именем UTC--…), а не другую резервную копию или текстовый файл."
+  },
+  "helpImportJson3": {
+    "message": "Файлы кошельков предпродажи Ethereum не поддерживаются. Расшифровка файла хранилища ключей может занять несколько секунд, поэтому дождитесь ее окончания, прежде чем пробовать снова."
+  },
+  "helpImportJson4": {
+    "message": "Если у вас есть закрытый ключ счета, вы можете импортировать его, выбрав тип импорта «Закрытый ключ». Как и любой импортированный счет, он не будет связан с вашей ключевой фразой."
+  },
+  "helpAddTokensTitle": {
+    "message": "Добавление токенов"
+  },
+  "helpAddTokens1": {
+    "message": "Полученные токены хранятся на вашем адресе, даже если ECF Wallet их не показывает. Добавление токена лишь указывает кошельку отображать его баланс."
+  },
+  "helpAddTokens2": {
+    "message": "Чтобы добавить известный токен, откройте «Добавить токены» и найдите его по названию или символу. Чтобы добавить любой другой токен, выберите «Пользовательский токен» и введите адрес его контракта. ECF Wallet по возможности заполнит символ и число десятичных знаков; иначе скопируйте их со страницы токена в обозревателе блоков."
+  },
+  "helpAddTokens3": {
+    "message": "Используйте адрес контракта только из надежного источника, например с официального сайта проекта. Кто угодно может создать токен с тем же названием и символом, что и настоящий, а появление токена в вашем кошельке не означает, что он чего-то стоит."
+  },
+  "helpAddTokens4": {
+    "message": "Токены добавляются для каждой сети отдельно, поэтому токен, добавленный в одной сети, не появится в другой."
+  },
+  "helpSafetyTipsTitle": {
+    "message": "Основные советы по безопасности"
+  },
+  "helpSafetyTips1": {
+    "message": "Ключевая фраза дает полный контроль над вашими счетами и средствами. Любой, у кого она есть, может забрать все, а ECF Wallet не может восстановить утерянную ключевую фразу или отменить транзакцию."
+  },
+  "helpSafetyTips2": {
+    "message": "Запишите ключевую фразу и храните копии в нескольких надежных местах. Не используйте скриншоты, электронную почту, чаты и онлайн-заметки. Посмотреть ее снова можно в разделе «Настройки > Безопасность и конфиденциальность»."
+  },
+  "helpSafetyTips3": {
+    "message": "Никогда никому не сообщайте свою ключевую фразу или закрытые ключи и никогда не вводите их на сайтах. ECF Wallet никогда их не попросит, как и никто, кто действительно оказывает поддержку."
+  },
+  "helpSafetyTips4": {
+    "message": "Используйте надежный уникальный пароль и блокируйте ECF Wallet, когда отходите. Пароль лишь разблокирует кошелек на этом устройстве; без ключевой фразы он не сможет восстановить ваши счета."
+  },
+  "helpSafetyTips5": {
+    "message": "Проверяйте адрес сайта, прежде чем подключать кошелек или что-либо одобрять. Фишинговые сайты точно копируют настоящие. Читайте каждый запрос перед подтверждением и с осторожностью относитесь к запросам на трату ваших токенов."
+  },
+  "helpSafetyTips6": {
+    "message": "С вопросами или чтобы сообщить о подозрительной активности, обращайтесь на https://github.com/ETHCF/ethereum-wallet/issues. Никогда не публикуйте там или где-либо еще свою ключевую фразу или закрытые ключи."
+  },
+  "incorrectPassword": {
+    "message": "Неверный пароль. Попробуйте снова."
+  },
+  "unlockNetworkError": {
+    "message": "Разблокировано, но нет связи с сетью. Ваши средства в безопасности. Проверьте подключение."
+  },
+  "unlockFailed": {
+    "message": "Не удалось разблокировать. Попробуйте снова."
+  },
+  "buildHash": {
+    "message": "Хеш сборки"
+  },
+  "buildCommit": {
+    "message": "Собрано из коммита"
+  },
+  "buildVerifyInstructions": {
+    "message": "Извлеките этот коммит, выполните \"yarn setup && yarn dist\", затем \"yarn verify-build\", чтобы убедиться, что эта сборка соответствует исходному коду."
+  },
+  "verify": {
+    "message": "проверить"
+  },
+  "donate": {
+    "message": "Пожертвовать"
+  },
+  "donateDescription": {
+    "message": "ECF Wallet — бесплатное ПО с открытым исходным кодом. Пожертвования в Ethereum Community Foundation финансируют его разработку."
   }
 }

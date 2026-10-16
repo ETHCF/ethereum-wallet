@@ -84,27 +84,10 @@ export function validateTxParams(txParams) {
   validateFrom(txParams);
   validateRecipient(txParams);
   validateEnvelope(txParams);
-  if (Reflect.has(txParams, 'value')) {
-    const value = txParams.value.toString();
-    if (value.includes('-')) {
-      throw new Error(
-        `Invalid transaction value of ${txParams.value} not a positive number.`,
-      );
-    }
-
-    if (value.includes('.')) {
-      throw new Error(
-        `Invalid transaction value of ${txParams.value} number must be in wei`,
-      );
-    }
-  }
+  // A hex quantity also rules out a negative or fractional value.
   for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
-    if (
-      txParams[field] !== undefined &&
-      (typeof txParams[field] !== 'string' ||
-        !/^0x[0-9a-f]*$/iu.test(txParams[field]))
-    ) {
-      throw new Error(`Invalid ${field}: expected a hexadecimal quantity`);
+    if (txParams[field] !== undefined) {
+      quantity(txParams[field], field);
     }
   }
 }

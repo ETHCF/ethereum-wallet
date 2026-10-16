@@ -29,8 +29,39 @@ export default class ConfirmAddSuggestedToken extends Component {
     tokens: PropTypes.array,
   };
 
+  state = { answeringId: null };
+
   componentDidMount() {
     this._checkSuggestion();
+  }
+
+  componentWillUnmount() {
+    this._unmounted = true;
+  }
+
+  /**
+   * Answers a suggestion once. A second click before the answer is in would
+   * answer it again, and fail, since it is already answered.
+   *
+   * @param {Function} respond - acceptWatchAsset or rejectWatchAsset.
+   * @param {string} id - The suggestion's request id.
+   */
+  async _answer(respond, id) {
+    if (this._answeringId === id) {
+      return;
+    }
+    this._answeringId = id;
+    this.setState({ answeringId: id });
+    try {
+      await respond(id);
+    } finally {
+      // A suggestion still pending afterwards, as when the answer could not
+      // reach the background, can then be answered again.
+      this._answeringId = null;
+      if (!this._unmounted) {
+        this.setState({ answeringId: null });
+      }
+    }
   }
 
   componentDidUpdate() {
@@ -59,6 +90,7 @@ export default class ConfirmAddSuggestedToken extends Component {
       return null;
     }
     const { id, origin, address, symbol, image } = suggestion;
+    const answering = this.state.answeringId === id;
     const isKnownToken = tokens.some((token) => token.address === address);
     // A token that takes the symbol of a different one already added could
     // be mistaken for it.
@@ -114,7 +146,8 @@ export default class ConfirmAddSuggestedToken extends Component {
               large
               className="page-container__footer-button"
               data-testid="suggested-token-cancel"
-              onClick={() => rejectWatchAsset(id)}
+              disabled={answering}
+              onClick={() => this._answer(rejectWatchAsset, id)}
             >
               {t('cancel')}
             </Button>
@@ -123,7 +156,8 @@ export default class ConfirmAddSuggestedToken extends Component {
               large
               className="page-container__footer-button"
               data-testid="suggested-token-add"
-              onClick={() => acceptWatchAsset(id)}
+              disabled={answering}
+              onClick={() => this._answer(acceptWatchAsset, id)}
             >
               {t('addToken')}
             </Button>

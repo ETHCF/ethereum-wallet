@@ -13,29 +13,33 @@ describe('txUtils', function () {
       txUtils.validateTxParams(sample);
     });
 
-    it('returns error for negative values', function () {
-      const sample = {
-        from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
-        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
-        value: '-0x01',
-      };
-      assert.throws(
-        () => txUtils.validateTxParams(sample),
-        /not a positive number/u,
-      );
-    });
-
-    it('refuses amounts that are not hexadecimal', function () {
-      for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
+    it('returns error for negative or fractional values', function () {
+      for (const value of ['-0x01', '0x1.5']) {
         assert.throws(
           () =>
             txUtils.validateTxParams({
               from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
               to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
-              [field]: '0x12g',
+              value,
             }),
-          new RegExp(`Invalid ${field}`, 'u'),
+          /Invalid value: expected a hexadecimal quantity/u,
         );
+      }
+    });
+
+    it('refuses amounts that are not hexadecimal, or are empty', function () {
+      for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
+        for (const amount of ['0x12g', '0x']) {
+          assert.throws(
+            () =>
+              txUtils.validateTxParams({
+                from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+                to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+                [field]: amount,
+              }),
+            new RegExp(`Invalid ${field}`, 'u'),
+          );
+        }
       }
     });
   });

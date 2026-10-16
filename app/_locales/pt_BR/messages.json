@@ -995,5 +995,733 @@
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Preço de Gas zero na agilização"
+  },
+  "acceptTermsOfUse": {
+    "message": "Li e concordo com os $1",
+    "description": "$1 is the `terms` message"
+  },
+  "backUpNow": {
+    "message": "Fazer backup agora"
+  },
+  "darkTheme": {
+    "message": "Escuro"
+  },
+  "eth_accounts": {
+    "message": "Ver os endereços das suas contas permitidas (obrigatório)",
+    "description": "The description for the `eth_accounts` permission"
+  },
+  "connectedSites": {
+    "message": "Sites conectados"
+  },
+  "connectedSitesDescription": {
+    "message": "$1 está conectada a estes sites. Eles podem ver o endereço da sua conta.",
+    "description": "$1 is the account name"
+  },
+  "connectedSitesEmptyDescription": {
+    "message": "$1 não está conectada a nenhum site.",
+    "description": "$1 is the account name"
+  },
+  "connectedAccountsDescriptionSingular": {
+    "message": "Você tem 1 conta conectada a este site."
+  },
+  "connectedAccountsDescriptionPlural": {
+    "message": "Você tem $1 contas conectadas a este site.",
+    "description": "$1 is the number of accounts"
+  },
+  "connectedAccountsEmptyDescription": {
+    "message": "O ECF Wallet não está conectado a este site. Para se conectar a um site web3, encontre o botão de conexão no site."
+  },
+  "currentAccountNotConnected": {
+    "message": "Sua conta atual não está conectada"
+  },
+  "lightTheme": {
+    "message": "Claro"
+  },
+  "localNetworkConfirm": {
+    "message": "Eu mesmo executo este nó e quero adicioná-lo"
+  },
+  "localNetworkWarning": {
+    "message": "Esta URL RPC aponta para o seu próprio computador, o que geralmente é um nó de desenvolvimento. Adicione-a somente se você souber o que está sendo executado ali."
+  },
+  "osTheme": {
+    "message": "Sistema"
+  },
+  "rejectRequestsOnClose": {
+    "message": "Recusar Solicitações ao Fechar a Janela de Aprovação"
+  },
+  "rejectRequestsOnCloseDescription": {
+    "message": "Fechar a janela de aprovação recusa as transações, assinaturas e outras solicitações de sites que aguardam nela. Desative esta opção para mantê-las aguardando, para que você possa respondê-las mais tarde pela carteira."
+  },
+  "seedPhraseNotBackedUp": {
+    "message": "Sua frase-semente não tem backup."
+  },
+  "siteSuggestsToken": {
+    "message": "$1 gostaria que você adicionasse este token."
+  },
+  "switchToThisAccount": {
+    "message": "Mudar para esta conta"
+  },
+  "disconnectThisAccount": {
+    "message": "Desconectar esta conta"
+  },
+  "permissions": {
+    "message": "Permissões"
+  },
+  "showPermissions": {
+    "message": "Mostrar permissões"
+  },
+  "authorizedPermissions": {
+    "message": "Você autorizou as seguintes permissões"
+  },
+  "connectManually": {
+    "message": "Conectar manualmente ao site atual"
+  },
+  "disconnect": {
+    "message": "Desconectar"
+  },
+  "disconnectAllAccounts": {
+    "message": "Desconectar todas as contas"
+  },
+  "disconnectPrompt": {
+    "message": "Desconectar $1"
+  },
+  "disconnectAllAccountsConfirmationDescription": {
+    "message": "Tem certeza de que deseja desconectar? O site pode perder funcionalidades."
+  },
+  "dismiss": {
+    "message": "Dispensar"
+  },
+  "connecting": {
+    "message": "Conectando..."
+  },
+  "connectWithEcfWallet": {
+    "message": "Conectar com o ECF Wallet"
+  },
+  "connectTo": {
+    "message": "Conectar a $1",
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to ecf-wallet"
+  },
+  "connectToAll": {
+    "message": "Conectar a todas as suas $1",
+    "description": "$1 will be replaced by the translation of connectToAllAccounts"
+  },
+  "connectToAllAccounts": {
+    "message": "contas",
+    "description": "will replace $1 in connectToAll, completing the sentence 'connect to all of your accounts', will be text that shows list of accounts on hover"
+  },
+  "connectToMultiple": {
+    "message": "Conectar a $1",
+    "description": "$1 will be replaced by the translation of connectToMultipleNumberOfAccounts"
+  },
+  "connectToMultipleNumberOfAccounts": {
+    "message": "$1 contas",
+    "description": "$1 is the number of accounts to which the web3 site/application is asking to connect; this will substitute $1 in connectToMultiple"
+  },
+  "accessAndSpendNotice": {
+    "message": "$1 pode acessar e gastar até este valor máximo",
+    "description": "$1 is the url of the site requesting ability to spend"
+  },
+  "active": {
+    "message": "Ativa"
+  },
+  "activity": {
+    "message": "Atividade"
+  },
+  "allowOriginSpendToken": {
+    "message": "Permitir que $1 gaste seus $2?",
+    "description": "$1 is the url of the site and $2 is the symbol of the token they are requesting to spend"
+  },
+  "allowThisSiteTo": {
+    "message": "Permitir a este site:"
+  },
+  "allowExternalExtensionTo": {
+    "message": "Permitir a esta extensão externa:"
+  },
+  "allowWithdrawAndSpend": {
+    "message": "Permitir que $1 saque e gaste até o seguinte valor:",
+    "description": "The url of the site that requested permission to 'withdraw and spend'"
+  },
+  "amountWithColon": {
+    "message": "Valor:"
+  },
+  "approveSpendLimit": {
+    "message": "Aprovar limite de gasto de $1",
+    "description": "The token symbol that is being approved"
+  },
+  "assets": {
+    "message": "Ativos"
+  },
+  "blockExplorerUrl": {
+    "message": "Explorador de Blocos"
+  },
+  "bytes": {
+    "message": "Bytes"
+  },
+  "connectAccountOrCreate": {
+    "message": "Conecte uma conta ou crie uma nova"
+  },
+  "contactUs": {
+    "message": "Fale conosco!"
+  },
+  "currentExtension": {
+    "message": "Página da extensão atual"
+  },
+  "customSpendLimit": {
+    "message": "Limite de gasto personalizado"
+  },
+  "dontShowThisAgain": {
+    "message": "Não mostrar novamente"
+  },
+  "editPermission": {
+    "message": "Editar permissão"
+  },
+  "endOfFlowMessage7": {
+    "message": "Em caso de dúvidas ou atividade suspeita, acesse https://github.com/ETHCF/ethereum-wallet/issues. Nunca publique sua frase secreta de recuperação nem suas chaves privadas."
+  },
+  "externalExtension": {
+    "message": "Extensão externa"
+  },
+  "onboardingReturnNotice": {
+    "message": "\"$1\" fechará esta guia e retornará para $2",
+    "description": "Return the user to the site that initiated onboarding"
+  },
+  "enterMaxSpendLimit": {
+    "message": "Insira o limite máximo de gasto"
+  },
+  "errorCode": {
+    "message": "Código: $1",
+    "description": "Displayed error code for debugging purposes. $1 is the error code"
+  },
+  "errorDetails": {
+    "message": "Detalhes do erro",
+    "description": "Title for collapsible section that displays error details for debugging purposes"
+  },
+  "errorMessage": {
+    "message": "Mensagem: $1",
+    "description": "Displayed error message for debugging purposes. $1 is the error message"
+  },
+  "errorName": {
+    "message": "Código: $1",
+    "description": "Displayed error name for debugging purposes. $1 is the error name"
+  },
+  "errorPageTitle": {
+    "message": "O ECF Wallet encontrou um erro",
+    "description": "Title of generic error page"
+  },
+  "errorPageMessage": {
+    "message": "Tente novamente recarregando a página ou informe o problema em https://github.com/ETHCF/ethereum-wallet/issues"
+  },
+  "errorPagePopupMessage": {
+    "message": "Tente novamente fechando e reabrindo o pop-up ou informe o problema em https://github.com/ETHCF/ethereum-wallet/issues"
+  },
+  "errorStack": {
+    "message": "Pilha:",
+    "description": "Title for error stack, which is displayed for debugging purposes"
+  },
+  "failureMessage": {
+    "message": "Algo deu errado e não conseguimos concluir a ação"
+  },
+  "feeAssociatedRequest": {
+    "message": "Há uma taxa associada a esta solicitação."
+  },
+  "functionApprove": {
+    "message": "Função: Aprovar"
+  },
+  "gasEstimateFailed": {
+    "message": "Não foi possível estimar o gás de que esta transação precisa, então ela pode falhar. Verifique sua conexão de rede ou defina você mesmo um limite de gás."
+  },
+  "hideTokenSymbol": {
+    "message": "Ocultar $1",
+    "description": "$1 is the symbol for a token (e.g. 'DAI')"
+  },
+  "knownTokenWarning": {
+    "message": "Esta ação editará tokens que já estão listados na sua carteira, o que pode ser usado para aplicar phishing em você. Aprove somente se tiver certeza de que deseja alterar o que esses tokens representam."
+  },
+  "reusedTokenNameWarning": {
+    "message": "Um token aqui reutiliza o símbolo de outro token que você acompanha; isso pode ser confuso ou enganoso."
+  },
+  "lastConnected": {
+    "message": "Última conexão"
+  },
+  "legalLastUpdated": {
+    "message": "Última atualização em $1",
+    "description": "$1 is the date a legal document, such as the Terms of Use, was last changed"
+  },
+  "links": {
+    "message": "Links"
+  },
+  "localhost": {
+    "message": "Localhost 8545"
+  },
+  "lockTimeTooGreat": {
+    "message": "O tempo de bloqueio é longo demais"
+  },
+  "onlyConnectTrust": {
+    "message": "Conecte-se somente a sites em que você confia."
+  },
+  "onlyAddTrustedNetworks": {
+    "message": "Um provedor de rede Ethereum mal-intencionado pode mentir sobre o estado da blockchain e registrar sua atividade na rede. Adicione somente redes personalizadas em que você confia."
+  },
+  "notCurrentAccount": {
+    "message": "Esta é a conta correta? Ela é diferente da conta selecionada no momento na sua carteira"
+  },
+  "permissionCheckedIconDescription": {
+    "message": "Você aprovou esta permissão"
+  },
+  "permissionUncheckedIconDescription": {
+    "message": "Você não aprovou esta permissão"
+  },
+  "plusXMore": {
+    "message": "+ $1 a mais",
+    "description": "$1 is a number of additional but unshown items in a list- this message will be shown in place of those items"
+  },
+  "proposedApprovalLimit": {
+    "message": "Limite de aprovação proposto"
+  },
+  "queued": {
+    "message": "Na fila"
+  },
+  "receive": {
+    "message": "Receber"
+  },
+  "seedPhrasePlaceholderPaste": {
+    "message": "Colar a frase-semente da área de transferência"
+  },
+  "showSeedPhrase": {
+    "message": "Mostrar frase-semente"
+  },
+  "selectingAllWillAllow": {
+    "message": "Selecionar todas permitirá que este site veja todas as suas contas atuais. Certifique-se de que você confia neste site."
+  },
+  "selectAccounts": {
+    "message": "Selecionar conta(s)"
+  },
+  "selectAll": {
+    "message": "Selecionar todas"
+  },
+  "sendSpecifiedTokens": {
+    "message": "Enviar $1",
+    "description": "Symbol of the specified token"
+  },
+  "searchAccounts": {
+    "message": "Pesquisar contas"
+  },
+  "noAccountsFound": {
+    "message": "Nenhuma conta encontrada para a pesquisa informada"
+  },
+  "signatureRequest1": {
+    "message": "Mensagem"
+  },
+  "spenderWithColon": {
+    "message": "Gastador:",
+    "description": "Labels the address an approval lets spend the user's tokens"
+  },
+  "spendLimitPermission": {
+    "message": "Permissão de limite de gasto"
+  },
+  "spendLimitRequestedBy": {
+    "message": "Limite de gasto solicitado por $1",
+    "description": "Origin of the site requesting the spend limit"
+  },
+  "spendLimitTooLarge": {
+    "message": "Limite de gasto alto demais"
+  },
+  "spendLimitInvalid": {
+    "message": "Limite de gasto inválido; deve ser um número positivo"
+  },
+  "statusConnected": {
+    "message": "Conectado"
+  },
+  "statusNotConnected": {
+    "message": "Não conectado"
+  },
+  "submit": {
+    "message": "Enviar"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "themeDescription": {
+    "message": "Escolha uma aparência clara ou escura, ou siga a configuração do sistema"
+  },
+  "toAddress": {
+    "message": "Para: $1",
+    "description": "$1 is the address to include in the To label. It is typically shortened first using shortenAddress"
+  },
+  "toWithColon": {
+    "message": "Para:"
+  },
+  "token": {
+    "message": "Token"
+  },
+  "tokenOptions": {
+    "message": "Opções do token"
+  },
+  "total": {
+    "message": "Total"
+  },
+  "trustSiteApprovePermission": {
+    "message": "Você confia neste site? Ao conceder esta permissão, você está permitindo que $1 saque seus $2 e automatize transações para você.",
+    "description": "$1 is the url requesting permission and $2 is the symbol of the currency that the request is for"
+  },
+  "alertDisableTooltip": {
+    "message": "Isso pode ser alterado em \"Configurações > Alertas\""
+  },
+  "unlimited": {
+    "message": "Ilimitado"
+  },
+  "urlExistsErrorMsg": {
+    "message": "A URL já está presente na lista de redes existente"
+  },
+  "useNftDetection": {
+    "message": "Detectar NFTs"
+  },
+  "useNftDetectionDescription": {
+    "message": "Mostra uma aba de NFTs listando os NFTs da conta selecionada em Ethereum, Arbitrum, Optimism, Polygon e Base. A carteira os solicita à API de NFTs da MetaMask (nft.api.cx.metamask.io), que vê o endereço da conta e o seu endereço IP. Desativar esta opção apaga a lista."
+  },
+  "displayNftMedia": {
+    "message": "Mostrar Imagens de NFTs"
+  },
+  "displayNftMediaDescription": {
+    "message": "Baixa a imagem de cada NFT uma única vez, do servidor escolhido pelo seu criador (ou do seu gateway IPFS), e a mantém na carteira. Esses servidores veem o seu endereço IP. Desativar esta opção exclui as imagens baixadas."
+  },
+  "nfts": {
+    "message": "NFTs"
+  },
+  "nftsLoading": {
+    "message": "Procurando NFTs…"
+  },
+  "noNfts": {
+    "message": "Nenhum NFT encontrado para esta conta nesta rede."
+  },
+  "nftsLookupFailed": {
+    "message": "A busca de NFTs falhou. Tente novamente mais tarde."
+  },
+  "nftsUnsupportedNetwork": {
+    "message": "Os NFTs são buscados somente em $1.",
+    "description": "$1 is a list of network names"
+  },
+  "use4ByteResolution": {
+    "message": "Buscar Nomes de Métodos de Contratos"
+  },
+  "use4ByteResolutionDescription": {
+    "message": "Quando uma transação chama uma função de contrato que a carteira não reconhece, consulta o 4byte.directory para obter o nome dela. O 4byte.directory vê o identificador da função e o seu endereço IP."
+  },
+  "usePhishingDetection": {
+    "message": "Usar Detecção de Phishing"
+  },
+  "usePhishingDetectionDescription": {
+    "message": "Exibir um aviso para domínios de phishing direcionados a usuários de Ethereum"
+  },
+  "retryTransaction": {
+    "message": "Tentar transação novamente"
+  },
+  "xOfY": {
+    "message": "$1 de $2",
+    "description": "$1 and $2 are intended to be two numbers, where $2 is a total, and $1 is a count towards that total"
+  },
+  "decryptRequest": {
+    "message": "Solicitação de descriptografia"
+  },
+  "decrypt": {
+    "message": "Descriptografar"
+  },
+  "decryptMessageNotice": {
+    "message": "$1 gostaria de ler esta mensagem para concluir sua ação",
+    "description": "$1 is the web3 site name"
+  },
+  "decryptEcfWallet": {
+    "message": "Descriptografar mensagem"
+  },
+  "decryptCopy": {
+    "message": "Copiar mensagem criptografada"
+  },
+  "decryptInlineError": {
+    "message": "Esta mensagem não pode ser descriptografada devido a um erro: $1",
+    "description": "$1 is error message"
+  },
+  "provide": {
+    "message": "Fornecer"
+  },
+  "encryptionPublicKeyRequest": {
+    "message": "Solicitação de chave pública de criptografia"
+  },
+  "encryptionPublicKeyNotice": {
+    "message": "$1 gostaria de obter sua chave pública de criptografia. Ao consentir, este site poderá compor mensagens criptografadas para você.",
+    "description": "$1 is the web3 site name"
+  },
+  "srpQuizTitle": {
+    "message": "Verificação rápida de segurança"
+  },
+  "srpQuizDescription": {
+    "message": "Responda a duas perguntas para mostrar que você sabe como manter sua frase-semente segura."
+  },
+  "srpQuizProgress": {
+    "message": "Pergunta $1 de $2",
+    "description": "$1 is the current question number and $2 is the number of questions"
+  },
+  "srpQuizQuestionOne": {
+    "message": "Alguém em um chat de suporte diz que precisa da sua frase-semente para consertar sua carteira. O que você faz?"
+  },
+  "srpQuizQuestionOneRightAnswer": {
+    "message": "Recuso e paro de falar com essa pessoa"
+  },
+  "srpQuizQuestionOneWrongAnswer": {
+    "message": "Envio para que possam ajudar"
+  },
+  "srpQuizQuestionOneRightAnswerTitle": {
+    "message": "Correto. O suporte de verdade nunca pede isso."
+  },
+  "srpQuizQuestionOneRightAnswerDescription": {
+    "message": "Quem tem sua frase-semente controla seus fundos. Nenhum ajudante genuíno precisa dela, portanto um pedido por ela é sempre uma tentativa de roubar você."
+  },
+  "srpQuizQuestionOneWrongAnswerTitle": {
+    "message": "Não. Esse pedido é uma tentativa de roubo."
+  },
+  "srpQuizQuestionOneWrongAnswerDescription": {
+    "message": "Sua frase-semente dá controle total sobre seus fundos. Ninguém legítimo jamais pedirá por ela, seja quem for que diga ser."
+  },
+  "srpQuizQuestionTwo": {
+    "message": "Onde você deve guardar sua frase-semente?"
+  },
+  "srpQuizQuestionTwoRightAnswer": {
+    "message": "Anotada offline, em um lugar que só eu consigo acessar"
+  },
+  "srpQuizQuestionTwoWrongAnswer": {
+    "message": "Em uma captura de tela ou nota na nuvem, para estar sempre à mão"
+  },
+  "srpQuizQuestionTwoRightAnswerTitle": {
+    "message": "Correto. Mantenha-a offline."
+  },
+  "srpQuizQuestionTwoRightAnswerDescription": {
+    "message": "Papel ou metal guardado em um lugar privado a mantém longe de malware e de contas invadidas. Sem ela, ninguém pode restaurar sua carteira para você, então guarde uma cópia extra em um lugar igualmente seguro."
+  },
+  "srpQuizQuestionTwoWrongAnswerTitle": {
+    "message": "Não é seguro. Cópias online são roubadas."
+  },
+  "srpQuizQuestionTwoWrongAnswerDescription": {
+    "message": "Fotos, notas na nuvem e mensagens podem ser lidas por malware ou por qualquer pessoa que entre na conta. Em vez disso, mantenha-a offline."
+  },
+  "holdToRevealSeedPhrase": {
+    "message": "Segure para revelar a frase-semente"
+  },
+  "holdToRevealPrivateKey": {
+    "message": "Segure para revelar a chave privada"
+  },
+  "holdToRevealHint": {
+    "message": "Verifique se ninguém consegue ver sua tela."
+  },
+  "sensitiveClipboardWarning": {
+    "message": "Copiado. Sua área de transferência será limpa em 1 minuto. Até lá, qualquer aplicativo que possa ler a área de transferência poderá ver o conteúdo copiado."
+  },
+  "clearClipboardNow": {
+    "message": "Limpar área de transferência agora"
+  },
+  "clipboardCleared": {
+    "message": "Área de transferência limpa."
+  },
+  "clipboardClearFailed": {
+    "message": "Não foi possível limpar a área de transferência automaticamente. Copie outra coisa para substituí-la."
+  },
+  "testNetworks": {
+    "message": "Redes de teste"
+  },
+  "networkRequestAddTitle": {
+    "message": "Adicionar esta rede?"
+  },
+  "networkRequestSwitchTitle": {
+    "message": "Mudar de rede?"
+  },
+  "networkRequestAddDescription": {
+    "message": "$1 quer adicionar esta rede e mudar para ela.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestSwitchDescription": {
+    "message": "$1 quer mudar a carteira para esta rede.",
+    "description": "$1 is the requesting site"
+  },
+  "networkRequestCurrentNetwork": {
+    "message": "Rede atual"
+  },
+  "networkRequestApproveAdd": {
+    "message": "Adicionar e mudar"
+  },
+  "networkRequestApproveSwitch": {
+    "message": "Mudar de rede"
+  },
+  "networkRequestCheckRpc": {
+    "message": "Verificar RPC"
+  },
+  "networkRequestCheckingRpc": {
+    "message": "Verificando…"
+  },
+  "networkRequestRpcOk": {
+    "message": "O endpoint RPC respondeu e atende a esta cadeia. A carteira só o contata quando você o verifica ou aprova."
+  },
+  "networkRequestRpcNotice": {
+    "message": "Este site escolheu o provedor RPC. O provedor pode ver o seu endereço IP e quais contas você usa, e pode mostrar saldos ou resultados de transações falsos."
+  },
+  "networkRequestUnknownChain": {
+    "message": "O ECF Wallet não reconhece esta rede. Adicione-a somente se você confiar neste site."
+  },
+  "networkRequestSymbolMismatch": {
+    "message": "$1 usa $2 como moeda, mas este site informa $3. O site pode estar se passando por $1.",
+    "description": "$1 is a network name, $2 the expected currency symbol and $3 the symbol the site gave"
+  },
+  "networkRequestInsecureRpc": {
+    "message": "Este provedor RPC usa uma conexão HTTP não criptografada no seu computador."
+  },
+  "networkRequestDifferentRpc": {
+    "message": "Você já tem uma rede com este ID da cadeia que usa $1. Aprovar adiciona um segundo provedor RPC para ela.",
+    "description": "$1 is an RPC URL"
+  },
+  "alertBurnAddress": {
+    "message": "Este é um endereço de queima. Nada que for enviado para cá poderá ser recuperado."
+  },
+  "alertLookalikeAddress": {
+    "message": "Este endereço começa e termina como $1, um endereço que você conhece, mas é um endereço diferente. Golpistas criam endereços parecidos para que as pessoas copiem o errado do histórico.",
+    "description": "$1 is an address the user has used before"
+  },
+  "alertFirstTimeRecipient": {
+    "message": "Você nunca enviou nada para este endereço antes. Verifique-o com atenção."
+  },
+  "alertRecipientIsTokenContract": {
+    "message": "Você está enviando tokens para o próprio contrato do token. Eles quase certamente serão perdidos."
+  },
+  "alertRecipientIsKnownToken": {
+    "message": "Este endereço é um contrato de token, não a conta de alguém. Fundos enviados para cá geralmente são perdidos."
+  },
+  "alertDataToNonContract": {
+    "message": "Esta transação inclui dados de contrato, mas $1 não tem código de contrato nesta rede. O endereço pode estar errado, ou o site pode estar enganando você.",
+    "description": "$1 is an address"
+  },
+  "alertApproveAllNfts": {
+    "message": "Isso permite que $1 transfira todos os NFTs que você tem nesta coleção, inclusive os que você obtiver depois, até que você revogue a permissão.",
+    "description": "$1 is an address"
+  },
+  "alertMalformedTokenCall": {
+    "message": "Esta chamada de token não está codificada da forma padrão. Os contratos podem interpretá-la de forma diferente do que é mostrado aqui, então ela pode movimentar ou aprovar mais do que parece. Não continue a menos que você confie neste site.",
+    "description": "Shown when transaction data for a token transfer or approval is not standard ABI encoding"
+  },
+  "alertUnlimitedApproval": {
+    "message": "Isso permite que $1 gaste qualquer quantia deste token até que você revogue a permissão.",
+    "description": "$1 is an address"
+  },
+  "alertSpenderNotContract": {
+    "message": "$1 é uma conta comum, não um contrato. Dar a uma conta comum permissão para gastar seus tokens é um golpe comum.",
+    "description": "$1 is an address"
+  },
+  "alertPermitSignature": {
+    "message": "Assinar isto permite que $1 movimente seus tokens depois, sem pedir sua autorização novamente.",
+    "description": "$1 is an address"
+  },
+  "alertLongLivedPermit": {
+    "message": "Esta permissão dura mais de 30 dias ou nunca expira."
+  },
+  "alertSecurityChecksFailed": {
+    "message": "Devido a um erro, a carteira não conseguiu verificar se há problemas nesta solicitação. Revise-a com atenção antes de continuar."
+  },
+  "alertCodeCheckFailed": {
+    "message": "O RPC da sua rede não respondeu, então a carteira não conseguiu verificar $1. Algumas verificações foram ignoradas.",
+    "description": "$1 is an address"
+  },
+  "securityAlertsAcknowledge": {
+    "message": "Entendo o risco e quero continuar."
+  },
+  "helpMoreTopics": {
+    "message": "Mais ajuda"
+  },
+  "helpImportedAccountsTitle": {
+    "message": "Sobre contas importadas"
+  },
+  "helpImportedAccounts1": {
+    "message": "As contas que você cria no ECF Wallet vêm todas da sua frase-semente, portanto a frase-semente sozinha pode restaurá-las. Uma conta importada vem de uma chave privada ou de um arquivo JSON e não está vinculada à sua frase-semente. As contas importadas são identificadas como \"Importado\" na lista de contas."
+  },
+  "helpImportedAccounts2": {
+    "message": "Restaurar sua carteira a partir da frase-semente não trará de volta as contas importadas. Mantenha um backup da chave privada ou do arquivo JSON (e da respectiva senha) de cada conta importada, guardado separadamente e offline."
+  },
+  "helpImportedAccounts3": {
+    "message": "Para fazer backup de uma conta importada, selecione-a, abra os detalhes da conta e escolha Exportar Chave Privada."
+  },
+  "helpImportedAccounts4": {
+    "message": "Remover uma conta importada apenas a remove desta carteira. Os fundos permanecem no endereço dela, e você pode adicioná-la novamente com Importar Conta usando a mesma chave privada ou o mesmo arquivo JSON. Sem um deles, a conta não pode ser recuperada."
+  },
+  "helpImportJsonTitle": {
+    "message": "Importar um arquivo JSON"
+  },
+  "helpImportJson1": {
+    "message": "O ECF Wallet pode importar uma conta de um arquivo keystore JSON criptografado, do tipo salvo por clientes como Geth, Mist e MyEtherWallet. Escolha o arquivo e digite a senha definida quando o arquivo foi criado."
+  },
+  "helpImportJson2": {
+    "message": "Se a importação falhar, verifique se a senha está exatamente correta, incluindo letras maiúsculas e espaços, e se você escolheu o próprio arquivo keystore (geralmente chamado UTC--…) e não outro arquivo de backup ou de texto."
+  },
+  "helpImportJson3": {
+    "message": "Arquivos de carteira da pré-venda do Ethereum não são suportados. Descriptografar um arquivo keystore pode levar alguns segundos, então aguarde a conclusão antes de tentar novamente."
+  },
+  "helpImportJson4": {
+    "message": "Se você tiver a chave privada da conta, pode importá-la em vez disso, escolhendo Chave Privada como tipo de importação. Como qualquer conta importada, ela não estará vinculada à sua frase-semente."
+  },
+  "helpAddTokensTitle": {
+    "message": "Adicionar tokens"
+  },
+  "helpAddTokens1": {
+    "message": "Os tokens que você recebe ficam no seu endereço mesmo quando o ECF Wallet não os mostra. Adicionar um token apenas diz à carteira para exibir o saldo dele."
+  },
+  "helpAddTokens2": {
+    "message": "Para adicionar um token conhecido, abra Adicionar Tokens e pesquise-o pelo nome ou símbolo. Para adicionar qualquer outro token, escolha Token Personalizado e insira o endereço do contrato. O ECF Wallet preenche o símbolo e as casas decimais quando possível; caso contrário, copie-os da página do token em um explorador de blocos."
+  },
+  "helpAddTokens3": {
+    "message": "Use somente um endereço de contrato de uma fonte confiável, como o site oficial do projeto. Qualquer pessoa pode criar um token com o mesmo nome e símbolo de um token real, e o fato de um token aparecer na sua carteira não significa que ele tenha valor."
+  },
+  "helpAddTokens4": {
+    "message": "Os tokens são adicionados separadamente para cada rede, então um token adicionado em uma rede não aparecerá em outra."
+  },
+  "helpSafetyTipsTitle": {
+    "message": "Dicas básicas de segurança"
+  },
+  "helpSafetyTips1": {
+    "message": "Sua frase-semente dá controle total sobre suas contas e fundos. Qualquer pessoa que a tenha pode levar tudo, e o ECF Wallet não pode recuperar uma frase-semente perdida nem reverter uma transação."
+  },
+  "helpSafetyTips2": {
+    "message": "Anote sua frase-semente e guarde cópias em mais de um lugar seguro. Evite capturas de tela, e-mail, chat e notas online. Você pode vê-la novamente em Configurações > Segurança."
+  },
+  "helpSafetyTips3": {
+    "message": "Nunca compartilhe sua frase-semente nem suas chaves privadas, e nunca as digite em um site. O ECF Wallet nunca as pedirá, nem ninguém que ofereça suporte genuíno."
+  },
+  "helpSafetyTips4": {
+    "message": "Use uma senha forte e exclusiva e bloqueie o ECF Wallet quando se afastar. A senha apenas desbloqueia a carteira neste dispositivo; ela não pode restaurar suas contas sem a frase-semente."
+  },
+  "helpSafetyTips5": {
+    "message": "Verifique o endereço de um site antes de conectar sua carteira ou aprovar qualquer coisa. Sites de phishing imitam os reais com muita fidelidade. Leia cada solicitação antes de confirmá-la e desconfie de pedidos para gastar seus tokens."
+  },
+  "helpSafetyTips6": {
+    "message": "Para tirar dúvidas ou denunciar atividade suspeita, acesse https://github.com/ETHCF/ethereum-wallet/issues. Nunca publique sua frase-semente nem suas chaves privadas lá ou em qualquer outro lugar."
+  },
+  "incorrectPassword": {
+    "message": "Senha incorreta. Tente novamente."
+  },
+  "unlockNetworkError": {
+    "message": "Carteira desbloqueada, mas não foi possível acessar a rede. Seus fundos estão seguros. Verifique sua conexão."
+  },
+  "unlockFailed": {
+    "message": "Não foi possível desbloquear. Tente novamente."
+  },
+  "buildHash": {
+    "message": "Hash da compilação"
+  },
+  "buildCommit": {
+    "message": "Compilado a partir do commit"
+  },
+  "buildVerifyInstructions": {
+    "message": "Faça checkout deste commit, execute \"yarn setup && yarn dist\" e depois \"yarn verify-build\" para confirmar que esta compilação corresponde ao código-fonte."
+  },
+  "verify": {
+    "message": "verificar"
+  },
+  "donate": {
+    "message": "Doar"
+  },
+  "donateDescription": {
+    "message": "O ECF Wallet é gratuito e de código aberto. As doações para a Ethereum Community Foundation financiam o seu desenvolvimento."
   }
 }
