@@ -2682,15 +2682,15 @@
     ethereum-cryptography "^2.1.2"
     tweetnacl "^1.0.3"
 
-"@metamask/eth-simple-keyring@^13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@metamask/eth-simple-keyring/-/eth-simple-keyring-13.0.0.tgz#e6c418e5f88d43788cd07acad1bdfdc7b226957e"
-  integrity sha512-VAPlcLIIOV0DFD7LpAMZ7Yg8BnKma7IaHtEDr3vUa+jlSD7G/wu06hknNylUWuUgzpxFoAq7nX7QZ6QVSE3c/A==
+"@metamask/eth-simple-keyring@^13.0.0", "@metamask/eth-simple-keyring@^13.0.1":
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/@metamask/eth-simple-keyring/-/eth-simple-keyring-13.0.1.tgz#92531bb11eea197c5ed8ec99855090ad30e8f5db"
+  integrity sha512-O62ZbOwiD3ZrRlnjTHqHmKbgom7d+6wyg5rLWEcdIgvNTjmcbtMpjTpM/aHEtFEx3Jov3AJxJ/fHUnCGqjyxKA==
   dependencies:
     "@ethereumjs/util" "^9.1.0"
-    "@metamask/eth-sig-util" "^8.2.0"
-    "@metamask/keyring-api" "^24.0.0"
-    "@metamask/keyring-sdk" "^3.0.0"
+    "@metamask/eth-sig-util" "^9.0.0"
+    "@metamask/keyring-api" "^24.2.0"
+    "@metamask/keyring-sdk" "^4.0.0"
     "@metamask/utils" "^11.11.0"
     ethereum-cryptography "^2.2.1"
     randombytes "^2.1.0"
@@ -2914,17 +2914,7 @@
     "@noble/hashes" "^1.3.2"
     "@scure/base" "^1.0.0"
 
-"@metamask/keyring-api@^24.0.0", "@metamask/keyring-api@^24.1.0":
-  version "24.1.0"
-  resolved "https://registry.yarnpkg.com/@metamask/keyring-api/-/keyring-api-24.1.0.tgz#76e16244aee2fc2e33d60505bd9f81221fa42a81"
-  integrity sha512-iDuhffDLevZb8KS3Eq/PZ17rLWbjNSOhEPUlv058THYrasT+4HvYCAr+2dbJit1ywg7pzI5wc1NiODDducNhbw==
-  dependencies:
-    "@metamask/keyring-utils" "^5.0.0"
-    "@metamask/superstruct" "^3.4.1"
-    "@metamask/utils" "^11.11.0"
-    bitcoin-address-validation "^2.2.3"
-
-"@metamask/keyring-api@^24.2.0":
+"@metamask/keyring-api@^24.0.0", "@metamask/keyring-api@^24.1.0", "@metamask/keyring-api@^24.2.0":
   version "24.2.0"
   resolved "https://registry.yarnpkg.com/@metamask/keyring-api/-/keyring-api-24.2.0.tgz#2dde48a0aecfee453b098b4be8fd958cd6bac315"
   integrity sha512-V9n3PWWwLwlklDv611r/jtbgzSRoOuQbJTSo/WTfHMp9u8jAZAPxGR/7U6PuggNcq/pNkcmF6mPqP/L36Ek7HQ==

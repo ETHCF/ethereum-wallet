@@ -86,7 +86,7 @@
     "@metamask/eth-ledger-bridge-keyring": "^13.1.0",
     "@metamask/eth-query": "^4.0.0",
     "@metamask/eth-sig-util": "^9.0.0",
-    "@metamask/eth-simple-keyring": "^13.0.0",
+    "@metamask/eth-simple-keyring": "^13.0.1",
     "@metamask/eth-token-tracker": "^10.0.2",
     "@metamask/eth-trezor-keyring": "^11.0.0",
     "@metamask/json-rpc-engine": "^11.0.0",
