@@ -310,6 +310,15 @@
   "chainId": {
     "message": "Chain ID"
   },
+  "changePassword": {
+    "message": "Change password"
+  },
+  "changePasswordDescription": {
+    "message": "Re-encrypt your wallet with a new password. You will need the new password to unlock the wallet."
+  },
+  "changePasswordFailed": {
+    "message": "The password could not be changed. Your current password is still in use."
+  },
   "clickToRevealSeed": {
     "message": "Click here to reveal secret words"
   },
@@ -390,6 +399,9 @@
   },
   "currentLanguage": {
     "message": "Current Language"
+  },
+  "currentPassword": {
+    "message": "Current password"
   },
   "customGas": {
     "message": "Customize Gas"
@@ -482,11 +494,23 @@
     "message": "\"$1\" will close this tab and direct back to $2",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "This name has characters ENS does not allow, or characters that could be mistaken for others."
+  },
+  "ensLookupFailed": {
+    "message": "This name could not be looked up. Check your connection and try again."
+  },
+  "ensOffchainLookupFailed": {
+    "message": "This name is stored offchain, and the service its resolver points to did not give a valid answer."
+  },
   "ensRegistrationError": {
     "message": "Error in ENS name registration"
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "ENS name not found on the current network. Try switching to Ethereum Mainnet."
+  },
+  "ensOmniboxSuggestion": {
+    "message": "Open an ENS website, such as vitalik.eth"
   },
   "enterAnAlias": {
     "message": "Enter an alias"
@@ -812,6 +836,9 @@
   "newPassword": {
     "message": "New password (min 8 chars)"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "The new password must differ from the current password"
+  },
   "newNetwork": {
     "message": "New Network"
   },
@@ -858,7 +885,7 @@
     "message": "of"
   },
   "orderOneHere": {
-    "message": "Order a Trezor or Ledger and keep your funds in cold storage"
+    "message": "Order a $1 or $2 and keep your funds in cold storage"
   },
   "origin": {
     "message": "Origin"
@@ -868,6 +895,9 @@
   },
   "password": {
     "message": "Password"
+  },
+  "passwordChanged": {
+    "message": "Password changed"
   },
   "passwordsDontMatch": {
     "message": "Passwords Don't Match"
@@ -1128,6 +1158,52 @@
   "sigRequest": {
     "message": "Signature Request"
   },
+  "simulationApproveAll": {
+    "message": "Allows $1 to transfer all of your $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "Allows $1 to transfer $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "Allows $1 to spend $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "Estimate from simulating this transaction on your network's RPC. Actual results may differ. The network fee is not included."
+  },
+  "simulationLikelyToFail": {
+    "message": "This transaction is likely to fail: $1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "Estimating balance changes…"
+  },
+  "simulationNoChanges": {
+    "message": "No balance changes found"
+  },
+  "simulationRawUnits": {
+    "message": "$1 raw units of token $2",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "Revokes $1's permission to transfer your $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "This preview is for the requested amount, not your custom spending limit."
+  },
+  "simulationTitle": {
+    "message": "Estimated balance changes"
+  },
+  "simulationUnavailable": {
+    "message": "Balance-change preview unavailable from this network's RPC"
+  },
+  "simulationUnknownReason": {
+    "message": "no reason given",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "somethingWentWrong": {
     "message": "Oops! Something went wrong."
   },
@@ -1153,6 +1229,10 @@
   },
   "spendLimitTooLarge": {
     "message": "Spend limit too large"
+  },
+  "spendLimitTooPrecise": {
+    "message": "This token allows at most $1 decimal places",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "Spend limit invalid; must be a positive number"
@@ -1315,6 +1395,13 @@
   },
   "unknownNetwork": {
     "message": "Unknown Private Network"
+  },
+  "unknownToken": {
+    "message": "Unknown token"
+  },
+  "unknownTokenRawUnits": {
+    "message": "raw units (unknown token)",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "unlimited": {
     "message": "Unlimited"
@@ -1624,6 +1711,55 @@
   "alertCodeCheckFailed": {
     "message": "Your network’s RPC didn’t answer, so the wallet couldn’t check $1. Some checks were skipped.",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "This lets $1 transfer your NFT with token ID $2 from this collection.",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "This marketplace order gives away $1 for nothing, or next to nothing, in return. Anyone could fill it and take these assets. Fake “free” listings are a common way to steal NFTs and tokens.",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "This order lets whoever fills it pick any item from the collection, not one specific item."
+  },
+  "alertOrderLongLived": {
+    "message": "This order stays valid for more than a year."
+  },
+  "alertOrderSummary": {
+    "message": "$1 order. You give: $2. You get: $3.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "$1 order. You give: $2. You get nothing.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "This signature approves a batch of marketplace orders without showing them, only a fingerprint of them. The wallet can’t tell what you would give away. Don’t sign it unless you started a bulk listing yourself on the marketplace’s own site."
+  },
+  "alertSafeDelegateCall": {
+    "message": "This Safe transaction lets $1 run its own code as your Safe (delegatecall). That code can take everything in the Safe or change its owners.",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "This Safe transaction runs a batch of calls that the wallet couldn’t read. Review each call in the Safe app before you sign."
+  },
+  "alertSafeSelfCall": {
+    "message": "This Safe transaction changes the Safe’s own settings ($1). Changes like this can hand control of the Safe to someone else.",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1: $2 to $3, sending $4 of the native currency and $5 bytes of data.",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "This message is exactly 32 bytes, so it looks like a hash. Signing it may authorize something you can’t see."
+  },
+  "alertPersonalSignNotText": {
+    "message": "This message isn’t readable text, so it is shown as hexadecimal data."
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "This message contains invisible or direction-changing characters, shown here as \\u{…} codes. They can hide or reorder what the text appears to say."
   },
   "securityAlertsAcknowledge": {
     "message": "I understand the risk and want to continue."

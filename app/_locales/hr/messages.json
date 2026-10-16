@@ -598,7 +598,7 @@
     "message": "od"
   },
   "orderOneHere": {
-    "message": "Naručite Trezor ili Ledger te čuvajte svoja sredstva u hladnoj pohrani"
+    "message": "Naručite $1 ili $2 te čuvajte svoja sredstva u hladnoj pohrani"
   },
   "origin": {
     "message": "Podrijetlo"

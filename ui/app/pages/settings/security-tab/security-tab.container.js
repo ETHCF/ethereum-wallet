@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import SecurityTab from './security-tab.component';
 import withRouter from '../../../helpers/higher-order-components/with-router';
 import {
+  changePassword,
   setDisplayNftMedia,
   setRejectRequestsOnClose,
   setUse4ByteResolution,
@@ -42,6 +43,8 @@ const mapDispatchToProps = (dispatch) => {
     setRejectRequestsOnClose: (val) => dispatch(setRejectRequestsOnClose(val)),
     setUseNftDetection: (val) => dispatch(setUseNftDetection(val)),
     setDisplayNftMedia: (val) => dispatch(setDisplayNftMedia(val)),
+    changePassword: (oldPassword, newPassword) =>
+      dispatch(changePassword(oldPassword, newPassword)),
   };
 };
 

@@ -13,6 +13,7 @@ import AdvancedGasInputs from '../../components/app/gas-customization/advanced-g
 import SecurityAlerts, {
   getAlertAcknowledgement,
 } from '../../components/app/security-alerts';
+import TransactionSimulation from '../../components/app/transaction-simulation';
 import UserPreferencedCurrencyDisplay from '../../components/app/user-preferenced-currency-display';
 import {
   INSUFFICIENT_FUNDS_ERROR_KEY,
@@ -93,6 +94,9 @@ export default class ConfirmTransactionBase extends Component {
     showAccountInHeader: PropTypes.bool,
     mostRecentOverviewPage: PropTypes.string.isRequired,
     isMainnet: PropTypes.bool,
+    nativeCurrency: PropTypes.string,
+    trackedTokens: PropTypes.array,
+    simulationStale: PropTypes.bool,
   };
 
   state = {
@@ -606,7 +610,15 @@ export default class ConfirmTransactionBase extends Component {
           alertAcknowledgement.needsAcknowledgement
         }
         securityAlerts={
-          <SecurityAlerts {...alertAcknowledgement.alertsProps} />
+          <>
+            <SecurityAlerts {...alertAcknowledgement.alertsProps} />
+            <TransactionSimulation
+              simulation={this.props.txData?.simulation}
+              trackedTokens={this.props.trackedTokens}
+              nativeCurrency={this.props.nativeCurrency}
+              stale={this.props.simulationStale}
+            />
+          </>
         }
         onEdit={() => this.handleEdit()}
         onCancelAll={() => this.handleCancelAll()}

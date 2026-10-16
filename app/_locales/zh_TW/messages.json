@@ -592,7 +592,7 @@
     "message": "Gas 不夠"
   },
   "orderOneHere": {
-    "message": "訂購 Trezor 或 Ledger 讓資產保存於硬體裝置。"
+    "message": "訂購 $1 或 $2 讓資產保存於硬體裝置。"
   },
   "origin": {
     "message": "來源"

@@ -595,7 +595,7 @@
     "message": "dari"
   },
   "orderOneHere": {
-    "message": "Pesanlah Trezor atau Ledger dan simpan dana Anda di penyimpanan dingin"
+    "message": "Pesanlah $1 atau $2 dan simpan dana Anda di penyimpanan dingin"
   },
   "origin": {
     "message": "Asal"

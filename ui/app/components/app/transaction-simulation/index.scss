@@ -1,0 +1,43 @@
+.transaction-simulation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 16px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border-muted);
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: break-word;
+
+  &--muted {
+    border: none;
+    padding: 0;
+    color: var(--color-text-alternative);
+    font-size: 12px;
+  }
+
+  &--warning {
+    border-color: var(--color-warning-default);
+    background: var(--color-warning-muted);
+    color: var(--color-text-default);
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__row {
+    &--in {
+      color: var(--color-success-default);
+    }
+
+    &--out {
+      color: var(--color-error-default);
+    }
+  }
+
+  &__disclaimer {
+    color: var(--color-text-alternative);
+    font-size: 11px;
+  }
+}

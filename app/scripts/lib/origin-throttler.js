@@ -8,7 +8,6 @@ export const PROMPTING_METHODS = new Set([
   'eth_sendTransaction',
   'personal_sign',
   'eth_signTypedData',
-  'eth_signTypedData_v1',
   'eth_signTypedData_v3',
   'eth_signTypedData_v4',
   'eth_decrypt',

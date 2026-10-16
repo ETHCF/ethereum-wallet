@@ -589,7 +589,7 @@
     "message": "de"
   },
   "orderOneHere": {
-    "message": "Demana un Trezor o un Ledger i congela les teves inversions"
+    "message": "Demana un $1 o un $2 i congela les teves inversions"
   },
   "origin": {
     "message": "Origen"

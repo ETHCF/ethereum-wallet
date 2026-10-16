@@ -32,6 +32,36 @@ describe('confirm-approve utils', function () {
       // 1e11 base units
       assert.equal(data.slice(-64), '174876e800'.padStart(64, '0'));
     });
+
+    it("encodes with the token's decimals beyond 10^22", function () {
+      const data = getCustomTxParamsData(UNLIMITED_APPROVAL, {
+        customPermissionAmount: '1',
+        decimals: 30,
+      });
+      assert.equal(
+        data.slice(-64),
+        (10n ** 30n).toString(16).padStart(64, '0'),
+      );
+    });
+
+    it('encodes raw units for a token whose decimals are unknown', function () {
+      const data = getCustomTxParamsData(UNLIMITED_APPROVAL, {
+        customPermissionAmount: '1000',
+        decimals: 0,
+      });
+      assert.equal(data.slice(-64), '3e8'.padStart(64, '0'));
+    });
+
+    it('refuses more decimal places than the token has', function () {
+      assert.throws(
+        () =>
+          getCustomTxParamsData(UNLIMITED_APPROVAL, {
+            customPermissionAmount: '1.5',
+            decimals: 0,
+          }),
+        /at most 0 decimal places/u,
+      );
+    });
   });
 
   describe('formatApprovalAmount', function () {

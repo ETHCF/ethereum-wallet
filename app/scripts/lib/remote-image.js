@@ -183,7 +183,7 @@ export function isLocalHostname(hostname) {
  * @param {object} [dns] - The extension DNS API.
  * @returns {Promise<boolean>} Whether any address it resolves to is local.
  */
-async function resolvesToLocal(hostname, dns) {
+export async function resolvesToLocal(hostname, dns) {
   // An IP address was checked as it is written.
   if (
     typeof dns?.resolve !== 'function' ||
@@ -208,7 +208,7 @@ export function isImageDataUrl(value) {
   );
 }
 
-async function readAtMost(response, maxBytes) {
+export async function readAtMost(response, maxBytes) {
   if (!response.body?.getReader) {
     const bytes = new Uint8Array(await response.arrayBuffer());
     return bytes.length > maxBytes ? undefined : bytes;

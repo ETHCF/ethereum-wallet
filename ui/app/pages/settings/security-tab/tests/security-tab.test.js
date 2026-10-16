@@ -25,6 +25,7 @@ describe('Security Tab', function () {
     useNftDetection: false,
     setDisplayNftMedia: sinon.spy(),
     displayNftMedia: false,
+    changePassword: sinon.spy(),
   };
 
   beforeEach(function () {

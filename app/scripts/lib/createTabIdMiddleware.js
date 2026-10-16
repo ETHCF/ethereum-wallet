@@ -1,7 +1,8 @@
 /**
- * Returns a middleware that appends the DApp TabId to the request
+ * Returns a middleware that sets the DApp TabId on the request, replacing
+ * any tabId the sender supplied. It is undefined when the sender has no tab.
  *
- * @param {{ tabId: number }} opts - The middleware options
+ * @param {{ tabId: number | undefined }} opts - The middleware options
  * @returns {Function} The tab ID middleware.
  */
 export default function createTabIdMiddleware(opts) {

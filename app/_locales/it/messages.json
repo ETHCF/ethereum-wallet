@@ -805,7 +805,7 @@
     "message": "di"
   },
   "orderOneHere": {
-    "message": "Compra un Trezor o un Ledger e tieni i tuoi soldi al sicuro"
+    "message": "Compra un $1 o un $2 e tieni i tuoi soldi al sicuro"
   },
   "origin": {
     "message": "Origine"
@@ -1192,7 +1192,7 @@
     "message": "Transazione abbandonata alle $2."
   },
   "transactionSubmitted": {
-    "message": "Transazione inviata alle $2."
+    "message": "Transazione inviata con costo in gas di $1 alle $2."
   },
   "transactionResubmitted": {
     "message": "Transazione reinviata con costo in gas aumentato a $1 alle $2"

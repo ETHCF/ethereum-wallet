@@ -21,29 +21,33 @@ describe('EnsInput', function () {
 
   beforeEach(function () {
     clock = sinon.useFakeTimers();
-    // Each test replaces the ENS client the component builds from it.
-    global.ethereumProvider = { request: () => new Promise(() => undefined) };
   });
 
   afterEach(function () {
     clock.restore();
-    delete global.ethereumProvider;
   });
 
-  it('never shows an earlier name’s address for the name now entered', async function () {
-    const updateEnsResolution = sinon.spy();
-    const wrapper = shallow(
+  function render(props) {
+    return shallow(
       <EnsInput
         network="1"
         onChange={() => undefined}
         onReset={() => undefined}
-        updateEnsResolution={updateEnsResolution}
+        updateEnsResolution={() => undefined}
         updateEnsResolutionError={() => undefined}
+        {...props}
       />,
       { context: { t: (key) => key } },
     );
+  }
+
+  it('never shows an earlier name’s address for the name now entered', async function () {
+    const updateEnsResolution = sinon.spy();
     const lookups = { 'alice.eth': deferred(), 'bob.eth': deferred() };
-    wrapper.instance().ens = { lookup: (name) => lookups[name].promise };
+    const wrapper = render({
+      updateEnsResolution,
+      resolveEnsName: (name) => lookups[name].promise,
+    });
     const type = (value) =>
       wrapper.find('input').prop('onChange')({ target: { value } });
     const settle = async () => {
@@ -58,9 +62,9 @@ describe('EnsInput', function () {
     await clock.tickAsync(250);
 
     // Results arrive out of order: bob's first, then alice's.
-    lookups['bob.eth'].resolve(BOB);
+    lookups['bob.eth'].resolve({ name: 'bob.eth', address: BOB });
     await settle();
-    lookups['alice.eth'].resolve(ALICE);
+    lookups['alice.eth'].resolve({ name: 'alice.eth', address: ALICE });
     await settle();
 
     assert.equal(updateEnsResolution.lastCall.args[0], BOB);
@@ -71,23 +75,57 @@ describe('EnsInput', function () {
   });
 
   it('looks up a name once typing pauses, not on every keystroke', async function () {
-    const lookup = sinon.stub().resolves(BOB);
-    const wrapper = shallow(
-      <EnsInput
-        network="1"
-        onChange={() => undefined}
-        onReset={() => undefined}
-        updateEnsResolution={() => undefined}
-        updateEnsResolutionError={() => undefined}
-      />,
-      { context: { t: (key) => key } },
-    );
-    wrapper.instance().ens = { lookup };
+    const lookup = sinon.stub().resolves({ name: 'bob.eth', address: BOB });
+    const wrapper = render({ resolveEnsName: lookup });
     for (const value of ['bob.e', 'bob.et', 'bob.eth']) {
       wrapper.find('input').prop('onChange')({ target: { value } });
       await clock.tickAsync(50);
     }
     await clock.tickAsync(250);
     assert.deepEqual(lookup.args, [['bob.eth']]);
+  });
+
+  it('shows why a name did not resolve', async function () {
+    const cases = {
+      'vitаlik.eth': ['invalidName', 'ensIllegalName'],
+      'alice.cb.id': ['offchainLookupFailed', 'ensOffchainLookupFailed'],
+      'nobody.eth': ['notFound', 'ensNotFoundOnCurrentNetwork'],
+      'empty.eth': ['noAddress', 'noAddressForName'],
+      'broken.eth': ['failed', 'ensLookupFailed'],
+    };
+    for (const [name, [error, message]] of Object.entries(cases)) {
+      const updateEnsResolution = sinon.spy();
+      const updateEnsResolutionError = sinon.spy();
+      const wrapper = render({
+        updateEnsResolution,
+        updateEnsResolutionError,
+        resolveEnsName: sinon.stub().resolves({ error }),
+      });
+      wrapper.find('input').prop('onChange')({ target: { value: name } });
+      await clock.tickAsync(250);
+      assert.equal(updateEnsResolutionError.lastCall.args[0], message, name);
+      assert.ok(
+        updateEnsResolution.args.every(([address]) => address === ''),
+        name,
+      );
+    }
+  });
+
+  it('ignores an answer from before a network switch', async function () {
+    const updateEnsResolution = sinon.spy();
+    const first = deferred();
+    const resolveEnsName = sinon.stub();
+    resolveEnsName.onCall(0).returns(first.promise);
+    resolveEnsName.onCall(1).resolves({ name: 'bob.eth', address: BOB });
+    const wrapper = render({ updateEnsResolution, resolveEnsName });
+    wrapper.find('input').prop('onChange')({ target: { value: 'bob.eth' } });
+    await clock.tickAsync(250);
+    wrapper.setProps({ network: '11155111' });
+    await clock.tickAsync(250);
+    first.resolve({ name: 'bob.eth', address: ALICE });
+    await clock.tickAsync(0);
+    assert.equal(resolveEnsName.callCount, 2);
+    assert.equal(updateEnsResolution.lastCall.args[0], BOB);
+    assert.ok(updateEnsResolution.args.every(([address]) => address !== ALICE));
   });
 });

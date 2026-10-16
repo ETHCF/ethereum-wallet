@@ -194,6 +194,10 @@ export default class EditApprovalPermission extends PureComponent {
       return t('spendLimitInvalid');
     }
 
+    if (customSpendLimitNumber.decimalPlaces() > Number(decimals || 0)) {
+      return t('spendLimitTooPrecise', [String(Number(decimals || 0))]);
+    }
+
     const maxTokenAmount = calcTokenAmount(MAX_UNSIGNED_256_INT, decimals);
     if (customSpendLimitNumber.isGreaterThan(maxTokenAmount)) {
       return t('spendLimitTooLarge');

@@ -152,6 +152,15 @@
   "chainId": {
     "message": "체인 ID"
   },
+  "changePassword": {
+    "message": "비밀번호 변경"
+  },
+  "changePasswordDescription": {
+    "message": "새 비밀번호로 지갑을 다시 암호화합니다. 지갑 잠금을 해제하려면 새 비밀번호가 필요합니다."
+  },
+  "changePasswordFailed": {
+    "message": "비밀번호를 변경할 수 없습니다. 현재 비밀번호가 계속 사용됩니다."
+  },
   "clickToRevealSeed": {
     "message": "비밀 단어를 보기 위해 여기를 클릭하세요."
   },
@@ -223,6 +232,9 @@
   },
   "currentLanguage": {
     "message": "현재 언어"
+  },
+  "currentPassword": {
+    "message": "현재 비밀번호"
   },
   "customGas": {
     "message": "가스 설정"
@@ -301,6 +313,9 @@
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "현재 네트워크에서 ENS 이름을 찾을 수 없습니다. 주요 이더리움 네트워크로 전환해 보세요."
+  },
+  "ensOmniboxSuggestion": {
+    "message": "ENS 웹사이트 열기(예: vitalik.eth)"
   },
   "enterAnAlias": {
     "message": "가명을 입력하세요"
@@ -558,6 +573,9 @@
   "newPassword": {
     "message": "새 비밀번호 (최소 8자 이상)"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "새 비밀번호는 현재 비밀번호와 달라야 합니다"
+  },
   "newNetwork": {
     "message": "새 네트워크"
   },
@@ -595,13 +613,16 @@
     "message": "~의"
   },
   "orderOneHere": {
-    "message": "Trezor 혹은 Ledger를 구입하고 자금을 콜드 스토리지에 저장합니다"
+    "message": "$1 혹은 $2를 구입하고 자금을 콜드 스토리지에 저장합니다"
   },
   "parameters": {
     "message": "매개변수"
   },
   "password": {
     "message": "비밀번호"
+  },
+  "passwordChanged": {
+    "message": "비밀번호가 변경되었습니다"
   },
   "passwordsDontMatch": {
     "message": "비밀번호가 맞지 않습니다"
@@ -815,6 +836,52 @@
   "sigRequest": {
     "message": "서명 요청"
   },
+  "simulationApproveAll": {
+    "message": "$1에게 보유한 모든 $2의 전송을 허용합니다",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "$1에게 $2의 전송을 허용합니다",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "$1에게 $2의 사용을 허용합니다",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "네트워크의 RPC에서 이 트랜잭션을 시뮬레이션한 추정치입니다. 실제 결과는 다를 수 있습니다. 네트워크 수수료는 포함되지 않습니다."
+  },
+  "simulationLikelyToFail": {
+    "message": "이 트랜잭션은 실패할 가능성이 높습니다: $1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "잔액 변동을 추정하는 중…"
+  },
+  "simulationNoChanges": {
+    "message": "잔액 변동이 없습니다"
+  },
+  "simulationRawUnits": {
+    "message": "토큰 $2의 최소 단위 기준 $1",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "$1의 $2 전송 권한을 취소합니다",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "이 미리보기는 사용자 정의 사용 한도가 아니라 요청된 금액을 기준으로 합니다."
+  },
+  "simulationTitle": {
+    "message": "예상 잔액 변동"
+  },
+  "simulationUnavailable": {
+    "message": "이 네트워크의 RPC에서는 잔액 변동 미리보기를 사용할 수 없습니다"
+  },
+  "simulationUnknownReason": {
+    "message": "이유가 제공되지 않음",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "somethingWentWrong": {
     "message": "헉! 뭔가 잘못됐어요."
   },
@@ -953,6 +1020,13 @@
   },
   "unknownNetwork": {
     "message": "알 수 없는 프라이빗 네트워크"
+  },
+  "unknownToken": {
+    "message": "알 수 없는 토큰"
+  },
+  "unknownTokenRawUnits": {
+    "message": "최소 단위(알 수 없는 토큰)",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "unlock": {
     "message": "잠금 해제"
@@ -1191,6 +1265,15 @@
     "message": "\"$1\"을(를) 누르면 이 탭이 닫히고 $2(으)로 돌아갑니다",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "이 이름에는 ENS에서 허용하지 않는 문자 또는 다른 문자로 오인될 수 있는 문자가 포함되어 있습니다."
+  },
+  "ensLookupFailed": {
+    "message": "이 이름을 조회할 수 없습니다. 연결을 확인하고 다시 시도하세요."
+  },
+  "ensOffchainLookupFailed": {
+    "message": "이 이름은 오프체인에 저장되어 있으며, 해당 리졸버가 가리키는 서비스가 유효한 응답을 제공하지 않았습니다."
+  },
   "enterMaxSpendLimit": {
     "message": "최대 사용 한도 입력"
   },
@@ -1331,6 +1414,10 @@
   },
   "spendLimitTooLarge": {
     "message": "사용 한도가 너무 큽니다"
+  },
+  "spendLimitTooPrecise": {
+    "message": "이 토큰은 소수점 이하 최대 $1자리까지 허용합니다",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "사용 한도가 유효하지 않습니다. 양수여야 합니다"
@@ -1624,6 +1711,55 @@
   "alertCodeCheckFailed": {
     "message": "네트워크의 RPC가 응답하지 않아 지갑이 $1을(를) 확인할 수 없습니다. 일부 확인을 건너뛰었습니다.",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "이 권한은 $1에게 이 컬렉션에서 토큰 ID가 $2인 NFT를 전송할 수 있도록 허용합니다.",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "이 마켓플레이스 주문은 대가 없이, 또는 거의 대가 없이 $1을(를) 넘겨줍니다. 누구나 이 주문을 체결하여 이 자산을 가져갈 수 있습니다. 가짜 ‘무료’ 리스팅은 NFT와 토큰을 훔치는 흔한 수법입니다.",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "이 주문은 주문을 체결하는 사람이 특정 아이템 하나가 아니라 컬렉션의 어떤 아이템이든 선택할 수 있도록 허용합니다."
+  },
+  "alertOrderLongLived": {
+    "message": "이 주문은 1년 넘게 유효합니다."
+  },
+  "alertOrderSummary": {
+    "message": "$1 주문. 보내는 것: $2. 받는 것: $3.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "$1 주문. 보내는 것: $2. 받는 것은 없습니다.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "이 서명은 마켓플레이스 주문 묶음을 내용은 보여주지 않고 지문(fingerprint)만으로 승인합니다. 지갑은 무엇을 넘겨주게 되는지 알 수 없습니다. 마켓플레이스 자체 사이트에서 직접 일괄 리스팅을 시작한 경우가 아니라면 서명하지 마세요."
+  },
+  "alertSafeDelegateCall": {
+    "message": "이 Safe 트랜잭션은 $1이(가) 자체 코드를 사용자의 Safe로서 실행하도록 허용합니다(delegatecall). 이 코드는 Safe에 있는 모든 것을 가져가거나 Safe의 소유자를 변경할 수 있습니다.",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "이 Safe 트랜잭션은 지갑이 읽을 수 없는 호출 묶음을 실행합니다. 서명하기 전에 Safe 앱에서 각 호출을 검토하세요."
+  },
+  "alertSafeSelfCall": {
+    "message": "이 Safe 트랜잭션은 Safe 자체의 설정을 변경합니다($1). 이러한 변경은 Safe의 제어권을 다른 사람에게 넘길 수 있습니다.",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1: $3에 대한 $2, 네이티브 통화 $4 및 데이터 $5바이트 전송.",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "이 메시지는 정확히 32바이트이므로 해시처럼 보입니다. 서명하면 볼 수 없는 무언가를 승인하게 될 수 있습니다."
+  },
+  "alertPersonalSignNotText": {
+    "message": "이 메시지는 읽을 수 있는 텍스트가 아니므로 16진수 데이터로 표시됩니다."
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "이 메시지에는 보이지 않는 문자나 텍스트 방향을 바꾸는 문자가 포함되어 있으며, 여기서는 \\u{…} 코드로 표시됩니다. 이러한 문자는 텍스트에 보이는 내용을 숨기거나 순서를 바꿀 수 있습니다."
   },
   "securityAlertsAcknowledge": {
     "message": "위험을 이해했으며 계속하겠습니다."

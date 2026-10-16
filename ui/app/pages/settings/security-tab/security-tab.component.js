@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 
+import ChangePassword from './change-password';
 import Button from '../../../components/ui/button';
 import ToggleButton from '../../../components/ui/toggle-button';
 import { REVEAL_SEED_ROUTE } from '../../../helpers/constants/routes';
@@ -23,6 +24,7 @@ export default class SecurityTab extends PureComponent {
     useNftDetection: PropTypes.bool.isRequired,
     setDisplayNftMedia: PropTypes.func.isRequired,
     displayNftMedia: PropTypes.bool.isRequired,
+    changePassword: PropTypes.func.isRequired,
   };
 
   renderSeedWords() {
@@ -174,12 +176,13 @@ export default class SecurityTab extends PureComponent {
   }
 
   render() {
-    const { warning } = this.props;
+    const { warning, changePassword } = this.props;
 
     return (
       <div className="settings-page__body">
         {warning && <div className="settings-tab__error">{warning}</div>}
         {this.renderSeedWords()}
+        <ChangePassword changePassword={changePassword} />
         {this.renderPhishingDetectionToggle()}
         {this.render4ByteResolutionToggle()}
         {this.renderRejectOnCloseToggle()}

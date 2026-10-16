@@ -589,7 +589,7 @@
     "message": "af"
   },
   "orderOneHere": {
-    "message": "Bestil en Trezor eller Ledger og frys dine midler ned"
+    "message": "Bestil en $1 eller $2 og frys dine midler ned"
   },
   "parameters": {
     "message": "Parametre"

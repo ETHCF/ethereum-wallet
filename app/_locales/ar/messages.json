@@ -598,7 +598,7 @@
     "message": "من"
   },
   "orderOneHere": {
-    "message": "اطلب Trezor أو Ledger وحافظ على أموالك في مخزن حصين"
+    "message": "اطلب $1 أو $2 وحافظ على أموالك في مخزن حصين"
   },
   "origin": {
     "message": "الأصل"

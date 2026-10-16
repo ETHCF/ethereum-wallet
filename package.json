@@ -1,7 +1,7 @@
 {
   "name": "ecf-wallet",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "license": "MIT",
   "scripts": {
     "start": "yarn build dev",
@@ -36,7 +36,7 @@
     "lint:changed:fix": "{ git ls-files --others --exclude-standard ; git diff-index --name-only --diff-filter=d HEAD ; } | grep --regexp='[.]js$' --regexp='[.]json$' | tr '\\n' '\\0' | xargs -0 eslint --fix",
     "lint:shellcheck": "./development/shellcheck.sh",
     "lint:styles": "stylelint '*/**/*.scss'",
-    "lint:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts npm yarn github.com codeload.github.com --empty-hostname false --allowed-schemes \"https:\" \"git+https:\"",
+    "lint:lockfile": "lockfile-lint --path yarn.lock --allowed-hosts npm yarn --empty-hostname false --allowed-schemes \"https:\"",
     "validate-source-maps": "node ./development/sourcemap-validator.js",
     "verify-service-worker": "node ./development/verify-service-worker.js",
     "verify-build": "node ./development/verify-build.js",
@@ -63,6 +63,7 @@
     "**/source-map-js": "^1.2.2"
   },
   "dependencies": {
+    "@adraffy/ens-normalize": "1.10.1",
     "@babel/runtime": "^7.29.10",
     "@ensdomains/content-hash": "^3.1.1",
     "@ethereumjs/common": "^10.1.3",

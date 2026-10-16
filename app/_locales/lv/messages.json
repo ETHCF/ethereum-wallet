@@ -601,7 +601,7 @@
     "message": "no"
   },
   "orderOneHere": {
-    "message": "Pasūtiet Trezor vai Ledger un glabājiet savus līdzekļus aukstajā krātuvē"
+    "message": "Pasūtiet $1 vai $2 un glabājiet savus līdzekļus aukstajā krātuvē"
   },
   "origin": {
     "message": "Avots"

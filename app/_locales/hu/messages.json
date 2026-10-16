@@ -598,7 +598,7 @@
     "message": "ból"
   },
   "orderOneHere": {
-    "message": "Rendeljen trezort vagy főkönyvet, és tárolja pénzeszközeit hideg tárcában"
+    "message": "Rendeljen egy $1 vagy $2 eszközt, és tárolja pénzeszközeit hideg tárcában"
   },
   "origin": {
     "message": "Eredet"

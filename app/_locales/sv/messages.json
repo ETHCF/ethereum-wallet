@@ -592,7 +592,7 @@
     "message": "av"
   },
   "orderOneHere": {
-    "message": "Beställ en Trezor eller Ledger och håll dina medel på is"
+    "message": "Beställ en $1 eller $2 och håll dina medel på is"
   },
   "origin": {
     "message": "Ursprung"

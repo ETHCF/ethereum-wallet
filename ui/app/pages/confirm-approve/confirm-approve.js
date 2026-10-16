@@ -7,7 +7,6 @@ import {
   formatApprovalAmount,
   getCustomTxParamsData,
 } from './confirm-approve.util';
-import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
 import {
   calcTokenAmount,
   getTokenToAddress,
@@ -15,6 +14,7 @@ import {
 } from '../../helpers/utils/token-util';
 import { getTokenData } from '../../helpers/utils/transactions.util';
 import { useI18nContext } from '../../hooks/useI18nContext';
+import { useTokenDetails } from '../../hooks/useTokenDetails';
 import { useTokenTracker } from '../../hooks/useTokenTracker';
 import {
   transactionFeeSelector,
@@ -36,7 +36,6 @@ export default function ConfirmApprove() {
   const nativeCurrency = useSelector(getNativeCurrency);
   const currentNetworkTxList = useSelector(currentNetworkTxListSelector);
   const domainMetadata = useSelector(getDomainMetadata);
-  const tokens = useSelector(getTokens);
 
   const transaction =
     currentNetworkTxList.find(
@@ -46,21 +45,17 @@ export default function ConfirmApprove() {
     transactionFeeSelector(state, transaction),
   );
 
-  const currentToken = (tokens &&
-    tokens.find(({ address }) => tokenAddress === address)) || {
-    address: tokenAddress,
-  };
-
-  const { tokensWithBalances } = useTokenTracker([currentToken]);
+  const { tokensWithBalances } = useTokenTracker([{ address: tokenAddress }]);
   const tokenTrackerBalance = tokensWithBalances[0]?.balance || '';
 
-  const tokenSymbol = currentToken?.symbol;
-  const decimals = Number(currentToken?.decimals);
+  // An untracked token's details are read from its contract. If they cannot
+  // be, amounts (including a custom spending limit) are in raw units.
+  const { symbol: tokenSymbol, decimals } = useTokenDetails(tokenAddress);
   const tokenData = getTokenData(data);
   const tokenValue = tokenData && getTokenValue(tokenData.params);
   const toAddress = tokenData && getTokenToAddress(tokenData.params);
   const tokenAmount =
-    tokenData && calcTokenAmount(tokenValue, decimals).toString(10);
+    tokenData && calcTokenAmount(tokenValue, decimals).toFixed();
 
   const [customPermissionAmount, setCustomPermissionAmount] = useState('');
 
@@ -83,7 +78,7 @@ export default function ConfirmApprove() {
 
   const tokensText = `${formatApprovalAmount(tokenAmount, decimals, t)} ${tokenSymbol}`;
   const tokenBalance = tokenTrackerBalance
-    ? calcTokenAmount(tokenTrackerBalance, decimals).toString(10)
+    ? calcTokenAmount(tokenTrackerBalance, decimals).toFixed()
     : '';
   const customData = customPermissionAmount
     ? getCustomTxParamsData(data, { customPermissionAmount, decimals })

@@ -360,7 +360,7 @@
     "message": "Pa gen tranzaksyon"
   },
   "orderOneHere": {
-    "message": "Mete nan lòd on Trezor oswa Ledger epi kenbe lajan ou nan yon stòk frèt."
+    "message": "Mete nan lòd on $1 oswa $2 epi kenbe lajan ou nan yon stòk frèt."
   },
   "origin": {
     "message": "Orijin"
@@ -413,10 +413,10 @@
     "message": "Rejte Tout"
   },
   "rejectTxsN": {
-    "message": "Rejete $ 1 tranzaksyon"
+    "message": "Rejete $1 tranzaksyon"
   },
   "rejectTxsDescription": {
-    "message": "Ou se sou rejte $ 1 yon anpil nan tranzaksyon yo."
+    "message": "Ou pral rejte $1 tranzaksyon an gwoup."
   },
   "rejected": {
     "message": "Rejete"
@@ -590,7 +590,7 @@
     "message": "Tranzaksyon ou te tonbe a $2."
   },
   "transactionSubmitted": {
-    "message": "Tranzaksyon ou te soumèt a $2."
+    "message": "Tranzaksyon ou te soumèt ak frè gaz $1 a $2."
   },
   "transactionUpdated": {
     "message": "Tranzaksyon ou te aktyalize a $2."

@@ -7,7 +7,6 @@ import readDisconnectError from './lib/read-disconnect-error';
 document.addEventListener('DOMContentLoaded', start);
 
 function start() {
-  document.getElementById('csdbLink').href = `https://cryptoscamdb.org/search`;
   showFlaggedSite().catch(() => undefined);
 
   // The background knows which site this tab was sent away from, and

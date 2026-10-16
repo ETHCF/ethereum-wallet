@@ -588,7 +588,7 @@
     "message": "daripada"
   },
   "orderOneHere": {
-    "message": "Pesan Trezor atau Ledger dan simpan dana anda di dalam storan sejuk"
+    "message": "Pesan $1 atau $2 dan simpan dana anda di dalam storan sejuk"
   },
   "origin": {
     "message": "Asal"

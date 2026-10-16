@@ -78,6 +78,69 @@ describe('Transaction Controller', function () {
     });
   });
 
+  describe('boot cleanup', function () {
+    function createController(transactions) {
+      const blockTracker = new EventEmitter();
+      blockTracker.getCurrentBlock = noop;
+      blockTracker.getLatestBlock = noop;
+      return new TransactionController({
+        initState: { transactions },
+        provider,
+        getGasPrice: () => '0xee6b2800',
+        networkStore: new ObservableStore(currentNetworkId),
+        txHistoryLimit: 10,
+        blockTracker,
+        signTransaction: noop,
+        getPermittedAccounts: () => undefined,
+      });
+    }
+
+    function txMeta(id, status, networkId = currentNetworkId) {
+      return {
+        id,
+        status,
+        time: id,
+        ecfWalletNetworkId: networkId,
+        txParams: { from: fromAccount.address, to: fromAccount.address },
+        history: [{}],
+      };
+    }
+
+    it('drops unapproved transactions on every network, whose sites were told to retry', function () {
+      const controller = createController([
+        txMeta(1, 'unapproved'),
+        txMeta(2, 'unapproved', '5'),
+        txMeta(3, 'confirmed'),
+      ]);
+      assert.deepEqual(
+        controller.txStateManager.getFullTxList().map(({ id }) => id),
+        [3],
+      );
+    });
+
+    it('fails approved and signed transactions on every network', function () {
+      const controller = createController([
+        txMeta(1, 'approved'),
+        txMeta(2, 'signed', '5'),
+        txMeta(3, 'submitted'),
+      ]);
+      const statuses = Object.fromEntries(
+        controller.txStateManager
+          .getFullTxList()
+          .map(({ id, status }) => [id, status]),
+      );
+      assert.deepEqual(statuses, { 1: 'failed', 2: 'failed', 3: 'submitted' });
+    });
+
+    it('leaves an approved transaction alone when the network changes', function () {
+      const txId = 1;
+      txController.txStateManager._saveTxList([txMeta(txId, 'approved')]);
+      txController.networkStore.putState('5');
+      txController.networkStore.putState(currentNetworkId);
+      assert.equal(txController.txStateManager.getTx(txId).status, 'approved');
+    });
+  });
+
   describe('nonce tracker', function () {
     it('uses a new nonce tracker after the network changes', function () {
       const { nonceTracker } = txController;
@@ -654,6 +717,102 @@ describe('Transaction Controller', function () {
       assert.equal(stored.txParams.gas, '0x5209');
       assert.equal(stored.origin, txMeta.origin);
       assert.deepEqual(stored.securityAlerts, txMeta.securityAlerts);
+    });
+  });
+
+  describe('balance-change preview', function () {
+    const recipient = '0x1678a085c290ebd122dc42cba69373b5953b831d';
+
+    function addUnapproved(id) {
+      txController.txStateManager.addTx({
+        id,
+        status: 'unapproved',
+        origin: 'https://dapp.example',
+        txParams: {
+          from: fromAccount.address,
+          to: recipient,
+          value: '0x1',
+          gasPrice: '0x77359400',
+          gas: '0x7b0d',
+        },
+        ecfWalletNetworkId: currentNetworkId,
+      });
+      return txController.txStateManager.getTx(id);
+    }
+
+    async function waitForSimulation(id) {
+      for (let attempt = 0; attempt < 50; attempt += 1) {
+        const { simulation } = txController.txStateManager.getTx(id);
+        if (simulation && simulation.status !== 'loading') {
+          return simulation;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+      throw new Error('The simulation did not finish');
+    }
+
+    it("stores the simulation from the wallet's provider", async function () {
+      const from = `0x${fromAccount.address.slice(2).padStart(64, '0')}`;
+      const to = `0x${recipient.slice(2).padStart(64, '0')}`;
+      providerResultStub.eth_simulateV1 = [
+        {
+          calls: [
+            {
+              status: '0x1',
+              logs: [
+                {
+                  address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                  topics: [
+                    '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+                    from,
+                    to,
+                  ],
+                  data: `0x${'1'.padStart(64, '0')}`,
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      addUnapproved(10);
+      txController._simulateTransaction(10);
+      assert.equal(
+        txController.txStateManager.getTx(10).simulation.status,
+        'loading',
+      );
+      const simulation = await waitForSimulation(10);
+      assert.equal(simulation.status, 'success');
+      assert.deepEqual(simulation.changes, [
+        { standard: 'native', amount: '-1' },
+      ]);
+    });
+
+    it('runs again only for edits the preview depends on', async function () {
+      const txMeta = addUnapproved(11);
+      const simulate = sinon.stub(txController, '_simulateTransaction');
+      try {
+        await txController.updateTransaction({
+          ...txMeta,
+          txParams: { ...txMeta.txParams, gasPrice: '0x77359401' },
+        });
+        assert.equal(simulate.callCount, 0);
+        await txController.updateTransaction({
+          ...txController.txStateManager.getTx(11),
+          txParams: { ...txMeta.txParams, value: '0x2' },
+        });
+        assert.equal(simulate.callCount, 1);
+      } finally {
+        simulate.restore();
+      }
+    });
+
+    it('ignores a preview sent back by the UI', async function () {
+      const txMeta = addUnapproved(12);
+      await txController.updateTransaction({
+        ...txMeta,
+        simulation: { status: 'success', changes: [], approvals: [] },
+      });
+      assert.equal(txController.txStateManager.getTx(12).simulation, undefined);
     });
   });
 

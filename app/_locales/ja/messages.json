@@ -278,6 +278,9 @@
   "newPassword": {
     "message": "新規パスワード(最低8文字)"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "新しいパスワードは現在のパスワードと異なるものにしてください"
+  },
   "noAlreadyHaveSeed": {
     "message": "すでにシードを持っています"
   },
@@ -292,6 +295,9 @@
   },
   "password": {
     "message": "パスワード"
+  },
+  "passwordChanged": {
+    "message": "パスワードを変更しました"
   },
   "pastePrivateKey": {
     "message": "秘密鍵をここにペーストして下さい:",
@@ -364,6 +370,52 @@
   "sigRequest": {
     "message": "署名リクエスト"
   },
+  "simulationApproveAll": {
+    "message": "$1にあなたの$2をすべて転送することを許可します",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "$1に$2の転送を許可します",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "$1に$2の使用を許可します",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "ネットワークのRPCでこのトランザクションをシミュレーションして得た推定値です。実際の結果は異なる場合があります。ネットワーク手数料は含まれていません。"
+  },
+  "simulationLikelyToFail": {
+    "message": "このトランザクションは失敗する可能性が高いです: $1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "残高の変化を推定中…"
+  },
+  "simulationNoChanges": {
+    "message": "残高の変化は見つかりませんでした"
+  },
+  "simulationRawUnits": {
+    "message": "トークン$2の最小単位で$1",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "$1によるあなたの$2の転送許可を取り消します",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "このプレビューはリクエストされた金額に基づくもので、あなたが設定したカスタム使用上限に基づくものではありません。"
+  },
+  "simulationTitle": {
+    "message": "推定される残高の変化"
+  },
+  "simulationUnavailable": {
+    "message": "このネットワークのRPCでは残高の変化のプレビューを利用できません"
+  },
+  "simulationUnknownReason": {
+    "message": "理由は示されていません",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "terms": {
     "message": "利用規約"
   },
@@ -388,6 +440,13 @@
   },
   "unknownNetwork": {
     "message": "不明なプライベートネットワーク"
+  },
+  "unknownToken": {
+    "message": "不明なトークン"
+  },
+  "unknownTokenRawUnits": {
+    "message": "最小単位 (不明なトークン)",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "usedByClients": {
     "message": "様々なクライアントによって使用されています。"
@@ -614,6 +673,15 @@
   "chainId": {
     "message": "チェーンID"
   },
+  "changePassword": {
+    "message": "パスワードを変更"
+  },
+  "changePasswordDescription": {
+    "message": "新しいパスワードでウォレットを再暗号化します。ウォレットのロックを解除するには、新しいパスワードが必要になります。"
+  },
+  "changePasswordFailed": {
+    "message": "パスワードを変更できませんでした。現在のパスワードが引き続き使用されます。"
+  },
   "clickToRevealSeed": {
     "message": "ここをクリックして秘密の単語を表示"
   },
@@ -670,6 +738,9 @@
   },
   "currentLanguage": {
     "message": "現在の言語"
+  },
+  "currentPassword": {
+    "message": "現在のパスワード"
   },
   "customGasSubTitle": {
     "message": "手数料を上げると処理時間が短くなる可能性がありますが、保証はされません。"
@@ -735,11 +806,23 @@
     "message": "「$1」をクリックするとこのタブが閉じ、$2に戻ります",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "この名前には、ENSで使用できない文字、または他の文字と見間違える可能性のある文字が含まれています。"
+  },
+  "ensLookupFailed": {
+    "message": "この名前を検索できませんでした。接続を確認して、もう一度お試しください。"
+  },
+  "ensOffchainLookupFailed": {
+    "message": "この名前はオフチェーンに保存されていますが、リゾルバーが指定するサービスから有効な応答が得られませんでした。"
+  },
   "ensRegistrationError": {
     "message": "ENS名の登録でエラーが発生しました"
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "現在のネットワークでENS名が見つかりません。Ethereumメインネットに切り替えてみてください。"
+  },
+  "ensOmniboxSuggestion": {
+    "message": "ENSウェブサイトを開く (例: vitalik.eth)"
   },
   "enterAnAlias": {
     "message": "エイリアスを入力"
@@ -981,7 +1064,7 @@
     "message": "/"
   },
   "orderOneHere": {
-    "message": "TrezorまたはLedgerを注文して、資金をコールドストレージで保管しましょう"
+    "message": "$1または$2を注文して、資金をコールドストレージで保管しましょう"
   },
   "origin": {
     "message": "オリジン"
@@ -1202,6 +1285,10 @@
   },
   "spendLimitTooLarge": {
     "message": "使用上限が大きすぎます"
+  },
+  "spendLimitTooPrecise": {
+    "message": "このトークンで使用できる小数点以下の桁数は最大$1桁です",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "使用上限が無効です。正の数である必要があります"
@@ -1624,6 +1711,55 @@
   "alertCodeCheckFailed": {
     "message": "ネットワークのRPCが応答しなかったため、ウォレットは$1を確認できませんでした。一部の確認はスキップされました。",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "これにより、$1は、このコレクションにあるトークンID $2のあなたのNFTを転送できるようになります。",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "このマーケットプレイスの注文は、見返りなし、またはほぼ見返りなしで$1を手放すものです。誰でもこの注文を約定させて、これらの資産を手に入れることができます。偽の「無料」出品は、NFTやトークンを盗むためによく使われる手口です。",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "この注文では、約定させた人が特定の1つのアイテムではなく、コレクション内の任意のアイテムを選べます。"
+  },
+  "alertOrderLongLived": {
+    "message": "この注文は1年以上有効です。"
+  },
+  "alertOrderSummary": {
+    "message": "$1の注文。あなたが渡すもの: $2。あなたが受け取るもの: $3。",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "$1の注文。あなたが渡すもの: $2。あなたは何も受け取りません。",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "この署名は、マーケットプレイスの複数の注文をまとめて承認するものですが、注文の内容は表示されず、そのフィンガープリントしか含まれていません。ウォレットは、あなたが何を手放すことになるのか判別できません。マーケットプレイス自体のサイトであなた自身が一括出品を開始した場合を除き、署名しないでください。"
+  },
+  "alertSafeDelegateCall": {
+    "message": "このSafeトランザクションにより、$1は独自のコードをあなたのSafeとして実行できるようになります (delegatecall)。そのコードはSafe内のすべてを持ち出したり、Safeのオーナーを変更したりできます。",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "このSafeトランザクションは、ウォレットが読み取れなかった一連の呼び出しをまとめて実行します。署名する前に、Safeアプリで各呼び出しを確認してください。"
+  },
+  "alertSafeSelfCall": {
+    "message": "このSafeトランザクションは、Safe自体の設定を変更します ($1)。このような変更により、Safeの管理権限が他者に渡る可能性があります。",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1: $3への$2、ネイティブ通貨$4と$5バイトのデータを送信。",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "このメッセージはちょうど32バイトのため、ハッシュのように見えます。署名すると、あなたが確認できない何かを承認してしまう可能性があります。"
+  },
+  "alertPersonalSignNotText": {
+    "message": "このメッセージは読み取り可能なテキストではないため、16進数データとして表示されています。"
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "このメッセージには、目に見えない文字や文字の方向を変える文字が含まれており、ここでは\\u{…}コードとして表示されています。これらの文字は、テキストが示しているように見える内容を隠したり、並べ替えたりすることがあります。"
   },
   "securityAlertsAcknowledge": {
     "message": "リスクを理解した上で続行します。"

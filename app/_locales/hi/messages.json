@@ -598,7 +598,7 @@
     "message": "का"
   },
   "orderOneHere": {
-    "message": "Trezor या Ledger ऑर्डर करें और अपने फंड को स्थगित करें"
+    "message": "$1 या $2 ऑर्डर करें और अपने फंड को स्थगित करें"
   },
   "origin": {
     "message": "मूल"

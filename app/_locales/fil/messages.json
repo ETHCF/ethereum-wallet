@@ -551,7 +551,7 @@
     "message": "sa"
   },
   "orderOneHere": {
-    "message": "Mag-order ng Trezor o Ledger para itago sa cold storage ang iyong pondo"
+    "message": "Mag-order ng $1 o $2 para itago sa cold storage ang iyong pondo"
   },
   "origin": {
     "message": "Pinanggalingan"

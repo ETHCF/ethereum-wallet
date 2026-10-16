@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import SignatureRequestOriginal from '..';
 import { MESSAGE_TYPE } from '../../../../../../app/scripts/lib/enums';
 import { mountWithRouter } from '../../../../../../test/lib/render-helpers';
+import { describePersonalMessage } from '../signature-request-original.component';
 
 const ADDRESS = '0xd8f6a2ffb0fc5952d16c9768b71cfd35b6399aa5';
 
@@ -92,6 +93,40 @@ describe('SignatureRequestOriginal', function () {
         .find('button[data-testid="request-signature__sign"]')
         .prop('disabled'),
       true,
+    );
+  });
+
+  it('shows bytes that are not UTF-8 text as hex, with a warning', function () {
+    // 0xff is not valid UTF-8 and would decode to a replacement character.
+    assert.deepEqual(describePersonalMessage('0x68ff69'), {
+      text: '0x68ff69',
+      alerts: [{ id: 'alertPersonalSignNotText', severity: 'warning' }],
+    });
+    assert.deepEqual(describePersonalMessage('0x68656c6c6f'), {
+      text: 'hello',
+      alerts: [],
+    });
+  });
+
+  it('escapes invisible and bidi characters but keeps line breaks', function () {
+    const hex = `0x${Buffer.from('pay\u202Eevil\u200B\nok', 'utf8').toString('hex')}`;
+    assert.deepEqual(describePersonalMessage(hex), {
+      text: 'pay\\u{202E}evil\\u{200B}\nok',
+      alerts: [
+        { id: 'alertPersonalSignHiddenCharacters', severity: 'warning' },
+      ],
+    });
+  });
+
+  it('warns that a 32-byte message looks like a hash', function () {
+    const hash = `0x${'ab'.repeat(32)}`;
+    const wrapper = mountRequest(MESSAGE_TYPE.PERSONAL_SIGN, { data: hash });
+    assert.equal(wrapper.find('.request-signature__row-value').text(), hash);
+    assert.equal(
+      wrapper
+        .find('[data-testid="security-alert-alertPersonalSignHash"]')
+        .hostNodes().length,
+      1,
     );
   });
 });

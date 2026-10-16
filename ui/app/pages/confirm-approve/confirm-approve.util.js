@@ -31,9 +31,18 @@ export function getCustomTxParamsData(
     );
   }
 
-  let customPermissionValue = decimalToHex(
-    calcTokenValue(customPermissionAmount, decimals),
-  );
+  const customBaseUnits = calcTokenValue(customPermissionAmount, decimals);
+  // More decimal places than the token has cannot be encoded.
+  if (
+    !customBaseUnits.isFinite() ||
+    !customBaseUnits.isInteger() ||
+    customBaseUnits.isNegative()
+  ) {
+    throw new Error(
+      `Invalid custom value; must be a non-negative amount with at most ${decimals} decimal places`,
+    );
+  }
+  let customPermissionValue = decimalToHex(customBaseUnits);
   if (customPermissionValue.length > 64) {
     throw new Error('Custom value is larger than u256');
   }

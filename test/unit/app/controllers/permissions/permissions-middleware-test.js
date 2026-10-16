@@ -946,6 +946,10 @@ describe('permissions middleware', function () {
         'eth_blockNumber',
         'eth_sendTransaction',
         'personal_sign',
+        'eth_blobBaseFee',
+        'eth_getBlockReceipts',
+        'eth_createAccessList',
+        'eth_simulateV1',
       ]) {
         const res = {};
         let forwarded = false;
@@ -962,6 +966,31 @@ describe('permissions middleware', function () {
         });
         assert.ok(forwarded, `${method} should be forwarded`);
         assert.ok(!res.error, `${method} should have no error`);
+      }
+    });
+
+    it('does not forward proof-of-work methods or eth_signTypedData_v1 to the node', async function () {
+      const aMiddleware = getPermissionsMiddleware(
+        permController,
+        DOMAINS.a.origin,
+      );
+
+      for (const method of [
+        'eth_getWork',
+        'eth_submitWork',
+        'eth_submitHashrate',
+        'eth_hashrate',
+        'eth_mining',
+        'eth_protocolVersion',
+        'eth_signTypedData_v1',
+      ]) {
+        const next = sinon.spy();
+        await assert.rejects(
+          aMiddleware(RPC_REQUESTS.custom(DOMAINS.a.origin, method), {}, next),
+          ERRORS.permissionController.methodNotFound(),
+          `${method} should be rejected with method not found`,
+        );
+        assert.ok(next.notCalled, `${method} should not be forwarded`);
       }
     });
   });

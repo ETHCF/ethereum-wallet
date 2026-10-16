@@ -11,14 +11,15 @@ export default class ConfirmTokenTransactionBase extends Component {
   static propTypes = {
     tokenAddress: PropTypes.string,
     toAddress: PropTypes.string,
-    tokenAmount: PropTypes.number,
+    // A decimal string, so large or precise amounts stay exact
+    tokenAmount: PropTypes.string,
     tokenSymbol: PropTypes.string,
     ethTransactionTotal: PropTypes.string,
     nativeCurrencyImage: PropTypes.string,
   };
 
   static defaultProps = {
-    tokenAmount: 0,
+    tokenAmount: '',
   };
 
   renderPrimaryTotalTextOverride() {

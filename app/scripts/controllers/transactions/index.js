@@ -16,6 +16,7 @@ import {
   TRANSACTION_TYPE_STANDARD,
   TRANSACTION_STATUS_UNAPPROVED,
   TRANSACTION_STATUS_APPROVED,
+  TRANSACTION_STATUS_SIGNED,
 } from './enums';
 import * as txUtils from './lib/util';
 import PendingTransactionTracker from './pending-tx-tracker';
@@ -32,6 +33,7 @@ import {
 } from '../../../../ui/app/helpers/constants/transactions';
 import createMethodDecoder from '../../lib/abi-method-decoder';
 import cleanErrorStack from '../../lib/cleanErrorStack';
+import { callContract } from '../../lib/contract-call';
 import {
   checksFailedAlert,
   decodeCall,
@@ -42,6 +44,12 @@ import {
   isFeeMarketTransaction,
   replacementFees,
 } from '../../lib/transaction-fees';
+import {
+  SIMULATION_STATUS,
+  createProviderRequest,
+  simulateTransaction,
+  simulationInputsChanged,
+} from '../../lib/transaction-simulation';
 import { bnToHex, hexToBn } from '../../lib/util';
 
 const decodeTokenMethod = createMethodDecoder(abi);
@@ -109,6 +117,9 @@ export default class TransactionController extends EventEmitter {
     this.signEthTx = opts.signTransaction;
     this.inProcessOfSigning = new Set();
     this.networkGeneration = 0;
+    // The latest balance-change preview run for each transaction, so that an
+    // older run finishing late does not replace a newer one.
+    this.simulationRuns = new Map();
 
     this.memStore = new ObservableStore({});
     this.query = pify(new EthQuery(this.provider));
@@ -150,7 +161,7 @@ export default class TransactionController extends EventEmitter {
       // for each network.
       this.nonceTracker = this._createNonceTracker();
       this.pendingTxTracker.nonceTracker = this.nonceTracker;
-      this._onBootCleanUp();
+      this._loadInterruptedGasDefaults();
       this._updateMemstore();
     });
 
@@ -332,6 +343,7 @@ export default class TransactionController extends EventEmitter {
     txMeta.loadingDefaults = false;
     // save txMeta
     this.txStateManager.updateTx(txMeta, 'Added new unapproved transaction.');
+    this._simulateTransaction(txMeta.id);
 
     return txMeta;
   }
@@ -639,10 +651,73 @@ export default class TransactionController extends EventEmitter {
       securityAlerts = await this._getSecurityAlerts(txMeta.txParams);
     }
     // The checks are async, so the transaction may have been approved since.
+    const edited = this._editedTxMeta(txMeta);
     this.txStateManager.updateTx(
-      { ...this._editedTxMeta(txMeta), securityAlerts },
+      { ...edited, securityAlerts },
       'confTx: user updated transaction',
     );
+    // Fee edits do not change the balance-change preview.
+    if (simulationInputsChanged(stored.txParams, edited.txParams)) {
+      this._simulateTransaction(txMeta.id);
+    }
+  }
+
+  /**
+   * Previews an unapproved transaction's balance changes in the background,
+   * with eth_simulateV1 on the wallet's own provider, and stores the result
+   * on the txMeta as `simulation`. The preview is display-only: it never
+   * blocks or changes the transaction, and a failure only leaves it
+   * unavailable.
+   *
+   * @private
+   * @param {number} txId - The transaction's id.
+   */
+  _simulateTransaction(txId) {
+    const txMeta = this.txStateManager.getTx(txId);
+    if (!txMeta || txMeta.status !== TRANSACTION_STATUS_UNAPPROVED) {
+      return;
+    }
+    const run = (this.simulationRuns.get(txId) || 0) + 1;
+    this.simulationRuns.set(txId, run);
+    const { networkGeneration } = this;
+    const txParams = { ...txMeta.txParams };
+    // The UI treats a preview loading for too long as unavailable, in case a
+    // network change interrupted it.
+    txMeta.simulation = {
+      status: SIMULATION_STATUS.LOADING,
+      startedAt: Date.now(),
+    };
+    this.txStateManager.updateTx(
+      txMeta,
+      'transactions#simulateTransaction: started balance-change preview',
+    );
+    simulateTransaction({
+      txParams,
+      request: createProviderRequest(this.provider),
+      query: this.query,
+    })
+      .then((simulation) => {
+        if (this.simulationRuns.get(txId) !== run) {
+          return undefined;
+        }
+        this.simulationRuns.delete(txId);
+        const current = this.txStateManager.getTx(txId);
+        if (
+          networkGeneration !== this.networkGeneration ||
+          !current ||
+          current.status !== TRANSACTION_STATUS_UNAPPROVED ||
+          simulationInputsChanged(txParams, current.txParams)
+        ) {
+          return undefined;
+        }
+        current.simulation = simulation;
+        this.txStateManager.updateTx(
+          current,
+          'transactions#simulateTransaction: added balance-change preview',
+        );
+        return undefined;
+      })
+      .catch((error) => log.warn('Transaction simulation failed', error));
   }
 
   /**
@@ -692,8 +767,10 @@ export default class TransactionController extends EventEmitter {
       ...txMeta,
       status: stored.status,
       origin: stored.origin,
+      ecfWalletNetworkId: stored.ecfWalletNetworkId,
       signingChainId: stored.signingChainId,
       securityAlerts: stored.securityAlerts,
+      simulation: stored.simulation,
       history: stored.history,
     };
   }
@@ -1010,15 +1087,40 @@ export default class TransactionController extends EventEmitter {
   }
 
   /**
-   * If transaction controller was rebooted with transactions that are uncompleted
-   * in steps of the transaction signing or user confirmation process it will either
-   * transition txMetas to a failed state or try to redo those tasks.
+   * Cleans up after a restart, as upstream's TransactionController does. A
+   * site's request for an unapproved transaction did not survive it, and the
+   * site is told to retry, so the transaction is dropped rather than left for
+   * the user to approve a second time. A transaction approved or signed but
+   * not yet submitted was interrupted, so it is marked failed. This covers
+   * every network, not only the selected one.
    */
-
   _onBootCleanUp() {
+    this.txStateManager.clearUnapprovedTxs();
+    this.txStateManager
+      .getFullTxList()
+      .filter(({ status }) =>
+        [TRANSACTION_STATUS_APPROVED, TRANSACTION_STATUS_SIGNED].includes(
+          status,
+        ),
+      )
+      .forEach((txMeta) => {
+        const error = new Error(
+          `Transaction found as "${txMeta.status}" during boot - possibly stuck during signing or submission`,
+        );
+        this.txStateManager.setTxStatusFailed(txMeta.id, error);
+      });
+  }
+
+  /**
+   * Finishes loading the gas defaults of unapproved transactions on the
+   * newly selected network whose loading a network change interrupted.
+   * Approved transactions are left alone, since one may be in the middle of
+   * signing, such as on a hardware wallet.
+   */
+  _loadInterruptedGasDefaults() {
     this.txStateManager
       .getFilteredTxList({
-        status: 'unapproved',
+        status: TRANSACTION_STATUS_UNAPPROVED,
         loadingDefaults: true,
       })
       .forEach((tx) => {
@@ -1027,7 +1129,7 @@ export default class TransactionController extends EventEmitter {
             txMeta.loadingDefaults = false;
             this.txStateManager.updateTx(
               txMeta,
-              'transactions: gas estimation for tx on boot',
+              'transactions: gas estimation after network change',
             );
             return undefined;
           })
@@ -1036,21 +1138,10 @@ export default class TransactionController extends EventEmitter {
             txMeta.loadingDefaults = false;
             this.txStateManager.updateTx(
               txMeta,
-              'failed to estimate gas during boot cleanup.',
+              'failed to estimate gas after network change.',
             );
             this.txStateManager.setTxStatusFailed(txMeta.id, error);
           });
-      });
-
-    this.txStateManager
-      .getFilteredTxList({
-        status: TRANSACTION_STATUS_APPROVED,
-      })
-      .forEach((txMeta) => {
-        const txSignError = new Error(
-          'Transaction found as "approved" during boot - possibly stuck during signing',
-        );
-        this.txStateManager.setTxStatusFailed(txMeta.id, txSignError);
       });
   }
 
@@ -1158,6 +1249,8 @@ export default class TransactionController extends EventEmitter {
       return await getTransactionAlerts({
         txParams,
         getCode: (address) => this.query.getCode(address),
+        call: (address, signature, outputTypes, args) =>
+          callContract(this.query, address, signature, outputTypes, args),
         ownAccounts,
         knownAddresses,
         tokenContracts,

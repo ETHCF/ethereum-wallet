@@ -113,21 +113,25 @@ export default class SelectHardware extends Component {
   }
 
   getStoreLinks() {
-    const links = {
-      trezor: `<a class='hw-connect__get-hw__link' href='https://shop.trezor.io/' target='_blank' rel='noopener noreferrer'>Trezor</a>`,
-      ledger: `<a class='hw-connect__get-hw__link' href='https://shop.ledger.com/' target='_blank' rel='noopener noreferrer'>Ledger</a>`,
-    };
-
-    const text = this.context.t('orderOneHere');
-    const response = text
-      .replace('Trezor', links.trezor)
-      .replace('Ledger', links.ledger);
+    const storeLink = (name, href) => (
+      <a
+        key={name}
+        className="hw-connect__get-hw__link"
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {name}
+      </a>
+    );
 
     return (
-      <div
-        className="hw-connect__get-hw__msg"
-        dangerouslySetInnerHTML={{ __html: response }}
-      />
+      <div className="hw-connect__get-hw__msg">
+        {this.context.t('orderOneHere', [
+          storeLink('Trezor', 'https://shop.trezor.io/'),
+          storeLink('Ledger', 'https://shop.ledger.com/'),
+        ])}
+      </div>
     );
   }
 

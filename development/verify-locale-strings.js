@@ -9,13 +9,16 @@
 // This script will validate that locales have no unused messages. It will check
 // the English locale against string literals found under `ui/` and
 // `app/scripts/`, and it will check other locales by comparing them to the
-// English locale.
+// English locale. Each translation must also have the same $1..$N
+// placeholders as the English message, and no HTML markup that the English
+// message does not have.
 //
 // A report will be printed to the console detailing any unused locales, and also
 // any missing messages in the non-English locales.
 //
 // The if the optional '--fix' parameter is given, locales will be automatically
-// updated to remove any unused messages.
+// updated to remove any unused messages, and translations whose placeholders or
+// markup do not match English, which then fall back to English.
 //
 // The optional '--quiet' parameter reduces the verbosity of the output, printing
 // just a single summary of results for each locale verified
@@ -169,11 +172,27 @@ async function verifyLocale(code) {
     log.info('Full coverage  : )');
   }
 
-  if (extraItems.length > 0) {
+  const mismatchedItems = compareLocalesForMismatchedMessages({
+    english: englishLocale,
+    target: targetLocale,
+  });
+  if (mismatchedItems.length) {
+    console.log(
+      `**${code}**: ${mismatchedItems.length} messages whose placeholders or markup differ from English`,
+    );
+    mismatchedItems.forEach(function ({ key, problems }) {
+      console.log(`  - [ ] ${key}: ${problems.join('; ')}`);
+    });
+  }
+
+  if (extraItems.length > 0 || mismatchedItems.length > 0) {
     if (fix) {
       const newLocale = { ...targetLocale };
       for (const item of extraItems) {
         delete newLocale[item];
+      }
+      for (const { key } of mismatchedItems) {
+        delete newLocale[key];
       }
       await writeLocale(code, newLocale);
     }
@@ -278,4 +297,60 @@ async function* getFileContents(filenames) {
 
 function compareLocalesForMissingItems({ base, subject }) {
   return Object.keys(base).filter((key) => !subject[key]);
+}
+
+// The substitutions getMessage in ui/app/helpers/utils/i18n-helper.js makes.
+const PLACEHOLDER_REGEX = /\$\d/gu;
+const HTML_TAG_REGEX = /<\s*\/?\s*([a-z][\w-]*)[^>]*>/giu;
+
+function getPlaceholders(message) {
+  return [...new Set(message.match(PLACEHOLDER_REGEX))].sort();
+}
+
+function getHtmlTags(message) {
+  return new Set(
+    Array.from(message.matchAll(HTML_TAG_REGEX), (match) =>
+      match[1].toLowerCase(),
+    ),
+  );
+}
+
+/**
+ * Finds the translations that would lose or invent substitutions, or that
+ * carry markup the English message does not.
+ *
+ * @param {object} options - The locales
+ * @param {object} options.english - The English messages
+ * @param {object} options.target - The translated messages
+ * @returns {{key: string, problems: string[]}[]} Each mismatched message
+ */
+function compareLocalesForMismatchedMessages({ english, target }) {
+  const mismatched = [];
+  for (const [key, { message }] of Object.entries(target)) {
+    const englishMessage = english[key]?.message;
+    if (typeof englishMessage !== 'string' || typeof message !== 'string') {
+      continue;
+    }
+    const problems = [];
+    const expected = getPlaceholders(englishMessage);
+    const actual = getPlaceholders(message);
+    if (expected.join() !== actual.join()) {
+      problems.push(
+        `placeholders [${actual.join(', ')}], expected [${expected.join(
+          ', ',
+        )}]`,
+      );
+    }
+    const englishTags = getHtmlTags(englishMessage);
+    const extraTags = [...getHtmlTags(message)].filter(
+      (tag) => !englishTags.has(tag),
+    );
+    if (extraTags.length) {
+      problems.push(`HTML markup <${extraTags.join('>, <')}> not in English`);
+    }
+    if (problems.length) {
+      mismatched.push({ key, problems });
+    }
+  }
+  return mismatched;
 }

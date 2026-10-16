@@ -838,6 +838,53 @@ describe('EcfWalletController', function () {
     });
   });
 
+  describe('eth_signTypedData_v1', function () {
+    it('is refused, not forwarded to the RPC node, for sites and internal callers alike', async function () {
+      const request = sinon.spy(async () => null);
+      sandbox.stub(ecfWalletController, 'provider').value({ request });
+      for (const isInternal of [false, true]) {
+        const engine = ecfWalletController.setupProviderEngine({
+          origin: 'https://dapp.test',
+          location: 'https://dapp.test/',
+          isInternal,
+        });
+        const response = await engine.handle({
+          id: 1,
+          jsonrpc: '2.0',
+          method: 'eth_signTypedData_v1',
+          params: [
+            [{ type: 'string', name: 'message', value: 'hi' }],
+            '0xc42edfcc21ed14dda456aa0756c153f7985d8813',
+          ],
+        });
+        assert.equal(response.error.code, -32601);
+        assert.match(response.error.message, /eth_signTypedData_v4/u);
+      }
+      assert.ok(request.notCalled, 'nothing should reach the RPC node');
+    });
+  });
+
+  describe('wallet_registerOnboarding', function () {
+    it('ignores a tab ID supplied by a sender without a tab', async function () {
+      const registerOnboarding = sandbox
+        .stub(ecfWalletController.onboardingController, 'registerOnboarding')
+        .resolves();
+      const engine = ecfWalletController.setupProviderEngine({
+        origin: 'chrome-extension://other-extension-id',
+        location: 'chrome-extension://other-extension-id/page.html',
+        extensionId: 'other-extension-id',
+      });
+      const response = await engine.handle({
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'wallet_registerOnboarding',
+        tabId: 5,
+      });
+      assert.equal(response.result, true);
+      assert.equal(registerOnboarding.called, false);
+    });
+  });
+
   describe('#newUnsignedPersonalMessage', function () {
     let msgParams, ecfWalletPersonalMsgs, personalMessages, msgId;
 
@@ -1209,7 +1256,7 @@ describe('EcfWalletController', function () {
       );
     });
 
-    it('should add only origin to request if tabId not provided', function (done) {
+    it('should add origin and no tabId to request if tabId not provided', function (done) {
       const messageSender = {
         url: 'http://mycrypto.com',
       };
@@ -1243,6 +1290,7 @@ describe('EcfWalletController', function () {
             assert.deepStrictEqual(loggerMiddlewareMock.requests[0], {
               ...message,
               origin: 'http://mycrypto.com',
+              tabId: undefined,
             });
             done();
           });

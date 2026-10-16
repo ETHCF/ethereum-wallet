@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import ConfirmTokenTransactionBase from './confirm-token-transaction-base.component';
-import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
 import withRouter from '../../helpers/higher-order-components/with-router';
 import {
   calcTokenAmount,
@@ -10,6 +11,7 @@ import {
   getTokenValue,
 } from '../../helpers/utils/token-util';
 import { getTokenData } from '../../helpers/utils/transactions.util';
+import { useTokenDetails } from '../../hooks/useTokenDetails';
 import {
   getNativeCurrencyImage,
   transactionFeeSelector,
@@ -36,28 +38,56 @@ const mapStateToProps = (state, ownProps) => {
     ) || {};
 
   const { ethTransactionTotal } = transactionFeeSelector(state, transaction);
-  const tokens = getTokens(state);
-  const currentToken =
-    tokens && tokens.find(({ address }) => tokenAddress === address);
-  const { decimals, symbol: tokenSymbol } = currentToken || {};
 
   const tokenData = getTokenData(data);
   const tokenValue = tokenData && getTokenValue(tokenData.params);
   const toAddress = tokenData && getTokenToAddress(tokenData.params);
-  const tokenAmount =
-    tokenData && calcTokenAmount(tokenValue, decimals).toNumber();
 
   return {
     toAddress,
     tokenAddress,
-    tokenAmount,
-    tokenSymbol,
+    tokenValue: tokenValue === undefined ? undefined : String(tokenValue),
     ethTransactionTotal,
     nativeCurrencyImage: getNativeCurrencyImage(state),
   };
 };
 
+/**
+ * Shows the token amount with the token's decimals and symbol: the tracked
+ * token's, or else those read from the contract. An unknown token's amount is
+ * shown in raw units. Amounts stay strings, so none loses precision.
+ *
+ * @param {object} props - The component props.
+ * @param {string} [props.tokenAddress] - The token contract.
+ * @param {string} [props.tokenValue] - The amount in base units.
+ * @returns {React.ReactElement} The confirmation.
+ */
+function ConfirmTokenTransactionWithDetails({
+  tokenAddress,
+  tokenValue,
+  ...props
+}) {
+  const { symbol, decimals, loading } = useTokenDetails(tokenAddress);
+  const tokenAmount =
+    tokenValue === undefined || loading
+      ? ''
+      : calcTokenAmount(tokenValue, decimals).toFixed();
+  return (
+    <ConfirmTokenTransactionBase
+      {...props}
+      tokenAddress={tokenAddress}
+      tokenAmount={tokenAmount}
+      tokenSymbol={symbol}
+    />
+  );
+}
+
+ConfirmTokenTransactionWithDetails.propTypes = {
+  tokenAddress: PropTypes.string,
+  tokenValue: PropTypes.string,
+};
+
 export default compose(
   withRouter,
   connect(mapStateToProps),
-)(ConfirmTokenTransactionBase);
+)(ConfirmTokenTransactionWithDetails);

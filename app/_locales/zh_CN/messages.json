@@ -155,6 +155,15 @@
   "chainId": {
     "message": "链 ID"
   },
+  "changePassword": {
+    "message": "更改密码"
+  },
+  "changePasswordDescription": {
+    "message": "使用新密码重新加密您的钱包。您需要使用新密码来解锁钱包。"
+  },
+  "changePasswordFailed": {
+    "message": "无法更改密码。您当前的密码仍然有效。"
+  },
   "clickToRevealSeed": {
     "message": "点击此处显示密语"
   },
@@ -226,6 +235,9 @@
   },
   "currentLanguage": {
     "message": "当前语言"
+  },
+  "currentPassword": {
+    "message": "当前密码"
   },
   "customGas": {
     "message": "自定义 Gas"
@@ -304,6 +316,9 @@
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "未在当前网络找到 ENS 名称。请尝试切换至主以太坊网络。"
+  },
+  "ensOmniboxSuggestion": {
+    "message": "打开 ENS 网站，例如 vitalik.eth"
   },
   "enterAnAlias": {
     "message": "输入别名"
@@ -546,6 +561,9 @@
   "newPassword": {
     "message": "新密码（至少 8 个字符）"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "新密码必须与当前密码不同"
+  },
   "newNetwork": {
     "message": "新增网络"
   },
@@ -583,7 +601,7 @@
     "message": "/"
   },
   "orderOneHere": {
-    "message": "订购 Trezor 或 Ledger ，将个人资金进行冷存储"
+    "message": "订购 $1 或 $2 ，将个人资金进行冷存储"
   },
   "origin": {
     "message": "来源"
@@ -593,6 +611,9 @@
   },
   "password": {
     "message": "密码"
+  },
+  "passwordChanged": {
+    "message": "密码已更改"
   },
   "passwordsDontMatch": {
     "message": "密码不匹配"
@@ -806,6 +827,52 @@
   "sigRequest": {
     "message": "请求签名"
   },
+  "simulationApproveAll": {
+    "message": "允许 $1 转移您的所有 $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "允许 $1 转移 $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "允许 $1 花费 $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "此估算基于在您网络的 RPC 上模拟此交易的结果。实际结果可能有所不同。不包括网络费用。"
+  },
+  "simulationLikelyToFail": {
+    "message": "此交易很可能会失败：$1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "正在估算余额变化…"
+  },
+  "simulationNoChanges": {
+    "message": "未发现余额变化"
+  },
+  "simulationRawUnits": {
+    "message": "代币 $2 的 $1 个最小单位",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "撤销 $1 转移您的 $2 的权限",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "此预览基于请求的数额，而不是您的自定义花费限额。"
+  },
+  "simulationTitle": {
+    "message": "预估余额变化"
+  },
+  "simulationUnavailable": {
+    "message": "此网络的 RPC 无法提供余额变化预览"
+  },
+  "simulationUnknownReason": {
+    "message": "未提供原因",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "somethingWentWrong": {
     "message": "哎呀！出问题了。"
   },
@@ -944,6 +1011,13 @@
   },
   "unknownNetwork": {
     "message": "未知私有网络"
+  },
+  "unknownToken": {
+    "message": "未知代币"
+  },
+  "unknownTokenRawUnits": {
+    "message": "最小单位（未知代币）",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "unlock": {
     "message": "解锁"
@@ -1176,6 +1250,15 @@
     "message": "“$1”将关闭此标签页并返回 $2",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "此名称包含 ENS 不允许的字符，或可能与其他字符混淆的字符。"
+  },
+  "ensLookupFailed": {
+    "message": "无法查询此名称。请检查您的网络连接并重试。"
+  },
+  "ensOffchainLookupFailed": {
+    "message": "此名称存储在链下，其解析器所指向的服务未返回有效响应。"
+  },
   "enterMaxSpendLimit": {
     "message": "输入最大花费限额"
   },
@@ -1328,6 +1411,10 @@
   },
   "spendLimitTooLarge": {
     "message": "花费限额过大"
+  },
+  "spendLimitTooPrecise": {
+    "message": "此代币最多允许 $1 位小数",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "花费限额无效；必须为正数"
@@ -1624,6 +1711,55 @@
   "alertCodeCheckFailed": {
     "message": "您网络的 RPC 未响应，因此钱包无法检查 $1。部分检查已被跳过。",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "这将允许 $1 转移您在此系列中代币 ID 为 $2 的 NFT。",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "此市场订单将 $1 无偿或几乎无偿地送出。任何人都可以成交此订单并拿走这些资产。虚假的“免费”挂单是盗取 NFT 和代币的常见手段。",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "此订单允许成交者从该系列中任选一件物品，而不是某件特定的物品。"
+  },
+  "alertOrderLongLived": {
+    "message": "此订单的有效期超过一年。"
+  },
+  "alertOrderSummary": {
+    "message": "$1 订单。您付出：$2。您获得：$3。",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "$1 订单。您付出：$2。您什么也得不到。",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "此签名会批准一批市场订单，但不显示这些订单，只显示它们的指纹。钱包无法判断您将送出什么。除非您亲自在该市场自己的网站上发起了批量挂单，否则请勿签名。"
+  },
+  "alertSafeDelegateCall": {
+    "message": "此 Safe 交易允许 $1 以您的 Safe 的身份运行其自己的代码（delegatecall）。该代码可以拿走 Safe 中的所有资产，或更改其所有者。",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "此 Safe 交易会执行一批钱包无法读取的调用。请在签名之前，在 Safe 应用中检查每个调用。"
+  },
+  "alertSafeSelfCall": {
+    "message": "此 Safe 交易会更改该 Safe 自身的设置（$1）。此类更改可能会将 Safe 的控制权交给他人。",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1：向 $3 执行 $2，发送 $4 原生货币和 $5 字节数据。",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "此消息恰好为 32 字节，因此看起来像哈希。签署它可能会授权您看不到的内容。"
+  },
+  "alertPersonalSignNotText": {
+    "message": "此消息不是可读文本，因此以十六进制数据显示。"
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "此消息包含不可见字符或改变文字方向的字符，此处显示为 \\u{…} 代码。它们可以隐藏文本看似表达的内容，或打乱其顺序。"
   },
   "securityAlertsAcknowledge": {
     "message": "我了解风险并希望继续。"

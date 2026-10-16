@@ -143,6 +143,15 @@
   "chainId": {
     "message": "ID de chaîne"
   },
+  "changePassword": {
+    "message": "Modifier le mot de passe"
+  },
+  "changePasswordDescription": {
+    "message": "Chiffrez à nouveau votre portefeuille avec un nouveau mot de passe. Vous aurez besoin du nouveau mot de passe pour déverrouiller le portefeuille."
+  },
+  "changePasswordFailed": {
+    "message": "Le mot de passe n'a pas pu être modifié. Votre mot de passe actuel reste en vigueur."
+  },
   "clickToRevealSeed": {
     "message": "Cliquez ici pour révéler des mots secrets"
   },
@@ -214,6 +223,9 @@
   },
   "currentLanguage": {
     "message": "Langue actuelle"
+  },
+  "currentPassword": {
+    "message": "Mot de passe actuel"
   },
   "customGas": {
     "message": "Personnaliser le gaz"
@@ -292,6 +304,9 @@
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "Nom ENS non trouvé sur le réseau actuel. Essayez de passer au réseau Ethereum principal."
+  },
+  "ensOmniboxSuggestion": {
+    "message": "Ouvrir un site web ENS, comme vitalik.eth"
   },
   "enterAnAlias": {
     "message": "Saisissez un pseudonyme"
@@ -534,6 +549,9 @@
   "newPassword": {
     "message": "Nouveau mot de passe (min 8 caractères)"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "Le nouveau mot de passe doit être différent du mot de passe actuel"
+  },
   "newNetwork": {
     "message": "Nouveau réseau"
   },
@@ -571,7 +589,7 @@
     "message": "de"
   },
   "orderOneHere": {
-    "message": "Commander un Trezor ou un Ledger et conserver vos fonds en \"cold storage\""
+    "message": "Commander un $1 ou un $2 et conserver vos fonds en \"cold storage\""
   },
   "origin": {
     "message": "Origine"
@@ -581,6 +599,9 @@
   },
   "password": {
     "message": "Mot de passe"
+  },
+  "passwordChanged": {
+    "message": "Mot de passe modifié"
   },
   "passwordsDontMatch": {
     "message": "Les mots de passe ne correspondent pas"
@@ -794,6 +815,52 @@
   "sigRequest": {
     "message": "Demande de signature"
   },
+  "simulationApproveAll": {
+    "message": "Permet à $1 de transférer tous vos $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "Permet à $1 de transférer $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "Permet à $1 de dépenser $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "Estimation obtenue en simulant cette transaction sur le RPC de votre réseau. Les résultats réels peuvent différer. Les frais de réseau ne sont pas inclus."
+  },
+  "simulationLikelyToFail": {
+    "message": "Cette transaction risque fort d'échouer : $1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "Estimation des variations de solde…"
+  },
+  "simulationNoChanges": {
+    "message": "Aucune variation de solde trouvée"
+  },
+  "simulationRawUnits": {
+    "message": "$1 unités de base du jeton $2",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "Retire à $1 l'autorisation de transférer vos $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "Cet aperçu correspond au montant demandé, pas à votre limite de dépense personnalisée."
+  },
+  "simulationTitle": {
+    "message": "Variations de solde estimées"
+  },
+  "simulationUnavailable": {
+    "message": "Aperçu des variations de solde indisponible via le RPC de ce réseau"
+  },
+  "simulationUnknownReason": {
+    "message": "aucune raison fournie",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "somethingWentWrong": {
     "message": "Oups !  Quelque chose a mal tourné. "
   },
@@ -873,7 +940,7 @@
     "message": "Transaction abandonnée sur $2."
   },
   "transactionSubmitted": {
-    "message": "Transaction envoyée sur $2."
+    "message": "Transaction envoyée avec des frais de gaz de $1 à $2."
   },
   "transactionResubmitted": {
     "message": "La transaction a été soumise à nouveau avec une augmentation du prix du gaz, désormais de $1 à $2"
@@ -926,6 +993,13 @@
   },
   "unknownNetwork": {
     "message": "Réseau privé inconnu"
+  },
+  "unknownToken": {
+    "message": "Jeton inconnu"
+  },
+  "unknownTokenRawUnits": {
+    "message": "unités de base (jeton inconnu)",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "unlock": {
     "message": "Déverrouiller"
@@ -1173,6 +1247,15 @@
     "message": "« $1 » fermera cet onglet et vous ramènera à $2",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "Ce nom contient des caractères qu'ENS n'autorise pas, ou des caractères qui pourraient être confondus avec d'autres."
+  },
+  "ensLookupFailed": {
+    "message": "Impossible de rechercher ce nom. Vérifiez votre connexion et réessayez."
+  },
+  "ensOffchainLookupFailed": {
+    "message": "Ce nom est stocké hors chaîne (offchain), et le service vers lequel pointe son résolveur n'a pas renvoyé de réponse valide."
+  },
   "enterMaxSpendLimit": {
     "message": "Saisir la limite de dépense maximale"
   },
@@ -1325,6 +1408,10 @@
   },
   "spendLimitTooLarge": {
     "message": "Limite de dépense trop élevée"
+  },
+  "spendLimitTooPrecise": {
+    "message": "Ce jeton autorise au maximum $1 décimales",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "Limite de dépense non valide ; elle doit être un nombre positif"
@@ -1624,6 +1711,55 @@
   "alertCodeCheckFailed": {
     "message": "Le RPC de votre réseau n'a pas répondu, le portefeuille n'a donc pas pu vérifier $1. Certaines vérifications ont été ignorées.",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "Ceci permet à $1 de transférer votre NFT portant l'ID de jeton $2 de cette collection.",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "Cet ordre de place de marché cède $1 pour rien, ou presque rien, en échange. N'importe qui pourrait l'exécuter et s'emparer de ces actifs. Les fausses annonces « gratuites » sont un moyen courant de voler des NFT et des jetons.",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "Cet ordre permet à quiconque l'exécute de choisir n'importe quel article de la collection, et non un article précis."
+  },
+  "alertOrderLongLived": {
+    "message": "Cet ordre reste valide pendant plus d'un an."
+  },
+  "alertOrderSummary": {
+    "message": "Ordre $1. Vous donnez : $2. Vous recevez : $3.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "Ordre $1. Vous donnez : $2. Vous ne recevez rien.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "Cette signature approuve un lot d'ordres de place de marché sans les afficher, seulement une empreinte de ceux-ci. Le portefeuille ne peut pas savoir ce que vous céderiez. Ne la signez pas, sauf si vous avez vous-même lancé une mise en vente groupée sur le site même de la place de marché."
+  },
+  "alertSafeDelegateCall": {
+    "message": "Cette transaction Safe permet à $1 d'exécuter son propre code en tant que votre Safe (delegatecall). Ce code peut prendre tout ce que contient le Safe ou en changer les propriétaires.",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "Cette transaction Safe exécute un lot d'appels que le portefeuille n'a pas pu lire. Examinez chaque appel dans l'application Safe avant de signer."
+  },
+  "alertSafeSelfCall": {
+    "message": "Cette transaction Safe modifie les paramètres du Safe lui-même ($1). Ce type de modification peut donner le contrôle du Safe à quelqu'un d'autre.",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1 : $2 vers $3, envoi de $4 de la devise native et de $5 octets de données.",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "Ce message fait exactement 32 octets, il ressemble donc à un hash. Le signer pourrait autoriser quelque chose que vous ne pouvez pas voir."
+  },
+  "alertPersonalSignNotText": {
+    "message": "Ce message n'est pas du texte lisible ; il est donc affiché sous forme de données hexadécimales."
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "Ce message contient des caractères invisibles ou qui changent le sens d'écriture, affichés ici sous forme de codes \\u{…}. Ils peuvent masquer ou réordonner ce que le texte semble dire."
   },
   "securityAlertsAcknowledge": {
     "message": "Je comprends le risque et je veux continuer."

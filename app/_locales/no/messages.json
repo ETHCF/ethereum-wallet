@@ -595,7 +595,7 @@
     "message": "av"
   },
   "orderOneHere": {
-    "message": "Bestill en Trezor eller Ledger og oppbevar midlene dine i kjølerom"
+    "message": "Bestill en $1 eller $2 og oppbevar midlene dine i kjølerom"
   },
   "origin": {
     "message": "Opprinnelse"

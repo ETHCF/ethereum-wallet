@@ -598,7 +598,7 @@
     "message": "של"
   },
   "orderOneHere": {
-    "message": "הזמנ/י Trezor או Ledger ושמר/י את הכספים שלך באחסון קר"
+    "message": "הזמנ/י $1 או $2 ושמר/י את הכספים שלך באחסון קר"
   },
   "origin": {
     "message": "מקור"

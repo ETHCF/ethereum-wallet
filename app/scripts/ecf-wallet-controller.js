@@ -41,6 +41,7 @@ import TransactionController from './controllers/transactions';
 import AccountTracker from './lib/account-tracker';
 import ComposableObservableStore from './lib/ComposableObservableStore';
 import createDupeReqFilterStream from './lib/createDupeReqFilterStream';
+import createFilterIdMiddleware from './lib/createFilterIdMiddleware';
 import createLoggerMiddleware from './lib/createLoggerMiddleware';
 import createMetaRPCHandler from './lib/createMetaRPCHandler';
 import createMethodBlockMiddleware from './lib/createMethodBlockMiddleware';
@@ -628,6 +629,7 @@ export default class EcfWalletController extends EventEmitter {
 
       // vault management
       submitPassword: nodeify(this.submitPassword, this),
+      changePassword: nodeify(this.changePassword, this),
       approveNetworkRequest: nodeify(
         this.networkRequestController.approve,
         this.networkRequestController,
@@ -714,6 +716,10 @@ export default class EcfWalletController extends EventEmitter {
       // EnsController
       tryReverseResolveAddress: nodeify(
         this.ensController.reverseResolveAddress,
+        this.ensController,
+      ),
+      resolveEnsName: nodeify(
+        this.ensController.resolveName,
         this.ensController,
       ),
 
@@ -1272,6 +1278,18 @@ export default class EcfWalletController extends EventEmitter {
   async exportAccount(address, password) {
     await this._checkPassword(password);
     return this.keyringController.exportAccount(address);
+  }
+
+  /**
+   * Re-encrypts the vault under a new password. The keyring controller checks
+   * the current password against the vault, failing with
+   * INCORRECT_PASSWORD_MESSAGE, and enforces the password rules itself.
+   *
+   * @param {string} oldPassword - The current wallet password.
+   * @param {string} newPassword - The new wallet password.
+   */
+  async changePassword(oldPassword, newPassword) {
+    await this.keyringController.changePassword(oldPassword, newPassword);
   }
 
   /**
@@ -2011,10 +2029,9 @@ export default class EcfWalletController extends EventEmitter {
     }
     // network add and switch requests, each approved by the user
     engine.push(this.networkRequestController.createMiddleware({ origin }));
-    // append tabId to each request if it exists
-    if (tabId) {
-      engine.push(createTabIdMiddleware({ tabId }));
-    }
+    // Set tabId on every request, to undefined when the sender has no tab: the
+    // engine copies the caller's fields, so a sender could otherwise supply one.
+    engine.push(createTabIdMiddleware({ tabId }));
     // logging
     engine.push(createLoggerMiddleware({ origin }));
     engine.push(
@@ -2023,7 +2040,9 @@ export default class EcfWalletController extends EventEmitter {
         registerOnboarding: this.onboardingController.registerOnboarding,
       }),
     );
-    // filter and subscription polyfills
+    // filter and subscription polyfills; filters get random IDs, so a page's
+    // filter lost to a background restart is "not found", not someone else's
+    engine.push(createFilterIdMiddleware());
     engine.push(filterMiddleware);
     engine.push(subscriptionManager.middleware);
     if (!isInternal) {

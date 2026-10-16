@@ -4,6 +4,7 @@ import { wordlist } from '@metamask/scure-bip39/dist/wordlists/english';
 import { EventEmitter } from 'events';
 import log from 'loglevel';
 
+import { INCORRECT_PASSWORD_MESSAGE } from './enums';
 import SessionEncryptor from './session-encryptor';
 import { assertTypedSignature, signTypedData } from './signing-utils';
 import {
@@ -25,6 +26,25 @@ function memoryStorage() {
     },
     setAccessLevel: async () => undefined,
   };
+}
+
+export const MIN_PASSWORD_LENGTH = 8;
+
+/**
+ * Throws unless the password may protect a new or re-encrypted vault. The UI
+ * checks the same rule, but the background does not rely on it.
+ *
+ * @param {string} password - The proposed password.
+ */
+export function assertNewPassword(password) {
+  if (typeof password !== 'string') {
+    throw new Error('Password must be text.');
+  }
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    throw new Error(
+      `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`,
+    );
+  }
 }
 
 // Manages the encrypted vault and the keyrings in it. It keeps the vault
@@ -140,28 +160,119 @@ export default class ModernKeyringController extends EventEmitter {
     return new Keyring(data);
   }
 
-  persistAllKeyrings(password = this.password) {
-    const generation = this.vaultGeneration;
-    const operation = this.vaultWrites.then(async () => {
-      this.assertVaultGeneration(generation);
-      if (typeof password !== 'string') {
+  /**
+   * Encrypts and stores the keyrings, after any vault write already queued.
+   *
+   * @param {string} [password] - The password to encrypt with. Without one,
+   * the password current when the write runs is used, so a save queued
+   * behind a password change cannot restore the old password.
+   * @returns {Promise<boolean>} Resolves once the vault is stored.
+   */
+  persistAllKeyrings(password) {
+    return this._queueVaultWrite(async (generation) => {
+      const vaultPassword = password === undefined ? this.password : password;
+      if (typeof vaultPassword !== 'string') {
         throw new Error('KeyringController - password is not a string');
       }
-      const serialized = await Promise.all(
-        this.keyrings.map(async (keyring) => ({
-          type: keyring.type,
-          data: await serializeKeyring(keyring),
-        })),
-      );
+      const serialized = await this._serializeKeyrings();
       this.assertVaultGeneration(generation);
-      const vault = await this.encryptor.encrypt(password, serialized);
+      const vault = await this.encryptor.encrypt(vaultPassword, serialized);
       this.assertVaultGeneration(generation);
-      this.password = password;
+      this.password = vaultPassword;
       this.store.updateState({ vault });
       return true;
     });
+  }
+
+  /**
+   * Runs a vault write after those already queued, cancelling it if the
+   * wallet was locked or replaced in the meantime.
+   *
+   * @param {Function} write - Called with the vault generation to check against.
+   * @returns {Promise} The write's result.
+   */
+  _queueVaultWrite(write) {
+    const generation = this.vaultGeneration;
+    const operation = this.vaultWrites.then(async () => {
+      this.assertVaultGeneration(generation);
+      return write(generation);
+    });
     this.vaultWrites = operation.catch(() => undefined);
     return operation;
+  }
+
+  _serializeKeyrings() {
+    return Promise.all(
+      this.keyrings.map(async (keyring) => ({
+        type: keyring.type,
+        data: await serializeKeyring(keyring),
+      })),
+    );
+  }
+
+  /**
+   * Re-encrypts the vault under a new password and a fresh salt. The current
+   * password is checked against the stored vault rather than trusted. The
+   * vault, the cached session key and the password in memory are replaced
+   * together, and only once the new vault is fully encrypted, so a failure
+   * leaves the old ones in use. Like any save, it is serialized with other
+   * vault writes and cancelled by Lock.
+   *
+   * @param {string} oldPassword - The current password.
+   * @param {string} newPassword - The password to change to.
+   * @returns {Promise<boolean>} Resolves once the new vault is stored.
+   */
+  async changePassword(oldPassword, newPassword) {
+    if (!this.memStore.getState().isUnlocked) {
+      throw new Error('Unlock the wallet to change its password.');
+    }
+    if (typeof oldPassword !== 'string') {
+      throw new Error('Password must be text.');
+    }
+    assertNewPassword(newPassword);
+    if (newPassword === oldPassword) {
+      throw new Error('The new password must differ from the current one.');
+    }
+    return this._queueVaultWrite(async (generation) => {
+      const previousVault = this._getVault();
+      try {
+        await this.verifyPassword(oldPassword);
+      } catch (_) {
+        throw new Error(INCORRECT_PASSWORD_MESSAGE);
+      }
+      this.assertVaultGeneration(generation);
+      const serialized = await this._serializeKeyrings();
+      this.assertVaultGeneration(generation);
+      let vault;
+      let commit = () => () => undefined;
+      if (this.encryptor.encryptWithNewPassword) {
+        ({ vault, commit } = await this.encryptor.encryptWithNewPassword(
+          newPassword,
+          serialized,
+        ));
+      } else {
+        vault = await this.encryptor.encrypt(newPassword, serialized);
+      }
+      this.assertVaultGeneration(generation);
+      const previousPassword = this.password;
+      const undo = commit();
+      try {
+        this.password = newPassword;
+        this.store.updateState({ vault });
+      } catch (error) {
+        undo();
+        this.password = previousPassword;
+        this.store.updateState({ vault: previousVault });
+        throw error;
+      }
+      // Replace the stored session key now, so a restarted service worker
+      // restores the session with the new key. Should this fail, the stored
+      // key no longer matches the vault's salt, and restoring starts locked.
+      await this.encryptor.save?.().catch((error) => {
+        log.error('Failed to store the new session key', error);
+      });
+      return true;
+    });
   }
 
   /**
@@ -169,9 +280,10 @@ export default class ModernKeyringController extends EventEmitter {
    * wallet is locked or replaced after either step.
    *
    * @param {number} generation - The vault generation the caller started in.
-   * @param {string} [password] - The password to encrypt the vault with.
+   * @param {string} [password] - The password to encrypt the vault with;
+   * by default the current one when the save runs.
    */
-  async _saveKeyrings(generation, password = this.password) {
+  async _saveKeyrings(generation, password) {
     await this.persistAllKeyrings(password);
     this.assertVaultGeneration(generation);
     await this._updateMemStoreKeyrings();
@@ -376,9 +488,7 @@ export default class ModernKeyringController extends EventEmitter {
    * @param {string} mnemonic - The seed phrase
    */
   assertRestorable(password, mnemonic) {
-    if (typeof password !== 'string') {
-      throw new Error('Password must be text.');
-    }
+    assertNewPassword(password);
     if (!validateMnemonic(mnemonic, wordlist)) {
       throw new Error('Seed phrase is invalid.');
     }
@@ -393,9 +503,7 @@ export default class ModernKeyringController extends EventEmitter {
    * @returns {Promise<object>} The keyring controller's memory state.
    */
   async createVault(password, mnemonic, notify = false) {
-    if (typeof password !== 'string') {
-      throw new Error('Password must be text.');
-    }
+    assertNewPassword(password);
     this.vaultGeneration += 1;
     const generation = this.vaultGeneration;
     await this.encryptor.clear?.();

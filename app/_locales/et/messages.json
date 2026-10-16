@@ -595,7 +595,7 @@
     "message": "/"
   },
   "orderOneHere": {
-    "message": "Tellige Trezor või Ledger ja hoidke oma varasid külmruumis"
+    "message": "Tellige $1 või $2 ja hoidke oma varasid külmruumis"
   },
   "origin": {
     "message": "Päritolu"

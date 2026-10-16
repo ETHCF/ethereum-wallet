@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: ./.github/actions/setup
       - run: yarn lint
       - run: yarn verify-locales --quiet
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: ./.github/actions/setup
       - run: yarn test:unit
       - run: yarn test:unit:global
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: ./.github/actions/setup
       # The committed LavaMoat policies must be the ones this code and a clean
       # install of the lockfile produce, or the build would sandbox with stale
@@ -64,7 +64,7 @@ jobs:
       - run: yarn validate-source-maps
       - run: yarn verify-service-worker
       - run: yarn mozilla-lint
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: extension-builds
           path: builds/
@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: ./.github/actions/setup
       - run: yarn build:test
       - name: Run the Chrome end-to-end suite
@@ -84,15 +84,58 @@ jobs:
           SELENIUM_HEADLESS: 'true'
       - name: Upload failure screenshots
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: e2e-artifacts
+          name: e2e-artifacts-chrome
           path: test-artifacts/
           retention-days: 7
 
+  # The runner image ships Firefox and geckodriver.
+  e2e-firefox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: ./.github/actions/setup
+      - run: yarn build:test
+      - name: Run the Firefox end-to-end suite
+        run: yarn test:e2e:firefox
+        env:
+          SELENIUM_BROWSER: firefox
+          SELENIUM_HEADLESS: 'true'
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-artifacts-firefox
+          path: test-artifacts/
+          retention-days: 7
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - name: Pin yarn
+        run: npm install --global yarn@1.22.22
+      # yarn 1 audits the lockfile; nothing needs installing. Its exit status
+      # is a bitmask of the severities found (8 high, 16 critical) whatever
+      # --level shows, so test those bits rather than the status.
+      - name: Audit production dependencies
+        run: |
+          status=0
+          yarn audit --groups dependencies --level high || status=$?
+          if [ $((status & 24)) -ne 0 ]; then
+            echo "::error::High or critical vulnerabilities in production dependencies."
+            exit 1
+          fi
+
   all-tests-pass:
     runs-on: ubuntu-latest
-    needs: [lint, unit, build, e2e-chrome]
+    needs: [lint, unit, build, e2e-chrome, e2e-firefox, dependency-audit]
     # Run even when a job above fails: a skipped required check counts as
     # passing, so this job has to fail instead.
     if: always()

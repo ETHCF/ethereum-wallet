@@ -145,6 +145,51 @@ export default class SessionEncryptor {
     await passworder.decryptWithKey(key, payload);
   }
 
+  /**
+   * Encrypts under a key derived from a new password and a fresh salt, but
+   * leaves the cached key alone until the caller has stored the vault, so a
+   * password change that fails part way keeps the old key and vault paired.
+   *
+   * @param {string} password - The new password.
+   * @param {*} data - The data to encrypt.
+   * @returns {Promise<{vault: string, commit: Function}>} The serialized vault,
+   * and a function that caches its key in place of the old one and returns a
+   * function that undoes that.
+   */
+  async encryptWithNewPassword(password, data) {
+    const { generation } = this;
+    if (password === this.sessionPassword) {
+      throw new Error('A new password is required.');
+    }
+    const salt = passworder.generateSalt();
+    const iterations = PBKDF2_ITERATIONS;
+    const key = await this.getKey(password, salt, iterations);
+    const payload = await passworder.encryptWithKey(key, data);
+    const serializedKey = await browserGlobal.crypto.subtle.exportKey(
+      'jwk',
+      key,
+    );
+    this.assertGeneration(generation);
+    const vault = JSON.stringify({
+      ...payload,
+      salt,
+      ...vaultKeyMetadata(iterations),
+    });
+    const commit = () => {
+      this.assertGeneration(generation);
+      const previous = { key: this.key, cached: this.cached };
+      this.key = key;
+      this.cached = { key: serializedKey, salt, iterations };
+      return () => {
+        if (generation === this.generation) {
+          this.key = previous.key;
+          this.cached = previous.cached;
+        }
+      };
+    };
+    return { vault, commit };
+  }
+
   isVaultUpdated(vault) {
     return isVaultUpdated(vault);
   }

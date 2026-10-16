@@ -9,33 +9,33 @@ const ONION3 = 'duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad';
 const ZERONET = '1HeLLo4uzjaLetFx6NH3PMwFP3qbRbTf3D';
 
 describe('ENS website resolution', function () {
-  let resolve, updateTab, setupEnsIpfsResolver, isValidContentHash;
+  let resolve, tabs, gatewayStatus, setupEnsIpfsResolver, module;
 
   beforeEach(function () {
     resolve = sinon.stub();
-    updateTab = sinon.stub().resolves();
-    ({ default: setupEnsIpfsResolver, isValidContentHash } = proxyquire(
-      '../../../../app/scripts/lib/ens-ipfs/setup',
-      {
-        './resolver': { default: resolve },
-        '../extension-api': { default: { tabs: { update: updateTab } } },
-        '../browser-global': {
-          default: { fetch: async () => ({ status: 200 }) },
-        },
+    gatewayStatus = 200;
+    tabs = {
+      update: sinon.stub().resolves(),
+      query: sinon.stub().resolves([{ id: 7 }]),
+      create: sinon.stub().resolves({ id: 9 }),
+    };
+    module = proxyquire('../../../../app/scripts/lib/ens-ipfs/setup', {
+      './resolver': { default: resolve },
+      '../extension-api': { default: { tabs } },
+      '../browser-global': {
+        default: { fetch: async () => ({ status: gatewayStatus }) },
       },
-    ));
+    });
+    setupEnsIpfsResolver = module.default;
   });
 
-  async function visit(url) {
-    const { handleRequest } = setupEnsIpfsResolver({
+  async function open(text, disposition = 'currentTab') {
+    const { open: openName } = setupEnsIpfsResolver({
       provider: {},
-      getCurrentNetwork: () => '1',
       getIpfsGateway: () => 'dweb.link',
     });
-    await handleRequest({ tabId: 7, url });
-    // The resolution runs after the request handler returns.
-    await new Promise((resolveWait) => setTimeout(resolveWait, 0));
-    return updateTab.lastCall.args;
+    await openName(text, disposition);
+    return tabs.update.lastCall?.args;
   }
 
   it('sends the tab to the address the content hash names', async function () {
@@ -43,10 +43,6 @@ describe('ENS website resolution', function () {
       [
         { type: 'ipfs-ns', hash: IPFS_CID },
         `https://${IPFS_CID}.ipfs.dweb.link/a?b#c`,
-      ],
-      [
-        { type: 'swarm-ns', hash: SWARM_REF },
-        `https://swarm-gateways.net/bzz:/${SWARM_REF}/a?b#c`,
       ],
       [{ type: 'onion3', hash: ONION3 }, `http://${ONION3}.onion/a?b#c`],
       [
@@ -56,11 +52,20 @@ describe('ENS website resolution', function () {
     ];
     for (const [resolved, expected] of cases) {
       resolve.resolves(resolved);
-      assert.deepEqual(await visit('http://site.eth/a?b#c'), [
-        7,
-        { url: expected },
-      ]);
+      assert.deepEqual(await open('site.eth/a?b#c'), [7, { url: expected }]);
     }
+  });
+
+  it('shows the loading page first, in the tab the user chose', async function () {
+    resolve.resolves({ type: 'ipfs-ns', hash: IPFS_CID });
+    await open('site.eth', 'currentTab');
+    assert.deepEqual(tabs.update.firstCall.args, [7, { url: 'loading.html' }]);
+
+    await open('site.eth', 'newBackgroundTab');
+    assert.deepEqual(tabs.create.lastCall.args, [
+      { url: 'loading.html', active: false },
+    ]);
+    assert.equal(tabs.update.lastCall.args[0], 9);
   });
 
   it('shows the name on the ENS app when the content hash is malformed', async function () {
@@ -70,23 +75,62 @@ describe('ENS website resolution', function () {
       { type: 'onion', hash: 'evil.com/x#' },
       // Would leave ZeroNet's path for any path on that port.
       { type: 'zeronet', hash: '../../x?' },
-      { type: 'swarm-ns', hash: 'abc/def' },
       { type: 'ipfs-ns', hash: 'evil.com/x#' },
       { type: 'ipns-ns', hash: 'Uppercase.Name' },
       { type: 'unknown', hash: IPFS_CID },
+      // No Swarm gateway is used.
+      { type: 'swarm-ns', hash: SWARM_REF },
     ]) {
       resolve.resolves(resolved);
       assert.deepEqual(
-        await visit('http://site.eth/'),
+        await open('site.eth/'),
         [7, { url: 'https://app.ens.domains/name/site.eth' }],
         JSON.stringify(resolved),
       );
     }
   });
 
+  it('shows the name on the ENS app when the gateway lacks the content or the lookup fails', async function () {
+    gatewayStatus = 404;
+    resolve.resolves({ type: 'ipfs-ns', hash: IPFS_CID });
+    assert.deepEqual(await open('site.eth'), [
+      7,
+      { url: 'https://app.ens.domains/name/site.eth' },
+    ]);
+    resolve.rejects(new Error('no resolver'));
+    assert.deepEqual(await open('site.eth'), [
+      7,
+      { url: 'https://app.ens.domains/name/site.eth' },
+    ]);
+  });
+
+  it('ignores text that is not a .eth address', async function () {
+    for (const text of ['', 'two words', 'example.com', 'user@site.eth']) {
+      tabs.update.resetHistory();
+      assert.equal(await open(text), undefined, text);
+      assert.equal(resolve.callCount, 0, text);
+    }
+  });
+
+  it('reads the name and the rest of the address', function () {
+    const { parseEnsInput } = module;
+    assert.deepEqual(parseEnsInput('  https://Site.eth/a?b#c '), {
+      name: 'site.eth',
+      hostname: 'site.eth',
+      path: '/a',
+      search: '?b',
+      fragment: '#c',
+    });
+    assert.equal(parseEnsInput('vitalik').name, 'vitalik.eth');
+    assert.equal(parseEnsInput('xn--mnchen-3ya.eth').name, 'münchen.eth');
+    assert.equal(parseEnsInput('site.eth:8080'), null);
+    assert.equal(parseEnsInput('.eth'), null);
+  });
+
   it('recognizes well-formed content hashes', function () {
+    const { isValidContentHash } = module;
     assert.equal(isValidContentHash('ipfs-ns', IPFS_CID), true);
-    assert.equal(isValidContentHash('swarm-ns', SWARM_REF.repeat(2)), true);
+    assert.equal(isValidContentHash('swarm-ns', SWARM_REF), false);
     assert.equal(isValidContentHash('onion', 'expyuzz4wqqyqhjn'), true);
     assert.equal(isValidContentHash('onion3', ONION3), true);
     assert.equal(isValidContentHash('zeronet', ZERONET), true);

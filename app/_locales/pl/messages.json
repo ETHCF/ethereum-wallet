@@ -598,7 +598,7 @@
     "message": "z"
   },
   "orderOneHere": {
-    "message": "Zamów Trezor lub Ledger i trzymaj swoje środki w portfelu sprzętowym."
+    "message": "Zamów $1 lub $2 i trzymaj swoje środki w portfelu sprzętowym."
   },
   "origin": {
     "message": "Pochodzenie"

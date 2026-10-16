@@ -586,7 +586,7 @@
     "message": "ya"
   },
   "orderOneHere": {
-    "message": "Agiza Trezor au Leja na weka fedha zako kwenye ifadhi ya baridi"
+    "message": "Agiza $1 au $2 na weka fedha zako kwenye ifadhi ya baridi"
   },
   "origin": {
     "message": "Asili"

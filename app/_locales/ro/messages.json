@@ -592,7 +592,7 @@
     "message": "din"
   },
   "orderOneHere": {
-    "message": "Comandați Trezor sau Ledger și țineți-vă fondurile la rece"
+    "message": "Comandați $1 sau $2 și țineți-vă fondurile la rece"
   },
   "origin": {
     "message": "Origine"

@@ -601,7 +601,7 @@
     "message": "nuo"
   },
   "orderOneHere": {
-    "message": "Užsisakykite „Trezor“ arba „Ledger“ ir laikykite savo lėšas šaltojoje saugykloje"
+    "message": "Užsisakykite $1 arba $2 ir laikykite savo lėšas šaltojoje saugykloje"
   },
   "origin": {
     "message": "Kilmė"

@@ -82,7 +82,16 @@ async function getDecimals(tokenAddress) {
   return getContractMetadata(tokenAddress)?.decimals ?? decimals;
 }
 
-export async function fetchSymbolAndDecimals(tokenAddress) {
+/**
+ * Reads a token's symbol and decimals from its contract, through the wallet's
+ * provider.
+ *
+ * @param {string} tokenAddress - The token contract address.
+ * @returns {Promise<{symbol: (string|undefined), decimals: (string|undefined)}>}
+ * The details; each is undefined if it could not be read, so callers can
+ * tell an unknown token from one with 0 decimals.
+ */
+export async function fetchTokenDetails(tokenAddress) {
   let symbol, decimals;
 
   try {
@@ -95,6 +104,11 @@ export async function fetchSymbolAndDecimals(tokenAddress) {
     );
   }
 
+  return { symbol: symbol || undefined, decimals: decimals || undefined };
+}
+
+export async function fetchSymbolAndDecimals(tokenAddress) {
+  const { symbol, decimals } = await fetchTokenDetails(tokenAddress);
   return {
     symbol: symbol || DEFAULT_SYMBOL,
     decimals: decimals || DEFAULT_DECIMALS,
@@ -115,14 +129,42 @@ export function tokenInfoGetter() {
   };
 }
 
+// Shifting the decimal point is exact, where dividing by Math.pow(10, n)
+// loses precision past 10^22 and rounds results to 20 decimal places.
 export function calcTokenAmount(value, decimals) {
-  const multiplier = Math.pow(10, Number(decimals || 0));
-  return new BigNumber(String(value)).div(multiplier);
+  return new BigNumber(String(value)).shiftedBy(-Number(decimals || 0));
 }
 
 export function calcTokenValue(value, decimals) {
-  const multiplier = Math.pow(10, Number(decimals || 0));
-  return new BigNumber(String(value)).times(multiplier);
+  return new BigNumber(String(value)).shiftedBy(Number(decimals || 0));
+}
+
+/**
+ * Resolves the symbol and decimals to show a token's amounts with: the
+ * tracked token's, else those read from the contract.
+ *
+ * @param {object} options - Options.
+ * @param {object} [options.trackedToken] - The user's tracked token, if any.
+ * @param {object} [options.fetched] - The result of fetchTokenDetails.
+ * @returns {{symbol: (string|undefined), decimals: number, known: boolean}}
+ * The details. A token whose decimals are unknown has `known` false and 0
+ * decimals, so its amounts are in raw units.
+ */
+export function resolveTokenDetails({ trackedToken, fetched } = {}) {
+  for (const source of [trackedToken, fetched]) {
+    const decimals = Number(source?.decimals);
+    if (
+      source &&
+      source.decimals !== undefined &&
+      source.decimals !== null &&
+      source.decimals !== '' &&
+      Number.isInteger(decimals) &&
+      decimals >= 0
+    ) {
+      return { symbol: source.symbol || undefined, decimals, known: true };
+    }
+  }
+  return { symbol: undefined, decimals: 0, known: false };
 }
 
 export function getTokenValue(tokenParams = []) {

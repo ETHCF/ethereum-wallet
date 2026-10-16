@@ -25,6 +25,9 @@
     "512": "images/icon-512.png"
   },
   "default_locale": "en",
+  "omnibox": {
+    "keyword": "eth"
+  },
   "background": {
     "service_worker": "service-worker.js"
   },
@@ -77,7 +80,6 @@
     "unlimitedStorage",
     "clipboardWrite",
     "activeTab",
-    "webRequest",
     "alarms",
     "offscreen",
     "notifications"

@@ -598,7 +598,7 @@
     "message": "/"
   },
   "orderOneHere": {
-    "message": "Tilaa Trezor tai Ledger ja pidä varasi vakaassa tallennustilassa"
+    "message": "Tilaa $1 tai $2 ja pidä varasi vakaassa tallennustilassa"
   },
   "origin": {
     "message": "Alkuperä"

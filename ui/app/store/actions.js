@@ -197,6 +197,17 @@ export function tryReverseResolveAddress(address) {
   };
 }
 
+/**
+ * Asks the background to resolve an ENS name the user typed.
+ *
+ * @param {string} name - The name
+ * @returns {Promise<{name: string, address: string} | {error: string}>} The
+ * normalized name and its address, or why it did not resolve
+ */
+export function resolveEnsName(name) {
+  return promisifiedBackground.resolveEnsName(name);
+}
+
 export function approveNetworkRequest(id) {
   return () => promisifiedBackground.approveNetworkRequest(id);
 }
@@ -1323,6 +1334,23 @@ export function exportAccount(password, address) {
 
     dispatch(showPrivateKey(result));
     return result;
+  };
+}
+
+/**
+ * Re-encrypts the vault under a new password. The background checks the
+ * current password and the password rules; its error is passed on so the
+ * caller can tell a wrong current password (INCORRECT_PASSWORD_MESSAGE) from
+ * other failures.
+ *
+ * @param {string} oldPassword - The current wallet password.
+ * @param {string} newPassword - The new wallet password.
+ * @returns {Function} A thunk resolving once the password is changed.
+ */
+export function changePassword(oldPassword, newPassword) {
+  return async () => {
+    log.debug(`background.changePassword`);
+    await promisifiedBackground.changePassword(oldPassword, newPassword);
   };
 }
 

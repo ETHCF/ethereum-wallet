@@ -245,6 +245,9 @@
   "newPassword": {
     "message": "Новый пароль (мин. 8 символов)"
   },
+  "newPasswordSameAsCurrent": {
+    "message": "Новый пароль должен отличаться от текущего пароля"
+  },
   "next": {
     "message": "Далее"
   },
@@ -337,6 +340,52 @@
   "sigRequest": {
     "message": "Запрос подписи"
   },
+  "simulationApproveAll": {
+    "message": "Разрешает $1 переводить все ваши $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationApproveNft": {
+    "message": "Разрешает $1 перевести $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the NFT"
+  },
+  "simulationApproveSpend": {
+    "message": "Разрешает $1 тратить $2",
+    "description": "A balance-change preview line. $1 is the spender address, $2 the amount and token"
+  },
+  "simulationDisclaimer": {
+    "message": "Оценка на основе симуляции этой транзакции через RPC вашей сети. Фактические результаты могут отличаться. Сетевая комиссия не учитывается."
+  },
+  "simulationLikelyToFail": {
+    "message": "Эта транзакция, скорее всего, завершится неудачей: $1",
+    "description": "$1 is the reason the simulated transaction reverted"
+  },
+  "simulationLoading": {
+    "message": "Оценка изменений баланса…"
+  },
+  "simulationNoChanges": {
+    "message": "Изменений баланса не обнаружено"
+  },
+  "simulationRawUnits": {
+    "message": "$1 в базовых единицах токена $2",
+    "description": "A token amount whose decimals are unknown. $1 is the amount in base units, $2 the token"
+  },
+  "simulationRevokeAll": {
+    "message": "Отзывает у $1 разрешение переводить ваши $2",
+    "description": "A balance-change preview line. $1 is the operator address, $2 the token collection"
+  },
+  "simulationStale": {
+    "message": "Этот предварительный просмотр относится к запрошенной сумме, а не к вашему пользовательскому лимиту расходов."
+  },
+  "simulationTitle": {
+    "message": "Ожидаемые изменения баланса"
+  },
+  "simulationUnavailable": {
+    "message": "Предварительный просмотр изменений баланса недоступен через RPC этой сети"
+  },
+  "simulationUnknownReason": {
+    "message": "причина не указана",
+    "description": "Shown when a simulated transaction reverted without a reason"
+  },
   "submitted": {
     "message": "Отправлена"
   },
@@ -370,6 +419,13 @@
   },
   "unknownNetwork": {
     "message": "Неизвестная частная сеть"
+  },
+  "unknownToken": {
+    "message": "Неизвестный токен"
+  },
+  "unknownTokenRawUnits": {
+    "message": "базовые единицы (неизвестный токен)",
+    "description": "Shown in place of a token symbol when the token's symbol and decimals could not be read, so its amounts are in base units"
   },
   "urlErrorMsg": {
     "message": "Для URI требуется соответствующий префикс HTTP/HTTPS."
@@ -494,6 +550,15 @@
   "chainId": {
     "message": "ID сети"
   },
+  "changePassword": {
+    "message": "Изменить пароль"
+  },
+  "changePasswordDescription": {
+    "message": "Повторно зашифруйте кошелек новым паролем. Для разблокировки кошелька понадобится новый пароль."
+  },
+  "changePasswordFailed": {
+    "message": "Не удалось изменить пароль. Ваш текущий пароль по-прежнему действует."
+  },
   "clickToRevealSeed": {
     "message": "Нажмите здесь, чтобы показать секретную фразу (сид)"
   },
@@ -538,6 +603,9 @@
   },
   "currentLanguage": {
     "message": "Текущий язык"
+  },
+  "currentPassword": {
+    "message": "Текущий пароль"
   },
   "customGasSubTitle": {
     "message": "Увеличение платы может сократить время обработки, но это не гарантируется."
@@ -586,6 +654,9 @@
   },
   "ensNotFoundOnCurrentNetwork": {
     "message": "Имя ENS не найдено в текущей сети. Попробуйте переключиться на основную сеть Ethereum"
+  },
+  "ensOmniboxSuggestion": {
+    "message": "Открыть сайт ENS, например vitalik.eth"
   },
   "enterAnAlias": {
     "message": "Введите алиас"
@@ -735,7 +806,7 @@
     "message": "из"
   },
   "orderOneHere": {
-    "message": "Закажите Trezor или Ledger и храните свои средства в холодном кошельке"
+    "message": "Закажите $1 или $2 и храните свои средства в холодном кошельке"
   },
   "origin": {
     "message": "происхождения"
@@ -745,6 +816,9 @@
   },
   "password": {
     "message": "Пароль"
+  },
+  "passwordChanged": {
+    "message": "Пароль изменен"
   },
   "passwordsDontMatch": {
     "message": "Пароли не совпадают"
@@ -939,10 +1013,10 @@
     "message": "Транзакция отброшена $2."
   },
   "transactionSubmitted": {
-    "message": "Сделка подана с оплатой за газ в размере 1$ за 2$."
+    "message": "Транзакция отправлена с оплатой за газ в размере $1 в $2."
   },
   "transactionResubmitted": {
-    "message": "Повторная транзакция с платой за газ увеличена до 1$ за 2$."
+    "message": "Транзакция отправлена повторно с оплатой за газ, увеличенной до $1, в $2."
   },
   "transactionUpdated": {
     "message": "Транзакция обновлена до $2."
@@ -951,7 +1025,7 @@
     "message": "Транзакция завершилась с ошибкой."
   },
   "transactionCancelAttempted": {
-    "message": "Предпринята попытка отмены транзакции при оплате за бензин в размере 1$ за 2$"
+    "message": "Предпринята попытка отмены транзакции с оплатой за газ в размере $1 в $2"
   },
   "transactionCancelSuccess": {
     "message": "Транзакция успешно отменена $2"
@@ -1220,6 +1294,15 @@
     "message": "«$1» закроет эту вкладку и вернет вас на $2",
     "description": "Return the user to the site that initiated onboarding"
   },
+  "ensIllegalName": {
+    "message": "Это имя содержит символы, которые ENS не допускает, или символы, которые можно спутать с другими."
+  },
+  "ensLookupFailed": {
+    "message": "Не удалось выполнить поиск этого имени. Проверьте подключение и повторите попытку."
+  },
+  "ensOffchainLookupFailed": {
+    "message": "Это имя хранится вне блокчейна (offchain), а сервис, на который указывает его резолвер, не вернул корректный ответ."
+  },
   "enterMaxSpendLimit": {
     "message": "Введите максимальный лимит расходов"
   },
@@ -1357,6 +1440,10 @@
   },
   "spendLimitTooLarge": {
     "message": "Слишком большой лимит расходов"
+  },
+  "spendLimitTooPrecise": {
+    "message": "Этот токен допускает не более $1 знаков после запятой",
+    "description": "$1 is the token's number of decimals"
   },
   "spendLimitInvalid": {
     "message": "Недопустимый лимит расходов: должно быть положительное число"
@@ -1623,6 +1710,55 @@
   "alertCodeCheckFailed": {
     "message": "RPC вашей сети не ответил, поэтому кошелек не смог проверить $1. Некоторые проверки пропущены.",
     "description": "$1 is an address"
+  },
+  "alertApproveNft": {
+    "message": "Это позволит $1 перевести ваш NFT с ID токена $2 из этой коллекции.",
+    "description": "$1 is an address, $2 a token ID"
+  },
+  "alertOrderFreeListing": {
+    "message": "Этот ордер маркетплейса отдает $1 даром или почти даром. Любой может исполнить его и забрать эти активы. Поддельные «бесплатные» объявления — распространенный способ кражи NFT и токенов.",
+    "description": "$1 lists the assets the order gives away"
+  },
+  "alertOrderWildcardOffer": {
+    "message": "Этот ордер позволяет тому, кто его исполнит, выбрать любой предмет из коллекции, а не один конкретный."
+  },
+  "alertOrderLongLived": {
+    "message": "Этот ордер остается действительным более года."
+  },
+  "alertOrderSummary": {
+    "message": "Ордер $1. Вы отдаете: $2. Вы получаете: $3.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 and $3 list assets"
+  },
+  "alertOrderSummaryNothing": {
+    "message": "Ордер $1. Вы отдаете: $2. Вы ничего не получаете.",
+    "description": "$1 is a marketplace name, such as Seaport 1.6; $2 lists assets"
+  },
+  "alertBulkSignatureHidden": {
+    "message": "Эта подпись одобряет пакет ордеров маркетплейса, не показывая их, — только их отпечаток. Кошелек не может определить, что вы отдадите. Не подписывайте, если только вы сами не запускали массовое выставление на продажу на собственном сайте маркетплейса."
+  },
+  "alertSafeDelegateCall": {
+    "message": "Эта транзакция Safe позволяет $1 выполнять собственный код от имени вашего Safe (delegatecall). Этот код может забрать все из Safe или сменить его владельцев.",
+    "description": "$1 is an address"
+  },
+  "alertSafeBatchUnreadable": {
+    "message": "Эта транзакция Safe выполняет пакет вызовов, которые кошелек не смог прочитать. Проверьте каждый вызов в приложении Safe, прежде чем подписывать."
+  },
+  "alertSafeSelfCall": {
+    "message": "Эта транзакция Safe изменяет собственные настройки Safe ($1). Подобные изменения могут передать контроль над Safe кому-то другому.",
+    "description": "$1 is a function name, such as addOwnerWithThreshold, or a function selector"
+  },
+  "alertSafeTxSummary": {
+    "message": "Safe $1: $2 на адрес $3, отправка $4 в нативной валюте и $5 байт данных.",
+    "description": "$1 is the Safe's address, $2 the operation (call or delegatecall), $3 an address, $4 an amount, $5 a number"
+  },
+  "alertPersonalSignHash": {
+    "message": "Длина этого сообщения — ровно 32 байта, поэтому оно похоже на хеш. Подписав его, вы можете авторизовать то, чего не видите."
+  },
+  "alertPersonalSignNotText": {
+    "message": "Это сообщение не является читаемым текстом, поэтому оно показано в виде шестнадцатеричных данных."
+  },
+  "alertPersonalSignHiddenCharacters": {
+    "message": "Это сообщение содержит невидимые символы или символы, меняющие направление текста; здесь они показаны как коды \\u{…}. Они могут скрыть или переставить то, что якобы написано в тексте."
   },
   "securityAlertsAcknowledge": {
     "message": "Я понимаю риск и хочу продолжить."

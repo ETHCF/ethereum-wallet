@@ -8,6 +8,7 @@ import {
   editedGasParams,
 } from '../../../../app/scripts/lib/transaction-fees';
 import { clearConfirmTransaction } from '../../ducks/confirm-transaction/confirm-transaction.duck';
+import { getTokens } from '../../ducks/ecf-wallet/ecf-wallet';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import {
   INSUFFICIENT_FUNDS_ERROR_KEY,
@@ -23,6 +24,7 @@ import {
   getEcfWalletAccounts,
   transactionFeeSelector,
 } from '../../selectors';
+import { getNativeCurrency } from '../../selectors/send';
 import {
   cancelTx,
   cancelTxs,
@@ -157,6 +159,11 @@ const mapStateToProps = (state, ownProps) => {
     transactionCategory,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
     isMainnet,
+    nativeCurrency: getNativeCurrency(state),
+    trackedTokens: getTokens(state),
+    // The preview simulates the stored transaction, not a custom spending
+    // limit that is only applied on approval.
+    simulationStale: Boolean(customTxParamsData && customTxParamsData !== data),
   };
 };
 

@@ -601,7 +601,7 @@
     "message": "на"
   },
   "orderOneHere": {
-    "message": "Поръчайте Trezor или Ledger и запазете средствата си "
+    "message": "Поръчайте $1 или $2 и запазете средствата си "
   },
   "origin": {
     "message": "Произход"

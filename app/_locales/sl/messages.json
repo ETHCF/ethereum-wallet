@@ -586,7 +586,7 @@
     "message": "od"
   },
   "orderOneHere": {
-    "message": "Naročite Trezor ali Ledger i n zavarujte svoje premoženje s strojno denarnico"
+    "message": "Naročite $1 ali $2 i n zavarujte svoje premoženje s strojno denarnico"
   },
   "origin": {
     "message": "Izvor"

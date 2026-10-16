@@ -76,14 +76,16 @@ extension.runtime.onConnect.addListener((port) =>
 extension.runtime.onConnectExternal.addListener((port) =>
   queueConnection(port, 'connectExternal'),
 );
-extension.webRequest.onErrorOccurred.addListener(
-  (details) => {
-    initialized
-      .then(({ ensResolver }) => ensResolver.handleRequest(details))
-      .catch(log.error);
-  },
-  { urls: ['*://*.eth/*'], types: ['main_frame'] },
-);
+// ENS websites open only when the user types a name after the address bar
+// keyword; the wallet does not watch page loads.
+extension.omnibox.onInputEntered.addListener((text, disposition) => {
+  initialized
+    .then(({ ensResolver }) => ensResolver.open(text, disposition))
+    .catch(log.error);
+});
+extension.omnibox.setDefaultSuggestion({
+  description: extension.i18n.getMessage('ensOmniboxSuggestion'),
+});
 platform._subscribeToNotificationClicked();
 extension.runtime.onMessage.addListener((message, sender, respond) => {
   if (message?.type === 'ecf-wallet-ui-active' && isOwnExtensionPage(sender)) {
@@ -387,7 +389,6 @@ async function setupController(initState, initLangCode) {
   scheduleTransactions();
 
   const ensResolver = setupEnsIpfsResolver({
-    getCurrentNetwork: controller.getCurrentNetwork,
     getIpfsGateway: controller.preferencesController.getIpfsGateway.bind(
       controller.preferencesController,
     ),

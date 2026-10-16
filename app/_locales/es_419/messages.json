@@ -589,7 +589,7 @@
     "message": "de"
   },
   "orderOneHere": {
-    "message": "Pida una billetera Trezor o Ledger y mantenga sus fondos en un almacenamiento en frío"
+    "message": "Pida una billetera $1 o $2 y mantenga sus fondos en un almacenamiento en frío"
   },
   "origin": {
     "message": "Origen"

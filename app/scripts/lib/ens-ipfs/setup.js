@@ -1,8 +1,9 @@
+import log from 'loglevel';
+import punycode from 'punycode';
+
 import browserGlobal from '../browser-global';
 import extension from '../extension-api';
 import resolveEnsToIpfsContentId from './resolver';
-
-const supportedTopLevelDomains = ['eth'];
 
 // The form each kind of content hash must take before it goes into a URL. A
 // name's owner chooses its content hash, and for some kinds the decoded hash
@@ -11,8 +12,6 @@ const CONTENT_HASH_FORMATS = {
   // Base32 CIDv1, which must be a single DNS label of the gateway's host.
   'ipfs-ns': /^[a-z0-9]+$/u,
   'ipns-ns': /^[a-z0-9]+$/u,
-  // A plain or an encrypted Swarm reference.
-  'swarm-ns': /^(?:[0-9a-f]{64}|[0-9a-f]{128})$/u,
   // Tor onion service addresses, version 2 and version 3.
   onion: /^[a-z2-7]{16}$/u,
   onion3: /^[a-z2-7]{56}$/u,
@@ -32,47 +31,99 @@ export function isValidContentHash(type, hash) {
   return Boolean(format) && typeof hash === 'string' && format.test(hash);
 }
 
-export default function setupEnsIpfsResolver({
-  provider,
-  getCurrentNetwork,
-  getIpfsGateway,
-}) {
-  // The background entry point registers this listener synchronously so it can
-  // wake a suspended service worker.
+/**
+ * Reads what the user typed after the address bar keyword, such as
+ * `vitalik.eth/blog?x#y` or just `vitalik`, as a .eth name and the rest of
+ * the address.
+ *
+ * @param {string} text - The text the user entered.
+ * @returns {object|null} The name (in Unicode, as ENS names are hashed) and
+ * the path, query and fragment; or null if the text is not a .eth address.
+ */
+export function parseEnsInput(text) {
+  const address = String(text)
+    .trim()
+    .replace(/^[a-z][a-z0-9+.-]*:\/\//iu, '');
+  if (!address || /\s/u.test(address)) {
+    return null;
+  }
+  let url;
+  try {
+    url = new URL(`https://${address}`);
+  } catch (_) {
+    return null;
+  }
+  if (url.username || url.password || url.port) {
+    return null;
+  }
+  let { hostname } = url;
+  if (!hostname.includes('.')) {
+    hostname = `${hostname}.eth`;
+  }
+  if (!hostname.endsWith('.eth') || hostname === '.eth') {
+    return null;
+  }
   return {
-    handleRequest: webRequestDidFail,
+    name: punycode.toUnicode(hostname),
+    hostname,
+    path: url.pathname,
+    search: url.search,
+    fragment: url.hash,
   };
+}
 
-  async function webRequestDidFail(details) {
-    const { tabId, url } = details;
-    // ignore requests that are not associated with tabs
-    // only attempt ENS resolution on mainnet
-    if (tabId === -1 || getCurrentNetwork() !== '1') {
+/**
+ * Opens ENS websites the user asks for through the address bar keyword. The
+ * wallet does not watch page loads: a name is resolved only when the user
+ * enters it after the keyword.
+ *
+ * @param {object} opts - Options.
+ * @param {object} opts.provider - The wallet's provider, used to look up
+ * the name.
+ * @param {Function} opts.getIpfsGateway - Returns the IPFS gateway's host.
+ * @returns {{ open: Function }} Opens what the user entered.
+ */
+export default function setupEnsIpfsResolver({ provider, getIpfsGateway }) {
+  return { open };
+
+  /**
+   * Resolves an entered .eth address and shows its site.
+   *
+   * @param {string} text - What the user entered after the keyword.
+   * @param {string} disposition - The omnibox disposition: currentTab,
+   * newForegroundTab or newBackgroundTab.
+   */
+  async function open(text, disposition) {
+    const input = parseEnsInput(text);
+    if (!input) {
       return;
     }
-    // parse ens name
-    const {
-      hostname: name,
-      pathname: path,
-      search,
-      hash: fragment,
-    } = new URL(url);
-    const domainParts = name.split('.');
-    const topLevelDomain = domainParts[domainParts.length - 1];
-    // if unsupported TLD, abort
-    if (!supportedTopLevelDomains.includes(topLevelDomain)) {
-      return;
-    }
-    // otherwise attempt resolve
-    attemptResolve({ tabId, name, path, search, fragment });
+    const tabId = await openLoadingTab(disposition);
+    const url = await resolveUrl(input);
+    await extension.tabs.update(tabId, { url }).catch(() => undefined);
   }
 
-  async function attemptResolve({ tabId, name, path, search, fragment }) {
-    const ipfsGateway = getIpfsGateway();
-    extension.tabs
-      .update(tabId, { url: `loading.html` })
-      .catch(() => undefined);
-    let url = `https://app.ens.domains/name/${name}`;
+  async function openLoadingTab(disposition) {
+    if (disposition === 'currentTab') {
+      const [tab] = await extension.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
+      await extension.tabs
+        .update(tab.id, { url: 'loading.html' })
+        .catch(() => undefined);
+      return tab.id;
+    }
+    const tab = await extension.tabs.create({
+      url: 'loading.html',
+      active: disposition !== 'newBackgroundTab',
+    });
+    return tab.id;
+  }
+
+  async function resolveUrl({ name, hostname, path, search, fragment }) {
+    const rest = `${path}${search}${fragment}`;
+    const fallback = `https://app.ens.domains/name/${hostname}`;
     try {
       const { type, hash } = await resolveEnsToIpfsContentId({
         provider,
@@ -81,32 +132,27 @@ export default function setupEnsIpfsResolver({
       if (!isValidContentHash(type, hash)) {
         // Not a well-formed address of its kind: show the name on the ENS
         // app instead.
-        return;
+        return fallback;
       }
       if (type === 'ipfs-ns' || type === 'ipns-ns') {
-        const resolvedUrl = `https://${hash}.${type.slice(0, 4)}.${ipfsGateway}${path}${search || ''}${fragment || ''}`;
-        try {
-          // check if ipfs gateway has result
-          const response = await browserGlobal.fetch(resolvedUrl, {
-            method: 'HEAD',
-          });
-          if (response.status === 200) {
-            url = resolvedUrl;
-          }
-        } catch (err) {
-          console.warn(err);
-        }
-      } else if (type === 'swarm-ns') {
-        url = `https://swarm-gateways.net/bzz:/${hash}${path}${search || ''}${fragment || ''}`;
-      } else if (type === 'onion' || type === 'onion3') {
-        url = `http://${hash}.onion${path}${search || ''}${fragment || ''}`;
-      } else if (type === 'zeronet') {
-        url = `http://127.0.0.1:43110/${hash}${path}${search || ''}${fragment || ''}`;
+        const resolvedUrl = `https://${hash}.${type.slice(0, 4)}.${getIpfsGateway()}${rest}`;
+        // Check that the gateway has the content.
+        const response = await browserGlobal.fetch(resolvedUrl, {
+          method: 'HEAD',
+          credentials: 'omit',
+          referrerPolicy: 'no-referrer',
+        });
+        return response.status === 200 ? resolvedUrl : fallback;
+      }
+      if (type === 'onion' || type === 'onion3') {
+        return `http://${hash}.onion${rest}`;
+      }
+      if (type === 'zeronet') {
+        return `http://127.0.0.1:43110/${hash}${rest}`;
       }
     } catch (err) {
-      console.warn(err);
-    } finally {
-      extension.tabs.update(tabId, { url }).catch(() => undefined);
+      log.warn(err);
     }
+    return fallback;
   }
 }
