@@ -68,9 +68,10 @@ function parseIPv6(text) {
 
 // Whether an IPv4 address, as four bytes, is on this computer or the local
 // network: this network (0/8), private (10/8, 172.16/12, 192.168/16), shared
-// carrier NAT (100.64/10), loopback (127/8), link-local (169.254/16), and
-// multicast, reserved and broadcast (224/3).
-function isLocalIPv4([a, b]) {
+// carrier NAT (100.64/10), loopback (127/8), link-local (169.254/16), IETF
+// protocol assignments (192.0.0/24), benchmarking, often used inside networks
+// (198.18/15), and multicast, reserved and broadcast (224/3).
+function isLocalIPv4([a, b, c]) {
   return (
     a === 0 ||
     a === 10 ||
@@ -79,7 +80,9 @@ function isLocalIPv4([a, b]) {
     (a === 100 && b >= 64 && b <= 127) ||
     (a === 169 && b === 254) ||
     (a === 172 && b >= 16 && b <= 31) ||
-    (a === 192 && b === 168)
+    (a === 192 && b === 0 && c === 0) ||
+    (a === 192 && b === 168) ||
+    (a === 198 && (b === 18 || b === 19))
   );
 }
 
@@ -123,6 +126,19 @@ export function isLocalAddress(address) {
     }
     return false;
   }
+  // ::ffff:0:a.b.c.d (IPv4-translated).
+  if (
+    v6.slice(0, 4).every((group) => group === 0) &&
+    v6[4] === 0xffff &&
+    v6[5] === 0
+  ) {
+    return isLocalIPv4(groupsToIPv4(v6[6], v6[7]));
+  }
+  // 64:ff9b:1::/48, NAT64 for use inside a network, which may place the IPv4
+  // address anywhere in the rest.
+  if (first === 0x64 && v6[1] === 0xff9b && v6[2] === 1) {
+    return true;
+  }
   // 64:ff9b::a.b.c.d (NAT64).
   if (
     first === 0x64 &&
@@ -162,7 +178,8 @@ const LOCAL_NAME_SUFFIXES = [
  * @returns {boolean} Whether it is a local host.
  */
 export function isLocalHostname(hostname) {
-  const host = hostname.toLowerCase().replace(/\.$/u, '');
+  // Any number of trailing dots names the same host.
+  const host = hostname.toLowerCase().replace(/\.+$/u, '');
   if (parseIPv4(host) || host.startsWith('[')) {
     return isLocalAddress(host);
   }
@@ -243,10 +260,12 @@ export async function readAtMost(response, maxBytes) {
  * which would tell that host when the wallet is in use.
  *
  * Images on this computer or the local network are refused: a site must not
- * be able to make the wallet send requests to local services or devices. A failed download is tried once
- * more, and then given up.
+ * be able to make the wallet send requests to local services or devices. Only
+ * https is used, so that no one on the network path can replace an image
+ * shown in the wallet's prompts. A failed download is tried once more, and
+ * then given up.
  *
- * @param {string} url - An http(s) image URL.
+ * @param {string} url - An https image URL.
  * @param {object} [options] - Options.
  * @param {Function} [options.fetch] - The fetch function to use.
  * @param {object} [options.dns] - The extension DNS API, if there is one.
@@ -270,7 +289,7 @@ export async function fetchImageAsDataUrl(
   } catch (_) {
     return undefined;
   }
-  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+  if (parsed.protocol !== 'https:') {
     return undefined;
   }
   if (isLocalHostname(parsed.hostname)) {
@@ -287,7 +306,7 @@ export async function fetchImageAsDataUrl(
 /**
  * Makes one attempt at downloading an image.
  *
- * @param {URL} parsed - An http(s) URL whose hostname is not local.
+ * @param {URL} parsed - An https URL whose hostname is not local.
  * @param {object} options - Options.
  * @param {Function} options.fetch - The fetch function to use.
  * @param {object} [options.dns] - The extension DNS API, if there is one.

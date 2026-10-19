@@ -935,6 +935,18 @@ describe('preferences controller', function () {
           }),
         'invalid symbol should fail',
       );
+      for (const symbol of ['\u202eCDSU', 'US\u200bDC', 'USD\u0000']) {
+        assert.throws(
+          () =>
+            validate({
+              rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+              symbol,
+              decimals: 6,
+            }),
+          /control or formatting characters/u,
+          `symbol ${JSON.stringify(symbol)} should fail`,
+        );
+      }
       assert.throws(
         () =>
           validate({

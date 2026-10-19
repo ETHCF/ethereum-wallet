@@ -88,13 +88,14 @@ describe('remote images', function () {
     }
   });
 
-  it('only fetches http(s) URLs', async function () {
+  it('only fetches https URLs', async function () {
     let called = false;
     const fetch = async () => {
       called = true;
       return respond()();
     };
     for (const url of [
+      'http://example.com/a.png',
       'file:///etc/passwd',
       'chrome-extension://abc/x.png',
       'ftp://x.test/a.png',
@@ -233,6 +234,13 @@ describe('remote images', function () {
       'ff02::1',
       '64:ff9b::10.0.0.1',
       '2002:c0a8:101::1',
+      '192.0.0.8',
+      '198.18.0.1',
+      '198.19.255.255',
+      '::ffff:0:7f00:1',
+      '::ffff:0:192.168.1.1',
+      '64:ff9b:1::8.8.8.8',
+      '64:ff9b:1:abcd::1',
     ]) {
       assert.equal(isLocalAddress(address), true, address);
     }
@@ -245,12 +253,17 @@ describe('remote images', function () {
       '172.15.255.255',
       '172.32.0.0',
       '192.169.0.1',
+      '192.0.1.1',
+      '198.17.255.255',
+      '198.20.0.0',
       '223.255.255.255',
       '::2',
       '::ffff:8.8.8.8',
       '2001:db8::1',
       '2606:4700::1111',
       '64:ff9b::8.8.8.8',
+      '::ffff:0:8.8.8.8',
+      '64:ff9b:2::1',
       '2002:808:808::1',
       'fbff::1',
       '1::',
@@ -272,6 +285,9 @@ describe('remote images', function () {
       'gateway.lan',
       '192.168.1.1',
       '[fd00::1]',
+      'localhost..',
+      '127.0.0.1..',
+      'router.lan...',
     ]) {
       assert.equal(isLocalHostname(host), true, host);
     }

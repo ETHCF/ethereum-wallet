@@ -8,6 +8,14 @@ import Identicon from '../../components/ui/identicon';
 import TokenBalance from '../../components/ui/token-balance';
 import { closeNotificationWindow } from '../../store/actions';
 
+// Compares symbols as a reader would: ignoring case and differences in the
+// form of a character, such as full-width letters.
+function sameSymbol(a, b) {
+  const fold = (symbol) =>
+    typeof symbol === 'string' ? symbol.normalize('NFKC').toLowerCase() : '';
+  return fold(a) === fold(b);
+}
+
 export default class ConfirmAddSuggestedToken extends Component {
   static contextTypes = {
     t: PropTypes.func,
@@ -96,9 +104,10 @@ export default class ConfirmAddSuggestedToken extends Component {
     const answering = this.state.answeringId === id;
     const isKnownToken = tokens.some((token) => token.address === address);
     // A token that takes the symbol of a different one already added could
-    // be mistaken for it.
+    // be mistaken for it, also when it differs only in case or in the form
+    // of its characters (USDC, UsDC, ＵＳＤＣ).
     const reusesName = tokens.some(
-      (token) => token.symbol === symbol && token.address !== address,
+      (token) => sameSymbol(token.symbol, symbol) && token.address !== address,
     );
 
     return (

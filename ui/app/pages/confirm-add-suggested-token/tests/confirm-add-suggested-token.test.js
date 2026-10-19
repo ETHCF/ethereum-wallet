@@ -94,4 +94,17 @@ describe('ConfirmAddSuggestedToken', function () {
     });
     assert.equal(wrapper.find('.warning').text(), 'reusedTokenNameWarning');
   });
+
+  it('warns when the symbol differs from an added token only in case or form', function () {
+    for (const symbol of ['abc', 'AbC', '\uff21\uff22\uff23']) {
+      const { wrapper } = render({
+        tokens: [{ address: '0xother', symbol, decimals: 18 }],
+      });
+      assert.equal(
+        wrapper.find('.warning').text(),
+        'reusedTokenNameWarning',
+        symbol,
+      );
+    }
+  });
 });

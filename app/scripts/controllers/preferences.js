@@ -5,7 +5,7 @@ import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 import { nanoid } from 'nanoid';
 import pify from 'pify';
 
-import { normalizeChainId } from './network/chain-utils';
+import { normalizeChainId, UNSAFE_TEXT } from './network/chain-utils';
 import { BUILT_IN_NETWORKS, LOCALHOST_CHAIN_ID } from './network/enums';
 import { addInternalMethodPrefix } from './permissions';
 import ApprovalQueue from '../lib/approval-queue';
@@ -997,6 +997,13 @@ export default class PreferencesController {
     }
     if (!(symbol.length < 7)) {
       throw new Error(`Invalid symbol ${symbol} more than six characters`);
+    }
+    // The symbol comes from the site or its contract and is shown as the
+    // token's name: a direction override can make CDSU read as USDC.
+    if (UNSAFE_TEXT.test(symbol)) {
+      throw new Error(
+        'Invalid symbol: contains control or formatting characters',
+      );
     }
     const numDecimals = parseInt(decimals, 10);
     if (!Number.isInteger(numDecimals) || numDecimals > 36 || numDecimals < 0) {
