@@ -84,11 +84,24 @@ export function validateTxParams(txParams) {
   validateFrom(txParams);
   validateRecipient(txParams);
   validateEnvelope(txParams);
+  validateData(txParams.data);
   // A hex quantity also rules out a negative or fractional value.
   for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
     if (txParams[field] !== undefined) {
       quantity(txParams[field], field);
     }
+  }
+}
+
+// The security checks and the confirmation read data as a hex string, but the
+// signer converts it to bytes, padding odd-length hex with a leading zero. Data
+// that is not whole bytes would be judged as one call and signed as another.
+function validateData(data) {
+  if (
+    data !== undefined &&
+    (typeof data !== 'string' || !/^0x(?:[0-9a-fA-F]{2})*$/u.test(data))
+  ) {
+    throw new Error('Invalid data: expected hexadecimal bytes');
   }
 }
 

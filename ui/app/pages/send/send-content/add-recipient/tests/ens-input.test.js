@@ -111,6 +111,18 @@ describe('EnsInput', function () {
     }
   });
 
+  it('passes on the normalized name that was resolved', async function () {
+    const updateEnsResolution = sinon.spy();
+    const resolveEnsName = sinon
+      .stub()
+      .resolves({ name: 'paypai.eth', address: BOB });
+    const wrapper = render({ updateEnsResolution, resolveEnsName });
+    wrapper.find('input').prop('onChange')({ target: { value: 'paypaI.eth' } });
+    await clock.tickAsync(250);
+    await clock.tickAsync(0);
+    assert.deepEqual(updateEnsResolution.lastCall.args, [BOB, 'paypai.eth']);
+  });
+
   it('ignores an answer from before a network switch', async function () {
     const updateEnsResolution = sinon.spy();
     const first = deferred();

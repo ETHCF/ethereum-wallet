@@ -17,6 +17,7 @@ export default class AddRecipient extends Component {
     updateGas: PropTypes.func,
     updateSendTo: PropTypes.func,
     ensResolution: PropTypes.string,
+    ensResolutionName: PropTypes.string,
     toError: PropTypes.string,
     toWarning: PropTypes.string,
     ensResolutionError: PropTypes.string,
@@ -91,7 +92,8 @@ export default class AddRecipient extends Component {
   };
 
   render() {
-    const { ensResolution, query, addressBookEntryName } = this.props;
+    const { ensResolution, ensResolutionName, query, addressBookEntryName } =
+      this.props;
     const { isShowingTransfer } = this.state;
 
     let content;
@@ -99,9 +101,11 @@ export default class AddRecipient extends Component {
     if (isValidAddress(query)) {
       content = this.renderExplicitAddress(query);
     } else if (ensResolution) {
+      // Label the address with the name that resolved to it, not the text
+      // typed, which can look like a different name.
       content = this.renderExplicitAddress(
         ensResolution,
-        addressBookEntryName || query,
+        addressBookEntryName || ensResolutionName,
       );
     } else if (isShowingTransfer) {
       content = this.renderTransfer();

@@ -89,12 +89,14 @@ export default class EnsInput extends Component {
     log.info(`ENS attempting to resolve name: ${recipient}`);
     this.props
       .resolveEnsName(recipient)
-      .then(({ address, error } = {}) => {
+      .then(({ address, name, error } = {}) => {
         if (!isCurrent()) {
           return undefined;
         }
         if (address && !error) {
-          this.props.updateEnsResolution(address);
+          // The name that was resolved is the normalized one, which can
+          // differ from what was typed (paypaI.eth resolves paypai.eth).
+          this.props.updateEnsResolution(address, name);
           return undefined;
         }
         const message = this.ensErrorMessage(error, recipient);

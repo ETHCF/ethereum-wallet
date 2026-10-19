@@ -12,6 +12,7 @@ proxyquire('../add-recipient.container.js', {
   },
   '../../../../selectors': {
     getSendEnsResolution: (s) => `mockSendEnsResolution:${s}`,
+    getSendEnsResolutionName: (s) => `mockSendEnsResolutionName:${s}`,
     getSendEnsResolutionError: (s) => `mockSendEnsResolutionError:${s}`,
     getAddressBook: (s) => [{ name: `mockAddressBook:${s}` }],
     getAddressBookEntry: (s) => `mockAddressBookEntry:${s}`,
@@ -27,6 +28,7 @@ describe('add-recipient container', function () {
         addressBook: [{ name: 'mockAddressBook:mockState' }],
         contacts: [{ name: 'mockAddressBook:mockState' }],
         ensResolution: 'mockSendEnsResolution:mockState',
+        ensResolutionName: 'mockSendEnsResolutionName:mockState',
         ensResolutionError: 'mockSendEnsResolutionError:mockState',
         ownedAccounts: 'mockAccountsWithSendEtherInfoSelector:mockState',
         addressBookEntryName: undefined,

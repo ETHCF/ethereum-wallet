@@ -568,10 +568,11 @@ export function clearSend() {
   };
 }
 
-export function updateSendEnsResolution(ensResolution) {
+export function updateSendEnsResolution(ensResolution, ensResolutionName) {
   return {
     type: actionConstants.UPDATE_SEND_ENS_RESOLUTION,
     payload: ensResolution,
+    name: ensResolutionName,
   };
 }
 
@@ -1760,7 +1761,7 @@ export function getContractMethodData(data = '') {
 }
 
 export function getTokenParams(tokenAddress) {
-  return (dispatch, getState) => {
+  return (_dispatch, getState) => {
     const existingToken = getState().ecfWallet.tokens.find(
       ({ address }) => tokenAddress === address,
     );
@@ -1774,10 +1775,10 @@ export function getTokenParams(tokenAddress) {
 
     log.debug(`loadingTokenParams`);
 
-    return fetchSymbolAndDecimals(tokenAddress).then(({ symbol, decimals }) => {
-      dispatch(addToken(tokenAddress, symbol, Number(decimals)));
-      return undefined;
-    });
+    // Confirmation metadata is a read, not consent to track a token. In
+    // particular, an RPC response must not add its source-chain metadata to
+    // whichever account/network happens to be active when it arrives.
+    return fetchSymbolAndDecimals(tokenAddress);
   };
 }
 

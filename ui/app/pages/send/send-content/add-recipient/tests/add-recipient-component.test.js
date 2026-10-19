@@ -187,6 +187,24 @@ describe('AddRecipient Component', function () {
       assert.equal(dialog.length, 1);
     });
 
+    it('labels an ENS resolution with the resolved name, not the typed text', function () {
+      wrapper.setProps({
+        query: 'paypaI.eth',
+        ensResolution: '0x128',
+        ensResolutionName: 'paypai.eth',
+      });
+      const item = wrapper.find('.send__select-recipient-wrapper__group-item');
+      assert.equal(
+        item.find('.send__select-recipient-wrapper__group-item__title').text(),
+        'paypai.eth',
+      );
+      item.simulate('click');
+      assert.deepEqual(propsMethodSpies.updateSendTo.lastCall.args, [
+        '0x128',
+        'paypai.eth',
+      ]);
+    });
+
     it('should not render error when ens resolved', function () {
       wrapper.setProps({
         addressBook: [],

@@ -17,13 +17,21 @@ export function getCustomTxParamsData(
       `Invalid data; should be 'approve' method, but instead is '${tokenData.name}'`,
     );
   }
-  let spender = tokenData.params[0].value;
+  let spender = tokenData.params[0].value.toLowerCase();
   if (spender.startsWith('0x')) {
     spender = spender.substring(2);
   }
-  const [signature, tokenValue] = data.split(spender);
 
-  if (!signature || !tokenValue) {
+  // The amount is the second ABI word, so replace it by position. Searching
+  // the data for the spender could match a copy in trailing calldata, which
+  // the contract ignores, and leave the amount the contract reads unchanged.
+  const calldata = data.replace(/^0x/u, '').toLowerCase();
+  const selector = calldata.substring(0, 8);
+  const spenderWord = calldata.substring(8, 72);
+  const tokenValue = calldata.substring(72, 136);
+  const extraCalldata = calldata.substring(136);
+
+  if (spenderWord !== spender.padStart(64, '0')) {
     throw new Error('Invalid data');
   } else if (tokenValue.length !== 64) {
     throw new Error(
@@ -51,7 +59,7 @@ export function getCustomTxParamsData(
     tokenValue.length,
     '0',
   );
-  const customTxParamsData = `${signature}${spender}${customPermissionValue}`;
+  const customTxParamsData = `0x${selector}${spenderWord}${customPermissionValue}${extraCalldata}`;
   return customTxParamsData;
 }
 

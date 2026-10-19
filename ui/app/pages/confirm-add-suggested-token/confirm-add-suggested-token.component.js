@@ -21,6 +21,8 @@ export default class ConfirmAddSuggestedToken extends Component {
     suggestion: PropTypes.shape({
       id: PropTypes.string.isRequired,
       origin: PropTypes.string,
+      chainId: PropTypes.string,
+      networkName: PropTypes.string,
       address: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
       decimals: PropTypes.number.isRequired,
@@ -89,7 +91,8 @@ export default class ConfirmAddSuggestedToken extends Component {
     if (!suggestion) {
       return null;
     }
-    const { id, origin, address, symbol, image } = suggestion;
+    const { id, origin, address, symbol, image, chainId, networkName } =
+      suggestion;
     const answering = this.state.answeringId === id;
     const isKnownToken = tokens.some((token) => token.address === address);
     // A token that takes the symbol of a different one already added could
@@ -108,6 +111,14 @@ export default class ConfirmAddSuggestedToken extends Component {
           >
             {t('siteSuggestsToken', [origin])}
           </div>
+          {chainId ? (
+            <div
+              className="page-container__subtitle"
+              data-testid="suggested-token-network"
+            >
+              {`${t('network')}: ${networkName} (${Number(chainId)})`}
+            </div>
+          ) : null}
           {isKnownToken ? (
             <div className="warning">{t('knownTokenWarning')}</div>
           ) : null}

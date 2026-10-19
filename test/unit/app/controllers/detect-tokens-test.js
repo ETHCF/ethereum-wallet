@@ -30,6 +30,7 @@ describe('DetectTokensController', function () {
       '0x7e57e2',
       '0xbc86727e770de68b1060c91f6bb6945c73e10388',
     ]);
+    await preferences.setSelectedAddress('0x7e57e2');
     network.initializeProvider(networkControllerProviderConfig);
   });
 
@@ -139,6 +140,43 @@ describe('DetectTokensController', function () {
         symbol: tokenToAdd.symbol,
       },
     ]);
+  });
+
+  ['network', 'account'].forEach((changed) => {
+    it(`discards discovered tokens after a ${changed} change during the balance lookup`, async function () {
+      sandbox.useFakeTimers();
+      await network.setProviderType(MAINNET);
+      const controller = new DetectTokensController({
+        preferences,
+        network,
+        keyringMemStore,
+      });
+      controller.isOpen = true;
+      controller.isUnlocked = true;
+      let finish;
+      sandbox.stub(controller, '_getTokenBalances').callsFake(
+        (addresses) =>
+          new Promise((resolve) => {
+            finish = () => resolve(addresses.map(() => new BigNumber(10)));
+          }),
+      );
+      const pending = controller.detectNewTokens();
+      // Do not start another detection pass as part of the account switch.
+      sandbox.stub(controller, 'restartTokenDetection');
+      if (changed === 'network') {
+        await network.setProviderType(SEPOLIA);
+      } else {
+        await preferences.setSelectedAddress(
+          '0xbc86727e770de68b1060c91f6bb6945c73e10388',
+        );
+      }
+      finish();
+      await pending;
+      assert.deepEqual(preferences.getTokens(), []);
+      await network.setProviderType(MAINNET);
+      await preferences.setSelectedAddress('0x7e57e2');
+      assert.deepEqual(preferences.getTokens(), []);
+    });
   });
 
   it('should trigger detect new tokens when change address', async function () {

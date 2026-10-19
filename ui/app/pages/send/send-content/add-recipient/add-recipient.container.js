@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AddRecipient from './add-recipient.component';
 import {
   getSendEnsResolution,
+  getSendEnsResolutionName,
   getSendEnsResolutionError,
   accountsWithSendEtherInfoSelector,
   getAddressBook,
@@ -27,6 +28,7 @@ function mapStateToProps(state) {
     ownedAccounts: accountsWithSendEtherInfoSelector(state),
     addressBook,
     ensResolution,
+    ensResolutionName: getSendEnsResolutionName(state),
     addressBookEntryName,
     ensResolutionError: getSendEnsResolutionError(state),
     contacts: addressBook.filter(({ name }) => Boolean(name)),

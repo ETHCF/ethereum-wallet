@@ -58,6 +58,7 @@ export default function reduceEcfWallet(state = {}, action) {
       editingTransactionId: null,
       toNickname: '',
       ensResolution: null,
+      ensResolutionName: '',
       ensResolutionError: '',
     },
     featureFlags: {},
@@ -246,6 +247,7 @@ export default function reduceEcfWallet(state = {}, action) {
         send: {
           ...ecfWalletState.send,
           ensResolution: action.payload,
+          ensResolutionName: action.name || '',
           ensResolutionError: '',
         },
       };
@@ -256,6 +258,7 @@ export default function reduceEcfWallet(state = {}, action) {
         send: {
           ...ecfWalletState.send,
           ensResolution: null,
+          ensResolutionName: '',
           ensResolutionError: action.payload,
         },
       };

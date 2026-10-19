@@ -42,6 +42,33 @@ describe('txUtils', function () {
         }
       }
     });
+
+    it('refuses data that is not whole hexadecimal bytes', function () {
+      // approve(spender, max) with its leading zero nibble dropped: checks
+      // would read selector 0x95ea7b30, the signer would pad it to approve.
+      const oddApprove = `0x95ea7b3${'0'.repeat(24)}${'12345'.repeat(8)}${'f'.repeat(64)}`;
+      for (const data of [oddApprove, '0x1', '0x12g4', '0X1234', '1234']) {
+        assert.throws(
+          () =>
+            txUtils.validateTxParams({
+              from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+              to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+              data,
+            }),
+          /Invalid data: expected hexadecimal bytes/u,
+        );
+      }
+    });
+
+    it('accepts data that is whole hexadecimal bytes', function () {
+      for (const data of ['0x', '0x095ea7b3', '0xABcd']) {
+        txUtils.validateTxParams({
+          from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+          to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+          data,
+        });
+      }
+    });
   });
 
   describe('#normalizeTxParams', function () {

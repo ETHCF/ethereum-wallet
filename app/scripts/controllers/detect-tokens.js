@@ -35,6 +35,7 @@ export default class DetectTokensController {
     this._preferences = preferences;
     this._network = network;
     if (preferences) {
+      this.selectedAddress = preferences.getSelectedAddress();
       const currentTokens = preferences.store.getState().tokens;
       this.tokenAddresses = currentTokens
         ? currentTokens.map((token) => token.address)
@@ -85,27 +86,33 @@ export default class DetectTokensController {
       }
     }
 
-    let result;
     try {
-      result = await this._getTokenBalances(tokensToDetect);
+      const context = this._preferences.getTokenContext();
+      const result = await this._getTokenBalances(tokensToDetect);
+      if (!this.isActive) {
+        return;
+      }
+      for (const [index, tokenAddress] of tokensToDetect.entries()) {
+        const balance = result[index];
+        if (balance && !balance.isZero()) {
+          await this._preferences.addToken(
+            tokenAddress,
+            contracts[tokenAddress].symbol,
+            contracts[tokenAddress].decimals,
+            undefined,
+            context,
+          );
+        }
+      }
     } catch (error) {
-      warn(
-        `ecf-wallet - DetectTokensController single call balance fetch failed`,
-        error,
-      );
-      return;
-    }
-
-    tokensToDetect.forEach((tokenAddress, index) => {
-      const balance = result[index];
-      if (balance && !balance.isZero()) {
-        this._preferences.addToken(
-          tokenAddress,
-          contracts[tokenAddress].symbol,
-          contracts[tokenAddress].decimals,
+      // A network/account change intentionally cancels this detection pass.
+      if (error.code !== 4001) {
+        warn(
+          `ecf-wallet - DetectTokensController single call balance fetch failed`,
+          error,
         );
       }
-    });
+    }
   }
 
   async _getTokenBalances(tokens) {

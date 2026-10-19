@@ -258,10 +258,12 @@ describe('preferences controller', function () {
     });
 
     it('should remove a token from its state on corresponding network', async function () {
+      preferencesController.setAddresses(['0x7e57e2']);
+      await preferencesController.setSelectedAddress('0x7e57e2');
       network.providerStore.updateState({ type: 'mainnet' });
       await preferencesController.addToken('0xa', 'A', 4);
       await preferencesController.addToken('0xb', 'B', 5);
-      network.providerStore.updateState({ type: 'rinkeby' });
+      network.providerStore.updateState({ type: 'sepolia' });
       await preferencesController.addToken('0xa', 'A', 4);
       await preferencesController.addToken('0xb', 'B', 5);
       const initialTokensSecond = preferencesController.getTokens();
@@ -274,7 +276,7 @@ describe('preferences controller', function () {
       const [token1] = tokensFirst;
       assert.deepEqual(token1, { address: '0xb', symbol: 'B', decimals: 5 });
 
-      network.providerStore.updateState({ type: 'rinkeby' });
+      network.providerStore.updateState({ type: 'sepolia' });
       const tokensSecond = preferencesController.getTokens();
       assert.deepEqual(
         tokensSecond,
@@ -325,11 +327,13 @@ describe('preferences controller', function () {
 
   describe('on updateStateNetworkType', function () {
     it('should remove a token from its state on corresponding network', async function () {
+      preferencesController.setAddresses(['0x7e57e2']);
+      await preferencesController.setSelectedAddress('0x7e57e2');
       network.providerStore.updateState({ type: 'mainnet' });
       await preferencesController.addToken('0xa', 'A', 4);
       await preferencesController.addToken('0xb', 'B', 5);
       const initialTokensFirst = preferencesController.getTokens();
-      network.providerStore.updateState({ type: 'rinkeby' });
+      network.providerStore.updateState({ type: 'sepolia' });
       await preferencesController.addToken('0xa', 'C', 4);
       await preferencesController.addToken('0xb', 'D', 5);
       const initialTokensSecond = preferencesController.getTokens();
@@ -342,7 +346,7 @@ describe('preferences controller', function () {
 
       network.providerStore.updateState({ type: 'mainnet' });
       const tokensFirst = preferencesController.getTokens();
-      network.providerStore.updateState({ type: 'rinkeby' });
+      network.providerStore.updateState({ type: 'sepolia' });
       const tokensSecond = preferencesController.getTokens();
       assert.deepEqual(
         tokensFirst,
@@ -388,6 +392,107 @@ describe('preferences controller', function () {
     ]);
     return { result, suggestion };
   }
+
+  describe('chain-scoped token state', function () {
+    const account = '0x7e57e2';
+    const token = '0x2222222222222222222222222222222222222222';
+    const mainnet = {
+      type: 'rpc',
+      chainId: '0x1',
+      rpcTarget: 'https://main.test',
+    };
+    const testnet = {
+      type: 'rpc',
+      chainId: '0xaa36a7',
+      rpcTarget: 'https://test.test',
+    };
+    const image = 'data:image/png;base64,AAAA';
+
+    beforeEach(async function () {
+      preferencesController.setAddresses([account, '0xda22be']);
+      await preferencesController.setSelectedAddress(account);
+    });
+
+    it('isolates the same token address and image on two custom chains', async function () {
+      network.providerStore.putState(mainnet);
+      await preferencesController.addToken(token, 'DEMO', 6, image);
+      network.providerStore.putState(testnet);
+      assert.deepEqual(preferencesController.getTokens(), []);
+      assert.deepEqual(preferencesController.getAssetImages(), {});
+      const { result, suggestion } = await startSuggestion({
+        address: token,
+        symbol: 'DEMO',
+        decimals: 18,
+      });
+      await preferencesController.acceptWatchAsset(suggestion.id);
+      assert.equal(await result, true);
+      network.providerStore.putState(mainnet);
+      assert.deepEqual(preferencesController.getTokens(), [
+        { address: token, symbol: 'DEMO', decimals: 6 },
+      ]);
+      assert.equal(preferencesController.getAssetImages()[token], image);
+      await preferencesController.removeToken(token);
+      network.providerStore.putState(testnet);
+      assert.equal(preferencesController.getTokens()[0].decimals, 18);
+    });
+
+    it('uses one canonical chain identity across built-in and custom providers', async function () {
+      await preferencesController.addToken(token, 'DEMO', 6, image);
+      network.providerStore.putState({ ...mainnet, chainId: '0X0001' });
+      assert.equal(preferencesController.getTokens()[0].decimals, 6);
+      assert.equal(preferencesController.getAssetImages()[token], image);
+      network.providerStore.putState({ ...mainnet, chainId: '1' });
+      assert.equal(preferencesController.getTokens()[0].decimals, 6);
+      await preferencesController.setSelectedAddress('0xda22be');
+      assert.deepEqual(preferencesController.getTokens(), []);
+      assert.deepEqual(preferencesController.getAssetImages(), {});
+    });
+
+    it('rebuilds active tokens on startup and discards ambiguous legacy rpc entries', function () {
+      const builtInToken = { address: token, symbol: 'DEMO', decimals: 6 };
+      const ambiguousToken = { ...builtInToken, decimals: 18 };
+      const restored = new PreferencesController({
+        network,
+        initState: {
+          selectedAddress: account,
+          accountTokens: {
+            [account]: { mainnet: [builtInToken], rpc: [ambiguousToken] },
+          },
+          tokens: [ambiguousToken],
+        },
+      });
+      assert.deepEqual(restored.getTokens(), [builtInToken]);
+      assert.deepEqual(restored.store.getState().accountTokens, {
+        [account]: { '0x1': [builtInToken] },
+      });
+      network.providerStore.putState(testnet);
+      assert.deepEqual(restored.getTokens(), []);
+    });
+
+    it('restores chain-scoped tokens and images without reviving the saved active projection', async function () {
+      await preferencesController.addToken(token, 'DEMO', 6, image);
+      const initState = JSON.parse(
+        JSON.stringify(preferencesController.store.getState()),
+      );
+      network.providerStore.putState(testnet);
+      const restored = new PreferencesController({ network, initState });
+      assert.deepEqual(restored.getTokens(), []);
+      assert.deepEqual(restored.getAssetImages(), {});
+      network.providerStore.putState(mainnet);
+      assert.equal(restored.getTokens()[0].decimals, 6);
+      assert.equal(restored.getAssetImages()[token], image);
+    });
+
+    it('fails closed when a custom network has no usable chain identity', async function () {
+      network.providerStore.putState({ type: 'rpc' });
+      assert.deepEqual(preferencesController.getTokens(), []);
+      await assert.rejects(
+        preferencesController.addToken(token, 'DEMO', 18),
+        /chain|network/iu,
+      );
+      assert.deepEqual(preferencesController.getTokens(), []);
+    });
+  });
 
   describe('on watchAsset', function () {
     let stubHandleWatchAssetERC20, asy, req, res;
@@ -495,8 +600,10 @@ describe('preferences controller', function () {
 
     const sandbox = sinon.createSandbox();
 
-    beforeEach(function () {
+    beforeEach(async function () {
       req = { params: { type: 'ERC20' } };
+      preferencesController.setAddresses(['0x7e57e2', '0xda22be']);
+      await preferencesController.setSelectedAddress('0x7e57e2');
     });
 
     after(function () {
@@ -540,6 +647,128 @@ describe('preferences controller', function () {
         { address, symbol, decimals },
       ]);
       assert.equal(preferencesController.getAssetImages()[address], cached);
+    });
+
+    describe('approval context', function () {
+      const options = {
+        address: '0x2222222222222222222222222222222222222222',
+        symbol: 'DEMO',
+        decimals: 18,
+      };
+      const switchNetwork = () =>
+        network.providerStore.putState({ type: 'sepolia' });
+      const switchAccount = () =>
+        preferencesController.setSelectedAddress('0xda22be');
+
+      [
+        ['network', switchNetwork],
+        ['account', switchAccount],
+      ].forEach(([label, change]) => {
+        it(`rejects a pending suggestion when the ${label} changes`, async function () {
+          const { result, suggestion } = await startSuggestion(options);
+          await change();
+          await assert.rejects(result, { code: 4001 });
+          assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+          await assert.rejects(
+            preferencesController.acceptWatchAsset(suggestion.id),
+          );
+          assert.deepEqual(preferencesController.getTokens(), []);
+        });
+
+        it(`refuses metadata read across a ${label} change, even after switching back`, async function () {
+          let finish;
+          const read = new Promise((resolve) => {
+            finish = resolve;
+          });
+          const stub = sinon
+            .stub(preferencesController, '_readTokenContract')
+            .returns(read);
+          const result = preferencesController._handleWatchAssetERC20(
+            options,
+            ORIGIN,
+          );
+          result.catch(() => undefined);
+          await change();
+          network.providerStore.putState({ type: 'mainnet' });
+          await preferencesController.setSelectedAddress('0x7e57e2');
+          finish(undefined);
+          await assert.rejects(result, { code: 4001 });
+          assert.deepEqual(preferencesController.getSuggestedTokens(), {});
+          assert.deepEqual(preferencesController.getTokens(), []);
+          stub.restore();
+        });
+
+        it(`rejects an accepted suggestion if the ${label} changes during image download`, async function () {
+          // Preserve a real target token; source metadata must never overwrite it.
+          await change();
+          await preferencesController.addToken(options.address, 'DEMO', 6);
+          network.providerStore.putState({ type: 'mainnet' });
+          await preferencesController.setSelectedAddress('0x7e57e2');
+          let finish;
+          preferencesController.fetchImage = () =>
+            new Promise((resolve) => {
+              finish = resolve;
+            });
+          const { result, suggestion } = await startSuggestion({
+            ...options,
+            image: 'https://image.test/token.png',
+          });
+          const approval = preferencesController.acceptWatchAsset(
+            suggestion.id,
+          );
+          approval.catch(() => undefined);
+          assert.equal(typeof finish, 'function');
+          await change();
+          finish('data:image/png;base64,AAAA');
+          await assert.rejects(approval, { code: 4001 });
+          await assert.rejects(result, { code: 4001 });
+          assert.equal(preferencesController.getTokens()[0].decimals, 6);
+          assert.equal(
+            preferencesController.getAssetImages()[options.address],
+            undefined,
+          );
+          network.providerStore.putState({ type: 'mainnet' });
+          await preferencesController.setSelectedAddress('0x7e57e2');
+          assert.deepEqual(preferencesController.getTokens(), []);
+        });
+      });
+
+      it('rejects in-flight token work if the selected identity is removed and restored', async function () {
+        let finish;
+        preferencesController.fetchImage = () =>
+          new Promise((resolve) => {
+            finish = resolve;
+          });
+        const { result, suggestion } = await startSuggestion({
+          ...options,
+          image: 'https://image.test/token.png',
+        });
+        const approval = preferencesController.acceptWatchAsset(suggestion.id);
+        approval.catch(() => undefined);
+        preferencesController.setAddresses([]);
+        preferencesController.setAddresses(['0x7e57e2']);
+        await preferencesController.setSelectedAddress('0x7e57e2');
+        finish('data:image/png;base64,AAAA');
+        await assert.rejects(approval, { code: 4001 });
+        await assert.rejects(result, { code: 4001 });
+        assert.deepEqual(preferencesController.getTokens(), []);
+      });
+
+      it('invalidates an approval when the RPC changes even on the same chain', async function () {
+        network.providerStore.putState({
+          type: 'rpc',
+          chainId: '0x1',
+          rpcTarget: 'https://first.test',
+        });
+        const { result } = await startSuggestion(options);
+        network.providerStore.putState({
+          type: 'rpc',
+          chainId: '0x1',
+          rpcTarget: 'https://second.test',
+        });
+        await assert.rejects(result, { code: 4001 });
+        assert.deepEqual(preferencesController.getTokens(), []);
+      });
     });
 
     it('answers a declined suggestion with a user-rejected error', async function () {
@@ -651,31 +880,20 @@ describe('preferences controller', function () {
       );
     });
 
-    it('downloads remote token images saved by an earlier version, and never shows their URLs', async function () {
+    it('discards legacy images whose chain is unknown without fetching them', function () {
       const fetchImage = sinon.stub();
-      fetchImage
-        .withArgs('https://cdn.test/a.png')
-        .resolves('data:image/png;base64,AAAA');
-      fetchImage.withArgs('https://cdn.test/b.png').resolves(undefined);
       const restored = new PreferencesController({
         network,
         fetchImage,
         initState: {
           assetImages: {
             '0xa': 'https://cdn.test/a.png',
-            '0xb': 'https://cdn.test/b.png',
-            '0xc': 'data:image/png;base64,CCCC',
+            '0xb': 'data:image/png;base64,BBBB',
           },
         },
       });
-      assert.deepEqual(restored.getAssetImages(), {
-        '0xc': 'data:image/png;base64,CCCC',
-      });
-      await restored.cachingAssetImages;
-      assert.deepEqual(restored.getAssetImages(), {
-        '0xa': 'data:image/png;base64,AAAA',
-        '0xc': 'data:image/png;base64,CCCC',
-      });
+      assert.deepEqual(restored.getAssetImages(), {});
+      assert.equal(fetchImage.called, false);
     });
 
     it('should validate ERC20 asset correctly', async function () {

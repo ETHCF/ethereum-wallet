@@ -21,6 +21,14 @@ import {
 export function useTokenDetails(tokenAddress) {
   const t = useI18nContext();
   const tokens = useSelector(getTokens);
+  const provider = useSelector((state) => state.ecfWallet.provider);
+  // A contract address alone does not identify metadata. Including the RPC
+  // also invalidates reads when its endpoint changes on the same chain.
+  const networkKey = JSON.stringify([
+    provider?.type,
+    provider?.chainId,
+    provider?.rpcTarget,
+  ]);
   const address = tokenAddress?.toLowerCase();
   const trackedToken = address
     ? tokens?.find((token) => token.address?.toLowerCase() === address)
@@ -35,7 +43,7 @@ export function useTokenDetails(tokenAddress) {
     let cancelled = false;
     const store = (details) => {
       if (!cancelled) {
-        setFetched({ address, details });
+        setFetched({ address, networkKey, details });
       }
     };
     fetchTokenDetails(address)
@@ -44,12 +52,14 @@ export function useTokenDetails(tokenAddress) {
     return () => {
       cancelled = true;
     };
-  }, [address, tracked]);
+  }, [address, tracked, networkKey]);
 
-  const loading = Boolean(address) && !tracked && fetched.address !== address;
+  const hasFetched =
+    fetched.address === address && fetched.networkKey === networkKey;
+  const loading = Boolean(address) && !tracked && !hasFetched;
   const details = resolveTokenDetails({
     trackedToken,
-    fetched: fetched.address === address ? fetched.details : undefined,
+    fetched: hasFetched ? fetched.details : undefined,
   });
   let symbol = details.symbol || t('unknownToken');
   if (!details.known) {

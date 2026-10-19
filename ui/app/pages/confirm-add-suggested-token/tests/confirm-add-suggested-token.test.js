@@ -9,6 +9,8 @@ describe('ConfirmAddSuggestedToken', function () {
   const suggestion = {
     id: 'request-1',
     origin: 'https://dapp.test',
+    chainId: '0xaa36a7',
+    networkName: 'Sepolia',
     address: '0xd26114cd6ee289accf82350c8d8487fedb8a0c07',
     symbol: 'ABC',
     decimals: 8,
@@ -37,6 +39,14 @@ describe('ConfirmAddSuggestedToken', function () {
     assert.equal(
       wrapper.find('[data-testid="suggested-token-origin"]').text(),
       'siteSuggestsToken https://dapp.test',
+    );
+  });
+
+  it('shows the network captured by the approval', function () {
+    const { wrapper } = render();
+    assert.equal(
+      wrapper.find('[data-testid="suggested-token-network"]').text(),
+      'network: Sepolia (11155111)',
     );
   });
 

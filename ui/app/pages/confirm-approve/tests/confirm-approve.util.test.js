@@ -52,6 +52,32 @@ describe('confirm-approve utils', function () {
       assert.equal(data.slice(-64), '3e8'.padStart(64, '0'));
     });
 
+    it('replaces the amount the contract reads, whatever the hex case', function () {
+      // The real spender is uppercase; a lowercase copy and a decoy word
+      // follow as trailing calldata, which the contract ignores.
+      const decoy = '1'.padStart(64, '0');
+      const data = `0x095ea7b3000000000000000000000000${SPENDER.toUpperCase()}${'f'.repeat(64)}${SPENDER}${decoy}`;
+      const custom = getCustomTxParamsData(data, {
+        customPermissionAmount: '10',
+        decimals: 18,
+      });
+      assert.equal(
+        custom,
+        `0x095ea7b3000000000000000000000000${SPENDER}${'8ac7230489e80000'.padStart(64, '0')}${SPENDER}${decoy}`,
+      );
+    });
+
+    it('refuses an approve too short to hold an amount', function () {
+      assert.throws(
+        () =>
+          getCustomTxParamsData(UNLIMITED_APPROVAL.slice(0, -2), {
+            customPermissionAmount: '1',
+            decimals: 0,
+          }),
+        /Invalid/u,
+      );
+    });
+
     it('refuses more decimal places than the token has', function () {
       assert.throws(
         () =>

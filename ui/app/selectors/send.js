@@ -117,6 +117,10 @@ export function getSendEnsResolution(state) {
   return state.ecfWallet.send.ensResolution;
 }
 
+export function getSendEnsResolutionName(state) {
+  return state.ecfWallet.send.ensResolutionName;
+}
+
 export function getSendEnsResolutionError(state) {
   return state.ecfWallet.send.ensResolutionError;
 }

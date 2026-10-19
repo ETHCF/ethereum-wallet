@@ -216,6 +216,7 @@ describe('ecf-wallet Reducers', function () {
       errors: {},
       editingTransactionId: 22,
       ensResolution: null,
+      ensResolutionName: '',
       ensResolutionError: '',
     };
 
@@ -360,10 +361,12 @@ describe('ecf-wallet Reducers', function () {
       {
         type: actionConstants.UPDATE_SEND_ENS_RESOLUTION,
         payload: '0x1337',
+        name: 'bob.eth',
       },
     );
 
     assert.deepEqual(state.send.ensResolution, '0x1337');
+    assert.deepEqual(state.send.ensResolutionName, 'bob.eth');
     assert.deepEqual(state.send.ensResolutionError, '');
   });
 

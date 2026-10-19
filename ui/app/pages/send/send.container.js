@@ -99,8 +99,8 @@ function mapDispatchToProps(dispatch) {
     resetSendState: () => dispatch(resetSendState()),
     updateSendTo: (to, nickname) => dispatch(updateSendTo(to, nickname)),
     fetchBasicGasEstimates: () => dispatch(fetchBasicGasEstimates()),
-    updateSendEnsResolution: (ensResolution) =>
-      dispatch(updateSendEnsResolution(ensResolution)),
+    updateSendEnsResolution: (ensResolution, ensResolutionName) =>
+      dispatch(updateSendEnsResolution(ensResolution, ensResolutionName)),
     updateSendEnsResolutionError: (message) =>
       dispatch(updateSendEnsResolutionError(message)),
     updateToNicknameIfNecessary: (to, toNickname, addressBook) => {

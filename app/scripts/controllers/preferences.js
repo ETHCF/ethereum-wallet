@@ -1,11 +1,12 @@
 import { isValidAddress } from '@ethereumjs/util';
 import EthQuery from '@metamask/eth-query';
 import { ObservableStore } from '@metamask/obs-store';
-import { rpcErrors } from '@metamask/rpc-errors';
+import { providerErrors, rpcErrors } from '@metamask/rpc-errors';
 import { nanoid } from 'nanoid';
 import pify from 'pify';
 
 import { normalizeChainId } from './network/chain-utils';
+import { BUILT_IN_NETWORKS, LOCALHOST_CHAIN_ID } from './network/enums';
 import { addInternalMethodPrefix } from './permissions';
 import ApprovalQueue from '../lib/approval-queue';
 import { callContract } from '../lib/contract-call';
@@ -20,24 +21,75 @@ import { normalizeAddress } from '../lib/util';
 const MAX_IMAGE_DATA_URL_LENGTH = Math.ceil(MAX_IMAGE_BYTES / 3) * 4 + 64;
 
 /**
- * Splits saved token images into data URLs, which the wallet shows, and
- * remote URLs saved by earlier versions, which it must download first.
+ * Resolves a provider configuration to the chain it is allowed to access.
  *
- * @param {object} assetImages - Token images, by token address.
- * @returns {{ kept: object, remote: Array<[string, string]> }} The data URL
- * images, and the address and URL of each remote one.
+ * @param {object} provider - The selected provider configuration.
+ * @returns {string|undefined} Its canonical chain ID.
  */
-function splitAssetImages(assetImages = {}) {
-  const kept = {};
-  const remote = [];
-  for (const [address, image] of Object.entries(assetImages)) {
-    if (isImageDataUrl(image)) {
-      kept[address] = image;
-    } else if (typeof image === 'string' && image) {
-      remote.push([address, image]);
-    }
-  }
-  return { kept, remote };
+function tokenChainId(provider) {
+  return (
+    BUILT_IN_NETWORKS[provider.type]?.chainId ||
+    (provider.type === 'localhost'
+      ? LOCALHOST_CHAIN_ID
+      : normalizeChainId(provider.chainId))
+  );
+}
+
+/**
+ * Upgrades the old provider-type buckets. The shared rpc bucket has no
+ * trustworthy chain identity, so it must not supply confirmation metadata.
+ * This is also applied on restore; saved active projections are never trusted.
+ *
+ * @param {object} accounts - Saved account token lists.
+ * @returns {object} Token lists keyed by account and canonical chain ID.
+ */
+function migrateAccountTokens(accounts) {
+  return Object.fromEntries(
+    Object.entries(accounts).map(([account, networks]) => {
+      const chains = {};
+      for (const [key, tokens] of Object.entries(networks)) {
+        const chainId =
+          BUILT_IN_NETWORKS[key]?.chainId || normalizeChainId(key);
+        if (
+          chainId &&
+          Array.isArray(tokens) &&
+          (!chains[chainId] || key === chainId)
+        ) {
+          chains[chainId] = tokens;
+        }
+      }
+      return [account, chains];
+    }),
+  );
+}
+
+/**
+ * Keeps only bounded data URLs in images already scoped to an account/chain.
+ * Legacy unscoped images cannot be assigned to a chain safely.
+ *
+ * @param {object} accounts - Saved scoped images.
+ * @returns {object} Safe images keyed by account, chain, and token address.
+ */
+function sanitizeAccountAssetImages(accounts) {
+  return Object.fromEntries(
+    Object.entries(accounts).map(([account, networks]) => [
+      account,
+      Object.fromEntries(
+        Object.entries(networks)
+          .filter(([chainId]) => normalizeChainId(chainId) === chainId)
+          .map(([chainId, images]) => [
+            chainId,
+            Object.fromEntries(
+              Object.entries(images).filter(
+                ([, image]) =>
+                  isImageDataUrl(image) &&
+                  image.length <= MAX_IMAGE_DATA_URL_LENGTH,
+              ),
+            ),
+          ]),
+      ),
+    ]),
+  );
 }
 
 /**
@@ -62,8 +114,9 @@ export default class PreferencesController {
    * @property {object} store The stored object containing a users preferences, stored in local storage
    * @property {Array} store.frequentRpcListDetail A list of custom rpcs to provide the user
    * @property {Array} store.tokens The tokens the user wants display in their token lists
-   * @property {object} store.accountTokens The tokens stored per account and then per network type
-   * @property {object} store.assetImages Contains assets objects related to assets added
+   * @property {object} store.accountTokens The tokens stored per account and then per chain ID
+   * @property {object} store.accountAssetImages Token images stored per account and chain ID
+   * @property {object} store.assetImages Token images for the active account and chain
    * @property {object} store.featureFlags A key-boolean map, where keys refer to features and booleans to whether the
    * user wishes to see that feature.
    *
@@ -76,6 +129,7 @@ export default class PreferencesController {
     const initState = {
       frequentRpcListDetail: [],
       accountTokens: {},
+      accountAssetImages: {},
       assetImages: {},
       tokens: [],
       usePhishDetect: true,
@@ -111,10 +165,12 @@ export default class PreferencesController {
     };
     // Earlier versions saved suggestions with the preferences.
     delete initState.suggestedTokens;
-    // The wallet shows token images only from data URLs, so that showing
-    // them asks no host for anything.
-    const { kept, remote } = splitAssetImages(initState.assetImages);
-    initState.assetImages = kept;
+    initState.accountTokens = migrateAccountTokens(initState.accountTokens);
+    initState.accountAssetImages = sanitizeAccountAssetImages(
+      initState.accountAssetImages,
+    );
+    initState.tokens = [];
+    initState.assetImages = {};
 
     this.network = opts.network;
     this.getProvider = opts.getProvider;
@@ -136,13 +192,13 @@ export default class PreferencesController {
         }),
     });
     this.showWatchAssetRequest = opts.showWatchAssetRequest;
+    this._tokenContextVersion = 0;
     this._subscribeProviderType();
+    this._updateTokens();
 
     global.setPreference = (key, value) => {
       return this.setFeatureFlag(key, value);
     };
-
-    this.cachingAssetImages = this._cacheRemoteAssetImages(remote);
   }
   // PUBLIC METHODS
 
@@ -278,6 +334,7 @@ export default class PreferencesController {
   setAddresses(addresses) {
     const oldIdentities = this.store.getState().identities;
     const oldAccountTokens = this.store.getState().accountTokens;
+    const oldAccountImages = this.store.getState().accountAssetImages;
 
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {};
@@ -289,7 +346,17 @@ export default class PreferencesController {
       tokens[address] = oldTokens;
       return tokens;
     }, {});
-    this.store.updateState({ identities, accountTokens });
+    const accountAssetImages = Object.fromEntries(
+      addresses.map((address) => [address, oldAccountImages[address] || {}]),
+    );
+    if (
+      this.getSelectedAddress() &&
+      !addresses.includes(this.getSelectedAddress())
+    ) {
+      this._invalidateTokenContext();
+    }
+    this.store.updateState({ identities, accountTokens, accountAssetImages });
+    this._updateTokens();
   }
 
   /**
@@ -300,13 +367,14 @@ export default class PreferencesController {
    */
   removeAddress(address) {
     const { identities } = this.store.getState();
-    const { accountTokens } = this.store.getState();
+    const { accountTokens, accountAssetImages } = this.store.getState();
     if (!identities[address]) {
       throw new Error(`${address} can't be deleted cause it was not found`);
     }
     delete identities[address];
     delete accountTokens[address];
-    this.store.updateState({ identities, accountTokens });
+    delete accountAssetImages[address];
+    this.store.updateState({ identities, accountTokens, accountAssetImages });
 
     // If the selected account is no longer valid,
     // select an arbitrary other account:
@@ -323,7 +391,8 @@ export default class PreferencesController {
    * @param {string[]} addresses - An array of hex addresses
    */
   addAddresses(addresses) {
-    const { identities, accountTokens } = this.store.getState();
+    const { identities, accountTokens, accountAssetImages } =
+      this.store.getState();
     addresses.forEach((address) => {
       // skip if already exists
       if (identities[address]) {
@@ -333,9 +402,10 @@ export default class PreferencesController {
       const identityCount = Object.keys(identities).length;
 
       accountTokens[address] = {};
+      accountAssetImages[address] = {};
       identities[address] = { name: `Account ${identityCount + 1}`, address };
     });
-    this.store.updateState({ identities, accountTokens });
+    this.store.updateState({ identities, accountTokens, accountAssetImages });
   }
 
   /**
@@ -384,12 +454,15 @@ export default class PreferencesController {
     return this._watchAssetRequests.approve(
       id,
       async ({ request: suggestion, data }) => {
+        this._assertTokenContext(data.context);
         const cachedImage = await this._cacheImage(data.image);
+        this._assertTokenContext(data.context);
         await this.addToken(
           suggestion.address,
           suggestion.symbol,
           suggestion.decimals,
           cachedImage,
+          data.context,
         );
         return true;
       },
@@ -422,16 +495,23 @@ export default class PreferencesController {
    */
   setSelectedAddress(_address) {
     const address = normalizeAddress(_address);
-    this._updateTokens(address);
-
-    const { identities, tokens } = this.store.getState();
+    const { identities } = this.store.getState();
     const selectedIdentity = identities[address];
     if (!selectedIdentity) {
       throw new Error(`Identity for '${address} not found`);
     }
 
+    if (address !== this.getSelectedAddress()) {
+      this._invalidateTokenContext();
+    }
     selectedIdentity.lastSelected = Date.now();
-    this.store.updateState({ identities, selectedAddress: address });
+    const { tokens, assetImages } = this._getTokenRelatedStates(address);
+    this.store.updateState({
+      identities,
+      selectedAddress: address,
+      tokens,
+      assetImages,
+    });
     return Promise.resolve(tokens);
   }
 
@@ -467,13 +547,21 @@ export default class PreferencesController {
    * @param {string} [image] - The token's image as a data URL, stored in
    * assetImages. Any other value is dropped, so that the image never makes
    * the wallet contact a host.
+   * @param {object} [context] - The context captured before asynchronous work.
    * @returns {Promise<Array>} Promises the new array of AddedToken objects.
    */
-  async addToken(rawAddress, symbol, decimals, image) {
+  async addToken(
+    rawAddress,
+    symbol,
+    decimals,
+    image,
+    context = this.getTokenContext(),
+  ) {
     const address = normalizeAddress(rawAddress);
     const newEntry = { address, symbol, decimals };
-    const { tokens } = this.store.getState();
-    const assetImages = this.getAssetImages();
+    this._assertTokenContext(context);
+    const tokens = [...this.getTokens()];
+    const assetImages = { ...this.getAssetImages() };
     const previousEntry = tokens.find((token) => {
       return token.address === address;
     });
@@ -497,7 +585,7 @@ export default class PreferencesController {
    */
   removeToken(rawAddress) {
     const { tokens } = this.store.getState();
-    const assetImages = this.getAssetImages();
+    const assetImages = { ...this.getAssetImages() };
     const updatedTokens = tokens.filter(
       (token) => token.address !== rawAddress,
     );
@@ -716,8 +804,10 @@ export default class PreferencesController {
    */
   _subscribeProviderType() {
     this.network.providerStore.subscribe(() => {
-      const { tokens } = this._getTokenRelatedStates();
-      this.store.updateState({ tokens });
+      // Count transitions, including a switch away and back or a new RPC for
+      // the same chain. Comparing only the final chain ID misses stale reads.
+      this._invalidateTokenContext();
+      this._updateTokens();
     });
   }
 
@@ -728,48 +818,87 @@ export default class PreferencesController {
    * @param {object} assetImages - Token images, by token address.
    */
   _updateAccountTokens(tokens, assetImages) {
-    const { accountTokens, providerType, selectedAddress } =
-      this._getTokenRelatedStates();
-    accountTokens[selectedAddress][providerType] = tokens;
-    this.store.updateState({ accountTokens, tokens, assetImages });
+    const { chainId, selectedAddress } = this.getTokenContext();
+    const { accountTokens, accountAssetImages } = this.store.getState();
+    this.store.updateState({
+      accountTokens: {
+        ...accountTokens,
+        [selectedAddress]: {
+          ...accountTokens[selectedAddress],
+          [chainId]: tokens,
+        },
+      },
+      accountAssetImages: {
+        ...accountAssetImages,
+        [selectedAddress]: {
+          ...accountAssetImages[selectedAddress],
+          [chainId]: assetImages,
+        },
+      },
+      tokens,
+      assetImages,
+    });
+  }
+
+  /** Updates the active projections from their account/chain buckets. */
+  _updateTokens() {
+    const { tokens, assetImages } = this._getTokenRelatedStates();
+    this.store.updateState({ tokens, assetImages });
   }
 
   /**
-   * Updates `tokens` of current account and network.
+   * Gets token state for an account on the current configured chain.
    *
-   * @param {string} selectedAddress - Account address to be updated with.
+   * @param {string} [selectedAddress] - The account to read.
+   * @returns {{tokens: Array, assetImages: object}} Active token state.
    */
-  _updateTokens(selectedAddress) {
-    const { tokens } = this._getTokenRelatedStates(selectedAddress);
-    this.store.updateState({ tokens });
+  _getTokenRelatedStates(selectedAddress = this.getSelectedAddress()) {
+    const { accountTokens, accountAssetImages } = this.store.getState();
+    const chainId = tokenChainId(this.network.providerStore.getState());
+    return {
+      tokens: accountTokens[selectedAddress]?.[chainId] || [],
+      assetImages: accountAssetImages[selectedAddress]?.[chainId] || {},
+    };
+  }
+
+  /** Invalidates both queued suggestions and asynchronous work already taken. */
+  _invalidateTokenContext() {
+    this._tokenContextVersion += 1;
+    this._watchAssetRequests.rejectAll();
   }
 
   /**
-   * A getter for `tokens` and `accountTokens` related states.
+   * Captures the destination before any asynchronous token work begins.
    *
-   * @param {string} [selectedAddress] - A new hex address for an account
-   * @returns {{ tokens: Array, accountTokens: object, providerType: string, selectedAddress: string }} States to interact with tokens in `accountTokens`
+   * @returns {object} The chain, account, and context generation.
    */
-  _getTokenRelatedStates(selectedAddress) {
-    const { accountTokens } = this.store.getState();
-    if (!selectedAddress) {
-      // eslint-disable-next-line no-param-reassign
-      selectedAddress = this.store.getState().selectedAddress;
+  getTokenContext() {
+    const chainId = tokenChainId(this.network.providerStore.getState());
+    const selectedAddress = this.getSelectedAddress();
+    if (!chainId || !this.store.getState().identities[selectedAddress]) {
+      throw providerErrors.userRejectedRequest(
+        'A token requires an active account and a known chain.',
+      );
     }
-    const providerType = this.network.providerStore.getState().type;
-    if (!Object.prototype.hasOwnProperty.call(accountTokens, selectedAddress)) {
-      accountTokens[selectedAddress] = {};
-    }
+    return { chainId, selectedAddress, version: this._tokenContextVersion };
+  }
+
+  /**
+   * Refuses a token operation if its original approval context has changed.
+   *
+   * @param {object} context - The captured token context.
+   */
+  _assertTokenContext(context) {
+    const current = this.getTokenContext();
     if (
-      !Object.prototype.hasOwnProperty.call(
-        accountTokens[selectedAddress],
-        providerType,
-      )
+      context.version !== current.version ||
+      context.chainId !== current.chainId ||
+      context.selectedAddress !== current.selectedAddress
     ) {
-      accountTokens[selectedAddress][providerType] = [];
+      throw providerErrors.userRejectedRequest(
+        'The network or account changed. Request the token again.',
+      );
     }
-    const tokens = accountTokens[selectedAddress][providerType];
-    return { tokens, accountTokens, providerType, selectedAddress };
   }
 
   /**
@@ -784,6 +913,8 @@ export default class PreferencesController {
    * token; rejects with a user-rejected error if they decline.
    */
   async _handleWatchAssetERC20(options, origin) {
+    const context = this.getTokenContext();
+    const provider = this.network.providerStore.getState();
     const { address, symbol, decimals, image } = options ?? {};
     let tokenOpts;
     try {
@@ -796,6 +927,7 @@ export default class PreferencesController {
     } catch (error) {
       throw rpcErrors.invalidParams(error.message);
     }
+    this._assertTokenContext(context);
     this._watchAssetRequests.assertNoPendingRequest(origin);
     // The prompt shows only an image the site sent as a data URL small
     // enough to be saved; a remote one is downloaded if, and only once, the
@@ -809,6 +941,12 @@ export default class PreferencesController {
     const suggestion = {
       id,
       origin,
+      chainId: context.chainId,
+      selectedAddress: context.selectedAddress,
+      networkName:
+        BUILT_IN_NETWORKS[provider.type]?.name ||
+        provider.nickname ||
+        context.chainId,
       address: normalizeAddress(tokenOpts.rawAddress),
       symbol: tokenOpts.symbol,
       decimals: tokenOpts.decimals,
@@ -816,6 +954,7 @@ export default class PreferencesController {
       time: Date.now(),
     };
     const result = this._watchAssetRequests.add(suggestion, {
+      context,
       image: isDataUrl ? dataUrl : tokenOpts.image,
     });
     this.showWatchAssetRequest?.();
@@ -837,25 +976,6 @@ export default class PreferencesController {
       return undefined;
     }
     return this.fetchImage(image);
-  }
-
-  /**
-   * Downloads, once, the remote token images an earlier version saved, and
-   * replaces each with its data URL. An image that cannot be downloaded is
-   * dropped, and the token shows its generated icon instead.
-   *
-   * @param {Array<[string, string]>} remote - Token addresses and image URLs.
-   */
-  async _cacheRemoteAssetImages(remote) {
-    for (const [address, url] of remote) {
-      const image = await this._cacheImage(url);
-      // A token added again meanwhile keeps the image it was added with.
-      if (image && !Object.hasOwn(this.getAssetImages(), address)) {
-        this.store.updateState({
-          assetImages: { ...this.getAssetImages(), [address]: image },
-        });
-      }
-    }
   }
 
   /**
