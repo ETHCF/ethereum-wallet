@@ -9,6 +9,10 @@
   "darkTheme": {
     "message": "Dark"
   },
+  "ensNameDiffersFromInput": {
+    "message": "“$1” resolves as “$2”, which can look different from what you entered. Make sure “$2” is the name you mean.",
+    "description": "$1 is the ENS name the user typed, $2 is the normalized name it resolved as"
+  },
   "eth_accounts": {
     "message": "View the addresses of your permitted accounts (required)",
     "description": "The description for the `eth_accounts` permission"

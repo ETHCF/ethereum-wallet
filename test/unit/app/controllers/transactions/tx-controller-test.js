@@ -421,6 +421,57 @@ describe('Transaction Controller', function () {
       );
     });
 
+    describe('edits to a reviewed approval', function () {
+      const spender = `${'0'.repeat(24)}${'2f318c334780961fb129d2a6c30d0763d9a5c970'}`;
+      const approve = (amount, rest = '') =>
+        `0x095ea7b3${spender}${amount.padStart(64, '0')}${rest}`;
+      const tx = (data) => ({ txParams: { to: '0x5555', data } });
+      const unlimited = approve('f'.repeat(64));
+
+      it('allows changing only the amount', function () {
+        txController._assertOnlyApprovalAmountChanged(
+          tx(unlimited.toUpperCase().replace('0X', '0x')),
+          tx(approve('8ac7230489e80000')),
+        );
+        txController._assertOnlyApprovalAmountChanged(
+          tx(approve('f'.repeat(64), 'abcd')),
+          tx(approve('1', 'abcd')),
+        );
+      });
+
+      it('refuses changing anything but the amount', function () {
+        const edits = [
+          // trailing calldata
+          approve('1', '00'),
+          // spender
+          `0x095ea7b3${'1'.repeat(64)}${'1'.padStart(64, '0')}`,
+          // selector: increaseAllowance instead of approve
+          `0x39509351${spender}${'1'.padStart(64, '0')}`,
+          // truncated
+          unlimited.slice(0, -2),
+          undefined,
+        ];
+        edits.forEach((data) => {
+          assert.throws(
+            () =>
+              txController._assertOnlyApprovalAmountChanged(
+                tx(unlimited),
+                tx(data),
+              ),
+            /Only the spending limit/u,
+          );
+        });
+      });
+
+      it('leaves other transactions alone', function () {
+        txController._assertOnlyApprovalAmountChanged(
+          tx('0x1234'),
+          tx('0x5678'),
+        );
+        txController._assertOnlyApprovalAmountChanged(tx(undefined), tx('0x'));
+      });
+    });
+
     it('should emit newUnapprovedTx event and pass txMeta as the first argument', function (done) {
       providerResultStub.eth_gasPrice = '0x4a817c800';
       txController.once('newUnapprovedTx', (txMetaFromEmit) => {

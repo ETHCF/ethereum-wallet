@@ -191,9 +191,32 @@ export default class AddRecipient extends Component {
   }
 
   renderDialogs() {
-    const { toError, toWarning, ensResolutionError, ensResolution } =
-      this.props;
+    const {
+      toError,
+      toWarning,
+      ensResolutionError,
+      ensResolution,
+      ensResolutionName,
+      query,
+    } = this.props;
     const { t } = this.context;
+
+    // ENS maps some characters to others (paypaI.eth, with a capital I,
+    // resolves paypai.eth), so a typed name can look like one it is not.
+    // Shown even when contacts match, since a lookalike of a contact's name
+    // would match that contact.
+    if (
+      ensResolution &&
+      ensResolutionName &&
+      query?.trim() !== ensResolutionName
+    ) {
+      return (
+        <Dialog type="warning" className="send__error-dialog">
+          {t('ensNameDiffersFromInput', [query.trim(), ensResolutionName])}
+        </Dialog>
+      );
+    }
+
     const contacts = this.searchForContacts();
     const recents = this.searchForRecents();
 

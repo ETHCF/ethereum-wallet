@@ -205,6 +205,28 @@ describe('AddRecipient Component', function () {
       ]);
     });
 
+    it('warns when the resolved name differs from the typed one, even with contact matches', function () {
+      wrapper.setProps({
+        query: 'paypaI.eth',
+        ensResolution: '0x128',
+        ensResolutionName: 'paypai.eth',
+        addressBook: [{ address: '0x125', name: 'paypal.eth' }],
+        contacts: [{ address: '0x125', name: 'paypal.eth' }],
+      });
+      const dialog = wrapper.find(Dialog);
+      assert.equal(dialog.length, 1);
+      assert.equal(dialog.props().type, 'warning');
+    });
+
+    it('does not warn when the typed name is the resolved one', function () {
+      wrapper.setProps({
+        query: 'paypal.eth',
+        ensResolution: '0x128',
+        ensResolutionName: 'paypal.eth',
+      });
+      assert.equal(wrapper.find(Dialog).length, 0);
+    });
+
     it('should not render error when ens resolved', function () {
       wrapper.setProps({
         addressBook: [],

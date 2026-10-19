@@ -643,6 +643,7 @@ export default class TransactionController extends EventEmitter {
   async updateTransaction(txMeta) {
     txUtils.validateTxParams(txMeta.txParams);
     const stored = this._getUnapprovedTx(txMeta.id);
+    this._assertOnlyApprovalAmountChanged(stored, txMeta);
     let { securityAlerts } = stored;
     if (
       stored.txParams.to !== txMeta.txParams.to ||
@@ -727,7 +728,9 @@ export default class TransactionController extends EventEmitter {
    */
   async updateAndApproveTransaction(txMeta) {
     txUtils.validateTxParams(txMeta.txParams);
-    this._assertSameCounterparties(this._getUnapprovedTx(txMeta.id), txMeta);
+    const stored = this._getUnapprovedTx(txMeta.id);
+    this._assertSameCounterparties(stored, txMeta);
+    this._assertOnlyApprovalAmountChanged(stored, txMeta);
     // Nothing is awaited between the status check and approveTransaction
     // setting the status to approved, so a second approval fails the check.
     this.txStateManager.updateTx(
@@ -1218,6 +1221,39 @@ export default class TransactionController extends EventEmitter {
     ) {
       throw new Error(
         'The transaction recipient changed after it was reviewed. Review it again.',
+      );
+    }
+  }
+
+  /**
+   * A custom spending limit may change only the amount an approval grants.
+   * Every other byte of the reviewed call, including calldata after its
+   * arguments, must stay as reviewed, so an edit cannot change what the
+   * approval means without the review that produced its alerts.
+   *
+   * @param {object} stored - The stored txMeta.
+   * @param {object} updated - The txMeta as edited by the user.
+   */
+  _assertOnlyApprovalAmountChanged(stored, updated) {
+    const before = stored.txParams.data?.toLowerCase();
+    const after = updated.txParams.data?.toLowerCase();
+    const kind = decodeCall(before)?.kind;
+    if (before === after || (kind !== 'approve' && kind !== 'approveAll')) {
+      return;
+    }
+    // approve(spender, amount), the only call whose limit the user can edit:
+    // the amount is the second argument word.
+    const amountStart = 2 + 8 + 64;
+    const amountEnd = amountStart + 64;
+    if (
+      before.slice(2, 10) !== '095ea7b3' ||
+      after?.length !== before.length ||
+      after.slice(0, amountStart) !== before.slice(0, amountStart) ||
+      after.slice(amountEnd) !== before.slice(amountEnd) ||
+      decodeCall(after)?.malformed !== false
+    ) {
+      throw new Error(
+        'Only the spending limit of an approval can change after it was reviewed. Review it again.',
       );
     }
   }

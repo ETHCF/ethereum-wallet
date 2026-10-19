@@ -2,6 +2,9 @@
   "contractInteraction": {
     "message": "Vertragsinteraktion"
   },
+  "ensNameDiffersFromInput": {
+    "message": "„$1“ wird als „$2“ aufgelöst, was anders aussehen kann als Ihre Eingabe. Vergewissern Sie sich, dass „$2“ der gemeinte Name ist."
+  },
   "reject": {
     "message": "Ablehnen"
   },

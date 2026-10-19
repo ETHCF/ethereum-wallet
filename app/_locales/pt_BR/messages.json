@@ -6,6 +6,9 @@
     "message": "ECF Wallet",
     "description": "The name of the application"
   },
+  "ensNameDiffersFromInput": {
+    "message": "“$1” é resolvido como “$2”, que pode parecer diferente do que você digitou. Confirme que “$2” é o nome que você quer."
+  },
   "reject": {
     "message": "Rejeitar"
   },

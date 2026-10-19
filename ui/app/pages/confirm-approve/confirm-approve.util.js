@@ -60,6 +60,15 @@ export function getCustomTxParamsData(
     '0',
   );
   const customTxParamsData = `0x${selector}${spenderWord}${customPermissionValue}${extraCalldata}`;
+  // The approval sent must grant exactly the amount the user entered.
+  const custom = getTokenData(customTxParamsData);
+  if (
+    custom?.name !== 'approve' ||
+    custom.params[0].value.toLowerCase() !== `0x${spender}` ||
+    custom.params[1].value !== customBaseUnits.toFixed()
+  ) {
+    throw new Error('Invalid data');
+  }
   return customTxParamsData;
 }
 

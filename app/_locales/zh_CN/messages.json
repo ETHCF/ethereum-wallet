@@ -2,6 +2,9 @@
   "contractInteraction": {
     "message": "合约交互"
   },
+  "ensNameDiffersFromInput": {
+    "message": "“$1”解析为“$2”，可能与您输入的内容看起来不同。请确认“$2”是您想要的名称。"
+  },
   "reject": {
     "message": "拒绝"
   },

@@ -2,6 +2,9 @@
   "contractInteraction": {
     "message": "Interaction avec un contrat"
   },
+  "ensNameDiffersFromInput": {
+    "message": "« $1 » est résolu en « $2 », qui peut sembler différent de ce que vous avez saisi. Vérifiez que « $2 » est bien le nom voulu."
+  },
   "reject": {
     "message": "Rejeter"
   },

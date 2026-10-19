@@ -2,6 +2,9 @@
   "contractInteraction": {
     "message": "コントラクトへのアクセス"
   },
+  "ensNameDiffersFromInput": {
+    "message": "「$1」は「$2」として解決されます。入力した内容と見た目が異なる場合があります。「$2」が意図した名前であることを確認してください。"
+  },
   "reject": {
     "message": "拒否"
   },
