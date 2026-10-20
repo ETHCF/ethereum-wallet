@@ -109,6 +109,11 @@ function toGwei(hexWei) {
  * never less than the latest block's base fee, so that it can still be mined
  * on networks with EIP-1559 fees.
  *
+ * Some nodes suggest exactly the base fee, which leaves no room below it for
+ * slow. Average is then raised above slow by the most the base fee can rise in
+ * one block (12.5%), so that the three prices stay distinct. The gas buttons
+ * are matched by price, so equal prices would make two of them inseparable.
+ *
  * @returns {Promise<object>} The estimates, in GWEI
  */
 async function getNetworkGasEstimates() {
@@ -116,7 +121,7 @@ async function getNetworkGasEstimates() {
     query('gasPrice'),
     query('getBlockByNumber', 'latest', false).catch(() => null),
   ]);
-  const average = toGwei(
+  const suggested = toGwei(
     typeof gasPrice === 'string' ? gasPrice : `0x${gasPrice.toString(16)}`,
   );
   const baseFee = block?.baseFeePerGas
@@ -124,8 +129,10 @@ async function getNetworkGasEstimates() {
     : new BigNumber(0);
   const toNumber = (price) =>
     price.decimalPlaces(9, BigNumber.ROUND_UP).toNumber();
+  const safeLow = BigNumber.max(suggested.times(0.9), baseFee);
+  const average = suggested.gt(safeLow) ? suggested : safeLow.times(1.125);
   return {
-    safeLow: toNumber(BigNumber.max(average.times(0.9), baseFee)),
+    safeLow: toNumber(safeLow),
     average: toNumber(average),
     fast: toNumber(average.times(1.25)),
   };

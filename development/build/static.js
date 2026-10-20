@@ -14,9 +14,11 @@ const copyTargets = [
     dest: '',
   },
   {
-    // SES, copied unchanged: lockdown must not be bundled or minified.
+    // SES: lockdown must not be bundled or minified. The only change is
+    // permitting known intrinsics as `false` (removed without a warning).
     src: './node_modules/ses/dist/lockdown.umd.min.js',
     dest: 'lockdown-install.js',
+    transform: excludeKnownIntrinsics,
   },
   {
     src: `./app/_locales/`,
@@ -50,6 +52,30 @@ const copyTargets = [
   },
 ];
 
+// Chrome ships proposal methods that SES has not audited yet. SES removes them
+// either way, but warns unless the permit is `false`, and the extension Errors
+// page reports those warnings. Each entry must match exactly once so a SES
+// upgrade that changes the permits fails the build instead of being skipped.
+const KNOWN_EXCLUDED_INTRINSICS = [
+  {
+    // %IteratorPrototype%.join (https://github.com/tc39/proposal-iterator-join)
+    find: 'toAsync:fn,"@@dispose":!1}',
+    replace: 'toAsync:fn,join:!1,"@@dispose":!1}',
+  },
+];
+
+function excludeKnownIntrinsics(source) {
+  return KNOWN_EXCLUDED_INTRINSICS.reduce((result, { find, replace }) => {
+    const count = result.split(find).length - 1;
+    if (count !== 1) {
+      throw new Error(
+        `SES permit patch expected 1 match for ${find}, found ${count}`,
+      );
+    }
+    return result.replace(find, replace);
+  }, source);
+}
+
 function createStaticAssetTasks({ livereload, browserPlatforms }) {
   const prod = createTask('static:prod', copyEachTarget(performCopy));
   const dev = createTask('static:dev', copyEachTarget(setupLiveCopy));
@@ -78,6 +104,14 @@ function createStaticAssetTasks({ livereload, browserPlatforms }) {
   async function performCopy(target) {
     await Promise.all(
       browserPlatforms.map(async (platform) => {
+        if (target.transform) {
+          const source = await fs.readFile(target.src, 'utf8');
+          await fs.outputFile(
+            `./dist/${platform}/${target.dest}`,
+            target.transform(source),
+          );
+          return;
+        }
         await copyGlob(
           target.src,
           `${target.src}${target.pattern || ''}`,

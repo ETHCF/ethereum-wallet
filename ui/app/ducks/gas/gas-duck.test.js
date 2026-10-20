@@ -124,6 +124,17 @@ describe('Gas Duck', function () {
       assert.equal(estimates.average, 20);
     });
 
+    it('keeps average above slow when the suggestion is the base fee', async function () {
+      // eth_gasPrice and base fee both 16 GWEI
+      stubNetwork({ gasPrice: '0x3b9aca000', baseFeePerGas: '0x3b9aca000' });
+      const estimates = await fetchBasicGasEstimates()(sinon.spy());
+      assert.deepEqual(estimates, {
+        safeLow: 16,
+        average: 18,
+        fast: 22.5,
+      });
+    });
+
     it('keeps fractions of a GWEI', async function () {
       // 1.5 GWEI
       stubNetwork({ gasPrice: '0x59682f00' });
