@@ -67,6 +67,7 @@ export function createHardwareRequestHandler({
     method,
     args,
     state,
+    publicKey,
   }) {
     const factory = factories.get(keyringType);
     if (
@@ -141,6 +142,19 @@ export function createHardwareRequestHandler({
       }
       await keyring.deserialize(state);
     }
+    // This tab, and the keyring in it, is closed after each signature. Restore
+    // the public key exported earlier in this unlocked session, so that Trezor
+    // Connect does not ask the user to export it again for every transaction.
+    if (
+      keyringType === 'Trezor Hardware' &&
+      !keyring.isUnlocked() &&
+      publicKey?.hdPath === keyring.hdPath &&
+      /^[0-9a-f]{66}$/u.test(publicKey.publicKey) &&
+      /^[0-9a-f]{64}$/u.test(publicKey.chainCode)
+    ) {
+      keyring.hdk.publicKey = Buffer.from(publicKey.publicKey, 'hex');
+      keyring.hdk.chainCode = Buffer.from(publicKey.chainCode, 'hex');
+    }
     const accounts = await keyring.getAccounts();
     if (
       state.accounts.some(
@@ -188,6 +202,14 @@ export function createHardwareRequestHandler({
         unlockedAccount: keyring.unlockedAccount,
       },
       unlocked: keyring.isUnlocked(),
+      publicKey:
+        keyringType === 'Trezor Hardware' && keyring.isUnlocked()
+          ? {
+              hdPath: keyring.hdPath,
+              publicKey: Buffer.from(keyring.hdk.publicKey).toString('hex'),
+              chainCode: Buffer.from(keyring.hdk.chainCode).toString('hex'),
+            }
+          : undefined,
     };
   };
 }

@@ -65,6 +65,7 @@ class ConnectHardwareForm extends Component {
           filters: [{ vendorId: 0x2c97 }],
         });
         if (!devices.length) {
+          this.setState({ error: this.context.t('ledgerNotSelected') });
           return;
         }
       } catch (error) {

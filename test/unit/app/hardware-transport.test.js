@@ -391,6 +391,55 @@ describe('Hardware wallets', function () {
       assert.deepEqual(await keyring.getAccounts(), [address]);
       await keyring.getFirstPage();
     });
+
+    it('asks a Trezor to export its public key once per unlocked session', async function () {
+      const { keyring, bridge } = setupHardware('trezor', {
+        hdPath: trezorPath,
+      });
+      await keyring.getFirstPage();
+      keyring.setAccountToUnlock(0);
+      const [address] = await keyring.addAccounts(1);
+      assert.equal(bridge.getPublicKey.callCount, 1);
+
+      // Each signature closes hardware.html, discarding its keyring.
+      const nextTab = () =>
+        createHardwareRequestHandler({
+          trezor: () => new TrezorKeyring({ bridge }),
+        });
+      let handler = nextTab();
+      const Remote = createRemoteKeyring(TrezorKeyring.type, (request) =>
+        handler(JSON.parse(JSON.stringify(request))),
+      );
+      const session = new Remote(await keyring.serialize());
+      session.publicKey = keyring.publicKey;
+      for (const nonce of ['0x1', '0x2']) {
+        handler = nextTab();
+        const signed = await session.signTransaction(
+          address,
+          createTransaction({ nonce, gasLimit: '0x5208' }, 1),
+        );
+        assert.equal(
+          signed.getSenderAddress().toString(),
+          address.toLowerCase(),
+        );
+      }
+      assert.equal(bridge.getPublicKey.callCount, 1);
+      assert.equal(bridge.ethereumSignTransaction.callCount, 2);
+
+      // The key is never written to the vault, so a new unlock asks again.
+      const serialized = await session.serialize();
+      assert.equal(
+        JSON.stringify(serialized).includes(session.publicKey.publicKey),
+        false,
+      );
+      handler = nextTab();
+      const unlocked = new Remote(serialized);
+      await unlocked.signTransaction(
+        address,
+        createTransaction({ nonce: '0x3', gasLimit: '0x5208' }, 1),
+      );
+      assert.equal(bridge.getPublicKey.callCount, 2);
+    });
   });
 
   describe('Hardware accounts through the keyring controller', function () {

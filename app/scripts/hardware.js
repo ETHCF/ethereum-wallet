@@ -16,9 +16,17 @@ extension.runtime.onMessage.addListener((message, sender, respond) => {
   ) {
     return false;
   }
-  // eslint-disable-next-line promise/catch-or-return -- the rejection handler is the second argument to then()
-  performRequest(message).then(respond, (error) =>
-    respond({ error: error.message }),
-  );
+  // Always respond: an unanswered request reaches the wallet only as Chrome's
+  // "message channel closed" error. A response that cannot be sent (respond
+  // throws) and a rejection that is not an Error both become error responses.
+  performRequest(message)
+    .then(respond)
+    .catch((error) =>
+      respond({
+        error:
+          (error && typeof error.message === 'string' && error.message) ||
+          'Hardware wallet request failed. Please retry.',
+      }),
+    );
   return true;
 });

@@ -157,6 +157,10 @@ export function createRemoteKeyring(type, send = requestHardware) {
       this.stateRevision = 0;
       this.settingRevisions = {};
       this.removedAccounts = new Map();
+      // The device's extended public key, held in memory only (never in the
+      // vault) and so discarded on lock. Without it, each new connection tab
+      // must ask the user to export the public key again before signing.
+      this.publicKey = null;
       this.deserialize(opts);
     }
 
@@ -232,6 +236,7 @@ export function createRemoteKeyring(type, send = requestHardware) {
           method,
           args,
           state,
+          publicKey: this.publicKey,
           network: this.network,
         });
         if (this.generation !== connectionGeneration) {
@@ -251,6 +256,7 @@ export function createRemoteKeyring(type, send = requestHardware) {
         );
         this.state = updated;
         this.unlocked = response.unlocked;
+        this.publicKey = response.publicKey || null;
         return response.result;
       });
       this.queue = operation.catch(() => undefined);
