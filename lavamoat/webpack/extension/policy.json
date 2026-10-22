@@ -61,6 +61,11 @@
         "TextEncoder": true
       }
     },
+    "@metamask/eth-hd-keyring>@ethereumjs/tx>@ethereumjs/rlp": {
+      "globals": {
+        "TextEncoder": true
+      }
+    },
     "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/rlp": {
       "globals": {
         "TextEncoder": true
@@ -71,17 +76,7 @@
         "TextEncoder": true
       }
     },
-    "@metamask/eth-hd-keyring>@ethereumjs/util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
     "@metamask/eth-simple-keyring>@ethereumjs/util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@ethereumjs/util>@ethereumjs/rlp": {
       "globals": {
         "TextEncoder": true
       }
@@ -92,26 +87,6 @@
       }
     },
     "@metamask/eth-sig-util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": {
       "globals": {
         "TextEncoder": true
       }
@@ -205,7 +180,7 @@
         ]
       },
       "packages": {
-        "@metamask/eth-hd-keyring>@ethereumjs/util>@ethereumjs/rlp": true,
+        "@metamask/eth-hd-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
@@ -248,78 +223,6 @@
         "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/util": {
-      "globals": {
-        "Buffer.alloc": true,
-        "Buffer.allocUnsafe": true,
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true,
-        "console.warn": true
-      },
-      "packages": {
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "events": true,
-        "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/util": {
-      "globals": {
-        "Buffer.alloc": true,
-        "Buffer.allocUnsafe": true,
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true,
-        "console.warn": true
-      },
-      "packages": {
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "events": true,
-        "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/util": {
-      "globals": {
-        "Buffer.alloc": true,
-        "Buffer.allocUnsafe": true,
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true,
-        "console.warn": true
-      },
-      "packages": {
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "events": true,
-        "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/util": {
-      "globals": {
-        "Buffer.alloc": true,
-        "Buffer.allocUnsafe": true,
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true,
-        "console.warn": true
-      },
-      "packages": {
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "events": true,
-        "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
-      }
-    },
     "@metamask/eth-simple-keyring>@ethereumjs/util": {
       "meta": {
         "webpack-optimization": [
@@ -346,7 +249,7 @@
         ]
       },
       "packages": {
-        "@metamask/eth-trezor-keyring>@ethereumjs/util>@ethereumjs/rlp": true,
+        "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
@@ -714,10 +617,11 @@
     },
     "@metamask/assets-controllers>@metamask/base-controller": {
       "globals": {
-        "console.error": true
+        "console.error": true,
+        "console.warn": true
       },
       "packages": {
-        "@metamask/permission-controller>immer": true
+        "@reduxjs/toolkit>immer": true
       }
     },
     "@metamask/browser-passworder": {
@@ -792,7 +696,7 @@
       },
       "packages": {
         "@metamask/eth-hd-keyring>@ethereumjs/util": true,
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util": true,
+        "@metamask/eth-sig-util": true,
         "@metamask/eth-hd-keyring>@metamask/key-tree": true,
         "@metamask/scure-bip39": true,
         "@metamask/abi-utils>@metamask/utils": true,
@@ -846,7 +750,7 @@
         "@metamask/eth-ledger-bridge-keyring>@ethereumjs/util": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-app-eth": true,
         "@metamask/eth-ledger-bridge-keyring>@ledgerhq/hw-transport": true,
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util": true,
+        "@metamask/eth-sig-util": true,
         "@metamask/eth-trezor-keyring>@metamask/hw-wallet-sdk": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "buffer": true,
@@ -876,74 +780,6 @@
         "@metamask/eth-sig-util>tweetnacl": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util": {
-      "globals": {
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true
-      },
-      "packages": {
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
-        "@metamask/abi-utils": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-sig-util>tweetnacl": true
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util": {
-      "globals": {
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true
-      },
-      "packages": {
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
-        "@metamask/abi-utils": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-sig-util>tweetnacl": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util": {
-      "globals": {
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true
-      },
-      "packages": {
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
-        "@metamask/abi-utils": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-sig-util>tweetnacl": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util": {
-      "globals": {
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true
-      },
-      "packages": {
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@ethereumjs/util": true,
-        "@metamask/abi-utils": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-sig-util>tweetnacl": true
-      }
-    },
     "@metamask/eth-simple-keyring": {
       "globals": {
         "Buffer.concat": true,
@@ -951,7 +787,7 @@
       },
       "packages": {
         "@metamask/eth-simple-keyring>@ethereumjs/util": true,
-        "@metamask/eth-simple-keyring>@metamask/eth-sig-util": true,
+        "@metamask/eth-sig-util": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "buffer": true,
         "@metamask/eth-sig-util>ethereum-cryptography": true,
@@ -982,7 +818,7 @@
       "packages": {
         "@metamask/eth-trezor-keyring>@ethereumjs/tx": true,
         "@metamask/eth-trezor-keyring>@ethereumjs/util": true,
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util": true,
+        "@metamask/eth-sig-util": true,
         "@metamask/eth-trezor-keyring>@metamask/hw-wallet-sdk": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "@metamask/eth-trezor-keyring>@trezor/connect-plugin-ethereum": true,
@@ -1336,30 +1172,6 @@
         "TextEncoder": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-ledger-bridge-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-trezor-keyring>@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
     "@metamask/scure-bip39>@scure/base": {
       "globals": {
         "TextDecoder": true,
@@ -1405,7 +1217,7 @@
     },
     "@metamask/eth-trezor-keyring>@trezor/connect-plugin-ethereum": {
       "packages": {
-        "@metamask/eth-trezor-keyring>@metamask/eth-sig-util": true
+        "@metamask/eth-sig-util": true
       }
     },
     "@trezor/connect-web": {
@@ -2711,7 +2523,7 @@
         "setTimeout": true
       },
       "packages": {
-        "react-transition-group>@babel/runtime": true,
+        "@babel/runtime": true,
         "react-transition-group>dom-helpers": true,
         "prop-types": true,
         "react": true,
