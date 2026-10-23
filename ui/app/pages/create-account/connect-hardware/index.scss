@@ -180,37 +180,56 @@
 
   &__item__index {
     display: flex;
-    width: 24px;
+    flex-shrink: 0;
+    min-width: 24px;
+    padding-right: 8px;
+    justify-content: flex-end;
   }
 
   &__item__radio {
     display: flex;
     flex: 1;
+    min-width: 0;
+    align-items: center;
 
     input {
+      flex-shrink: 0;
       padding: 10px;
-      margin-top: 13px;
     }
   }
 
   &__item__label {
     display: flex;
     flex: 1;
-    word-break: break-all;
+    min-width: 0;
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
   }
 
-  &__item__balance {
+  &__item__details {
     display: flex;
+    flex-direction: column;
     flex: 1;
-    justify-content: center;
+    min-width: 0;
+  }
+
+  &__item__address {
+    word-break: break-all;
+  }
+
+  &__item__balance {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--color-text-alternative);
+    white-space: nowrap;
   }
 
   &__item__link {
     display: flex;
-    margin-top: 13px;
+    flex-shrink: 0;
+    align-items: center;
+    padding-left: 8px;
   }
 }
 

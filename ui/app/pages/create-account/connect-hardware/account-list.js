@@ -101,8 +101,12 @@ class AccountList extends Component {
                 <span className="hw-account-list__item__index">
                   {account.index + 1}
                 </span>
-                {account.address}
-                <span className="hw-account-list__item__balance">{`${account.balance}`}</span>
+                <span className="hw-account-list__item__details">
+                  <span className="hw-account-list__item__address">
+                    {account.address}
+                  </span>
+                  <span className="hw-account-list__item__balance">{`${account.balance}`}</span>
+                </span>
               </label>
             </div>
             <a
