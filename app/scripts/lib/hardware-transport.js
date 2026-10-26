@@ -2,9 +2,12 @@ import { Common, Hardfork } from '@ethereumjs/common-hardware';
 import { TransactionFactory } from '@ethereumjs/tx-hardware';
 import TransportWebHID from '@ledgerhq/hw-transport-webhid';
 import {
+  ERC20_WRITE_SELECTORS,
   LedgerKeyring,
   LedgerMobileBridge,
   LedgerTransportMiddleware,
+  NFT_ONLY_SELECTORS,
+  getTransactionSelector,
 } from '@metamask/eth-ledger-bridge-keyring';
 import {
   TrezorKeyring,
@@ -13,11 +16,47 @@ import {
 
 import { HARDWARE_KEYRING_METHODS } from './enums';
 
+// The status a Ledger returns when the user rejects on the device.
+const LEDGER_USER_REJECTED = 0x6985;
+
 // The upstream transport bridge also accepts desktop transports. Open only a
 // device already authorized by the wallet's Connect button (a user gesture).
 export class LedgerWebHIDBridge extends LedgerMobileBridge {
+  #middleware;
+
   constructor() {
-    super(new LedgerTransportMiddleware());
+    const middleware = new LedgerTransportMiddleware();
+    super(middleware);
+    this.#middleware = middleware;
+  }
+
+  /**
+   * Signs with clear signing, falling back to blind signing only when clear
+   * signing fails for a reason other than the user rejecting on the device.
+   * The upstream bridge recognizes a rejection with instanceof against its own
+   * copy of @ledgerhq/hw-transport, but TransportWebHID throws the error class
+   * of another copy, so a rejection would be sent to the device again.
+   *
+   * @param {object} params - Parameters.
+   * @param {string} params.tx - The unsigned transaction, as hex.
+   * @param {string} params.hdPath - The account's derivation path.
+   * @returns {Promise<object>} The signature's v, r and s.
+   */
+  async deviceSignTransaction({ tx, hdPath }) {
+    const selector = getTransactionSelector(tx);
+    const ethApp = this.#middleware.getEthApp();
+    try {
+      return await ethApp.clearSignTransaction(hdPath, tx, {
+        externalPlugins: true,
+        erc20: Boolean(selector && ERC20_WRITE_SELECTORS.has(selector)),
+        nft: Boolean(selector && NFT_ONLY_SELECTORS.has(selector)),
+      });
+    } catch (error) {
+      if (error?.statusCode === LEDGER_USER_REJECTED) {
+        throw error;
+      }
+      return ethApp.signTransaction(hdPath, tx, null);
+    }
   }
 
   async connect() {

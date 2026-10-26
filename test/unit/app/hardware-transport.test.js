@@ -1,14 +1,20 @@
 import { RLP as rlp } from '@ethereumjs/rlp';
 import { bytesToHex, toChecksumAddress } from '@ethereumjs/util';
 import { hdkey } from '@ethereumjs/wallet';
-import { LedgerKeyring } from '@metamask/eth-ledger-bridge-keyring';
+import {
+  LedgerKeyring,
+  LedgerTransportMiddleware,
+} from '@metamask/eth-ledger-bridge-keyring';
 import * as sigUtil from '@metamask/eth-sig-util';
 import { TrezorKeyring } from '@metamask/eth-trezor-keyring';
 import { strict as assert } from 'assert';
 import sinon from 'sinon';
 
 import { createRemoteKeyring } from '../../../app/scripts/lib/hardware-keyrings';
-import { createHardwareRequestHandler } from '../../../app/scripts/lib/hardware-transport';
+import {
+  createHardwareRequestHandler,
+  LedgerWebHIDBridge,
+} from '../../../app/scripts/lib/hardware-transport';
 import KeyringController from '../../../app/scripts/lib/modern-keyring-controller';
 import {
   createTransaction,
@@ -439,6 +445,64 @@ describe('Hardware wallets', function () {
         createTransaction({ nonce: '0x3', gasLimit: '0x5208' }, 1),
       );
       assert.equal(bridge.getPublicKey.callCount, 2);
+    });
+  });
+
+  describe('Ledger transaction signing over WebHID', function () {
+    const tx =
+      'ec098504a817c800825208943535353535353535353535353535353535353535880de0b6b3a764000080018080';
+
+    // The WebHID transport throws a TransportStatusError class the upstream
+    // bridge does not recognize, so only its status code identifies it.
+    function deviceError(statusCode) {
+      return Object.assign(new Error(`Ledger status ${statusCode}`), {
+        statusCode,
+      });
+    }
+
+    function setupEthApp(clearSignError) {
+      const ethApp = {
+        clearSignTransaction: sinon.stub().rejects(clearSignError),
+        signTransaction: sinon.stub().resolves({ v: '25', r: '01', s: '02' }),
+      };
+      sinon
+        .stub(LedgerTransportMiddleware.prototype, 'getEthApp')
+        .returns(ethApp);
+      return ethApp;
+    }
+
+    afterEach(function () {
+      sinon.restore();
+    });
+
+    it('does not ask the device again after the user rejects on it', async function () {
+      const ethApp = setupEthApp(deviceError(0x6985));
+      await assert.rejects(
+        new LedgerWebHIDBridge().deviceSignTransaction({
+          tx,
+          hdPath: ledgerPath,
+        }),
+        { statusCode: 0x6985 },
+      );
+      assert.equal(ethApp.clearSignTransaction.callCount, 1);
+      assert.equal(ethApp.signTransaction.callCount, 0);
+    });
+
+    it('falls back to blind signing once when clear signing fails otherwise', async function () {
+      const ethApp = setupEthApp(deviceError(0x6a80));
+      assert.deepEqual(
+        await new LedgerWebHIDBridge().deviceSignTransaction({
+          tx,
+          hdPath: ledgerPath,
+        }),
+        { v: '25', r: '01', s: '02' },
+      );
+      assert.equal(ethApp.signTransaction.callCount, 1);
+      assert.deepEqual(ethApp.signTransaction.firstCall.args, [
+        ledgerPath,
+        tx,
+        null,
+      ]);
     });
   });
 
