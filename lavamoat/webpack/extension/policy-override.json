@@ -86,6 +86,15 @@
         "SharedArrayBuffer": true
       }
     },
+    "react-idle-timer": {
+      "globals": {
+        "Blob": false,
+        "define": false,
+        "URL.createObjectURL": false,
+        "URL.revokeObjectURL": false,
+        "Worker": false
+      }
+    },
     "react-router-dom>react-router": {
       "globals": {
         "fetch": false,

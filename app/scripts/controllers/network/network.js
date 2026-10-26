@@ -286,9 +286,10 @@ export default class NetworkController extends EventEmitter {
   }
 
   _setNetworkClient({ networkMiddleware, blockTracker }) {
-    const ecfWalletMiddleware = createEcfWalletMiddleware(
-      this._baseProviderParams,
-    );
+    const ecfWalletMiddleware = createEcfWalletMiddleware({
+      ...this._baseProviderParams,
+      getChainId: () => this.getChainId(),
+    });
     const engine = new JsonRpcEngine();
     engine.push(ecfWalletMiddleware);
     engine.push(networkMiddleware);

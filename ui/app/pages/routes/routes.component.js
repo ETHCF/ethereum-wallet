@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import IdleTimer from 'react-idle-timer';
+import { IdleTimerProvider } from 'react-idle-timer';
 import { matchPath, Route, Routes as RouterRoutes } from 'react-router-dom';
 
 import {
@@ -269,9 +269,9 @@ export default class Routes extends Component {
 
     if (autoLockTimeLimit > 0) {
       return (
-        <IdleTimer onAction={setLastActiveTime} throttle={1000}>
+        <IdleTimerProvider onAction={setLastActiveTime} throttle={1000}>
           {routes}
-        </IdleTimer>
+        </IdleTimerProvider>
       );
     }
 

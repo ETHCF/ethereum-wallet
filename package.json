@@ -63,7 +63,7 @@
     "**/source-map-js": "^1.2.2"
   },
   "dependencies": {
-    "@adraffy/ens-normalize": "1.10.1",
+    "@adraffy/ens-normalize": "1.11.1",
     "@babel/runtime": "^7.29.10",
     "@ensdomains/content-hash": "^3.1.1",
     "@ethereumjs/common": "^10.1.3",
@@ -81,7 +81,7 @@
     "@metamask/eth-block-tracker": "^16.0.0",
     "@metamask/eth-hd-keyring": "^15.0.0",
     "@metamask/eth-json-rpc-filters": "^9.0.0",
-    "@metamask/eth-json-rpc-middleware": "^25.0.0",
+    "@metamask/eth-json-rpc-middleware": "^26.0.0",
     "@metamask/eth-json-rpc-provider": "^7.0.0",
     "@metamask/eth-ledger-bridge-keyring": "^13.1.0",
     "@metamask/eth-query": "^4.0.0",
@@ -139,7 +139,7 @@
     "querystring-es3": "^0.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-idle-timer": "^4.6.4",
+    "react-idle-timer": "^5.7.3",
     "react-popper": "^2.3.0",
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.18.4",
