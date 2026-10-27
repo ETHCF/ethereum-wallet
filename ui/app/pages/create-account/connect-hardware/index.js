@@ -10,7 +10,7 @@ import { formatBalance } from '../../../helpers/utils/util';
 import { getEcfWalletAccounts } from '../../../selectors';
 import * as actions from '../../../store/actions';
 
-class ConnectHardwareForm extends Component {
+export class ConnectHardwareForm extends Component {
   state = {
     error: null,
     selectedAccount: null,
@@ -22,15 +22,21 @@ class ConnectHardwareForm extends Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { accounts } = nextProps;
-    const newAccounts = this.state.accounts.map((a) => {
-      const normalizedAddress = a.address.toLowerCase();
-      const balanceValue =
-        (accounts[normalizedAddress] && accounts[normalizedAddress].balance) ||
-        null;
-      a.balance = balanceValue ? formatBalance(balanceValue, 6) : '...';
-      return a;
-    });
-    this.setState({ accounts: newAccounts });
+    // Update from the pending state: a page of accounts set in the same batch
+    // is not in this.state yet, and would otherwise be replaced by the old one.
+    this.setState((state) => ({
+      accounts: state.accounts.map((a) => {
+        const normalizedAddress = a.address.toLowerCase();
+        const balanceValue =
+          (accounts[normalizedAddress] &&
+            accounts[normalizedAddress].balance) ||
+          null;
+        return {
+          ...a,
+          balance: balanceValue ? formatBalance(balanceValue, 6) : '...',
+        };
+      }),
+    }));
   }
 
   componentDidMount() {
