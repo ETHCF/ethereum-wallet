@@ -74,35 +74,6 @@ async function openTransportTab() {
   });
 }
 
-// Trezor Connect opens its popup from the connection tab, so the browser
-// returns to that tab when the popup closes. Bring back the wallet tab in the
-// same window, where the user selects accounts.
-async function focusWalletTab() {
-  const [transport] = await extension.runtime.getContexts({
-    contextTypes: ['TAB'],
-    documentUrls: [extension.runtime.getURL('hardware.html')],
-  });
-  if (!transport) {
-    return;
-  }
-  const tab = await extension.tabs.get(transport.tabId);
-  if (!tab.active) {
-    return;
-  }
-  // The wallet's URL carries its route in the fragment, so match the page.
-  const walletUrl = extension.runtime.getURL('home.html');
-  const wallet = (
-    await extension.runtime.getContexts({ contextTypes: ['TAB'] })
-  ).find(
-    (context) =>
-      context.windowId === tab.windowId &&
-      context.documentUrl?.split('#')[0] === walletUrl,
-  );
-  if (wallet) {
-    await extension.tabs.update(wallet.tabId, { active: true });
-  }
-}
-
 async function requestHardware(request) {
   const generation = connectionGeneration;
   activeRequests += 1;
@@ -134,12 +105,6 @@ async function requestHardware(request) {
     // Keep account discovery alive until the user imports an account. Signing
     // and other completed operations release the shared tab once it is idle.
     closeWhenIdle = closeWhenIdle || completedMethods.has(request.method);
-    if (!completedMethods.has(request.method)) {
-      // Focus is a convenience: never fail a completed request over it.
-      await focusWalletTab().catch((error) =>
-        log.warn('Unable to return to the wallet tab', error),
-      );
-    }
     return response;
   } catch (error) {
     closeWhenIdle = true;

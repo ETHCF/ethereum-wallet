@@ -26,15 +26,11 @@ describe('Manifest V3 hardware transport', function () {
       nextTabId = 0;
       runtime = {
         getURL: (path) => `chrome-extension://test/${path}`,
-        getContexts: sandbox.stub().callsFake(async ({ documentUrls }) =>
-          Array.from(openTabs.values())
-            .filter((tab) => !documentUrls || documentUrls.includes(tab.url))
-            .map((tab) => ({
-              tabId: tab.id,
-              windowId: tab.windowId,
-              documentUrl: tab.url,
-            })),
-        ),
+        getContexts: sandbox
+          .stub()
+          .callsFake(async () =>
+            Array.from(openTabs.values(), (tab) => ({ tabId: tab.id })),
+          ),
         sendMessage: sandbox.stub().callsFake(async ({ state }) => ({
           result: 'signed',
           state,
@@ -49,11 +45,6 @@ describe('Manifest V3 hardware transport', function () {
           return tab;
         }),
         get: sandbox.stub().callsFake(async (id) => openTabs.get(id)),
-        update: sandbox.stub().callsFake(async (id, options) => {
-          for (const tab of openTabs.values()) {
-            tab.active = tab.id === id && options.active;
-          }
-        }),
         remove: sandbox.stub().callsFake(async (id) => {
           openTabs.delete(id);
         }),
@@ -100,55 +91,6 @@ describe('Manifest V3 hardware transport', function () {
       assert.equal(tabs.create.callCount, 1);
       await keyring.addAccounts(1);
       assert.equal(openTabs.size, 0);
-    });
-
-    it('returns to the wallet tab after account discovery activates the connection tab', async function () {
-      const walletUrl = 'chrome-extension://test/home.html#new-account/connect';
-      openTabs.set(100, { id: 100, url: walletUrl, windowId: 1 });
-      openTabs.set(101, {
-        id: 101,
-        url: 'chrome-extension://test/home.html',
-        windowId: 2,
-      });
-      runtime.sendMessage.callsFake(async ({ state }) => {
-        // Trezor's popup closes and the browser focuses its opener.
-        openTabs.get(1).active = true;
-        return { result: [], state, unlocked: true };
-      });
-      tabs.create.callsFake(async (options) => {
-        const tab = { ...options, id: 1, windowId: 1, status: 'complete' };
-        openTabs.set(tab.id, tab);
-        return tab;
-      });
-      const Keyring = createRemoteKeyring('Trezor Hardware');
-      await new Keyring().getFirstPage();
-      assert.deepEqual(tabs.update.args, [[100, { active: true }]]);
-    });
-
-    it('leaves focus alone when the connection tab is in the background', async function () {
-      openTabs.set(100, {
-        id: 100,
-        url: 'chrome-extension://test/home.html',
-        windowId: 1,
-      });
-      const Keyring = createRemoteKeyring('Trezor Hardware');
-      await new Keyring().getFirstPage();
-      assert.equal(tabs.update.callCount, 0);
-    });
-
-    it('keeps the discovered accounts when returning to the wallet fails', async function () {
-      runtime.sendMessage.callsFake(async ({ state }) => {
-        openTabs.get(1).active = true;
-        return { result: ['0x1234'], state, unlocked: true };
-      });
-      tabs.create.callsFake(async (options) => {
-        const tab = { ...options, id: 1, windowId: 1, status: 'complete' };
-        openTabs.set(tab.id, tab);
-        return tab;
-      });
-      runtime.getContexts.onCall(1).rejects(new Error('No contexts'));
-      const Keyring = createRemoteKeyring('Trezor Hardware');
-      assert.deepEqual(await new Keyring().getFirstPage(), ['0x1234']);
     });
 
     it('waits for every in-flight request before closing the shared tab', async function () {
