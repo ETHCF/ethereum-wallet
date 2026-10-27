@@ -2,7 +2,7 @@ import { TERMS_OF_USE_ROUTE } from './routes';
 
 // The terms are a legal text, so they are kept in English rather than in the
 // locale files. Each section is a heading, its paragraphs, and an optional list.
-export const TERMS_OF_USE_LAST_UPDATED = 'October 4, 2026';
+export const TERMS_OF_USE_LAST_UPDATED = 'October 27, 2026';
 
 export const TERMS_OF_USE_SECTIONS = [
   {
@@ -24,6 +24,7 @@ export const TERMS_OF_USE_SECTIONS = [
     ],
     items: [
       'You must be at least thirteen years old, and old enough to enter into a binding agreement where you live.',
+      "You must not be located in, or ordinarily resident in, a country or region subject to United States sanctions. These currently include Cuba, Iran, North Korea, Russia, Venezuela, Belarus, Myanmar, Syria, and the Crimea, so-called Donetsk People's Republic and so-called Luhansk People's Republic regions of Ukraine.",
       'You may no longer use the wallet if ECF contacts you directly to say that you may not.',
       'You must use the wallet in accordance with Acceptable Use.',
     ],
@@ -100,9 +101,9 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Disputes',
     paragraphs: [
-      'The law of the State of New York will govern any dispute related to these terms or your use of the wallet.',
-      'You and ECF agree to seek injunctions related to these terms only in state or federal court in Brooklyn, New York. Neither you nor ECF will object to jurisdiction, forum or venue in those courts.',
-      "Other than to seek an injunction or for claims under the Computer Fraud and Abuse Act, you and ECF will resolve any dispute by binding American Arbitration Association arbitration. Arbitration will follow the AAA's Commercial Arbitration Rules and Supplementary Procedures for Consumer Related Disputes. Arbitration will happen in Brooklyn, New York. You will settle any dispute as an individual, and not as part of a class action or other representative proceeding, whether as the plaintiff or a class member. No arbitrator will consolidate any dispute with any other arbitration without ECF's permission.",
+      'The law of the State of Tennessee will govern any dispute related to these terms or your use of the wallet.',
+      'You and ECF agree to seek injunctions related to these terms only in state or federal court in Nashville, Tennessee. Neither you nor ECF will object to jurisdiction, forum or venue in those courts.',
+      "Other than to seek an injunction or for claims under the Computer Fraud and Abuse Act, you and ECF will resolve any dispute by binding American Arbitration Association arbitration. Arbitration will follow the AAA's Commercial Arbitration Rules and Supplementary Procedures for Consumer Related Disputes. Arbitration will happen in Nashville, Tennessee. You will settle any dispute as an individual, and not as part of a class action or other representative proceeding, whether as the plaintiff or a class member. No arbitrator will consolidate any dispute with any other arbitration without ECF's permission.",
       "Any arbitration award will include costs of the arbitration, reasonable attorneys' fees and reasonable costs for witnesses. You and ECF may enter arbitration awards in any court with jurisdiction.",
     ],
   },
