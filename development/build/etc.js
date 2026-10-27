@@ -43,7 +43,9 @@ function createEtcTasks({ browserPlatforms, livereload }) {
 function createZipTask(target) {
   return async () => {
     await pump(
-      gulp.src(`dist/${target}/**`),
+      // encoding: false keeps binary files (icons, fonts) intact; gulp 5
+      // otherwise reads every file as utf8 and mangles them.
+      gulp.src(`dist/${target}/**`, { encoding: false }),
       gulpZip(`ecf-wallet-${target}-${baseManifest.version}.zip`),
       gulp.dest('builds'),
     );

@@ -31,6 +31,12 @@ export const SIMULATION_STATUS = {
 export const NATIVE_TRANSFER_ADDRESS =
   '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
+// The system address that emits EIP-7708's Transfer log for every native
+// transfer, once a chain enables it. Some nodes then return only these logs,
+// and others return both these and the traceTransfers ones.
+export const SYSTEM_TRANSFER_ADDRESS =
+  '0xfffffffffffffffffffffffffffffffffffffffe';
+
 // keccak256 of the event signatures
 export const EVENT_TOPICS = {
   // Transfer(address,address,uint256): ERC-20 (value in data) and ERC-721
@@ -281,9 +287,21 @@ export function parseSimulationResult(result, userAddress) {
     }
   };
 
-  for (const { address: rawAddress, topics = [], data } of calls.flatMap(
-    (call) => call.logs || [],
-  )) {
+  // Count each call's native transfers from one source, so a node that
+  // returns both kinds of log does not count them twice.
+  const logs = calls.flatMap((call) => {
+    const callLogs = call.logs || [];
+    const nativeSource = callLogs.some(
+      (log) =>
+        String(log.address).toLowerCase() === SYSTEM_TRANSFER_ADDRESS &&
+        log.topics?.[0] === EVENT_TOPICS.TRANSFER,
+    )
+      ? SYSTEM_TRANSFER_ADDRESS
+      : NATIVE_TRANSFER_ADDRESS;
+    return callLogs.map((log) => ({ ...log, nativeSource }));
+  });
+
+  for (const { address: rawAddress, topics = [], data, nativeSource } of logs) {
     const address = String(rawAddress).toLowerCase();
     const [topic0] = topics;
     if (topic0 === EVENT_TOPICS.TRANSFER && topics.length === 3) {
@@ -292,9 +310,12 @@ export function parseSimulationResult(result, userAddress) {
         continue;
       }
       const [from, to] = [topicToAddress(topics[1]), topicToAddress(topics[2])];
-      if (address === NATIVE_TRANSFER_ADDRESS) {
+      if (address === nativeSource) {
         move(from, to, 'native', { standard: 'native' }, amount);
-      } else {
+      } else if (
+        address !== NATIVE_TRANSFER_ADDRESS &&
+        address !== SYSTEM_TRANSFER_ADDRESS
+      ) {
         move(from, to, address, { standard: 'erc20', address }, amount);
       }
     } else if (topic0 === EVENT_TOPICS.TRANSFER && topics.length === 4) {

@@ -8,6 +8,7 @@ import {
   EVENT_TOPICS,
   NATIVE_TRANSFER_ADDRESS,
   SIMULATION_STATUS,
+  SYSTEM_TRANSFER_ADDRESS,
   buildSimulationParams,
   decodeRevertReason,
   parseSimulationResult,
@@ -133,6 +134,59 @@ describe('transaction simulation', function () {
       assert.equal(simulation.status, SIMULATION_STATUS.SUCCESS);
       assert.deepEqual(simulation.changes, [
         { standard: 'native', amount: '-750000000000000000' },
+      ]);
+    });
+
+    it("derives the native balance change from EIP-7708's system logs", function () {
+      const simulation = parseSimulationResult(
+        success([
+          transfer(SYSTEM_TRANSFER_ADDRESS, USER, OTHER, 3n * 10n ** 17n),
+        ]),
+        USER,
+      );
+      assert.deepEqual(simulation.changes, [
+        { standard: 'native', amount: '-300000000000000000' },
+      ]);
+    });
+
+    it('counts a native transfer once when a node returns both kinds of log', function () {
+      const simulation = parseSimulationResult(
+        success([
+          transfer(NATIVE_TRANSFER_ADDRESS, USER, OTHER, 3n * 10n ** 17n),
+          transfer(SYSTEM_TRANSFER_ADDRESS, USER, OTHER, 3n * 10n ** 17n),
+          transfer(TOKEN, USER, OTHER, 5n),
+        ]),
+        USER,
+      );
+      assert.deepEqual(simulation.changes, [
+        { standard: 'native', amount: '-300000000000000000' },
+        { standard: 'erc20', address: TOKEN, amount: '-5' },
+      ]);
+    });
+
+    it('chooses the kind of native log for each call separately', function () {
+      const simulation = parseSimulationResult(
+        [
+          {
+            calls: [
+              {
+                status: '0x1',
+                logs: [transfer(NATIVE_TRANSFER_ADDRESS, USER, OTHER, 2n)],
+              },
+              {
+                status: '0x1',
+                logs: [
+                  transfer(NATIVE_TRANSFER_ADDRESS, USER, OTHER, 3n),
+                  transfer(SYSTEM_TRANSFER_ADDRESS, USER, OTHER, 3n),
+                ],
+              },
+            ],
+          },
+        ],
+        USER,
+      );
+      assert.deepEqual(simulation.changes, [
+        { standard: 'native', amount: '-5' },
       ]);
     });
 

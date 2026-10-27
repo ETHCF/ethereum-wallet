@@ -5,22 +5,76 @@ import sinon from 'sinon';
 import { flush } from '../../lib/page-globals';
 
 const backgroundUrl = 'chrome-extension://wallet/service-worker.js';
+const walletUrl = 'chrome-extension://wallet/home.html';
+const HARDWARE_TAB = 1;
 
-function loadHardwareTab(performRequest, tabs = { update: sinon.spy() }) {
+// A browser with the connection tab in window 1. Each tab is
+// { windowId, active, url }, where url is set for extension pages only.
+function createBrowser(tabs = {}) {
+  const all = new Map(
+    Object.entries({
+      [HARDWARE_TAB]: {
+        windowId: 1,
+        url: 'chrome-extension://wallet/hardware.html',
+      },
+      ...tabs,
+    }).map(([id, tab]) => [Number(id), { id: Number(id), ...tab }]),
+  );
+  const activate = (id) => {
+    const { windowId } = all.get(id);
+    for (const tab of all.values()) {
+      if (tab.windowId === windowId) {
+        tab.active = tab.id === id;
+      }
+    }
+  };
+  return {
+    all,
+    activate,
+    activeTab: (windowId) =>
+      [...all.values()].find((tab) => tab.windowId === windowId && tab.active)
+        ?.id,
+    runtime: {
+      getContexts: async () =>
+        [...all.values()]
+          .filter((tab) => tab.url)
+          .map((tab) => ({
+            tabId: tab.id,
+            windowId: tab.windowId,
+            documentUrl: tab.url,
+          })),
+    },
+    tabs: {
+      getCurrent: async () => all.get(HARDWARE_TAB),
+      query: async ({ active, windowId }) =>
+        [...all.values()]
+          .filter((tab) => tab.active === active && tab.windowId === windowId)
+          .map(({ id, windowId: tabWindowId }) => ({
+            id,
+            windowId: tabWindowId,
+          })),
+      update: sinon.spy(async (id) => {
+        if (!all.has(id)) {
+          throw new Error(`No tab with id: ${id}.`);
+        }
+        activate(id);
+      }),
+    },
+  };
+}
+
+function loadHardwareTab(performRequest, browser = createBrowser()) {
   let listener;
   const runtime = {
     id: 'wallet',
     getURL: (path) => `chrome-extension://wallet/${path}`,
-    getContexts: async () => [],
     onMessage: { addListener: (added) => (listener = added) },
+    ...browser.runtime,
   };
   proxyquire('../../../app/scripts/hardware', {
     './lib/extension-api': {
       __esModule: true,
-      default: {
-        runtime,
-        tabs: { getCurrent: async () => ({ id: 1, windowId: 1 }), ...tabs },
-      },
+      default: { runtime, tabs: browser.tabs },
       '@noCallThru': true,
     },
     './lib/hardware-transport': {
@@ -73,6 +127,17 @@ describe('Hardware connection tab', function () {
     ]);
   });
 
+  it('still performs the request when the active tab cannot be read', async function () {
+    const browser = createBrowser();
+    browser.tabs.query = async () => {
+      throw new Error('No window');
+    };
+    const send = loadHardwareTab(sinon.stub().resolves({ result: 1 }), browser);
+    const respond = sinon.spy();
+    await send({}, respond);
+    assert.deepEqual(respond.args, [[{ result: 1 }]]);
+  });
+
   it('ignores messages that are not hardware requests', function () {
     const send = loadHardwareTab(sinon.stub().resolves({}));
     return send({ type: 'other' }, sinon.spy()).then((async) =>
@@ -80,7 +145,9 @@ describe('Hardware connection tab', function () {
     );
   });
 
-  describe('after Trezor Connect closes its popup', function () {
+  // Trezor Connect's popup is opened by this tab, so the browser shows this
+  // tab when the popup closes.
+  describe('when the popup closes onto it', function () {
     let visibility, clock;
 
     beforeEach(function () {
@@ -89,7 +156,7 @@ describe('Hardware connection tab', function () {
         configurable: true,
         get: () => visibility,
       });
-      clock = sinon.useFakeTimers({ toFake: ['Date'] });
+      clock = sinon.useFakeTimers({ now: Date.now(), toFake: ['Date'] });
     });
 
     afterEach(function () {
@@ -97,94 +164,120 @@ describe('Hardware connection tab', function () {
       delete document.visibilityState;
     });
 
-    function loadWithWallet() {
-      const tabs = { update: sinon.stub().resolves() };
-      const send = loadHardwareTab(sinon.stub().resolves({ result: 1 }), tabs);
-      return { send, tabs };
-    }
-
-    function show() {
+    function closePopup(browser) {
+      browser.activate(HARDWARE_TAB);
       visibility = 'visible';
       document.dispatchEvent(new window.Event('visibilitychange'));
       return flush();
     }
 
-    // getContexts is stubbed per load, so give this load a wallet in this
-    // window, one in another window, and an unrelated extension page.
-    async function sendWithContexts(send) {
-      const proxied = proxyquire.callThru;
-      assert.ok(proxied);
-      await send({}, sinon.spy());
+    function deferredRequest() {
+      let resolve;
+      const performRequest = sinon.stub().returns(
+        new Promise((_resolve) => {
+          resolve = _resolve;
+        }),
+      );
+      return { performRequest, resolve: (value) => resolve(value) };
     }
 
-    it('returns to the wallet tab in its window when it is shown', async function () {
-      const update = sinon.stub().resolves();
-      let listener;
-      proxyquire('../../../app/scripts/hardware', {
-        './lib/extension-api': {
-          __esModule: true,
-          default: {
-            runtime: {
-              id: 'wallet',
-              getURL: (path) => `chrome-extension://wallet/${path}`,
-              getContexts: async () => [
-                {
-                  tabId: 7,
-                  windowId: 2,
-                  documentUrl: 'chrome-extension://wallet/home.html#/',
-                },
-                {
-                  tabId: 8,
-                  windowId: 1,
-                  documentUrl: 'chrome-extension://wallet/hardware.html',
-                },
-                {
-                  tabId: 9,
-                  windowId: 1,
-                  documentUrl:
-                    'chrome-extension://wallet/home.html#/new-account/connect',
-                },
-              ],
-              onMessage: { addListener: (added) => (listener = added) },
-            },
-            tabs: {
-              getCurrent: async () => ({ id: 8, windowId: 1 }),
-              update,
-            },
-          },
-          '@noCallThru': true,
-        },
-        './lib/hardware-transport': {
-          createHardwareRequestHandler: () => sinon.stub().resolves({}),
-          '@noCallThru': true,
+    it('returns to the wallet after the response', async function () {
+      const browser = createBrowser({
+        9: {
+          windowId: 1,
+          active: true,
+          url: `${walletUrl}#/new-account/connect`,
         },
       });
-      listener(
-        { type: 'ecf-wallet-hardware-request' },
-        { id: 'wallet', url: backgroundUrl },
-        sinon.spy(),
-      );
-      await flush();
-      assert.equal(update.callCount, 0, 'waits until the tab is shown');
-      await show();
-      assert.deepEqual(update.args, [[9, { active: true }]]);
-      await show();
-      assert.equal(update.callCount, 1, 'returns only once per response');
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
+      await send({}, sinon.spy());
+      assert.equal(browser.activeTab(1), 9);
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), 9);
     });
 
-    it('stays when shown long after the last response', async function () {
-      const { send, tabs } = loadWithWallet();
+    it('returns to the wallet when it closes before the response', async function () {
+      const browser = createBrowser({
+        9: {
+          windowId: 1,
+          active: true,
+          url: `${walletUrl}#/new-account/connect`,
+        },
+      });
+      const { performRequest, resolve } = deferredRequest();
+      const send = loadHardwareTab(performRequest, browser);
+      const respond = sinon.spy();
+      await send({}, respond);
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), HARDWARE_TAB, 'waits for the result');
+      resolve({ result: 1 });
+      await flush();
+      assert.deepEqual(respond.args, [[{ result: 1 }]]);
+      assert.equal(browser.activeTab(1), 9);
+    });
+
+    it('returns to the page that was shown when the request arrived', async function () {
+      // A signature requested by a site, approved in the wallet's own window.
+      const browser = createBrowser({
+        5: { windowId: 1, active: true },
+        9: { windowId: 1, url: `${walletUrl}#/` },
+      });
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
+      await send({}, sinon.spy());
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), 5);
+    });
+
+    it('returns to the connect page in its window if that page was closed', async function () {
+      const browser = createBrowser({
+        5: { windowId: 1, active: true },
+        8: { windowId: 1, url: `${walletUrl}#/` },
+        9: { windowId: 1, url: `${walletUrl}#/new-account/connect` },
+        10: {
+          windowId: 2,
+          active: true,
+          url: `${walletUrl}#/new-account/connect`,
+        },
+      });
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
+      await send({}, sinon.spy());
+      browser.all.delete(5);
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), 9);
+    });
+
+    it('returns only once per response', async function () {
+      const browser = createBrowser({
+        9: { windowId: 1, active: true, url: walletUrl },
+      });
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
+      await send({}, sinon.spy());
+      await closePopup(browser);
+      visibility = 'hidden';
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), HARDWARE_TAB);
+      assert.equal(browser.tabs.update.callCount, 1);
+    });
+
+    it('stays when shown long after the response', async function () {
+      const browser = createBrowser({
+        9: { windowId: 1, active: true, url: walletUrl },
+      });
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
       await send({}, sinon.spy());
       clock.tick(5000);
-      await show();
-      assert.equal(tabs.update.callCount, 0);
+      await closePopup(browser);
+      assert.equal(browser.tabs.update.callCount, 0);
     });
 
-    it('stays when there is no wallet tab in its window', async function () {
-      const { send, tabs } = loadWithWallet();
+    it('stays when it was already shown and no wallet is open', async function () {
+      const browser = createBrowser({ 5: { windowId: 1 } });
+      browser.activate(HARDWARE_TAB);
+      const send = loadHardwareTab(sinon.stub().resolves({}), browser);
       await send({}, sinon.spy());
-      await show();
-      assert.equal(tabs.update.callCount, 0);
+      await closePopup(browser);
+      assert.equal(browser.activeTab(1), HARDWARE_TAB);
+      assert.equal(browser.tabs.update.callCount, 0);
     });
   });
 });
