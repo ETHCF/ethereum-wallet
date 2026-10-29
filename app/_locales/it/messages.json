@@ -1039,12 +1039,6 @@
   "noAccountsFound": {
     "message": "Nessun account trovato per la ricerca effettuata"
   },
-  "selectAnAccount": {
-    "message": "Seleziona un Account"
-  },
-  "selectAnAccountHelp": {
-    "message": "Selezione l'account da visualizzare in ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Seleziona un costo in gas maggiore per accelerare l'elaborazione della transazione.*"
   },

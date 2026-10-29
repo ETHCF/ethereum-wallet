@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "Pretraži tokene"
   },
-  "selectAnAccount": {
-    "message": "Odaberi račun"
-  },
-  "selectAnAccountHelp": {
-    "message": "Odaberi račun za prikaz u usluzi ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Odaberite višu naknadu za gorivo kako biste ubrzali obrađivanje vaše transakcije.*"
   },

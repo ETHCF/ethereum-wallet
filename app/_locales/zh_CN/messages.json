@@ -797,12 +797,6 @@
   "searchTokens": {
     "message": "搜索代币"
   },
-  "selectAnAccount": {
-    "message": "选择账户"
-  },
-  "selectAnAccountHelp": {
-    "message": "请通过 ECF Wallet 选择需要查看的账户"
-  },
   "selectAHigherGasFee": {
     "message": "请选择价格稍高的天然气费，加快交易处理速度。*"
   },

@@ -775,12 +775,6 @@
   "searchTokens": {
     "message": "Token suchen"
   },
-  "selectAnAccount": {
-    "message": "Ein Konto auswählen"
-  },
-  "selectAnAccountHelp": {
-    "message": "Wählen Sie das Konto aus, das in ECF Wallet angezeigt werden soll."
-  },
   "selectAHigherGasFee": {
     "message": "Wählen Sie eine höhere Gasgebühr, um die Abwicklung Ihrer Transaktion zu beschleunigen.*"
   },

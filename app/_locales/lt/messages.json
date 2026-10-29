@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "Ieškoti žetonų"
   },
-  "selectAnAccount": {
-    "message": "Pasirinkite paskyrą"
-  },
-  "selectAnAccountHelp": {
-    "message": "Pasirinkite paskyrą peržiūrėti „ECF Wallet“"
-  },
   "selectAHigherGasFee": {
     "message": "Pasirinkite didesnį dujų mokestį, kad paspartintumėte savo operacijos apdorojimą.*"
   },

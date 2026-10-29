@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "Keresés a tokenek között"
   },
-  "selectAnAccount": {
-    "message": "Válasszon fiókot"
-  },
-  "selectAnAccountHelp": {
-    "message": "Válássza ki a ECF Wallet-ban megtekinteni kívánt fiókot"
-  },
   "selectAHigherGasFee": {
     "message": "Válasszon magasabb gázdíjat az ügylet feldolgozásának gyorsításához.*"
   },

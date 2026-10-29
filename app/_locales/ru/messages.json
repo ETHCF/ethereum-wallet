@@ -937,12 +937,6 @@
   "separateEachWord": {
     "message": "Разделяйте каждое слово одним пробелом"
   },
-  "selectAnAccount": {
-    "message": "Выберите аккаунт"
-  },
-  "selectAnAccountHelp": {
-    "message": "Выберите учетную запись для просмотра в ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Установите более высокую плату за газ, чтобы ускорить обработку вашей транзакции.*"
   },

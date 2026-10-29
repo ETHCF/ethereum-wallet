@@ -773,12 +773,6 @@
   "searchTokens": {
     "message": "Søg efter tokens"
   },
-  "selectAnAccount": {
-    "message": "Vælg en Konto"
-  },
-  "selectAnAccountHelp": {
-    "message": "Vælg kontoen der skal vises i ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Vælg et højere Gas-gebyr, for at gøre behandlingen af din transaktion hurtigere.*"
   },

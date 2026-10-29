@@ -778,12 +778,6 @@
   "searchTokens": {
     "message": "Cari Token"
   },
-  "selectAnAccount": {
-    "message": "Pilih Akaun"
-  },
-  "selectAnAccountHelp": {
-    "message": "Pilih akaun untuk dilihat dalam ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Pilih yuran gas yang lebih tinggi untuk mempercepatkan pemprosesan transaksi anda.*"
   },

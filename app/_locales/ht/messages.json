@@ -508,12 +508,6 @@
   "searchTokens": {
     "message": "Rechèch Tokens"
   },
-  "selectAnAccount": {
-    "message": "Chwazi yon kont"
-  },
-  "selectAnAccountHelp": {
-    "message": "Chwazi kont pou wè nan ECF Wallet"
-  },
   "selectHdPath": {
     "message": "Chwazi chemen HD"
   },

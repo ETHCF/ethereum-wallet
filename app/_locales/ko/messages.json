@@ -806,12 +806,6 @@
   "searchTokens": {
     "message": "토큰 검색"
   },
-  "selectAnAccount": {
-    "message": "계정 선택"
-  },
-  "selectAnAccountHelp": {
-    "message": "메타마스크에서 보기 위한 계정 선택"
-  },
   "selectAHigherGasFee": {
     "message": "트랜잭션 처리를 가속하기 위해 더 높은 가스 요금을 선택하세요.*"
   },

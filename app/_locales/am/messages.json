@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "ተለዋጭ ስሞችን ፈልግ"
   },
-  "selectAnAccount": {
-    "message": "መለያ ይምረጡ"
-  },
-  "selectAnAccountHelp": {
-    "message": "መለያውን በ ECF Wallet ለማየት ይምረጡ"
-  },
   "selectAHigherGasFee": {
     "message": "የግብይትዎን ክዋኔ ለማቀላጠፍ የበለጠ የነዳጅ ዋጋ ይምረጡ።*"
   },

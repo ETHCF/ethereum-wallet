@@ -782,12 +782,6 @@
   "searchTokens": {
     "message": "Sök tokens"
   },
-  "selectAnAccount": {
-    "message": "Välj ett konto"
-  },
-  "selectAnAccountHelp": {
-    "message": "Välj konto att visa i ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Välj en högre bränsleavgift för att accelerera transaktionsprocessen.*"
   },

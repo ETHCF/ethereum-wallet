@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "رمزیاب های جستجو"
   },
-  "selectAnAccount": {
-    "message": "یک حساب را انتخاب کنید"
-  },
-  "selectAnAccountHelp": {
-    "message": "برای مشاهده ECF Wallet حساب را انتخاب نمایید"
-  },
   "selectAHigherGasFee": {
     "message": "یک فیس بالاتر گاز را انتخاب نمایید تا پروسس معامله تان تسریع یابد.*"
   },

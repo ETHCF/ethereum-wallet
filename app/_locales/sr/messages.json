@@ -785,12 +785,6 @@
   "searchTokens": {
     "message": "Pretražite tokene"
   },
-  "selectAnAccount": {
-    "message": "Izaberite nalog"
-  },
-  "selectAnAccountHelp": {
-    "message": "Izaberite nalog za prikaz u ECF Wallet-u"
-  },
   "selectAHigherGasFee": {
     "message": "Izaberite veću vrednost gas naknade da biste ubrzali procesuiranje vaše transakcije.*"
   },

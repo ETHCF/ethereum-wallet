@@ -803,12 +803,6 @@
   "searchTokens": {
     "message": "Pesquisar Tokens"
   },
-  "selectAnAccount": {
-    "message": "Selecione uma Conta"
-  },
-  "selectAnAccountHelp": {
-    "message": "Selecione a conta para ver no ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Selecione uma taxa de gás mais alta para acelerar o processamento de sua transação.*"
   },

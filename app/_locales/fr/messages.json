@@ -785,12 +785,6 @@
   "searchTokens": {
     "message": "Rechercher des jetons"
   },
-  "selectAnAccount": {
-    "message": "Selectionner un compte"
-  },
-  "selectAnAccountHelp": {
-    "message": "Selectionner le compte à afficher dans ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Choisissez des frais d'essence plus élevés pour accélérer le traitement de votre transaction*."
   },

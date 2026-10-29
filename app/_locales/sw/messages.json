@@ -776,12 +776,6 @@
   "searchTokens": {
     "message": "Tafuta Vianzio"
   },
-  "selectAnAccount": {
-    "message": "Chagua Akaunti"
-  },
-  "selectAnAccountHelp": {
-    "message": "Chagua akaunti kuangalia kwenye ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Chagua ada ya juu ya gesi ili kuharakisha uchakataji wa muamala wako.*"
   },

@@ -773,12 +773,6 @@
   "searchTokens": {
     "message": "Tokens per cercar"
   },
-  "selectAnAccount": {
-    "message": "Selecciona un Compte"
-  },
-  "selectAnAccountHelp": {
-    "message": "Selecciona el compte que vols veure a ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Selecciona un preu de gas més alt per a accelerar el procès de la teva transacció.*"
   },

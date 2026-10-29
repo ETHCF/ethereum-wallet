@@ -2,7 +2,7 @@ import { TERMS_OF_USE_ROUTE } from './routes';
 
 // The terms are a legal text, so they are kept in English rather than in the
 // locale files. Each section is a heading, its paragraphs, and an optional list.
-export const TERMS_OF_USE_LAST_UPDATED = 'October 27, 2026';
+export const TERMS_OF_USE_LAST_UPDATED = 'October 29, 2026';
 
 export const TERMS_OF_USE_SECTIONS = [
   {
@@ -24,7 +24,7 @@ export const TERMS_OF_USE_SECTIONS = [
     ],
     items: [
       'You must be at least thirteen years old, and old enough to enter into a binding agreement where you live.',
-      "You must not be located in, or ordinarily resident in, a country or region subject to United States sanctions. These currently include Cuba, Iran, North Korea, Russia, Venezuela, Belarus, Myanmar, Syria, and the Crimea, so-called Donetsk People's Republic and so-called Luhansk People's Republic regions of Ukraine.",
+      "You must not be located in, or ordinarily resident in, a country or region subject to United States sanctions. These currently include Afghanistan, Belarus, the Central African Republic, Cuba, the Democratic Republic of the Congo, Ethiopia, Iran, Iraq, Lebanon, Libya, Mali, Myanmar, Nicaragua, North Korea, Russia, Somalia, South Sudan, Sudan, Syria, Venezuela, Yemen, Zimbabwe, the Western Balkans (Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia), and the Crimea, so-called Donetsk People's Republic and so-called Luhansk People's Republic regions of Ukraine.",
       'You may no longer use the wallet if ECF contacts you directly to say that you may not.',
       'You must use the wallet in accordance with Acceptable Use.',
     ],

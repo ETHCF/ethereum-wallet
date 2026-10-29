@@ -7,13 +7,16 @@ import SelectHardware from './select-hardware';
 import { getMostRecentOverviewPage } from '../../../ducks/history/history';
 import withRouter from '../../../helpers/higher-order-components/with-router';
 import { formatBalance } from '../../../helpers/utils/util';
-import { getEcfWalletAccounts } from '../../../selectors';
+import {
+  getEcfWalletAccounts,
+  getEcfWalletIdentities,
+} from '../../../selectors';
 import * as actions from '../../../store/actions';
 
 export class ConnectHardwareForm extends Component {
   state = {
     error: null,
-    selectedAccount: null,
+    selectedAccounts: [],
     accounts: [],
     browserSupported: true,
     unlocked: false,
@@ -89,11 +92,17 @@ export class ConnectHardwareForm extends Component {
       device: this.state.device,
       path,
     });
+    this.setState({ selectedAccounts: [] });
     this.getPage(this.state.device, 0, path);
   };
 
-  onAccountChange = (account) => {
-    this.setState({ selectedAccount: account.toString(), error: null });
+  onAccountChange = (index) => {
+    this.setState(({ selectedAccounts }) => ({
+      selectedAccounts: selectedAccounts.includes(index)
+        ? selectedAccounts.filter((i) => i !== index)
+        : [...selectedAccounts, index],
+      error: null,
+    }));
   };
 
   onAccountRestriction = () => {
@@ -119,22 +128,8 @@ export class ConnectHardwareForm extends Component {
             this.showTemporaryAlert();
           }
 
+          // Selections are kept across pages
           const newState = { unlocked: true, device, error: null };
-          // Default to the first account
-          if (this.state.selectedAccount === null) {
-            accounts.forEach((a) => {
-              if (a.address.toLowerCase() === this.props.address) {
-                newState.selectedAccount = a.index.toString();
-              }
-            });
-            // If the page doesn't contain the selected account, let's deselect it
-          } else if (
-            !accounts.filter(
-              (a) => a.index.toString() === this.state.selectedAccount,
-            ).length
-          ) {
-            newState.selectedAccount = null;
-          }
 
           // Map accounts with balances
           newState.accounts = accounts.map((account) => {
@@ -172,7 +167,7 @@ export class ConnectHardwareForm extends Component {
       .then((_) => {
         this.setState({
           error: null,
-          selectedAccount: null,
+          selectedAccounts: [],
           accounts: [],
           unlocked: false,
         });
@@ -183,22 +178,27 @@ export class ConnectHardwareForm extends Component {
       });
   };
 
-  onUnlockAccount = (device) => {
+  onUnlockAccounts = async (device) => {
     const { navigate, mostRecentOverviewPage, unlockHardwareWalletAccount } =
       this.props;
 
-    if (this.state.selectedAccount === null) {
+    if (!this.state.selectedAccounts.length) {
       this.setState({ error: this.context.t('accountSelectionRequired') });
+      return;
     }
 
-    unlockHardwareWalletAccount(this.state.selectedAccount, device)
-      .then((_) => {
-        navigate(mostRecentOverviewPage);
-        return undefined;
-      })
-      .catch((e) => {
-        this.setState({ error: e.message });
-      });
+    // One at a time: the device handles a single request at once, and each
+    // import compares the account list from before and after it.
+    const indexes = [...this.state.selectedAccounts].sort((a, b) => a - b);
+    try {
+      for (const index of indexes) {
+        await unlockHardwareWalletAccount(index, device);
+      }
+    } catch (e) {
+      this.setState({ error: e.message });
+      return;
+    }
+    navigate(mostRecentOverviewPage);
   };
 
   onCancel = () => {
@@ -237,11 +237,14 @@ export class ConnectHardwareForm extends Component {
         selectedPath={this.props.defaultHdPaths[this.state.device]}
         device={this.state.device}
         accounts={this.state.accounts}
-        selectedAccount={this.state.selectedAccount}
+        selectedAccounts={this.state.selectedAccounts}
+        importedAddresses={Object.keys(this.props.identities).map((a) =>
+          a.toLowerCase(),
+        )}
         onAccountChange={this.onAccountChange}
         network={this.props.network}
         getPage={this.getPage}
-        onUnlockAccount={this.onUnlockAccount}
+        onUnlockAccounts={this.onUnlockAccounts}
         onForgetDevice={this.onForgetDevice}
         onCancel={this.onCancel}
         onAccountRestriction={this.onAccountRestriction}
@@ -270,14 +273,14 @@ ConnectHardwareForm.propTypes = {
   navigate: PropTypes.func,
   network: PropTypes.string,
   accounts: PropTypes.object,
-  address: PropTypes.string,
+  identities: PropTypes.object,
   defaultHdPaths: PropTypes.object,
   mostRecentOverviewPage: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const {
-    ecfWallet: { network, selectedAddress },
+    ecfWallet: { network },
   } = state;
   const accounts = getEcfWalletAccounts(state);
   const {
@@ -287,7 +290,7 @@ const mapStateToProps = (state) => {
   return {
     network,
     accounts,
-    address: selectedAddress,
+    identities: getEcfWalletIdentities(state),
     defaultHdPaths,
     mostRecentOverviewPage: getMostRecentOverviewPage(state),
   };

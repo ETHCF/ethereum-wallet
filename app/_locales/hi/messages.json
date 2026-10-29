@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "टोकन ढूँढें"
   },
-  "selectAnAccount": {
-    "message": "एक खाते का चयन करें"
-  },
-  "selectAnAccountHelp": {
-    "message": "मेटामास्क में देखने के लिए खाते का चयन करें"
-  },
   "selectAHigherGasFee": {
     "message": "अपने अंतरण के प्रोसेस में तेजी लाने के लिए एक उच्च गैस शुल्क का चयन करें। *"
   },

@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "টোকেনগুলি অনুসন্ধান করুন"
   },
-  "selectAnAccount": {
-    "message": "একটি অ্যাকাউন্ট নির্বাচন করুন"
-  },
-  "selectAnAccountHelp": {
-    "message": "ECF Wallet এ দেখতে অ্যাকাউন্টটি নির্বাচন করুন"
-  },
   "selectAHigherGasFee": {
     "message": "আপনার লেনদেনটি প্রক্রিয়াকরণ ত্বরান্বিত করতে একটি উচ্চতর গ্যাস ফী নির্বাচন করুন।*"
   },

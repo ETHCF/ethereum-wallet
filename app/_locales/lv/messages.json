@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "Meklēt marķierus"
   },
-  "selectAnAccount": {
-    "message": "Atlasiet kontu"
-  },
-  "selectAnAccountHelp": {
-    "message": "Atlasiet kontu, ko skatīt ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Atlasiet lielāku maksu par Gas, lai paātrinātu darījuma apstrādi.*"
   },

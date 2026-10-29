@@ -4,12 +4,13 @@ const path = require('path');
 
 const { createTask } = require('./task');
 const baseManifest = require('../../app/manifest/_base.json');
+const chromiumDevKey = require('../../app/manifest/_chromium-dev-key.json');
 
 module.exports = createManifestTasks;
 
 function createManifestTasks({ browserPlatforms }) {
   // merge base manifest with per-platform manifests
-  const prepPlatforms = async () => {
+  const prepPlatforms = async ({ pinChromiumId }) => {
     return Promise.all(
       browserPlatforms.map(async (platform) => {
         const platformModifications = await readJson(
@@ -31,6 +32,12 @@ function createManifestTasks({ browserPlatforms }) {
           ];
         } else {
           result.minimum_chrome_version = '120';
+          // Gives unpacked builds the Chrome Web Store ID, so they keep the
+          // same storage wherever they are loaded from. The store does not
+          // accept a key, so prod builds go without one.
+          if (pinChromiumId) {
+            result.key = chromiumDevKey.key;
+          }
         }
         const dir = `./dist/${platform}`;
         await fs.mkdir(dir, { recursive: true });
@@ -40,10 +47,13 @@ function createManifestTasks({ browserPlatforms }) {
   };
 
   // high level manifest tasks
-  const dev = createTask('manifest:dev', prepPlatforms);
-  const testDev = createTask('manifest:testDev', prepPlatforms);
-  const test = createTask('manifest:test', prepPlatforms);
-  const prod = createTask('manifest:prod', prepPlatforms);
+  const pinned = () => prepPlatforms({ pinChromiumId: true });
+  const dev = createTask('manifest:dev', pinned);
+  const testDev = createTask('manifest:testDev', pinned);
+  const test = createTask('manifest:test', pinned);
+  const prod = createTask('manifest:prod', () =>
+    prepPlatforms({ pinChromiumId: false }),
+  );
 
   return { prod, dev, testDev, test };
 }

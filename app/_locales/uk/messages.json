@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "Шукати токени"
   },
-  "selectAnAccount": {
-    "message": "Виберіть обліковий запис"
-  },
-  "selectAnAccountHelp": {
-    "message": "Оберіть обліковий запис для перегляду в ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Оберіть вищу вартість пального, щоб пришвидшити обробку вашої транзакції.*"
   },

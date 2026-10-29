@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "ಟೋಕನ್‌ಗಳನ್ನು ಹುಡುಕಿ"
   },
-  "selectAnAccount": {
-    "message": "ಖಾತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ"
-  },
-  "selectAnAccountHelp": {
-    "message": "ECF Wallet ನಲ್ಲಿ ವೀಕ್ಷಿಸಲು ಖಾತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ"
-  },
   "selectAHigherGasFee": {
     "message": "ನಿಮ್ಮ ವಹಿವಾಟಿನ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಸುಧಾರಿಸಲು ಅಧಿಕ ಗ್ಯಾಸ್ ಶುಲ್ಕವನ್ನು ಆಯ್ಕೆಮಾಡಿ.*"
   },

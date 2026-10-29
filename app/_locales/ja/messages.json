@@ -1242,12 +1242,6 @@
   "noAccountsFound": {
     "message": "検索条件に一致するアカウントが見つかりません"
   },
-  "selectAnAccount": {
-    "message": "アカウントを選択"
-  },
-  "selectAnAccountHelp": {
-    "message": "ECF Walletで表示するアカウントを選択してください"
-  },
   "selectAHigherGasFee": {
     "message": "トランザクションの処理を早めるには、より高いガス代を選択してください。*"
   },

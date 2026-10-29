@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "Αναζήτηση Tokens"
   },
-  "selectAnAccount": {
-    "message": "Επιλέξτε Λογαριασμό"
-  },
-  "selectAnAccountHelp": {
-    "message": "Επιλέξτε τον λογαριασμό για προβολή στο ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Επιλέξτε ένα μεγαλύτερο τέλος gas για να επιταχύνετε την επεξεργασία της συναλλαγής σας.*"
   },

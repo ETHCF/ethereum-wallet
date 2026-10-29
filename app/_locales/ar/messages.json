@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "البحث عن العملات الرمزية"
   },
-  "selectAnAccount": {
-    "message": "قم بتحديد حساب"
-  },
-  "selectAnAccountHelp": {
-    "message": "حدد الحساب لعرضه في ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "حدد رسوم جاس أعلى لتسريع معالجة معاملتك. *"
   },

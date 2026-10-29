@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "חיפוש טוקנים"
   },
-  "selectAnAccount": {
-    "message": "בחר חשבון"
-  },
-  "selectAnAccountHelp": {
-    "message": "בחר את החשבון לצפייה ב- ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "בחר/י בעמלת דלק גבוהה יותר כדי להאיץ את עיבוד העסקה שלך. *"
   },

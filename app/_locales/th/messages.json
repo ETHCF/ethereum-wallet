@@ -370,9 +370,6 @@
   "sendTokens": {
     "message": "ส่งโทเค็น"
   },
-  "selectAnAccount": {
-    "message": "เลือกบัญชี"
-  },
   "selectHdPath": {
     "message": "เลือกเส้นทาง HD"
   },

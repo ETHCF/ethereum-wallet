@@ -69,57 +69,61 @@ class AccountList extends Component {
         </h3>
         {device.toLowerCase() === 'ledger' ? this.renderHdPathSelector() : null}
         <h3 className="hw-connect__hdPath__title">
-          {this.context.t('selectAnAccount')}
+          {this.context.t('selectAccounts')}
         </h3>
         <p className="hw-connect__msg">
-          {this.context.t('selectAnAccountHelp')}
+          {this.context.t('selectAccountsHelp')}
         </p>
       </div>
     );
   }
 
   renderAccounts() {
+    const { accounts, importedAddresses, selectedAccounts } = this.props;
     return (
       <div className="hw-account-list">
-        {this.props.accounts.map((account, idx) => (
-          <div className="hw-account-list__item" key={account.address}>
-            <div className="hw-account-list__item__radio">
-              <input
-                type="radio"
-                name="selectedAccount"
-                id={`address-${idx}`}
-                value={account.index}
-                onChange={(e) => this.props.onAccountChange(e.target.value)}
-                checked={
-                  this.props.selectedAccount === account.index.toString()
-                }
-              />
-              <label
-                className="hw-account-list__item__label"
-                htmlFor={`address-${idx}`}
-              >
-                <span className="hw-account-list__item__index">
-                  {account.index + 1}
-                </span>
-                <span className="hw-account-list__item__details">
-                  <span className="hw-account-list__item__address">
-                    {account.address}
+        {accounts.map((account, idx) => {
+          const imported = importedAddresses.includes(
+            account.address.toLowerCase(),
+          );
+          return (
+            <div className="hw-account-list__item" key={account.address}>
+              <div className="hw-account-list__item__checkbox">
+                <input
+                  type="checkbox"
+                  id={`address-${idx}`}
+                  value={account.index}
+                  onChange={() => this.props.onAccountChange(account.index)}
+                  checked={imported || selectedAccounts.includes(account.index)}
+                  disabled={imported}
+                />
+                <label
+                  className="hw-account-list__item__label"
+                  htmlFor={`address-${idx}`}
+                >
+                  <span className="hw-account-list__item__index">
+                    {account.index + 1}
                   </span>
-                  <span className="hw-account-list__item__balance">{`${account.balance}`}</span>
-                </span>
-              </label>
+                  <span className="hw-account-list__item__details">
+                    <span className="hw-account-list__item__address">
+                      {account.address}
+                    </span>
+                    <span className="hw-account-list__item__balance">{`${account.balance}`}</span>
+                  </span>
+                </label>
+              </div>
+              <a
+                className="hw-account-list__item__link"
+                href={getAccountLink(account.address, this.props.network)}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={this.context.t('etherscanView')}
+              >
+                <i className="fa fa-external-link-alt" />
+              </a>
             </div>
-            <a
-              className="hw-account-list__item__link"
-              href={getAccountLink(account.address, this.props.network)}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={this.context.t('etherscanView')}
-            >
-              <i className="fa fa-external-link-alt" />
-            </a>
-          </div>
-        ))}
+          );
+        })}
       </div>
     );
   }
@@ -144,11 +148,7 @@ class AccountList extends Component {
   }
 
   renderButtons() {
-    const disabled = this.props.selectedAccount === null;
-    const buttonProps = {};
-    if (disabled) {
-      buttonProps.disabled = true;
-    }
+    const disabled = this.props.selectedAccounts.length === 0;
 
     return (
       <div className="new-external-account-form__buttons">
@@ -165,7 +165,7 @@ class AccountList extends Component {
           large
           className="new-external-account-form__button unlock"
           disabled={disabled}
-          onClick={this.props.onUnlockAccount.bind(this, this.props.device)}
+          onClick={() => this.props.onUnlockAccounts(this.props.device)}
         >
           {this.context.t('unlock')}
         </Button>
@@ -205,8 +205,9 @@ AccountList.propTypes = {
   onForgetDevice: PropTypes.func.isRequired,
   getPage: PropTypes.func.isRequired,
   network: PropTypes.string,
-  selectedAccount: PropTypes.string,
-  onUnlockAccount: PropTypes.func,
+  selectedAccounts: PropTypes.arrayOf(PropTypes.number).isRequired,
+  importedAddresses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onUnlockAccounts: PropTypes.func,
   onCancel: PropTypes.func,
   onAccountRestriction: PropTypes.func,
 };

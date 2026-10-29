@@ -791,12 +791,6 @@
   "searchTokens": {
     "message": "Търсене на маркери"
   },
-  "selectAnAccount": {
-    "message": "Изберете акаунт"
-  },
-  "selectAnAccountHelp": {
-    "message": "Изберете акаунта за преглед в ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "\nИзберете по-висока такса за газ, за ​​да ускорите обработката на Вашата транзакция.*"
   },

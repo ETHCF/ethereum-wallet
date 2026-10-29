@@ -773,12 +773,6 @@
   "searchTokens": {
     "message": "Iskanje žetonov"
   },
-  "selectAnAccount": {
-    "message": "Izberi račun"
-  },
-  "selectAnAccountHelp": {
-    "message": "Izberi račun za prikaz v ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Izberite višji gas fee, da pospešite obdelavo vaše transakcije.*"
   },

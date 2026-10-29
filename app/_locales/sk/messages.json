@@ -769,12 +769,6 @@
   "searchTokens": {
     "message": "Hledat tokeny"
   },
-  "selectAnAccount": {
-    "message": "Vybrať účet"
-  },
-  "selectAnAccountHelp": {
-    "message": "Vyberte účet, ktorý chcete zobraziť v ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Ak chcete urýchliť spracovanie transakcie, vyberte vyšší poplatok GAS.*"
   },

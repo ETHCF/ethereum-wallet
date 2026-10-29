@@ -788,12 +788,6 @@
   "searchTokens": {
     "message": "Hae tietueita"
   },
-  "selectAnAccount": {
-    "message": "Valitse tili"
-  },
-  "selectAnAccountHelp": {
-    "message": "Valitse ECF Walletissa näytettävä tili"
-  },
   "selectAHigherGasFee": {
     "message": "Valitse korkeampi bensataksa vauhdittaaksesi tapahtumasi käsittelyä.*"
   },

@@ -779,12 +779,6 @@
   "searchTokens": {
     "message": "Søk i sjetonger"
   },
-  "selectAnAccount": {
-    "message": "Velg en konto"
-  },
-  "selectAnAccountHelp": {
-    "message": "Velg konto for å vise i ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Velg en høyere gassavgift for å fremskynde transaksjonsbehandlingen.*"
   },

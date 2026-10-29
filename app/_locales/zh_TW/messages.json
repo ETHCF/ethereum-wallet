@@ -776,9 +776,6 @@
   "searchTokens": {
     "message": "搜尋代幣"
   },
-  "selectAnAccount": {
-    "message": "選擇帳戶"
-  },
   "selectAHigherGasFee": {
     "message": "選擇更高的交易費可加速您的交易處理時間 *"
   },

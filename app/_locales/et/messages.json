@@ -785,12 +785,6 @@
   "searchTokens": {
     "message": "Lubade otsimine"
   },
-  "selectAnAccount": {
-    "message": "Valige konto"
-  },
-  "selectAnAccountHelp": {
-    "message": "Valige konto, mida ECF Walletis vaadata"
-  },
   "selectAHigherGasFee": {
     "message": "Valige suurem gaasihind, et kiirendada tehingu töötlemist.*"
   },

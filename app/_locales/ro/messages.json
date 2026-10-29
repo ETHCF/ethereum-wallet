@@ -782,12 +782,6 @@
   "searchTokens": {
     "message": "Căutați token-uri"
   },
-  "selectAnAccount": {
-    "message": "Selectați un cont"
-  },
-  "selectAnAccountHelp": {
-    "message": "Selectați contul de vizualizat în ECF Wallet"
-  },
   "selectAHigherGasFee": {
     "message": "Selectați o taxă gas mai mare pentru a accelera procesarea tranzacției.*"
   },

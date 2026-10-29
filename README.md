@@ -10,10 +10,10 @@ The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg). The icon 
 
 Wallet state and session keys use the browser's extension-scoped storage. ECF Wallet has its own extension identities, separate from MetaMask:
 
-- Chrome, Brave, and Opera: `fchaokinkaebjeonmpikbllcjaenmjdp`, pinned by the public `key` in each platform manifest for unpacked builds.
+- Chrome, Brave, and Opera: `gcbminekfcgfihncdagcainadkogbflf`, assigned by the ECF Chrome Web Store listing. Dev and test builds add the listing's public key from `app/manifest/_chromium-dev-key.json`, so unpacked builds get the same ID. Prod builds leave it out, since the store does not accept a manifest `key`.
 - Firefox: `wallet@ethcf.org`.
 
-Keep these identities stable across local rebuilds to retain ECF Wallet's storage. A prior build with another identity has separate storage and is not automatically migrated. MetaMask's wallet data is not read, copied, or overwritten. Store publishing must use a separate ECF listing; align the Chromium manifest key with that listing before distributing store builds.
+A build with another identity has separate storage and is not automatically migrated. MetaMask's wallet data is not read, copied, or overwritten. Store publishing must use a separate ECF listing.
 
 Internal modules, Redux state, storage keys, and wallet-specific messages use
 `ecf-wallet` / `ecfWallet`. Build configuration uses `.ecf-walletrc` and
