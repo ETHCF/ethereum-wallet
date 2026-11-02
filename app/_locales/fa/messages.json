@@ -57,7 +57,7 @@
     "message": "اضافه رمزیاب های پیشنهاد شده"
   },
   "addAcquiredTokens": {
-    "message": "رمزیاب های را که با استفاده از ECF Wallet بدست آورده اید، اضافه کنید"
+    "message": "رمزیاب های را که با استفاده از MetaECF بدست آورده اید، اضافه کنید"
   },
   "amount": {
     "message": "مبلغ"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "زمان سنج خروج-خودکار (دقایق)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "زمان های بیکار را به شکل دقیقه قبل از خروج ECF Wallet تنظیم کنید"
+    "message": "زمان های بیکار را به شکل دقیقه قبل از خروج MetaECF تنظیم کنید"
   },
   "average": {
     "message": "اوسط"
@@ -162,7 +162,7 @@
     "message": "بستن"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "برای وصل شدن به کیف سخت افزار شما باید ECF Wallet را در گوگل کروم استفاده نمایید."
+    "message": "برای وصل شدن به کیف سخت افزار شما باید MetaECF را در گوگل کروم استفاده نمایید."
   },
   "confirm": {
     "message": "تأیید"
@@ -285,13 +285,13 @@
     "message": "هرگز عبارت را با هیچکس در میان نگذارید."
   },
   "endOfFlowMessage5": {
-    "message": "مراقب فیشینگ باشید! ECF Wallet هرگز در یک زمان عبارت بازیاب را نمی پرسد."
+    "message": "مراقب فیشینگ باشید! MetaECF هرگز در یک زمان عبارت بازیاب را نمی پرسد."
   },
   "endOfFlowMessage6": {
     "message": "در صورتیکه شما نیاز به گرفتن دوباره پشتیبان عبارت بازیاب داشته باشید، میتوانید آنرا در Settings -> Security دریافت نمایید."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet نمیتواند عبارت بازیاب تان را دوباره دریافت نماید.\nبیشتر بدانید."
+    "message": "MetaECF نمیتواند عبارت بازیاب تان را دوباره دریافت نماید.\nبیشتر بدانید."
   },
   "endOfFlowMessage9": {
     "message": "بیشتر بدانید."
@@ -420,7 +420,7 @@
     "message": "وارد سازی حساب"
   },
   "importAccountMsg": {
-    "message": "حساب های وارد شده با عبارت بازیاب حساب ECF Wallet ایجاد شده اصلی تان یکجا نمیباشد. در مورد حساب های وارد شده بیشتر بدانید"
+    "message": "حساب های وارد شده با عبارت بازیاب حساب MetaECF ایجاد شده اصلی تان یکجا نمیباشد. در مورد حساب های وارد شده بیشتر بدانید"
   },
   "importAccountSeedPhrase": {
     "message": "یک حساب با عبارت بازیاب را وارد کنید"
@@ -524,7 +524,7 @@
     "message": "در حال اتصال شما با ایترم و وب غیر متمرکز شده."
   },
   "ecfWalletVersion": {
-    "message": "نسخه ECF Wallet"
+    "message": "نسخه MetaECF"
   },
   "myAccounts": {
     "message": "حساب های من"
@@ -568,7 +568,7 @@
     "message": "شبکه جدید"
   },
   "newToEcfWallet": {
-    "message": "آیا به ECF Wallet جدید هستید؟"
+    "message": "آیا به MetaECF جدید هستید؟"
   },
   "noAlreadyHaveSeed": {
     "message": "نه خیر، من از قبل یک عبارت بازیاب داشتم"
@@ -946,7 +946,7 @@
     "message": "امتحان مجدد"
   },
   "typePassword": {
-    "message": "رمز عبور ECF Wallet تان را تایپ نمایید"
+    "message": "رمز عبور MetaECF تان را تایپ نمایید"
   },
   "unapproved": {
     "message": "تصدیق ناشده"
@@ -988,7 +988,7 @@
     "message": "بازگشت شما را خوش‌آمد می‌گوییم!"
   },
   "welcome": {
-    "message": "به ECF Wallet خوش آمدید"
+    "message": "به MetaECF خوش آمدید"
   },
   "writePhrase": {
     "message": "این عبارت را در یک صفحه کاغذ نوشته و در یک موقعیت مصؤن نگهدارید. در صورتیکه شما امنیت بیشتر از این میخواهید، آنرا در صفحات متعدد کاغذ نوشته و در 2 - 3 موقعیت مختلف نگهدارید."

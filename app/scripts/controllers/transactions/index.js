@@ -327,22 +327,17 @@ export default class TransactionController extends EventEmitter {
       ? ethUtil.addHexPrefix(txMeta.txParams.value)
       : '0x0';
 
-    this.addTx(txMeta);
-    this.emit('newUnapprovedTx', txMeta);
-
-    try {
+    // A site's transaction is stored only once its defaults are known. The
+    // origin throttler counts requests, so a request that fails after storing
+    // its transaction would leave a prompt behind that no limit sees.
+    if (origin === 'ecf-wallet') {
+      txMeta = await this._addWalletTransaction(txMeta, getCodeResponse);
+    } else {
       txMeta = await this.addTxGasDefaults(txMeta, getCodeResponse);
-    } catch (error) {
-      log.warn(error);
-      txMeta = this.txStateManager.getTx(txMeta.id);
       txMeta.loadingDefaults = false;
-      this.txStateManager.updateTx(txMeta, 'Failed to calculate gas defaults.');
-      throw error;
+      this.addTx(txMeta);
+      this.emit('newUnapprovedTx', txMeta);
     }
-
-    txMeta.loadingDefaults = false;
-    // save txMeta
-    this.txStateManager.updateTx(txMeta, 'Added new unapproved transaction.');
     this._simulateTransaction(txMeta.id);
 
     return txMeta;
@@ -363,8 +358,9 @@ export default class TransactionController extends EventEmitter {
     const { gasLimit: defaultGasLimit, simulationFails } =
       await this._getDefaultGasLimit(txMeta, getCodeResponse);
 
+    // A stored transaction may have been edited while the lookups ran.
     // eslint-disable-next-line no-param-reassign
-    txMeta = this.txStateManager.getTx(txMeta.id);
+    txMeta = this.txStateManager.getTx(txMeta.id) ?? txMeta;
     applyFees(txMeta.txParams, fees);
     if (simulationFails) {
       txMeta.simulationFails = simulationFails;
@@ -373,6 +369,40 @@ export default class TransactionController extends EventEmitter {
       txMeta.txParams.gas = defaultGasLimit;
     }
     return txMeta;
+  }
+
+  /**
+   * Stores a transaction from the wallet's own send form, then adds its gas
+   * defaults. The form has already moved to the confirmation page, so a
+   * failure still leaves a transaction there to show.
+   *
+   * @private
+   * @param {object} txMeta - The transaction metadata.
+   * @param {string} [getCodeResponse] - The getCode result for the recipient.
+   * @returns {Promise<object>} Resolves with the stored txMeta.
+   */
+  async _addWalletTransaction(txMeta, getCodeResponse) {
+    this.addTx(txMeta);
+    this.emit('newUnapprovedTx', txMeta);
+
+    let defaulted;
+    try {
+      defaulted = await this.addTxGasDefaults(txMeta, getCodeResponse);
+    } catch (error) {
+      log.warn(error);
+      const stored = this.txStateManager.getTx(txMeta.id);
+      stored.loadingDefaults = false;
+      this.txStateManager.updateTx(stored, 'Failed to calculate gas defaults.');
+      throw error;
+    }
+
+    defaulted.loadingDefaults = false;
+    // save txMeta
+    this.txStateManager.updateTx(
+      defaulted,
+      'Added new unapproved transaction.',
+    );
+    return defaulted;
   }
 
   async _getDefaultFees({ txParams: params, origin }) {

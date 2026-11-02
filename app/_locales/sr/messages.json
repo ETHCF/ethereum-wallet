@@ -57,7 +57,7 @@
     "message": "Dodajte sugerisane tokene"
   },
   "addAcquiredTokens": {
-    "message": "Dodajte stečene tokene koristeći ECF Wallet."
+    "message": "Dodajte stečene tokene koristeći MetaECF."
   },
   "amount": {
     "message": "Iznos"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Tajmer za automatsko odjavljivanje (u minutama)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Podesite vreme mirovanja u minutima pre nego što se ECF Wallet automatski odjavi. "
+    "message": "Podesite vreme mirovanja u minutima pre nego što se MetaECF automatski odjavi. "
   },
   "average": {
     "message": "Prosečno"
@@ -159,7 +159,7 @@
     "message": "Затвори"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Da biste se povezali sa Vašim hardverskim novčanikom morate da koristite ECF Wallet na Google Chrome-u."
+    "message": "Da biste se povezali sa Vašim hardverskim novčanikom morate da koristite MetaECF na Google Chrome-u."
   },
   "confirm": {
     "message": "Потврди"
@@ -282,13 +282,13 @@
     "message": "Nikada ne delite frazu ni sa kim."
   },
   "endOfFlowMessage5": {
-    "message": "Čuvajte se pecanja (krađe podataka)! ECF Wallet nikad neće spontano tražiti vašu šifru za oporavak naloga (seed phrase)."
+    "message": "Čuvajte se pecanja (krađe podataka)! MetaECF nikad neće spontano tražiti vašu šifru za oporavak naloga (seed phrase)."
   },
   "endOfFlowMessage6": {
     "message": "Ako treba ponovo da izradite rezervnu kopiju svoje početne fraze, možete je pronaći u Postavke -> Bezbednost."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet ne može da oporavi vašu početnu frazu. Saznajte više."
+    "message": "MetaECF ne može da oporavi vašu početnu frazu. Saznajte više."
   },
   "endOfFlowMessage9": {
     "message": "Saznajte više."
@@ -388,7 +388,7 @@
     "message": "Povežite hardverski novčanik"
   },
   "hardwareWalletsMsg": {
-    "message": "Izaberite hardverski novčanik koji biste voleli da koristite sa ECF Wallet-om"
+    "message": "Izaberite hardverski novčanik koji biste voleli da koristite sa MetaECF-om"
   },
   "havingTroubleConnecting": {
     "message": "Da li imate problem sa povezivanjem?"
@@ -417,7 +417,7 @@
     "message": "Uvezite nalog"
   },
   "importAccountMsg": {
-    "message": "Uvezeni nalozi neće biti povezani sa početnom frazom koju ste prvobitno kreirali za ECF Wallet nalog. Saznajte više o uvezenim nalozima."
+    "message": "Uvezeni nalozi neće biti povezani sa početnom frazom koju ste prvobitno kreirali za MetaECF nalog. Saznajte više o uvezenim nalozima."
   },
   "importAccountSeedPhrase": {
     "message": "Uvezi račun sa frazom početnih vrednosti"
@@ -518,7 +518,7 @@
     "message": "Povezivanje na Ethereum i decentralizovani veb."
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet verzija"
+    "message": "MetaECF verzija"
   },
   "myAccounts": {
     "message": "Moji nalozi"
@@ -562,7 +562,7 @@
     "message": "Nova mreža"
   },
   "newToEcfWallet": {
-    "message": "Novi ste u ECF Wallet-u?"
+    "message": "Novi ste u MetaECF-u?"
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, već imam frazu početnih vrednosti"
@@ -937,7 +937,7 @@
     "message": "Пробај поново"
   },
   "typePassword": {
-    "message": "Ukucajte svoju ECF Wallet šifru"
+    "message": "Ukucajte svoju MetaECF šifru"
   },
   "unapproved": {
     "message": "Neodobren"
@@ -979,7 +979,7 @@
     "message": "Dobro došli nazad!"
   },
   "welcome": {
-    "message": "Dobro došli na ECF Wallet"
+    "message": "Dobro došli na MetaECF"
   },
   "writePhrase": {
     "message": "Napišite ovaj izraz na parčetu papira i stavite ga na bezbedno mesto. Ukoliko želite još više sigurnosti, zapišite ga na više komada papira i svaki stavite na 2-3 različita mesta."

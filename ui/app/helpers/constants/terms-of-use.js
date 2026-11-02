@@ -14,7 +14,7 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Your Permission to Use the Wallet',
     paragraphs: [
-      'Subject to these terms, ECF gives you permission to use ECF Wallet, the browser extension that lets you manage Ethereum accounts and interact with the Ethereum blockchain (the "wallet"). Everyone needs to agree to these terms to use the wallet.',
+      'Subject to these terms, ECF gives you permission to use MetaECF, the browser extension that lets you manage Ethereum accounts and interact with the Ethereum blockchain (the "wallet"). Everyone needs to agree to these terms to use the wallet.',
     ],
   },
   {
@@ -36,7 +36,7 @@ export const TERMS_OF_USE_SECTIONS = [
       'Break the law, or use the wallet to send funds that are the proceeds of crime or to finance illegal activity.',
       'Use the wallet to access accounts, keys or funds that are not yours without permission.',
       'Falsely imply that you are employed by, affiliated with, or endorsed by ECF.',
-      'Distribute modified copies of the wallet under the ECF Wallet name, or in a way that suggests they come from ECF.',
+      'Distribute modified copies of the wallet under the MetaECF name, or in a way that suggests they come from ECF.',
       'Remove any marks showing proprietary ownership from materials included with the wallet.',
       "Break or circumvent any security feature of the wallet, or attempt to obtain another user's keys or seed phrase.",
       'Impersonate others through the wallet, including when requesting signatures or transactions.',
@@ -46,7 +46,7 @@ export const TERMS_OF_USE_SECTIONS = [
   {
     heading: 'Your Keys and Funds',
     paragraphs: [
-      'ECF Wallet is a self-custodial wallet. Your seed phrase, private keys and password are created and stored only on your device. ECF never receives them, cannot see them, and cannot recover them if you lose them.',
+      'MetaECF is a self-custodial wallet. Your seed phrase, private keys and password are created and stored only on your device. ECF never receives them, cannot see them, and cannot recover them if you lose them.',
       'You are solely responsible for keeping your seed phrase, private keys and password secret and backed up, and for all activity that uses them. Anyone who obtains your seed phrase or private keys can take your funds.',
       'Transactions you sign are broadcast to public blockchain networks and are final. ECF cannot cancel, reverse or refund a transaction, and does not control the networks, tokens, websites or smart contracts you interact with.',
     ],
@@ -61,7 +61,7 @@ export const TERMS_OF_USE_SECTIONS = [
     heading: 'Enforcement',
     paragraphs: [
       'ECF may investigate and prosecute violations of these terms to the fullest legal extent. ECF may notify and cooperate with law enforcement authorities in prosecuting violations of the law and these terms.',
-      'If you believe someone is using the wallet or the ECF Wallet name in violation of these terms, please let us know.',
+      'If you believe someone is using the wallet or the MetaECF name in violation of these terms, please let us know.',
     ],
   },
   {

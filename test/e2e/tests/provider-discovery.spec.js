@@ -6,7 +6,7 @@ const connectBrowser = require('../webdriver/browser-cdp');
 describe('Wallet provider discovery', function () {
   // 'empty-getter': a wallet that claims window.ethereum with a getter that returns nothing yet.
   for (const otherWallet of [false, 'readonly', 'getter', 'empty-getter']) {
-    it(`announces ECF Wallet ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider without web3'}`, async function () {
+    it(`announces MetaECF ${otherWallet ? `alongside an existing ${otherWallet} wallet` : 'and exposes the legacy provider without web3'}`, async function () {
       if (process.env.SELENIUM_BROWSER !== 'chrome') {
         this.skip();
       }
@@ -92,7 +92,7 @@ describe('Wallet provider discovery', function () {
               secureContext: window.isSecureContext
             };
           `);
-            assert.equal(discovery.info.name, 'ECF Wallet');
+            assert.equal(discovery.info.name, 'MetaECF');
             assert.equal(discovery.info.rdns, 'org.ethcf.wallet');
             assert.match(
               discovery.info.uuid,
@@ -117,7 +117,7 @@ describe('Wallet provider discovery', function () {
             assert.deepEqual(
               response,
               ['0x539', []],
-              'the announced provider reaches ECF without granting account access',
+              'the announced provider reaches MetaECF without granting account access',
             );
           } finally {
             cdp.close();

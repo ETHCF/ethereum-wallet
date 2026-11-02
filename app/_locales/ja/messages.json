@@ -57,7 +57,7 @@
     "message": "推奨トークンを追加"
   },
   "addAcquiredTokens": {
-    "message": "ECF Walletで獲得したトークンを追加する"
+    "message": "MetaECFで獲得したトークンを追加する"
   },
   "amount": {
     "message": "金額"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "自動ログアウト(分)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "ECF Walletが自動的にログアウトするまでのアイドル時間を分単位で設定します。"
+    "message": "MetaECFが自動的にログアウトするまでのアイドル時間を分単位で設定します。"
   },
   "average": {
     "message": "平均"
@@ -206,7 +206,7 @@
     "message": "アカウントのインポート"
   },
   "importAccountMsg": {
-    "message": "追加したアカウントはECF Walletのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
+    "message": "追加したアカウントはMetaECFのアカウントパスフレーズとは関連付けられません。インポートしたアカウントについての詳細は"
   },
   "imported": {
     "message": "インポート完了",
@@ -464,7 +464,7 @@
     "message": "おかえりなさい!"
   },
   "welcome": {
-    "message": "ECF Wallet ベータ版へようこそ!"
+    "message": "MetaECF ベータ版へようこそ!"
   },
   "yourSigRequested": {
     "message": "あなたの署名がリクエストされています。"
@@ -505,7 +505,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "ECF Walletはこのサイトに接続されていません。web3サイトに接続するには、そのサイト上の接続ボタンを探してください。"
+    "message": "MetaECFはこのサイトに接続されていません。web3サイトに接続するには、そのサイト上の接続ボタンを探してください。"
   },
   "currentAccountNotConnected": {
     "message": "現在のアカウントは接続されていません"
@@ -571,7 +571,7 @@
     "message": "接続中..."
   },
   "connectWithEcfWallet": {
-    "message": "ECF Walletで接続"
+    "message": "MetaECFで接続"
   },
   "connectTo": {
     "message": "$1に接続",
@@ -692,7 +692,7 @@
     "message": "閉じる"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "ハードウェアウォレットに接続するには、Google ChromeでECF Walletを使用する必要があります。"
+    "message": "ハードウェアウォレットに接続するには、Google ChromeでMetaECFを使用する必要があります。"
   },
   "confirmed": {
     "message": "承認されました"
@@ -788,7 +788,7 @@
     "message": "パスフレーズは絶対に誰とも共有しないでください。"
   },
   "endOfFlowMessage5": {
-    "message": "フィッシングにご注意ください！ECF Walletが突然パスフレーズを尋ねることは絶対にありません。"
+    "message": "フィッシングにご注意ください！MetaECFが突然パスフレーズを尋ねることは絶対にありません。"
   },
   "endOfFlowMessage6": {
     "message": "パスフレーズを再度バックアップする必要がある場合は、「設定」->「セキュリティとプライバシー」で確認できます。"
@@ -797,7 +797,7 @@
     "message": "ご質問や不審なアクティビティについては、https://github.com/ETHCF/ethereum-wallet/issues をご覧ください。パスフレーズや秘密鍵は絶対に投稿しないでください。"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Walletはあなたのパスフレーズを復元できません。"
+    "message": "MetaECFはあなたのパスフレーズを復元できません。"
   },
   "endOfFlowMessage9": {
     "message": "詳細はこちら。"
@@ -853,7 +853,7 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "ECF Walletでエラーが発生しました",
+    "message": "MetaECFでエラーが発生しました",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
@@ -930,7 +930,7 @@
     "message": "ハードウェアウォレットを接続"
   },
   "hardwareWalletsMsg": {
-    "message": "ECF Walletで使用するハードウェアウォレットを選択してください"
+    "message": "MetaECFで使用するハードウェアウォレットを選択してください"
   },
   "havingTroubleConnecting": {
     "message": "接続できませんか？"
@@ -1019,7 +1019,7 @@
     "message": "Ethereumと分散型ウェブへの架け橋。"
   },
   "ecfWalletVersion": {
-    "message": "ECF Walletのバージョン"
+    "message": "MetaECFのバージョン"
   },
   "negativeETH": {
     "message": "マイナスの金額のETHは送信できません。"
@@ -1037,7 +1037,7 @@
     "message": "新規ネットワーク"
   },
   "newToEcfWallet": {
-    "message": "ECF Walletは初めてですか？"
+    "message": "MetaECFは初めてですか？"
   },
   "rpcUrl": {
     "message": "新規RPC URL"
@@ -1646,7 +1646,7 @@
     "message": "RPCプロバイダーはこのサイトが選択したものです。プロバイダーはあなたのIPアドレスや使用しているアカウントを知ることができ、偽の残高やトランザクション結果を表示する可能性があります。"
   },
   "networkRequestUnknownChain": {
-    "message": "ECF Walletはこのネットワークを認識していません。このサイトを信頼できる場合にのみ追加してください。"
+    "message": "MetaECFはこのネットワークを認識していません。このサイトを信頼できる場合にのみ追加してください。"
   },
   "networkRequestSymbolMismatch": {
     "message": "$1は通貨として$2を使用していますが、このサイトは$3としています。このサイトは$1になりすましている可能性があります。",
@@ -1768,7 +1768,7 @@
     "message": "インポートしたアカウントについて"
   },
   "helpImportedAccounts1": {
-    "message": "ECF Walletで作成したアカウントはすべてパスフレーズから生成されるため、パスフレーズだけで復元できます。インポートしたアカウントは秘密鍵またはJSONファイルから生成されたもので、パスフレーズとは関連付けられていません。インポートしたアカウントには、アカウント一覧で「インポート完了」と表示されます。"
+    "message": "MetaECFで作成したアカウントはすべてパスフレーズから生成されるため、パスフレーズだけで復元できます。インポートしたアカウントは秘密鍵またはJSONファイルから生成されたもので、パスフレーズとは関連付けられていません。インポートしたアカウントには、アカウント一覧で「インポート完了」と表示されます。"
   },
   "helpImportedAccounts2": {
     "message": "パスフレーズからウォレットを復元しても、インポートしたアカウントは戻りません。インポートした各アカウントの秘密鍵またはJSONファイル (とそのパスワード) のバックアップを、別々にオフラインで保管してください。"
@@ -1783,7 +1783,7 @@
     "message": "JSONファイルのインポート"
   },
   "helpImportJson1": {
-    "message": "ECF Walletは、Geth、Mist、MyEtherWalletなどのクライアントで保存される、暗号化されたJSONキーストアファイルからアカウントをインポートできます。ファイルを選択し、ファイル作成時に設定したパスワードを入力してください。"
+    "message": "MetaECFは、Geth、Mist、MyEtherWalletなどのクライアントで保存される、暗号化されたJSONキーストアファイルからアカウントをインポートできます。ファイルを選択し、ファイル作成時に設定したパスワードを入力してください。"
   },
   "helpImportJson2": {
     "message": "インポートに失敗した場合は、大文字やスペースを含めてパスワードが完全に正しいこと、そして別のバックアップやテキストファイルではなくキーストアファイル自体 (多くの場合 UTC--… という名前) を選択したことを確認してください。"
@@ -1798,10 +1798,10 @@
     "message": "トークンの追加"
   },
   "helpAddTokens1": {
-    "message": "受け取ったトークンは、ECF Walletに表示されていなくてもあなたのアドレスに保有されています。トークンを追加すると、その残高をウォレットに表示するようになるだけです。"
+    "message": "受け取ったトークンは、MetaECFに表示されていなくてもあなたのアドレスに保有されています。トークンを追加すると、その残高をウォレットに表示するようになるだけです。"
   },
   "helpAddTokens2": {
-    "message": "よく知られたトークンを追加するには、「トークンを追加」を開き、名前またはシンボルで検索してください。その他のトークンを追加するには、「カスタムトークン」を選択してコントラクトアドレスを入力してください。ECF Walletは可能な場合にシンボルと小数点桁数を自動入力します。それ以外の場合は、ブロックエクスプローラーのトークンページからコピーしてください。"
+    "message": "よく知られたトークンを追加するには、「トークンを追加」を開き、名前またはシンボルで検索してください。その他のトークンを追加するには、「カスタムトークン」を選択してコントラクトアドレスを入力してください。MetaECFは可能な場合にシンボルと小数点桁数を自動入力します。それ以外の場合は、ブロックエクスプローラーのトークンページからコピーしてください。"
   },
   "helpAddTokens3": {
     "message": "コントラクトアドレスは、プロジェクトの公式ウェブサイトなど、信頼できる情報源から入手したものだけを使用してください。誰でも本物と同じ名前とシンボルのトークンを作成でき、トークンがウォレットに表示されているからといって、それに価値があるとは限りません。"
@@ -1813,16 +1813,16 @@
     "message": "基本的な安全のヒント"
   },
   "helpSafetyTips1": {
-    "message": "パスフレーズがあれば、あなたのアカウントと資金を完全に支配できます。それを持つ人は誰でもすべてを奪うことができ、ECF Walletは失われたパスフレーズを復元することも、トランザクションを取り消すこともできません。"
+    "message": "パスフレーズがあれば、あなたのアカウントと資金を完全に支配できます。それを持つ人は誰でもすべてを奪うことができ、MetaECFは失われたパスフレーズを復元することも、トランザクションを取り消すこともできません。"
   },
   "helpSafetyTips2": {
     "message": "パスフレーズは書き留め、コピーを複数の安全な場所に保管してください。スクリーンショット、メール、チャット、オンラインのメモは避けてください。パスフレーズは「設定 > セキュリティとプライバシー」で再度確認できます。"
   },
   "helpSafetyTips3": {
-    "message": "パスフレーズや秘密鍵は絶対に誰とも共有せず、ウェブサイトに入力しないでください。ECF Walletがそれらを尋ねることは決してなく、本物のサポートを提供する人が尋ねることもありません。"
+    "message": "パスフレーズや秘密鍵は絶対に誰とも共有せず、ウェブサイトに入力しないでください。MetaECFがそれらを尋ねることは決してなく、本物のサポートを提供する人が尋ねることもありません。"
   },
   "helpSafetyTips4": {
-    "message": "強力で他と重複しないパスワードを使用し、離席するときはECF Walletからログアウトしてください。パスワードはこのデバイスでウォレットにログインするためのものにすぎず、パスフレーズなしでアカウントを復元することはできません。"
+    "message": "強力で他と重複しないパスワードを使用し、離席するときはMetaECFからログアウトしてください。パスワードはこのデバイスでウォレットにログインするためのものにすぎず、パスフレーズなしでアカウントを復元することはできません。"
   },
   "helpSafetyTips5": {
     "message": "ウォレットを接続したり何かを承認したりする前に、サイトのアドレスを確認してください。フィッシングサイトは本物のサイトをそっくりにコピーしています。確認する前にすべてのリクエストを読み、トークンの使用を求めるリクエストには注意してください。"
@@ -1855,6 +1855,6 @@
     "message": "寄付"
   },
   "donateDescription": {
-    "message": "ECF Walletは無料のオープンソースです。Ethereum Community Foundationへの寄付が開発資金となります。"
+    "message": "MetaECFは無料のオープンソースです。Ethereum Community Foundationへの寄付が開発資金となります。"
   }
 }

@@ -57,7 +57,7 @@
     "message": "Προσθέστε τα Προτεινόμενα Tokens"
   },
   "addAcquiredTokens": {
-    "message": "Προσθέστε τα token που αποκτήσατε χρησιμοποιώντας το ECF Wallet"
+    "message": "Προσθέστε τα token που αποκτήσατε χρησιμοποιώντας το MetaECF"
   },
   "amount": {
     "message": "Ποσό"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Χρονόμετρο Αυτόματης Αποσύνδεσης (λεπτά)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Ρυθμίστε τον χρόνο αδράνειας σε λεπτά πριν αποσυνδεθεί αυτόματα το ECF Wallet"
+    "message": "Ρυθμίστε τον χρόνο αδράνειας σε λεπτά πριν αποσυνδεθεί αυτόματα το MetaECF"
   },
   "average": {
     "message": "Μέσος Όρος"
@@ -159,7 +159,7 @@
     "message": "Κλείσιμο"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Θα πρέπει να χρησιμοποιήσετε το ECF Wallet στο Google Chrome για να συνδεθείτε στο Πορτοφόλι Υλικού."
+    "message": "Θα πρέπει να χρησιμοποιήσετε το MetaECF στο Google Chrome για να συνδεθείτε στο Πορτοφόλι Υλικού."
   },
   "confirm": {
     "message": "Επιβεβαίωση"
@@ -282,13 +282,13 @@
     "message": "Μην μοιράζεστε ποτέ τη φράση με κανέναν."
   },
   "endOfFlowMessage5": {
-    "message": "Προσέξτε το ηλεκτρονικό \"ψάρεμα\"! Το ECF Wallet δεν θα ζητήσει ποτέ αυθόρμητα τη φράση φύτρου σας."
+    "message": "Προσέξτε το ηλεκτρονικό \"ψάρεμα\"! Το MetaECF δεν θα ζητήσει ποτέ αυθόρμητα τη φράση φύτρου σας."
   },
   "endOfFlowMessage6": {
     "message": "Αν χρειάζεται να δημιουργήσετε ξανά αντίγραφο της φράσης επαναφοράς σας, μπορείτε να την βρείτε στη Ρυθμίσεις -> Ασφάλεια."
   },
   "endOfFlowMessage8": {
-    "message": "Το ECF Wallet δεν μπορεί να ανακτήσει τη φράση φύτρου σας. Μάθετε περισσότερα."
+    "message": "Το MetaECF δεν μπορεί να ανακτήσει τη φράση φύτρου σας. Μάθετε περισσότερα."
   },
   "endOfFlowMessage9": {
     "message": "Μάθετε περισσότερα."
@@ -388,7 +388,7 @@
     "message": "Συνδέστε ένα πορτοφόλι εξοπλισμού"
   },
   "hardwareWalletsMsg": {
-    "message": "Επιλέξτε ένα πορτοφόλι εξοπλισμού το οποίο θέλετε να χρησιμοποιήσετε με το ECF Wallet"
+    "message": "Επιλέξτε ένα πορτοφόλι εξοπλισμού το οποίο θέλετε να χρησιμοποιήσετε με το MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Δυσκολεύεστε να συνδεθείτε;"
@@ -521,7 +521,7 @@
     "message": "Σύνδεση με το Ethereum και τον Αποκεντρωμένο Ιστό."
   },
   "ecfWalletVersion": {
-    "message": "Έκδοση ECF Wallet "
+    "message": "Έκδοση MetaECF "
   },
   "myAccounts": {
     "message": "Οι Λογαριασμοί μου"
@@ -565,7 +565,7 @@
     "message": "Νέο Δίκτυο"
   },
   "newToEcfWallet": {
-    "message": "Καινούριος στο ECF Wallet;"
+    "message": "Καινούριος στο MetaECF;"
   },
   "noAlreadyHaveSeed": {
     "message": "Όχι, έχω ήδη μια φράση φύτρου"
@@ -940,7 +940,7 @@
     "message": "Δοκιμάστε ξανά"
   },
   "typePassword": {
-    "message": "Πληκτρολογήστε τον κωδικό πρόσβασής σας ECF Wallet"
+    "message": "Πληκτρολογήστε τον κωδικό πρόσβασής σας MetaECF"
   },
   "unapproved": {
     "message": "Μη εγκεκριμένο"
@@ -982,7 +982,7 @@
     "message": "Καλώς Ήλθατε και Πάλι!"
   },
   "welcome": {
-    "message": "Καλώς ήλθατε στο ECF Wallet"
+    "message": "Καλώς ήλθατε στο MetaECF"
   },
   "writePhrase": {
     "message": "Γράψτε αυτήν τη φάση σε ένα κομμάτι χαρτί και αποθηκεύστε την σε μια ασφαλή τοποθεσία. Εάν θέλετε ακόμη περισσότερη ασφάλεια, γράψτε την σε περισσότερα κομμάτια χαρτί και αποθηκεύστε καθένα από αυτά σε 2-3 διαφορετικές τοποθεσίες."

@@ -10,7 +10,7 @@ import shouldInjectProvider from './lib/should-inject-provider';
 log.setDefaultLevel(process.env.ECF_WALLET_DEBUG ? 'debug' : 'warn');
 
 /**
- * The upstream provider, also identified as ECF Wallet: it adds isECFWallet,
+ * The upstream provider, also identified as MetaECF: it adds isECFWallet,
  * and _ecfwallet replaces the _metamask namespace.
  */
 class ECFWalletInpageProvider extends MetaMaskInpageProvider {
@@ -30,7 +30,7 @@ class ECFWalletInpageProvider extends MetaMaskInpageProvider {
       get: (target, property) => {
         if (!warned) {
           log.warn(
-            `ECF Wallet: 'ethereum._ecfwallet' exposes non-standard, experimental methods. They may be removed or changed without warning.`,
+            `MetaECF: 'ethereum._ecfwallet' exposes non-standard, experimental methods. They may be removed or changed without warning.`,
           );
           warned = true;
         }

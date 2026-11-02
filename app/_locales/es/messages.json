@@ -60,7 +60,7 @@
     "message": "Agregar tokens propuestos"
   },
   "addAcquiredTokens": {
-    "message": "Agregar los tokens que has adquirido usando ECF Wallet"
+    "message": "Agregar los tokens que has adquirido usando MetaECF"
   },
   "amount": {
     "message": "Cantidad"
@@ -70,7 +70,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -98,7 +98,7 @@
     "message": "Temporizador Auto-Cierre (minutos)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Establece el tiempo de inactividad en minutos antes de que ECF Wallet cierre la sesión automáticamente."
+    "message": "Establece el tiempo de inactividad en minutos antes de que MetaECF cierre la sesión automáticamente."
   },
   "average": {
     "message": "Promedio"
@@ -149,7 +149,7 @@
     "message": "Cerrar"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Hay que usar ECF Wallet en Google Chrome para poder conectarse con tu Monedero Físico."
+    "message": "Hay que usar MetaECF en Google Chrome para poder conectarse con tu Monedero Físico."
   },
   "confirm": {
     "message": "Confirmar"
@@ -257,7 +257,7 @@
     "message": "Editar"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet no puede recuperar tu seedphrase. Saber más."
+    "message": "MetaECF no puede recuperar tu seedphrase. Saber más."
   },
   "endOfFlowMessage9": {
     "message": "Saber más."
@@ -327,7 +327,7 @@
     "message": "Conectarle un monedero físico"
   },
   "hardwareWalletsMsg": {
-    "message": "Seleccionar un monedero físico que quieres usar con ECF Wallet"
+    "message": "Seleccionar un monedero físico que quieres usar con MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "¿Tienes problemas para hacer la conexión?"
@@ -356,7 +356,7 @@
     "message": "Importar cuenta"
   },
   "importAccountMsg": {
-    "message": "Las cuentas importadas no serán asociadas con tu cuenta original creada con tu ECF Wallet. Aprende más acerca de importar cuentas."
+    "message": "Las cuentas importadas no serán asociadas con tu cuenta original creada con tu MetaECF. Aprende más acerca de importar cuentas."
   },
   "importWallet": {
     "message": "Importar Wallet"
@@ -436,10 +436,10 @@
     "message": "Mensaje"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet es una identidad segura en Ethereum"
+    "message": "MetaECF es una identidad segura en Ethereum"
   },
   "ecfWalletVersion": {
-    "message": "Versión de ECF Wallet"
+    "message": "Versión de MetaECF"
   },
   "myAccounts": {
     "message": "Mis cuentas"
@@ -884,7 +884,7 @@
     "message": "¡Bienvenido de nuevo!"
   },
   "welcome": {
-    "message": "Bienvenido a ECF Wallet"
+    "message": "Bienvenido a MetaECF"
   },
   "yesLetsTry": {
     "message": "Sí, probemos"
@@ -934,7 +934,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "ECF Wallet no está conectado a este sitio. Para conectarte a un sitio web3, busca el botón de conexión en su sitio."
+    "message": "MetaECF no está conectado a este sitio. Para conectarte a un sitio web3, busca el botón de conexión en su sitio."
   },
   "currentAccountNotConnected": {
     "message": "Tu cuenta actual no está conectada"
@@ -1000,7 +1000,7 @@
     "message": "Conectando..."
   },
   "connectWithEcfWallet": {
-    "message": "Conectar con ECF Wallet"
+    "message": "Conectar con MetaECF"
   },
   "connectTo": {
     "message": "Conectar a $1",
@@ -1118,7 +1118,7 @@
     "message": "No compartas nunca la frase con nadie."
   },
   "endOfFlowMessage5": {
-    "message": "¡Cuidado con el phishing! ECF Wallet nunca te pedirá tu frase semilla por iniciativa propia."
+    "message": "¡Cuidado con el phishing! MetaECF nunca te pedirá tu frase semilla por iniciativa propia."
   },
   "endOfFlowMessage6": {
     "message": "Si necesitas volver a hacer una copia de seguridad de tu frase semilla, la encontrarás en Configuración -> Seguridad."
@@ -1177,7 +1177,7 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "ECF Wallet ha encontrado un error",
+    "message": "MetaECF ha encontrado un error",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
@@ -1268,7 +1268,7 @@
     "message": "¡Nueva dirección detectada! Haz clic aquí para añadirla a tu libro de direcciones."
   },
   "newToEcfWallet": {
-    "message": "¿Eres nuevo en ECF Wallet?"
+    "message": "¿Eres nuevo en MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "No, ya tengo una frase semilla"
@@ -1646,7 +1646,7 @@
     "message": "Este sitio eligió el proveedor de RPC. El proveedor puede ver tu dirección IP y qué cuentas usas, y podría mostrar saldos o resultados de transacciones falsos."
   },
   "networkRequestUnknownChain": {
-    "message": "ECF Wallet no reconoce esta red. Añádela solo si confías en este sitio."
+    "message": "MetaECF no reconoce esta red. Añádela solo si confías en este sitio."
   },
   "networkRequestSymbolMismatch": {
     "message": "$1 usa $2 como moneda, pero este sitio dice $3. Es posible que el sitio esté suplantando a $1.",
@@ -1768,7 +1768,7 @@
     "message": "Acerca de las cuentas importadas"
   },
   "helpImportedAccounts1": {
-    "message": "Todas las cuentas que creas en ECF Wallet provienen de tu frase semilla, por lo que basta con la frase semilla para restaurarlas. Una cuenta importada, en cambio, proviene de una clave privada o de un archivo JSON y no está vinculada a tu frase semilla. Las cuentas importadas aparecen con la etiqueta \"Importado\" en la lista de cuentas."
+    "message": "Todas las cuentas que creas en MetaECF provienen de tu frase semilla, por lo que basta con la frase semilla para restaurarlas. Una cuenta importada, en cambio, proviene de una clave privada o de un archivo JSON y no está vinculada a tu frase semilla. Las cuentas importadas aparecen con la etiqueta \"Importado\" en la lista de cuentas."
   },
   "helpImportedAccounts2": {
     "message": "Restaurar tu monedero a partir de su frase semilla no recuperará las cuentas importadas. Guarda una copia de seguridad de la clave privada o del archivo JSON (y su contraseña) de cada cuenta importada, por separado y sin conexión."
@@ -1783,7 +1783,7 @@
     "message": "Importar un archivo JSON"
   },
   "helpImportJson1": {
-    "message": "ECF Wallet puede importar una cuenta desde un archivo keystore JSON cifrado, como los que guardan clientes como Geth, Mist y MyEtherWallet. Elige el archivo e introduce la contraseña que se estableció al crearlo."
+    "message": "MetaECF puede importar una cuenta desde un archivo keystore JSON cifrado, como los que guardan clientes como Geth, Mist y MyEtherWallet. Elige el archivo e introduce la contraseña que se estableció al crearlo."
   },
   "helpImportJson2": {
     "message": "Si la importación falla, comprueba que la contraseña sea exactamente la correcta, incluidas mayúsculas y espacios, y que hayas elegido el propio archivo keystore (a menudo llamado UTC--…) y no otra copia de seguridad o archivo de texto."
@@ -1798,10 +1798,10 @@
     "message": "Agregar tokens"
   },
   "helpAddTokens1": {
-    "message": "Los tokens que recibes se guardan en tu dirección aunque ECF Wallet no los muestre. Agregar un token solo le indica al monedero que muestre su saldo."
+    "message": "Los tokens que recibes se guardan en tu dirección aunque MetaECF no los muestre. Agregar un token solo le indica al monedero que muestre su saldo."
   },
   "helpAddTokens2": {
-    "message": "Para agregar un token conocido, abre Agregar tokens y búscalo por nombre o símbolo. Para agregar cualquier otro token, elige Token Personalizado e introduce la dirección de su contrato. ECF Wallet completa el símbolo y los decimales cuando puede; si no, cópialos de la página del token en un explorador de bloques."
+    "message": "Para agregar un token conocido, abre Agregar tokens y búscalo por nombre o símbolo. Para agregar cualquier otro token, elige Token Personalizado e introduce la dirección de su contrato. MetaECF completa el símbolo y los decimales cuando puede; si no, cópialos de la página del token en un explorador de bloques."
   },
   "helpAddTokens3": {
     "message": "Usa solo una dirección de contrato procedente de una fuente de confianza, como el sitio web oficial del proyecto. Cualquiera puede crear un token con el mismo nombre y símbolo que uno real, y que un token aparezca en tu monedero no significa que tenga valor."
@@ -1813,16 +1813,16 @@
     "message": "Consejos básicos de seguridad"
   },
   "helpSafetyTips1": {
-    "message": "Tu frase semilla da control total sobre tus cuentas y fondos. Cualquiera que la tenga puede llevárselo todo, y ECF Wallet no puede recuperar una frase semilla perdida ni revertir una transacción."
+    "message": "Tu frase semilla da control total sobre tus cuentas y fondos. Cualquiera que la tenga puede llevárselo todo, y MetaECF no puede recuperar una frase semilla perdida ni revertir una transacción."
   },
   "helpSafetyTips2": {
     "message": "Escribe tu frase semilla y guarda copias en más de un lugar seguro. Evita capturas de pantalla, correo electrónico, chats y notas en línea. Puedes volver a verla en Configuración > Seguridad."
   },
   "helpSafetyTips3": {
-    "message": "Nunca compartas tu frase semilla ni tus claves privadas, y nunca las escribas en un sitio web. ECF Wallet nunca te las pedirá, y nadie que ofrezca soporte real lo hará tampoco."
+    "message": "Nunca compartas tu frase semilla ni tus claves privadas, y nunca las escribas en un sitio web. MetaECF nunca te las pedirá, y nadie que ofrezca soporte real lo hará tampoco."
   },
   "helpSafetyTips4": {
-    "message": "Usa una contraseña segura y única, y bloquea ECF Wallet cuando te alejes. La contraseña solo desbloquea el monedero en este dispositivo; no puede restaurar tus cuentas sin la frase semilla."
+    "message": "Usa una contraseña segura y única, y bloquea MetaECF cuando te alejes. La contraseña solo desbloquea el monedero en este dispositivo; no puede restaurar tus cuentas sin la frase semilla."
   },
   "helpSafetyTips5": {
     "message": "Comprueba la dirección de un sitio antes de conectar tu monedero o aprobar cualquier cosa. Los sitios de phishing imitan muy bien a los reales. Lee cada petición antes de confirmarla y desconfía de las peticiones para gastar tus tokens."
@@ -1855,6 +1855,6 @@
     "message": "Donar"
   },
   "donateDescription": {
-    "message": "ECF Wallet es gratuito y de código abierto. Las donaciones a la Ethereum Community Foundation financian su desarrollo."
+    "message": "MetaECF es gratuito y de código abierto. Las donaciones a la Ethereum Community Foundation financian su desarrollo."
   }
 }

@@ -524,7 +524,7 @@ describe('ecf-wallet', function () {
 
       windowHandles = await driver.getAllWindowHandles();
       await driver.switchToWindowWithTitle(
-        'ECF Wallet Notification',
+        'MetaECF Notification',
         windowHandles,
       );
       await driver.delay(regularDelayMs);

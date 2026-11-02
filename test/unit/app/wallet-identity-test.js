@@ -7,7 +7,7 @@ import chrome from '../../../app/manifest/chrome.json';
 import firefox from '../../../app/manifest/firefox.json';
 import opera from '../../../app/manifest/opera.json';
 
-describe('ECF Wallet extension identity', function () {
+describe('MetaECF extension identity', function () {
   it('pins unpacked Chromium builds to the Chrome Web Store ID', function () {
     const publicKey = Buffer.from(chromiumDevKey.key, 'base64');
     assert.equal(

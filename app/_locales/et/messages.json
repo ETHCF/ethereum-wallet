@@ -57,7 +57,7 @@
     "message": "Lisa soovitatud lube"
   },
   "addAcquiredTokens": {
-    "message": "Lisage load, mis olete ECF Walletiga saanud"
+    "message": "Lisage load, mis olete MetaECFiga saanud"
   },
   "amount": {
     "message": "Summa"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Automaatse väljalogimise taimer (minutites)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Seadistage jõudeolek minutites, enne kui ECF Wallet automaatselt välja logib"
+    "message": "Seadistage jõudeolek minutites, enne kui MetaECF automaatselt välja logib"
   },
   "average": {
     "message": "Keskmine"
@@ -162,7 +162,7 @@
     "message": "Sule"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Riistvararahakoti ühendamiseks peate kasutama ECF Walleti Google Chrome'is."
+    "message": "Riistvararahakoti ühendamiseks peate kasutama MetaECFi Google Chrome'is."
   },
   "confirm": {
     "message": "Kinnita"
@@ -285,13 +285,13 @@
     "message": "Ärge jagage fraasi mitte kellegagi."
   },
   "endOfFlowMessage5": {
-    "message": "Olge ettevaatlik andmepüügi osas! ECF Wallet ei küsi kunagi spontaanselt teie seemnefraasi."
+    "message": "Olge ettevaatlik andmepüügi osas! MetaECF ei küsi kunagi spontaanselt teie seemnefraasi."
   },
   "endOfFlowMessage6": {
     "message": "Kui peate oma seemnefraasi uuesti varundama, leiate selle valikust Settings (Seaded) -> Security (Turvalisus)."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet ei saa teie seemnefraasi taastada. Lisateave."
+    "message": "MetaECF ei saa teie seemnefraasi taastada. Lisateave."
   },
   "endOfFlowMessage9": {
     "message": "Lisateave."
@@ -391,7 +391,7 @@
     "message": "Ühendage riistvara rahakott"
   },
   "hardwareWalletsMsg": {
-    "message": "Valige riistvara rahakott, mida soovite ECF Walletis kasutada"
+    "message": "Valige riistvara rahakott, mida soovite MetaECFis kasutada"
   },
   "havingTroubleConnecting": {
     "message": "Kas ühendamisel esineb probleeme?"
@@ -420,7 +420,7 @@
     "message": "Impordi konto"
   },
   "importAccountMsg": {
-    "message": "Imporditud kontosid ei seostata teie ainulaadse ECF Walleti konto seemnefraasiga. Lugege imporditud kontode kohta lähemalt"
+    "message": "Imporditud kontosid ei seostata teie ainulaadse MetaECFi konto seemnefraasiga. Lugege imporditud kontode kohta lähemalt"
   },
   "importAccountSeedPhrase": {
     "message": "Impordi seemnefraasiga konto"
@@ -518,7 +518,7 @@
     "message": "Teid ühendatakse Ethereumi ja detsentraliseeritud võrguga."
   },
   "ecfWalletVersion": {
-    "message": "ECF Walleti versioon"
+    "message": "MetaECFi versioon"
   },
   "myAccounts": {
     "message": "Minu kontod"
@@ -562,7 +562,7 @@
     "message": "Uus võrk"
   },
   "newToEcfWallet": {
-    "message": "Pole ECF Walleti varem kasutanud?"
+    "message": "Pole MetaECFi varem kasutanud?"
   },
   "noAlreadyHaveSeed": {
     "message": "Ei, mul on juba seemnefraas"
@@ -940,7 +940,7 @@
     "message": "Proovi uuesti"
   },
   "typePassword": {
-    "message": "Sisestage oma ECF Walleti parool"
+    "message": "Sisestage oma MetaECFi parool"
   },
   "unapproved": {
     "message": "Kinnitamata"
@@ -982,7 +982,7 @@
     "message": "Tere tulemast tagasi!"
   },
   "welcome": {
-    "message": "Tere tulemast ECF Walleti"
+    "message": "Tere tulemast MetaECFi"
   },
   "writePhrase": {
     "message": "Kirjutage see fraas paberile ja hoidke seda turvalises kohas. Veel suurema turvalisuse tagamiseks kirjutage see mitmele paberile ja hoidke neid 2–3 erinevas kohas."

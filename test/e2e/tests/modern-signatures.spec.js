@@ -43,7 +43,7 @@ describe('Modern signature confirmations', function () {
         await requestSiwe('http://127.0.0.1:8080');
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         const details = await driver.findElement(
@@ -68,7 +68,7 @@ describe('Modern signature confirmations', function () {
         await requestSiwe('https://evil.example');
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         assert.equal(
@@ -122,7 +122,7 @@ describe('Modern signature confirmations', function () {
         );
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         await driver.findElement(By.css('[aria-label="Signing domain"]'));

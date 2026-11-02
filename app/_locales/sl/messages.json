@@ -57,7 +57,7 @@
     "message": "Dodaj priporočene žetone"
   },
   "addAcquiredTokens": {
-    "message": "Dodaj žetone pridobljene z ECF Wallet"
+    "message": "Dodaj žetone pridobljene z MetaECF"
   },
   "amount": {
     "message": "Znesek"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Časovnik za samodejno odjavo (minute)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Nastavite, po koliko minutah mirovanja naj se ECF Wallet samodejno odjavi"
+    "message": "Nastavite, po koliko minutah mirovanja naj se MetaECF samodejno odjavi"
   },
   "average": {
     "message": "Povprečje"
@@ -285,13 +285,13 @@
     "message": "Nikoli nikomur ne razkrijte svojega gesla seed phrase."
   },
   "endOfFlowMessage5": {
-    "message": "Pazite na lažno predstavljanje! ECF Wallet nikoli ne bo spontano zaprosil za vaše geslo seed phrase."
+    "message": "Pazite na lažno predstavljanje! MetaECF nikoli ne bo spontano zaprosil za vaše geslo seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "Če morate ponovno varnostno kopirati vaše geslo seed phrase, ga najdete v Nastavitve -> Varnost."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet ne more obnoviti vašega gesla seed phrase. Več informacij."
+    "message": "MetaECF ne more obnoviti vašega gesla seed phrase. Več informacij."
   },
   "endOfFlowMessage9": {
     "message": "Več o tem"
@@ -506,7 +506,7 @@
     "message": "Sporočilo"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet je varen identitetni sklad za Ethereum."
+    "message": "MetaECF je varen identitetni sklad za Ethereum."
   },
   "ecfWalletVersion": {
     "message": "Različica"
@@ -553,7 +553,7 @@
     "message": "Novo omrežje"
   },
   "newToEcfWallet": {
-    "message": "Ste novi na ECF Wallet?"
+    "message": "Ste novi na MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, hvala, že imam seed phrase"
@@ -928,7 +928,7 @@
     "message": "Poskusi znova"
   },
   "typePassword": {
-    "message": "Vnesite vaše ECF Wallet geslo"
+    "message": "Vnesite vaše MetaECF geslo"
   },
   "unapproved": {
     "message": "Neodobreno"
@@ -967,7 +967,7 @@
     "message": "Dobrodošli nazaj!"
   },
   "welcome": {
-    "message": "Dobrodošli v ECF Wallet"
+    "message": "Dobrodošli v MetaECF"
   },
   "writePhrase": {
     "message": "To frazo napišite na papir in shranite na varnem mestu. Če želite še večjo varnost, si jo zapišite na več kosov papirja in shranite na dveh ali treh različnih lokacijah."

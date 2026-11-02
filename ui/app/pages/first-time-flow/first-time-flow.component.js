@@ -65,6 +65,15 @@ export default class FirstTimeFlow extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // These routes are outside the Authenticated guard, so nothing else takes
+    // the Secret Recovery Phrase off screen when the wallet locks.
+    if (prevProps.isUnlocked && !this.props.isUnlocked) {
+      this.setState({ seedPhrase: '' });
+      this.props.navigate(INITIALIZE_UNLOCK_ROUTE);
+    }
+  }
+
   handleCreateNewAccount = async (password) => {
     const { createNewAccount } = this.props;
 

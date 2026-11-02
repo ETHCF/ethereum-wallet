@@ -57,7 +57,7 @@
     "message": "Agregar los tokens sugeridos"
   },
   "addAcquiredTokens": {
-    "message": "Agrega los tokens adquiridos con ECF Wallet"
+    "message": "Agrega los tokens adquiridos con MetaECF"
   },
   "amount": {
     "message": "Monto"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Temporizador de cierre de sesión automático (minutos)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Configura tu tiempo de inactividad en minutos para controlar cuándo ECF Wallet cerrará tu sesión de forma automática"
+    "message": "Configura tu tiempo de inactividad en minutos para controlar cuándo MetaECF cerrará tu sesión de forma automática"
   },
   "average": {
     "message": "Promedio"
@@ -159,7 +159,7 @@
     "message": "Cerrar"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Debes utilizar ECF Wallet en Google Chrome para poder conectarte a tu billetera de hardware."
+    "message": "Debes utilizar MetaECF en Google Chrome para poder conectarte a tu billetera de hardware."
   },
   "confirm": {
     "message": "Confirmar"
@@ -282,13 +282,13 @@
     "message": "Nunca compartas tu frase con nadie."
   },
   "endOfFlowMessage5": {
-    "message": "¡Cuidado con las suplantaciones de identidad! ECF Wallet no te pedirá nunca tu frase de inicialización de forma espontánea."
+    "message": "¡Cuidado con las suplantaciones de identidad! MetaECF no te pedirá nunca tu frase de inicialización de forma espontánea."
   },
   "endOfFlowMessage6": {
     "message": "Si necesitas otra copia de seguridad de tu frase de inicialización, puedes encontrarla en Configuración -> Seguridad."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet no puede recuperar tu frase de inicialización. Obtén más información."
+    "message": "MetaECF no puede recuperar tu frase de inicialización. Obtén más información."
   },
   "endOfFlowMessage9": {
     "message": "Más información."
@@ -382,7 +382,7 @@
     "message": "Conectar una billetera de hardware"
   },
   "hardwareWalletsMsg": {
-    "message": "Selecciona la billetera de hardware que te gustaría utilizar con ECF Wallet"
+    "message": "Selecciona la billetera de hardware que te gustaría utilizar con MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "¿Problemas de conexión?"
@@ -411,7 +411,7 @@
     "message": "Importar cuenta"
   },
   "importAccountMsg": {
-    "message": "Las cuentas importadas no estarán asociadas a la frase de inicialización que se creó en un principio para tu cuenta de ECF Wallet. Obtén más información sobre las cuentas importadas"
+    "message": "Las cuentas importadas no estarán asociadas a la frase de inicialización que se creó en un principio para tu cuenta de MetaECF. Obtén más información sobre las cuentas importadas"
   },
   "importAccountSeedPhrase": {
     "message": "Importar una cuenta con frase de inicialización"
@@ -512,7 +512,7 @@
     "message": "Te estamos conectando a Ethereum y a la web descentralizada."
   },
   "ecfWalletVersion": {
-    "message": "Versión de ECF Wallet"
+    "message": "Versión de MetaECF"
   },
   "myAccounts": {
     "message": "Mis cuentas"
@@ -556,7 +556,7 @@
     "message": "Nueva red"
   },
   "newToEcfWallet": {
-    "message": "¿Nuevo en ECF Wallet?"
+    "message": "¿Nuevo en MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "No, ya tengo una frase de inicialización"
@@ -928,7 +928,7 @@
     "message": "Reintentar"
   },
   "typePassword": {
-    "message": "Ingresa tu contraseña de ECF Wallet"
+    "message": "Ingresa tu contraseña de MetaECF"
   },
   "unapproved": {
     "message": "Sin autorización"
@@ -970,7 +970,7 @@
     "message": "¡Hola de nuevo!"
   },
   "welcome": {
-    "message": "Bienvenido a ECF Wallet"
+    "message": "Bienvenido a MetaECF"
   },
   "writePhrase": {
     "message": "Escribe esta frase en un papel y guárdalo en un lugar seguro. Si deseas una seguridad incluso mejor, escríbela en varios trozos de papel y guárdalos en dos o tres lugares distintos."

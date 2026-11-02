@@ -57,7 +57,7 @@
     "message": "Pridať navrhované tokeny"
   },
   "addAcquiredTokens": {
-    "message": "Pridajte tokeny, ktoré ste získali pomocou ECF Wallet"
+    "message": "Pridajte tokeny, ktoré ste získali pomocou MetaECF"
   },
   "amount": {
     "message": "Částka"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -92,7 +92,7 @@
     "message": "Časovač automatického odhlásenia (minúty)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Nastavte čas nečinnosti v minútach skôr, než sa ECF Wallet automaticky odhlási"
+    "message": "Nastavte čas nečinnosti v minútach skôr, než sa MetaECF automaticky odhlási"
   },
   "average": {
     "message": "Priemerný"
@@ -153,7 +153,7 @@
     "message": "Zavrieť"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Ak sa chcete pripojiť k svojej hardvérovej peňaženke, musíte v Google Chrome použiť ECF Wallet."
+    "message": "Ak sa chcete pripojiť k svojej hardvérovej peňaženke, musíte v Google Chrome použiť MetaECF."
   },
   "confirm": {
     "message": "Potvrdit"
@@ -276,13 +276,13 @@
     "message": "Nikdy nezdieľajte frázu s niekým iným."
   },
   "endOfFlowMessage5": {
-    "message": "Dávajte pozor na phishing! ECF Wallet nikdy nebude spontánne požadovať vašu seed frázu."
+    "message": "Dávajte pozor na phishing! MetaECF nikdy nebude spontánne požadovať vašu seed frázu."
   },
   "endOfFlowMessage6": {
     "message": "Ak potrebujete backup frázu znova zálohovať, nájdete ju v časti Nastavenia -> Zabezpečenie."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet nemôže obnoviť vašu seed frázu. Zistiť viac."
+    "message": "MetaECF nemôže obnoviť vašu seed frázu. Zistiť viac."
   },
   "endOfFlowMessage9": {
     "message": "Dozvedieť sa viac."
@@ -382,7 +382,7 @@
     "message": "Pripojiť hardvérovú peňaženku"
   },
   "hardwareWalletsMsg": {
-    "message": "Vyberte hardvérovú peňaženku, ktorú chcete používať s ECF Wallet"
+    "message": "Vyberte hardvérovú peňaženku, ktorú chcete používať s MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Máte problémy s pripojením?"
@@ -404,7 +404,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní ECF Walletovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní MetaECFovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "importAccountSeedPhrase": {
     "message": "Importovať účet so seed frázou"
@@ -499,10 +499,10 @@
     "message": "Zpráva"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
+    "message": "MetaECF je bezpečný osobní trezor pro Ethereum."
   },
   "ecfWalletVersion": {
-    "message": "Verzia ECF Wallet"
+    "message": "Verzia MetaECF"
   },
   "myAccounts": {
     "message": "Moje účty"
@@ -546,7 +546,7 @@
     "message": "Nová sieť"
   },
   "newToEcfWallet": {
-    "message": "Ste noví na ECF Wallet?"
+    "message": "Ste noví na MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nie, už mám seed frázu"
@@ -960,7 +960,7 @@
     "message": "Vitajte späť!"
   },
   "welcome": {
-    "message": "Vitajte v ECF Wallet"
+    "message": "Vitajte v MetaECF"
   },
   "writePhrase": {
     "message": "Túto frázu si zapíšte na papier a uložte na bezpečnom mieste. Kvôli vyššej bezpečnosti si ho môžete napísať na niekoľko papierov a uložiť na 2 – 3 rôzne miesta."

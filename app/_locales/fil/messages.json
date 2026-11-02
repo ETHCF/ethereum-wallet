@@ -51,7 +51,7 @@
     "message": "Magdagdag ng Mga Iminungkahing Token"
   },
   "addAcquiredTokens": {
-    "message": "Idagdag ang mga token na nakuha mo gamit ang ECF Wallet"
+    "message": "Idagdag ang mga token na nakuha mo gamit ang MetaECF"
   },
   "amount": {
     "message": "Halaga"
@@ -61,7 +61,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -86,7 +86,7 @@
     "message": "Auto-Logout Timer (minuto)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "I-set ang idle time na minuto bago awtomatikong mag-log out ang ECF Wallet"
+    "message": "I-set ang idle time na minuto bago awtomatikong mag-log out ang MetaECF"
   },
   "back": {
     "message": "Bumalik"
@@ -138,7 +138,7 @@
     "message": "Isara"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Kailangan mong gamitin ang ECF Wallet sa Google Chrome upang makakonekta sa iyong Hardware Wallet."
+    "message": "Kailangan mong gamitin ang MetaECF sa Google Chrome upang makakonekta sa iyong Hardware Wallet."
   },
   "confirm": {
     "message": "Kumpirmahin"
@@ -258,13 +258,13 @@
     "message": "Huwag ibahagi ang parirala sa kahit sino."
   },
   "endOfFlowMessage5": {
-    "message": "Mag-ingat sa phishing! Hindi ka basta-basta hihilingin ng ECF Wallet ang iyong seed phrase."
+    "message": "Mag-ingat sa phishing! Hindi ka basta-basta hihilingin ng MetaECF ang iyong seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "Kung kailangan mong i-back up ulit ang iyong seed phrase, makikita mo ito sa Mga Setting -> Seguridad."
   },
   "endOfFlowMessage8": {
-    "message": "Hindi ma-recover ng ECF Wallet ang iyong seedphrase. Alamin pa."
+    "message": "Hindi ma-recover ng MetaECF ang iyong seedphrase. Alamin pa."
   },
   "endOfFlowMessage9": {
     "message": "Matuto pa."
@@ -361,7 +361,7 @@
     "message": "Magkonekta ng hardware wallet"
   },
   "hardwareWalletsMsg": {
-    "message": "Pumili ng hardware wallet na gusto mong gamitin sa ECF Wallet"
+    "message": "Pumili ng hardware wallet na gusto mong gamitin sa MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "May problema ka ba sa pagkonekta?"
@@ -384,7 +384,7 @@
     "message": "Mag-import ng Account"
   },
   "importAccountMsg": {
-    "message": " Ang mga na-import na account ay hindi iuugnay sa orihinal na seedphrase na ginawa ng iyong ECF Wallet account. Matuto pa tungkol sa mga na-import na account "
+    "message": " Ang mga na-import na account ay hindi iuugnay sa orihinal na seedphrase na ginawa ng iyong MetaECF account. Matuto pa tungkol sa mga na-import na account "
   },
   "importAccountSeedPhrase": {
     "message": "Mag-import ng Account gamit ang Seed Phrase"
@@ -478,7 +478,7 @@
     "message": "Kinokonekta ka sa Ethereum at sa Decentralized Web."
   },
   "ecfWalletVersion": {
-    "message": "Bersyon ng ECF Wallet"
+    "message": "Bersyon ng MetaECF"
   },
   "myAccounts": {
     "message": "Mga Account Ko"
@@ -518,7 +518,7 @@
     "message": "Bagong Network"
   },
   "newToEcfWallet": {
-    "message": "Bago ka ba sa ECF Wallet?"
+    "message": "Bago ka ba sa MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Hindi, may seed phrase na ako"
@@ -871,7 +871,7 @@
     "message": "Subukang muli"
   },
   "typePassword": {
-    "message": "I-type ang iyong password sa ECF Wallet"
+    "message": "I-type ang iyong password sa MetaECF"
   },
   "unapproved": {
     "message": "Hindi inaprubahan"
@@ -910,7 +910,7 @@
     "message": "Welcome Ulit!"
   },
   "welcome": {
-    "message": "Welcome sa ECF Wallet"
+    "message": "Welcome sa MetaECF"
   },
   "writePhrase": {
     "message": "Isulat ang pariralang ito sa isang piraso ng papel at itago ito sa isang secure na lokasyon. Kung gusto mo ng higit pang seguridad, isulat ito sa maraming piraso ng papel at itago ang bawat isa sa 2 - 3 iba't ibang lokasyon."

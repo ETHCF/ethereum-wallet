@@ -6,7 +6,7 @@ const { withFixtures } = require('../helpers');
 // A look-alike of metamask.io, which the phishing list matches loosely, so it
 // stays flagged as the list is updated. Served here by the local dapp server.
 const PHISHING_SITE = 'http://metamaskk.io:8080/';
-const WARNING_TITLE = 'Ethereum Phishing Detection - ECF Wallet';
+const WARNING_TITLE = 'Ethereum Phishing Detection - MetaECF';
 
 describe('Phishing warning', function () {
   it('replaces a listed site, which websites cannot do, and continues to that site only', async function () {

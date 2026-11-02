@@ -57,7 +57,7 @@
     "message": "הוסף/י אסימונים מוצעים"
   },
   "addAcquiredTokens": {
-    "message": "הוספת הטוקנים שהשגת באמצעות ECF Wallet"
+    "message": "הוספת הטוקנים שהשגת באמצעות MetaECF"
   },
   "amount": {
     "message": "כמות"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "טיימר התנתקות אוטומטית (דקות)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "הגדר/י את זמן היעדר הפעילות בדקות לפני ש-ECF Wallet יתנתק אוטומטית."
+    "message": "הגדר/י את זמן היעדר הפעילות בדקות לפני ש-MetaECF יתנתק אוטומטית."
   },
   "average": {
     "message": "ממוצע"
@@ -162,7 +162,7 @@
     "message": "סגירה"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "עליך להשתמש ב-ECF Wallet בגוגל כרום כדי להתחבר לארנק החומרה שלך."
+    "message": "עליך להשתמש ב-MetaECF בגוגל כרום כדי להתחבר לארנק החומרה שלך."
   },
   "confirm": {
     "message": "אישור"
@@ -285,13 +285,13 @@
     "message": "לעולם אל תשתפ/י את הצירוף עם אף אחד."
   },
   "endOfFlowMessage5": {
-    "message": "היזהר/י מהתחזות! ECF Wallet לעולם לא יבקש באופן ספונטני את צירוף הגרעין שלך."
+    "message": "היזהר/י מהתחזות! MetaECF לעולם לא יבקש באופן ספונטני את צירוף הגרעין שלך."
   },
   "endOfFlowMessage6": {
     "message": "אם עליך לגבות את צירוף הגרעין שלך שוב, תוכל/י למצוא זאת בהגדרות -> אבטחה."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet לא הצליח לשחזר את ה-seedphrase שלך. למד/י עוד."
+    "message": "MetaECF לא הצליח לשחזר את ה-seedphrase שלך. למד/י עוד."
   },
   "endOfFlowMessage9": {
     "message": "למד עוד."
@@ -391,7 +391,7 @@
     "message": "חבר ארנק חומרה"
   },
   "hardwareWalletsMsg": {
-    "message": "בחר/י ארנק חומרה שבו תרצה להשתמש עם ECF Wallet"
+    "message": "בחר/י ארנק חומרה שבו תרצה להשתמש עם MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "חווה קשיים בהתחברות?"
@@ -420,7 +420,7 @@
     "message": "יבא חשבון"
   },
   "importAccountMsg": {
-    "message": "חשבונות מיובאים לא ישויכו לצירוף הגרעין (seed) שנוצר במקור עבור חשבון ה-ECF Wallet שלך. למד/י עוד על חשבונות מיובאים"
+    "message": "חשבונות מיובאים לא ישויכו לצירוף הגרעין (seed) שנוצר במקור עבור חשבון ה-MetaECF שלך. למד/י עוד על חשבונות מיובאים"
   },
   "importAccountSeedPhrase": {
     "message": "יבא חשבון באמצעות Seed Phrase"
@@ -521,7 +521,7 @@
     "message": "מחבר אותך לאתריום ולרשת המבוזרת."
   },
   "ecfWalletVersion": {
-    "message": "גרסת ECF Wallet"
+    "message": "גרסת MetaECF"
   },
   "myAccounts": {
     "message": "החשבונות שלי"
@@ -565,7 +565,7 @@
     "message": "רשת חדשה"
   },
   "newToEcfWallet": {
-    "message": "חדש/ה ב- ECF Wallet?"
+    "message": "חדש/ה ב- MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "לא, כבר יש לי צירוף גרעין"
@@ -943,7 +943,7 @@
     "message": "ניסיון חוזר"
   },
   "typePassword": {
-    "message": "נא להקליד את סיסמת ECF Wallet שלך"
+    "message": "נא להקליד את סיסמת MetaECF שלך"
   },
   "unapproved": {
     "message": "לא אושר"
@@ -985,7 +985,7 @@
     "message": "ברוך שובך!"
   },
   "welcome": {
-    "message": "ברוכים הבאים ל- ECF Wallet"
+    "message": "ברוכים הבאים ל- MetaECF"
   },
   "writePhrase": {
     "message": "יש לכתוב צירוף זה על פיסת נייר ולשמור במקום מאובטח. אם הנך מעוניינ/ת ביותר אבטחה, רשמ/י אותו על גבי מספר פיסות נייר ואחסני כל אחת מהן ב- 2-3 מקומות שונים."

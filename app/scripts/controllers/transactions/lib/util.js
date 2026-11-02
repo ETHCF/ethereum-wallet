@@ -3,6 +3,13 @@ import { addHexPrefix, isValidAddress } from '@ethereumjs/util';
 import { isFeeMarketTransaction } from '../../../lib/transaction-fees';
 import { hexToBn } from '../../../lib/util';
 
+// Geth's default transaction pool refuses anything larger, so a bigger
+// transaction could not be sent. Transactions are stored and copied to the UI,
+// so this also limits what one request can make the wallet hold.
+export const MAX_TX_PAYLOAD_BYTES = 128 * 1024;
+// 32 bytes, the widest quantity a transaction can carry.
+const MAX_QUANTITY_LENGTH = 66;
+
 const normalizers = {
   from: (from) => addHexPrefix(from),
   to: (to, lowerCase) =>
@@ -85,6 +92,7 @@ export function validateTxParams(txParams) {
   validateRecipient(txParams);
   validateEnvelope(txParams);
   validateData(txParams.data);
+  validatePayloadSize(txParams);
   // A hex quantity also rules out a negative or fractional value.
   for (const field of ['nonce', 'value', 'gas', 'gasPrice']) {
     if (txParams[field] !== undefined) {
@@ -105,8 +113,22 @@ function validateData(data) {
   }
 }
 
+function validatePayloadSize({ data = '0x', accessList = [] }) {
+  const accessListBytes = accessList.reduce(
+    (total, { storageKeys }) => total + 20 + storageKeys.length * 32,
+    0,
+  );
+  if ((data.length - 2) / 2 + accessListBytes > MAX_TX_PAYLOAD_BYTES) {
+    throw new Error('Invalid transaction: data is too large');
+  }
+}
+
 function quantity(value, field) {
-  if (typeof value !== 'string' || !/^0x[0-9a-f]+$/iu.test(value)) {
+  if (
+    typeof value !== 'string' ||
+    value.length > MAX_QUANTITY_LENGTH ||
+    !/^0x[0-9a-f]+$/iu.test(value)
+  ) {
     throw new Error(`Invalid ${field}: expected a hexadecimal quantity`);
   }
 }

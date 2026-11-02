@@ -13,5 +13,5 @@ module.exports = function rebrandProviderMessages(source) {
     );
   }
   // Leave links such as github.com/MetaMask/... intact.
-  return source.replace(/\bMetaMask\b(?!\/)/gu, 'ECF Wallet');
+  return source.replace(/\bMetaMask\b(?!\/)/gu, 'MetaECF');
 };

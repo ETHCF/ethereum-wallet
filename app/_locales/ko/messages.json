@@ -70,7 +70,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -98,7 +98,7 @@
     "message": "자동 로그아웃 타이머 (분)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "ECF Wallet가 자동으로 로그아웃되기 전 유휴 시간을 분 단위로 설정하세요"
+    "message": "MetaECF가 자동으로 로그아웃되기 전 유휴 시간을 분 단위로 설정하세요"
   },
   "average": {
     "message": "평균"
@@ -1109,7 +1109,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "ECF Wallet이 이 사이트에 연결되어 있지 않습니다. web3 사이트에 연결하려면 해당 사이트에서 연결 버튼을 찾으세요."
+    "message": "MetaECF이 이 사이트에 연결되어 있지 않습니다. web3 사이트에 연결하려면 해당 사이트에서 연결 버튼을 찾으세요."
   },
   "currentAccountNotConnected": {
     "message": "현재 계정이 연결되어 있지 않습니다"
@@ -1175,7 +1175,7 @@
     "message": "연결 중..."
   },
   "connectWithEcfWallet": {
-    "message": "ECF Wallet으로 연결"
+    "message": "MetaECF으로 연결"
   },
   "connectTo": {
     "message": "$1에 연결",
@@ -1291,7 +1291,7 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "ECF Wallet에 오류가 발생했습니다",
+    "message": "MetaECF에 오류가 발생했습니다",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
@@ -1646,7 +1646,7 @@
     "message": "이 사이트가 RPC 공급자를 선택했습니다. 공급자는 사용자의 IP 주소와 사용하는 계정을 볼 수 있으며, 잘못된 잔액이나 트랜잭션 결과를 표시할 수 있습니다."
   },
   "networkRequestUnknownChain": {
-    "message": "ECF Wallet이 이 네트워크를 인식하지 못합니다. 이 사이트를 신뢰하는 경우에만 추가하세요."
+    "message": "MetaECF이 이 네트워크를 인식하지 못합니다. 이 사이트를 신뢰하는 경우에만 추가하세요."
   },
   "networkRequestSymbolMismatch": {
     "message": "$1은(는) $2을(를) 통화로 사용하지만, 이 사이트는 $3(이)라고 합니다. 이 사이트가 $1을(를) 사칭하고 있을 수 있습니다.",
@@ -1768,7 +1768,7 @@
     "message": "가져온 계정 정보"
   },
   "helpImportedAccounts1": {
-    "message": "ECF Wallet에서 만든 계정은 모두 시드 구문에서 생성되므로, 시드 구문만으로 복원할 수 있습니다. 가져온 계정은 개인키나 JSON 파일에서 생성되며, 시드 구문과 연결되어 있지 않습니다. 가져온 계정은 계정 목록에 \"가져온 계정\"으로 표시됩니다."
+    "message": "MetaECF에서 만든 계정은 모두 시드 구문에서 생성되므로, 시드 구문만으로 복원할 수 있습니다. 가져온 계정은 개인키나 JSON 파일에서 생성되며, 시드 구문과 연결되어 있지 않습니다. 가져온 계정은 계정 목록에 \"가져온 계정\"으로 표시됩니다."
   },
   "helpImportedAccounts2": {
     "message": "시드 구문으로 지갑을 복원해도 가져온 계정은 복구되지 않습니다. 가져온 각 계정의 개인키 또는 JSON 파일(및 해당 비밀번호)을 별도로 오프라인에 백업해 두세요."
@@ -1783,7 +1783,7 @@
     "message": "JSON 파일 가져오기"
   },
   "helpImportJson1": {
-    "message": "ECF Wallet은 Geth, Mist, MyEtherWallet 같은 클라이언트에서 저장한 암호화된 JSON 키스토어 파일에서 계정을 가져올 수 있습니다. 파일을 선택한 다음, 파일을 만들 때 설정한 비밀번호를 입력하세요."
+    "message": "MetaECF은 Geth, Mist, MyEtherWallet 같은 클라이언트에서 저장한 암호화된 JSON 키스토어 파일에서 계정을 가져올 수 있습니다. 파일을 선택한 다음, 파일을 만들 때 설정한 비밀번호를 입력하세요."
   },
   "helpImportJson2": {
     "message": "가져오기에 실패하면 대문자와 공백을 포함하여 비밀번호가 정확한지, 그리고 다른 백업 파일이나 텍스트 파일이 아닌 키스토어 파일 자체(보통 UTC--… 형식의 이름)를 선택했는지 확인하세요."
@@ -1798,10 +1798,10 @@
     "message": "토큰 추가"
   },
   "helpAddTokens1": {
-    "message": "받은 토큰은 ECF Wallet에 표시되지 않더라도 사용자의 주소에 보관되어 있습니다. 토큰을 추가하는 것은 지갑에 해당 토큰의 잔액을 표시하도록 하는 것뿐입니다."
+    "message": "받은 토큰은 MetaECF에 표시되지 않더라도 사용자의 주소에 보관되어 있습니다. 토큰을 추가하는 것은 지갑에 해당 토큰의 잔액을 표시하도록 하는 것뿐입니다."
   },
   "helpAddTokens2": {
-    "message": "잘 알려진 토큰을 추가하려면 토큰 추가를 열고 이름이나 기호로 검색하세요. 그 밖의 토큰을 추가하려면 사용자 정의 토큰을 선택하고 컨트랙트 주소를 입력하세요. ECF Wallet은 가능한 경우 기호와 소수 자릿수를 자동으로 채웁니다. 그렇지 않으면 블록 탐색기의 토큰 페이지에서 복사하세요."
+    "message": "잘 알려진 토큰을 추가하려면 토큰 추가를 열고 이름이나 기호로 검색하세요. 그 밖의 토큰을 추가하려면 사용자 정의 토큰을 선택하고 컨트랙트 주소를 입력하세요. MetaECF은 가능한 경우 기호와 소수 자릿수를 자동으로 채웁니다. 그렇지 않으면 블록 탐색기의 토큰 페이지에서 복사하세요."
   },
   "helpAddTokens3": {
     "message": "프로젝트 공식 웹사이트 등 신뢰할 수 있는 출처의 컨트랙트 주소만 사용하세요. 누구나 실제 토큰과 같은 이름과 기호로 토큰을 만들 수 있으며, 지갑에 토큰이 표시된다고 해서 가치가 있다는 의미는 아닙니다."
@@ -1813,16 +1813,16 @@
     "message": "기본 보안 수칙"
   },
   "helpSafetyTips1": {
-    "message": "시드 구문은 계정과 자금에 대한 완전한 통제권을 줍니다. 시드 구문을 가진 사람은 누구나 모든 것을 가져갈 수 있으며, ECF Wallet은 분실한 시드 구문을 복구하거나 트랜잭션을 되돌릴 수 없습니다."
+    "message": "시드 구문은 계정과 자금에 대한 완전한 통제권을 줍니다. 시드 구문을 가진 사람은 누구나 모든 것을 가져갈 수 있으며, MetaECF은 분실한 시드 구문을 복구하거나 트랜잭션을 되돌릴 수 없습니다."
   },
   "helpSafetyTips2": {
     "message": "시드 구문을 적어서 여러 안전한 장소에 사본을 보관하세요. 스크린샷, 이메일, 채팅, 온라인 메모는 피하세요. 설정 > 보안 및 개인 정보 보호에서 다시 확인할 수 있습니다."
   },
   "helpSafetyTips3": {
-    "message": "시드 구문이나 개인키를 절대 공유하지 말고, 절대 웹사이트에 입력하지 마세요. ECF Wallet은 절대 이를 요구하지 않으며, 진짜 지원을 제공하는 사람도 마찬가지입니다."
+    "message": "시드 구문이나 개인키를 절대 공유하지 말고, 절대 웹사이트에 입력하지 마세요. MetaECF은 절대 이를 요구하지 않으며, 진짜 지원을 제공하는 사람도 마찬가지입니다."
   },
   "helpSafetyTips4": {
-    "message": "강력하고 고유한 비밀번호를 사용하고, 자리를 비울 때는 ECF Wallet을 잠그세요. 비밀번호는 이 기기에서 지갑의 잠금을 해제할 뿐이며, 시드 구문 없이는 계정을 복원할 수 없습니다."
+    "message": "강력하고 고유한 비밀번호를 사용하고, 자리를 비울 때는 MetaECF을 잠그세요. 비밀번호는 이 기기에서 지갑의 잠금을 해제할 뿐이며, 시드 구문 없이는 계정을 복원할 수 없습니다."
   },
   "helpSafetyTips5": {
     "message": "지갑을 연결하거나 무언가를 승인하기 전에 사이트 주소를 확인하세요. 피싱 사이트는 실제 사이트를 매우 비슷하게 모방합니다. 승인하기 전에 모든 요청을 읽고, 토큰 사용을 요청하는 경우 주의하세요."
@@ -1855,6 +1855,6 @@
     "message": "후원"
   },
   "donateDescription": {
-    "message": "ECF Wallet은 무료 오픈 소스입니다. Ethereum Community Foundation에 대한 후원금은 개발 자금으로 사용됩니다."
+    "message": "MetaECF은 무료 오픈 소스입니다. Ethereum Community Foundation에 대한 후원금은 개발 자금으로 사용됩니다."
   }
 }

@@ -6,7 +6,7 @@ const icon = `data:image/svg+xml,${encodeURIComponent(iconSvg)}`;
 export default function announceProvider(provider) {
   const info = Object.freeze({
     uuid: createUuid(),
-    name: 'ECF Wallet',
+    name: 'MetaECF',
     icon,
     rdns: 'org.ethcf.wallet',
   });

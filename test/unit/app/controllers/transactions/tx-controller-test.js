@@ -1,4 +1,5 @@
 import { ObservableStore } from '@metamask/obs-store';
+import { errorCodes } from '@metamask/rpc-errors';
 import { strict as assert } from 'assert';
 import EventEmitter from 'events';
 import sinon from 'sinon';
@@ -352,6 +353,101 @@ describe('Transaction Controller', function () {
     afterEach(function () {
       getSelectedAddress.restore();
       getPermittedAccounts.restore();
+    });
+
+    describe('requests from a site', function () {
+      const origin = 'https://site.example';
+      const noCodeRecipient = '0xc684832530fcbddae4b4230a47e991ddcec2831d';
+      const failingParams = {
+        from: selectedAddress,
+        to: noCodeRecipient,
+        data: '0xdeadbeef',
+      };
+      const validParams = { from: selectedAddress, to: noCodeRecipient };
+      const unapprovedCount = () =>
+        Object.keys(txController.txStateManager.getUnapprovedTxList()).length;
+
+      it('stores nothing and opens no prompt when gas defaults fail', async function () {
+        const prompted = sinon.spy();
+        txController.on('newUnapprovedTx', prompted);
+
+        for (let i = 0; i < 30; i++) {
+          await assert.rejects(
+            txController.addUnapprovedTransaction(failingParams, origin),
+            /non-contract address/u,
+          );
+        }
+
+        assert.equal(unapprovedCount(), 0);
+        assert(prompted.notCalled);
+      });
+
+      it('keeps a wallet transaction when gas defaults fail', async function () {
+        await assert.rejects(
+          txController.addUnapprovedTransaction(failingParams, 'ecf-wallet'),
+          /non-contract address/u,
+        );
+
+        assert.equal(unapprovedCount(), 1);
+      });
+
+      it('stores nothing when fee lookup fails', async function () {
+        sinon
+          .stub(txController, '_getDefaultFees')
+          .rejects(new Error('no fees'));
+
+        await assert.rejects(
+          txController.addUnapprovedTransaction(validParams, origin),
+          /no fees/u,
+        );
+
+        assert.equal(unapprovedCount(), 0);
+      });
+
+      it('answers a waiting request when unapproved transactions are cleared', async function () {
+        sinon
+          .stub(txController, 'addTxGasDefaults')
+          .callsFake(async (txMeta) => txMeta);
+        sinon.stub(txController, '_simulateTransaction');
+        const stored = new Promise((resolve) =>
+          txController.once('newUnapprovedTx', resolve),
+        );
+        const request = txController.newUnapprovedTransaction(validParams, {
+          origin,
+        });
+        await stored;
+
+        // The request starts listening once its transaction has been stored.
+        await new Promise((resolve) => setImmediate(resolve));
+        txController.txStateManager.clearUnapprovedTxs();
+
+        await assert.rejects(request, {
+          code: errorCodes.provider.userRejectedRequest,
+        });
+        assert.equal(unapprovedCount(), 0);
+      });
+
+      it('simulates a stored transaction', async function () {
+        const simulate = sinon.stub(txController, '_simulateTransaction');
+
+        const txMeta = await txController.addUnapprovedTransaction(
+          validParams,
+          origin,
+        );
+
+        assert(simulate.calledOnceWithExactly(txMeta.id));
+      });
+
+      it('stores a transaction with its defaults applied', async function () {
+        const txMeta = await txController.addUnapprovedTransaction(
+          validParams,
+          origin,
+        );
+
+        const stored = txController.txStateManager.getTx(txMeta.id);
+        assert.equal(stored.loadingDefaults, false);
+        assert.ok(stored.txParams.gas);
+      });
     });
 
     it('should add an unapproved transaction and return a valid txMeta', async function () {

@@ -16,14 +16,12 @@ import {
   getNativeCurrencyImage,
   transactionFeeSelector,
 } from '../../selectors';
+import { unapprovedTxsSelector } from '../../selectors/transactions';
 
 const mapStateToProps = (state, ownProps) => {
   const { params = {} } = ownProps;
   const { id: paramsTransactionId } = params;
-  const {
-    confirmTransaction,
-    ecfWallet: { currentNetworkTxList },
-  } = state;
+  const { confirmTransaction } = state;
 
   const {
     txData: {
@@ -32,12 +30,14 @@ const mapStateToProps = (state, ownProps) => {
     } = {},
   } = confirmTransaction;
 
+  // currentNetworkTxList is capped, so a site can push a pending transaction
+  // out of it. Without the transaction there is no total to show, not a zero.
   const transaction =
-    currentNetworkTxList.find(
-      ({ id }) => id === (Number(paramsTransactionId) || transactionId),
-    ) || {};
+    unapprovedTxsSelector(state)[Number(paramsTransactionId) || transactionId];
 
-  const { ethTransactionTotal } = transactionFeeSelector(state, transaction);
+  const { ethTransactionTotal } = transaction
+    ? transactionFeeSelector(state, transaction)
+    : {};
 
   const tokenData = getTokenData(data);
   const tokenValue = tokenData && getTokenValue(tokenData.params);

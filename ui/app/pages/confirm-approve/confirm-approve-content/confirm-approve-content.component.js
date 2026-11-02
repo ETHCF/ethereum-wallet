@@ -80,7 +80,9 @@ export default class ConfirmApproveContent extends Component {
         </div>
         <div className="confirm-approve-content__transaction-details-content__fee">
           <div className="confirm-approve-content__transaction-details-content__primary-fee">
-            {`${ethTransactionTotal} ${nativeCurrency}`}
+            {ethTransactionTotal
+              ? `${ethTransactionTotal} ${nativeCurrency}`
+              : ''}
           </div>
         </div>
       </div>

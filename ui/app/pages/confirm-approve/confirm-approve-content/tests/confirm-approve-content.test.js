@@ -32,6 +32,18 @@ describe('ConfirmApproveContent', function () {
     );
   });
 
+  it('shows no fee when the total is unknown', function () {
+    const fee = '.confirm-approve-content__transaction-details-content__fee';
+    const known = render({
+      tokenAmount: '1',
+      nativeCurrency: 'ETH',
+      ethTransactionTotal: '0.5',
+    });
+    assert.equal(known.find(fee).text(), '0.5 ETH');
+    const unknown = render({ tokenAmount: '1', nativeCurrency: 'ETH' });
+    assert.equal(unknown.find(fee).text(), '');
+  });
+
   it('labels unlimited approvals, and shows a custom amount instead', function () {
     const unlimited = render({
       tokenAmount:

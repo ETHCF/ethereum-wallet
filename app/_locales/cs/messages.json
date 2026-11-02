@@ -25,7 +25,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -148,7 +148,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní ECF Walletovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní MetaECFovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "imported": {
     "message": "Importováno",
@@ -207,7 +207,7 @@
     "message": "Zpráva"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet je bezpečný osobní trezor pro Ethereum."
+    "message": "MetaECF je bezpečný osobní trezor pro Ethereum."
   },
   "myAccounts": {
     "message": "Moje účty"
@@ -386,7 +386,7 @@
     "message": "Klíčová fráze peněženky"
   },
   "welcome": {
-    "message": "Vítejte v ECF Wallet"
+    "message": "Vítejte v MetaECF"
   },
   "yourSigRequested": {
     "message": "Je vyžadován váš podpis"

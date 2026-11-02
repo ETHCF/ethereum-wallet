@@ -494,14 +494,14 @@ export default class TransactionStateManager extends EventEmitter {
   }
 
   /**
-   * Filters out the unapproved transactions
+   * Rejects the unapproved transactions, which removes them. A request still
+   * waiting on one is answered, so it does not hang and keep its place in the
+   * origin throttler's count.
    */
 
   clearUnapprovedTxs() {
-    const transactions = this.getFullTxList();
-    const nonUnapprovedTxs = transactions.filter(
-      (tx) => tx.status !== 'unapproved',
-    );
-    this._saveTxList(nonUnapprovedTxs);
+    this.getFullTxList()
+      .filter((tx) => tx.status === 'unapproved')
+      .forEach((tx) => this.setTxStatusRejected(tx.id));
   }
 }

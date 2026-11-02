@@ -57,7 +57,7 @@
     "message": "Dodaj sugerowane tokeny."
   },
   "addAcquiredTokens": {
-    "message": "Dodaj tokeny pozyskane przy pomocy ECF Wallet"
+    "message": "Dodaj tokeny pozyskane przy pomocy MetaECF"
   },
   "amount": {
     "message": "Ilość"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Czas automatycznego wylogowania (w minutach)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Ustaw czas bezczynności w minutach, po którym ECF Wallet wyloguje Cię automatycznie"
+    "message": "Ustaw czas bezczynności w minutach, po którym MetaECF wyloguje Cię automatycznie"
   },
   "average": {
     "message": "Średnia"
@@ -159,7 +159,7 @@
     "message": "Zamknij"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Żeby połączyć się z portfelem sprzętowym, należy uruchomić ECF Wallet z przeglądarką Google Chrome."
+    "message": "Żeby połączyć się z portfelem sprzętowym, należy uruchomić MetaECF z przeglądarką Google Chrome."
   },
   "confirm": {
     "message": "Potwierdź"
@@ -282,13 +282,13 @@
     "message": "Nigdy nie udostępniaj nikomu tej frazy."
   },
   "endOfFlowMessage5": {
-    "message": "Uważaj na phishing! ECF Wallet nigdy spontanicznie nie poprosi Cię o podanie frazy seed."
+    "message": "Uważaj na phishing! MetaECF nigdy spontanicznie nie poprosi Cię o podanie frazy seed."
   },
   "endOfFlowMessage6": {
     "message": "Jeśli zajdzie konieczność ponownego wykonania kopii zapasowej frazy seed, znajdziesz ją w Ustawieniach -> Zabezpieczenia."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet nie może odzyskać Twojej frazy seed. Dowiedz się więcej."
+    "message": "MetaECF nie może odzyskać Twojej frazy seed. Dowiedz się więcej."
   },
   "endOfFlowMessage9": {
     "message": "Dowiedz się więcej."
@@ -388,7 +388,7 @@
     "message": "Podłącz sprzętowy portfel"
   },
   "hardwareWalletsMsg": {
-    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z ECF Walletiem"
+    "message": "Wybierz portfel sprzętowy, którego chcesz użyć z MetaECFiem"
   },
   "havingTroubleConnecting": {
     "message": "Problem z połączeniem?"
@@ -417,7 +417,7 @@
     "message": "Importuj konto"
   },
   "importAccountMsg": {
-    "message": " Importowane konta nie będą powiązane z Twoją pierwotną frazą seed ECF Wallet. Dowiedz się więcej o importowaniu kont "
+    "message": " Importowane konta nie będą powiązane z Twoją pierwotną frazą seed MetaECF. Dowiedz się więcej o importowaniu kont "
   },
   "importAccountSeedPhrase": {
     "message": "Zaimportuj konto za pomocą frazy seed"
@@ -518,10 +518,10 @@
     "message": "Wiadomość"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet to bezpieczny portfel dla Ethereum."
+    "message": "MetaECF to bezpieczny portfel dla Ethereum."
   },
   "ecfWalletVersion": {
-    "message": "Wersja ECF Wallet"
+    "message": "Wersja MetaECF"
   },
   "myAccounts": {
     "message": "Moje konta"
@@ -565,7 +565,7 @@
     "message": "Nowa sieć"
   },
   "newToEcfWallet": {
-    "message": "Pierwszy raz w ECF Wallet?"
+    "message": "Pierwszy raz w MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nie, mam już frazę seed"
@@ -979,7 +979,7 @@
     "message": "Witaj z powrotem!"
   },
   "welcome": {
-    "message": "Witaj w ECF Wallet"
+    "message": "Witaj w MetaECF"
   },
   "writePhrase": {
     "message": "Zapisz tę frazę na kartce papieru i przechowuj w bezpiecznym miejscu. Jeśli chcesz zapewnić jeszcze większe bezpieczeństwo, zapisz ją na kilku kartkach i przechowuj w 2-3 różnych miejscach."

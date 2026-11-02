@@ -57,7 +57,7 @@
     "message": "أضف العملات الرمزية المقترحة"
   },
   "addAcquiredTokens": {
-    "message": "أضف العملات الرمزية التي اكتسبتها باستخدام ECF Wallet"
+    "message": "أضف العملات الرمزية التي اكتسبتها باستخدام MetaECF"
   },
   "amount": {
     "message": "المبلغ"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "مؤقت تسجيل الخروج التلقائي (بالدقائق)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "اضبط مهلة السكون بالدقائق التي يقوم ECF Wallet بتسجيل الخروج بعدها تلقائيًا"
+    "message": "اضبط مهلة السكون بالدقائق التي يقوم MetaECF بتسجيل الخروج بعدها تلقائيًا"
   },
   "average": {
     "message": "المتوسط"
@@ -162,7 +162,7 @@
     "message": "إغلاق"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "تحتاج إلى استخدام ECF Wallet على Google Chrome للاتصال بمحفظة الأجهزة الخاصة بك."
+    "message": "تحتاج إلى استخدام MetaECF على Google Chrome للاتصال بمحفظة الأجهزة الخاصة بك."
   },
   "confirm": {
     "message": "التأكيد"
@@ -285,13 +285,13 @@
     "message": "لا تشارك هذه الجملة مطلقًا مع أي شخص."
   },
   "endOfFlowMessage5": {
-    "message": "كن حذراً من الخداع الإلكتروني! لن يسأل ECF Wallet من تلقاء نفسه عن عبارة الأمان الخاصة بك أبداً."
+    "message": "كن حذراً من الخداع الإلكتروني! لن يسأل MetaECF من تلقاء نفسه عن عبارة الأمان الخاصة بك أبداً."
   },
   "endOfFlowMessage6": {
     "message": "إذا كنت بحاجة إلى عمل نسخة احتياطية من عبارة الأمان الخاصة بك مرة أخرى، يمكنك العثور عليها في الإعدادات -> الأمان."
   },
   "endOfFlowMessage8": {
-    "message": "لا يمكن لـ ECF Wallet استعادة جملتك البذرية. تعلم المزيد."
+    "message": "لا يمكن لـ MetaECF استعادة جملتك البذرية. تعلم المزيد."
   },
   "endOfFlowMessage9": {
     "message": "اعرف المزيد."
@@ -391,7 +391,7 @@
     "message": "الاتصال بمحفظة hardware wallet"
   },
   "hardwareWalletsMsg": {
-    "message": "حدد محفظة أجهزة ترغب في استخدامها مع ECF Wallet"
+    "message": "حدد محفظة أجهزة ترغب في استخدامها مع MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "هل تواجه مشكلة في الاتصال؟"
@@ -420,7 +420,7 @@
     "message": "استيراد الحساب"
   },
   "importAccountMsg": {
-    "message": "لن يتم ربط الحسابات التي تم استيرادها بعبارة أمان حساب ECF Wallet الذي تم إنشاؤها في الأصل. تعرف على المزيد حول الحسابات المستوردة"
+    "message": "لن يتم ربط الحسابات التي تم استيرادها بعبارة أمان حساب MetaECF الذي تم إنشاؤها في الأصل. تعرف على المزيد حول الحسابات المستوردة"
   },
   "importAccountSeedPhrase": {
     "message": "استيراد حساب باستخدام عبارة الأمان"
@@ -521,7 +521,7 @@
     "message": "إيصالك بالإيثيريوم وبالشبكة اللامركزية."
   },
   "ecfWalletVersion": {
-    "message": "إصدار ECF Wallet "
+    "message": "إصدار MetaECF "
   },
   "myAccounts": {
     "message": "حساباتي"
@@ -565,7 +565,7 @@
     "message": "شبكة جديدة"
   },
   "newToEcfWallet": {
-    "message": "هل انت جديد في ECF Wallet؟"
+    "message": "هل انت جديد في MetaECF؟"
   },
   "noAlreadyHaveSeed": {
     "message": "لا، لدي جملة بذرية مسبقًا"
@@ -943,7 +943,7 @@
     "message": "إعادة المحاولة"
   },
   "typePassword": {
-    "message": "أدخل كلمة مرور ECF Wallet الخاصة بك"
+    "message": "أدخل كلمة مرور MetaECF الخاصة بك"
   },
   "unapproved": {
     "message": "تم الرفض"
@@ -985,7 +985,7 @@
     "message": "نرحب بعودتك!"
   },
   "welcome": {
-    "message": "مرحباً بك في ECF Wallet"
+    "message": "مرحباً بك في MetaECF"
   },
   "writePhrase": {
     "message": "اكتب هذه العبارة على قطعة من الورق واحفظها في مكان آمن. إذا كنت ترغب في مزيد من الأمان، فاكتبها على عدة أجزاء من الورق واحفظها في مكانين أو 3 أماكن مختلفة."

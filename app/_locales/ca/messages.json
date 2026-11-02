@@ -57,7 +57,7 @@
     "message": "Afegir Fitxes Suggerides"
   },
   "addAcquiredTokens": {
-    "message": "Afegeix les fitxes que has adquirit fent servir ECF Wallet"
+    "message": "Afegeix les fitxes que has adquirit fent servir MetaECF"
   },
   "amount": {
     "message": "Quantitat"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Temporitzador de tancament de sessió automàtic (minuts)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Configura el temps de repòs com minuts abans que ECF Wallet tanqui la sessió automàticament"
+    "message": "Configura el temps de repòs com minuts abans que MetaECF tanqui la sessió automàticament"
   },
   "average": {
     "message": "Mitjana"
@@ -159,7 +159,7 @@
     "message": "Tanca"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Necessites fer servir ECF Wallet amb Google Chrome per a connectar-te al teu Moneder Hardware."
+    "message": "Necessites fer servir MetaECF amb Google Chrome per a connectar-te al teu Moneder Hardware."
   },
   "confirm": {
     "message": "Confirma"
@@ -282,13 +282,13 @@
     "message": "No comparteixis mai la frase amb ningú."
   },
   "endOfFlowMessage5": {
-    "message": "Estigues atent amb el phishing! ECF Wallet no et preguntarà mai espontàniament la teva frase de recuperació."
+    "message": "Estigues atent amb el phishing! MetaECF no et preguntarà mai espontàniament la teva frase de recuperació."
   },
   "endOfFlowMessage6": {
     "message": "Si necessites fer una còpia de seguretat de la teva frase de recuperació una altra vegada, la pots trobar a Configuració-> Seguretat."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet no pot recuperar la teva seedphrase. Descobreix per què."
+    "message": "MetaECF no pot recuperar la teva seedphrase. Descobreix per què."
   },
   "endOfFlowMessage9": {
     "message": "Més informació."
@@ -382,7 +382,7 @@
     "message": "Connectar un moneder hardware"
   },
   "hardwareWalletsMsg": {
-    "message": "Selecciona una cartera de hardware que t'agradaria utilizar amb ECF Wallet"
+    "message": "Selecciona una cartera de hardware que t'agradaria utilizar amb MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Problemes per connectar?"
@@ -411,7 +411,7 @@
     "message": "Importa compte"
   },
   "importAccountMsg": {
-    "message": "Els comptes importats no s'associaran amb la teva frase de recuperació creada originalment a ECF Wallet. Aprèn més sobre els comptes importats"
+    "message": "Els comptes importats no s'associaran amb la teva frase de recuperació creada originalment a MetaECF. Aprèn més sobre els comptes importats"
   },
   "importAccountSeedPhrase": {
     "message": "Importa un Compte amb Phrase de Recuperació"
@@ -512,7 +512,7 @@
     "message": "Conectant-te a Ethereum i la web descentralitzada."
   },
   "ecfWalletVersion": {
-    "message": "Versió ECF Wallet"
+    "message": "Versió MetaECF"
   },
   "myAccounts": {
     "message": "Els meus Comptes"
@@ -556,7 +556,7 @@
     "message": "Nova Xarxa"
   },
   "newToEcfWallet": {
-    "message": "Nou a ECF Wallet?"
+    "message": "Nou a MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "No, ja tinc una frase de recuperació."
@@ -922,7 +922,7 @@
     "message": "Torna-ho a provar"
   },
   "typePassword": {
-    "message": "Tecleja la teva contrasenya de ECF Wallet"
+    "message": "Tecleja la teva contrasenya de MetaECF"
   },
   "unapproved": {
     "message": "Pendent d'aprovació"
@@ -964,7 +964,7 @@
     "message": "Benvingut de nou!"
   },
   "welcome": {
-    "message": "Benvingut a ECF Wallet"
+    "message": "Benvingut a MetaECF"
   },
   "writePhrase": {
     "message": "Escriu aquesta frase en un tros de paper i guarda'l en un lloc segur. Si vols més seguretat encara, escriu-la en diversos trossos de paper i guarda'ls cadascun a 2 - 3 llocs diferents."

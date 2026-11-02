@@ -9,7 +9,7 @@ export const PRIVACY_POLICY_SECTIONS = [
   {
     heading: 'Summary',
     paragraphs: [
-      'ECF Wallet is a self-custodial browser extension published by the Ethereum Community Foundation ("ECF", "we" or "us"). ECF does not run a server that the wallet reports to. There are no ECF accounts, no usage analytics and no crash reports. What the wallet stores stays in your browser.',
+      'MetaECF is a self-custodial browser extension published by the Ethereum Community Foundation ("ECF", "we" or "us"). ECF does not run a server that the wallet reports to. There are no ECF accounts, no usage analytics and no crash reports. What the wallet stores stays in your browser.',
       'To work, the wallet has to talk to blockchain networks and a few other services run by third parties. This policy lists each of them and what they can see.',
     ],
   },

@@ -57,7 +57,7 @@
     "message": "Adăugați indicativele sugerate"
   },
   "addAcquiredTokens": {
-    "message": "Adăugați token-urile pe care le-ați achiziționat folosind ECF Wallet"
+    "message": "Adăugați token-urile pe care le-ați achiziționat folosind MetaECF"
   },
   "amount": {
     "message": "Sumă"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Temporizator deconectare automată (minute)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Setați perioada de inactivitate în minute înainte ca ECF Wallet să se deconecteze automat"
+    "message": "Setați perioada de inactivitate în minute înainte ca MetaECF să se deconecteze automat"
   },
   "average": {
     "message": "Mediu"
@@ -162,7 +162,7 @@
     "message": "Închide"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Trebuie să folosiți ECF Wallet în Google Chrome pentru a vă conecta la portofelul hardware."
+    "message": "Trebuie să folosiți MetaECF în Google Chrome pentru a vă conecta la portofelul hardware."
   },
   "confirm": {
     "message": "Confirmați"
@@ -285,13 +285,13 @@
     "message": "Nu comunicați niciodată fraza cuiva."
   },
   "endOfFlowMessage5": {
-    "message": "Aveți grijă la phishing! ECF Wallet nu vă va cere niciodată în mod spontan expresia sursă."
+    "message": "Aveți grijă la phishing! MetaECF nu vă va cere niciodată în mod spontan expresia sursă."
   },
   "endOfFlowMessage6": {
     "message": "Dacă trebuie să vă salvați din nou fraza seed, puteți să o găsiți în Setări -> Securitate."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet nu vă poate recupera expresia sursă. Aflați mai multe."
+    "message": "MetaECF nu vă poate recupera expresia sursă. Aflați mai multe."
   },
   "endOfFlowMessage9": {
     "message": "Aflați mai multe."
@@ -385,7 +385,7 @@
     "message": "Conectați un portofel hardware"
   },
   "hardwareWalletsMsg": {
-    "message": "Selectați un portofel hardware pe care doriți să îl folosiți cu ECF Wallet"
+    "message": "Selectați un portofel hardware pe care doriți să îl folosiți cu MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Aveți probleme cu conectarea?"
@@ -414,7 +414,7 @@
     "message": "Importare cont"
   },
   "importAccountMsg": {
-    "message": "Conturile importate nu vor fi asociate cu seedphrase-ul contului dumneavoastră ECF Wallet creat inițial. Aflați mai multe despre conturile importate"
+    "message": "Conturile importate nu vor fi asociate cu seedphrase-ul contului dumneavoastră MetaECF creat inițial. Aflați mai multe despre conturile importate"
   },
   "importAccountSeedPhrase": {
     "message": "Importați un cont cu fraza seed"
@@ -515,7 +515,7 @@
     "message": "Vă conectăm la Ethereum și la Internetul descentralizat."
   },
   "ecfWalletVersion": {
-    "message": "Versiune ECF Wallet"
+    "message": "Versiune MetaECF"
   },
   "myAccounts": {
     "message": "Conturile mele"
@@ -559,7 +559,7 @@
     "message": "Rețea nouă"
   },
   "newToEcfWallet": {
-    "message": "Nefamiliarizat cu ECF Wallet?"
+    "message": "Nefamiliarizat cu MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nu, am deja o expresie sursă"
@@ -931,7 +931,7 @@
     "message": "Încearcă din nou"
   },
   "typePassword": {
-    "message": "Scrieți parola dvs. pentru ECF Wallet"
+    "message": "Scrieți parola dvs. pentru MetaECF"
   },
   "unapproved": {
     "message": "Neaprobat"
@@ -973,7 +973,7 @@
     "message": "Bine ai revenit!"
   },
   "welcome": {
-    "message": "Bun venit la ECF Wallet"
+    "message": "Bun venit la MetaECF"
   },
   "writePhrase": {
     "message": "Scrieți această expresie pe o bucată de hârtie și păstrați-o într-un loc sigur. Dacă vreți și mai multă securitate, notați-o pe mai multe bucăți de hârtie și păstrați-le în 2 - 3 locuri diferite."

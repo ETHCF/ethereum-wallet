@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// The ECF Wallet mark's bars as [x, y, width], each 13.8286 high. They match
+// The MetaECF mark's bars as [x, y, width], each 13.8286 high. They match
 // app/images/logo/ecf-wallet-horizontal.svg, which static pages still use.
 const BARS = [
   [83.2327, 0.0, 8.9424],
@@ -22,7 +22,7 @@ const BARS = [
 ];
 
 /**
- * The horizontal ECF Wallet logo. Inline, unlike an <img>, so the name follows
+ * The horizontal MetaECF logo. Inline, unlike an <img>, so the name follows
  * the theme's text color and stays readable in dark mode.
  *
  * @param {object} props - The component props.
@@ -35,11 +35,11 @@ const EcfWalletLogo = ({ height, className }) => {
   return (
     <svg
       height={height}
-      width={height && (height * 230) / 42}
+      width={height && (height * 180) / 42}
       className={className}
-      viewBox="0 0 230 42"
+      viewBox="0 0 180 42"
       role="img"
-      aria-label="ECF Wallet"
+      aria-label="MetaECF"
       xmlns="http://www.w3.org/2000/svg"
     >
       <svg width="42" height="42" viewBox="0 0 256 256">
@@ -64,7 +64,7 @@ const EcfWalletLogo = ({ height, className }) => {
         fontWeight="600"
         fill="var(--color-text-default)"
       >
-        ECF Wallet
+        MetaECF
       </text>
     </svg>
   );

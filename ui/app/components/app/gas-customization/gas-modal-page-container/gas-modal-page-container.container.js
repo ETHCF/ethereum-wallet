@@ -54,13 +54,15 @@ import {
 } from '../../../../store/actions';
 
 const mapStateToProps = (state, ownProps) => {
-  const { currentNetworkTxList, send } = state.ecfWallet;
+  const { currentNetworkTxList, send, unapprovedTxs = {} } = state.ecfWallet;
   const { modalState: { props: modalProps } = {} } = state.appState.modal || {};
   const { txData = {} } = modalProps || {};
   const { transaction = {} } = ownProps;
-  const selectedTransaction = currentNetworkTxList.find(
-    ({ id }) => id === (transaction.id || txData.id),
-  );
+  const transactionId = transaction.id || txData.id;
+  // currentNetworkTxList is capped, so check the pending transactions first.
+  const selectedTransaction =
+    unapprovedTxs[transactionId] ||
+    currentNetworkTxList.find(({ id }) => id === transactionId);
 
   const buttonDataLoading = getBasicGasEstimateLoadingStatus(state);
   const sendToken = getSendToken(state);

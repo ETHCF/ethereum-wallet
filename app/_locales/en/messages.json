@@ -36,7 +36,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "ECF Wallet is not connected this site. To connect to a web3 site, find the connect button on their site."
+    "message": "MetaECF is not connected this site. To connect to a web3 site, find the connect button on their site."
   },
   "currentAccountNotConnected": {
     "message": "Your current account is not connected"
@@ -102,7 +102,7 @@
     "message": "Connecting..."
   },
   "connectWithEcfWallet": {
-    "message": "Connect With ECF Wallet"
+    "message": "Connect With MetaECF"
   },
   "connectTo": {
     "message": "Connect to $1",
@@ -192,7 +192,7 @@
     "message": "Add Suggested Tokens"
   },
   "addAcquiredTokens": {
-    "message": "Add the tokens you've acquired using ECF Wallet"
+    "message": "Add the tokens you've acquired using MetaECF"
   },
   "allowOriginSpendToken": {
     "message": "Allow $1 to spend your $2?",
@@ -219,7 +219,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -254,7 +254,7 @@
     "message": "Auto-Lock Timer (minutes)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Set the idle time in minutes before ECF Wallet will become locked."
+    "message": "Set the idle time in minutes before MetaECF will become locked."
   },
   "average": {
     "message": "Average"
@@ -330,7 +330,7 @@
     "message": "Close"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "You need to use ECF Wallet on Google Chrome in order to connect to your Hardware Wallet."
+    "message": "You need to use MetaECF on Google Chrome in order to connect to your Hardware Wallet."
   },
   "confirm": {
     "message": "Confirm"
@@ -474,7 +474,7 @@
     "message": "Never share the phrase with anyone."
   },
   "endOfFlowMessage5": {
-    "message": "Be careful of phishing! ECF Wallet will never spontaneously ask for your seed phrase."
+    "message": "Be careful of phishing! MetaECF will never spontaneously ask for your seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "If you need to back up your seed phrase again, you can find it in Settings -> Security."
@@ -483,7 +483,7 @@
     "message": "For questions or suspicious activity, visit https://github.com/ETHCF/ethereum-wallet/issues. Never post your secret recovery phrase or private keys."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet cannot recover your seedphrase."
+    "message": "MetaECF cannot recover your seedphrase."
   },
   "endOfFlowMessage9": {
     "message": "Learn more."
@@ -545,7 +545,7 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "ECF Wallet encountered an error",
+    "message": "MetaECF encountered an error",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
@@ -647,7 +647,7 @@
     "message": "Connect a hardware wallet"
   },
   "hardwareWalletsMsg": {
-    "message": "Select a hardware wallet you'd like to use with ECF Wallet"
+    "message": "Select a hardware wallet you'd like to use with MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Having trouble connecting?"
@@ -680,7 +680,7 @@
     "message": "Import Account"
   },
   "importAccountMsg": {
-    "message": " Imported accounts will not be associated with your originally created ECF Wallet account seedphrase. Learn more about imported accounts "
+    "message": " Imported accounts will not be associated with your originally created MetaECF account seedphrase. Learn more about imported accounts "
   },
   "importAccountSeedPhrase": {
     "message": "Import an account with seed phrase"
@@ -803,7 +803,7 @@
     "message": "Connecting you to Ethereum and the Decentralized Web."
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet Version"
+    "message": "MetaECF Version"
   },
   "myAccounts": {
     "message": "My Accounts"
@@ -850,7 +850,7 @@
     "message": "New Network"
   },
   "newToEcfWallet": {
-    "message": "New to ECF Wallet?"
+    "message": "New to MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "No, I already have a seed phrase"
@@ -1084,7 +1084,7 @@
     "message": "Select account(s)"
   },
   "selectAccountsHelp": {
-    "message": "Select the accounts to view in ECF Wallet"
+    "message": "Select the accounts to view in MetaECF"
   },
   "selectAll": {
     "message": "Select all"
@@ -1386,7 +1386,7 @@
     "message": "Try again"
   },
   "typePassword": {
-    "message": "Type your ECF Wallet password"
+    "message": "Type your MetaECF password"
   },
   "unapproved": {
     "message": "Unapproved"
@@ -1487,7 +1487,7 @@
     "message": "Welcome Back!"
   },
   "welcome": {
-    "message": "Welcome to ECF Wallet"
+    "message": "Welcome to MetaECF"
   },
   "writePhrase": {
     "message": "Write this phrase on a piece of paper and store in a secure location. If you want even more security, write it down on multiple pieces of paper and store each in 2 - 3 different locations."
@@ -1653,7 +1653,7 @@
     "message": "This site chose the RPC provider. The provider can see your IP address and which accounts you use, and it could show false balances or transaction results."
   },
   "networkRequestUnknownChain": {
-    "message": "ECF Wallet doesn’t recognize this network. Only add it if you trust this site."
+    "message": "MetaECF doesn’t recognize this network. Only add it if you trust this site."
   },
   "networkRequestSymbolMismatch": {
     "message": "$1 uses $2 as its currency, but this site says $3. The site may be impersonating $1.",
@@ -1775,7 +1775,7 @@
     "message": "About imported accounts"
   },
   "helpImportedAccounts1": {
-    "message": "Accounts you create in ECF Wallet all come from your seed phrase, so the seed phrase alone can restore them. An imported account comes from a private key or a JSON file instead, and is not linked to your seed phrase. Imported accounts are labelled \"Imported\" in the account list."
+    "message": "Accounts you create in MetaECF all come from your seed phrase, so the seed phrase alone can restore them. An imported account comes from a private key or a JSON file instead, and is not linked to your seed phrase. Imported accounts are labelled \"Imported\" in the account list."
   },
   "helpImportedAccounts2": {
     "message": "Restoring your wallet from its seed phrase will not bring back imported accounts. Keep a backup of each imported account's private key or JSON file (and its password), stored separately and offline."
@@ -1790,7 +1790,7 @@
     "message": "Importing a JSON file"
   },
   "helpImportJson1": {
-    "message": "ECF Wallet can import an account from an encrypted JSON keystore file, the kind saved by clients such as Geth, Mist and MyEtherWallet. Choose the file, then enter the password that was set when the file was created."
+    "message": "MetaECF can import an account from an encrypted JSON keystore file, the kind saved by clients such as Geth, Mist and MyEtherWallet. Choose the file, then enter the password that was set when the file was created."
   },
   "helpImportJson2": {
     "message": "If the import fails, check that the password is exactly right, including capital letters and spaces, and that you chose the keystore file itself (often named UTC--…) rather than another backup or text file."
@@ -1805,10 +1805,10 @@
     "message": "Adding tokens"
   },
   "helpAddTokens1": {
-    "message": "Tokens you receive are held at your address even when ECF Wallet does not show them. Adding a token only tells the wallet to display its balance."
+    "message": "Tokens you receive are held at your address even when MetaECF does not show them. Adding a token only tells the wallet to display its balance."
   },
   "helpAddTokens2": {
-    "message": "To add a well-known token, open Add Tokens and search for it by name or symbol. To add any other token, choose Custom Token and enter its contract address. ECF Wallet fills in the symbol and decimals when it can; otherwise copy them from the token's page on a block explorer."
+    "message": "To add a well-known token, open Add Tokens and search for it by name or symbol. To add any other token, choose Custom Token and enter its contract address. MetaECF fills in the symbol and decimals when it can; otherwise copy them from the token's page on a block explorer."
   },
   "helpAddTokens3": {
     "message": "Only use a contract address from a source you trust, such as the project's official website. Anyone can create a token with the same name and symbol as a real one, and a token appearing in your wallet does not mean it has value."
@@ -1820,16 +1820,16 @@
     "message": "Basic safety tips"
   },
   "helpSafetyTips1": {
-    "message": "Your seed phrase gives complete control of your accounts and funds. Anyone who has it can take everything, and ECF Wallet cannot recover a lost seed phrase or reverse a transaction."
+    "message": "Your seed phrase gives complete control of your accounts and funds. Anyone who has it can take everything, and MetaECF cannot recover a lost seed phrase or reverse a transaction."
   },
   "helpSafetyTips2": {
     "message": "Write your seed phrase down and keep copies in more than one safe place. Avoid screenshots, email, chat and online notes. You can view it again in Settings > Security."
   },
   "helpSafetyTips3": {
-    "message": "Never share your seed phrase or private keys, and never type them into a website. ECF Wallet will never ask for them, and nobody offering genuine support will either."
+    "message": "Never share your seed phrase or private keys, and never type them into a website. MetaECF will never ask for them, and nobody offering genuine support will either."
   },
   "helpSafetyTips4": {
-    "message": "Use a strong, unique password and lock ECF Wallet when you step away. The password only unlocks the wallet on this device; it cannot restore your accounts without the seed phrase."
+    "message": "Use a strong, unique password and lock MetaECF when you step away. The password only unlocks the wallet on this device; it cannot restore your accounts without the seed phrase."
   },
   "helpSafetyTips5": {
     "message": "Check a site's address before you connect your wallet or approve anything. Phishing sites copy real ones closely. Read every request before you confirm it, and be wary of requests to spend your tokens."
@@ -1862,6 +1862,6 @@
     "message": "Donate"
   },
   "donateDescription": {
-    "message": "ECF Wallet is free and open source. Donations to the Ethereum Community Foundation fund its development."
+    "message": "MetaECF is free and open source. Donations to the Ethereum Community Foundation fund its development."
   }
 }

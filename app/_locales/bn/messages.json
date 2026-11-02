@@ -57,7 +57,7 @@
     "message": "প্রস্তাবিত টোকেনগুলি যোগ করুন"
   },
   "addAcquiredTokens": {
-    "message": "ECF Wallet ব্যবহার করে আপনি যে টোকেনগুলি অর্জন করেছেন সেগুলি যোগ করুন"
+    "message": "MetaECF ব্যবহার করে আপনি যে টোকেনগুলি অর্জন করেছেন সেগুলি যোগ করুন"
   },
   "amount": {
     "message": "পরিমান"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "স্বয়ংক্রিয়-লগ আউট টাইমার (মিনিট)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "ECF Wallet স্বয়ংক্রিয়ভাবে লগ আউট করার আগে নিষ্ক্রিয় থাকার সময় মিনিটে সেট করুন"
+    "message": "MetaECF স্বয়ংক্রিয়ভাবে লগ আউট করার আগে নিষ্ক্রিয় থাকার সময় মিনিটে সেট করুন"
   },
   "average": {
     "message": "গড়"
@@ -162,7 +162,7 @@
     "message": "বন্ধ করুন"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "আপনার হার্ডওয়্যার ওয়ালেটের সাথে সংযোগ করতে আপনাকে Google Chrome এ ECF Wallet ব্যবহার করতে হবে।  "
+    "message": "আপনার হার্ডওয়্যার ওয়ালেটের সাথে সংযোগ করতে আপনাকে Google Chrome এ MetaECF ব্যবহার করতে হবে।  "
   },
   "confirm": {
     "message": "নিশ্চিত হন"
@@ -285,13 +285,13 @@
     "message": "ফ্রেজটি কখনও কারোর সাথে শেয়ার করবেন না।"
   },
   "endOfFlowMessage5": {
-    "message": "ফিসিং থেকে সাবধান! ECF Wallet কখনই নিজের থেকে আপনার সীড ফ্রেজ জিজ্ঞাসা করবে না।"
+    "message": "ফিসিং থেকে সাবধান! MetaECF কখনই নিজের থেকে আপনার সীড ফ্রেজ জিজ্ঞাসা করবে না।"
   },
   "endOfFlowMessage6": {
     "message": "আপনাকে আপনার সীড আবার ব্যাকআপ করতে হলে, আপনি সেটি সেটিংস -> নিরাপত্তায় পাবেন।"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet আপনার সীডফ্রেজ পুনরুদ্ধার করতে পারবে না। আরও জানুন।"
+    "message": "MetaECF আপনার সীডফ্রেজ পুনরুদ্ধার করতে পারবে না। আরও জানুন।"
   },
   "endOfFlowMessage9": {
     "message": "আরও জানুন।"
@@ -391,7 +391,7 @@
     "message": "একটি হার্ডওয়্যার ওয়ালেট সংযুক্ত করুন"
   },
   "hardwareWalletsMsg": {
-    "message": "আপনি ECF Wallet এর সাথে ব্যবহার করতে চান এমন একটি হার্ডওয়্যার ওয়ালেট নির্বাচন করুন"
+    "message": "আপনি MetaECF এর সাথে ব্যবহার করতে চান এমন একটি হার্ডওয়্যার ওয়ালেট নির্বাচন করুন"
   },
   "havingTroubleConnecting": {
     "message": "সংযোগ করতে সমস্যা হচ্ছে?"
@@ -420,7 +420,7 @@
     "message": "অ্যাকাউন্ট আমদানি করুন"
   },
   "importAccountMsg": {
-    "message": "আমদানি করা অ্যাকাউন্টগুলি আপনার গোড়ায় তৈরি করা ECF Wallet অ্যাকাউন্ট সীডফ্রেজের সাথে সংযুক্ত হবে না। আমদানি করা অ্যাকাউন্টগুলি সম্পর্কে আরও জানুন "
+    "message": "আমদানি করা অ্যাকাউন্টগুলি আপনার গোড়ায় তৈরি করা MetaECF অ্যাকাউন্ট সীডফ্রেজের সাথে সংযুক্ত হবে না। আমদানি করা অ্যাকাউন্টগুলি সম্পর্কে আরও জানুন "
   },
   "importAccountSeedPhrase": {
     "message": "সীড ফ্রেজ দিয়ে একটি অ্যাকাউন্ট আমদানি করুন"
@@ -524,7 +524,7 @@
     "message": "আপনার Ethereum এবং ছড়িয়ে ছিটিয়ে থাকা ওয়েবের সাথে সংযোগ করছে। "
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet সংস্করণ"
+    "message": "MetaECF সংস্করণ"
   },
   "myAccounts": {
     "message": "আমার অ্যাকাউন্টগুলি"
@@ -568,7 +568,7 @@
     "message": "নতুন নেটওয়ার্ক"
   },
   "newToEcfWallet": {
-    "message": "ECF Wallet এ নতুন?"
+    "message": "MetaECF এ নতুন?"
   },
   "noAlreadyHaveSeed": {
     "message": "না, আমার আগে থেকেই একটি সীড ফ্রেজ আছে"
@@ -946,7 +946,7 @@
     "message": "আবার করুন"
   },
   "typePassword": {
-    "message": "আপনার ECF Wallet পাসওয়ার্ড টাইপ করুন"
+    "message": "আপনার MetaECF পাসওয়ার্ড টাইপ করুন"
   },
   "unapproved": {
     "message": "অননুমোদিত"
@@ -988,7 +988,7 @@
     "message": "পুনরায় স্বাগত!"
   },
   "welcome": {
-    "message": "ECF Wallet এ স্বাগতম"
+    "message": "MetaECF এ স্বাগতম"
   },
   "writePhrase": {
     "message": "এই বাক্যাংশটি একটি কাগজের টুকরোর উপর লিখে একটি নিরাপদ স্থানে সংরক্ষণ করুন। আপনি আরও নিরাপত্তা চাইলে, সেটি একাধিক কাগজের টুকরোতে লিখে 2 - 3টি আলাদা আলাদা স্থানে সংরক্ষণ করুন।"

@@ -28,7 +28,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -56,7 +56,7 @@
     "message": "ค่าธรรมเนียม Gas การยกเลิก"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "คุณต้องใช้ ECF Wallet บน Google Chrome เพื่อเชื่อมต่อกับ Hardware Wallet ของคุณ"
+    "message": "คุณต้องใช้ MetaECF บน Google Chrome เพื่อเชื่อมต่อกับ Hardware Wallet ของคุณ"
   },
   "confirm": {
     "message": "ยืนยัน"
@@ -134,7 +134,7 @@
     "message": "คุณผ่านการทดสอบแล้ว กรุณารับผิดชอบในการรักษา Seed Phrase ให้ปลอดภัย"
   },
   "endOfFlowMessage5": {
-    "message": "โปรดระวังฟิชชิ่ง ECF Wallet จะไม่ขอ Seed Phrase ของคุณโดยไม่มีการแจ้งล่วงหน้าเลย"
+    "message": "โปรดระวังฟิชชิ่ง MetaECF จะไม่ขอ Seed Phrase ของคุณโดยไม่มีการแจ้งล่วงหน้าเลย"
   },
   "endOfFlowMessage9": {
     "message": "เรียนรู้เพิ่มเติม"
@@ -250,7 +250,7 @@
     "message": "ข้อความ"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet คือที่เก็บตัวตนนิรภัยสำหรับอีเธอเรียม"
+    "message": "MetaECF คือที่เก็บตัวตนนิรภัยสำหรับอีเธอเรียม"
   },
   "myAccounts": {
     "message": "บัญชีของฉัน"
@@ -285,7 +285,7 @@
     "message": "รหัสผ่านใหม่(ขั้นต่ำ 8 ตัวอักษร)"
   },
   "newToEcfWallet": {
-    "message": "เพิ่งเริ่มใช้ ECF Wallet?"
+    "message": "เพิ่งเริ่มใช้ MetaECF?"
   },
   "newTransactionFee": {
     "message": "ค่าธรรมเนียมธุรกรรมใหม่"
@@ -462,7 +462,7 @@
     "message": "เยี่ยมชมเว็บไซต์ของเรา"
   },
   "welcome": {
-    "message": "ยินดีต้อนรับสู่ ECF Wallet เบต้า"
+    "message": "ยินดีต้อนรับสู่ MetaECF เบต้า"
   },
   "yourSigRequested": {
     "message": "ลายเซ็นของคุณกำลังได้รับการร้องขอ"

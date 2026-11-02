@@ -1,14 +1,14 @@
-# ECF Wallet Browser Extension
+# MetaECF Browser Extension
 
-ECF Wallet is an Ethereum browser wallet based on MetaMask. Visit [Ethereum Community Foundation](https://ethcf.org/).
+MetaECF is an Ethereum browser wallet based on MetaMask. Visit [Ethereum Community Foundation](https://ethcf.org/).
 
-ECF Wallet supports Firefox, Google Chrome, and Chromium-based browsers.
+MetaECF supports Firefox, Google Chrome, and Chromium-based browsers.
 
-Websites can discover **ECF Wallet** through [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), using the stable wallet identifier `org.ethcf.wallet`. Discovery works alongside other installed wallets. For older sites, ECF also supplies `window.ethereum` when another provider has not already claimed it. Sites with hardcoded wallet lists may need to add ECF explicitly.
+Websites can discover **MetaECF** through [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), using the stable wallet identifier `org.ethcf.wallet`. Discovery works alongside other installed wallets. For older sites, MetaECF also supplies `window.ethereum` when another provider has not already claimed it. Sites with hardcoded wallet lists may need to add MetaECF explicitly.
 
 The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg). The icon and wordmark place the white symbol on a dark background; the PNG toolbar icons are rendered from `ecf-wallet-icon.svg`.
 
-Wallet state and session keys use the browser's extension-scoped storage. ECF Wallet has its own extension identities, separate from MetaMask:
+Wallet state and session keys use the browser's extension-scoped storage. MetaECF has its own extension identities, separate from MetaMask:
 
 - Chrome, Brave, and Opera: `gcbminekfcgfihncdagcainadkogbflf`, assigned by the ECF Chrome Web Store listing. Dev and test builds add the listing's public key from `app/manifest/_chromium-dev-key.json`, so unpacked builds get the same ID. Prod builds leave it out, since the store does not accept a manifest `key`.
 - Firefox: `wallet@ethcf.org`.
@@ -45,7 +45,7 @@ distribution; it cannot be loaded directly as an unpacked extension.
 
 Fresh ecf-wallet storage starts at `meta.version: 0`. Historical MetaMask
 migrations and fixtures have been removed; upgrading a MetaMask wallet profile
-is not supported. ECF Wallet's own migrations live in `app/scripts/migrations`.
+is not supported. MetaECF's own migrations live in `app/scripts/migrations`.
 To add a schema change, run `yarn generate:migration <next version>`, implement
 the change and its test, then register it in `app/scripts/migrations/index.js`.
 
@@ -80,7 +80,7 @@ yarn dist
 
 - [How to add custom build to Chrome](./docs/add-to-chrome.md)
 - [How to add custom build to Firefox](./docs/add-to-firefox.md)
-- [How to add a new translation to ECF Wallet](./docs/translating-guide.md)
+- [How to add a new translation to MetaECF](./docs/translating-guide.md)
 - [Publishing Guide](./docs/publishing.md)
 - [How to use the TREZOR emulator](./docs/trezor-emulator.md)
 - [How to generate a visualization of this repository's development](./development/gource-viz.sh)

@@ -41,7 +41,7 @@ async function requestNow(driver, req) {
 async function respondInNotification(driver, testId) {
   await driver.waitUntilXWindowHandles(3);
   await driver.switchToWindowWithTitle(
-    'ECF Wallet Notification',
+    'MetaECF Notification',
     await driver.getAllWindowHandles(),
   );
   const text = await (
@@ -55,7 +55,7 @@ async function respondInNotification(driver, testId) {
 async function checkRpcInNotification(driver, resultTestId) {
   await driver.waitUntilXWindowHandles(3);
   await driver.switchToWindowWithTitle(
-    'ECF Wallet Notification',
+    'MetaECF Notification',
     await driver.getAllWindowHandles(),
   );
   await driver.clickElement(
@@ -416,7 +416,7 @@ describe('Security hardening', function () {
         });
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         const alertText = await (
@@ -541,7 +541,7 @@ describe('Security hardening', function () {
         });
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         for (const id of [
@@ -591,7 +591,7 @@ describe('Security hardening', function () {
           await startRequest(driver, 'sign', sign);
           await driver.waitUntilXWindowHandles(3);
           await driver.switchToWindowWithTitle(
-            'ECF Wallet Notification',
+            'MetaECF Notification',
             await driver.getAllWindowHandles(),
           );
           await driver.clickElement(

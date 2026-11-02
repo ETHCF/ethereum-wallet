@@ -35,7 +35,7 @@ export default class MetaFoxLogo extends PureComponent {
         <img
           {...iconProps}
           src="/images/logo/ecf-wallet-icon.svg"
-          alt="ECF Wallet"
+          alt="MetaECF"
           className={classnames(
             'app-header__metafox-logo',
             'app-header__metafox-logo--icon',

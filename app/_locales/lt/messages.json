@@ -57,7 +57,7 @@
     "message": "Pridėti siūlomų žetonų"
   },
   "addAcquiredTokens": {
-    "message": "Pridėkite žetonus, kuriuos gavote naudodamiesi „ECF Wallet“"
+    "message": "Pridėkite žetonus, kuriuos gavote naudodamiesi „MetaECF“"
   },
   "amount": {
     "message": "Suma"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Automatinio atjungimo laikmatis (minutės)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Nustatykite laukimo  trukmę minutėmis iki „ECF Wallet“ automatinio atsijungimo"
+    "message": "Nustatykite laukimo  trukmę minutėmis iki „MetaECF“ automatinio atsijungimo"
   },
   "average": {
     "message": "Vidurkis"
@@ -162,7 +162,7 @@
     "message": "Uždaryti"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Norėdami prisijungti prie aparatinės įrangos slaptažodinės, „ECF Wallet“ naudokitės „Google Chrome“ naršyklėje."
+    "message": "Norėdami prisijungti prie aparatinės įrangos slaptažodinės, „MetaECF“ naudokitės „Google Chrome“ naršyklėje."
   },
   "confirm": {
     "message": "Patvirtinti"
@@ -285,13 +285,13 @@
     "message": "Niekam niekada nepasakykite šios frazės."
   },
   "endOfFlowMessage5": {
-    "message": "Saugokitės informacijos vagių! „ECF Wallet“ niekada spontaniškai neklaus jūsų atkūrimo frazės."
+    "message": "Saugokitės informacijos vagių! „MetaECF“ niekada spontaniškai neklaus jūsų atkūrimo frazės."
   },
   "endOfFlowMessage6": {
     "message": "Jeigu reikia dar kartą padaryti jūsų atkūrimo frazės kopiją, ją galite rasti pasirinkę Nuostatos -> Sauga."
   },
   "endOfFlowMessage8": {
-    "message": "„ECF Wallet“ negali atkurti jūsų atkūrimo frazės. Sužinokite daugiau."
+    "message": "„MetaECF“ negali atkurti jūsų atkūrimo frazės. Sužinokite daugiau."
   },
   "endOfFlowMessage9": {
     "message": "Sužinokite daugiau."
@@ -420,7 +420,7 @@
     "message": "Importuoti paskyrą"
   },
   "importAccountMsg": {
-    "message": "Importuotos paskyros nebus susietos su pirmiau sukurta „ECF Wallet“ paskyros atkūrimo fraze. Sužinokite daugiau apie importuotas paskyras"
+    "message": "Importuotos paskyros nebus susietos su pirmiau sukurta „MetaECF“ paskyros atkūrimo fraze. Sužinokite daugiau apie importuotas paskyras"
   },
   "importAccountSeedPhrase": {
     "message": "Importuoti paskyrą su atkūrimo fraze"
@@ -524,7 +524,7 @@
     "message": "Prijungiame jus prie „Ethereum“ ir decentralizuotojo žiniatinklio."
   },
   "ecfWalletVersion": {
-    "message": "„ECF Wallet“ versija"
+    "message": "„MetaECF“ versija"
   },
   "myAccounts": {
     "message": "Mano paskyros"
@@ -568,7 +568,7 @@
     "message": "Naujas tinklas"
   },
   "newToEcfWallet": {
-    "message": "Tik pradedate naudotis „ECF Wallet“?"
+    "message": "Tik pradedate naudotis „MetaECF“?"
   },
   "noAlreadyHaveSeed": {
     "message": "Ne, jau turiu atkūrimo frazę."
@@ -946,7 +946,7 @@
     "message": "Bandyti dar kartą"
   },
   "typePassword": {
-    "message": "Įveskite savo „ECF Wallet“ slaptažodį"
+    "message": "Įveskite savo „MetaECF“ slaptažodį"
   },
   "unapproved": {
     "message": "Nepatvirtinta"
@@ -988,7 +988,7 @@
     "message": "Sveiki sugrįžę!"
   },
   "welcome": {
-    "message": "Sveiki, tai „ECF Wallet“"
+    "message": "Sveiki, tai „MetaECF“"
   },
   "writePhrase": {
     "message": "Užrašykite šią frazę ant lapelio ir laikykite ją saugioje vietoje. Jeigu pageidaujate dar daugiau saugos, užrašykite ją ant kelių lapelių ir 2 ar 3 skirtingose vietose."

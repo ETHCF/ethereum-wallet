@@ -43,6 +43,61 @@ describe('txUtils', function () {
       }
     });
 
+    describe('size limits', function () {
+      const base = {
+        from: '0x1678a085c290ebd122dc42cba69373b5953b831d',
+        to: '0xc684832530fcbddae4b4230a47e991ddcec2831d',
+      };
+      const dataOf = (bytes) => `0x${'ab'.repeat(bytes)}`;
+
+      it('accepts data up to the limit and refuses more', function () {
+        txUtils.validateTxParams({
+          ...base,
+          data: dataOf(txUtils.MAX_TX_PAYLOAD_BYTES),
+        });
+        assert.throws(
+          () =>
+            txUtils.validateTxParams({
+              ...base,
+              data: dataOf(txUtils.MAX_TX_PAYLOAD_BYTES + 1),
+            }),
+          /too large/u,
+        );
+      });
+
+      it('counts the access list toward the limit', function () {
+        const accessList = [
+          {
+            address: base.to,
+            storageKeys: [`0x${'1'.repeat(64)}`],
+          },
+        ];
+        txUtils.validateTxParams({
+          ...base,
+          accessList,
+          data: dataOf(txUtils.MAX_TX_PAYLOAD_BYTES - 52),
+        });
+        assert.throws(
+          () =>
+            txUtils.validateTxParams({
+              ...base,
+              accessList,
+              data: dataOf(txUtils.MAX_TX_PAYLOAD_BYTES - 51),
+            }),
+          /too large/u,
+        );
+      });
+
+      it('refuses a quantity wider than 32 bytes', function () {
+        txUtils.validateTxParams({ ...base, value: `0x${'f'.repeat(64)}` });
+        assert.throws(
+          () =>
+            txUtils.validateTxParams({ ...base, value: `0x${'f'.repeat(65)}` }),
+          /Invalid value/u,
+        );
+      });
+    });
+
     it('refuses data that is not whole hexadecimal bytes', function () {
       // approve(spender, max) with its leading zero nibble dropped: checks
       // would read selector 0x95ea7b30, the signer would pad it to approve.

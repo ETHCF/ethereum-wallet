@@ -5,6 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
 const lockdownOptions = require('./lockdown-options');
+const RejectDependencyInlineLoadersPlugin = require('./reject-dependency-inline-loaders-plugin');
 
 const rootDir = path.resolve(__dirname, '../..');
 const lockdownMore = path.join(rootDir, 'app/scripts/lockdown-more.js');
@@ -163,6 +164,7 @@ module.exports = function createWebpackConfigs({
       ],
     },
     plugins: [
+      new RejectDependencyInlineLoadersPlugin(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
           devMode ? 'development' : 'production',

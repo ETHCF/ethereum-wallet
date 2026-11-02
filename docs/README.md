@@ -1,6 +1,6 @@
 # Documentation
 
-These docs relate to how to contribute to the ECF Wallet project itself.
+These docs relate to how to contribute to the MetaECF project itself.
 
 The project is maintained by the [Ethereum Community Foundation](https://ethcf.org).
 Source, issues and releases are on [GitHub](https://github.com/ETHCF/ethereum-wallet).

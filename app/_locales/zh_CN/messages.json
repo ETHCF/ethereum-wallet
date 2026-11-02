@@ -60,7 +60,7 @@
     "message": "添加推荐代币"
   },
   "addAcquiredTokens": {
-    "message": "在ECF Wallet上添加已用的代币"
+    "message": "在MetaECF上添加已用的代币"
   },
   "amount": {
     "message": "数量"
@@ -70,7 +70,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -98,7 +98,7 @@
     "message": "自动注销计时器（分钟）"
   },
   "autoLockTimeLimitDescription": {
-    "message": "请设置 ECF Wallet 自动注销前的空闲时间（以分钟为单位）"
+    "message": "请设置 MetaECF 自动注销前的空闲时间（以分钟为单位）"
   },
   "average": {
     "message": "平均值"
@@ -174,7 +174,7 @@
     "message": "关闭"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "您需要通过 Google Chrome 浏览器使用 ECF Wallet ，连接个人硬件钱包。"
+    "message": "您需要通过 Google Chrome 浏览器使用 MetaECF ，连接个人硬件钱包。"
   },
   "confirm": {
     "message": "确认"
@@ -300,13 +300,13 @@
     "message": "绝不向任何分享该密语。"
   },
   "endOfFlowMessage5": {
-    "message": "谨防网络钓鱼！ECF Wallet 绝不会主动要求您提供个人种子密语。"
+    "message": "谨防网络钓鱼！MetaECF 绝不会主动要求您提供个人种子密语。"
   },
   "endOfFlowMessage6": {
     "message": "如果您需要再次备份个人种子密语，请通过设置 -> 安全选项完成该操作。"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet 无法恢复您的种子密语。了解更多。"
+    "message": "MetaECF 无法恢复您的种子密语。了解更多。"
   },
   "endOfFlowMessage9": {
     "message": "了解详情。"
@@ -403,7 +403,7 @@
     "message": "连接硬件钱包"
   },
   "hardwareWalletsMsg": {
-    "message": "请选择希望用于 ECF Wallet 的硬件钱包"
+    "message": "请选择希望用于 MetaECF 的硬件钱包"
   },
   "havingTroubleConnecting": {
     "message": "连接出现问题？"
@@ -527,10 +527,10 @@
     "message": "消息"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet is a secure identity vault for Ethereum."
+    "message": "MetaECF is a secure identity vault for Ethereum."
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet 版本"
+    "message": "MetaECF 版本"
   },
   "mustSelectOne": {
     "message": "至少选择一种代币."
@@ -571,7 +571,7 @@
     "message": "新增网络"
   },
   "newToEcfWallet": {
-    "message": "新增至 ECF Wallet？"
+    "message": "新增至 MetaECF？"
   },
   "noAlreadyHaveSeed": {
     "message": "不，我已经有一个种子密语了。"
@@ -1044,7 +1044,7 @@
     "message": "欢迎回来！"
   },
   "welcome": {
-    "message": "欢迎使用 ECF Wallet 测试版"
+    "message": "欢迎使用 MetaECF 测试版"
   },
   "writePhrase": {
     "message": "请将该密语记录在纸上，并保存在安全的地方。如果希望提升信息安全性，请将信息记录在多张纸上，并分别保存在 2 - 3 个不同的地方。"
@@ -1097,7 +1097,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "ECF Wallet 未连接到此网站。要连接到 web3 网站，请在该网站上找到连接按钮。"
+    "message": "MetaECF 未连接到此网站。要连接到 web3 网站，请在该网站上找到连接按钮。"
   },
   "currentAccountNotConnected": {
     "message": "您当前的账户未连接"
@@ -1163,7 +1163,7 @@
     "message": "正在连接..."
   },
   "connectWithEcfWallet": {
-    "message": "使用 ECF Wallet 连接"
+    "message": "使用 MetaECF 连接"
   },
   "connectTo": {
     "message": "连接到 $1",
@@ -1276,7 +1276,7 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "ECF Wallet 遇到错误",
+    "message": "MetaECF 遇到错误",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
@@ -1312,7 +1312,7 @@
     "description": "$1 is the symbol for a token (e.g. 'DAI')"
   },
   "importAccountMsg": {
-    "message": " 导入的账户不会与您最初创建的 ECF Wallet 账户助记词相关联。了解有关导入账户的更多信息，请点击 "
+    "message": " 导入的账户不会与您最初创建的 MetaECF 账户助记词相关联。了解有关导入账户的更多信息，请点击 "
   },
   "knownTokenWarning": {
     "message": "此操作将编辑您钱包中已列出的代币，这可能被用于对您进行网络钓鱼。只有在您确定要更改这些代币所代表的内容时才批准。"
@@ -1646,7 +1646,7 @@
     "message": "此 RPC 提供商由该网站选择。该提供商可以看到您的 IP 地址以及您使用的账户，并且可能显示虚假的余额或交易结果。"
   },
   "networkRequestUnknownChain": {
-    "message": "ECF Wallet 无法识别此网络。只有在您信任此网站时才添加它。"
+    "message": "MetaECF 无法识别此网络。只有在您信任此网站时才添加它。"
   },
   "networkRequestSymbolMismatch": {
     "message": "$1 使用 $2 作为其货币，但此网站声称是 $3。该网站可能在冒充 $1。",
@@ -1768,7 +1768,7 @@
     "message": "关于导入的账户"
   },
   "helpImportedAccounts1": {
-    "message": "您在 ECF Wallet 中创建的账户全部源自您的助记词，因此仅凭助记词即可恢复它们。导入的账户则来自私钥或 JSON 文件，与您的助记词无关。导入的账户在账户列表中标记为“已导入”。"
+    "message": "您在 MetaECF 中创建的账户全部源自您的助记词，因此仅凭助记词即可恢复它们。导入的账户则来自私钥或 JSON 文件，与您的助记词无关。导入的账户在账户列表中标记为“已导入”。"
   },
   "helpImportedAccounts2": {
     "message": "使用助记词恢复钱包不会找回导入的账户。请为每个导入账户的私钥或 JSON 文件（及其密码）保留备份，并单独离线保存。"
@@ -1783,7 +1783,7 @@
     "message": "导入 JSON 文件"
   },
   "helpImportJson1": {
-    "message": "ECF Wallet 可以从加密的 JSON 密钥库文件导入账户，即 Geth、Mist 和 MyEtherWallet 等客户端保存的文件。选择该文件，然后输入创建该文件时设置的密码。"
+    "message": "MetaECF 可以从加密的 JSON 密钥库文件导入账户，即 Geth、Mist 和 MyEtherWallet 等客户端保存的文件。选择该文件，然后输入创建该文件时设置的密码。"
   },
   "helpImportJson2": {
     "message": "如果导入失败，请检查密码是否完全正确（包括大写字母和空格），并确认您选择的是密钥库文件本身（通常命名为 UTC--…），而不是其他备份或文本文件。"
@@ -1798,10 +1798,10 @@
     "message": "添加代币"
   },
   "helpAddTokens1": {
-    "message": "即使 ECF Wallet 没有显示，您收到的代币也保存在您的地址上。添加代币只是让钱包显示其余额。"
+    "message": "即使 MetaECF 没有显示，您收到的代币也保存在您的地址上。添加代币只是让钱包显示其余额。"
   },
   "helpAddTokens2": {
-    "message": "要添加知名代币，请打开“添加代币”，按名称或符号搜索。要添加其他代币，请选择“自定义代币”并输入其合约地址。ECF Wallet 会尽可能自动填写符号和小数位数；否则请从区块浏览器上该代币的页面复制。"
+    "message": "要添加知名代币，请打开“添加代币”，按名称或符号搜索。要添加其他代币，请选择“自定义代币”并输入其合约地址。MetaECF 会尽可能自动填写符号和小数位数；否则请从区块浏览器上该代币的页面复制。"
   },
   "helpAddTokens3": {
     "message": "请只使用来自可信来源（例如项目官方网站）的合约地址。任何人都可以创建与真实代币同名同符号的代币，而且代币出现在您的钱包中并不代表它有价值。"
@@ -1813,16 +1813,16 @@
     "message": "基本安全提示"
   },
   "helpSafetyTips1": {
-    "message": "您的助记词可以完全控制您的账户和资金。任何拥有它的人都能拿走一切，并且 ECF Wallet 无法找回丢失的助记词，也无法撤销交易。"
+    "message": "您的助记词可以完全控制您的账户和资金。任何拥有它的人都能拿走一切，并且 MetaECF 无法找回丢失的助记词，也无法撤销交易。"
   },
   "helpSafetyTips2": {
     "message": "请手写记下您的助记词，并在多个安全的地方保存副本。避免使用截图、电子邮件、聊天工具和在线笔记。您可以在“设置 > 安全与隐私”中再次查看它。"
   },
   "helpSafetyTips3": {
-    "message": "切勿分享您的助记词或私钥，也切勿在任何网站中输入它们。ECF Wallet 绝不会向您索要它们，任何真正提供支持的人也不会。"
+    "message": "切勿分享您的助记词或私钥，也切勿在任何网站中输入它们。MetaECF 绝不会向您索要它们，任何真正提供支持的人也不会。"
   },
   "helpSafetyTips4": {
-    "message": "请使用强度高且独一无二的密码，并在离开时锁定 ECF Wallet。密码只能在此设备上解锁钱包；没有助记词，密码无法恢复您的账户。"
+    "message": "请使用强度高且独一无二的密码，并在离开时锁定 MetaECF。密码只能在此设备上解锁钱包；没有助记词，密码无法恢复您的账户。"
   },
   "helpSafetyTips5": {
     "message": "在连接钱包或批准任何操作之前，请检查网站的地址。钓鱼网站会高度仿冒真实网站。确认之前请阅读每个请求，并警惕要求花费您代币的请求。"
@@ -1855,6 +1855,6 @@
     "message": "捐赠"
   },
   "donateDescription": {
-    "message": "ECF Wallet 免费且开源。向 Ethereum Community Foundation 的捐赠将用于资助其开发。"
+    "message": "MetaECF 免费且开源。向 Ethereum Community Foundation 的捐赠将用于资助其开发。"
   }
 }

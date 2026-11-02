@@ -62,6 +62,9 @@ export default class ConfirmTransactionBase extends Component {
     toNickname: PropTypes.string,
     transactionStatus: PropTypes.string,
     txData: PropTypes.object,
+    // The transaction is no longer waiting for approval, so there is nothing
+    // to confirm and its details may not be accurate.
+    transactionMissing: PropTypes.bool,
     unapprovedTxCount: PropTypes.number,
     currentNetworkUnapprovedTxs: PropTypes.object,
     updateGasAndCalculate: PropTypes.func,
@@ -148,7 +151,7 @@ export default class ConfirmTransactionBase extends Component {
   }
 
   getErrorKey() {
-    if (this.state.feeInputInvalid) {
+    if (this.state.feeInputInvalid || this.props.transactionMissing) {
       return { valid: false };
     }
     const {

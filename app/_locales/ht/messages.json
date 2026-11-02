@@ -27,7 +27,7 @@
     "message": "Ajoute Token Yo Sikjere W"
   },
   "addAcquiredTokens": {
-    "message": "Ajoute tokens yo ou te achte lè l sèvi avèk ECF Wallet"
+    "message": "Ajoute tokens yo ou te achte lè l sèvi avèk MetaECF"
   },
   "amount": {
     "message": "Kantite lajan"
@@ -37,7 +37,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -83,7 +83,7 @@
     "message": "Fèmen"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Ou bezwen sèvi ak ECF Wallet sou Google Chrome yo nan lòd yo konekte sou Hardware Wallet."
+    "message": "Ou bezwen sèvi ak MetaECF sou Google Chrome yo nan lòd yo konekte sou Hardware Wallet."
   },
   "confirm": {
     "message": "Konfime"
@@ -216,7 +216,7 @@
     "message": "Materyèl Wallet konekte"
   },
   "hardwareWalletsMsg": {
-    "message": "Chwazi yon Materyèl Wallet ou ta renmen itilize ak ECF Wallet"
+    "message": "Chwazi yon Materyèl Wallet ou ta renmen itilize ak MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Èske w gen pwoblèm pou konekte?"
@@ -242,7 +242,7 @@
     "message": "Pòte Kont"
   },
   "importAccountMsg": {
-    "message": " Kont pòte pa pral asosye avèk orijinal ou te kreye nan kont ECF Wallet seed fraz. Aprann plis sou kont enpòte "
+    "message": " Kont pòte pa pral asosye avèk orijinal ou te kreye nan kont MetaECF seed fraz. Aprann plis sou kont enpòte "
   },
   "imported": {
     "message": "Pòte",
@@ -313,10 +313,10 @@
     "message": "Mesaje"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet sekirize idantite pou Ethereum."
+    "message": "MetaECF sekirize idantite pou Ethereum."
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet Vèsyon"
+    "message": "MetaECF Vèsyon"
   },
   "myAccounts": {
     "message": "Kont mwen"
@@ -639,7 +639,7 @@
     "message": "Bon Retou!"
   },
   "welcome": {
-    "message": "Byenveni nan ECF Wallet"
+    "message": "Byenveni nan MetaECF"
   },
   "yesLetsTry": {
     "message": "Wi, ann eseye"

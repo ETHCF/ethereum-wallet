@@ -187,6 +187,40 @@ describe('gas-modal-page-container container', function () {
     });
   });
 
+  describe('mapStateToProps() for a pending transaction', function () {
+    const state = {
+      appState: { modal: { modalState: { props: {} } } },
+      ecfWallet: {
+        currentCurrency: 'usd',
+        nativeCurrency: 'ETH',
+        conversionRate: 50,
+        accounts: {},
+        send: {},
+        provider: { type: 'mainnet' },
+        currentNetworkTxList: [],
+        unapprovedTxs: {
+          34: {
+            id: 34,
+            txParams: {
+              gas: '0x5208',
+              gasPrice: '0x1',
+              value: '0xde0b6b3a7640000',
+            },
+          },
+        },
+      },
+      gas: { basicEstimates: {}, customData: {} },
+      confirmTransaction: { txData: { txParams: {} } },
+    };
+
+    it('reads a transaction that is not in the capped list', function () {
+      const { infoRowProps } = mapStateToProps(state, {
+        transaction: { id: 34 },
+      });
+      assert.equal(infoRowProps.sendAmount, '1 ETH');
+    });
+  });
+
   describe('mapDispatchToProps()', function () {
     let dispatchSpy;
     let mapDispatchToPropsObject;

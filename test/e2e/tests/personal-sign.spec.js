@@ -34,7 +34,7 @@ describe('Personal sign', function () {
 
         const windowHandles = await driver.getAllWindowHandles();
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           windowHandles,
         );
 

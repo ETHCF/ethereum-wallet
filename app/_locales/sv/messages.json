@@ -3,7 +3,7 @@
     "message": "Kontraktinteraktion"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "reject": {
@@ -61,7 +61,7 @@
     "message": "Lägg till föreslagna tokens"
   },
   "addAcquiredTokens": {
-    "message": "Lägg till de tokens du har skaffat med ECF Wallet"
+    "message": "Lägg till de tokens du har skaffat med MetaECF"
   },
   "amount": {
     "message": "Belopp"
@@ -95,7 +95,7 @@
     "message": "Timer för automatisk utloggning (minuter)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Ställ in efter hur lång tids inaktivitet som ECF Wallet automatiskt loggar ut"
+    "message": "Ställ in efter hur lång tids inaktivitet som MetaECF automatiskt loggar ut"
   },
   "average": {
     "message": "Genomsnitt"
@@ -156,7 +156,7 @@
     "message": "Stäng"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Du måste använda ECF Wallet på Google Chrome för att ansluta till din hårdvaruplånbok."
+    "message": "Du måste använda MetaECF på Google Chrome för att ansluta till din hårdvaruplånbok."
   },
   "confirm": {
     "message": "Bekräfta"
@@ -279,13 +279,13 @@
     "message": "Dela aldrig frasen med någon."
   },
   "endOfFlowMessage5": {
-    "message": "Se upp för nätfiske! ECF Wallet kommer aldrig att oväntat fråga om din seed phrase."
+    "message": "Se upp för nätfiske! MetaECF kommer aldrig att oväntat fråga om din seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "Om du behöver säkerhetskopiera din nyckelfras igen, kan du hitta den i Inställningar -> Säkerhet"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet kan inte återställa din seedphrase. Läs mer."
+    "message": "MetaECF kan inte återställa din seedphrase. Läs mer."
   },
   "endOfFlowMessage9": {
     "message": "Lär dig mer."
@@ -385,7 +385,7 @@
     "message": "Anslut en hårdvaruplånbok"
   },
   "hardwareWalletsMsg": {
-    "message": "Välj en hårdvaruplånbok som du vill använda med ECF Wallet"
+    "message": "Välj en hårdvaruplånbok som du vill använda med MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Har du problem att ansluta?"
@@ -414,7 +414,7 @@
     "message": "Importera konto"
   },
   "importAccountMsg": {
-    "message": "Importerade konton kommer inte att kopplas till din ursprungligen skapade seedphrase för ditt ECF Wallet-konto. Läs mer om importerade konton"
+    "message": "Importerade konton kommer inte att kopplas till din ursprungligen skapade seedphrase för ditt MetaECF-konto. Läs mer om importerade konton"
   },
   "importAccountSeedPhrase": {
     "message": "Importera konto med"
@@ -515,7 +515,7 @@
     "message": "Ansluter dig mot Ethereum och den decentraliserade webben."
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet-version"
+    "message": "MetaECF-version"
   },
   "myAccounts": {
     "message": "Mina konton"
@@ -559,7 +559,7 @@
     "message": "Nytt nätverk"
   },
   "newToEcfWallet": {
-    "message": "Ny på ECF Wallet?"
+    "message": "Ny på MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Nej, jag har redan en seed phrase"
@@ -928,7 +928,7 @@
     "message": "Försök igen"
   },
   "typePassword": {
-    "message": "Ange ditt ECF Wallet-lösenord"
+    "message": "Ange ditt MetaECF-lösenord"
   },
   "unapproved": {
     "message": "Inte godkänd"
@@ -970,7 +970,7 @@
     "message": "Välkommen tillbaka!"
   },
   "welcome": {
-    "message": "Välkommen till ECF Wallet"
+    "message": "Välkommen till MetaECF"
   },
   "writePhrase": {
     "message": "Skriv ner den här frasen på ett papper och förvara den på en säker plats. Om du vill ha större säkerhet skriver du ner den på flera papperslappar och förvarar dem på två eller tre olika platser."

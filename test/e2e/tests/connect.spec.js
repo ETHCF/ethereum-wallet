@@ -27,7 +27,7 @@ describe('Connecting a site', function () {
       `);
         await driver.waitUntilXWindowHandles(3);
         await driver.switchToWindowWithTitle(
-          'ECF Wallet Notification',
+          'MetaECF Notification',
           await driver.getAllWindowHandles(),
         );
         await driver.clickElement(

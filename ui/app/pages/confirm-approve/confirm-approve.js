@@ -22,7 +22,7 @@ import {
 } from '../../selectors/confirm-transaction';
 import { getDomainMetadata } from '../../selectors/selectors';
 import { getNativeCurrency } from '../../selectors/send';
-import { currentNetworkTxListSelector } from '../../selectors/transactions';
+import { unapprovedTxsSelector } from '../../selectors/transactions';
 import { showModal } from '../../store/actions';
 import ConfirmTransactionBase from '../confirm-transaction-base';
 
@@ -34,15 +34,15 @@ export default function ConfirmApprove() {
     useSelector(txDataSelector);
 
   const nativeCurrency = useSelector(getNativeCurrency);
-  const currentNetworkTxList = useSelector(currentNetworkTxListSelector);
+  const unapprovedTxs = useSelector(unapprovedTxsSelector);
   const domainMetadata = useSelector(getDomainMetadata);
 
+  // currentNetworkTxList is capped, so a site can push a pending transaction
+  // out of it. Without the transaction there is no total to show, not a zero.
   const transaction =
-    currentNetworkTxList.find(
-      ({ id }) => id === (Number(paramsTransactionId) || transactionId),
-    ) || {};
+    unapprovedTxs[Number(paramsTransactionId) || transactionId];
   const { ethTransactionTotal } = useSelector((state) =>
-    transactionFeeSelector(state, transaction),
+    transaction ? transactionFeeSelector(state, transaction) : {},
   );
 
   const { tokensWithBalances } = useTokenTracker([{ address: tokenAddress }]);
@@ -68,7 +68,7 @@ export default function ConfirmApprove() {
     previousTokenAmount.current = tokenAmount;
   }, [customPermissionAmount, tokenAmount]);
 
-  const { origin } = transaction;
+  const { origin } = transaction ?? {};
   const formattedOrigin = origin
     ? origin[0].toUpperCase() + origin.slice(1)
     : '';

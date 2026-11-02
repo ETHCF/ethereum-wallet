@@ -141,6 +141,7 @@ const mapStateToProps = (state, ownProps) => {
     hexTransactionFee,
     hexTransactionTotal,
     txData: fullTxData,
+    transactionMissing: !transaction.id,
     tokenData,
     methodData,
     tokenProps,

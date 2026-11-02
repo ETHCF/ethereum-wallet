@@ -12,7 +12,7 @@ if (
   )
 ) {
   throw new Error(
-    'ECF Wallet: SES lockdown has not run. Refusing to start without it.',
+    'MetaECF: SES lockdown has not run. Refusing to start without it.',
   );
 }
 

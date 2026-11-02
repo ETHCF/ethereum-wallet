@@ -57,7 +57,7 @@
     "message": "加入建議的代幣"
   },
   "addAcquiredTokens": {
-    "message": "將您已經擁有的代幣顯示於 ECF Wallet"
+    "message": "將您已經擁有的代幣顯示於 MetaECF"
   },
   "amount": {
     "message": "數量"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "自動登出計時器（分）"
   },
   "autoLockTimeLimitDescription": {
-    "message": "設定閒置分鐘上限，時間到時 ECF Wallet 將自動登出"
+    "message": "設定閒置分鐘上限，時間到時 MetaECF 將自動登出"
   },
   "average": {
     "message": "平均"
@@ -159,7 +159,7 @@
     "message": "關閉"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "您需要在 Google Chrome 瀏覽器使用 ECF Wallet 連結您的硬體錢包"
+    "message": "您需要在 Google Chrome 瀏覽器使用 MetaECF 連結您的硬體錢包"
   },
   "confirm": {
     "message": "確認"
@@ -282,13 +282,13 @@
     "message": "不要分享此助記祠給任何人"
   },
   "endOfFlowMessage5": {
-    "message": "小心網路釣魚！ECF Wallet 永遠不會主動詢問你的助記詞。"
+    "message": "小心網路釣魚！MetaECF 永遠不會主動詢問你的助記詞。"
   },
   "endOfFlowMessage6": {
     "message": "如你需要再次備份助記詞，可至設定 -> 安全。"
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet 無法還原你的助記詞。暸解更多"
+    "message": "MetaECF 無法還原你的助記詞。暸解更多"
   },
   "endOfFlowMessage9": {
     "message": "深入瞭解。"
@@ -388,7 +388,7 @@
     "message": "連線硬體錢包"
   },
   "hardwareWalletsMsg": {
-    "message": "選擇要連線到 ECF Wallet 的硬體錢包"
+    "message": "選擇要連線到 MetaECF 的硬體錢包"
   },
   "havingTroubleConnecting": {
     "message": "無法正確連線?"
@@ -417,7 +417,7 @@
     "message": "匯入帳戶"
   },
   "importAccountMsg": {
-    "message": " 匯入的帳戶與您原有 ECF Wallet 帳戶的助憶詞並無關聯。請查看與匯入帳戶相關的資料 "
+    "message": " 匯入的帳戶與您原有 MetaECF 帳戶的助憶詞並無關聯。請查看與匯入帳戶相關的資料 "
   },
   "importAccountSeedPhrase": {
     "message": "利用助憶詞還原"
@@ -515,10 +515,10 @@
     "message": "訊息"
   },
   "ecfWalletDescription": {
-    "message": "ECF Wallet 是乙太坊安全身份識別金庫"
+    "message": "MetaECF 是乙太坊安全身份識別金庫"
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet 版本"
+    "message": "MetaECF 版本"
   },
   "myAccounts": {
     "message": "我的帳戶"
@@ -562,7 +562,7 @@
     "message": "新增網路"
   },
   "newToEcfWallet": {
-    "message": "新來到 ECF Wallet？"
+    "message": "新來到 MetaECF？"
   },
   "noAlreadyHaveSeed": {
     "message": "不，我已經有助記詞"
@@ -970,7 +970,7 @@
     "message": "歡迎回來!"
   },
   "welcome": {
-    "message": "歡迎來到 ECF Wallet"
+    "message": "歡迎來到 MetaECF"
   },
   "writePhrase": {
     "message": "將助憶詞寫在紙上，並保存在安全的場所。若想要更安全，將助憶詞分別寫在不同紙張上並存放在不同的地方。"

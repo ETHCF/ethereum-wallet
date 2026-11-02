@@ -57,7 +57,7 @@
     "message": "सुझाए गए टोकन जोड़ें"
   },
   "addAcquiredTokens": {
-    "message": "ECF Wallet का उपयोग करके आपके द्वारा अर्जित किए गए टोकन जोड़ें"
+    "message": "MetaECF का उपयोग करके आपके द्वारा अर्जित किए गए टोकन जोड़ें"
   },
   "amount": {
     "message": "राशि "
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -162,7 +162,7 @@
     "message": "बंद करें"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "अपने हार्डवेयर वॉलेट से कनेक्ट करने के लिए आपको Google Chrome में ECF Wallet का उपयोग करना ज़रूरी है।"
+    "message": "अपने हार्डवेयर वॉलेट से कनेक्ट करने के लिए आपको Google Chrome में MetaECF का उपयोग करना ज़रूरी है।"
   },
   "confirm": {
     "message": "दुबारा पूछें"
@@ -391,7 +391,7 @@
     "message": "हार्डवेयर वॉलेट जोड़े"
   },
   "hardwareWalletsMsg": {
-    "message": "एक हार्डवेयर वॉलेट चुनें जिसका उपयोग आप ECF Wallet के साथ करना चाहते हैं"
+    "message": "एक हार्डवेयर वॉलेट चुनें जिसका उपयोग आप MetaECF के साथ करना चाहते हैं"
   },
   "havingTroubleConnecting": {
     "message": "कनेक्ट करने में परेशानी हो रही है?"
@@ -420,7 +420,7 @@
     "message": "खाता आयात करें"
   },
   "importAccountMsg": {
-    "message": "आयात किए गए खाते आपके मुख्य रूप से बनाए गए ECF Wallet खाते के सीडफ़्रेज़ से संबंधित नहीं होंगे। आयात किए गए खातों के बारे में अधिक जानें"
+    "message": "आयात किए गए खाते आपके मुख्य रूप से बनाए गए MetaECF खाते के सीडफ़्रेज़ से संबंधित नहीं होंगे। आयात किए गए खातों के बारे में अधिक जानें"
   },
   "importAccountSeedPhrase": {
     "message": "बीज वाक्यांश के साथ एक खाता आयात करें"
@@ -521,7 +521,7 @@
     "message": "आपको Ethereum और विकेंद्रीकृत वेब से कनेक्ट कर रहे हैं।"
   },
   "ecfWalletVersion": {
-    "message": "ECF Wallet का संस्करण"
+    "message": "MetaECF का संस्करण"
   },
   "myAccounts": {
     "message": "मेरा खाता"
@@ -565,7 +565,7 @@
     "message": "नया नेटवर्क"
   },
   "newToEcfWallet": {
-    "message": "ECF Wallet में नए है?"
+    "message": "MetaECF में नए है?"
   },
   "noAlreadyHaveSeed": {
     "message": "जी नहीं, मेरे पास पहले से ही एक बीज वाक्यांश है"
@@ -982,7 +982,7 @@
     "message": "वापस आने पर स्वागत है!"
   },
   "welcome": {
-    "message": "ECF Wallet में आपका स्वागत है"
+    "message": "MetaECF में आपका स्वागत है"
   },
   "writePhrase": {
     "message": "इस वाक्यांश को कागज के टुकड़े पर लिखें और एक सुरक्षित स्थान पर संग्रहीत करें। यदि आप और भी अधिक सुरक्षा चाहते हैं, तो इसे कागज के कई टुकड़ों पर लिखें और प्रत्येक को 2 - 3 विभिन्न स्थानों में संग्रहीत करें।"

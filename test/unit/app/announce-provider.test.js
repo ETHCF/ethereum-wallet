@@ -29,7 +29,7 @@ describe('announceProvider (EIP-6963)', function () {
     assert.equal(announcements.length, 1);
     const [{ info, provider: announced }] = announcements;
     assert.equal(announced, provider);
-    assert.equal(info.name, 'ECF Wallet');
+    assert.equal(info.name, 'MetaECF');
     assert.equal(info.rdns, 'org.ethcf.wallet');
     assert.match(info.uuid, UUID_V4);
     assert.match(info.icon, /^data:image\/svg\+xml,%3Csvg/u);

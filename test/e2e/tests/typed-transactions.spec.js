@@ -76,7 +76,7 @@ describe('Typed transactions on a Prague chain', function () {
           );
           await driver.waitUntilXWindowHandles(3);
           await driver.switchToWindowWithTitle(
-            'ECF Wallet Notification',
+            'MetaECF Notification',
             await driver.getAllWindowHandles(),
           );
           await driver.findElement(

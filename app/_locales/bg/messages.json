@@ -57,7 +57,7 @@
     "message": "Добавете препоръчани жетони"
   },
   "addAcquiredTokens": {
-    "message": "Добавете жетоните, които сте придобили с помощта на ECF Wallet"
+    "message": "Добавете жетоните, които сте придобили с помощта на MetaECF"
   },
   "amount": {
     "message": "Сума"
@@ -67,7 +67,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "approve": {
@@ -95,7 +95,7 @@
     "message": "Таймер за автоматично излизане (минути)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Задайте времето на неактивност в минути, преди ECF Wallet автоматично да Ви отпише от акаунта"
+    "message": "Задайте времето на неактивност в минути, преди MetaECF автоматично да Ви отпише от акаунта"
   },
   "average": {
     "message": "Средно аритметично"
@@ -162,7 +162,7 @@
     "message": "Затваряне"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "За да се свържете с хардуерния си портфейл, трябва да използвате ECF Wallet в Google Chrome."
+    "message": "За да се свържете с хардуерния си портфейл, трябва да използвате MetaECF в Google Chrome."
   },
   "confirm": {
     "message": "Потвърждаване"
@@ -285,13 +285,13 @@
     "message": "Никога не споделяйте фразата с никого."
   },
   "endOfFlowMessage5": {
-    "message": "Внимавайте с фишинга! ECF Wallet никога няма да поиска спонтанно вашата фраза зародиш."
+    "message": "Внимавайте с фишинга! MetaECF никога няма да поиска спонтанно вашата фраза зародиш."
   },
   "endOfFlowMessage6": {
     "message": "Ако отново трябва да архивирате основната си фраза, можете да я намерите в Настройки -> Защита."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet не може да възстанови ключовата Ви фраза. Научете повече."
+    "message": "MetaECF не може да възстанови ключовата Ви фраза. Научете повече."
   },
   "endOfFlowMessage9": {
     "message": "Научете повече."
@@ -391,7 +391,7 @@
     "message": "Свържете хардуерен портфейл"
   },
   "hardwareWalletsMsg": {
-    "message": "Изберете хардуерен портфейл, който искате да използвате с ECF Wallet"
+    "message": "Изберете хардуерен портфейл, който искате да използвате с MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Имате проблеми със свързването?"
@@ -524,7 +524,7 @@
     "message": "Свързва ви с Ethereum и децентрализираната мрежа."
   },
   "ecfWalletVersion": {
-    "message": "Версия на ECF Wallet"
+    "message": "Версия на MetaECF"
   },
   "myAccounts": {
     "message": "Моите акаунти"
@@ -568,7 +568,7 @@
     "message": "Нова мрежа"
   },
   "newToEcfWallet": {
-    "message": "Нови ли сте в ECF Wallet?"
+    "message": "Нови ли сте в MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Не, вече имам фраза зародиш"
@@ -946,7 +946,7 @@
     "message": "Нов опит"
   },
   "typePassword": {
-    "message": "Въведете паролата си за ECF Wallet"
+    "message": "Въведете паролата си за MetaECF"
   },
   "unapproved": {
     "message": "Неодобрено"
@@ -988,7 +988,7 @@
     "message": "Добре дошли отново!"
   },
   "welcome": {
-    "message": "Добре дошли в ECF Wallet"
+    "message": "Добре дошли в MetaECF"
   },
   "writePhrase": {
     "message": "Напишете тази фраза на лист хартия и я съхранявайте на сигурно място. Ако искате още по-голяма сигурност, запишете я на няколко листа хартия и ги съхранявайте на 2 - 3 различни места."

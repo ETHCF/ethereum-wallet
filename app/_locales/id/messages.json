@@ -3,7 +3,7 @@
     "message": "Interaksi Kontrak"
   },
   "appName": {
-    "message": "ECF Wallet",
+    "message": "MetaECF",
     "description": "The name of the application"
   },
   "reject": {
@@ -61,7 +61,7 @@
     "message": "Tambah Token yang Disarankan"
   },
   "addAcquiredTokens": {
-    "message": "Tambahkan token yang sudah Anda peroleh menggunakan ECF Wallet"
+    "message": "Tambahkan token yang sudah Anda peroleh menggunakan MetaECF"
   },
   "amount": {
     "message": "Jumlah"
@@ -95,7 +95,7 @@
     "message": "Jangka Waktu Keluar-Otomatis (menit)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Atur waktu diam dalam menit sebelum ECF Wallet mengeluarkan Anda secara otomatis"
+    "message": "Atur waktu diam dalam menit sebelum MetaECF mengeluarkan Anda secara otomatis"
   },
   "average": {
     "message": "Rata-rata"
@@ -162,7 +162,7 @@
     "message": "Tutup"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Anda harus menggunakan ECF Wallet di Google Chrome untuk menyambung ke dompet Perangkat Keras Anda."
+    "message": "Anda harus menggunakan MetaECF di Google Chrome untuk menyambung ke dompet Perangkat Keras Anda."
   },
   "confirm": {
     "message": "Konfirmasi"
@@ -282,13 +282,13 @@
     "message": "Jangan pernah bagikan frasa dengan siapa pun."
   },
   "endOfFlowMessage5": {
-    "message": "Hati-hati terhadap phishing! ECF Wallet tidak akan pernah meminta frasa benih Anda secara spontan."
+    "message": "Hati-hati terhadap phishing! MetaECF tidak akan pernah meminta frasa benih Anda secara spontan."
   },
   "endOfFlowMessage6": {
     "message": "Jika Anda perlu mencadangkan frase seed lagi, Anda dapat menemukannya dalam Pengaturan -> Keamanan."
   },
   "endOfFlowMessage8": {
-    "message": "ECF Wallet tidak dapat memulihkan frasa seed Anda. Pelajari lebih lanjut."
+    "message": "MetaECF tidak dapat memulihkan frasa seed Anda. Pelajari lebih lanjut."
   },
   "endOfFlowMessage9": {
     "message": "Pelajari lebih lanjut."
@@ -388,7 +388,7 @@
     "message": "Hubungkan dompet peranti keras"
   },
   "hardwareWalletsMsg": {
-    "message": "Pilih dompet hardware yang ingin Anda pakai dengan ECF Wallet"
+    "message": "Pilih dompet hardware yang ingin Anda pakai dengan MetaECF"
   },
   "havingTroubleConnecting": {
     "message": "Kesulitan menghubungkan?"
@@ -417,7 +417,7 @@
     "message": "Impor Akun"
   },
   "importAccountMsg": {
-    "message": "Akun impor tidak akan dihubungkan dengan frasa benih akun ECF Wallet yang diciptakan pertama kali. Pelajari lebih lanjut tentang akun impor"
+    "message": "Akun impor tidak akan dihubungkan dengan frasa benih akun MetaECF yang diciptakan pertama kali. Pelajari lebih lanjut tentang akun impor"
   },
   "importAccountSeedPhrase": {
     "message": "Impor Akun dengan Frasa Benih"
@@ -518,7 +518,7 @@
     "message": "Menghubungkan Anda ke Ethereum dan Web Terdesentralisasi."
   },
   "ecfWalletVersion": {
-    "message": "Versi ECF Wallet"
+    "message": "Versi MetaECF"
   },
   "myAccounts": {
     "message": "Akun Saya"
@@ -562,7 +562,7 @@
     "message": "Jaringan Baru"
   },
   "newToEcfWallet": {
-    "message": "Baru di ECF Wallet?"
+    "message": "Baru di MetaECF?"
   },
   "noAlreadyHaveSeed": {
     "message": "Tidak, saya sudah memiliki frasa seed"
@@ -931,7 +931,7 @@
     "message": "Coba lagi"
   },
   "typePassword": {
-    "message": "Ketik kata sandi ECF Wallet Anda"
+    "message": "Ketik kata sandi MetaECF Anda"
   },
   "unapproved": {
     "message": "Tak disetujui"
@@ -973,7 +973,7 @@
     "message": "Selamat Datang Kembali!"
   },
   "welcome": {
-    "message": "Selamat Datang di ECF Wallet"
+    "message": "Selamat Datang di MetaECF"
   },
   "writePhrase": {
     "message": "Tuliskan frasa ini di selembar kertas dan simpan di tempat aman. Jika ingin lebih aman, tulislah di beberapa lembar kertas dan simpan masing-masing kertas di 2 - 3 lokasi berbeda."
