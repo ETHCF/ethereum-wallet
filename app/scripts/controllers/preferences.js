@@ -133,6 +133,9 @@ export default class PreferencesController {
       assetImages: {},
       tokens: [],
       usePhishDetect: true,
+      // Whether to check jsDelivr for a newer phishing list. Turned off, the
+      // wallet keeps checking sites against the list it already has.
+      updatePhishingList: true,
       // Whether to look up unknown contract methods at 4byte.directory.
       use4ByteResolution: true,
       // Whether closing the approval window refuses the requests in it, as
@@ -209,6 +212,15 @@ export default class PreferencesController {
    */
   setUsePhishDetect(val) {
     this.store.updateState({ usePhishDetect: val });
+  }
+
+  /**
+   * Setter for the `updatePhishingList` property
+   *
+   * @param {boolean} val - Whether to download updates to the phishing list
+   */
+  setUpdatePhishingList(val) {
+    this.store.updateState({ updatePhishingList: val });
   }
 
   /**

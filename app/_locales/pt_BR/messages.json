@@ -1485,6 +1485,12 @@
     "message": "Os NFTs são buscados somente em $1.",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "Atualizar Lista de Phishing"
+  },
+  "updatePhishingListDescription": {
+    "message": "Cerca de uma vez por hora, perguntar ao jsDelivr se a lista de phishing mudou e baixá-la se tiver mudado. O jsDelivr vê seu endereço IP. Quando desativado, os sites são verificados com a lista que a carteira já tem, que fica desatualizada."
+  },
   "use4ByteResolution": {
     "message": "Buscar Nomes de Métodos de Contratos"
   },

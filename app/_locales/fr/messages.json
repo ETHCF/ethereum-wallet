@@ -1485,6 +1485,12 @@
     "message": "Les NFT ne sont recherchés que sur $1.",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "Mettre à jour la liste anti-hameçonnage"
+  },
+  "updatePhishingListDescription": {
+    "message": "Environ une fois par heure, demander à jsDelivr si la liste anti-hameçonnage a changé, et la télécharger si c'est le cas. jsDelivr voit votre adresse IP. Si cette option est désactivée, les sites sont vérifiés avec la liste dont dispose déjà le portefeuille, qui devient obsolète."
+  },
   "use4ByteResolution": {
     "message": "Rechercher les noms des méthodes de contrat"
   },

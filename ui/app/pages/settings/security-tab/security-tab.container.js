@@ -8,6 +8,7 @@ import {
   setDisplayNftMedia,
   setRejectRequestsOnClose,
   setUse4ByteResolution,
+  setUpdatePhishingList,
   setUseNftDetection,
   setUsePhishDetect,
 } from '../../../store/actions';
@@ -19,6 +20,7 @@ const mapStateToProps = (state) => {
   } = state;
   const {
     usePhishDetect,
+    updatePhishingList,
     use4ByteResolution,
     rejectRequestsOnClose,
     useNftDetection,
@@ -28,6 +30,7 @@ const mapStateToProps = (state) => {
   return {
     warning,
     usePhishDetect,
+    updatePhishingList: updatePhishingList !== false,
     use4ByteResolution: use4ByteResolution !== false,
     rejectRequestsOnClose: rejectRequestsOnClose !== false,
     // Both contact third parties, so both are off unless turned on.
@@ -39,6 +42,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setUsePhishDetect: (val) => dispatch(setUsePhishDetect(val)),
+    setUpdatePhishingList: (val) => dispatch(setUpdatePhishingList(val)),
     setUse4ByteResolution: (val) => dispatch(setUse4ByteResolution(val)),
     setRejectRequestsOnClose: (val) => dispatch(setRejectRequestsOnClose(val)),
     setUseNftDetection: (val) => dispatch(setUseNftDetection(val)),

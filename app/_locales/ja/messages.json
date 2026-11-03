@@ -1464,6 +1464,12 @@
     "message": "NFTは$1でのみ検索されます。",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "フィッシングリストを更新"
+  },
+  "updatePhishingListDescription": {
+    "message": "約1時間ごとに、フィッシングリストが変更されたかをjsDelivrに確認し、変更があればダウンロードします。jsDelivrにはお使いのIPアドレスが見えます。オフにすると、ウォレットが既に持っているリストでサイトを確認します。このリストは次第に古くなります。"
+  },
   "use4ByteResolution": {
     "message": "コントラクトのメソッド名を検索"
   },

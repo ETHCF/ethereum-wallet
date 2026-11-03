@@ -1485,6 +1485,12 @@
     "message": "仅在 $1 上查询 NFT。",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "更新钓鱼网站列表"
+  },
+  "updatePhishingListDescription": {
+    "message": "大约每小时向 jsDelivr 查询一次钓鱼网站列表是否有更新，如有更新则下载。jsDelivr 可以看到您的 IP 地址。关闭后，将使用钱包中已有的列表检查网站，该列表会逐渐过时。"
+  },
   "use4ByteResolution": {
     "message": "查询合约方法名称"
   },

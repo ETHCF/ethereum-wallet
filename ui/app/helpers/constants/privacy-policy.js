@@ -3,7 +3,7 @@ import { PRIVACY_POLICY_ROUTE } from './routes';
 // Like the terms of use, the policy is a legal text kept in English rather than
 // in the locale files. It describes what the code does, so update it alongside
 // any change that stores new data or contacts a new service.
-export const PRIVACY_POLICY_LAST_UPDATED = 'October 16, 2026';
+export const PRIVACY_POLICY_LAST_UPDATED = 'November 3, 2026';
 
 export const PRIVACY_POLICY_SECTIONS = [
   {
@@ -46,7 +46,7 @@ export const PRIVACY_POLICY_SECTIONS = [
     ],
     items: [
       "Blockchain networks. To show balances and send transactions, the wallet sends requests, including your account addresses and the transactions you sign, to the selected network's RPC endpoint. Ethereum Mainnet uses PublicNode, and falls back to dRPC, 1RPC and Blast when PublicNode cannot be reached. The other built-in networks use PublicNode (Sepolia and Polygon) or the network's own public endpoint (Arbitrum, Optimism, Base and Robinhood Chain). If you add a network or choose your own RPC endpoint, requests go there instead. Before you confirm a transaction, the wallet also asks the same endpoint to simulate it (with the standard eth_simulateV1 method), and to read the names and decimals of the tokens it moves, to preview your balance changes; the endpoint therefore sees the transaction before you approve or reject it. No other simulation service is used.",
-      'Phishing list. About once an hour the wallet downloads the eth-phishing-detect blocklist from jsDelivr. The sites you visit are checked against it on your device; your browsing is not sent anywhere. The list is downloaded even if you turn phishing detection off.',
+      'Phishing list. The wallet keeps a copy of the eth-phishing-detect blocklist on your device, and about once an hour asks jsDelivr whether it has changed, downloading it again only if it has. The sites you visit are checked against it on your device; your browsing is not sent anywhere. It does not check for a new list while phishing detection is off, or if you turn off Update Phishing List in Settings > Security & Privacy; the list already on your device is then used as it is.',
       "Contract method names. When a transaction calls a contract function that neither the wallet nor the on-chain method registry recognizes, the wallet looks up the function's 4-byte identifier at 4byte.directory to show you its name. You can turn this off in Settings, under Security & Privacy.",
       "NFTs (off unless you turn them on). If you turn on Detect NFTs in Settings, the wallet asks MetaMask's NFT API (nft.api.cx.metamask.io) for the selected account's NFTs on Ethereum, Arbitrum, Optimism, Polygon and Base whenever you open the NFTs tab; that service sees the account's address. If you also turn on Show NFT Images, each NFT's image is downloaded once from the host its creator chose, or through your IPFS gateway, and kept in the wallet.",
       'ENS websites. When you type eth and then a .eth name in the address bar, the wallet looks up the name through your RPC endpoint and loads the site through the dweb.link IPFS gateway, or shows the name on app.ens.domains. The wallet does not watch the pages you load.',

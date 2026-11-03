@@ -165,6 +165,24 @@ describe('background helpers', function () {
       assert.deepEqual(local.items, { data: { a: 2 }, meta: { version: 3 } });
     });
 
+    it("reads only the wallet state, not other features' keys", async function () {
+      const local = fakeStorageArea({
+        data: { a: 1 },
+        meta: { version: 3 },
+        phishingList: { blacklist: ['evil.test'] },
+      });
+      const { ExtensionStore } = loadStore({ storage: { local } });
+      assert.deepEqual(await new ExtensionStore().get(), {
+        data: { a: 1 },
+        meta: { version: 3 },
+      });
+      const others = fakeStorageArea({ phishingList: {} });
+      const { ExtensionStore: OthersOnly } = loadStore({
+        storage: { local: others },
+      });
+      assert.equal(await new OthersOnly().get(), undefined);
+    });
+
     it('treats empty storage as nothing saved', async function () {
       const { ExtensionStore } = loadStore({
         storage: { local: fakeStorageArea() },

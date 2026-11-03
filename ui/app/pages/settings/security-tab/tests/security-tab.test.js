@@ -17,6 +17,8 @@ describe('Security Tab', function () {
     warning: '',
     setUsePhishDetect: sinon.spy(),
     usePhishDetect: true,
+    setUpdatePhishingList: sinon.spy(),
+    updatePhishingList: true,
     setUse4ByteResolution: sinon.spy(),
     use4ByteResolution: true,
     setRejectRequestsOnClose: sinon.spy(),
@@ -50,8 +52,24 @@ describe('Security Tab', function () {
     assert(props.setUsePhishDetect.calledOnce);
   });
 
+  it('turns off phishing list updates, offering them only with phishing detection', function () {
+    wrapper
+      .find('[data-testid="phishing-list-updates-toggle"] [role="switch"]')
+      .simulate('click');
+    assert(props.setUpdatePhishingList.calledOnceWithExactly(false));
+
+    const detectionOff = mount(
+      <SecurityTab.WrappedComponent {...props} usePhishDetect={false} />,
+      { context: { t: (str) => str } },
+    );
+    assert.equal(
+      detectionOff.find('[data-testid="phishing-list-updates-toggle"]').length,
+      0,
+    );
+  });
+
   it('turns off contract method lookups at 4byte.directory', function () {
-    wrapper.find('[role="switch"]').at(1).simulate('click');
+    wrapper.find('[role="switch"]').at(2).simulate('click');
     assert(props.setUse4ByteResolution.calledOnceWithExactly(false));
   });
 

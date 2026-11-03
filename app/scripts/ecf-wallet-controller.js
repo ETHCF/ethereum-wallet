@@ -178,7 +178,22 @@ export default class EcfWalletController extends EventEmitter {
       preferencesStore: this.preferencesController.store,
     });
 
-    this.phishingController = new PhishingController();
+    // The list is only downloaded while phishing detection and list updates
+    // are both on; otherwise sites are checked against the list already saved.
+    const canUpdatePhishingList = () => {
+      const { usePhishDetect, updatePhishingList } =
+        this.preferencesController.store.getState();
+      return usePhishDetect !== false && updatePhishingList !== false;
+    };
+    this.phishingController = new PhishingController({
+      canUpdate: canUpdatePhishingList,
+    });
+    // Turning either setting back on checks for a newer list if one is due.
+    this.preferencesController.store.subscribe(() => {
+      if (canUpdatePhishingList()) {
+        this.phishingController.maybeUpdate();
+      }
+    });
     this.phishingWarnings = new PhishingWarnings(
       opts.phishingWarningStorage ?? extension.storage?.session,
     );
@@ -578,6 +593,10 @@ export default class EcfWalletController extends EventEmitter {
       getState: (cb) => cb(null, this.getState()),
       setUsePhishDetect: nodeify(
         preferencesController.setUsePhishDetect,
+        preferencesController,
+      ),
+      setUpdatePhishingList: nodeify(
+        preferencesController.setUpdatePhishingList,
         preferencesController,
       ),
       setUse4ByteResolution: nodeify(

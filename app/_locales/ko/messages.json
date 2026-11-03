@@ -1485,6 +1485,12 @@
     "message": "NFT는 $1에서만 조회됩니다.",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "피싱 목록 업데이트"
+  },
+  "updatePhishingListDescription": {
+    "message": "약 1시간마다 jsDelivr에 피싱 목록이 변경되었는지 확인하고, 변경된 경우 다운로드합니다. jsDelivr는 사용자의 IP 주소를 볼 수 있습니다. 끄면 지갑에 이미 있는 목록으로 사이트를 확인하며, 이 목록은 점점 오래됩니다."
+  },
   "use4ByteResolution": {
     "message": "컨트랙트 메서드 이름 조회"
   },

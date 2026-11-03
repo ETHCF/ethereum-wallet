@@ -16,6 +16,8 @@ export default class SecurityTab extends PureComponent {
     navigate: PropTypes.func,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
+    setUpdatePhishingList: PropTypes.func.isRequired,
+    updatePhishingList: PropTypes.bool.isRequired,
     setUse4ByteResolution: PropTypes.func.isRequired,
     use4ByteResolution: PropTypes.bool.isRequired,
     setRejectRequestsOnClose: PropTypes.func.isRequired,
@@ -131,6 +133,24 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
+  renderPhishingListUpdatesToggle() {
+    const { t } = this.context;
+    const { usePhishDetect, updatePhishingList, setUpdatePhishingList } =
+      this.props;
+
+    // The list is only used while phishing detection is on.
+    if (!usePhishDetect) {
+      return null;
+    }
+    return this.renderToggle({
+      title: t('updatePhishingList'),
+      description: t('updatePhishingListDescription'),
+      value: updatePhishingList,
+      onToggle: setUpdatePhishingList,
+      testId: 'phishing-list-updates-toggle',
+    });
+  }
+
   renderRejectOnCloseToggle() {
     const { t } = this.context;
     const { rejectRequestsOnClose, setRejectRequestsOnClose } = this.props;
@@ -184,6 +204,7 @@ export default class SecurityTab extends PureComponent {
         {this.renderSeedWords()}
         <ChangePassword changePassword={changePassword} />
         {this.renderPhishingDetectionToggle()}
+        {this.renderPhishingListUpdatesToggle()}
         {this.render4ByteResolutionToggle()}
         {this.renderRejectOnCloseToggle()}
         {this.renderNftToggles()}

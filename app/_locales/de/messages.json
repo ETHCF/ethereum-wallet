@@ -1482,6 +1482,12 @@
     "message": "NFTs werden nur auf $1 abgefragt.",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "Phishing-Liste aktualisieren"
+  },
+  "updatePhishingListDescription": {
+    "message": "Etwa einmal pro Stunde bei jsDelivr nachfragen, ob sich die Phishing-Liste geändert hat, und sie dann herunterladen. jsDelivr sieht Ihre IP-Adresse. Ist dies ausgeschaltet, werden Websites mit der Liste geprüft, die die Wallet bereits hat und die mit der Zeit veraltet."
+  },
   "use4ByteResolution": {
     "message": "Namen von Vertragsmethoden nachschlagen"
   },

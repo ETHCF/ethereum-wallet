@@ -2,6 +2,9 @@ import log from 'loglevel';
 
 import extension from './extension-api';
 
+// The keys that hold the versioned wallet state.
+const WALLET_STATE_KEYS = ['data', 'meta'];
+
 /**
  * A wrapper around the extension's storage local API
  */
@@ -19,7 +22,7 @@ export default class ExtensionStore {
   }
 
   /**
-   * Returns all of the keys currently saved
+   * Returns the saved wallet state
    *
    * @returns {Promise<object|undefined>} The saved state, or undefined if nothing is saved.
    */
@@ -47,13 +50,15 @@ export default class ExtensionStore {
   }
 
   /**
-   * Returns all of the keys currently saved
+   * Returns the saved wallet state. Other features keep their own keys in the
+   * same storage area, such as the phishing list, so only the wallet's keys
+   * are read.
    *
    * @private
    * @returns {Promise<object>} the key-value map from local storage
    */
   _get() {
-    return extension.storage.local.get(null);
+    return extension.storage.local.get(WALLET_STATE_KEYS);
   }
 
   /**

@@ -1224,6 +1224,20 @@ describe('preferences controller', function () {
     });
   });
 
+  describe('setUpdatePhishingList', function () {
+    it('downloads phishing list updates unless turned off', function () {
+      assert.equal(
+        preferencesController.store.getState().updatePhishingList,
+        true,
+      );
+      preferencesController.setUpdatePhishingList(false);
+      assert.equal(
+        preferencesController.store.getState().updatePhishingList,
+        false,
+      );
+    });
+  });
+
   describe('setUsePhishDetect', function () {
     it('should set the usePhishDetect property in state', function () {
       assert.equal(preferencesController.store.getState().usePhishDetect, true);

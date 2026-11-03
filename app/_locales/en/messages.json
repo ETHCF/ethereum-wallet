@@ -1453,6 +1453,13 @@
     "message": "NFTs are looked up only on $1.",
     "description": "$1 is a list of network names"
   },
+  "updatePhishingList": {
+    "message": "Update Phishing List",
+    "description": "Title of the setting that turns phishing list downloads on or off"
+  },
+  "updatePhishingListDescription": {
+    "message": "About once an hour, ask jsDelivr whether the phishing list has changed, and download it if it has. jsDelivr sees your IP address. When this is off, sites are checked against the list the wallet already has, which grows out of date."
+  },
   "use4ByteResolution": {
     "message": "Look Up Contract Method Names"
   },

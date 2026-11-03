@@ -1496,6 +1496,19 @@ export function setUsePhishDetect(val) {
   };
 }
 
+export function setUpdatePhishingList(val) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication());
+    log.debug(`background.setUpdatePhishingList`);
+    background.setUpdatePhishingList(val, (err) => {
+      dispatch(hideLoadingIndication());
+      if (err) {
+        dispatch(displayWarning(err.message));
+      }
+    });
+  };
+}
+
 export function setUse4ByteResolution(val) {
   return (dispatch) => {
     dispatch(showLoadingIndication());
