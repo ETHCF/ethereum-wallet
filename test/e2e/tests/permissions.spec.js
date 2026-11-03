@@ -185,6 +185,8 @@ describe('ecf-wallet', function () {
       const getAccountsResult = await driver.findElement(
         By.css('#getAccountsResult'),
       );
+      // The dapp fills this in once the request has returned.
+      await driver.wait(until.elementTextMatches(getAccountsResult, /0x/u));
       assert.equal(
         (await getAccountsResult.getText()).toLowerCase(),
         publicAddress.toLowerCase(),

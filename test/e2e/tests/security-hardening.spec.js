@@ -127,7 +127,7 @@ describe('Security hardening', function () {
           2,
           'no approval window opens',
         );
-        await driver.driver.manage().logs().get('browser');
+        await driver.getBrowserLogs();
       },
     );
   });
@@ -289,7 +289,7 @@ describe('Security hardening', function () {
           'http://127.0.0.1:8545/',
         );
         // The provider logs the rejections this test deliberately triggers.
-        await driver.driver.manage().logs().get('browser');
+        await driver.getBrowserLogs();
       },
     );
   });
@@ -439,7 +439,7 @@ describe('Security hardening', function () {
         await driver.waitUntilXWindowHandles(2);
         await driver.switchToWindow(dappHandle);
         assert.equal((await requestResult(driver, 'send')).code, 4001);
-        await driver.driver.manage().logs().get('browser');
+        await driver.getBrowserLogs();
       },
     );
   });
@@ -568,7 +568,7 @@ describe('Security hardening', function () {
         await driver.waitUntilXWindowHandles(2);
         await driver.switchToWindow(dappHandle);
         assert.equal((await requestResult(driver, 'permit')).code, 4001);
-        await driver.driver.manage().logs().get('browser');
+        await driver.getBrowserLogs();
       },
     );
   });
@@ -614,7 +614,7 @@ describe('Security hardening', function () {
           (await requestNow(driver, { method: 'eth_chainId' })).result,
           '0x539',
         );
-        await driver.driver.manage().logs().get('browser');
+        await driver.getBrowserLogs();
       },
     );
   });

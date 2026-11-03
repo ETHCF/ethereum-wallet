@@ -3,9 +3,6 @@ const { By, Key } = require('selenium-webdriver');
 
 const { withFixtures } = require('../helpers');
 
-// Select-all is Command+A on macOS and Control+A elsewhere.
-const SELECT_ALL = process.platform === 'darwin' ? Key.COMMAND : Key.CONTROL;
-
 async function rpc(method, params = []) {
   const response = await fetch('http://127.0.0.1:8545', {
     method: 'POST',
@@ -25,6 +22,13 @@ const PRAGUE_CHAIN = {
   hardfork: 'prague',
   blockTime: undefined,
 };
+
+// Typing over a selection works in both browsers: Firefox ignores a Control+A
+// sent as keys, and clearing a React input in Chrome does not update its state.
+async function replaceText(driver, input, text) {
+  await driver.driver.executeScript('arguments[0].select()', input);
+  await input.sendKeys(text);
+}
 
 describe('Typed transactions on a Prague chain', function () {
   it('confirms and mines EIP-1559 and EIP-2930 transactions with access lists', async function () {
@@ -86,12 +90,12 @@ describe('Typed transactions on a Prague chain', function () {
             const cap = await driver.findElement(
               By.css('input[name="maxFeePerGas"]'),
             );
-            await cap.sendKeys(SELECT_ALL, 'a', Key.NULL, '0.5');
+            await replaceText(driver, cap, '0.5');
             const confirm = await driver.findElement(
               By.css('[data-testid="page-container-footer-next"]'),
             );
             await driver.wait(async () => !(await confirm.isEnabled()));
-            await cap.sendKeys(SELECT_ALL, 'a', Key.NULL, '3');
+            await replaceText(driver, cap, '3');
             await driver.wait(async () => await confirm.isEnabled());
           }
           await driver.clickElement(

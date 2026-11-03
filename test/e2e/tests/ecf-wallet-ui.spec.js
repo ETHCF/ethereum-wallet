@@ -895,13 +895,11 @@ describe('ecf-wallet', function () {
       await driver.switchToWindow(extension);
       await driver.delay(largeDelayMs * 2);
 
-      await driver.findElements(By.css('.transaction-list-item'));
+      // The new row can arrive after this page opens, so look for it by value.
       const txListValue = await driver.findClickableElement(
-        By.css('.transaction-list-item__primary-currency'),
-      );
-      await driver.wait(
-        until.elementTextMatches(txListValue, /-4\s*ETH/u),
-        10000,
+        By.xpath(
+          `//*[contains(@class, 'transaction-list-item__primary-currency')][contains(., '-4')]`,
+        ),
       );
       await txListValue.click();
       await driver.delay(regularDelayMs);

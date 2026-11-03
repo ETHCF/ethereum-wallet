@@ -52,14 +52,18 @@ class FirefoxDriver {
     if (process.env.SELENIUM_HEADLESS === 'true') {
       options.addArguments('-headless');
     }
-    const builder = new Builder()
-      .forBrowser('firefox')
-      .setFirefoxOptions(options);
+    // Firefox refuses WebDriver navigation to moz-extension: pages without this.
+    const service = new firefox.ServiceBuilder().addArguments(
+      '--allow-system-access',
+    );
     if (port) {
-      const service = new firefox.ServiceBuilder().setPort(port);
-      builder.setFirefoxService(service);
+      service.setPort(port);
     }
-    const driver = builder.build();
+    const driver = new Builder()
+      .forBrowser('firefox')
+      .setFirefoxOptions(options)
+      .setFirefoxService(service)
+      .build();
     const fxDriver = new FirefoxDriver(driver);
 
     await fxDriver.init();

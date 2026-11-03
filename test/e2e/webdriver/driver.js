@@ -1,6 +1,6 @@
 const { strict: assert } = require('assert');
 const { promises: fs } = require('fs');
-const { until, error: webdriverError } = require('selenium-webdriver');
+const { Browser, until, error: webdriverError } = require('selenium-webdriver');
 
 /** @typedef {import('selenium-webdriver').ThenableWebDriver} ThenableWebDriver */
 
@@ -241,13 +241,26 @@ class Driver {
     );
   }
 
+  /**
+   * Reads and clears the browser console log. geckodriver has no log endpoint,
+   * so this is empty on Firefox.
+   *
+   * @returns {Promise<Array>} The log entries
+   */
+  async getBrowserLogs() {
+    if (this.browser === Browser.FIREFOX) {
+      return [];
+    }
+    return await this.driver.manage().logs().get('browser');
+  }
+
   async checkBrowserForConsoleErrors() {
     const ignoredLogTypes = ['WARNING'];
     const ignoredErrorMessages = [
       // Third-party Favicon 404s show up as errors
       'favicon.ico - Failed to load resource: the server responded with a status of 404 (Not Found)',
     ];
-    const browserLogs = await this.driver.manage().logs().get('browser');
+    const browserLogs = await this.getBrowserLogs();
     const errorEntries = browserLogs.filter(
       (entry) => !ignoredLogTypes.includes(entry.level.toString()),
     );

@@ -91,7 +91,7 @@ describe('Modern signature confirmations', function () {
         await driver.driver.switchTo().window(dappWindow);
 
         // Rejection is deliberately exercised above; the provider logs it.
-        const logs = await driver.driver.manage().logs().get('browser');
+        const logs = await driver.getBrowserLogs();
         assert.ok(
           logs
             .filter(
