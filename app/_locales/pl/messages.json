@@ -63,7 +63,7 @@
     "message": "Ilość"
   },
   "appDescription": {
-    "message": "Wtyczka przeglądarki do Ethereum",
+    "message": "Portfel Ethereum z samodzielnym przechowywaniem od Ethereum Community Foundation, bez analityki i z obsługą portfeli sprzętowych.",
     "description": "The description of the application"
   },
   "appName": {

@@ -63,7 +63,7 @@
     "message": "金額"
   },
   "appDescription": {
-    "message": "Ethereumのブラウザ・エクステンション",
+    "message": "Ethereum Community Foundationによるセルフカストディ型のイーサリアムウォレット。分析機能なし、ハードウェアウォレットに対応。",
     "description": "The description of the application"
   },
   "appName": {

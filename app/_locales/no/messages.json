@@ -63,7 +63,7 @@
     "message": "Sum"
   },
   "appDescription": {
-    "message": "En Ethereum-lommebok i nettleseren din",
+    "message": "Ethereum-lommebok med egen forvaring fra Ethereum Community Foundation, uten analyse og med støtte for maskinvarelommebøker.",
     "description": "The description of the application"
   },
   "appName": {

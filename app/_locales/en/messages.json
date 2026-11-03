@@ -215,7 +215,7 @@
     "message": "Amount:"
   },
   "appDescription": {
-    "message": "An Ethereum Wallet in your Browser",
+    "message": "Self-custody Ethereum wallet from the Ethereum Community Foundation, with no analytics and hardware wallet support.",
     "description": "The description of the application"
   },
   "appName": {

@@ -63,7 +63,7 @@
     "message": "Betrag"
   },
   "appDescription": {
-    "message": "Ethereum Browsererweiterung",
+    "message": "Selbstverwaltete Ethereum-Wallet der Ethereum Community Foundation, ohne Analysen und mit Unterstützung für Hardware-Wallets.",
     "description": "The description of the application"
   },
   "appName": {

@@ -22,7 +22,7 @@
     "message": "Halaga"
   },
   "appDescription": {
-    "message": "Ethereum Browser Extension",
+    "message": "Self-custody Ethereum wallet from the Ethereum Community Foundation, with no analytics and hardware wallet support.",
     "description": "Ang deskripsyon ng application"
   },
   "attemptingConnect": {

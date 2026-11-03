@@ -63,7 +63,7 @@
     "message": "Monto"
   },
   "appDescription": {
-    "message": "Una billetera de Ethereum en tu navegador",
+    "message": "Billetera de Ethereum de autocustodia de la Ethereum Community Foundation, sin analíticas y compatible con billeteras físicas.",
     "description": "The description of the application"
   },
   "appName": {

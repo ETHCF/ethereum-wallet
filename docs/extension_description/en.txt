@@ -1,8 +1,15 @@
-MetaECF is an extension for accessing Ethereum enabled distributed applications, or "Dapps" in your normal browser!
+MetaECF is a self-custody Ethereum wallet published by the Ethereum Community Foundation. Your keys are created and encrypted on your own device and never leave it.
 
-The extension injects an EIP-1193 Ethereum provider into every website's javascript context, and announces it over EIP-6963, so that dapps can read from the blockchain.
+What you can do with it:
+- Hold ETH and tokens on Ethereum, Arbitrum, Optimism, Base and Polygon, or add any network by its RPC address.
+- Sign in to apps and approve transactions from a clear confirmation screen that, on networks that support it, previews the balance changes before you sign.
+- Use a Ledger or Trezor hardware wallet so your keys stay on the device.
+- Open .eth websites by typing "eth" and a name in the address bar.
 
-MetaECF also lets the user create and manage their own identities, so when a Dapp wants to perform a transaction and write to the blockchain, the user gets a secure interface to review the transaction, before approving or rejecting it.
+Built to protect you:
+- Warnings for known phishing sites, look-alike addresses and look-alike ENS names.
+- No analytics, no tracking and no crash reporting. Network requests go only to the RPC endpoints you use and to the services listed in the privacy policy.
 
-Because it adds functionality to the normal browser context, MetaECF requires the permission to read and write to any webpage. You can always "view the source" of MetaECF the way you do any extension, or view the source code on Github:
-https://github.com/ETHCF/ethereum-wallet
+Websites find the wallet through the EIP-6963 standard, alongside any other wallets you have installed. MetaECF needs access to the pages you visit so that those sites can connect to it; the sites you visit are checked against the phishing list on your device and are never recorded or sent anywhere.
+
+MetaECF is built from MetaMask's open-source code and is not affiliated with MetaMask or Consensys. The source code is public at https://github.com/ETHCF/ethereum-wallet

@@ -18,7 +18,7 @@
     "message": "Bedrag"
   },
   "appDescription": {
-    "message": "Ethereum Browser-extensie",
+    "message": "Ethereum-wallet in eigen beheer van de Ethereum Community Foundation, zonder analytics en met ondersteuning voor hardwarewallets.",
     "description": "The description of the application"
   },
   "appName": {

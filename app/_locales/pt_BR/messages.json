@@ -70,7 +70,7 @@
     "message": "Valor"
   },
   "appDescription": {
-    "message": "Uma Carteira Ethereum no seu Navegador",
+    "message": "Carteira Ethereum de autocustódia da Ethereum Community Foundation, sem análises e compatível com carteiras de hardware.",
     "description": "The description of the application"
   },
   "approve": {

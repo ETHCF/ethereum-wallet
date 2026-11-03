@@ -67,7 +67,7 @@
     "message": "Összeg"
   },
   "appDescription": {
-    "message": "Ethereum tárca a böngészőjében",
+    "message": "Saját kezelésű Ethereum-tárca a Ethereum Community Foundation kiadásában, analitika nélkül, hardvertárca-támogatással.",
     "description": "The description of the application"
   },
   "approve": {

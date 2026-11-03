@@ -24,7 +24,7 @@
     "message": "Сумма"
   },
   "appDescription": {
-    "message": "Расширение браузера для Ethereum",
+    "message": "Некастодиальный кошелёк Ethereum от Ethereum Community Foundation, без аналитики и с поддержкой аппаратных кошельков.",
     "description": "The description of the application"
   },
   "appName": {

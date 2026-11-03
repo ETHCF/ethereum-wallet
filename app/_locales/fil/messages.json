@@ -57,7 +57,7 @@
     "message": "Halaga"
   },
   "appDescription": {
-    "message": "Isang Ethereum Wallet sa iyong Browser",
+    "message": "Self-custody na Ethereum wallet mula sa Ethereum Community Foundation, walang analytics at may suporta sa hardware wallet.",
     "description": "The description of the application"
   },
   "appName": {

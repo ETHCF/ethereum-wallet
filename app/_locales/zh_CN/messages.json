@@ -66,7 +66,7 @@
     "message": "数量"
   },
   "appDescription": {
-    "message": "以太坊浏览器插件",
+    "message": "Ethereum Community Foundation 推出的自托管以太坊钱包，不含数据分析，支持硬件钱包。",
     "description": "The description of the application"
   },
   "appName": {

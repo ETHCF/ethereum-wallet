@@ -66,7 +66,7 @@
     "message": "Cantidad"
   },
   "appDescription": {
-    "message": "Extensión del navegador para Ethereum",
+    "message": "Monedero de Ethereum de autocustodia de la Ethereum Community Foundation, sin analíticas y compatible con monederos físicos.",
     "description": "The description of the application"
   },
   "appName": {
