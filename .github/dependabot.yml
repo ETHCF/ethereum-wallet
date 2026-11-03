@@ -9,3 +9,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # 9.10.0 lets the bundled MetaMask SDK replace window.ethereum when no
+      # io.metamask wallet announces itself, which breaks the e2e suite.
+      - dependency-name: '@metamask/test-dapp'
+        versions: ['>=9.10.0']

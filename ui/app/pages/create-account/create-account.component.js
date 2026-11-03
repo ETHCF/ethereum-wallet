@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Route, Routes, matchPath } from 'react-router-dom';
 
-import ConnectHardwareForm from './connect-hardware';
+import ConnectHardware from './connect-hardware';
 import NewAccountImportForm from './import-account';
 import NewAccountCreateForm from './new-account.container';
 import {
@@ -76,7 +76,7 @@ export default class CreateAccountPage extends Component {
                 CONNECT_HARDWARE_ROUTE,
                 NEW_ACCOUNT_ROUTE,
               )}
-              element={<ConnectHardwareForm />}
+              element={<ConnectHardware />}
             />
           </Routes>
         </div>

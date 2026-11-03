@@ -7,6 +7,10 @@ const { withFixtures } = require('../helpers');
 // stays flagged as the list is updated. Served here by the local dapp server.
 const PHISHING_SITE = 'http://metamaskk.io:8080/';
 const WARNING_TITLE = 'Ethereum Phishing Detection - MetaECF';
+// The local dapp frames WalletConnect's verify page, which refuses to be framed
+// by this look-alike host and logs a console error. Keep the test off that host.
+const HOST_RESOLVER_RULES =
+  'MAP metamaskk.io 127.0.0.1, MAP verify.walletconnect.com ~NOTFOUND';
 
 describe('Phishing warning', function () {
   it('replaces a listed site, which websites cannot do, and continues to that site only', async function () {
@@ -19,7 +23,7 @@ describe('Phishing warning', function () {
         fixtures: 'personal-sign',
         title: this.test.title,
         driverOptions: {
-          hostResolverRules: 'MAP metamaskk.io 127.0.0.1',
+          hostResolverRules: HOST_RESOLVER_RULES,
         },
       },
       async ({ driver }) => {
@@ -81,7 +85,7 @@ describe('Phishing warning', function () {
         fixtures: 'personal-sign',
         title: this.test.title,
         driverOptions: {
-          hostResolverRules: 'MAP metamaskk.io 127.0.0.1',
+          hostResolverRules: HOST_RESOLVER_RULES,
         },
       },
       async ({ driver }) => {

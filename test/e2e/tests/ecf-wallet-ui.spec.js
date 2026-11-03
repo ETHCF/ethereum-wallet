@@ -592,7 +592,8 @@ describe('ecf-wallet', function () {
       const txValue = await driver.findClickableElement(
         By.css('.transaction-list-item__primary-currency'),
       );
-      await driver.wait(until.elementTextMatches(txValue, /-3\s*ETH/u), 10000);
+      // The test dapp's Send button sends nothing to the fixed recipient.
+      await driver.wait(until.elementTextMatches(txValue, /-0\s*ETH/u), 10000);
     });
 
     it('the transaction has the expected gas price', async function () {
@@ -1007,11 +1008,11 @@ describe('ecf-wallet', function () {
       );
       await driver.delay(regularDelayMs);
       await driver.wait(
-        until.elementTextMatches(balance, /^87.*\s*ETH.*$/u),
+        until.elementTextMatches(balance, /^93.*\s*ETH.*$/u),
         10000,
       );
       const tokenAmount = await balance.getText();
-      assert.ok(/^87.*\s*ETH.*$/u.test(tokenAmount));
+      assert.ok(/^93.*\s*ETH.*$/u.test(tokenAmount));
       await driver.delay(regularDelayMs);
     });
   });
@@ -1064,7 +1065,7 @@ describe('ecf-wallet', function () {
       await driver.delay(tinyDelayMs);
 
       const tokenContractAddress = await driver.findElement(
-        By.css('#tokenAddress'),
+        By.css('#erc20TokenAddresses'),
       );
       await driver.wait(until.elementTextMatches(tokenContractAddress, /0x/u));
       tokenAddress = await tokenContractAddress.getText();
@@ -1749,6 +1750,10 @@ describe('ecf-wallet', function () {
         const chainIdInput = customRpcInputs[2];
         await chainIdInput.clear();
         await chainIdInput.sendKeys('1337');
+        // A new RPC URL on this computer has to be confirmed before saving.
+        await driver.clickElement(
+          By.css('[data-testid="network-form-local-confirm"]'),
+        );
 
         await driver.clickElement(
           By.css('.network-form__footer .btn-secondary'),

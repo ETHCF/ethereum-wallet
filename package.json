@@ -173,7 +173,7 @@
     "@metamask/eslint-config-nodejs": "^15.0.1",
     "@metamask/forwarder": "^1.1.0",
     "@metamask/foundryup": "^2",
-    "@metamask/test-dapp": "^9.9.0",
+    "@metamask/test-dapp": "9.9.0",
     "@stylistic/stylelint-plugin": "^5.3.1",
     "@testing-library/dom": "^10",
     "@testing-library/react": "^16.3.3",
@@ -229,7 +229,8 @@
     "terser-webpack-plugin": "^5.6.1",
     "through2": "^5",
     "ttest": "^4",
-    "webpack": "~5.111.1"
+    "webpack": "~5.111.1",
+    "yaml": "^2.9.1"
   },
   "installScripts": {
     "@parcel/watcher": false,
