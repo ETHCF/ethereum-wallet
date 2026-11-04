@@ -8,6 +8,7 @@
     "dist": "yarn build prod",
     "setup": "yarn install && node development/run-allowed-install-scripts.js && yarn foundryup",
     "build": "node development/build/index.js",
+    "source-package": "node development/package-source.js",
     "start:test": "yarn build testDev",
     "benchmark:chrome": "SELENIUM_BROWSER=chrome node test/e2e/benchmark.js",
     "benchmark:firefox": "SELENIUM_BROWSER=firefox node test/e2e/benchmark.js",

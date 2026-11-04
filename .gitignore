@@ -44,3 +44,6 @@ notes.txt
 # Anvil binary installed by `yarn foundryup`
 .metamask/
 /.gstack
+
+# written into source archives by development/package-source.js
+BUILD_COMMIT

@@ -74,7 +74,40 @@ yarn start
 
 ```bash
 yarn dist
+yarn source-package
 ```
+
+`yarn dist` writes the store packages to `builds/`. `yarn source-package` writes
+`builds/ecf-wallet-source-<version>.zip`, the source archive for the
+Mozilla Add-ons "source code" upload. It must be run from a clean checkout of the
+commit that was built.
+
+## Rebuilding from the source archive
+
+These steps rebuild the Firefox package from `ecf-wallet-source-<version>.zip`.
+The extension code is bundled with webpack (`development/build/`) and the CSS is
+compiled from Sass. The source tree contains no minified or generated code.
+Every dependency comes from the npm registry through `yarn.lock`. A few
+dependency files are copied into the package unchanged, as their npm packages
+publish them (`development/build/static.js`): `ses/dist/lockdown.umd.min.js`,
+the `@trezor/connect-web` web-extension scripts, and the
+`@metamask/contract-metadata` token images.
+
+Requirements: Linux or macOS, Node.js 24.21.0 (pinned in `.nvmrc`), and
+Yarn 1.22.22.
+
+```bash
+unzip ecf-wallet-source-<version>.zip -d ecf-wallet && cd ecf-wallet
+yarn install --frozen-lockfile   # dependency install scripts are disabled by .yarnrc
+yarn dist
+```
+
+The Firefox build is written to `dist/firefox/` and packaged as
+`builds/ecf-wallet-firefox-<version>.zip`. Its files match the submitted add-on.
+`dist/firefox/build-info.json` records the source commit (read from
+`BUILD_COMMIT`) and a SHA-256 hash over every other file in the build.
+`node development/verify-build.js dist/firefox` recomputes that hash. The build needs network access only
+to download dependencies during `yarn install`.
 
 ## Other Docs
 

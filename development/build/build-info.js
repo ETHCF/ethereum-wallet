@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 const crypto = require('crypto');
-const { promises: fs } = require('fs');
+const { promises: fs, readFileSync } = require('fs');
 const path = require('path');
 
 // Written into each built extension, read by the UI and by verify-build.js.
@@ -51,9 +51,24 @@ async function listFiles(dir, prefix = '') {
   return nested.flat();
 }
 
+// A source archive from `yarn source-package` has no .git directory, so it
+// carries the commit in BUILD_COMMIT. Building from it then produces the same
+// build-info.json as building from the repository. The file is checked first
+// so an archive extracted inside an unrelated git checkout still reports its
+// own commit.
+const COMMIT_FILE = path.resolve(__dirname, '../../BUILD_COMMIT');
+
 function getCommit() {
   try {
-    return execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+    return readFileSync(COMMIT_FILE, 'utf8').trim();
+  } catch (_) {
+    // not a source archive; ask git
+  }
+  try {
+    return execSync('git rev-parse HEAD', {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
   } catch (_) {
     return 'unknown';
   }
