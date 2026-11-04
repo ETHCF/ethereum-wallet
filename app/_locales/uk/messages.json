@@ -185,12 +185,6 @@
   "connect": {
     "message": "Під’єднатися"
   },
-  "connectingTo": {
-    "message": "Під'єднуємось до $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Під'єднуємось до локального хосту 8545"
-  },
   "contractDeployment": {
     "message": "Розгортання контракту"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "Запит підпису"
-  },
-  "somethingWentWrong": {
-    "message": "Ой! Щось пішло не так."
   },
   "speedUp": {
     "message": "Пришвидшити"

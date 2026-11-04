@@ -185,12 +185,6 @@
   "connect": {
     "message": "Pievienošana"
   },
-  "connectingTo": {
-    "message": "Pieslēdzas $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Savienojas ar vietējo resursdatoru 8545"
-  },
   "contractDeployment": {
     "message": "Līgumu pielietošana"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "Paraksta pieprasījums"
-  },
-  "somethingWentWrong": {
-    "message": "Ak vai! Radās problēma."
   },
   "speedUp": {
     "message": "Paātrināt"

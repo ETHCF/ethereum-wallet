@@ -42,6 +42,13 @@ const defaultProviderConfig = {
   type: defaultProviderConfigType,
 };
 
+// How long to wait before looking the network up again after it could not be
+// reached, doubling after each failure up to the maximum. The wallet stays
+// usable while it waits, and without this it would only learn that the
+// network came back when the user switched networks.
+const LOOKUP_RETRY_MIN_MS = 5000;
+const LOOKUP_RETRY_MAX_MS = 60000;
+
 const defaultNetworkConfig = {
   ticker: 'ETH',
 };
@@ -68,6 +75,10 @@ export default class NetworkController extends EventEmitter {
     // provider and block tracker proxies - because the network changes
     this._providerProxy = null;
     this._blockTrackerProxy = null;
+    // network lookups, so only the latest one's answer is used
+    this._lookupId = 0;
+    this._lookupRetryTimer = null;
+    this._lookupRetryDelay = LOOKUP_RETRY_MIN_MS;
   }
 
   initializeProvider(providerParams) {
@@ -118,19 +129,24 @@ export default class NetworkController extends EventEmitter {
       );
       return;
     }
+    this._clearLookupRetry();
+    this._lookupId += 1;
+    const lookupId = this._lookupId;
     const { type } = this.providerStore.getState();
     const provider = this._provider;
+    const isCurrent = () =>
+      provider === this._provider && lookupId === this._lookupId;
     const ethQuery = new EthQuery(provider);
     ethQuery.sendAsync({ method: 'net_version' }, (error, network) => {
-      if (provider !== this._provider) {
+      if (!isCurrent()) {
         return;
       }
       if (error) {
-        this.setNetworkState('loading');
+        this._lookupFailed();
         return;
       }
       ethQuery.sendAsync({ method: 'eth_chainId' }, (chainError, chainId) => {
-        if (provider !== this._provider) {
+        if (!isCurrent()) {
           return;
         }
         if (
@@ -138,8 +154,7 @@ export default class NetworkController extends EventEmitter {
           typeof chainId !== 'string' ||
           !/^0x[0-9a-f]+$/iu.test(chainId)
         ) {
-          this._chainId = undefined;
-          this.setNetworkState('loading');
+          this._lookupFailed();
           return;
         }
         // An RPC that reports a different chain than the one configured
@@ -159,10 +174,10 @@ export default class NetworkController extends EventEmitter {
           log.warn(
             `NetworkController - RPC returned chain ID ${chainId}, expected ${expectedChainId}`,
           );
-          this._chainId = undefined;
-          this.setNetworkState('loading');
+          this._lookupFailed();
           return;
         }
+        this._lookupRetryDelay = LOOKUP_RETRY_MIN_MS;
         this._chainId = chainId;
         this.setNetworkState(network, type);
       });
@@ -217,7 +232,30 @@ export default class NetworkController extends EventEmitter {
   // Private
   //
 
+  /**
+   * Marks the network unreachable and looks it up again later. The chain ID is
+   * cleared so nothing is signed for a chain that could not be confirmed.
+   */
+  _lookupFailed() {
+    this._chainId = undefined;
+    this.setNetworkState('loading');
+    const delay = this._lookupRetryDelay;
+    this._lookupRetryDelay = Math.min(delay * 2, LOOKUP_RETRY_MAX_MS);
+    this._lookupRetryTimer = setTimeout(() => {
+      this._lookupRetryTimer = null;
+      this.lookupNetwork();
+    }, delay);
+  }
+
+  _clearLookupRetry() {
+    if (this._lookupRetryTimer) {
+      clearTimeout(this._lookupRetryTimer);
+      this._lookupRetryTimer = null;
+    }
+  }
+
   _switchNetwork(opts) {
+    this._lookupRetryDelay = LOOKUP_RETRY_MIN_MS;
     this.setNetworkState('loading');
     this._configureProvider(opts);
     this.emit('networkDidChange', opts.type);

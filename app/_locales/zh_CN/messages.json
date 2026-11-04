@@ -197,12 +197,6 @@
   "connect": {
     "message": "连接"
   },
-  "connectingTo": {
-    "message": "正在连接 $1"
-  },
-  "connectingToLocalhost": {
-    "message": "正在连接 Localhost 8545"
-  },
   "contractDeployment": {
     "message": "合约部署"
   },
@@ -869,9 +863,6 @@
   "simulationUnknownReason": {
     "message": "未提供原因",
     "description": "Shown when a simulated transaction reverted without a reason"
-  },
-  "somethingWentWrong": {
-    "message": "哎呀！出问题了。"
   },
   "speedUp": {
     "message": "加速"

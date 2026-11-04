@@ -182,12 +182,6 @@
   "connect": {
     "message": "連線"
   },
-  "connectingTo": {
-    "message": "連線到$1"
-  },
-  "connectingToLocalhost": {
-    "message": "連接至本地主機 8545"
-  },
   "contractDeployment": {
     "message": "部署合約"
   },
@@ -799,9 +793,6 @@
   },
   "sigRequest": {
     "message": "請求簽署"
-  },
-  "somethingWentWrong": {
-    "message": "糟糕！出了點問題。"
   },
   "speedUp": {
     "message": "加速"

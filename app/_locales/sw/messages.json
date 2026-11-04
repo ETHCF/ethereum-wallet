@@ -179,12 +179,6 @@
   "connect": {
     "message": "Unganisha"
   },
-  "connectingTo": {
-    "message": "Inaunganisha kwenye $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Inaunganisha kwenye Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Kutoa Mkataba"
   },
@@ -802,9 +796,6 @@
   },
   "sigRequest": {
     "message": "Ombi la Saini"
-  },
-  "somethingWentWrong": {
-    "message": "Ayaa! Hitilafu fulani imetokea."
   },
   "speedUp": {
     "message": "Ongeza Kasi"

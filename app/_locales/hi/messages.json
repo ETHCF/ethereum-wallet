@@ -185,12 +185,6 @@
   "connect": {
     "message": "कनेक्ट करें"
   },
-  "connectingTo": {
-    "message": "$1 से कनेक्ट हो रहा है"
-  },
-  "connectingToLocalhost": {
-    "message": "लोकलहोस्ट 8545 से जुड़ना "
-  },
   "contractDeployment": {
     "message": "कॉन्ट्रैक्ट का परिनियोजन"
   },
@@ -811,9 +805,6 @@
   },
   "sigRequest": {
     "message": "हस्ताक्षर का अनुरोध"
-  },
-  "somethingWentWrong": {
-    "message": "ओह! कुछ गलत हो गया।"
   },
   "speedUp": {
     "message": "गति बढ़ाएँ"

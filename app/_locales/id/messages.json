@@ -185,12 +185,6 @@
   "connect": {
     "message": "Sambungkan"
   },
-  "connectingTo": {
-    "message": "Menghubungkan ke $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Menghubungkan ke Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Penerapan Kontrak"
   },
@@ -811,9 +805,6 @@
   },
   "sigRequest": {
     "message": "Permintaan Tanda Tangan"
-  },
-  "somethingWentWrong": {
-    "message": "Ups! Terjadi sesuatu."
   },
   "speedUp": {
     "message": "Percepat"

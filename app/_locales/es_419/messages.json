@@ -182,12 +182,6 @@
   "connect": {
     "message": "Conectar"
   },
-  "connectingTo": {
-    "message": "Conexión con $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Conexión con Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Despliegue de contratos"
   },
@@ -805,9 +799,6 @@
   },
   "sigRequest": {
     "message": "Solicitud de firma"
-  },
-  "somethingWentWrong": {
-    "message": "¡Vaya! Se produjo un error."
   },
   "speedUp": {
     "message": "Acelerar"

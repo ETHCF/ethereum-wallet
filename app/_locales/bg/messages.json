@@ -185,12 +185,6 @@
   "connect": {
     "message": "Свързване"
   },
-  "connectingTo": {
-    "message": "Свързване с $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Свързване с Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Разгръщане на договор"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "Заявка за подпис"
-  },
-  "somethingWentWrong": {
-    "message": "Упс! Нещо се обърка."
   },
   "speedUp": {
     "message": "Ускори"

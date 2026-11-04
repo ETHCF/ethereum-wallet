@@ -712,12 +712,6 @@
   "connect": {
     "message": "接続"
   },
-  "connectingTo": {
-    "message": "$1に接続中"
-  },
-  "connectingToLocalhost": {
-    "message": "Localhost 8545に接続中"
-  },
   "contactUs": {
     "message": "お問い合わせ"
   },
@@ -1256,9 +1250,6 @@
   },
   "signed": {
     "message": "署名済み"
-  },
-  "somethingWentWrong": {
-    "message": "問題が発生しました。"
   },
   "spenderWithColon": {
     "message": "使用者:",

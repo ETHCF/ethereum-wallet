@@ -309,12 +309,6 @@
   "connect": {
     "message": "Connetti"
   },
-  "connectingTo": {
-    "message": "Connessione in corso a $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Connessione a Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Distribuzione Contratto"
   },
@@ -1068,9 +1062,6 @@
   },
   "sigRequest": {
     "message": "Firma Richiesta"
-  },
-  "somethingWentWrong": {
-    "message": "Oops! Qualcosa è andato storto."
   },
   "speedUp": {
     "message": "Velocizza"

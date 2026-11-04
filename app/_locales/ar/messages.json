@@ -185,12 +185,6 @@
   "connect": {
     "message": "اتصال"
   },
-  "connectingTo": {
-    "message": "جارِ الاتصال بـ $1"
-  },
-  "connectingToLocalhost": {
-    "message": "جاري الاتصال بالمضيف المحلي 8545"
-  },
   "contractDeployment": {
     "message": "نشر العقد"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "طلب التوقيع"
-  },
-  "somethingWentWrong": {
-    "message": "عذراً! حدث خطأ ما."
   },
   "speedUp": {
     "message": "تعجيل"

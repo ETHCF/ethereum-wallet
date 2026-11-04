@@ -356,12 +356,6 @@
   "connect": {
     "message": "Connect"
   },
-  "connectingTo": {
-    "message": "Connecting to $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Connecting to Localhost 8545"
-  },
   "contactUs": {
     "message": "Contact us!"
   },
@@ -821,6 +815,10 @@
   "networkName": {
     "message": "Network Name"
   },
+  "networkUnreachable": {
+    "message": "Can't reach $1. Your wallet still works, and it will keep trying to connect.",
+    "description": "$1 is the name of the selected network"
+  },
   "networks": {
     "message": "Networks"
   },
@@ -1207,9 +1205,6 @@
   "simulationUnknownReason": {
     "message": "no reason given",
     "description": "Shown when a simulated transaction reverted without a reason"
-  },
-  "somethingWentWrong": {
-    "message": "Oops! Something went wrong."
   },
   "spenderWithColon": {
     "message": "Spender:",

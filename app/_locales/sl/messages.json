@@ -185,12 +185,6 @@
   "connect": {
     "message": "Poveži"
   },
-  "connectingTo": {
-    "message": "Povezovanje na $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Povezovanje na lokalnega gostitelja 8545 "
-  },
   "contractDeployment": {
     "message": "Ustvarjanje pogodbe"
   },
@@ -799,9 +793,6 @@
   },
   "sigRequest": {
     "message": "Zahteva za podpis"
-  },
-  "somethingWentWrong": {
-    "message": "Oops! Nekaj je šlo narobe."
   },
   "speedUp": {
     "message": "pospeši"

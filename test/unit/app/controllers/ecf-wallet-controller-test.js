@@ -189,6 +189,18 @@ describe('EcfWalletController', function () {
         );
       });
     });
+
+    it('unlocks without waiting for a network that does not answer', async function () {
+      await ecfWalletController.createNewVaultAndKeychain(password);
+      await ecfWalletController.setLocked();
+      sandbox
+        .stub(ecfWalletController.blockTracker, 'checkForLatestBlock')
+        .returns(new Promise(() => undefined));
+
+      await ecfWalletController.submitPassword(password);
+
+      assert.ok(ecfWalletController.isUnlocked());
+    });
   });
 
   describe('#createNewVaultAndKeychain', function () {

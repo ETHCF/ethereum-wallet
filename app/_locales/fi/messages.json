@@ -182,12 +182,6 @@
   "connect": {
     "message": "Muodosta yhteys"
   },
-  "connectingTo": {
-    "message": "Yhdistetään summaan $1 "
-  },
-  "connectingToLocalhost": {
-    "message": "Yhdistetään kohteeseen Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Sopimuksen käyttö"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "Allekirjoitus pyydetään"
-  },
-  "somethingWentWrong": {
-    "message": "Hupsis! Jotakin meni pieleen."
   },
   "speedUp": {
     "message": "Nopeuta"

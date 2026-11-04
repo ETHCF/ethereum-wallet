@@ -176,12 +176,6 @@
   "connect": {
     "message": "Verbinden"
   },
-  "connectingTo": {
-    "message": "Verbindung mit $1 wird hergestellt"
-  },
-  "connectingToLocalhost": {
-    "message": "Verbindung mit Localhost 8545 herstellen"
-  },
   "contractDeployment": {
     "message": "Smart Contract Ausführung"
   },
@@ -847,9 +841,6 @@
   "simulationUnknownReason": {
     "message": "kein Grund angegeben",
     "description": "Shown when a simulated transaction reverted without a reason"
-  },
-  "somethingWentWrong": {
-    "message": "Hoppla! Da hat etwas nicht geklappt."
   },
   "speedUp": {
     "message": "Beschleunigen"

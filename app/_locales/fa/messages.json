@@ -185,12 +185,6 @@
   "connect": {
     "message": "اتصال"
   },
-  "connectingTo": {
-    "message": "در حال اتصال به 1$1"
-  },
-  "connectingToLocalhost": {
-    "message": "در حال اتصال با Localhost 8545"
-  },
   "contractDeployment": {
     "message": "تطبیق قرارداد"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "درخواست امضاء"
-  },
-  "somethingWentWrong": {
-    "message": "اوه! مشکلی پیش آمده."
   },
   "speedUp": {
     "message": "تسریع"

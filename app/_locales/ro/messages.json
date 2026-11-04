@@ -185,12 +185,6 @@
   "connect": {
     "message": "Conectează-te"
   },
-  "connectingTo": {
-    "message": "Se conectează la $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Se conectează la localhost 8545"
-  },
   "contractDeployment": {
     "message": "Implementarea contractului"
   },
@@ -808,9 +802,6 @@
   },
   "sigRequest": {
     "message": "Solicitare de semnătură"
-  },
-  "somethingWentWrong": {
-    "message": "Hopa! A apărut o eroare."
   },
   "speedUp": {
     "message": "Accelerați"

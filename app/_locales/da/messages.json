@@ -185,12 +185,6 @@
   "connect": {
     "message": "Få forbindelse"
   },
-  "connectingTo": {
-    "message": "Forbinder til $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Opretter forbindelse til Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Kontraktanvendelse"
   },
@@ -799,9 +793,6 @@
   },
   "sigRequest": {
     "message": "Signaturforespørgsel"
-  },
-  "somethingWentWrong": {
-    "message": "Ups! Noget gik galt."
   },
   "speedUp": {
     "message": "Fremskynd"

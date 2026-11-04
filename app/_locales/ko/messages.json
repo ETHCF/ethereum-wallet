@@ -194,12 +194,6 @@
   "connect": {
     "message": "연결"
   },
-  "connectingTo": {
-    "message": "$1에 연결"
-  },
-  "connectingToLocalhost": {
-    "message": "로컬호스트 8545에 연결 중"
-  },
   "contractDeployment": {
     "message": "컨트랙트 배포"
   },
@@ -878,9 +872,6 @@
   "simulationUnknownReason": {
     "message": "이유가 제공되지 않음",
     "description": "Shown when a simulated transaction reverted without a reason"
-  },
-  "somethingWentWrong": {
-    "message": "헉! 뭔가 잘못됐어요."
   },
   "speedUp": {
     "message": "속도 향상"

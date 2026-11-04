@@ -182,12 +182,6 @@
   "connect": {
     "message": "Połącz"
   },
-  "connectingTo": {
-    "message": "Łączenie z $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Połączono z serwerem lokalnym 8545"
-  },
   "contractDeployment": {
     "message": "Uruchomienie kontraktu"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "Prośba o podpis"
-  },
-  "somethingWentWrong": {
-    "message": "Ups! Coś poszło nie tak."
   },
   "speedUp": {
     "message": "Przyśpiesz"

@@ -182,12 +182,6 @@
   "connect": {
     "message": "Koble til"
   },
-  "connectingTo": {
-    "message": "Forbinder til $1 "
-  },
-  "connectingToLocalhost": {
-    "message": "Kobler til lokalvert 8545"
-  },
   "contractDeployment": {
     "message": "Distribusjon av kontrakten"
   },
@@ -805,9 +799,6 @@
   },
   "sigRequest": {
     "message": "Signaturforespørsel "
-  },
-  "somethingWentWrong": {
-    "message": "Oisann! Noe gikk galt. "
   },
   "speedUp": {
     "message": "Øk hastigheten "

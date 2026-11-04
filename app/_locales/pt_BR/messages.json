@@ -191,12 +191,6 @@
   "connect": {
     "message": "Conectar-se"
   },
-  "connectingTo": {
-    "message": "Conectando a $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Conectando ao Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Implantação de Contrato"
   },
@@ -875,9 +869,6 @@
   "simulationUnknownReason": {
     "message": "nenhum motivo informado",
     "description": "Shown when a simulated transaction reverted without a reason"
-  },
-  "somethingWentWrong": {
-    "message": "Opa! Algo deu errado."
   },
   "speedUp": {
     "message": "Acelerar"

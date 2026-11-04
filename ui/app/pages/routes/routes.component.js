@@ -14,8 +14,8 @@ import Alerts from '../../components/app/alerts';
 import AppHeader from '../../components/app/app-header';
 import NetworkDropdown from '../../components/app/dropdowns/network-dropdown';
 import LegalDocument from '../../components/app/legal-document';
-import LoadingNetwork from '../../components/app/loading-network-screen';
 import { Modal } from '../../components/app/modals';
+import NetworkConnectionBanner from '../../components/app/network-connection-banner';
 import Sidebar from '../../components/app/sidebars';
 import Alert from '../../components/ui/alert';
 import Loading from '../../components/ui/loading-screen';
@@ -51,7 +51,6 @@ import {
 } from '../../helpers/constants/terms-of-use';
 import Authenticated from '../../helpers/higher-order-components/authenticated';
 import Initialized from '../../helpers/higher-order-components/initialized';
-import { getConnectingLabel } from '../../helpers/utils/network-display';
 import { applyTheme, onSystemThemeChange } from '../../helpers/utils/theme';
 import AddTokenPage from '../add-token';
 import Asset from '../asset';
@@ -77,7 +76,6 @@ export default class Routes extends Component {
     loadingMessage: PropTypes.string,
     alertMessage: PropTypes.string,
     textDirection: PropTypes.string,
-    network: PropTypes.string,
     provider: PropTypes.object,
     frequentRpcListDetail: PropTypes.array,
     sidebar: PropTypes.object,
@@ -89,7 +87,6 @@ export default class Routes extends Component {
     navigationType: PropTypes.string,
     isMouseUser: PropTypes.bool,
     setMouseUserState: PropTypes.func,
-    providerId: PropTypes.string,
     hasPermissionsRequests: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
@@ -329,18 +326,12 @@ export default class Routes extends Component {
       alertMessage,
       textDirection,
       loadingMessage,
-      network,
       provider,
       frequentRpcListDetail,
       setMouseUserState,
       sidebar,
       isMouseUser,
     } = this.props;
-    const isLoadingNetwork = network === 'loading';
-    const loadMessage =
-      loadingMessage || isLoadingNetwork
-        ? this.getConnectingLabel(loadingMessage)
-        : null;
 
     const {
       isOpen: sidebarIsOpen,
@@ -379,21 +370,15 @@ export default class Routes extends Component {
           frequentRpcListDetail={frequentRpcListDetail}
         />
         <AccountMenu />
+        {/* An unreachable network is reported here rather than over the
+            page, so the wallet stays usable without it. */}
+        {isUnlocked ? <NetworkConnectionBanner /> : null}
         <div className="main-container-wrapper">
-          {isLoading && <Loading loadingMessage={loadMessage} />}
-          {!isLoading && isLoadingNetwork && <LoadingNetwork />}
+          {isLoading && <Loading loadingMessage={loadingMessage} />}
           {this.renderRoutes()}
         </div>
         {isUnlocked ? <Alerts /> : null}
       </div>
     );
-  }
-
-  getConnectingLabel(loadingMessage) {
-    if (loadingMessage) {
-      return loadingMessage;
-    }
-    const { provider, providerId } = this.props;
-    return getConnectingLabel(provider, providerId, this.context.t);
   }
 }

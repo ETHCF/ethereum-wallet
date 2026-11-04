@@ -1,0 +1,26 @@
+.network-connection-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--color-warning-default);
+  background: var(--color-warning-muted);
+  color: var(--color-text-default);
+  font-size: 13px;
+  line-height: 1.4;
+
+  &__message {
+    flex: 1 1 auto;
+    word-break: break-word;
+  }
+
+  &__button {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+}

@@ -185,12 +185,6 @@
   "connect": {
     "message": "ይገናኙ"
   },
-  "connectingTo": {
-    "message": "ከ $1ጋር መገናኘት"
-  },
-  "connectingToLocalhost": {
-    "message": "ከ Localhost 8545 ጋር መገናኘት"
-  },
   "contractDeployment": {
     "message": "የኮንትራት ስምሪት"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "የፊርማ ጥያቄ"
-  },
-  "somethingWentWrong": {
-    "message": "ኤጭ! የሆነ ችግር ተፈጥሯል።"
   },
   "speedUp": {
     "message": "አፋጥን"

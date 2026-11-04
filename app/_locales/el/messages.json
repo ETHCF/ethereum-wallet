@@ -182,12 +182,6 @@
   "connect": {
     "message": "Σύνδεση"
   },
-  "connectingTo": {
-    "message": "Σύνδεση με $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Σύνδεση στον Τοπικό Υπολογιστή 8545"
-  },
   "contractDeployment": {
     "message": "Ανάπτυξη Συμβολαίου"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "Αίτημα Υπογραφής"
-  },
-  "somethingWentWrong": {
-    "message": "Ουπς! Κάτι πήγε στραβά."
   },
   "speedUp": {
     "message": "Επιτάχυνση"

@@ -161,12 +161,6 @@
   "connect": {
     "message": "Kumonekta"
   },
-  "connectingTo": {
-    "message": "Kumokonekta sa $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Kumokonekta sa Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Deployment ng Contract"
   },
@@ -748,9 +742,6 @@
   },
   "signed": {
     "message": "Na-sign"
-  },
-  "somethingWentWrong": {
-    "message": "Oops! Nagkaroon ng problema."
   },
   "speedUp": {
     "message": "Pabilisin"

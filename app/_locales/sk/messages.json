@@ -176,12 +176,6 @@
   "connect": {
     "message": "Pripojenie"
   },
-  "connectingTo": {
-    "message": "Pripája sa k $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Pripája sa k Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Nasazení kontraktu"
   },
@@ -795,9 +789,6 @@
   },
   "sigRequest": {
     "message": "Požadavek podpisu"
-  },
-  "somethingWentWrong": {
-    "message": "Och! Niečo zlyhalo."
   },
   "speedUp": {
     "message": "Zrýchliť"

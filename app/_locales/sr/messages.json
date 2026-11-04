@@ -182,12 +182,6 @@
   "connect": {
     "message": "Повезивање"
   },
-  "connectingTo": {
-    "message": "Povezuje se na $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Povezuje se na lokalnog hosta 8545"
-  },
   "contractDeployment": {
     "message": "Primena ugovora"
   },
@@ -811,9 +805,6 @@
   },
   "sigRequest": {
     "message": "Zahtev za potpisom"
-  },
-  "somethingWentWrong": {
-    "message": "Ups! Nešto nije u redu."
   },
   "speedUp": {
     "message": "Ubrzajte"

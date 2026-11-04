@@ -185,12 +185,6 @@
   "connect": {
     "message": "সংযুক্ত করুন"
   },
-  "connectingTo": {
-    "message": " $1 এর সাথে সংযোগ করছে"
-  },
-  "connectingToLocalhost": {
-    "message": "লোকালহোস্ট 8545 এর সাথে সংযোগ করছে"
-  },
   "contractDeployment": {
     "message": "কন্ট্র্যাক্ট নিয়োজন"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "স্বাক্ষরের অনুরোধ"
-  },
-  "somethingWentWrong": {
-    "message": "ওহো! কিছু সমস্যা হয়েছে।"
   },
   "speedUp": {
     "message": "গতি বাড়ান"

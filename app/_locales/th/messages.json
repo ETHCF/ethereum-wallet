@@ -70,9 +70,6 @@
   "congratulations": {
     "message": "ยินดีด้วย"
   },
-  "connectingTo": {
-    "message": "เชื่อมต่อกับ $1"
-  },
   "contractDeployment": {
     "message": "การติดตั้งสัญญา"
   },

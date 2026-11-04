@@ -185,12 +185,6 @@
   "connect": {
     "message": "Povežite se"
   },
-  "connectingTo": {
-    "message": "Povezivanje na $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Povezivanje na Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Primjena ugovora"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "Zahtjev za potpisom"
-  },
-  "somethingWentWrong": {
-    "message": "Ups! Nešto je pošlo po zlu."
   },
   "speedUp": {
     "message": "Ubrzaj"

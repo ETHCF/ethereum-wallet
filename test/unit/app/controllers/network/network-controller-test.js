@@ -1,5 +1,6 @@
 import assert from 'assert';
 import nock from 'nock';
+import sinon from 'sinon';
 
 import NetworkController from '../../../../../app/scripts/controllers/network';
 
@@ -120,6 +121,86 @@ describe('NetworkController', function () {
         () => networkController.setRpcTarget('https://rpc.test', '1abc'),
         /needs a valid chain ID/u,
       );
+    });
+
+    describe('when the network cannot be reached', function () {
+      let clock;
+      let reachable;
+      let requests;
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers();
+        reachable = false;
+        requests = 0;
+        networkController.providerStore.putState({ type: 'localhost' });
+        networkController._provider = {
+          sendAsync: (request, callback) => {
+            requests += 1;
+            if (!reachable) {
+              callback(new Error('Failed to fetch'));
+              return;
+            }
+            callback(null, {
+              id: request.id,
+              jsonrpc: '2.0',
+              result: request.method === 'net_version' ? '1337' : '0x539',
+            });
+          },
+        };
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('keeps trying, less often, until the network answers', function () {
+        networkController.lookupNetwork();
+        assert.equal(networkController.getNetworkState(), 'loading');
+        assert.equal(requests, 1);
+
+        clock.tick(5000);
+        assert.equal(requests, 2);
+        // backs off
+        clock.tick(5000);
+        assert.equal(requests, 2);
+        clock.tick(5000);
+        assert.equal(requests, 3);
+
+        reachable = true;
+        clock.tick(20000);
+        assert.equal(networkController.getNetworkState(), '1337');
+        assert.equal(networkController.getChainId(), '0x539');
+
+        // stops once it has the network
+        const answered = requests;
+        clock.tick(120000);
+        assert.equal(requests, answered);
+      });
+
+      it('never waits more than a minute between tries', function () {
+        networkController.lookupNetwork();
+        clock.tick(10 * 60000);
+        const before = requests;
+        clock.tick(60000);
+        assert.equal(requests, before + 1);
+      });
+
+      it('keeps one retry pending when the network is looked up again', function () {
+        networkController.lookupNetwork();
+        networkController.lookupNetwork();
+        const before = requests;
+        clock.tick(60000);
+        // one retry chain, at 10s and 30s; two would have tried twice as often
+        assert.equal(requests, before + 2);
+      });
+
+      it('backs off from the start again after switching networks', async function () {
+        networkController.initializeProvider(networkControllerProviderConfig);
+        networkController.lookupNetwork();
+        clock.tick(60000);
+        await networkController.setProviderType('mainnet');
+        assert.equal(networkController._lookupRetryDelay, 5000);
+      });
     });
 
     describe('#getNetworkState', function () {

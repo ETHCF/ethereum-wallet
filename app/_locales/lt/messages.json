@@ -185,12 +185,6 @@
   "connect": {
     "message": "Prisijungti"
   },
-  "connectingTo": {
-    "message": "Jungiamasi prie $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Jungiamasi prie vietinio serverio 8545"
-  },
   "contractDeployment": {
     "message": "Sutarties išdėstymas"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "Parašo užklausa"
-  },
-  "somethingWentWrong": {
-    "message": "Vaje! Kažkas negerai."
   },
   "speedUp": {
     "message": "Paspartinti"

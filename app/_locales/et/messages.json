@@ -185,12 +185,6 @@
   "connect": {
     "message": "Ühendamine"
   },
-  "connectingTo": {
-    "message": "Ühenduse loomine $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Ühenduse loomine Localhost 8545"
-  },
   "contractDeployment": {
     "message": "Lepingu juurutamine"
   },
@@ -811,9 +805,6 @@
   },
   "sigRequest": {
     "message": "Allkirja taotlus"
-  },
-  "somethingWentWrong": {
-    "message": "Oih! Midagi läks valesti."
   },
   "speedUp": {
     "message": "Kiirendamine"

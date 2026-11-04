@@ -185,12 +185,6 @@
   "connect": {
     "message": "ಸಂಪರ್ಕಿಸು"
   },
-  "connectingTo": {
-    "message": "$1 ಗೆ ಸಂಪರ್ಕಪಡಿಸಲಾಗುತ್ತಿದೆ"
-  },
-  "connectingToLocalhost": {
-    "message": "ಲೋಕಲ್‌ಹೋಸ್ಟ್ 8545 ಗೆ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ"
-  },
   "contractDeployment": {
     "message": "ಒಪ್ಪಂದದ ನಿಯೋಜನೆ"
   },
@@ -817,9 +811,6 @@
   },
   "sigRequest": {
     "message": "ಸಹಿಯ ವಿನಂತಿ"
-  },
-  "somethingWentWrong": {
-    "message": "ಓಹ್‌‍! ಏನೋ ತಪ್ಪಾಗಿದೆ."
   },
   "speedUp": {
     "message": "ವೇಗ ಹೆಚ್ಚಿಸು"

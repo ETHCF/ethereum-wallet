@@ -4,11 +4,7 @@ import { compose } from 'redux';
 import Routes from './routes.component';
 import { pageChanged } from '../../ducks/history/history';
 import withRouter from '../../helpers/higher-order-components/with-router';
-import {
-  getNetworkIdentifier,
-  hasPermissionRequests,
-  getPreferences,
-} from '../../selectors';
+import { hasPermissionRequests, getPreferences } from '../../selectors';
 import {
   hideSidebar,
   setLastActiveTime,
@@ -29,11 +25,9 @@ function mapStateToProps(state) {
     isLoading,
     loadingMessage,
     isUnlocked: state.ecfWallet.isUnlocked,
-    network: state.ecfWallet.network,
     provider: state.ecfWallet.provider,
     frequentRpcListDetail: state.ecfWallet.frequentRpcListDetail || [],
     isMouseUser: state.appState.isMouseUser,
-    providerId: getNetworkIdentifier(state),
     autoLockTimeLimit,
     theme,
     hasPermissionsRequests: hasPermissionRequests(state),

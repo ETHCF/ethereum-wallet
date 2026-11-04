@@ -185,12 +185,6 @@
   "connect": {
     "message": "Csatlakozás"
   },
-  "connectingTo": {
-    "message": "Kapcsolódás: $1"
-  },
-  "connectingToLocalhost": {
-    "message": "Csatlakozás a Localhost 8645-höz"
-  },
   "contractDeployment": {
     "message": "Szerződés alkalmazása"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "Aláírás kérése"
-  },
-  "somethingWentWrong": {
-    "message": "Hoppá! Valami hiba történt..."
   },
   "speedUp": {
     "message": "Gyorsítás"

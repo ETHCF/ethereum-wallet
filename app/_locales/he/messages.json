@@ -185,12 +185,6 @@
   "connect": {
     "message": "התחברות"
   },
-  "connectingTo": {
-    "message": "מתחבר ל- $1 "
-  },
-  "connectingToLocalhost": {
-    "message": "מתחבר אל Localhost 8545"
-  },
   "contractDeployment": {
     "message": "שליחת חוזה (Contract Deployment)"
   },
@@ -814,9 +808,6 @@
   },
   "sigRequest": {
     "message": "בקשת חתימה"
-  },
-  "somethingWentWrong": {
-    "message": "אופס! משהו השתבש."
   },
   "speedUp": {
     "message": "האצה"

@@ -182,12 +182,6 @@
   "connect": {
     "message": "Connecta"
   },
-  "connectingTo": {
-    "message": "Connectant a $1 "
-  },
-  "connectingToLocalhost": {
-    "message": "Connectant al host local 8545"
-  },
   "contractDeployment": {
     "message": "Desplegament de Contracte"
   },
@@ -799,9 +793,6 @@
   },
   "sigRequest": {
     "message": "Sol·licitud de Signatura"
-  },
-  "somethingWentWrong": {
-    "message": "Ui! Alguna cosa ha fallat."
   },
   "speedUp": {
     "message": "Accelerar"
