@@ -21,9 +21,10 @@ function createManifestTasks({ browserPlatforms }) {
           result.background = {
             scripts: ['lockdown-install.js', 'background.js'],
           };
-          // Lets the wallet check that a site's icon does not resolve to
-          // this computer or the local network before downloading it. Added here because merge()
-          // would overwrite the base list by index.
+          // Lets the wallet check that a host it was given (a site's icon, an
+          // NFT image, an offchain ENS gateway) does not resolve to this
+          // computer or the local network before contacting it. Added here
+          // because merge() would overwrite the base list by index.
           result.permissions = [
             ...result.permissions.filter(
               (permission) => permission !== 'offscreen',

@@ -24,6 +24,8 @@ export const PRIVACY_POLICY_SECTIONS = [
       'Tokens you have added, networks you have added, and the history of transactions and signature requests made through the wallet.',
       'The websites you have connected and the accounts each one may see.',
       'Your settings, such as language, theme, auto-lock time, IPFS gateway and phishing detection.',
+      'A copy of the phishing blocklist, and the time the wallet last checked for a newer one.',
+      'If you turn on Show NFT Images, the images of your NFTs.',
     ],
   },
   {
@@ -74,16 +76,17 @@ export const PRIVACY_POLICY_SECTIONS = [
     paragraphs: ['The wallet asks your browser for these permissions:'],
     items: [
       'Access to the websites you visit, to provide the Ethereum provider and to warn you about known phishing sites.',
-      'Storage, to keep your encrypted wallet and settings.',
+      "Storage, to keep your encrypted wallet, settings and the phishing list. Unlimited storage lifts the browser's usual size limit, which the phishing list and NFT images could otherwise fill.",
       'Notifications, to tell you when a transaction is confirmed or fails.',
       'Clipboard writing and an offscreen document, to copy addresses and to clear copied secrets.',
-      'Alarms, to lock the wallet automatically and to check on pending transactions.',
+      'Alarms, to lock the wallet automatically, to check on pending transactions and to clear copied secrets from the clipboard.',
+      "DNS, in Firefox only, to look up a site icon's, NFT image's or offchain ENS gateway's host before contacting it, and to refuse hosts on your computer or local network. The lookup uses your system's usual resolver.",
     ],
   },
   {
     heading: 'Your Choices',
     paragraphs: [
-      'You can choose your own RPC endpoints in Settings, turn off phishing detection, and disconnect websites. Uninstalling the wallet deletes everything it stored in your browser, so back up your seed phrase first. ECF holds no copy of your data, so there is nothing for us to access, correct or delete on your behalf.',
+      'In Settings you can choose your own RPC endpoints, disconnect websites, and turn off phishing detection, Update Phishing List and contract method name lookups. NFT detection is off unless you turn it on. Uninstalling the wallet deletes everything it stored in your browser, so back up your seed phrase first. ECF holds no copy of your data, so there is nothing for us to access, correct or delete on your behalf.',
     ],
   },
   {

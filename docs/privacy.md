@@ -14,8 +14,23 @@ incoming transactions for an account has been removed as well; the transaction
 list is built from what the wallet itself has seen. Mobile sync and its PubNub
 transport are gone.
 
-Wallet functionality still uses network services, including configured Ethereum
-RPC endpoints, ENS gateways, and optional hardware-wallet services.
+Wallet functionality still uses network services. The in-app privacy policy
+(`ui/app/helpers/constants/privacy-policy.js`) is the full list; in short:
+
+- the selected network's RPC endpoint, described below;
+- jsDelivr, for the eth-phishing-detect list. The list is saved in
+  `storage.local` and checked for changes about once an hour with an ETag, and
+  only downloaded again when it has changed. Nothing is downloaded while
+  phishing detection or Settings > Security & Privacy > Update Phishing List is
+  off. The sites you visit are checked on the device and are never sent;
+- 4byte.directory, for the names of contract functions the wallet does not
+  recognize (can be turned off in Settings > Security & Privacy);
+- MetaMask's NFT API (`nft.api.cx.metamask.io`), only if NFT detection is
+  turned on, and the hosts of NFT images only if Show NFT Images is on;
+- the dweb.link IPFS gateway and app.ens.domains, for ENS websites;
+- Trezor Connect (`connect.trezor.io`) for Trezor devices. Ledger devices are
+  reached directly over WebHID.
+
 ENS websites open only when you type `eth`, then a .eth name, in the address
 bar; the wallet does not watch page loads and does not request the
 `webRequest` permission.
@@ -38,6 +53,10 @@ website lookups and site-provided icon requests, which can disclose domains or
 page-specific URLs to their hosts. These are required disclosures for wallet
 functionality, not analytics. Firefox 140 or newer (142 on Android) presents the
 consent at installation using its [built-in data consent system](https://extensionworkshop.com/documentation/develop/firefox-builtin-data-consent/).
+The Firefox build also requests the `dns` permission. Before the wallet fetches
+a site icon, an NFT image or an offchain ENS gateway, it resolves the host with
+the system resolver and refuses one that points at this computer or the local
+network. Chrome has no such API, so there only the hostname itself is checked.
 
 Before you confirm a transaction, the wallet asks the selected RPC endpoint to
 simulate it with the standard `eth_simulateV1` method, and reads the symbol and

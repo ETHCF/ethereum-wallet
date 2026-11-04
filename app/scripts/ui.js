@@ -76,8 +76,9 @@ async function start() {
 }
 
 async function queryCurrentActiveTab(windowType) {
-  // At the time of writing we only have the `activeTab` permission which means
-  // that this query will only succeed in the popup context (i.e. after an "action" click)
+  // Only the popup belongs to the page the user is on. Its URL is readable
+  // through the http and https host permissions, the only pages the wallet
+  // can connect to.
   if (windowType !== ENVIRONMENT_TYPE_POPUP) {
     return {};
   }
