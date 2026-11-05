@@ -6,7 +6,7 @@ const path = require('path');
 // Written into each built extension, read by the UI and by verify-build.js.
 const OUTPUT_FILE = 'build-info.json';
 
-module.exports = { writeBuildInfo, hashBuild, OUTPUT_FILE };
+module.exports = { writeBuildInfo, hashBuild, listFiles, OUTPUT_FILE };
 
 async function writeBuildInfo({ browserPlatforms }) {
   const commit = getCommit();

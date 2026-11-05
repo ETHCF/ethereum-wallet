@@ -206,7 +206,6 @@
     "gulp-rename": "^2.1.0",
     "gulp-rtlcss": "^2",
     "gulp-sass": "^6.0.1",
-    "gulp-zip": "^6",
     "jsdom": "^30.1.2",
     "koa": "^3",
     "lockfile-lint": "^5.1.0",
@@ -231,7 +230,8 @@
     "through2": "^5",
     "ttest": "^4",
     "webpack": "~5.111.1",
-    "yaml": "^2.9.1"
+    "yaml": "^2.9.1",
+    "yazl": "^3.3.1"
   },
   "installScripts": {
     "@parcel/watcher": false,
