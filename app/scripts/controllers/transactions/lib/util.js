@@ -69,6 +69,14 @@ export function normalizeTxParams(txParams, lowerCase = true) {
       normalizedTxParams[key] = txParams[key];
     }
   }
+  // Sites (and upstream MetaMask) commonly send chainId as a number or a
+  // decimal string. It is only compared to the selected network and replaced
+  // with the network's value when signing, so converting it cannot change
+  // what gets signed. Anything else is left for validateEnvelope to reject.
+  normalizedTxParams.chainId = normalizeChainId(normalizedTxParams.chainId);
+  if (normalizedTxParams.chainId === undefined) {
+    delete normalizedTxParams.chainId;
+  }
   if (normalizedTxParams.type === undefined) {
     if (normalizedTxParams.authorizationList !== undefined) {
       normalizedTxParams.type = '0x4';
@@ -79,6 +87,23 @@ export function normalizeTxParams(txParams, lowerCase = true) {
     }
   }
   return normalizedTxParams;
+}
+
+function normalizeChainId(chainId) {
+  if (
+    typeof chainId === 'number' &&
+    Number.isSafeInteger(chainId) &&
+    chainId > 0
+  ) {
+    return `0x${chainId.toString(16)}`;
+  }
+  if (typeof chainId === 'string' && /^[1-9][0-9]{0,15}$/u.test(chainId)) {
+    const value = Number(chainId);
+    if (Number.isSafeInteger(value)) {
+      return `0x${value.toString(16)}`;
+    }
+  }
+  return chainId;
 }
 
 /**

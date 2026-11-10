@@ -154,6 +154,31 @@ describe('txUtils', function () {
       assert.equal(normalized.nonce, undefined);
     });
 
+    it('converts a numeric or decimal chainId to hex', function () {
+      const from = '0xa7df1bedbf813f57096df77fcd515f0b3900e402';
+      for (const chainId of [4663, '4663', '0x1237']) {
+        const normalized = txUtils.normalizeTxParams({
+          from,
+          to: from,
+          chainId,
+        });
+        assert.equal(normalized.chainId, '0x1237');
+        txUtils.validateTxParams(normalized);
+      }
+      for (const chainId of [0, -1, 1.5, '0', '01', 'abc', {}]) {
+        const normalized = txUtils.normalizeTxParams({
+          from,
+          to: from,
+          chainId,
+        });
+        assert.throws(() => txUtils.validateTxParams(normalized), /chainId/u);
+      }
+      assert.equal(
+        Reflect.has(txUtils.normalizeTxParams({ from }), 'chainId'),
+        false,
+      );
+    });
+
     it('should normalize txParams', function () {
       const txParams = {
         chainId: '0x1',

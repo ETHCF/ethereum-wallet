@@ -4,6 +4,11 @@
   align-items: center;
   width: 100%;
   height: 100%;
+  // Scroll here, as .confirm-page-container-content does, so the footer with
+  // the Confirm button stays in view in a short popup window.
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   font-style: normal;
 
   &__identicon-wrapper {
@@ -19,7 +24,8 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 390px;
+    width: 100%;
+    max-width: 390px;
     font-style: normal;
     padding-left: 24px;
     padding-right: 24px;
