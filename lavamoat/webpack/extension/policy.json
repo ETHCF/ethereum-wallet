@@ -600,11 +600,17 @@
         "console.error": true,
         "console.warn": true
       },
+      "meta": {
+        "webpack-optimization": [
+          "Dependency '@metamask/assets-controllers>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
+        ]
+      },
       "packages": {
         "@metamask/assets-controllers>@ethersproject/address": true,
         "@metamask/eth-token-tracker>@ethersproject/contracts": true,
         "@metamask/nonce-tracker>@ethersproject/providers": true,
         "@metamask/assets-controllers>@metamask/base-controller": true,
+        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/assets-controllers>@metamask/phishing-controller": true,
         "@metamask/rpc-errors": true,
@@ -639,6 +645,11 @@
       "packages": {
         "@metamask/abi-utils>@metamask/utils": true,
         "buffer": true
+      }
+    },
+    "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": {
+      "packages": {
+        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true
       }
     },
     "@metamask/assets-controllers>@metamask/controller-utils": {
@@ -722,11 +733,19 @@
         "TextEncoder": true,
         "setTimeout": true
       },
+      "meta": {
+        "webpack-optimization": [
+          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import.",
+          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
+        ]
+      },
       "packages": {
+        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/eth-sig-util": true,
         "@metamask/json-rpc-engine": true,
         "@metamask/rpc-errors": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
+        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
         "@metamask/eth-json-rpc-middleware>@metamask/utils": true,
         "@metamask/json-rpc-engine>klona": true,
         "@metamask/eth-json-rpc-middleware>safe-stable-stringify": true
@@ -964,13 +983,19 @@
       "globals": {
         "console.error": true
       },
+      "meta": {
+        "webpack-optimization": [
+          "Dependency '@metamask/permission-controller>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import."
+        ]
+      },
       "packages": {
         "@metamask/assets-controllers>@metamask/base-controller": true,
         "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/rpc-errors": true,
-        "@metamask/abi-utils>@metamask/utils": true,
+        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/permission-controller>@metamask/utils": true,
         "deep-freeze-strict": true,
-        "@metamask/permission-controller>immer": true,
+        "@reduxjs/toolkit>immer": true,
         "@metamask/permission-controller>nanoid": true
       }
     },
@@ -1016,19 +1041,14 @@
         "addons-linter>semver": true
       }
     },
-    "@metamask/assets-controllers>@metamask/utils": {
-      "packages": {
-        "@metamask/abi-utils>@metamask/superstruct": true,
-        "@metamask/assets-controllers>@metamask/utils>@noble/hashes": true,
-        "lodash": true
-      }
-    },
     "@metamask/eth-json-rpc-middleware>@metamask/utils": {
       "globals": {
         "TextEncoder": true
       },
       "packages": {
+        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
+        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
         "@metamask/eth-json-rpc-middleware>@metamask/utils>@noble/hashes": true,
         "debug": true,
         "lodash": true
@@ -1086,12 +1106,6 @@
         "TextDecoder": true,
         "TextEncoder": true,
         "crypto": true
-      }
-    },
-    "@metamask/assets-controllers>@metamask/utils>@noble/hashes": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
       }
     },
     "@metamask/eth-json-rpc-middleware>@metamask/utils>@noble/hashes": {
@@ -1419,11 +1433,13 @@
         "btoa": true,
         "clearTimeout": true,
         "console.warn": true,
+        "cookieStore": true,
         "document": true,
         "fetch": true,
         "importScripts": true,
         "location.href": true,
         "navigator": true,
+        "performance": true,
         "process": true,
         "queueMicrotask": true,
         "setImmediate": true,
@@ -1998,11 +2014,6 @@
       },
       "packages": {
         "eth-ens-namehash>idna-uts46-hx>punycode": true
-      }
-    },
-    "@metamask/permission-controller>immer": {
-      "globals": {
-        "process.env.NODE_ENV": true
       }
     },
     "@reduxjs/toolkit>immer": {
