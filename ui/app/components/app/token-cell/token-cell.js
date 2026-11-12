@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { formatTokenBalance } from '../../../helpers/utils/util';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { getSelectedAddress } from '../../../selectors';
 import AssetListItem from '../asset-list-item';
 
 export default function TokenCell({
   address,
+  balance,
   decimals,
   outdatedBalance,
   symbol,
@@ -44,13 +46,14 @@ export default function TokenCell({
       tokenSymbol={symbol}
       tokenDecimals={decimals}
       warning={warning}
-      primary={`${string || 0} ${symbol}`}
+      primary={`${formatTokenBalance({ balance, decimals }) || string || 0} ${symbol}`}
     />
   );
 }
 
 TokenCell.propTypes = {
   address: PropTypes.string,
+  balance: PropTypes.string,
   outdatedBalance: PropTypes.bool,
   symbol: PropTypes.string,
   decimals: PropTypes.number,

@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { formatTokenBalance } from '../../../helpers/utils/util';
 import { useTokenTracker } from '../../../hooks/useTokenTracker';
 import CurrencyDisplay from '../currency-display';
 
 export default function TokenBalance({ className, token }) {
   const { tokensWithBalances } = useTokenTracker([token]);
 
-  const { string, symbol } = tokensWithBalances[0] || {};
+  const { symbol } = tokensWithBalances[0] || {};
+  const string = formatTokenBalance(tokensWithBalances[0]);
   return (
     <CurrencyDisplay
       className={className}

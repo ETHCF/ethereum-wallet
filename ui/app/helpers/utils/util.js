@@ -1,4 +1,5 @@
 import * as ethUtil from '@ethereumjs/util';
+import { BigNumber } from 'bignumber.js';
 import BN from 'bn.js';
 import { DateTime } from 'luxon';
 import punycode from 'punycode';
@@ -139,6 +140,55 @@ export function formatBalance(
     formatted = `${beforeDecimal}.${afterDecimal.slice(0, decimalsToKeep)} ${ticker}`;
   }
   return formatted;
+}
+
+const DISPLAY_SIGNIFICANT_DIGITS = 6;
+const DISPLAY_MIN_DECIMALS = 2;
+
+/**
+ * Formats an amount for display: up to 6 significant figures, but never cut
+ * to fewer than 2 decimals, rounded down so a balance is never overstated,
+ * trailing zeros dropped.
+ * 123456.789 -> '123456.78', 12.3456789 -> '12.3456', 1 -> '1',
+ * 0.00123456789 -> '0.00123456'.
+ *
+ * @param {string|number|BigNumber} value - The amount, in whole units
+ * (ETH, not wei).
+ * @returns {string} The formatted amount.
+ */
+export function formatDisplayAmount(value) {
+  const amount = new BigNumber(String(value));
+  if (!amount.isFinite()) {
+    return String(value);
+  }
+  if (amount.isZero()) {
+    return '0';
+  }
+  // `e` is the exponent of the leading digit: floor(log10(|amount|)).
+  const decimals = Math.max(
+    DISPLAY_MIN_DECIMALS,
+    DISPLAY_SIGNIFICANT_DIGITS - 1 - amount.e,
+  );
+  // Trailing zeros are dropped: 1.50 -> '1.5', 1.00 -> '1'.
+  return amount.decimalPlaces(decimals, BigNumber.ROUND_DOWN).toFixed();
+}
+
+/**
+ * Formats a token tracker entry's balance with formatDisplayAmount.
+ *
+ * @param {object} [tokenData] - An entry from useTokenTracker.
+ * @returns {string|undefined} The formatted balance, or undefined while it
+ * is not known.
+ */
+export function formatTokenBalance(tokenData) {
+  if (!tokenData || tokenData.balance === undefined) {
+    return undefined;
+  }
+  return formatDisplayAmount(
+    new BigNumber(String(tokenData.balance)).shiftedBy(
+      -Number(tokenData.decimals || 0),
+    ),
+  );
 }
 
 // Takes a BN and an ethereum currency name,

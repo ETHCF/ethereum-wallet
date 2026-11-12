@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import WalletOverview from './wallet-overview';
 import { I18nContext } from '../../../contexts/i18n';
 import { SEND_ROUTE } from '../../../helpers/constants/routes';
+import { formatTokenBalance } from '../../../helpers/utils/util';
 import { useTokenTracker } from '../../../hooks/useTokenTracker';
 import { getAssetImages } from '../../../selectors/selectors';
 import { updateSendToken } from '../../../store/actions';
@@ -19,7 +20,7 @@ const TokenOverview = ({ className, token }) => {
   const navigate = useNavigate();
   const assetImages = useSelector(getAssetImages);
   const { tokensWithBalances } = useTokenTracker([token]);
-  const balance = tokensWithBalances[0]?.string;
+  const balance = formatTokenBalance(tokensWithBalances[0]);
 
   return (
     <WalletOverview

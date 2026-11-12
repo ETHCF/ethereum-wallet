@@ -201,6 +201,47 @@ describe('util', function () {
     });
   });
 
+  describe('#formatDisplayAmount', function () {
+    [
+      ['123456.789', '123456.78'],
+      ['1234567.891', '1234567.89'],
+      ['123.456789', '123.456'],
+      ['12.3456789', '12.3456'],
+      ['1', '1'],
+      ['1.00000001', '1'],
+      ['123456', '123456'],
+      ['1.5', '1.5'],
+      ['0.999999999', '0.999999'],
+      ['0.00123456789', '0.00123456'],
+      ['0.000000042', '0.000000042'],
+      ['1e-12', '0.000000000001'],
+      ['0', '0'],
+      ['-12.3456789', '-12.3456'],
+    ].forEach(([input, expected]) => {
+      it(`formats ${input} as ${expected}`, function () {
+        assert.equal(util.formatDisplayAmount(input), expected);
+      });
+    });
+  });
+
+  describe('#formatTokenBalance', function () {
+    it('returns undefined while the balance is unknown', function () {
+      assert.equal(util.formatTokenBalance(undefined), undefined);
+      assert.equal(util.formatTokenBalance({}), undefined);
+    });
+
+    it('shifts by the token decimals and formats', function () {
+      assert.equal(
+        util.formatTokenBalance({ balance: '1234567', decimals: 6 }),
+        '1.23456',
+      );
+      assert.equal(
+        util.formatTokenBalance({ balance: '500', decimals: 0 }),
+        '500',
+      );
+    });
+  });
+
   describe('normalizing values', function () {
     describe('#isHex', function () {
       it('should return true when given a hex string', function () {

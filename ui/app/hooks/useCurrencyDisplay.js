@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getValueFromWeiHex } from '../helpers/utils/confirm-tx.util';
+import { formatDisplayAmount } from '../helpers/utils/util';
 import { getNativeCurrency } from '../selectors';
 
 /**
@@ -46,6 +47,17 @@ export function useCurrencyDisplay(
   const value = useMemo(() => {
     if (displayValue) {
       return displayValue;
+    }
+    if (!denomination) {
+      // Whole native-currency amounts: 6 significant figures, at least 2
+      // decimals, rounded down. numberOfDecimals does not apply.
+      return formatDisplayAmount(
+        getValueFromWeiHex({
+          value: inputValue,
+          fromCurrency: toCurrency,
+          toCurrency,
+        }),
+      );
     }
     return getValueFromWeiHex({
       value: inputValue,

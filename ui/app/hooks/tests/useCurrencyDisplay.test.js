@@ -36,9 +36,9 @@ const tests = [
       numberOfDecimals: 3,
     },
     result: {
-      value: '1.266',
+      value: '1.26643',
       suffix: 'ETH',
-      displayValue: '1.266 ETH',
+      displayValue: '1.26643 ETH',
     },
   },
   {
@@ -49,9 +49,9 @@ const tests = [
       hideLabel: true,
     },
     result: {
-      value: '1.266',
+      value: '1.26643',
       suffix: undefined,
-      displayValue: '1.266',
+      displayValue: '1.26643',
     },
   },
   {
