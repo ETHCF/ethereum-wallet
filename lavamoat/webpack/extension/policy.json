@@ -66,17 +66,17 @@
         "TextEncoder": true
       }
     },
+    "@metamask/eth-simple-keyring>@ethereumjs/tx>@ethereumjs/rlp": {
+      "globals": {
+        "TextEncoder": true
+      }
+    },
     "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/rlp": {
       "globals": {
         "TextEncoder": true
       }
     },
     "@ethereumjs/common-hardware>@ethereumjs/util>@ethereumjs/rlp": {
-      "globals": {
-        "TextEncoder": true
-      }
-    },
-    "@metamask/eth-simple-keyring>@ethereumjs/util>@ethereumjs/rlp": {
       "globals": {
         "TextEncoder": true
       }
@@ -110,7 +110,7 @@
         "@ethereumjs/tx-hardware>@ethereumjs/common": true,
         "@ethereumjs/tx-hardware>@ethereumjs/rlp": true,
         "@ethereumjs/tx-hardware>@ethereumjs/util": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true
       }
     },
     "@metamask/eth-ledger-bridge-keyring>@ethereumjs/tx": {
@@ -118,7 +118,7 @@
         "@metamask/eth-ledger-bridge-keyring>@ethereumjs/tx>@ethereumjs/common": true,
         "@metamask/eth-ledger-bridge-keyring>@ethereumjs/rlp": true,
         "@metamask/eth-ledger-bridge-keyring>@ethereumjs/util": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true
       }
     },
     "@metamask/eth-trezor-keyring>@ethereumjs/tx": {
@@ -126,7 +126,7 @@
         "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/common": true,
         "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
         "@metamask/eth-trezor-keyring>@ethereumjs/util": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true
       }
     },
     "@ethereumjs/util": {
@@ -142,15 +142,15 @@
     "@ethereumjs/common-hardware>@ethereumjs/util": {
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@ethereumjs/common-hardware>@ethereumjs/util>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
@@ -160,30 +160,30 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@ethereumjs/tx-hardware>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
     "@metamask/eth-hd-keyring>@ethereumjs/util": {
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@metamask/eth-hd-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
@@ -193,48 +193,45 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@metamask/eth-ledger-bridge-keyring>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
     "@metamask/eth-sig-util>@ethereumjs/util": {
-      "globals": {
-        "Buffer.alloc": true,
-        "Buffer.allocUnsafe": true,
-        "Buffer.byteLength": true,
-        "Buffer.concat": true,
-        "Buffer.from": true,
-        "Buffer.isBuffer": true,
-        "console.warn": true
+      "meta": {
+        "webpack-optimization": [
+          "Dependency '@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+        ]
       },
       "packages": {
         "@metamask/eth-sig-util>@ethereumjs/rlp": true,
-        "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "events": true,
-        "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": true
+        "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/curves": true,
+        "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/hashes": true,
+        "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography": true,
+        "events": true
       }
     },
     "@metamask/eth-simple-keyring>@ethereumjs/util": {
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
-        "@metamask/eth-simple-keyring>@ethereumjs/util>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@metamask/eth-simple-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
@@ -244,15 +241,15 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves' and webpack collapsed that to a direct import.",
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@metamask/eth-trezor-keyring>@ethereumjs/tx>@ethereumjs/rlp": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "events": true
       }
     },
@@ -602,7 +599,8 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/assets-controllers>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
+          "Dependency '@metamask/assets-controllers>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import.",
+          "Dependency '@metamask/assets-controllers>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
@@ -610,10 +608,11 @@
         "@metamask/eth-token-tracker>@ethersproject/contracts": true,
         "@metamask/nonce-tracker>@ethersproject/providers": true,
         "@metamask/assets-controllers>@metamask/base-controller": true,
-        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/assets-controllers>@metamask/phishing-controller": true,
         "@metamask/rpc-errors": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
         "@metamask/assets-controllers>@metamask/utils": true,
         "@metamask/nonce-tracker>async-mutex": true,
         "bn.js": true,
@@ -647,9 +646,16 @@
         "buffer": true
       }
     },
-    "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": {
+    "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": {
+      "globals": {
+        "Buffer": true,
+        "TextDecoder": true,
+        "TextEncoder": true
+      },
       "packages": {
-        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
+        "@ethereumjs/wallet>@scure/base": true,
+        "buffer": true
       }
     },
     "@metamask/assets-controllers>@metamask/controller-utils": {
@@ -667,6 +673,12 @@
         "eth-ens-namehash": true,
         "eslint>fast-deep-equal": true,
         "@metamask/assets-controllers>lodash-es": true
+      }
+    },
+    "@metamask/eth-sig-util>@metamask/cryptography": {
+      "globals": {
+        "crypto.subtle.deriveBits": true,
+        "crypto.subtle.importKey": true
       }
     },
     "@metamask/eth-block-tracker": {
@@ -702,7 +714,7 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-sig-util>ethereum-cryptography' reexports from '@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32' and webpack collapsed that to a direct import."
+          "Dependency '@ethereumjs/tx-hardware>ethereum-cryptography' reexports from '@ethereumjs/tx-hardware>ethereum-cryptography>@scure/bip32' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
@@ -711,9 +723,9 @@
         "@metamask/eth-hd-keyring>@metamask/key-tree": true,
         "@metamask/scure-bip39": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@scure/bip32": true,
         "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true
       }
     },
     "@metamask/eth-json-rpc-filters": {
@@ -735,17 +747,17 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import.",
-          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
+          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import.",
+          "Dependency '@metamask/eth-json-rpc-middleware>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
-        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/eth-sig-util": true,
         "@metamask/json-rpc-engine": true,
         "@metamask/rpc-errors": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
-        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
         "@metamask/eth-json-rpc-middleware>@metamask/utils": true,
         "@metamask/json-rpc-engine>klona": true,
         "@metamask/eth-json-rpc-middleware>safe-stable-stringify": true
@@ -785,18 +797,25 @@
     "@metamask/eth-sig-util": {
       "globals": {
         "Buffer.byteLength": true,
-        "Buffer.concat": true,
         "Buffer.from": true
+      },
+      "meta": {
+        "webpack-optimization": [
+          "Dependency '@metamask/eth-sig-util>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import.",
+          "Dependency '@metamask/eth-sig-util>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils' and webpack collapsed that to a direct import."
+        ]
       },
       "packages": {
         "@metamask/eth-sig-util>@ethereumjs/rlp": true,
         "@metamask/eth-sig-util>@ethereumjs/util": true,
         "@metamask/abi-utils": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-sig-util>@scure/base": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/eth-sig-util>@metamask/cryptography": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils": true,
+        "@metamask/eth-sig-util>@noble/ciphers": true,
         "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
-        "@metamask/eth-sig-util>tweetnacl": true
+        "@metamask/eth-sig-util>ethereum-cryptography": true
       }
     },
     "@metamask/eth-simple-keyring": {
@@ -809,7 +828,7 @@
         "@metamask/eth-sig-util": true,
         "@metamask/abi-utils>@metamask/utils": true,
         "buffer": true,
-        "@metamask/eth-sig-util>ethereum-cryptography": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography": true,
         "crypto-browserify>randombytes": true
       }
     },
@@ -840,8 +859,7 @@
         "@metamask/eth-sig-util": true,
         "@metamask/eth-trezor-keyring>@metamask/hw-wallet-sdk": true,
         "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-trezor-keyring>@trezor/connect-plugin-ethereum": true,
-        "@trezor/connect-web": true,
+        "@metamask/eth-trezor-keyring>@trezor/connect-web": true,
         "buffer": true,
         "@metamask/eth-trezor-keyring>hdkey": true
       }
@@ -927,18 +945,11 @@
       }
     },
     "@metamask/eth-hd-keyring>@metamask/key-tree": {
-      "globals": {
-        "crypto.subtle": true,
-        "ed25519": true,
-        "ed25519Bip32": true,
-        "secp256k1": true
-      },
       "packages": {
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/eth-sig-util>@metamask/cryptography": true,
         "@metamask/scure-bip39": true,
-        "@metamask/abi-utils>@metamask/utils": true,
-        "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves": true,
-        "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/hashes": true,
-        "@ethereumjs/wallet>@scure/base": true
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true
       }
     },
     "@metamask/messenger": {
@@ -985,14 +996,14 @@
       },
       "meta": {
         "webpack-optimization": [
-          "Dependency '@metamask/permission-controller>@metamask/utils' reexports from '@metamask/assets-controllers>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import."
+          "Dependency '@metamask/permission-controller>@metamask/utils' reexports from '@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils' and webpack collapsed that to a direct import."
         ]
       },
       "packages": {
         "@metamask/assets-controllers>@metamask/base-controller": true,
         "@metamask/assets-controllers>@metamask/controller-utils": true,
         "@metamask/rpc-errors": true,
-        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
         "@metamask/permission-controller>@metamask/utils": true,
         "deep-freeze-strict": true,
         "@reduxjs/toolkit>immer": true,
@@ -1046,15 +1057,24 @@
         "TextEncoder": true
       },
       "packages": {
-        "@metamask/assets-controllers>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
         "@metamask/abi-utils>@metamask/superstruct": true,
-        "@metamask/assets-controllers>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
         "@metamask/eth-json-rpc-middleware>@metamask/utils>@noble/hashes": true,
         "debug": true,
         "lodash": true
       }
     },
-    "@ethereumjs/wallet>ethereum-cryptography>@noble/ciphers": {
+    "@metamask/eth-sig-util>@metamask/utils": {
+      "packages": {
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/byte-utils": true,
+        "@metamask/abi-utils>@metamask/superstruct": true,
+        "@metamask/eth-sig-util>@metamask/utils>@metamask/type-utils": true,
+        "@metamask/eth-sig-util>@metamask/utils>@noble/hashes": true,
+        "lodash": true
+      }
+    },
+    "@metamask/eth-sig-util>@noble/ciphers": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
@@ -1070,29 +1090,26 @@
         "@noble/hashes": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves": {
-      "packages": {
-        "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves>@noble/hashes": true
-      }
-    },
-    "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": {
+    "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": {
       "globals": {
         "TextEncoder": true
       },
       "packages": {
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true
+      }
+    },
+    "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/curves": {
+      "globals": {
+        "TextEncoder": true
+      },
+      "packages": {
+        "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/hashes": true
       }
     },
     "@noble/hashes": {
       "globals": {
         "TextEncoder": true,
         "crypto": true
-      }
-    },
-    "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/hashes": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
       }
     },
     "@metamask/scure-bip39>@noble/hashes": {
@@ -1114,11 +1131,10 @@
         "TextEncoder": true
       }
     },
-    "@metamask/eth-hd-keyring>@metamask/key-tree>@noble/curves>@noble/hashes": {
+    "@metamask/eth-sig-util>@metamask/utils>@noble/hashes": {
       "globals": {
         "TextDecoder": true,
-        "TextEncoder": true,
-        "crypto": true
+        "TextEncoder": true
       }
     },
     "@spruceid/siwe-parser>@noble/hashes": {
@@ -1128,16 +1144,22 @@
         "crypto": true
       }
     },
+    "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": {
+      "globals": {
+        "TextEncoder": true,
+        "crypto": true
+      }
+    },
+    "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/hashes": {
+      "globals": {
+        "TextEncoder": true,
+        "crypto": true
+      }
+    },
     "@ethereumjs/wallet>ethereum-cryptography>@noble/hashes": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
-      }
-    },
-    "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": {
-      "globals": {
-        "TextEncoder": true,
-        "crypto": true
       }
     },
     "@popperjs/core": {
@@ -1197,29 +1219,23 @@
         "TextEncoder": true
       }
     },
-    "@metamask/eth-sig-util>@scure/base": {
-      "globals": {
-        "TextDecoder": true,
-        "TextEncoder": true
-      }
-    },
     "@metamask/scure-bip39>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
       }
     },
-    "@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32>@scure/base": {
+    "@ethereumjs/tx-hardware>ethereum-cryptography>@scure/bip32>@scure/base": {
       "globals": {
         "TextDecoder": true,
         "TextEncoder": true
       }
     },
-    "@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32": {
+    "@ethereumjs/tx-hardware>ethereum-cryptography>@scure/bip32": {
       "packages": {
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@scure/bip32>@scure/base": true
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true,
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@scure/bip32>@scure/base": true
       }
     },
     "@trezor/connect-web>@trezor/connect>@trezor/schema-utils>@sinclair/typebox": {
@@ -1234,7 +1250,7 @@
         "@spruceid/siwe-parser>apg-js": true
       }
     },
-    "@trezor/connect-web>@trezor/connect-common": {
+    "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect-common": {
       "globals": {
         "chrome.runtime.getURL": true,
         "chrome.runtime.id": true,
@@ -1246,12 +1262,7 @@
         "@trezor/connect-web>@trezor/utils": true
       }
     },
-    "@metamask/eth-trezor-keyring>@trezor/connect-plugin-ethereum": {
-      "packages": {
-        "@metamask/eth-sig-util": true
-      }
-    },
-    "@trezor/connect-web": {
+    "@metamask/eth-trezor-keyring>@trezor/connect-web": {
       "globals": {
         "URLSearchParams": true,
         "__TREZOR_CONNECT_SRC": true,
@@ -1274,15 +1285,15 @@
         "setTimeout": true
       },
       "packages": {
-        "@trezor/connect-web>@trezor/connect-common": true,
-        "@trezor/connect-web>@trezor/connect": true,
+        "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect-common": true,
+        "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect": true,
         "@trezor/connect-web>@trezor/utils": true,
         "@trezor/connect-web>@trezor/websocket-client": true,
         "events": true,
         "@trezor/connect-web>tslib": true
       }
     },
-    "@trezor/connect-web>@trezor/connect": {
+    "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect": {
       "packages": {
         "@trezor/connect-web>@trezor/connect>@trezor/device-utils": true,
         "@trezor/connect-web>@trezor/connect>@trezor/protobuf": true,
@@ -1850,25 +1861,43 @@
         "eth-phishing-detect>fast-levenshtein": true
       }
     },
-    "@ethereumjs/wallet>ethereum-cryptography": {
-      "globals": {
-        "TextDecoder": true
-      },
-      "packages": {
-        "@ethereumjs/wallet>ethereum-cryptography>@noble/ciphers": true,
-        "@ethereumjs/wallet>ethereum-cryptography>@noble/curves": true,
-        "@ethereumjs/wallet>ethereum-cryptography>@noble/hashes": true
-      }
-    },
-    "@metamask/eth-sig-util>ethereum-cryptography": {
+    "@ethereumjs/tx-hardware>ethereum-cryptography": {
       "globals": {
         "TextDecoder": true,
         "crypto": true,
         "module": true
       },
       "packages": {
+        "@ethereumjs/tx-hardware>ethereum-cryptography>@noble/hashes": true
+      }
+    },
+    "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography": {
+      "globals": {
+        "TextDecoder": true,
+        "crypto": true,
+        "module": true
+      },
+      "packages": {
+        "@metamask/eth-sig-util>@ethereumjs/util>ethereum-cryptography>@noble/hashes": true
+      }
+    },
+    "@ethereumjs/wallet>ethereum-cryptography": {
+      "globals": {
+        "TextDecoder": true
+      },
+      "packages": {
+        "@metamask/eth-sig-util>@noble/ciphers": true,
+        "@ethereumjs/wallet>ethereum-cryptography>@noble/curves": true,
+        "@ethereumjs/wallet>ethereum-cryptography>@noble/hashes": true
+      }
+    },
+    "@metamask/eth-sig-util>ethereum-cryptography": {
+      "globals": {
+        "TextDecoder": true
+      },
+      "packages": {
         "@metamask/eth-sig-util>ethereum-cryptography>@noble/curves": true,
-        "@metamask/eth-sig-util>ethereum-cryptography>@noble/hashes": true
+        "@metamask/eth-sig-util>@metamask/utils>@noble/hashes": true
       }
     },
     "eth-method-registry>@metamask/ethjs-contract>ethjs-abi": {
@@ -2211,23 +2240,6 @@
         "string_decoder>safe-buffer": true
       }
     },
-    "@metamask/eth-sig-util>@ethereumjs/util>micro-ftch": {
-      "globals": {
-        "Buffer.concat": true,
-        "Headers": true,
-        "TextDecoder": true,
-        "URL": true,
-        "btoa": true,
-        "fetch": true,
-        "process": true
-      },
-      "packages": {
-        "buffer": true,
-        "process": true,
-        "url": true,
-        "util": true
-      }
-    },
     "crypto-browserify>diffie-hellman>miller-rabin": {
       "packages": {
         "crypto-browserify>diffie-hellman>miller-rabin>bn.js": true,
@@ -2382,17 +2394,6 @@
         "end-of-stream": true,
         "pump>once": true,
         "process": true
-      }
-    },
-    "url>punycode": {
-      "globals": {
-        "define": true
-      }
-    },
-    "url>qs": {
-      "packages": {
-        "url>qs>es-define-property": true,
-        "url>qs>side-channel": true
       }
     },
     "crypto-browserify>randombytes": {
@@ -2554,7 +2555,7 @@
         "setTimeout": true
       },
       "packages": {
-        "@babel/runtime": true,
+        "react-transition-group>@babel/runtime": true,
         "react-transition-group>dom-helpers": true,
         "prop-types": true,
         "react": true,
@@ -2886,25 +2887,11 @@
         "SuppressedError": true
       }
     },
-    "@metamask/eth-sig-util>tweetnacl": {
-      "globals": {
-        "Float64Array": true,
-        "crypto": true,
-        "msCrypto": true,
-        "nacl": "write"
-      }
-    },
     "enzyme>array.prototype.flat>es-abstract>typed-array-buffer": {
       "packages": {
         "assert>object.assign>call-bound": true,
         "enzyme>html-element-map>es-errors": true,
         "assert>util>is-typed-array": true
-      }
-    },
-    "url": {
-      "packages": {
-        "url>punycode": true,
-        "url>qs": true
       }
     },
     "react-redux>use-sync-external-store": {

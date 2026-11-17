@@ -315,6 +315,8 @@ export function createNftControllers({
     messenger: detectionMessenger,
     disabled: !useNftDetection,
     addNfts: (...args) => nftController.addNfts(...args),
+    // Detection removes NFTs already in state that the API now marks as spam.
+    removeNft: (...args) => nftController.removeNft(...args),
     getNftState: () => nftController.state,
   });
 
