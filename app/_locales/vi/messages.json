@@ -21,6 +21,9 @@
     "message": "Ví Ethereum tự lưu ký từ Ethereum Community Foundation, không thu thập phân tích và hỗ trợ ví phần cứng.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF là ví Ethereum hoạt động trơn tru. Mã nguồn mở, không quảng cáo, không rườm rà, không phân tích, riêng tư hơn."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundation isehallatav Ethereumi rahakott, ilma analüütikata ja riistvaralise rahakoti toega.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF on Ethereumi rahakott, mis lihtsalt töötab. Avatud lähtekood, reklaamide, liigse ja analüütikata ning parema privaatsusega."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

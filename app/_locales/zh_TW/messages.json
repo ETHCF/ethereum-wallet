@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundation 推出的自主託管以太坊錢包，不含數據分析，支援硬體錢包。",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF 是一款開箱即用的以太坊錢包。開源，無廣告，無冗餘，無分析，並強化隱私保護。"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundationによるセルフカストディ型のイーサリアムウォレット。分析機能なし、ハードウェアウォレットに対応。",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECFは、すぐに使えるEthereumウォレットです。オープンソースで、広告なし、無駄なし、分析なし、そしてプライバシーを強化しています。"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

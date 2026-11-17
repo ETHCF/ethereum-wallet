@@ -27,6 +27,9 @@
     "message": "Ethereum Community Foundation का सेल्फ-कस्टडी इथीरियम वॉलेट, बिना किसी एनालिटिक्स के और हार्डवेयर वॉलेट सपोर्ट के साथ।",
     "description": "आवेदन का विवरण"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF एक Ethereum वॉलेट है जो बस काम करता है। ओपन सोर्स, विज्ञापन नहीं, फ़ालतू चीज़ें नहीं, एनालिटिक्स नहीं, और बेहतर प्राइवेसी।"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "एप्लिकेशन का नाम"

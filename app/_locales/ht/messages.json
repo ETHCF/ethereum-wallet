@@ -36,6 +36,9 @@
     "message": "Pòtfèy Ethereum ou kontwole tèt ou, ki soti nan Ethereum Community Foundation, san analitik e ki sipòte pòtfèy materyèl.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF se yon pòtfèy Ethereum ki jis mache. Sous louvri, san piblisite, san bagay initil, san analitik, e ak plis konfidansyalite."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

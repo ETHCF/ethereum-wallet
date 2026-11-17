@@ -66,6 +66,9 @@
     "message": "Етереум портфейл със собствено попечителство от Ethereum Community Foundation, без анализи и с поддръжка на хардуерни портфейли.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF е Ethereum портфейл, който просто работи. Отворен код, без реклами, без излишества, без анализи и с подобрена поверителност."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

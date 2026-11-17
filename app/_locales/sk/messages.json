@@ -66,6 +66,9 @@
     "message": "Ethereum peňaženka vo vlastnej správe od Ethereum Community Foundation, bez analytiky a s podporou hardvérových peňaženiek.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF je Ethereum peňaženka, ktorá proste funguje. Open source, bez reklám, bez balastu, bez analytiky a s lepším súkromím."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

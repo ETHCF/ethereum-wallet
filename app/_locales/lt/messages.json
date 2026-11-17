@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundation savarankiškai valdoma Ethereum piniginė be analitikos, palaikanti aparatines pinigines.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF – Ethereum piniginė, kuri tiesiog veikia. Atvirasis kodas, be reklamų, be pertekliaus, be analitikos, geresnis privatumas."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

@@ -66,6 +66,9 @@
     "message": "Некастодіальний гаманець Ethereum від Ethereum Community Foundation, без аналітики та з підтримкою апаратних гаманців.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF — Ethereum-гаманець, який просто працює. Відкритий код, без реклами, без зайвого, без аналітики, більше приватності."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

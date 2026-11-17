@@ -66,6 +66,9 @@
     "message": "Portofel Ethereum în autocustodie de la Ethereum Community Foundation, fără analize și cu suport pentru portofele hardware.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF e un portofel Ethereum care pur și simplu merge. Open source, fără reclame, fără balast, fără analize, mai multă intimitate."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

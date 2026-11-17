@@ -24,6 +24,9 @@
     "message": "Ethereum Community Foundation tarafından sunulan, anahtarları sizde olan Ethereum cüzdanı. Analitik yok, donanım cüzdanı desteği.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF, sorunsuz çalışan bir Ethereum cüzdanıdır. Açık kaynaklı, reklamsız, gereksiz yük yok, analitik yok ve gelişmiş gizlilik."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

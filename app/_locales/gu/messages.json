@@ -3,6 +3,9 @@
     "message": "MetaECF",
     "description": "The name of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF એક Ethereum વૉલેટ છે જે બસ કામ કરે છે. ઓપન સોર્સ, જાહેરાતો નહીં, બિનજરૂરી ભાર નહીં, એનાલિટિક્સ નહીં, અને વધુ ગોપનીયતા."
+  },
   "reject": {
     "message": "નકારો"
   },

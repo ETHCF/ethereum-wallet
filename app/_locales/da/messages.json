@@ -66,6 +66,9 @@
     "message": "Ethereum-tegnebog med selvforvaring fra Ethereum Community Foundation, uden analyse og med understøttelse af hardwaretegnebøger.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF er en Ethereum-wallet, der bare virker. Open source, ingen reklamer, intet fyld, ingen analyse og forbedret privatliv."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

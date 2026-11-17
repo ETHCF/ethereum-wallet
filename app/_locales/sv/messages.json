@@ -70,6 +70,9 @@
     "message": "Ethereum-plånbok i eget förvar från Ethereum Community Foundation, utan analys och med stöd för hårdvaruplånböcker.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF är en Ethereum-plånbok som bara fungerar. Öppen källkod, inga annonser, inget onödigt, ingen analys, bättre integritet."
+  },
   "approve": {
     "message": "Godkänn"
   },

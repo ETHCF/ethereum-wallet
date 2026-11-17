@@ -66,6 +66,9 @@
     "message": "Πορτοφόλι Ethereum αυτοθεματοφυλακής από το Ethereum Community Foundation, χωρίς αναλύσεις, με πορτοφόλια υλικού.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "Το MetaECF είναι πορτοφόλι Ethereum που απλώς δουλεύει. Ανοιχτός κώδικας, χωρίς διαφημίσεις, περιττά ή αναλύσεις, καλύτερο απόρρητο."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

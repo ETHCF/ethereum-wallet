@@ -60,6 +60,9 @@
     "message": "Self-custody na Ethereum wallet mula sa Ethereum Community Foundation, walang analytics at may suporta sa hardware wallet.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "Ang MetaECF ay Ethereum wallet na gumagana lang. Open source, walang ads, walang kalat, walang analytics, at mas pribado."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

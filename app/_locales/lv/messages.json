@@ -70,6 +70,9 @@
     "message": "Ethereum Community Foundation pašpārvaldīts Ethereum maks bez analītikas un ar aparatūras maku atbalstu.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ir Ethereum maks, kas vienkārši darbojas. Atvērtais kods, bez reklāmām, bez liekā, bez analītikas un ar uzlabotu privātumu."
+  },
   "approve": {
     "message": "Apstiprināt"
   },

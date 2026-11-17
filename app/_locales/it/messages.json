@@ -184,6 +184,9 @@
     "message": "Portafoglio Ethereum in autocustodia della Ethereum Community Foundation, senza analisi e con supporto ai portafogli hardware.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF è un wallet Ethereum che funziona e basta. Open source, senza pubblicità, senza fronzoli, senza analisi e più privacy."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

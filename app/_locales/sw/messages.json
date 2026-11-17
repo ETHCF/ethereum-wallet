@@ -70,6 +70,9 @@
     "message": "Pochi ya Ethereum unayoidhibiti mwenyewe kutoka Ethereum Community Foundation, bila uchanganuzi na inayoauni pochi za maunzi.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ni pochi ya Ethereum inayofanya kazi tu. Chanzo huria, bila matangazo, bila ziada, bila uchanganuzi, na faragha bora."
+  },
   "approve": {
     "message": "Idhinisha"
   },

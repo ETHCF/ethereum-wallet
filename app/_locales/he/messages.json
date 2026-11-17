@@ -66,6 +66,9 @@
     "message": "ארנק אתריום במשמורת עצמית מבית Ethereum Community Foundation, ללא אנליטיקה ועם תמיכה בארנקי חומרה.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF הוא ארנק Ethereum שפשוט עובד. קוד פתוח, ללא פרסומות, ללא עומס מיותר, ללא ניתוח נתונים ועם פרטיות משופרת."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

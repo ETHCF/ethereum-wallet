@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundationin itse hallinnoitava Ethereum-lompakko ilman analytiikkaa, laitelompakkotuella.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF on Ethereum-lompakko, joka vain toimii. Avoin lähdekoodi, ei mainoksia, ei turhuuksia, ei analytiikkaa, parempi yksityisyys."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

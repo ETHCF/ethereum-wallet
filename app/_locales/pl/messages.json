@@ -66,6 +66,9 @@
     "message": "Portfel Ethereum z samodzielnym przechowywaniem od Ethereum Community Foundation, bez analityki i z obsługą portfeli sprzętowych.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF to portfel Ethereum, który po prostu działa. Open source, bez reklam, bez zbędności, bez analityki, z lepszą prywatnością."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

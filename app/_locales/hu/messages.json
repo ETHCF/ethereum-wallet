@@ -70,6 +70,9 @@
     "message": "Saját kezelésű Ethereum-tárca a Ethereum Community Foundation kiadásában, analitika nélkül, hardvertárca-támogatással.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "A MetaECF egy Ethereum-tárca, ami egyszerűen működik. Nyílt forráskódú, reklám, sallang és analitika nélkül, jobb adatvédelemmel."
+  },
   "approve": {
     "message": "Jóváhagyás"
   },

@@ -235,7 +235,11 @@ async function verifyEnglishLocale() {
   }
 
   // never consider these messages as unused
-  const messageExceptions = ['appName', 'appDescription'];
+  const messageExceptions = [
+    'appName',
+    'appDescription',
+    'appDescriptionOpera',
+  ];
 
   const englishMessages = Object.keys(englishLocale);
   const unusedMessages = englishMessages.filter(

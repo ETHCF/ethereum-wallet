@@ -70,6 +70,9 @@
     "message": "Ethereum novčanik u vlastitoj pohrani od Ethereum Community Foundation, bez analitike i s podrškom za hardverske novčanike.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF je Ethereum novčanik koji jednostavno radi. Otvoreni kod, bez oglasa, bez suvišnog, bez analitike, uz bolju privatnost."
+  },
   "approve": {
     "message": "Odobri"
   },

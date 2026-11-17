@@ -66,6 +66,9 @@
     "message": "Ethereum-lommebok med egen forvaring fra Ethereum Community Foundation, uten analyse og med støtte for maskinvarelommebøker.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF er en Ethereum-lommebok som bare fungerer. Åpen kildekode, ingen reklame, ikke noe fyll, ingen analyse, bedre personvern."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

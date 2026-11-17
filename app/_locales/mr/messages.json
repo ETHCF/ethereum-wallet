@@ -3,6 +3,9 @@
     "message": "MetaECF",
     "description": "The name of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF हे सहज काम करणारे Ethereum वॉलेट आहे. ओपन सोर्स, जाहिराती नाहीत, अनावश्यक पसारा नाही, ॲनालिटिक्स नाही, आणि सुधारित गोपनीयता."
+  },
   "reject": {
     "message": "नाकारा"
   },

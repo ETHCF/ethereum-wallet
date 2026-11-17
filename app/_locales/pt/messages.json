@@ -24,6 +24,9 @@
     "message": "Carteira Ethereum de autocustódia da Ethereum Community Foundation, sem análises e compatível com carteiras de hardware.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF é uma carteira Ethereum que funciona. Código aberto, sem anúncios, sem excessos, sem análises e com mais privacidade."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

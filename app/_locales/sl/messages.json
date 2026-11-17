@@ -66,6 +66,9 @@
     "message": "Denarnica Ethereum v lastni hrambi organizacije Ethereum Community Foundation, brez analitike in s podporo za strojne denarnice.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF je denarnica Ethereum, ki preprosto deluje. Odprta koda, brez oglasov, brez odvečnega, brez analitike, boljša zasebnost."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

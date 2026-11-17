@@ -69,6 +69,9 @@
     "message": "Ethereum Community Foundation의 자기 수탁형 이더리움 지갑. 분석 기능 없이 하드웨어 지갑을 지원합니다.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF는 그냥 잘 작동하는 이더리움 지갑입니다. 오픈 소스이며, 광고 없음, 군더더기 없음, 분석 없음, 그리고 강화된 개인정보 보호를 제공합니다."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

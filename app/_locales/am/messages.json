@@ -66,6 +66,9 @@
     "message": "ከEthereum Community Foundation የመጣ፣ ቁልፎቹን እርስዎ የሚይዙት የEthereum ቦርሳ። ምንም ትንታኔ አይሰበስብም፤ የሃርድዌር ቦርሳዎችን ይደግፋል።",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF በቀላሉ የሚሠራ የEthereum ቦርሳ ነው። ክፍት ምንጭ፣ ማስታወቂያ የሌለው፣ ትርፍ ነገር የሌለው፣ ትንታኔ የሌለው እና የተሻሻለ ግላዊነት።"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

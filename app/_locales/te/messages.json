@@ -3,6 +3,9 @@
     "message": "MetaECF",
     "description": "The name of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF సులభంగా పనిచేసే Ethereum వాలెట్. ఓపెన్ సోర్స్, ప్రకటనలు లేవు, అనవసర భారం లేదు, అనలిటిక్స్ లేవు, మరియు మెరుగైన గోప్యత."
+  },
   "reject": {
     "message": "తిరస్కరించు"
   },

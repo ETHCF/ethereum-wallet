@@ -70,6 +70,9 @@
     "message": "Ethereum Community Foundation ನ ಸ್ವಯಂ-ಪಾಲನೆಯ ಎಥೆರಿಯಮ್ ವ್ಯಾಲೆಟ್, ಯಾವುದೇ ವಿಶ್ಲೇಷಣೆ ಇಲ್ಲದೆ ಮತ್ತು ಹಾರ್ಡ್‌ವೇರ್ ವ್ಯಾಲೆಟ್ ಬೆಂಬಲದೊಂದಿಗೆ.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ಸರಳವಾಗಿ ಕೆಲಸ ಮಾಡುವ Ethereum ವಾಲೆಟ್. ಓಪನ್ ಸೋರ್ಸ್, ಜಾಹೀರಾತುಗಳಿಲ್ಲ, ಅನಗತ್ಯ ಹೊರೆಯಿಲ್ಲ, ಅನಾಲಿಟಿಕ್ಸ್ ಇಲ್ಲ, ಸುಧಾರಿತ ಗೌಪ್ಯತೆ."
+  },
   "approve": {
     "message": "ಅನುಮೋದಿಸಿ"
   },

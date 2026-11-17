@@ -21,6 +21,9 @@
     "message": "Ethereum-wallet in eigen beheer van de Ethereum Community Foundation, zonder analytics en met ondersteuning voor hardwarewallets.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF is een Ethereum-wallet die gewoon werkt. Open source, geen advertenties, geen ballast, geen analyses en betere privacy."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

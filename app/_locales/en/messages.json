@@ -218,6 +218,10 @@
     "message": "Self-custody Ethereum wallet from the Ethereum Community Foundation, with no analytics and hardware wallet support.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF is an Ethereum wallet that just works. Open source, no advertisements, no bloat, no analytics, and enhanced privacy.",
+    "description": "The description of the application shown in the Opera add-ons store"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

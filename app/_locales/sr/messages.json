@@ -66,6 +66,9 @@
     "message": "Ethereum новчаник у сопственом чувању од Ethereum Community Foundation, без аналитике и са подршком за хардверске новчанике.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF је Ethereum новчаник који једноставно ради. Отворени код, без реклама, без сувишног, без аналитике, уз бољу приватност."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

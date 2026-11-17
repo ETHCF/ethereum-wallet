@@ -66,6 +66,9 @@
     "message": "Ethereum Community Foundation-এর সেল্ফ-কাস্টডি ইথেরিয়াম ওয়ালেট, কোনো অ্যানালিটিক্স ছাড়াই এবং হার্ডওয়্যার ওয়ালেট সমর্থনসহ।",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF একটি Ethereum ওয়ালেট যা সহজেই কাজ করে। ওপেন সোর্স, বিজ্ঞাপন নেই, বাড়তি জঞ্জাল নেই, অ্যানালিটিক্স নেই, এবং উন্নত গোপনীয়তা।"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

@@ -3,6 +3,9 @@
     "message": "MetaECF",
     "description": "The name of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ലളിതമായി പ്രവർത്തിക്കുന്ന Ethereum വാലറ്റ്. ഓപ്പൺ സോഴ്സ്, പരസ്യമില്ല, അനാവശ്യ ഭാരമില്ല, അനലിറ്റിക്സില്ല, മികച്ച സ്വകാര്യത."
+  },
   "reject": {
     "message": "നിരസിക്കുക"
   },

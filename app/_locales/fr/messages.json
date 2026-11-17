@@ -69,6 +69,9 @@
     "message": "Portefeuille Ethereum en autogarde de la Ethereum Community Foundation, sans analyses, compatible portefeuilles matériels.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF est un portefeuille Ethereum qui fonctionne. Open source, sans publicité, sans superflu, sans analyses et plus confidentiel."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

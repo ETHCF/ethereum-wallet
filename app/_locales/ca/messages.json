@@ -66,6 +66,9 @@
     "message": "Moneder d'Ethereum d'autocustòdia de la Ethereum Community Foundation, sense analítiques i compatible amb moneders de maquinari.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF és un moneder d'Ethereum que funciona. Codi obert, sense anuncis, sense excés, sense analítiques i amb més privadesa."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

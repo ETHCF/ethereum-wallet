@@ -66,6 +66,9 @@
     "message": "محفظة إيثيريوم ذاتية الحفظ من Ethereum Community Foundation، دون تحليلات ومع دعم محافظ الأجهزة.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF محفظة إيثريوم تعمل ببساطة. مفتوحة المصدر، بلا إعلانات، بلا حشو، بلا تحليلات، ومع خصوصية معززة."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

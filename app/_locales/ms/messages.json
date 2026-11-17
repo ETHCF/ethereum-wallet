@@ -66,6 +66,9 @@
     "message": "Dompet Ethereum jagaan sendiri daripada Ethereum Community Foundation, tanpa analitik dan dengan sokongan dompet perkakasan.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ialah dompet Ethereum yang terus berfungsi. Sumber terbuka, tiada iklan, tiada lebihan, tiada analitik, privasi lebih baik."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

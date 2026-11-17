@@ -27,6 +27,9 @@
     "message": "Некастодиальный кошелёк Ethereum от Ethereum Community Foundation, без аналитики и с поддержкой аппаратных кошельков.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF — Ethereum-кошелёк, который просто работает. Открытый код, без рекламы, без лишнего, без аналитики, больше приватности."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

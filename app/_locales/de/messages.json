@@ -66,6 +66,9 @@
     "message": "Selbstverwaltete Ethereum-Wallet der Ethereum Community Foundation, ohne Analysen und mit Unterstützung für Hardware-Wallets.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF ist eine Ethereum-Wallet, die einfach läuft. Open Source, keine Werbung, kein Ballast, keine Analysen, mehr Datenschutz."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

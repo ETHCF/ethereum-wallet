@@ -70,6 +70,9 @@
     "message": "Dompet Ethereum swakelola dari Ethereum Community Foundation, tanpa analitik dan dengan dukungan dompet perangkat keras.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF adalah dompet Ethereum yang langsung jalan. Open source, tanpa iklan, tanpa fitur lebih, tanpa analitik, privasi lebih baik."
+  },
   "approve": {
     "message": "Setujui"
   },

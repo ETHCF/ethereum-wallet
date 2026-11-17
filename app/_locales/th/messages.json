@@ -27,6 +27,9 @@
     "message": "กระเป๋าเงิน Ethereum แบบดูแลกุญแจเองจาก Ethereum Community Foundation ไม่มีการเก็บข้อมูลวิเคราะห์ และรองรับฮาร์ดแวร์วอลเล็ต",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF คือกระเป๋าเงิน Ethereum ที่ใช้งานได้ทันที โอเพนซอร์ส ไม่มีโฆษณา ไม่มีส่วนเกิน ไม่มีการวิเคราะห์ และเพิ่มความเป็นส่วนตัว"
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"

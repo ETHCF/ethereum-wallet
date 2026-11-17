@@ -3,6 +3,9 @@
     "message": "MetaECF",
     "description": "The name of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF é uma carteira Ethereum que funciona. Código aberto, sem anúncios, sem excessos, sem análises e com mais privacidade."
+  },
   "reject": {
     "message": "Rejeitar"
   },

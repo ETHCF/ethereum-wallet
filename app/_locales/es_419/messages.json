@@ -66,6 +66,9 @@
     "message": "Billetera de Ethereum de autocustodia de la Ethereum Community Foundation, sin analíticas y compatible con billeteras físicas.",
     "description": "The description of the application"
   },
+  "appDescriptionOpera": {
+    "message": "MetaECF es una billetera de Ethereum que funciona. Código abierto, sin anuncios, sin relleno, sin analíticas y con más privacidad."
+  },
   "appName": {
     "message": "MetaECF",
     "description": "The name of the application"
