@@ -2,7 +2,7 @@
 
 MetaECF is an Ethereum browser wallet based on MetaMask. Visit [Ethereum Community Foundation](https://ethcf.org/).
 
-MetaECF supports Firefox, Google Chrome, and Chromium-based browsers.
+MetaECF supports Firefox, Google Chrome, Microsoft Edge, and other Chromium-based browsers.
 
 Websites can discover **MetaECF** through [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), using the stable wallet identifier `org.ethcf.wallet`. Discovery works alongside other installed wallets. For older sites, MetaECF also supplies `window.ethereum` when another provider has not already claimed it. Sites with hardcoded wallet lists may need to add MetaECF explicitly.
 
@@ -11,6 +11,7 @@ The wallet icon uses the [ECF favicon](https://ethcf.org/favicon.svg). The icon 
 Wallet state and session keys use the browser's extension-scoped storage. MetaECF has its own extension identities, separate from MetaMask:
 
 - Chrome, Brave, and Opera: `gcbminekfcgfihncdagcainadkogbflf`, assigned by the ECF Chrome Web Store listing. Dev and test builds add the listing's public key from `app/manifest/_chromium-dev-key.json`, so unpacked builds get the same ID. Prod builds leave it out, since the store does not accept a manifest `key`.
+- Edge Add-ons: the Edge store assigns its own ID when the listing is created; record it here. Unpacked dev builds loaded in Edge use the Chrome ID above. A wallet installed from the Chrome Web Store in Edge does not share storage with the Edge Add-ons install; users switching must restore from their recovery phrase.
 - Firefox: `wallet@ethcf.org`.
 
 A build with another identity has separate storage and is not automatically migrated. MetaMask's wallet data is not read, copied, or overwritten. Store publishing must use a separate ECF listing.
@@ -39,7 +40,8 @@ See [the telemetry removal notes](docs/privacy.md) for scope and verification.
 To load the Chrome build, open `chrome://extensions`, enable **Developer mode**,
 click **Load unpacked**, and select `dist/chrome` inside this repository. That
 folder contains `manifest.json`. The `builds` folder contains ZIP archives for
-distribution; it cannot be loaded directly as an unpacked extension.
+distribution; it cannot be loaded directly as an unpacked extension. For Edge,
+open `edge://extensions` and load `dist/edge` the same way.
 
 ## Storage schema
 
@@ -112,6 +114,7 @@ to download dependencies during `yarn install`.
 ## Other Docs
 
 - [How to add custom build to Chrome](./docs/add-to-chrome.md)
+- [How to add custom build to Edge](./docs/add-to-edge.md)
 - [How to add custom build to Firefox](./docs/add-to-firefox.md)
 - [How to add a new translation to MetaECF](./docs/translating-guide.md)
 - [Publishing Guide](./docs/publishing.md)

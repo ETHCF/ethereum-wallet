@@ -4,6 +4,7 @@ import { createHash, createPublicKey } from 'crypto';
 import chromiumDevKey from '../../../app/manifest/_chromium-dev-key.json';
 import brave from '../../../app/manifest/brave.json';
 import chrome from '../../../app/manifest/chrome.json';
+import edge from '../../../app/manifest/edge.json';
 import firefox from '../../../app/manifest/firefox.json';
 import opera from '../../../app/manifest/opera.json';
 
@@ -29,7 +30,12 @@ describe('MetaECF extension identity', function () {
 
   // The Chrome Web Store does not accept a manifest key; the build adds it to
   // non-prod builds only.
-  for (const [platform, manifest] of Object.entries({ chrome, brave, opera })) {
+  for (const [platform, manifest] of Object.entries({
+    chrome,
+    brave,
+    opera,
+    edge,
+  })) {
     it(`leaves the key out of the ${platform} manifest`, function () {
       assert.equal(manifest.key, undefined);
     });

@@ -32,5 +32,6 @@ Each CI run uploads the packaged builds as the `extension-builds` artifact (kept
 2. Visit [the chrome developer dashboard](https://chrome.google.com/webstore/developer/dashboard?authuser=2).
 3. Publish to [firefox addon marketplace](https://addons.mozilla.org/developers/).
 4. Publish to [Opera store](https://addons.opera.com/developer/).
-5. Post on [Github releases](https://github.com/ETHCF/ethereum-wallet/releases) page.
-6. Run the `yarn announce` script, and post that announcement in our public places.
+5. Publish `builds/ecf-wallet-edge-<version>.zip` to [Edge Add-ons](https://partner.microsoft.com/dashboard/microsoftedge/overview) via Partner Center.
+6. Post on [Github releases](https://github.com/ETHCF/ethereum-wallet/releases) page.
+7. Run the `yarn announce` script, and post that announcement in our public places.

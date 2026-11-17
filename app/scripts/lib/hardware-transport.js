@@ -65,7 +65,7 @@ export class LedgerWebHIDBridge extends LedgerMobileBridge {
     }
     if (!(await TransportWebHID.isSupported())) {
       throw new Error(
-        'Ledger requires a browser with WebHID support, such as Chrome or Brave.',
+        'Ledger requires a browser with WebHID support, such as Chrome, Edge, or Brave.',
       );
     }
     const transport = await TransportWebHID.openConnected();

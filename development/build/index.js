@@ -18,7 +18,7 @@ const {
   detectAndRunEntryTask,
 } = require('./task');
 
-const browserPlatforms = ['firefox', 'chrome', 'brave', 'opera'];
+const browserPlatforms = ['firefox', 'chrome', 'brave', 'opera', 'edge'];
 
 defineAllTasks();
 detectAndRunEntryTask();
